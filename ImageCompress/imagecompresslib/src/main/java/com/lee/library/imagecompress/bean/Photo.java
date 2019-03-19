@@ -16,6 +16,7 @@ public class Photo implements Serializable {
      */
     private String compressPath;
 
+
     public String getOriginalPath() {
         return originalPath;
     }
@@ -38,5 +39,9 @@ public class Photo implements Serializable {
 
     public void setCompressPath(String compressPath) {
         this.compressPath = compressPath;
+    }
+
+    public Photo(String originalPath) {
+        this.originalPath = originalPath;
     }
 }

@@ -10,13 +10,13 @@ public class CompressConfig {
      */
     private int unCompressNormalPixel = 2000;
     /**
-     * 长或款不超过最大像素，单位px
+     * 长或宽不超过的最大像素,单位px
      */
     private int maxPixel = 1200;
     /**
-     * 压缩到最大大小 ，单位B
+     * 压缩到的最大大小，单位B
      */
-    private int maxSize = 200*1024; //200kb不压缩
+    private int maxSize = 200 * 1024;
     /**
      * 是否启用像素压缩
      */
@@ -30,130 +30,152 @@ public class CompressConfig {
      */
     private boolean enableReserveRaw = true;
     /**
-     * 压缩后缓存图片目录，非文件目录
+     * 压缩后缓存图片目录，非文件路径
      */
     private String cacheDir;
     /**
-     * 是否现实压缩进度条
+     * 是否显示压缩进度条
      */
     private boolean showCompressDialog;
 
+    public static CompressConfig getDefaultConfig() {
+        return new CompressConfig();
+    }
+
+    private CompressConfig() {
+    }
+
     public int getUnCompressMinPixel() {
         return unCompressMinPixel;
+    }
+
+    private void setUnCompressMinPixel(int unCompressMinPixel) {
+        this.unCompressMinPixel = unCompressMinPixel;
     }
 
     public int getUnCompressNormalPixel() {
         return unCompressNormalPixel;
     }
 
+    private void setUnCompressNormalPixel(int unCompressNormalPixel) {
+        this.unCompressNormalPixel = unCompressNormalPixel;
+    }
+
     public int getMaxPixel() {
         return maxPixel;
+    }
+
+    private void setMaxPixel(int maxPixel) {
+        this.maxPixel = maxPixel;
     }
 
     public int getMaxSize() {
         return maxSize;
     }
 
+    private void setMaxSize(int maxSize) {
+        this.maxSize = maxSize;
+    }
+
     public boolean isEnablePixelCompress() {
         return enablePixelCompress;
+    }
+
+    private void setEnablePixelCompress(boolean enablePixelCompress) {
+        this.enablePixelCompress = enablePixelCompress;
     }
 
     public boolean isEnableQualityCompress() {
         return enableQualityCompress;
     }
 
+    private void setEnableQualityCompress(boolean enableQualityCompress) {
+        this.enableQualityCompress = enableQualityCompress;
+    }
+
     public boolean isEnableReserveRaw() {
         return enableReserveRaw;
+    }
+
+    private void setEnableReserveRaw(boolean enableReserveRaw) {
+        this.enableReserveRaw = enableReserveRaw;
     }
 
     public String getCacheDir() {
         return cacheDir;
     }
 
+    public void setCacheDir(String cacheDir) {
+        this.cacheDir = cacheDir;
+    }
+
     public boolean isShowCompressDialog() {
         return showCompressDialog;
     }
 
-    public static CompressConfig getDefaultConfig(){
-        return new CompressConfig();
+    private void setShowCompressDialog(boolean showCompressDialog) {
+        this.showCompressDialog = showCompressDialog;
     }
 
-    private CompressConfig(){}
-
-    private CompressConfig(Builder builder) {
-        this.unCompressMinPixel = builder.unCompressMinPixel;
-        this.unCompressNormalPixel = builder.unCompressNormalPixel;
-        this.maxPixel = builder.maxPixel;
-        this.maxSize = builder.maxSize;
-        this.enablePixelCompress = builder.enablePixelCompress;
-        this.enableQualityCompress = builder.enableQualityCompress;
-        this.enableReserveRaw = builder.enableReserveRaw;
-        this.cacheDir = builder.cacheDir;
-        this.showCompressDialog = builder.showCompressDialog;
-    }
-
-    public static Builder builder(){
+    public static Builder builder() {
         return new Builder();
     }
 
-    public static class Builder{
-        private int unCompressMinPixel = 1000;
-        private int unCompressNormalPixel = 2000;
-        private int maxPixel = 1200;
-        private int maxSize = 200*1024; //200kb不压缩
-        private boolean enablePixelCompress = true;
-        private boolean enableQualityCompress = true;
-        private boolean enableReserveRaw = true;
-        private String cacheDir;
-        private boolean showCompressDialog;
+    public static class Builder {
+
+        private CompressConfig config;
+
+        private Builder() {
+            config = new CompressConfig();
+        }
 
         public Builder setUnCompressMinPixel(int unCompressMinPixel) {
-            this.unCompressMinPixel = unCompressMinPixel;
+            config.setUnCompressMinPixel(unCompressMinPixel);
             return this;
         }
 
         public Builder setUnCompressNormalPixel(int unCompressNormalPixel) {
-            this.unCompressNormalPixel = unCompressNormalPixel;
-            return this;
-        }
-
-        public Builder setMaxPixel(int maxPixel) {
-            this.maxPixel = maxPixel;
+            config.setUnCompressNormalPixel(unCompressNormalPixel);
             return this;
         }
 
         public Builder setMaxSize(int maxSize) {
-            this.maxSize = maxSize;
+            config.setMaxSize(maxSize);
             return this;
         }
 
-        public Builder setEnablePixelCompress(boolean enablePixelCompress) {
-            this.enablePixelCompress = enablePixelCompress;
+        public Builder setMaxPixel(int maxPixel) {
+            config.setMaxPixel(maxPixel);
             return this;
         }
 
-        public Builder setEnableQualityCompress(boolean enableQualityCompress) {
-            this.enableQualityCompress = enableQualityCompress;
+        public Builder enablePixelCompress(boolean enablePixelCompress) {
+            config.setEnablePixelCompress(enablePixelCompress);
             return this;
         }
 
-        public Builder setEnableReserveRaw(boolean enableReserveRaw) {
-            this.enableReserveRaw = enableReserveRaw;
+        public Builder enableQualityCompress(boolean enableQualityCompress) {
+            config.setEnableQualityCompress(enableQualityCompress);
+            return this;
+        }
+
+        public Builder enableReserveRaw(boolean enableReserveRaw) {
+            config.setEnableReserveRaw(enableReserveRaw);
             return this;
         }
 
         public Builder setCacheDir(String cacheDir) {
-            this.cacheDir = cacheDir;
+            config.setCacheDir(cacheDir);
             return this;
         }
 
         public Builder setShowCompressDialog(boolean showCompressDialog) {
-            this.showCompressDialog = showCompressDialog;
+            config.setShowCompressDialog(showCompressDialog);
             return this;
         }
 
-        public CompressConfig create(){
-            return new CompressConfig(this);
+        public CompressConfig create() {
+            return config;
         }
     }
 }
