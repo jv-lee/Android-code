@@ -7,17 +7,25 @@
     tools:context=".SecondActivity">
 
     <Button
-        android:onClick="clickUserManager"
+        android:id="@+id/btn_getUserManager"
         android:layout_gravity="center"
         android:text="usermanager"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <Button
-        android:onClick="clickGetUser"
+        android:id="@+id/btn_clickGetUser"
         android:layout_gravity="center"
         android:layout_marginTop="50dp"
         android:text="getUser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/btn_setPerson"
+        android:text="子进程set值"
+        android:layout_marginTop="100dp"
+        android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 

@@ -7,6 +7,8 @@ import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.text.TextUtils;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.lee.library.hermeslib.annotion.ClassId;
@@ -14,6 +16,7 @@ import com.lee.library.hermeslib.bean.RequestBean;
 import com.lee.library.hermeslib.bean.RequestParameter;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 
 /**
  *  进程管理器
@@ -49,11 +52,16 @@ public class ProcessManager {
     public <T> T getInstance(Class<T> claszz, Object... params) {
         //发送请求
         sendRequest(ProcessService.GET_INSTANCE, claszz, null, params);
+        //返回代理对象
+        T proxy = (T) Proxy.newProxyInstance(claszz.getClassLoader(), new Class[]{claszz}, new ProcessInvocationHandler(claszz));
+        return proxy;
     }
 
     public String sendRequest(int type, Class<?> clazz, Method method, Object[] parameters) {
+        Log.e("------- >>>>", "sendRequest()");
         RequestParameter[] requestParameters = null;
         if (parameters != null && parameters.length > 0) {
+            requestParameters = new RequestParameter[parameters.length];
             for (int i = 0; i < parameters.length; i++) {
                 Object parameter = parameters[i];
                 String parameterClassName = parameter.getClass().getName();
@@ -66,14 +74,19 @@ public class ProcessManager {
         String methodName = method == null ? "" : method.getName();
         RequestBean requestBean = new RequestBean(type, className, methodName, requestParameters);
         String request = gson.toJson(requestBean);
+        Log.e("------ >>>> ", "className:" + className + " methodName:" + methodName + " request:" + request);
         try {
             //返回到远端服务 的onBind（）；  ProcessService- 主进程
             return processinterface.send(request);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
+        return null;
     }
+
+    Context context;
     public void connect(Context context) {
+        this.context = context;
         bind(context,null,ProcessService.class);
     }
 
@@ -100,6 +113,7 @@ public class ProcessManager {
 
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
+
             processinterface = ProcessInterface.Stub.asInterface(service);
         }
 

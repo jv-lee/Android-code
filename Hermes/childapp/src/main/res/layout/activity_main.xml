@@ -7,20 +7,13 @@
     tools:context=".MainActivity">
 
     <Button
+        android:id="@+id/btn_getPerson"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="跳转到SecondActivity"
-        android:onClick="startSecond"
+        android:text="getPerson"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-
-    <Button
-        android:onClick="getPerson"
-        android:text="获取子进程 数据"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
 
 </android.support.constraint.ConstraintLayout>
