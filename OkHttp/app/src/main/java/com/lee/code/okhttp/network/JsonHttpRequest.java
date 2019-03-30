@@ -57,10 +57,12 @@ public class JsonHttpRequest implements IHttpRequest {
                 InputStream is = urlConnection.getInputStream();
                 mCallbackListener.onSuccess(is);
             }else{
+                //访问失败，重试
                 throw new RuntimeException("请求失败");
             }
         } catch (Exception e) {
             e.printStackTrace();
+            mCallbackListener.onFailure();
         }finally {
             urlConnection.disconnect();
         }

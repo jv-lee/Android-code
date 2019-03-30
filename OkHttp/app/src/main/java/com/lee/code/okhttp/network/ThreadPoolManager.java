@@ -1,6 +1,9 @@
 package com.lee.code.okhttp.network;
 
+import android.util.Log;
+
 import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.DelayQueue;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.RejectedExecutionHandler;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -36,6 +39,7 @@ public class ThreadPoolManager {
         });
         //执行轮询线程
         mThreadPoolExecutor.execute(communicateThread);
+        mThreadPoolExecutor.execute(delayThread);
     }
 
     //1.创建队列 ，保存异步请求任务
@@ -70,5 +74,37 @@ public class ThreadPoolManager {
             }
         }
     };
+
+    //5.创建延迟队列
+    private DelayQueue<HttpTask> mDelayQueue = new DelayQueue<>();
+
+    public void addDelayTask(HttpTask task) {
+        if (task != null) {
+            task.setDelayTime(3000);
+            mDelayQueue.offer(task);
+        }
+    }
+
+    public Runnable delayThread = new Runnable() {
+        @Override
+        public void run() {
+            HttpTask task = null;
+            while (true) {
+                try {
+                    task = mDelayQueue.take();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                if (task.getRetryCount() < 3) {
+                    mThreadPoolExecutor.execute(task);
+                    task.setRetryCount(task.getRetryCount() + 1);
+                    Log.e("lee - >>>", "重试机制 执行次数"+task.getRetryCount());
+                }else{
+                    Log.e("lee - >>> ", "重试机制 执行次数超限,放弃");
+                }
+            }
+        }
+    };
+
 
 }
