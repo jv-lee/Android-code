@@ -18,10 +18,12 @@ public class UserManager implements IUserManager {
         return sInstance;
     }
 
+    @Override
     public Person getPerson(){
         return person;
     }
 
+    @Override
     public void setPerson(Person person) {
         this.person = person;
     }

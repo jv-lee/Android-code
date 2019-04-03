@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.jv.code.processkepplive">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".activity.KeepActivity"
+            android:excludeFromRecents="true"
+            android:taskAffinity="com.jv.code.processkepplive"
+            android:theme="@style/KeepTheme"/>
+        <!--设置透明主题-->
+
+        <service android:name=".service.ForegroundService"></service>
+        <service android:name=".service.ForegroundService$InnerService"></service>
+        <service android:name=".service.LocalService"></service>
+        <!--注册远程服务  新启动一个进程 ：remote-->
+        <service android:name=".service.RemoteService"
+            android:process=":remote"></service>
+    </application>
+
+</manifest>

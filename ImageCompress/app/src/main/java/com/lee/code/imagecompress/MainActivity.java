@@ -25,6 +25,9 @@ import java.io.File;
 import java.util.ArrayList;
 
 
+/**
+ * @author jv.lee
+ */
 public class MainActivity extends AppCompatActivity implements CompressImage.CompressListener {
 
     private CompressConfig compressConfig;//压缩配置
@@ -47,15 +50,24 @@ public class MainActivity extends AppCompatActivity implements CompressImage.Com
         }
 
         compressConfig = CompressConfig.builder()
-                .setUnCompressMinPixel(1000)//最小像素不压缩
-                .setUnCompressNormalPixel(2000)//标准像素不压缩
-                .setMaxPixel(1200)//长或宽不超过某像素
-                .setMaxSize(200*1024)//压缩最大值
-                .enablePixelCompress(true)//像素压缩
-                .enableQualityCompress(true)//质量压缩
-                .enableReserveRaw(true)//保留源文件
-                .setCacheDir("")//没有设置的
-                .setShowCompressDialog(true)//显示dialog
+                //最小像素不压缩
+                .setUnCompressMinPixel(1000)
+                //标准像素不压缩
+                .setUnCompressNormalPixel(2000)
+                //长或宽不超过某像素
+                .setMaxPixel(1200)
+                //压缩最大值
+                .setMaxSize(200*1024)
+                //像素压缩
+                .enablePixelCompress(true)
+                //质量压缩
+                .enableQualityCompress(true)
+                //保留源文件
+                .enableReserveRaw(true)
+                //没有设置的
+                .setCacheDir("")
+                //显示dialog
+                .setShowCompressDialog(true)
                 .create();
     }
 
