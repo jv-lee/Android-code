@@ -35,6 +35,7 @@ public class ForegroundService extends Service {
             //删除通知栏消息
             startService(new Intent(this, InnerService.class));
         } else {
+            //8.0
             //设置channel
             NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
             //设置低等级 越小通知信越低
@@ -44,6 +45,7 @@ public class ForegroundService extends Service {
                 Notification notification = new NotificationCompat.Builder(this, "channel").build();
 
                 startForeground(SERVICE_ID, notification);
+                //            stopForeground(STOP_FOREGROUND_REMOVE);
             }
         }
 
