@@ -76,13 +76,6 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
         notifyDataSetChanged();
     }
 
-    public T getItemByPosition(int position) {
-        if (datas == null) {
-            throw new RuntimeException("LeeViewAdapter getItemByPosition -> datas == null");
-        }
-        return datas.get(position);
-    }
-
     /**
      * 判断是否有多样式布局
      * @return boolean

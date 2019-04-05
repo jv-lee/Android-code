@@ -1,6 +1,5 @@
 package com.lee.code.pixel;
 
-import android.app.Activity;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
@@ -22,35 +21,47 @@ public class DisplayCutoutActivity extends AppCompatActivity {
         Window window = getWindow();
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
+        //3.设置沉浸式 内容延伸进statusBar
+        int flags = View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
+        int visibility = window.getDecorView().getSystemUiVisibility();
+        visibility |= flags;
+        //追加沉浸式设置
+        window.getDecorView().setSystemUiVisibility(visibility);
+
         //华为、小米、oppo  1.判断手机厂商 2.判断手机是否有刘海 3.设置是否让内容区域延伸进刘海  4.设置控件避开刘海区域
 
         //2.判断手机是否是刘海屏
          boolean hasDisplayCutout = hasDisplayCutout(window);
-        if (hasDisplayCutout) {//有刘海 设置沉浸式
-
-
-            //3.设置沉浸式 内容延伸进statusBar
-            int flags = View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
-            int visibility = window.getDecorView().getSystemUiVisibility();
-            visibility |= flags; //追加沉浸式设置
-            window.getDecorView().setSystemUiVisibility(visibility);
-        }
+        //有刘海 设置沉浸式
+//        if (hasDisplayCutout) {
+//
+//            //3.设置沉浸式 内容延伸进statusBar
+//            int flags = View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
+//            int visibility = window.getDecorView().getSystemUiVisibility();
+//            visibility |= flags;
+//            //追加沉浸式设置
+//            window.getDecorView().setSystemUiVisibility(visibility);
+//        }
 
         setContentView(R.layout.activity_display_cutout);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.P)
     /**
      * 判断手机是不是刘海屏
      */
     private boolean hasDisplayCutout(Window window) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
+            return false;
+        }
         DisplayCutout displayCutout;
         View rootView = window.getDecorView();
         WindowInsets insets = rootView.getRootWindowInsets();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P && insets != null) {
+        if ( insets != null) {
             displayCutout = insets.getDisplayCutout();
-            if (displayCutout != null) {//判断是否有刘海
-                if (displayCutout.getBoundingRects() != null && displayCutout.getBoundingRects().size() > 0 && displayCutout.getSafeInsetTop() > 0) {//判断有几个刘海
+            //判断是否有刘海
+            if (displayCutout != null) {
+                //判断有几个刘海
+                if (displayCutout.getBoundingRects() != null && displayCutout.getBoundingRects().size() > 0 && displayCutout.getSafeInsetTop() > 0) {
                     return true;
                 }
             }
