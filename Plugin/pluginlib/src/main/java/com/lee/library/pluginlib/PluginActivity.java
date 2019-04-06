@@ -4,10 +4,15 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+/**
+ * @author jv.lee
+ */
 public class PluginActivity extends Activity implements IPlugin {
 
     private int mFrom = FROM_INTERNAL;
-    //定义插件的上下文
+    /**
+     * 定义插件的上下文
+     */
     private Activity mProxyActivity;
 
     @Override

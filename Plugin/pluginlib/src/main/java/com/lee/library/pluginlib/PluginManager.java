@@ -11,6 +11,9 @@ import java.lang.reflect.Method;
 
 import dalvik.system.DexClassLoader;
 
+/**
+ * @author jv.lee
+ */
 public class PluginManager {
 
     private static PluginManager mInstance;
@@ -36,7 +39,10 @@ public class PluginManager {
     }
 
 
-    //加载插件apk
+    /**
+     * 加载插件apk
+     * @param apkPath
+     */
     public void loadApk(String apkPath) {
         PackageInfo packageInfo = mContext.getPackageManager().getPackageArchiveInfo(apkPath,
                 PackageManager.GET_ACTIVITIES | PackageManager.GET_SERVICES);

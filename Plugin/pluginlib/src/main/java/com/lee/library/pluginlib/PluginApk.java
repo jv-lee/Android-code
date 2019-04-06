@@ -6,8 +6,12 @@ import android.content.res.Resources;
 
 import dalvik.system.DexClassLoader;
 
+/**
+ * 插件化apk 实例
+ * @author jv.lee
+ */
 public class PluginApk {
-    //插件apk的实体对象
+
     public PackageInfo mPackageInfo;
     public Resources mResources;
     public AssetManager mAssetsManager;

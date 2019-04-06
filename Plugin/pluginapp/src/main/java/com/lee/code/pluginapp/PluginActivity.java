@@ -2,6 +2,9 @@ package com.lee.code.pluginapp;
 
 import android.os.Bundle;
 
+/**
+ * @author jv.lee
+ */
 public class PluginActivity extends com.lee.library.pluginlib.PluginActivity {
 
     @Override

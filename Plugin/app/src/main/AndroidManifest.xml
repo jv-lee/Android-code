@@ -16,6 +16,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <!-- 这是代理activity -->
         <activity android:name="com.lee.library.pluginlib.ProxyActivity"/>
     </application>
 

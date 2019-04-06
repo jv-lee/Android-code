@@ -29,11 +29,12 @@ import java.util.ArrayList;
  * @author jv.lee
  */
 public class MainActivity extends AppCompatActivity implements CompressImage.CompressListener {
-
-    private CompressConfig compressConfig;//压缩配置
+    /**
+     * 压缩配置
+     */
+    private CompressConfig compressConfig;
     private ProgressDialog dialog;
     private String cameraCachePath;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -132,11 +133,16 @@ public class MainActivity extends AppCompatActivity implements CompressImage.Com
         }
     }
 
-    // 准备压缩，封装图片集合
+    /**
+     * 准备压缩，封装图片集合
+     * @param photoPath
+     */
     private void preCompress(String photoPath) {
         ArrayList<Photo> photos = new ArrayList<>();
         photos.add(new Photo(photoPath));
-        if (!photos.isEmpty()) compress(photos);
+        if (!photos.isEmpty()) {
+            compress(photos);
+        }
     }
 
     // 开始压缩

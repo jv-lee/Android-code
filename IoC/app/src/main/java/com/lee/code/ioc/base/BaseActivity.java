@@ -6,6 +6,9 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.lee.library.ioc.InjectManager;
 
+/**
+ * @author jv.lee
+ */
 public abstract class BaseActivity extends AppCompatActivity {
 
 

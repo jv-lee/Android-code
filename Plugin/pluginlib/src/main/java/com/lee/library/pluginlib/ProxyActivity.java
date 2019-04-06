@@ -5,6 +5,9 @@ import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.os.Bundle;
 
+/**
+ * @author jv.lee
+ */
 public class ProxyActivity extends Activity {
     private String mClassName;
     private PluginApk mPluginApk;
