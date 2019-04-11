@@ -17,6 +17,13 @@
             <!--</intent-filter>-->
         </activity>
         <activity android:name=".VectorActivity">
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        </activity>
+        <activity android:name=".PathMeasureActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

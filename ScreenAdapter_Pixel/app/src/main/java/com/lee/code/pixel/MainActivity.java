@@ -11,7 +11,7 @@ public class MainActivity extends AppCompatActivity {
 //        Density.setDensity(getApplication(),this);
 //        setContentView(R.layout.activity_density);
 //        setContentView(R.layout.activity_main);
-        setContentView(R.layout.activity_percent_layout);
-//        setContentView(R.layout.activity_screen_adapter_layout);
+//        setContentView(R.layout.activity_percent_layout);
+        setContentView(R.layout.activity_screen_adapter_layout);
     }
 }

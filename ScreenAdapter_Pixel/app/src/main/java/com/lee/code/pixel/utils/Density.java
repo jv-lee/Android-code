@@ -8,10 +8,19 @@ import android.util.DisplayMetrics;
 
 public class Density {
 
-    private static final float WIDTH = 360;//参考设备的宽，单位：dp
+    /**
+     * 参考设备的宽，单位：dp
+     */
+    private static final float WIDTH = 360;
 
-    private static float appDensity; //表示屏幕密度
-    private static float appScaleDensity; //字体的缩放比例，默认appDensity
+    /**
+     *  表示屏幕密度
+     */
+    private static float appDensity;
+    /**
+     * 字体的缩放比例，默认appDensity
+     */
+    private static float appScaleDensity;
 
     public static void setDensity(final Application application, Activity activity){
         //获取当前app的屏幕显示信息
@@ -39,7 +48,8 @@ public class Density {
         }
         //计算目标值 density,scaledDensity,densityDpi
         float targetDensity = displayMetrics.widthPixels / WIDTH;
-        float targetScaleDensity = targetDensity * (appScaleDensity / appDensity); //设置字体缩放大小
+        //设置字体缩放大小
+        float targetScaleDensity = targetDensity * (appScaleDensity / appDensity);
         int targetDensityDpi = (int) (targetDensity * 160);
 
         //替换Activity的density,scaleDensity,densityDpi

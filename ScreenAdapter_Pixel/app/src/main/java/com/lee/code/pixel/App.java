@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
 
+/**
+ * @author jv.lee
+ */
 public class App extends Application {
 
     @Override

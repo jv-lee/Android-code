@@ -46,7 +46,11 @@ public class PixelUtils {
         return instance;
     }
 
-    //获取状态栏高度
+    /**
+     * 获取状态栏高度
+     * @param context
+     * @return
+     */
     private int getStatusBarHeight(Context context){
         int resID = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
         if (resID > 0) {
