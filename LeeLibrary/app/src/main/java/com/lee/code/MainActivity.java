@@ -1,12 +1,15 @@
 package com.lee.code;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.lee.code.adapter.MultiAdapter;
+import com.lee.code.adapter.WapHeaderAndFooterAdapter;
 import com.lee.code.bean.UserInfo;
 import com.lee.library.adapter.LeeRecyclerView;
 import com.lee.library.base.BaseActivity;
@@ -41,11 +44,25 @@ public class MainActivity extends BaseActivity {
     @Override
     public void bindData(Bundle savedInstanceState) {
         multiAdapter = new MultiAdapter(data);
+        FrameLayout frameLayout = new FrameLayout(this);
+        frameLayout.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,100));
+        frameLayout.setBackgroundColor(Color.parseColor("#ff0000"));
+
         rvContainer.setLayoutManager(new LinearLayoutManager(this));
         rvContainer.setRecyclerAdapter(multiAdapter);
         refresh.setDefaultView(container, rvContainer);
         initData();
         InjectManager.injectEvents(this);
+    }
+
+    @Override
+    public View toolbar() {
+        return null;
+    }
+
+    @Override
+    public boolean isFullscreen() {
+        return false;
     }
 
     private void initData() {
