@@ -42,7 +42,7 @@ public class MainActivity extends BaseActivity {
     private List<UserInfo> data = new ArrayList<>();
 
     @Override
-    public void bindData(Bundle savedInstanceState) {
+    protected void bindView() {
         multiAdapter = new MultiAdapter(data);
         FrameLayout frameLayout = new FrameLayout(this);
         frameLayout.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,100));
@@ -51,6 +51,10 @@ public class MainActivity extends BaseActivity {
         rvContainer.setLayoutManager(new LinearLayoutManager(this));
         rvContainer.setRecyclerAdapter(multiAdapter);
         refresh.setDefaultView(container, rvContainer);
+    }
+
+    @Override
+    public void bindData(Bundle savedInstanceState) {
         initData();
         InjectManager.injectEvents(this);
     }

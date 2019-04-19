@@ -15,8 +15,13 @@ public class InjectActivity extends BaseActivity {
     FrameLayout flContainer;
 
     @Override
-    public void bindData(Bundle savedInstanceState) {
+    protected void bindView() {
         getSupportFragmentManager().beginTransaction().add(flContainer.getId(),new InjectFragment()).commit();
+    }
+
+    @Override
+    public void bindData(Bundle savedInstanceState) {
+
     }
 
     @Override

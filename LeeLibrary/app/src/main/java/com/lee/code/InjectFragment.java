@@ -18,6 +18,11 @@ public class InjectFragment extends BaseFragment {
     TextView tvContent;
 
     @Override
+    protected void bindView() {
+
+    }
+
+    @Override
     protected void bindData(Bundle savedInstanceState) {
         tvContent.setText("this is content text");
     }

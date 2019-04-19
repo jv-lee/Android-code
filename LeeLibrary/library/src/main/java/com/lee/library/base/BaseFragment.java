@@ -43,6 +43,7 @@ public abstract class BaseFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mActivity = (BaseActivity) getActivity();
+        bindView();
         bindData(savedInstanceState);
         isVisibleView = true;
         if (isVisibleView && isVisibleUser && fistVisible) {
@@ -87,7 +88,18 @@ public abstract class BaseFragment extends Fragment {
 
     }
 
+    /**
+     * 设置view基础配置
+     */
+    protected abstract void bindView();
+
+    /**
+     * 设置加载数据等业务操作
+     */
     protected abstract void bindData(Bundle savedInstanceState);
 
+    /**
+     * 使用page 多fragment时 懒加载
+     */
     protected abstract void lazyLoad();
 }

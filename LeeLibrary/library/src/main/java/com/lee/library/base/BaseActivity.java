@@ -42,22 +42,25 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     /**
-     * 加载数据
-     * @param savedInstanceState 屏幕状态
+     * 设置view基础配置
      */
-    public abstract void bindData(Bundle savedInstanceState);
+    protected abstract void bindView();
+    /**
+     * 加载数据
+     */
+    protected abstract void bindData(Bundle savedInstanceState);
 
     /**
      * 设置当前视图toolbar
      * @return toolbar
      */
-    public abstract View toolbar();
+    protected abstract View toolbar();
 
     /**
      * 是否为全屏模式
      * @return boolean
      */
-    public abstract boolean isFullscreen();
+    protected abstract boolean isFullscreen();
 
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
