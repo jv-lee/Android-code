@@ -1,8 +1,9 @@
 package com.lee.code;
 
-import android.arch.lifecycle.LifecycleOwner;
+import android.arch.lifecycle.Observer;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +11,6 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.lee.code.adapter.MultiAdapter;
-import com.lee.code.adapter.WapHeaderAndFooterAdapter;
 import com.lee.code.bean.UserInfo;
 import com.lee.library.adapter.LeeRecyclerView;
 import com.lee.library.base.BaseActivity;
@@ -62,13 +62,15 @@ public class MainActivity extends BaseActivity {
         initData();
         InjectManager.injectEvents(this);
 //        LiveDataBus.getInstance().injectBus(this);
-//        IntentManager.getInstance().startAct(this,InjectActivity.class);
+        LiveDataBus.getInstance().getChannel("event").observe(this, new Observer<Object>() {
+            @Override
+            public void onChanged(@Nullable Object o) {
+                Toast.makeText(MainActivity.this, o.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+        IntentManager.getInstance().startAct(this,InjectActivity.class);
     }
 
-    public void getClazz(LifecycleOwner lifecycleOwner){
-        Class<? extends LifecycleOwner> aClass = lifecycleOwner.getClass();
-        Toast.makeText(this, aClass.getSimpleName(), Toast.LENGTH_SHORT).show();
-    }
 
     @InjectBus(value = "event")
     public void event(String data) {

@@ -3,26 +3,30 @@ package com.lee.library.base;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.lee.library.ioc.InjectManager;
 
+/**
+ * @author jv.lee
+ */
 public abstract class BaseFragment extends Fragment {
-    protected final String TAG = this.getClass().getSimpleName();
     protected BaseActivity mActivity;
-    protected View mRootView;
-    protected int mRootResId;
-    protected boolean isVisibleUser = false;
-    protected boolean isVisibleView = false;
-    protected boolean fistVisible = true;
+    protected FragmentManager mFragmentManager;
+    private View mRootView;
+    private int mRootResId;
+    private boolean isVisibleUser = false;
+    private boolean isVisibleView = false;
+    private boolean fistVisible = true;
 
     public BaseFragment() {
     }
 
-    public void setContentView(int ResId){
-        this.mRootResId = ResId;
+    public void setContentView(int resId){
+        this.mRootResId = resId;
     }
 
     public <T extends View> T findViewById(int id) {
@@ -43,10 +47,11 @@ public abstract class BaseFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mActivity = (BaseActivity) getActivity();
+        mFragmentManager = getChildFragmentManager();
         bindView();
         bindData(savedInstanceState);
         isVisibleView = true;
-        if (isVisibleView && isVisibleUser && fistVisible) {
+        if (isVisibleUser && fistVisible) {
             fistVisible = false;
             lazyLoad();
         }
@@ -95,6 +100,7 @@ public abstract class BaseFragment extends Fragment {
 
     /**
      * 设置加载数据等业务操作
+     * @param savedInstanceState 重置回调参数
      */
     protected abstract void bindData(Bundle savedInstanceState);
 

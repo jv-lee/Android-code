@@ -10,6 +10,7 @@ import com.lee.library.base.BaseFragment;
 import com.lee.library.ioc.annotation.ContentView;
 import com.lee.library.ioc.annotation.InjectView;
 import com.lee.library.ioc.annotation.OnClick;
+import com.lee.library.livedatabus.LiveDataBus;
 
 @ContentView(R.layout.fragment_inject)
 public class InjectFragment extends BaseFragment {
@@ -34,7 +35,7 @@ public class InjectFragment extends BaseFragment {
 
     @OnClick(values = {R.id.tv_content})
     public void onClick(View view) {
-        Toast.makeText(mActivity, "click", Toast.LENGTH_SHORT).show();
+        LiveDataBus.getInstance().getChannel("event").setValue("数据发送");
     }
 
 }

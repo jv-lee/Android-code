@@ -1,10 +1,13 @@
 package com.lee.library.livedatabus;
 
-
-import android.app.Activity;
+import android.arch.lifecycle.LifecycleOwner;
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
+import android.arch.lifecycle.Observer;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -20,7 +23,7 @@ public class LiveDataBus {
     /**
      * 消息通道
      */
-    private Map<String,LiveData<Object>> bus;
+    private Map<String,BusMutableLiveData<Object>> bus;
     private static LiveDataBus instance;
     private LiveDataBus() {
         bus = new HashMap<>();
@@ -36,62 +39,126 @@ public class LiveDataBus {
         return instance;
     }
 
-    public <T> LiveData<T> getChannel(String target, Class<T> type) {
+    public <T> MutableLiveData<T> getChannel(String target, Class<T> type) {
         if (!bus.containsKey(target)) {
-            bus.put(target, new LiveData<Object>());
+            bus.put(target, new BusMutableLiveData<>());
         }
-        return (LiveData<T>) bus.get(target);
+        return (MutableLiveData<T>) bus.get(target);
     }
 
-    public LiveData<Object> getChannel(String target) {
+    public MutableLiveData<Object> getChannel(String target) {
         return getChannel(target, Object.class);
     }
 
+    private static class ObserverWrapper<T> implements Observer<T> {
 
-    public void injectBus(Activity activity) {
-        Class<? extends Activity> aClass = activity.getClass();
-        //获取当前类所有方法
-        Method[] declaredMethods = aClass.getDeclaredMethods();
-        for (Method method : declaredMethods) {
-            InjectBus injectBus = method.getAnnotation(InjectBus.class);
-            if (injectBus != null) {
-                String value = injectBus.value();
+        private Observer<T> observer;
 
-                LiveDataBus.getInstance().getChannel(value).observe(activity, new Observer<Object>() {
-                    @Override
-                    public void onChanged(@Nullable Object o) {
-                        try {
-                            method.invoke(activity, o);
-                        } catch (IllegalAccessException e) {
-                            e.printStackTrace();
-                        } catch (InvocationTargetException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
+        public ObserverWrapper(Observer<T> observer) {
+            this.observer = observer;
+        }
+
+        @Override
+        public void onChanged(@Nullable T t) {
+            if (observer != null) {
+                if (isCallOnObserve()) {
+                    return;
+                }
+                observer.onChanged(t);
             }
+        }
+
+        private boolean isCallOnObserve() {
+            StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+            if (stackTrace != null && stackTrace.length > 0) {
+                for (StackTraceElement element : stackTrace) {
+                    if ("android.arch.lifecycle.LiveData".equals(element.getClassName()) &&
+                            "observeForever".equals(element.getMethodName())) {
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
     }
 
-    public void injectBus(Fragment fragment) {
-        Class<? extends Fragment> aClass = fragment.getClass();
+    private static class BusMutableLiveData<T> extends MutableLiveData<T> {
+
+        private Map<Observer, Observer> observerMap = new HashMap<>();
+
+        @Override
+        public void observe(@NonNull LifecycleOwner owner, @NonNull Observer<T> observer) {
+            super.observe(owner, observer);
+            try {
+                hook(observer);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        public void observeForever(@NonNull Observer<T> observer) {
+            if (!observerMap.containsKey(observer)) {
+                observerMap.put(observer, new ObserverWrapper(observer));
+            }
+            super.observeForever(observerMap.get(observer));
+        }
+
+        @Override
+        public void removeObserver(@NonNull Observer<T> observer) {
+            Observer realObserver = null;
+            if (observerMap.containsKey(observer)) {
+                realObserver = observerMap.remove(observer);
+            } else {
+                realObserver = observer;
+            }
+            super.removeObserver(realObserver);
+        }
+
+        private void hook(@NonNull Observer<T> observer) throws Exception {
+            //get wrapper's version
+            Class<LiveData> classLiveData = LiveData.class;
+            Field fieldObservers = classLiveData.getDeclaredField("mObservers");
+            fieldObservers.setAccessible(true);
+            Object objectObservers = fieldObservers.get(this);
+            Class<?> classObservers = objectObservers.getClass();
+            Method methodGet = classObservers.getDeclaredMethod("get", Object.class);
+            methodGet.setAccessible(true);
+            Object objectWrapperEntry = methodGet.invoke(objectObservers, observer);
+            Object objectWrapper = null;
+            if (objectWrapperEntry instanceof Map.Entry) {
+                objectWrapper = ((Map.Entry) objectWrapperEntry).getValue();
+            }
+            if (objectWrapper == null) {
+                throw new NullPointerException("Wrapper can not be bull!");
+            }
+            Class<?> classObserverWrapper = objectWrapper.getClass().getSuperclass();
+            Field fieldLastVersion = classObserverWrapper.getDeclaredField("mLastVersion");
+            fieldLastVersion.setAccessible(true);
+            //get livedata's version
+            Field fieldVersion = classLiveData.getDeclaredField("mVersion");
+            fieldVersion.setAccessible(true);
+            Object objectVersion = fieldVersion.get(this);
+            //set wrapper's version
+            fieldLastVersion.set(objectWrapper, objectVersion);
+        }
+    }
+
+    public void injectBus(LifecycleOwner lifecycleOwner) {
+        Class<? extends LifecycleOwner> aClass = lifecycleOwner.getClass();
         //获取当前类所有方法
         Method[] declaredMethods = aClass.getDeclaredMethods();
         for (Method method : declaredMethods) {
             InjectBus injectBus = method.getAnnotation(InjectBus.class);
             if (injectBus != null) {
                 String value = injectBus.value();
-
-                LiveDataBus.getInstance().getChannel(value).observe(fragment.getActivity(), new Observer<Object>() {
-                    @Override
-                    public void onChanged(@Nullable Object o) {
-                        try {
-                            method.invoke(fragment, o);
-                        } catch (IllegalAccessException e) {
-                            e.printStackTrace();
-                        } catch (InvocationTargetException e) {
-                            e.printStackTrace();
-                        }
+                LiveDataBus.getInstance().getChannel(value).observe(lifecycleOwner, o -> {
+                    try {
+                        method.invoke(lifecycleOwner, o);
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    } catch (InvocationTargetException e) {
+                        e.printStackTrace();
                     }
                 });
             }

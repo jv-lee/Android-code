@@ -1,10 +1,12 @@
-package com.lee.library.livedatabus;
+package com.lee.code.livedatabus.livedata2;
 
-import android.app.Activity;
+import android.arch.lifecycle.Lifecycle;
+import android.arch.lifecycle.LifecycleObserver;
+import android.arch.lifecycle.LifecycleOwner;
+import android.arch.lifecycle.OnLifecycleEvent;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
+import android.support.annotation.NonNull;
 import android.util.SparseArray;
 
 import java.util.ArrayList;
@@ -82,46 +84,45 @@ public class LiveData<T> {
      * @param activity
      * @param observer
      */
-    public void observe(Activity activity, Observer<T> observer) {
+    public void observe(LifecycleOwner activity, Observer<T> observer) {
         map.put(activity.hashCode(), observer);
 
-        FragmentManager fragmentManager = ((FragmentActivity)activity).getSupportFragmentManager();
-        HolderFragment current = (HolderFragment) fragmentManager.findFragmentByTag(LIFECYCLE_TARGET);
-        if (current == null) {
-            current = new HolderFragment();
-            fragmentManager.beginTransaction().add(current, LIFECYCLE_TARGET).commitAllowingStateLoss();
-        }
         //监听fragment生命周期
-        current.setLifecycleListener(new LifecycleListener() {
-            @Override
-            public void onCreate(int activityCode) {
-                map.get(activityCode).setState(Observer.STATE_INIT);
+        activity.getLifecycle().addObserver(new LifecycleObserver() {
+
+            @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
+            void onCreate(@NonNull LifecycleOwner owner) {
+                map.get(owner.hashCode()).setState(Observer.STATE_INIT);
             }
 
-            @Override
-            public void onStart(int activityCode) {
-                map.get(activityCode).setState(Observer.STATE_ACTIVE);
+            @OnLifecycleEvent(Lifecycle.Event.ON_START)
+            void onStart(@NonNull LifecycleOwner owner) {
+                map.get(owner.hashCode()).setState(Observer.STATE_ACTIVE);
 
                 //判断当前是否有延迟消息 有消息则回调延迟消息
-                if (mPendingDelayList.get(activityCode) != null && mPendingDelayList.get(activityCode).size() > 0) {
-                    for (T t : mPendingDelayList.get(activityCode)) {
-                        map.get(activityCode).onChanged(t);
+                if (mPendingDelayList.get(owner.hashCode()) != null && mPendingDelayList.get(owner.hashCode()).size() > 0) {
+                    for (T t : mPendingDelayList.get(owner.hashCode())) {
+                        map.get(owner.hashCode()).onChanged(t);
                     }
                 }
                 //处理完毕清除消息列表
                 mPendingDelayList.clear();
             }
 
-            @Override
-            public void onPause(int activityCode) {
-                map.get(activityCode).setState(Observer.STATE_PAUSE);
+            @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+            void onPause(@NonNull LifecycleOwner owner) {
+                map.get(owner.hashCode()).setState(Observer.STATE_PAUSE);
+
             }
 
-            @Override
-            public void onDetach(int activityCode) {
-                map.remove(activityCode);
+            @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+            void onDestroy(@NonNull LifecycleOwner owner) {
+                map.remove(owner.hashCode());
+
             }
+
         });
+
     }
 
 }

@@ -1,4 +1,4 @@
-package com.lee.library.livedatabus;
+package com.lee.code.livedatabus.livedata2;
 
 import android.support.annotation.Nullable;
 
