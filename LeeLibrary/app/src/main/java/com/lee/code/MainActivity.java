@@ -1,5 +1,6 @@
 package com.lee.code;
 
+import android.arch.lifecycle.LifecycleOwner;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,6 +14,7 @@ import com.lee.code.adapter.WapHeaderAndFooterAdapter;
 import com.lee.code.bean.UserInfo;
 import com.lee.library.adapter.LeeRecyclerView;
 import com.lee.library.base.BaseActivity;
+import com.lee.library.intent.IntentManager;
 import com.lee.library.ioc.InjectManager;
 import com.lee.library.ioc.annotation.ContentView;
 import com.lee.library.ioc.annotation.InjectView;
@@ -20,6 +22,8 @@ import com.lee.library.ioc.annotation.OnItemClick;
 import com.lee.library.ioc.annotation.OnItemLongClick;
 import com.lee.library.ioc.annotation.OnLoadingMore;
 import com.lee.library.ioc.annotation.OnRefresh;
+import com.lee.library.livedatabus.InjectBus;
+import com.lee.library.livedatabus.LiveDataBus;
 import com.lee.library.refresh.RefreshLayout;
 
 import java.util.ArrayList;
@@ -57,6 +61,18 @@ public class MainActivity extends BaseActivity {
     public void bindData(Bundle savedInstanceState) {
         initData();
         InjectManager.injectEvents(this);
+//        LiveDataBus.getInstance().injectBus(this);
+//        IntentManager.getInstance().startAct(this,InjectActivity.class);
+    }
+
+    public void getClazz(LifecycleOwner lifecycleOwner){
+        Class<? extends LifecycleOwner> aClass = lifecycleOwner.getClass();
+        Toast.makeText(this, aClass.getSimpleName(), Toast.LENGTH_SHORT).show();
+    }
+
+    @InjectBus(value = "event")
+    public void event(String data) {
+        Toast.makeText(this, data, Toast.LENGTH_SHORT).show();
     }
 
     @Override

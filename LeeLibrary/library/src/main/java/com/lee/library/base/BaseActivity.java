@@ -37,7 +37,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                 StatusUtils.statusBar(this,toolbar(),false);
             }
         }
-
+        bindView();
         bindData(savedInstanceState);
     }
 
