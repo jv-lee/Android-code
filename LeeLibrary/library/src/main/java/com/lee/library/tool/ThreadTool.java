@@ -1,4 +1,4 @@
-package com.lee.library.utils;
+package com.lee.library.tool;
 
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ThreadFactory;
@@ -6,29 +6,30 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 /**
+ * 线程池工具
  * @author jv.lee
  * @date 2019/4/6
  */
-public class ThreadPoolManager {
+public class ThreadTool {
 
-    private static ThreadPoolManager instance;
+    private static ThreadTool instance;
     /**
      * 线程池
      */
     private ThreadPoolExecutor threadPoolExecutor;
 
-    public static ThreadPoolManager getInstance(){
+    public static ThreadTool getInstance(){
         if (instance == null) {
-            synchronized (ThreadPoolManager.class) {
+            synchronized (ThreadTool.class) {
                 if (instance == null) {
-                    instance = new ThreadPoolManager();
+                    instance = new ThreadTool();
                 }
             }
         }
         return instance;
     }
 
-    private ThreadPoolManager(){
+    private ThreadTool(){
         //最大核心线程数、最大线程数、闲置时间、任务队列、工厂
         threadPoolExecutor = new ThreadPoolExecutor(3,
                 Integer.MAX_VALUE,

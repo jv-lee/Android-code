@@ -1,4 +1,4 @@
-package com.lee.library.utils;
+package com.lee.library.tool;
 
 import android.app.Activity;
 import android.content.Context;
@@ -10,11 +10,11 @@ import android.view.Window;
 import android.view.WindowManager;
 
 /**
- * 状态栏工具类
+ * 状态栏工具
  * @author jv.lee
  * @date 2019/4/5
  */
-public class StatusUtils {
+public class StatusTool {
 
     /**
      * 设置沉浸式状态栏

@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.lee.library.ioc.InjectManager;
-import com.lee.library.utils.StatusUtils;
+import com.lee.library.tool.StatusTool;
 
 /**
  * @author jv.lee
@@ -33,11 +33,11 @@ public abstract class BaseActivity extends AppCompatActivity {
         InjectManager.inject(this);
         if (fullScreen) {
             //全屏模式
-            StatusUtils.fullWindow(this);
+            StatusTool.fullWindow(this);
         } else {
             //设置沉浸式
             if (toolbar() != null) {
-                StatusUtils.statusBar(this, toolbar(), false);
+                StatusTool.statusBar(this, toolbar(), false);
             }
         }
         bindView();
