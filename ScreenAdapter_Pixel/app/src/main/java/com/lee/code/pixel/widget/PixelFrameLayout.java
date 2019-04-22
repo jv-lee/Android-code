@@ -41,8 +41,12 @@ public class PixelFrameLayout extends FrameLayout {
             for (int i = 0; i < count; i++) {
                 View child = getChildAt(i);
                 LayoutParams params = (LayoutParams) child.getLayoutParams();
-                params.width = (int) (params.width * scaleX);
-                params.height = (int) (params.height * scaleY);
+                if (params.width != LayoutParams.WRAP_CONTENT && params.width != LayoutParams.MATCH_PARENT) {
+                    params.width = (int) (params.width * scaleX);
+                }
+                if (params.height != LayoutParams.WRAP_CONTENT && params.height != LayoutParams.MATCH_PARENT) {
+                    params.height = (int) (params.height * scaleY);
+                }
 
                 params.leftMargin = (int) (params.leftMargin * scaleX);
                 params.rightMargin = (int) (params.rightMargin * scaleX);

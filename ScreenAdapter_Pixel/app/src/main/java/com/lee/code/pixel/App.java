@@ -12,7 +12,6 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
         registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
             @Override
             public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
@@ -51,4 +50,5 @@ public class App extends Application {
             }
         });
     }
+
 }
