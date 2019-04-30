@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">TabMenu</string>
+    <string name="str_tag_text">熱門</string>
+    <string name="str_item_heading">我的频道（长按可拖动排序）</string>
+    <string name="str_item_subheading">推荐频道（点击添加频道）</string>
+</resources>
