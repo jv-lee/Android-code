@@ -8,7 +8,7 @@ import android.graphics.Path;
 import android.graphics.PathMeasure;
 import android.util.AttributeSet;
 import android.view.View;
-import android.view.animation.LinearInterpolator;
+import android.view.animation.OvershootInterpolator;
 
 /**
  * @author jv.lee
@@ -17,13 +17,14 @@ import android.view.animation.LinearInterpolator;
  */
 public class PathMeasureLoadingView extends View {
 
+    private Paint mPaint;
     private Path mDst;
     private Path mPath;
-    private Paint mPaint;
     private float mLength;
     private float mAnimValue;
 
     private PathMeasure mPathMeasure;
+
 
     public PathMeasureLoadingView(Context context) {
         this(context,null);
@@ -57,8 +58,9 @@ public class PathMeasureLoadingView extends View {
         //创建一个属性动画 从0-1
         ValueAnimator animator = ValueAnimator.ofFloat(0, 1);
         animator.setDuration(1000);
-        animator.setInterpolator(new LinearInterpolator());
+        animator.setInterpolator(new OvershootInterpolator());
         animator.setRepeatCount(ValueAnimator.INFINITE);
+        animator.setRepeatCount(0);
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
@@ -69,6 +71,7 @@ public class PathMeasureLoadingView extends View {
         animator.start();
     }
 
+
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
@@ -78,21 +81,21 @@ public class PathMeasureLoadingView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        mDst.reset();
-        //getSegment方法bug处理
-        mDst.lineTo(0,0);
+            mDst.reset();
+            //getSegment方法bug处理
+            mDst.lineTo(0,0);
 
-        //设置一个起点值0  不断获得绘制的stop值 属性动画的百分比 乘以总长度 慢慢绘制整个圆形
+            //设置一个起点值0  不断获得绘制的stop值 属性动画的百分比 乘以总长度 慢慢绘制整个圆形
 
-        float stop = mLength * mAnimValue;
-//        float start = 0;
-        //公式表明 开始值在超过百分之50后 开始快速向stop路径靠拢
-        float start = (float) (stop - ((0.5 - Math.abs(mAnimValue - 0.5)) * mLength));
+            float stop = mLength * mAnimValue;
+            float start = 0;
+            //公式表明 开始值在超过百分之50后 开始快速向stop路径靠拢
+//        float start = (float) (stop - ((0.5 - Math.abs(mAnimValue - 0.5)) * mLength));
 
-        //设置参数绘制片段
-        mPathMeasure.getSegment(start, stop, mDst, true);
-        //开始绘制片段
-        canvas.drawPath(mDst,mPaint);
+            //设置参数绘制片段
+            mPathMeasure.getSegment(start, stop, mDst, true);
+            //开始绘制片段
+            canvas.drawPath(mDst,mPaint);
 
     }
 }

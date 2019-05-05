@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    android:orientation="vertical"
+    tools:context=".AnimatorMusicActivity">
+
+    <com.lee.music.view.RippleAnimationView
+        android:id="@+id/layout_RippleAnimation"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:ripple_anim_color="#C0362E"
+        app:strokeWidth="2"
+        app:ripple_anim_type="strokeRipple"
+        app:radius="150">
+
+
+        <ImageView
+            android:id="@+id/iv_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/ic_launcher_round"/>
+
+    </com.lee.music.view.RippleAnimationView>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="点击识别音乐"
+        android:textColor="@android:color/white"
+        android:textSize="14sp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="听歌识曲"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="12sp"/>
+
+</LinearLayout>

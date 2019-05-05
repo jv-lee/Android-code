@@ -40,6 +40,7 @@ public class ColorFilterView extends View {
 //        porterDuffColorFilter(canvas);
 //        colorMatrixColorFilter(canvas);
         colorMatrix(canvas);
+//        lightingColorFilter(canvas);
     }
 
     /**
@@ -70,9 +71,9 @@ public class ColorFilterView extends View {
 //        canvas.drawBitmap(mBitmap,0,0,mPaint);
 
         //绿色更亮
-        LightingColorFilter lighting = new LightingColorFilter(0xffffff, 0x003000);
-        mPaint.setColorFilter(lighting);
-        canvas.drawBitmap(mBitmap,0,0,mPaint);
+//        LightingColorFilter lighting = new LightingColorFilter(0xffffff, 0x003000);
+//        mPaint.setColorFilter(lighting);
+//        canvas.drawBitmap(mBitmap,0,0,mPaint);
     }
 
     /**
@@ -80,7 +81,7 @@ public class ColorFilterView extends View {
      * @param canvas
      */
     private void porterDuffColorFilter(Canvas canvas) {
-        PorterDuffColorFilter porterDuffColorFilter = new PorterDuffColorFilter(Color.RED, PorterDuff.Mode.DARKEN);
+        PorterDuffColorFilter porterDuffColorFilter = new PorterDuffColorFilter(Color.GRAY, PorterDuff.Mode.DARKEN);
         mPaint.setColorFilter(porterDuffColorFilter);
         canvas.drawBitmap(mBitmap,100,0,mPaint);
     }

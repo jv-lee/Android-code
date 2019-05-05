@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <code.lee.code.animation.view.PathMeasureLoadingView
+        <code.lee.code.animation.view.PathMeasureLoadingView2
             android:layout_width="100dp"
             android:layout_height="100dp" />
 

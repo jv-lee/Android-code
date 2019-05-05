@@ -1,9 +1,11 @@
 package com.lee.library.tool;
 
+
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -19,10 +21,9 @@ public class StatusTool {
     /**
      * 设置沉浸式状态栏
      * @param activity 引用
-     * @param toolbar 需要设置高度和padding达到最佳效果
      * @param navigationBarTranslucent 导航栏是否设置为透明
      */
-    public static void statusBar(Activity activity, View toolbar,boolean navigationBarTranslucent) {
+    public static void statusBar(Activity activity,boolean navigationBarTranslucent) {
         Window window = activity.getWindow();
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
             return;
@@ -53,11 +54,7 @@ public class StatusTool {
             //设置沉浸式 导航栏
             if (navigationBarTranslucent) {
                 window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-
             }
-        }
-        if (toolbar != null) {
-            setHeightAndPadding(activity,toolbar);
         }
     }
 
@@ -92,10 +89,21 @@ public class StatusTool {
         return 0;
     }
 
-    private static void setHeightAndPadding(Context context, View view) {
+    /**
+     * 设置自定义toolbar高度
+     * @param context
+     * @param view
+     */
+    public static void setStatusPadding(Context context, View view) {
         ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
         int statusHeight = getStatusBarHeight(context);
         layoutParams.height += statusHeight;
         view.setPadding(view.getPaddingLeft(),view.getPaddingTop()+statusHeight,view.getPaddingRight(),view.getPaddingBottom());
     }
+
+    public static void setStatusPadding(Context context, Toolbar view) {
+        int statusHeight = getStatusBarHeight(context);
+        view.setPadding(0,statusHeight,0,0);
+    }
+
 }

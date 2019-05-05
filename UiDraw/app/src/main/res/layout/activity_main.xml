@@ -13,9 +13,27 @@
         <!--app:layout_constraintLeft_toLeftOf="parent"-->
         <!--app:layout_constraintRight_toRightOf="parent"-->
         <!--app:layout_constraintTop_toTopOf="parent" />-->
-    <com.lee.code.uidraw.widget.map.MapView
+    <!--<com.lee.code.uidraw.widget.map.MapView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent" />-->
+
+    <com.lee.code.uidraw.view.TouchMoveView
+        android:id="@+id/move"
+        android:src="@mipmap/ic_launcher"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+
+    <com.lee.code.uidraw.widget.InputPasswordView
+        android:id="@+id/input_password"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:orientation="horizontal"
+        android:layout_margin="30dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="60dp" />
 
 
 </android.support.constraint.ConstraintLayout>

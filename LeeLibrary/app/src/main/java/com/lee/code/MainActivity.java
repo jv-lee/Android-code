@@ -52,6 +52,7 @@ public class MainActivity extends BaseActivity {
         frameLayout.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,100));
         frameLayout.setBackgroundColor(Color.parseColor("#ff0000"));
 
+
         rvContainer.setLayoutManager(new LinearLayoutManager(this));
         rvContainer.setRecyclerAdapter(multiAdapter);
         refresh.setDefaultView(container, rvContainer);

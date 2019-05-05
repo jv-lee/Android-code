@@ -3,4 +3,15 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+
+    <color name="colorTransparent">#00000000</color>
+    <color name="colorPageBg">#f2f4f5</color>
+    <color name="colorTheme">#ffce3d3a</color>
+    <color name="colorContent">#ff333333</color>
+    <color name="colorRateRed">#fb5b81</color>
+    <color name="colorWhite">#ffffff</color>
+    <color name="tabBackground">#777d7d7d</color>
+
+    <color name="ripple_color">#ff0000</color>
+
 </resources>

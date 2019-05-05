@@ -4,6 +4,7 @@ import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.DisplayCutout;
 import android.view.View;
 import android.view.Window;
@@ -42,7 +43,6 @@ public class DisplayCutoutActivity extends AppCompatActivity {
 //            //追加沉浸式设置
 //            window.getDecorView().setSystemUiVisibility(visibility);
 //        }
-
         setContentView(R.layout.activity_display_cutout);
     }
 
