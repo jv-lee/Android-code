@@ -1,13 +1,14 @@
 package com.lee.library.base;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
 
 import com.lee.library.ioc.InjectManager;
 import com.lee.library.tool.StatusTool;
@@ -25,6 +26,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        //默认设置沉浸式
         StatusTool.statusBar(this, false);
         super.onCreate(savedInstanceState);
         mActivity = this;
@@ -41,16 +43,16 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     /**
-     * 设置view基础配置
-     */
-    protected abstract void bindView();
-
-    /**
      * 加载数据
      *
      * @param savedInstanceState 重置回调参数
      */
     protected abstract void bindData(Bundle savedInstanceState);
+
+    /**
+     * 设置view基础配置
+     */
+    protected abstract void bindView();
 
     /**
      * 是否为全屏模式

@@ -25,11 +25,6 @@ public class InjectActivity extends BaseActivity {
     }
 
     @Override
-    public View toolbar() {
-        return null;
-    }
-
-    @Override
     public boolean isFullscreen() {
         return false;
     }

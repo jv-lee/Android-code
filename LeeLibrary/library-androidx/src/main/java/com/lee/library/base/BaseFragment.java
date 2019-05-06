@@ -1,12 +1,13 @@
 package com.lee.library.base;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.lee.library.ioc.InjectManager;
 
@@ -94,15 +95,17 @@ public abstract class BaseFragment extends Fragment {
     }
 
     /**
-     * 设置view基础配置
-     */
-    protected abstract void bindView();
-
-    /**
      * 设置加载数据等业务操作
      * @param savedInstanceState 重置回调参数
      */
     protected abstract void bindData(Bundle savedInstanceState);
+
+    /**
+     * 设置view基础配置
+     */
+    protected abstract void bindView();
+
+
 
     /**
      * 使用page 多fragment时 懒加载

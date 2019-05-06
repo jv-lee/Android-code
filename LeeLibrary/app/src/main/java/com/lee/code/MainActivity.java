@@ -79,11 +79,6 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
-    public View toolbar() {
-        return null;
-    }
-
-    @Override
     public boolean isFullscreen() {
         return false;
     }
