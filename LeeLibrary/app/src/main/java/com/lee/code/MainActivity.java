@@ -24,7 +24,7 @@ import com.lee.library.ioc.annotation.OnLoadingMore;
 import com.lee.library.ioc.annotation.OnRefresh;
 import com.lee.library.livedatabus.InjectBus;
 import com.lee.library.livedatabus.LiveDataBus;
-import com.lee.library.refresh.RefreshLayout;
+import com.lee.library.widget.refresh.RefreshLayout;
 
 import java.util.ArrayList;
 import java.util.List;

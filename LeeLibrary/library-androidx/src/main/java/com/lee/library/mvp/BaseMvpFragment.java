@@ -9,6 +9,11 @@ import androidx.annotation.Nullable;
 
 import com.lee.library.base.BaseFragment;
 
+/**
+ * @author jv.lee
+ * @date 2019/5/6
+ */
+
 public abstract class BaseMvpFragment extends BaseFragment {
     @Nullable
     @Override

@@ -2,7 +2,11 @@ package com.lee.library.mvp;
 
 import com.lee.library.utils.LogUtil;
 
-public abstract class BasePresenter<V> implements BaseLifecycleObserver{
+/**
+ * @author jv.lee
+ * @date 2019/5/6
+ */
+public abstract class BasePresenter<V> implements BaseLifecycleObserver {
     private V mView;
     public int STATUS_TAG = 0;
     public static final int ON_CREATE = 1;

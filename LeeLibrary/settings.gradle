@@ -1,1 +1,1 @@
-include ':app', ':library', ':library-androidx'
+include ':app', ':library', ':library-androidx', ':tabmenu', ':bottomnative'

@@ -9,8 +9,10 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/bottomnative" />
             <option value="$PROJECT_DIR$/library" />
             <option value="$PROJECT_DIR$/library-androidx" />
+            <option value="$PROJECT_DIR$/tabmenu" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

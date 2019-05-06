@@ -1,6 +1,6 @@
 package com.lee.library.ioc.annotation;
 
-import com.lee.library.refresh.LoadingMoreCallBack;
+import com.lee.library.widget.refresh.LoadingMoreCallBack;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

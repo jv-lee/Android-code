@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="bottom_array">
+        <item>@drawable/selector_usercenter</item>
+        <item>@drawable/selector_news</item>
+        <item>@drawable/selector_novel</item>
+        <item>@drawable/selector_game</item>
+        <item>@drawable/selector_wallet</item>
+    </string-array>
+
+    <string-array name="bottom_text_array">
+        <item>@string/bottom_text</item>
+        <item>@string/bottom_text</item>
+        <item>@string/bottom_text</item>
+        <item>@string/bottom_text</item>
+        <item>@string/bottom_text</item>
+    </string-array>
+
+    <declare-styleable name="BottomNavGroup">
+        <attr name="button_array" format="reference"/>
+        <attr name="text_array" format="reference"/>
+        <attr name="text_background" format="reference"/>
+    </declare-styleable>
+</resources>

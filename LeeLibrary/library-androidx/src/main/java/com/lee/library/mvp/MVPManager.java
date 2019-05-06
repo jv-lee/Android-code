@@ -8,6 +8,10 @@ import com.lee.library.utils.LogUtil;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
+/**
+ * @author jv.lee
+ * @date 2019/5/6
+ */
 public class MVPManager {
 
     public static void injectPresenter(BaseMvpActivity activity) {

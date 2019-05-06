@@ -3,6 +3,10 @@ package com.lee.library.mvp;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
+/**
+ * @author jv.lee
+ * @date 2019/5/6
+ */
 public class ModelObserver<T> implements Observer<T> {
 
     @Override
