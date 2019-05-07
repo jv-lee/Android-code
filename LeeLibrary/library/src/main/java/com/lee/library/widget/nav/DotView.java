@@ -2,15 +2,18 @@ package com.lee.library.widget.nav;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.BlurMaskFilter;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PaintFlagsDrawFilter;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.View;
+
+import com.lee.library.R;
 
 /**
  * @author jv.lee
@@ -39,8 +42,7 @@ public class DotView extends View {
     }
 
     private void initPaint() {
-        mBackgroundPaint = new Paint();
-        mBackgroundPaint.setAntiAlias(true);
+        mBackgroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mBackgroundPaint.setColor(backgroundColor);
         mBackgroundPaint.setStrokeWidth(1);
         mBackgroundPaint.setStyle(Paint.Style.FILL);
@@ -87,7 +89,7 @@ public class DotView extends View {
         String count = String.valueOf(numberCount);
 
         Rect bounds=new Rect();
-        mNumberPaint.setTextSize((float) (mHeight*0.7));
+        mNumberPaint.setTextSize((float) (mHeight*0.6));
         mNumberPaint.getTextBounds(count,0,count.length(),bounds);
         float offSet=(bounds.top+bounds.bottom)/2;
 
@@ -95,9 +97,13 @@ public class DotView extends View {
     }
 
     private void drawBackground(Canvas canvas) {
+        Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.dot_shape);
+        if (drawable != null) {
+            setBackground(drawable);
+        }else{
         mBackgroundPaint.setColor(backgroundColor);
-        mBackgroundPaint.setMaskFilter(new BlurMaskFilter(100, BlurMaskFilter.Blur.OUTER));
         canvas.drawCircle(mWidth/2,mHeight/2,mWidth/2,mBackgroundPaint);
+        }
     }
 
     @Override

@@ -1,7 +1,5 @@
 package com.hclw.bottomnative;
 
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,13 +19,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         bottomNavView = findViewById(R.id.bottom_nav_view);
         bottomNavView.initUnReadMessageViews();
-        Log.i(">>>", "setDotNotRead");
-        bottomNavView.setDotNotRead(0,10);
-        bottomNavView.setDotNotRead(0,0);
+        bottomNavView.setDotNotRead(0,8);
         bottomNavView.setItemPositionListener(new BottomNavView.ItemPositionListener() {
             @Override
             public void onPosition(MenuItem menuItem, int position) {
-                Toast.makeText(MainActivity.this, "position:"+position, Toast.LENGTH_SHORT).show();
+
             }
         });
 
