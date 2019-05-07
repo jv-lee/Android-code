@@ -5,9 +5,14 @@ import android.content.res.TypedArray;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+/**
+ * @author jv.lee
+ * @date 2019/5/7
+ */
 public class BottomNavGroup extends RadioGroup implements RadioGroup.OnCheckedChangeListener {
 
     private String[] textArray;

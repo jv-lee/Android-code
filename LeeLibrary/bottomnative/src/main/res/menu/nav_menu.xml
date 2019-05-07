@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menuHome"
+        android:enabled="true"
+        android:icon="@drawable/selector_usercenter"
+        android:title="主页"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/menuCart"
+        android:enabled="true"
+        android:icon="@drawable/selector_news"
+        android:title="购物车"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/menuBook"
+        android:enabled="true"
+        android:icon="@drawable/selector_novel"
+        android:title="书签"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/menuExplore_"
+        android:enabled="true"
+        android:icon="@drawable/selector_game"
+        android:title="发现"
+        app:showAsAction="always" />
+</menu>
