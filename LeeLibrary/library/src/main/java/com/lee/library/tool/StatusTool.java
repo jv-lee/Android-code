@@ -65,15 +65,9 @@ public class StatusTool {
     public static void fullWindow(Activity activity){
         //1.设置全屏幕
         activity.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        Window window = activity.getWindow();
-        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        //3.设置沉浸式 内容延伸进statusBar
-        int flags = View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
-        int visibility = window.getDecorView().getSystemUiVisibility();
-        visibility |= flags;
-        //追加沉浸式设置
-        window.getDecorView().setSystemUiVisibility(visibility);
+        activity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 
     /**

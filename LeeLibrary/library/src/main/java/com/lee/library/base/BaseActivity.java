@@ -21,7 +21,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected FragmentManager mFragmentManager;
     private long firstTime = 0;
     private boolean hasBackExit = false;
-    private boolean fullScreen = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -32,18 +31,9 @@ public abstract class BaseActivity extends AppCompatActivity {
 
         //帮助所有子类进行：布局/控件/事件的注入
         InjectManager.inject(this);
-        if (fullScreen) {
-            //全屏模式
-            StatusTool.fullWindow(this);
-        }
         bindData(savedInstanceState);
         bindView();
     }
-
-    /**
-     * 设置view基础配置
-     */
-    protected abstract void bindView();
 
     /**
      * 加载数据
@@ -53,11 +43,9 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected abstract void bindData(Bundle savedInstanceState);
 
     /**
-     * 是否为全屏模式
-     *
-     * @return boolean
+     * 设置view基础配置
      */
-    protected abstract boolean isFullscreen();
+    protected abstract void bindView();
 
     protected int hasBackExitTimer = 2000;
 

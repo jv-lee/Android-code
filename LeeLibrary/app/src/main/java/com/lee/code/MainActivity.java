@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -13,8 +14,8 @@ import android.widget.Toast;
 import com.lee.code.adapter.MultiAdapter;
 import com.lee.code.bean.UserInfo;
 import com.lee.library.adapter.LeeRecyclerView;
+import com.lee.library.adapter.LeeViewAdapter;
 import com.lee.library.base.BaseActivity;
-import com.lee.library.intent.IntentManager;
 import com.lee.library.ioc.InjectManager;
 import com.lee.library.ioc.annotation.ContentView;
 import com.lee.library.ioc.annotation.InjectView;
@@ -24,7 +25,9 @@ import com.lee.library.ioc.annotation.OnLoadingMore;
 import com.lee.library.ioc.annotation.OnRefresh;
 import com.lee.library.livedatabus.InjectBus;
 import com.lee.library.livedatabus.LiveDataBus;
+import com.lee.library.tool.ThreadTool;
 import com.lee.library.widget.refresh.RefreshLayout;
+import com.lee.library.widget.refresh.header.DefaultHeader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,8 +58,37 @@ public class MainActivity extends BaseActivity {
 
         rvContainer.setLayoutManager(new LinearLayoutManager(this));
         rvContainer.setRecyclerAdapter(multiAdapter);
-        refresh.setDefaultView(container, rvContainer);
+        refresh.setDefaultView2(container, rvContainer);
+        multiAdapter.setAutoLoadMoreListener(new LeeViewAdapter.AutoLoadMoreListener() {
+            @Override
+            public void autoLoadMore() {
+                Log.i(">>>", "auto load more");
+                ThreadTool.getInstance().addTask(new Runnable() {
+                    @Override
+                    public void run() {
+                        i++;
+                        if (i == 10) {
+
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    multiAdapter.loadMoreEnd();
+                                }
+                            });
+
+                            return;
+                        }
+                        initData();
+                        runOnUiThread(() -> {
+                            multiAdapter.loadMoreCompleted();
+                        });
+                    }
+                });
+            }
+        });
     }
+
+    int i = 0;
 
     @Override
     public void bindData(Bundle savedInstanceState) {
@@ -69,18 +101,13 @@ public class MainActivity extends BaseActivity {
                 Toast.makeText(MainActivity.this, o.toString(), Toast.LENGTH_SHORT).show();
             }
         });
-        IntentManager.getInstance().startAct(this,InjectActivity.class);
+//        IntentManager.getInstance().startAct(this,InjectActivity.class);
     }
 
 
     @InjectBus(value = "event")
     public void event(String data) {
         Toast.makeText(this, data, Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public boolean isFullscreen() {
-        return false;
     }
 
     private void initData() {

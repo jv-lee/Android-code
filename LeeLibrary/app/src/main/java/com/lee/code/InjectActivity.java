@@ -24,11 +24,5 @@ public class InjectActivity extends BaseActivity {
     public void bindData(Bundle savedInstanceState) {
     }
 
-    @Override
-    public boolean isFullscreen() {
-        return false;
-    }
-
-
 
 }

@@ -7,6 +7,7 @@ import com.lee.code.adapter.item.BItem;
 import com.lee.code.adapter.item.CItem;
 import com.lee.code.adapter.item.DItem;
 import com.lee.code.adapter.item.EItem;
+import com.lee.code.adapter.item.FooterItem;
 import com.lee.code.bean.UserInfo;
 import com.lee.library.adapter.LeeViewAdapter;
 
@@ -25,6 +26,14 @@ public class MultiAdapter extends LeeViewAdapter<UserInfo> {
         addItemStyles(new CItem());
         addItemStyles(new DItem());
         addItemStyles(new EItem());
+        addItemStyles(new FooterItem());
     }
 
+    @Override
+    public void loadMoreEnd() {
+        UserInfo userInfo = new UserInfo();
+        userInfo.setType(101);
+        addData(userInfo);
+        super.loadMoreEnd();
+    }
 }
