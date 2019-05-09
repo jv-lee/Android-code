@@ -1,5 +1,7 @@
 package com.lee.code.adapter.item;
 
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.lee.code.R;
@@ -32,5 +34,7 @@ public class AItem implements LeeViewItem<UserInfo> {
     public void convert(LeeViewHolder holder, UserInfo entity, int position) {
         TextView textView = holder.getView(R.id.tv_title);
         textView.setText(entity.getAccount());
+        LinearLayout llContainer = holder.getView(R.id.ll_container);
+
     }
 }

@@ -9,16 +9,18 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lee.code.adapter.MultiAdapter;
 import com.lee.code.bean.UserInfo;
 import com.lee.library.adapter.LeeRecyclerView;
-import com.lee.library.adapter.LeeViewAdapter;
+import com.lee.library.adapter.LeeViewHolder;
 import com.lee.library.base.BaseActivity;
-import com.lee.library.ioc.InjectManager;
+import com.lee.library.ioc.annotation.AutoLoadMore;
 import com.lee.library.ioc.annotation.ContentView;
 import com.lee.library.ioc.annotation.InjectView;
+import com.lee.library.ioc.annotation.OnItemChildClick;
 import com.lee.library.ioc.annotation.OnItemClick;
 import com.lee.library.ioc.annotation.OnItemLongClick;
 import com.lee.library.ioc.annotation.OnLoadingMore;
@@ -27,7 +29,6 @@ import com.lee.library.livedatabus.InjectBus;
 import com.lee.library.livedatabus.LiveDataBus;
 import com.lee.library.tool.ThreadTool;
 import com.lee.library.widget.refresh.RefreshLayout;
-import com.lee.library.widget.refresh.header.DefaultHeader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,33 +60,6 @@ public class MainActivity extends BaseActivity {
         rvContainer.setLayoutManager(new LinearLayoutManager(this));
         rvContainer.setRecyclerAdapter(multiAdapter);
         refresh.setDefaultView2(container, rvContainer);
-        multiAdapter.setAutoLoadMoreListener(new LeeViewAdapter.AutoLoadMoreListener() {
-            @Override
-            public void autoLoadMore() {
-                Log.i(">>>", "auto load more");
-                ThreadTool.getInstance().addTask(new Runnable() {
-                    @Override
-                    public void run() {
-                        i++;
-                        if (i == 10) {
-
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    multiAdapter.loadMoreEnd();
-                                }
-                            });
-
-                            return;
-                        }
-                        initData();
-                        runOnUiThread(() -> {
-                            multiAdapter.loadMoreCompleted();
-                        });
-                    }
-                });
-            }
-        });
     }
 
     int i = 0;
@@ -93,7 +67,6 @@ public class MainActivity extends BaseActivity {
     @Override
     public void bindData(Bundle savedInstanceState) {
         initData();
-        InjectManager.injectEvents(this);
 //        LiveDataBus.getInstance().injectBus(this);
         LiveDataBus.getInstance().getChannel("event").observe(this, new Observer<Object>() {
             @Override
@@ -146,6 +119,14 @@ public class MainActivity extends BaseActivity {
         return true;
     }
 
+    @OnItemChildClick(values = {R.id.rv_container})
+    public void onItemChildClick(LeeViewHolder viewHolder,List<UserInfo> data) {
+        TextView tvTitle = viewHolder.getConvertView().findViewById(R.id.tv_title);
+        tvTitle.setOnClickListener(v -> {
+            Toast.makeText(this, "child Title -> position:"+ viewHolder.getLayoutPosition(), Toast.LENGTH_SHORT).show();
+        });
+    }
+
     @OnRefresh(values = {R.id.refresh})
     public void onRefresh() {
         new Thread() {
@@ -160,6 +141,32 @@ public class MainActivity extends BaseActivity {
                 });
             }
         }.start();
+    }
+
+    @AutoLoadMore(values = {R.id.rv_container})
+    public void autoLoadMore(){
+        Log.i(">>>", "auto load more");
+        ThreadTool.getInstance().addTask(new Runnable() {
+            @Override
+            public void run() {
+                i++;
+                if (i == 10) {
+
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            multiAdapter.loadMoreEnd();
+                        }
+                    });
+
+                    return;
+                }
+                initData();
+                runOnUiThread(() -> {
+                    multiAdapter.loadMoreCompleted();
+                });
+            }
+        });
     }
 
     @OnLoadingMore(values = {R.id.refresh})

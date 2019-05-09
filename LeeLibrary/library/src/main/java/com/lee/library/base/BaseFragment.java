@@ -39,7 +39,6 @@ public abstract class BaseFragment extends Fragment {
         InjectManager.injectLayout(this);
         mRootView = inflater.inflate(mRootResId,container,false);
         InjectManager.injectViews(this);
-        InjectManager.injectEvents(this);
         return mRootView;
     }
 
@@ -50,6 +49,7 @@ public abstract class BaseFragment extends Fragment {
         mFragmentManager = getChildFragmentManager();
         bindData(savedInstanceState);
         bindView();
+        InjectManager.injectEvents(this);
         isVisibleView = true;
         if (isVisibleUser && fistVisible) {
             fistVisible = false;

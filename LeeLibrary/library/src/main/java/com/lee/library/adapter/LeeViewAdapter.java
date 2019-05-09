@@ -3,7 +3,9 @@ package com.lee.library.adapter;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.lee.library.adapter.listener.LeeViewItem;
 import com.lee.library.adapter.manager.LeeViewItemManager;
@@ -31,9 +33,14 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
      */
     private LeeRecyclerView.OnItemLongClickListener<T> mOnItemLongClickListener;
     /**
+     * 条目子view点击事件
+     */
+    private LeeRecyclerView.OnItemChildView<T> mOnItemChildChange;
+    /**
      * 自动加载更多
      * autoLoadMore
      */
+    private LeeRecyclerView.AutoLoadMoreListener mAutoLoadMoreListener;
     /**
      * 数据源
      */
@@ -139,12 +146,20 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
      *
      * @param mOnItemClickListener item接口
      */
-    void setmOnItemClickListener(LeeRecyclerView.OnItemClickListener<T> mOnItemClickListener) {
+    void setOnItemClickListener(LeeRecyclerView.OnItemClickListener<T> mOnItemClickListener) {
         this.mOnItemClickListener = mOnItemClickListener;
     }
 
-    void setmOnItemLongClickListener(LeeRecyclerView.OnItemLongClickListener<T> mOnItemLongClickListener) {
+    void setOnItemLongClickListener(LeeRecyclerView.OnItemLongClickListener<T> mOnItemLongClickListener) {
         this.mOnItemLongClickListener = mOnItemLongClickListener;
+    }
+
+    void setOnItemChildClickListener(LeeRecyclerView.OnItemChildView<T> onItemChildView) {
+        this.mOnItemChildChange = onItemChildView;
+    }
+
+    void setAutoLoadMoreListener(LeeRecyclerView.AutoLoadMoreListener autoLoadMoreListener) {
+        this.mAutoLoadMoreListener = autoLoadMoreListener;
     }
 
 
@@ -167,7 +182,7 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull LeeViewHolder holder, int position) {
         convert(holder, datas.get(position));
-        if (autoLoadMoreListener != null) {
+        if (mAutoLoadMoreListener != null) {
             callEnd(position);
         }
     }
@@ -182,7 +197,7 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
             if (hasLoadMore) {
                 hasLoadMore = false;
                 //回调加载更多
-                autoLoadMoreListener.autoLoadMore();
+                mAutoLoadMoreListener.autoLoadMore();
             }
         }
     }
@@ -194,7 +209,7 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
     }
 
     //没有更多了
-    public void loadMoreEnd(){
+    public void loadMoreEnd() {
         hasLoadMore = false;
     }
 
@@ -202,15 +217,6 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
         this.loadMoreNum = num;
     }
 
-    public interface AutoLoadMoreListener {
-        void autoLoadMore();
-    }
-
-    private AutoLoadMoreListener autoLoadMoreListener;
-
-    public void setAutoLoadMoreListener(AutoLoadMoreListener autoLoadMoreListener) {
-        this.autoLoadMoreListener = autoLoadMoreListener;
-    }
 
     @Override
     public int getItemCount() {
@@ -227,25 +233,30 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
      */
     private void setListener(LeeViewHolder viewHolder) {
         //阻塞事件
-        viewHolder.getConvertView().setOnClickListener(v -> {
-            if (mOnItemClickListener != null) {
+        if (mOnItemClickListener != null) {
+            viewHolder.getConvertView().setOnClickListener(v -> {
                 int position = viewHolder.getLayoutPosition();
+                Log.i(">>>", "click->position:" + position);
                 long timeSpan = System.currentTimeMillis() - lastClickTime;
                 if (timeSpan < QUICK_EVENT_TIME_SPAN) {
                     return;
                 }
                 lastClickTime = System.currentTimeMillis();
-
                 mOnItemClickListener.onItemClick(v, datas.get(position), position);
-            }
-        });
-        viewHolder.getConvertView().setOnLongClickListener(v -> {
-            if (mOnItemLongClickListener != null) {
-                int position = viewHolder.getAdapterPosition();
+            });
+        }
+
+        if (mOnItemChildChange != null) {
+            mOnItemChildChange.onItemChild(viewHolder,datas);
+        }
+
+        if (mOnItemLongClickListener != null) {
+            viewHolder.getConvertView().setOnLongClickListener(v -> {
+                int position = viewHolder.getLayoutPosition();
                 mOnItemLongClickListener.onItemLongClick(v, datas.get(position), position);
-            }
-            return true;
-        });
+                return true;
+            });
+        }
     }
 
     private void convert(LeeViewHolder holder, T entity) {

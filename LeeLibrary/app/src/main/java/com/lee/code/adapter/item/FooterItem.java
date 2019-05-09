@@ -1,20 +1,10 @@
 package com.lee.code.adapter.item;
 
-import com.lee.code.R;
 import com.lee.code.bean.UserInfo;
 import com.lee.library.adapter.LeeViewHolder;
-import com.lee.library.adapter.listener.LeeViewItem;
+import com.lee.library.adapter.item.BaseFooterItem;
 
-public class FooterItem implements LeeViewItem<UserInfo> {
-    @Override
-    public int getItemLayout() {
-        return R.layout.item_footer;
-    }
-
-    @Override
-    public boolean openClick() {
-        return false;
-    }
+public class FooterItem extends BaseFooterItem<UserInfo> {
 
     @Override
     public boolean isItemView(UserInfo entity, int position) {

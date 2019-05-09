@@ -8,5 +8,6 @@
     <string name="load_more">加载更多</string>
     <string name="loading">正在加载...</string>
     <string name="load_completed">加载完成</string>
+    <string name="str_notmore">没有更多了</string>
 
 </resources>
