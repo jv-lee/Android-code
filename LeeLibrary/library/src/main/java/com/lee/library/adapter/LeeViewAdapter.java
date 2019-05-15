@@ -46,6 +46,8 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
      */
     private List<T> datas;
 
+    public static final int END_TYPE = 101;
+
     /**
      * 单样式构造方法
      *

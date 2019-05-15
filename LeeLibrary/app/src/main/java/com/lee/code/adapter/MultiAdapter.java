@@ -32,7 +32,7 @@ public class MultiAdapter extends LeeViewAdapter<UserInfo> {
     @Override
     public void loadMoreEnd() {
         UserInfo userInfo = new UserInfo();
-        userInfo.setType(101);
+        userInfo.setType(LeeViewAdapter.END_TYPE);
         addData(userInfo);
         super.loadMoreEnd();
     }
