@@ -6,7 +6,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
-import android.view.View;
 import android.widget.Toast;
 
 import com.lee.library.ioc.InjectManager;
@@ -15,7 +14,7 @@ import com.lee.library.tool.StatusTool;
 /**
  * @author jv.lee
  */
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseFullActivity extends AppCompatActivity {
 
     protected FragmentActivity mActivity;
     protected FragmentManager mFragmentManager;
@@ -24,7 +23,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        StatusTool.statusBar(this, false);
+        StatusTool.fullWindow(this);
         super.onCreate(savedInstanceState);
         mActivity = this;
         mFragmentManager = getSupportFragmentManager();
@@ -78,5 +77,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void backExitEnable(boolean enable) {
         hasBackExit = enable;
     }
+
 
 }

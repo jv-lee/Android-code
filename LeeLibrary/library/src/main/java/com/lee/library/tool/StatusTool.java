@@ -59,6 +59,19 @@ public class StatusTool {
     }
 
     /**
+     * 设置状态栏颜色 黑色
+     * @param activity
+     */
+    public static void setStatusFontLight(Activity activity){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            //获取窗口区域
+            Window window = activity.getWindow();
+            //设置显示为黑色字体
+            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        }
+    }
+
+    /**
      * 全屏模式
      * @param activity
      */

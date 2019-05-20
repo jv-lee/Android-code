@@ -2,10 +2,8 @@ package com.lee.library.adapter;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.lee.library.adapter.listener.LeeViewItem;
 import com.lee.library.adapter.manager.LeeViewItemManager;
@@ -27,48 +25,48 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
     /**
      * 条目点击事件监听
      */
-    private LeeRecyclerView.OnItemClickListener<T> mOnItemClickListener;
+    private OnItemClickListener<T> mOnItemClickListener;
     /**
      * 条目长按事件监听
      */
-    private LeeRecyclerView.OnItemLongClickListener<T> mOnItemLongClickListener;
+    private OnItemLongClickListener<T> mOnItemLongClickListener;
     /**
      * 条目子view点击事件
      */
-    private LeeRecyclerView.OnItemChildView<T> mOnItemChildChange;
+    private OnItemChildView<T> mOnItemChildChange;
     /**
      * 自动加载更多
      * autoLoadMore
      */
-    private LeeRecyclerView.AutoLoadMoreListener mAutoLoadMoreListener;
+    private AutoLoadMoreListener mAutoLoadMoreListener;
     /**
      * 数据源
      */
-    private List<T> datas;
+    private List<T> mData;
 
     public static final int END_TYPE = 101;
 
     /**
      * 单样式构造方法
      *
-     * @param datas 数据源
+     * @param data 数据源
      */
-    public LeeViewAdapter(List<T> datas) {
-        if (datas == null) {
-            this.datas = new ArrayList<>();
+    public LeeViewAdapter(List<T> data) {
+        if (data == null) {
+            this.mData = new ArrayList<>();
         }
-        this.datas = datas;
+        this.mData = data;
         itemStyle = new LeeViewItemManager<>();
     }
 
     /**
      * 多样式构造方法
      *
-     * @param datas 数据源
-     * @param item  item类型
+     * @param data 数据源
+     * @param item item类型
      */
-    public LeeViewAdapter(List<T> datas, LeeViewItem<T> item) {
-        this(datas);
+    public LeeViewAdapter(List<T> data, LeeViewItem<T> item) {
+        this(data);
         //将item类型加入
         addItemStyles(item);
     }
@@ -76,37 +74,41 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
     /**
      * 添加数据
      *
-     * @param datas 数据源
+     * @param data 数据源
      */
-    public void addDatas(List<T> datas) {
-        if (datas == null) {
+    public void addData(List<T> data) {
+        if (data == null) {
             return;
         }
-        this.datas.addAll(datas);
-        notifyDataSetChanged();
+        this.mData.addAll(data);
     }
 
-    public void updateDatas(List<T> datas) {
-        if (datas == null) {
+    public void updateData(List<T> data) {
+        if (data == null) {
             return;
         }
-        this.datas = datas;
-        notifyDataSetChanged();
+        this.mData = data;
     }
 
-    public void addData(T data) {
-        if (datas == null) {
+    protected void addData(T data) {
+        if (mData == null) {
             return;
         }
-        this.datas.add(data);
-        notifyDataSetChanged();
+        this.mData.add(data);
+    }
+
+    public void clertData() {
+        if (mData == null) {
+            return;
+        }
+        this.mData.clear();
     }
 
     public T getItemByPosition(int position) {
-        if (datas == null) {
-            throw new RuntimeException("LeeViewAdapter getItemByPosition -> datas == null");
+        if (mData == null) {
+            throw new RuntimeException("LeeViewAdapter getItemByPosition -> mData == null");
         }
-        return datas.get(position);
+        return mData.get(position);
     }
 
     /**
@@ -128,7 +130,7 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
     public int getItemViewType(int position) {
         //如果有多样式，需要判断
         if (hasMultiStyle()) {
-            return itemStyle.getItemViewType(datas.get(position), position);
+            return itemStyle.getItemViewType(mData.get(position), position);
         }
         return super.getItemViewType(position);
     }
@@ -138,32 +140,9 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
      *
      * @param item 样式类型
      */
-    public void addItemStyles(LeeViewItem<T> item) {
+    protected void addItemStyles(LeeViewItem<T> item) {
         itemStyle.addStyles(item);
     }
-
-
-    /**
-     * 添加item点击监听接口
-     *
-     * @param mOnItemClickListener item接口
-     */
-    void setOnItemClickListener(LeeRecyclerView.OnItemClickListener<T> mOnItemClickListener) {
-        this.mOnItemClickListener = mOnItemClickListener;
-    }
-
-    void setOnItemLongClickListener(LeeRecyclerView.OnItemLongClickListener<T> mOnItemLongClickListener) {
-        this.mOnItemLongClickListener = mOnItemLongClickListener;
-    }
-
-    void setOnItemChildClickListener(LeeRecyclerView.OnItemChildView<T> onItemChildView) {
-        this.mOnItemChildChange = onItemChildView;
-    }
-
-    void setAutoLoadMoreListener(LeeRecyclerView.AutoLoadMoreListener autoLoadMoreListener) {
-        this.mAutoLoadMoreListener = autoLoadMoreListener;
-    }
-
 
     @NonNull
     @Override
@@ -180,10 +159,9 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
         return viewHolder;
     }
 
-
     @Override
     public void onBindViewHolder(@NonNull LeeViewHolder holder, int position) {
-        convert(holder, datas.get(position));
+        convert(holder, mData.get(position));
         if (mAutoLoadMoreListener != null) {
             callEnd(position);
         }
@@ -192,7 +170,11 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
     private int loadMoreNum = 5;
     private boolean hasLoadMore = true;
 
-    //自动加载数据
+    /**
+     * 自动加载数据
+     *
+     * @param position
+     */
     private void callEnd(int position) {
         int current = getItemCount() - position;
         if (current == loadMoreNum) {
@@ -204,14 +186,19 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
         }
     }
 
-    //加载完成
+    /**
+     * 加载完成
+     */
     public void loadMoreCompleted() {
         notifyDataSetChanged();
         hasLoadMore = true;
     }
 
-    //没有更多了
+    /**
+     * 没有更多了
+     */
     public void loadMoreEnd() {
+        notifyDataSetChanged();
         hasLoadMore = false;
     }
 
@@ -219,10 +206,9 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
         this.loadMoreNum = num;
     }
 
-
     @Override
     public int getItemCount() {
-        return datas == null ? 0 : datas.size();
+        return mData == null ? 0 : mData.size();
     }
 
     private long lastClickTime = 0;
@@ -238,24 +224,23 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
         if (mOnItemClickListener != null) {
             viewHolder.getConvertView().setOnClickListener(v -> {
                 int position = viewHolder.getLayoutPosition();
-                Log.i(">>>", "click->position:" + position);
                 long timeSpan = System.currentTimeMillis() - lastClickTime;
                 if (timeSpan < QUICK_EVENT_TIME_SPAN) {
                     return;
                 }
                 lastClickTime = System.currentTimeMillis();
-                mOnItemClickListener.onItemClick(v, datas.get(position), position);
+                mOnItemClickListener.onItemClick(v, mData.get(position), position);
             });
         }
 
         if (mOnItemChildChange != null) {
-            mOnItemChildChange.onItemChild(viewHolder,datas);
+            mOnItemChildChange.onItemChild(viewHolder, mData);
         }
 
         if (mOnItemLongClickListener != null) {
             viewHolder.getConvertView().setOnLongClickListener(v -> {
                 int position = viewHolder.getLayoutPosition();
-                mOnItemLongClickListener.onItemLongClick(v, datas.get(position), position);
+                mOnItemLongClickListener.onItemLongClick(v, mData.get(position), position);
                 return true;
             });
         }
@@ -263,5 +248,79 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
 
     private void convert(LeeViewHolder holder, T entity) {
         itemStyle.convert(holder, entity, holder.getAdapterPosition());
+    }
+
+    /**
+     * 条目点击监听接口
+     */
+    public interface OnItemClickListener<T> {
+
+        /**
+         * 点击事件监听
+         * @param view item
+         * @param entity 数据
+         * @param position 下标
+         */
+        void onItemClick(View view, T entity, int position);
+    }
+
+    /**
+     * 返回所有子view
+     *
+     * @param <T>
+     */
+    public interface OnItemChildView<T> {
+        /**
+         * item子view点击事件
+         * @param viewHolder 复用
+         * @param data 数据
+         */
+        void onItemChild(LeeViewHolder viewHolder, List<T> data);
+    }
+
+    /**
+     * 条目长按监听接口
+     */
+    public interface OnItemLongClickListener<T> {
+
+        /**
+         * 长按事件监听
+         * @param view item
+         * @param entity 数据
+         * @param position 下标
+         * @return 返回消费事件
+         */
+        boolean onItemLongClick(View view, T entity, int position);
+    }
+
+    /**
+     * 自动加载更多监听接口
+     */
+    public interface AutoLoadMoreListener {
+        /**
+         * 回调需要加载更多
+         */
+        void autoLoadMore();
+    }
+
+    /**
+     * 添加item点击监听接口
+     *
+     * @param mOnItemClickListener item接口
+     */
+    public void setOnItemClickListener(OnItemClickListener<T> mOnItemClickListener) {
+        this.mOnItemClickListener = mOnItemClickListener;
+    }
+
+    public void setOnItemLongClickListener(OnItemLongClickListener<T> mOnItemLongClickListener) {
+        this.mOnItemLongClickListener = mOnItemLongClickListener;
+    }
+
+    public void setOnItemChildClickListener(OnItemChildView<T> onItemChildView) {
+        this.mOnItemChildChange = onItemChildView;
+    }
+
+    public void setAutoLoadMoreListener(AutoLoadMoreListener autoLoadMoreListener) {
+        this.mAutoLoadMoreListener = autoLoadMoreListener;
     }
 }

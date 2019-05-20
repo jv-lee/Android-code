@@ -1,7 +1,6 @@
 package com.lee.library.adapter.manager;
 
 import android.support.v4.util.SparseArrayCompat;
-import android.util.Log;
 
 import com.lee.library.adapter.LeeViewHolder;
 import com.lee.library.adapter.listener.LeeViewItem;
@@ -35,7 +34,6 @@ public class LeeViewItemManager<T> {
      */
     public void addStyles(LeeViewItem<T> item) {
         if (item != null) {
-            Log.i("lee >>>", styles.size()+"");
             styles.put(styles.size(),item);
         }
     }

@@ -1,21 +1,23 @@
 package com.lee.library.ioc;
 
 import android.app.Activity;
-import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.View;
 
 import com.lee.library.base.BaseFragment;
 import com.lee.library.ioc.annotation.ContentView;
 import com.lee.library.ioc.annotation.EventBase;
 import com.lee.library.ioc.annotation.InjectView;
+import com.lee.library.utils.LogUtil;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
-import java.util.Objects;
 
+/**
+ * @author jv.lee
+ * description：注入管理器
+ */
 public class InjectManager {
     public static void inject(Activity activity) {
         //布局注入
@@ -41,14 +43,14 @@ public class InjectManager {
         if (contentView != null) {
             int layoutId = contentView.value();
             //第一种方法
-//            activity.setContentView(layoutId);
+            activity.setContentView(layoutId);
             //第二种方法 反射注入
-            try {
-                Method method = aClass.getMethod("setContentView", int.class);
-                method.invoke(activity, layoutId);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+//            try {
+//                Method method = aClass.getMethod("setContentView", int.class);
+//                method.invoke(activity, layoutId);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
         }
     }
 
@@ -58,19 +60,15 @@ public class InjectManager {
         if (contentView != null) {
             int layoutId = contentView.value();
             //第一种方法
-//            if (fragment instanceof BaseFragment) {
-//                ((BaseFragment)fragment).setContentView(layoutId);
-//            }else{
+            (fragment).setContentView(layoutId);
+            //第二种方法 反射注入
+//            try {
+//                Method method = aClass.getMethod("setContentView", int.class);
+//                method.invoke(fragment, layoutId);
+//            } catch (Exception e) {
+//                e.printStackTrace();
 //                throw new RuntimeException(">>> Fragment not extends com.lee.library.base.BaseFragment");
 //            }
-            //第二种方法 反射注入
-            try {
-                Method method = aClass.getMethod("setContentView", int.class);
-                method.invoke(fragment, layoutId);
-            } catch (Exception e) {
-                e.printStackTrace();
-                throw new RuntimeException(">>> Fragment not extends com.lee.library.base.BaseFragment");
-            }
         }
     }
 
@@ -87,13 +85,14 @@ public class InjectManager {
 
                 //获取方法
                 try {
+                    //第一种写法
                     Method findViewById = aClass.getMethod("findViewById", int.class);
                     //执行方法
                     Object view = findViewById.invoke(activity, viewId);
-                    //第一种写法
+                    //第二种写法
 //                    view = activity.findViewById(viewId);
 
-                    //第二种写法 修改属性值为私有 赋值错误
+                    //修改属性值为私有 赋值错误
                     field.setAccessible(true);
                     field.set(activity, view);
                 } catch (Exception e) {
@@ -113,13 +112,12 @@ public class InjectManager {
             if (injectView != null) {
                 //获取注解的值
                 int viewId = injectView.value();
-                Log.i(">>>", "viewID:" + viewId);
                 //获取方法
                 try {
                     //第一种写法
 //                  Object view = fragment.findViewById(viewId);
 
-                    //第二种写法 修改属性值为私有 赋值错误 //执行方法
+                    //第二种写法 修改属性值为私有 赋值错误
                     Method findViewById = aClass.getMethod("findViewById", int.class);
                     Object view = findViewById.invoke(fragment, viewId);
 
@@ -144,29 +142,45 @@ public class InjectManager {
                 if (annotationType != null) {
                     EventBase eventBase = annotationType.getAnnotation(EventBase.class);
                     if (eventBase != null) {
-                    //事件的3个重要成员
-                    String listenerSetter = eventBase.listenerSetter();
-                    Class<?> listenerType = eventBase.listenerType();
-                    String callBackListener = eventBase.callBackListener();
+                        //事件的3个重要成员
+                        String listenerSetter = eventBase.listenerSetter();
+                        Class<?> listenerType = eventBase.listenerType();
+                        String callBackListener = eventBase.callBackListener();
 
-                    try {
-                        //获取 R.id.xxx
-                        Method valueMethod = annotationType.getDeclaredMethod("values");
-                        int[] viewIds = (int[]) valueMethod.invoke(annotation);
-
+                        //设置代理 获取监听实列
                         ListenerInvocationHandler handler = new ListenerInvocationHandler(activity);
-                        handler.addMethod(callBackListener,method);
-                        Object listener = Proxy.newProxyInstance(listenerType.getClassLoader(), new Class[]{listenerType},handler);
-                        for (int viewId : viewIds) {
-                            View view = activity.findViewById(viewId);
-                            Method setter = view.getClass().getMethod(listenerSetter, listenerType);
-                            setter.invoke(view, listener);
+                        handler.addMethod(callBackListener, method);
+                        Object listener = Proxy.newProxyInstance(listenerType.getClassLoader(), new Class[]{listenerType}, handler);
+
+                        try {
+                            //获取 R.id.xxx
+                            Method valueMethod = annotationType.getDeclaredMethod("values");
+                            int[] viewIds = (int[]) valueMethod.invoke(annotation);
+
+                            for (int viewId : viewIds) {
+                                View view = activity.findViewById(viewId);
+                                Method setter = view.getClass().getMethod(listenerSetter, listenerType);
+                                setter.invoke(view, listener);
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
-                    } catch (Exception e) {
-                        e.printStackTrace();
+
+                        try {
+                            //获取 mAdapter
+                            Method valMethod = annotationType.getDeclaredMethod("value");
+                            String value = (String) valMethod.invoke(annotation);
+
+                            Field declaredField = aClass.getDeclaredField(value);
+                            declaredField.setAccessible(true);
+                            Method setter = declaredField.getType().getMethod(listenerSetter, listenerType);
+                            setter.invoke(declaredField.get(activity), listener);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
                     }
                 }
-            }
             }
         }
     }
@@ -188,14 +202,16 @@ public class InjectManager {
                         Class<?> listenerType = eventBase.listenerType();
                         String callBackListener = eventBase.callBackListener();
 
+                        //代理添加监听方法
+                        ListenerInvocationHandler handler = new ListenerInvocationHandler(fragment);
+                        handler.addMethod(callBackListener, method);
+                        Object listener = Proxy.newProxyInstance(listenerType.getClassLoader(), new Class[]{listenerType}, handler);
+
                         try {
                             //获取 R.id.xxx
                             Method valueMethod = annotationType.getDeclaredMethod("values");
                             int[] viewIds = (int[]) valueMethod.invoke(annotation);
 
-                            ListenerInvocationHandler handler = new ListenerInvocationHandler(fragment);
-                            handler.addMethod(callBackListener,method);
-                            Object listener = Proxy.newProxyInstance(listenerType.getClassLoader(), new Class[]{listenerType},handler);
                             for (int viewId : viewIds) {
                                 View view = fragment.findViewById(viewId);
                                 Method setter = view.getClass().getMethod(listenerSetter, listenerType);
@@ -204,13 +220,25 @@ public class InjectManager {
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
+
+                        try {
+                            //获取 mAdapter
+                            Method valMethod = annotationType.getDeclaredMethod("value");
+                            String value = (String) valMethod.invoke(annotation);
+
+                            Field declaredField = aClass.getDeclaredField(value);
+                            declaredField.setAccessible(true);
+                            Method setter = declaredField.getType().getMethod(listenerSetter, listenerType);
+                            setter.invoke(declaredField.get(fragment), listener);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
                     }
                 }
             }
         }
     }
-
-
 
 
 }

@@ -4,14 +4,23 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 
+/**
+ * @author jv.lee
+ * description：注入代理
+ */
 public class ListenerInvocationHandler implements InvocationHandler {
 
-    //我需要拦截MainActivity中的某些方法
+    /**
+     * 我需要拦截MainActivity中的某些方法
+     */
     private Object target;
-    //拦截的简直对
+
+    /**
+     * 拦截的简直对
+     */
     private HashMap<String, Method> methodMap = new HashMap<>();
 
-    public ListenerInvocationHandler(Object target) {
+    ListenerInvocationHandler(Object target) {
         this.target = target;
     }
 
@@ -32,7 +41,7 @@ public class ListenerInvocationHandler implements InvocationHandler {
      * @param methodName 本应该执行的方法，onClick()方法 拦截
      * @param method
      */
-    public void addMethod(String methodName,Method method){
+    void addMethod(String methodName, Method method){
         methodMap.put(methodName, method);
     }
 }
