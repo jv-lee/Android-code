@@ -376,12 +376,6 @@ public class RefreshLayout extends FrameLayout {
         setHandlerHelper(view);
     }
 
-    public void setDefaultView2(ViewGroup parent, View view) {
-        this.parent = parent;
-        setHeaderView(new DefaultHeader(getContext()));
-        setHandlerHelper(view);
-    }
-
     public void setBootView(ViewGroup parent, View view, BaseHeaderView headerView, BaseFooterView footerView) {
         this.parent = parent;
         if (headerView != null) {

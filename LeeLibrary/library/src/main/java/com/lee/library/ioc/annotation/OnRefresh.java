@@ -1,5 +1,7 @@
 package com.lee.library.ioc.annotation;
 
+import android.support.v4.widget.SwipeRefreshLayout;
+
 import com.lee.library.widget.refresh.RefreshCallBack;
 
 import java.lang.annotation.ElementType;
@@ -13,7 +15,7 @@ import java.lang.annotation.Target;
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-@EventBase(listenerSetter = "setRefreshCallBack",listenerType = RefreshCallBack.class,callBackListener = "onRefresh")
+@EventBase(listenerSetter = "setOnRefreshListener",listenerType = SwipeRefreshLayout.OnRefreshListener.class,callBackListener = "onRefresh")
 public @interface OnRefresh {
-    int[] values();
+    String value();
 }

@@ -1,6 +1,7 @@
 package com.lee.library.base;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -35,7 +36,7 @@ public abstract class BaseFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         InjectManager.injectLayout(this);
         mRootView = inflater.inflate(mRootResId,container,false);
         InjectManager.injectViews(this);
@@ -94,15 +95,15 @@ public abstract class BaseFragment extends Fragment {
     }
 
     /**
-     * 设置view基础配置
-     */
-    protected abstract void bindView();
-
-    /**
      * 设置加载数据等业务操作
      * @param savedInstanceState 重置回调参数
      */
     protected abstract void bindData(Bundle savedInstanceState);
+
+    /**
+     * 设置view基础配置
+     */
+    protected abstract void bindView();
 
     /**
      * 使用page 多fragment时 懒加载

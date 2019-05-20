@@ -35,7 +35,7 @@ public class ThreadTool {
                 Integer.MAX_VALUE,
                 15,
                 TimeUnit.SECONDS,
-                new ArrayBlockingQueue<>(5),
+                new ArrayBlockingQueue<Runnable>(5),
                 new ThreadFactory() {
                     @Override
                     public Thread newThread(Runnable r) {

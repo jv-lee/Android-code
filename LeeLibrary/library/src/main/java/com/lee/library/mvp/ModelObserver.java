@@ -2,6 +2,8 @@ package com.lee.library.mvp;
 
 
 
+import com.lee.library.utils.LogUtil;
+
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
@@ -25,7 +27,7 @@ public class ModelObserver<T> implements Observer<T> {
 
     @Override
     public void onError(Throwable e) {
-
+        LogUtil.getStackTraceString(e);
     }
 
     @Override

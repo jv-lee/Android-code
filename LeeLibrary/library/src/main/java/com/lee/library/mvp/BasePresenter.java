@@ -1,7 +1,5 @@
 package com.lee.library.mvp;
 
-import com.lee.library.utils.LogUtil;
-
 /**
  * @author jv.lee
  * @date 2019/5/6
@@ -16,6 +14,15 @@ public abstract class BasePresenter<V> implements BaseLifecycleObserver {
     public static final int ON_STOP = 5;
     public static final int ON_DESTROY = 6;
 
+    public BasePresenter() {
+        bindModel();
+    }
+
+    /**
+     * 初始化model层
+     */
+    public abstract void bindModel();
+
     public void onAttachView(V view) {
         mView = view;
     }
@@ -26,31 +33,26 @@ public abstract class BasePresenter<V> implements BaseLifecycleObserver {
 
     @Override
     public void onCrete() {
-        LogUtil.i("base presenter onCrete");
         STATUS_TAG = ON_CREATE;
     }
 
     @Override
     public void onStart() {
-        LogUtil.i("base presenter onStart");
         STATUS_TAG = ON_START;
     }
 
     @Override
     public void onResume() {
-        LogUtil.i("base presenter onResume");
         STATUS_TAG = ON_RESUME;
     }
 
     @Override
     public void onPause() {
-        LogUtil.i("base presenter onPause");
         STATUS_TAG = ON_PAUSE;
     }
 
     @Override
     public void onStop() {
-        LogUtil.i("base presenter onStop");
         STATUS_TAG = ON_STOP;
     }
 
@@ -59,7 +61,6 @@ public abstract class BasePresenter<V> implements BaseLifecycleObserver {
      */
     @Override
     public void onDestroy() {
-        LogUtil.i("base presenter onDestroy");
         STATUS_TAG = ON_DESTROY;
         mView = null;
     }

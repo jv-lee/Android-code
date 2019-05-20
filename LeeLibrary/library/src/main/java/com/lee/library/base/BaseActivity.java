@@ -33,7 +33,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         InjectManager.inject(this);
         bindData(savedInstanceState);
         bindView();
-        InjectManager.injectEvents(this);
     }
 
     /**
