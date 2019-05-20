@@ -1,0 +1,15 @@
+import javax.tools.JavaCompiler
+
+apply plugin: 'java-library'
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+}
+
+//设置中文字符编码集
+tasks.withType(JavaCompiler){
+    options.encoding = "UTF-8"
+}
+
+sourceCompatibility = "8"
+targetCompatibility = "8"

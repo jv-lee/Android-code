@@ -1,0 +1,18 @@
+import javax.tools.JavaCompiler
+
+apply plugin: 'java-library'
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation project(':Annotation')
+    //注解处理器服务
+    implementation 'com.google.auto.service:auto-service:1.0-rc2'
+}
+
+//设置中文字符编码集
+tasks.withType(JavaCompiler){
+    options.encoding = "UTF-8"
+}
+
+sourceCompatibility = "8"
+targetCompatibility = "8"
