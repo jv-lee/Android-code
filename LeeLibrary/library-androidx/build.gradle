@@ -44,7 +44,6 @@ dependencies {
     api 'io.reactivex.rxjava2:rxjava:2.2.8'
 
     //okhttp3/retrofit2 网络请求
-    api "com.squareup.okhttp3:okhttp:3.12.1"
     api "com.squareup.retrofit2:retrofit:2.5.0"
     api "com.squareup.retrofit2:converter-gson:2.5.0"
     api("com.squareup.retrofit2:converter-gson: 2.5.0")
