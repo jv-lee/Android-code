@@ -3,6 +3,7 @@ package com.lee.library.permission;
 
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 
 import java.lang.ref.WeakReference;
 
@@ -49,16 +50,18 @@ public class PermissionManager {
         if (fragment == null) {
             fragment = new PermissionFragment();
         }
-        manager.beginTransaction()
-                .add(fragment, PERMISSION_TAG)
-                .commitAllowingStateLoss();
+        FragmentTransaction fragmentTransaction = manager.beginTransaction();
+        fragmentTransaction.add(fragment, PERMISSION_TAG);
+        fragmentTransaction.addToBackStack(PERMISSION_TAG);
+        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        fragmentTransaction.commitAllowingStateLoss();
         manager.executePendingTransactions();
 
         //判断权限
         if (PermissionUtils.hasSelfPermissions(weakActivity.get(), permissions)) {
             permissionRequest.onSuccess();
         }else{
-            fragment.requestPermissions(permissions,PermissionManager.PERMISSION_CODE);
+            fragment.requestPermissions(permissions, PermissionManager.PERMISSION_CODE);
         }
 
 //        if (PermissionUtils.hasSelfPermissions(weakActivity.get(), permissions)) {
