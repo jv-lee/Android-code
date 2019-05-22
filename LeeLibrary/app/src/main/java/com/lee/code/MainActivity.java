@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +15,6 @@ import android.widget.Toast;
 
 import com.lee.code.adapter.MultiAdapter;
 import com.lee.code.bean.UserInfo;
-import com.lee.library.adapter.LeeRecyclerView;
 import com.lee.library.adapter.LeeViewHolder;
 import com.lee.library.base.BaseActivity;
 import com.lee.library.ioc.annotation.AutoLoadMore;
@@ -23,7 +23,6 @@ import com.lee.library.ioc.annotation.InjectView;
 import com.lee.library.ioc.annotation.OnItemChildClick;
 import com.lee.library.ioc.annotation.OnItemClick;
 import com.lee.library.ioc.annotation.OnItemLongClick;
-import com.lee.library.ioc.annotation.OnLoadingMore;
 import com.lee.library.ioc.annotation.OnRefresh;
 import com.lee.library.livedatabus.InjectBus;
 import com.lee.library.livedatabus.LiveDataBus;
@@ -42,24 +41,24 @@ public class MainActivity extends BaseActivity {
     @InjectView(R.id.container)
     FrameLayout container;
     @InjectView(R.id.rv_container)
-    LeeRecyclerView rvContainer;
+    RecyclerView rvContainer;
     @InjectView(R.id.refresh)
     RefreshLayout refresh;
 
-    MultiAdapter multiAdapter;
+    MultiAdapter mAdapter;
     private List<UserInfo> data = new ArrayList<>();
 
     @Override
     protected void bindView() {
-        multiAdapter = new MultiAdapter(data);
+        mAdapter = new MultiAdapter(data);
         FrameLayout frameLayout = new FrameLayout(this);
         frameLayout.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,100));
         frameLayout.setBackgroundColor(Color.parseColor("#ff0000"));
 
 
         rvContainer.setLayoutManager(new LinearLayoutManager(this));
-        rvContainer.setRecyclerAdapter(multiAdapter);
-        refresh.setDefaultView2(container, rvContainer);
+        rvContainer.setAdapter(mAdapter);
+        refresh.setDefaultView(container, rvContainer);
     }
 
     int i = 0;
@@ -108,18 +107,18 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    @OnItemClick(values = {R.id.rv_container})
+    @OnItemClick(value = "mAdapter")
     public void onItemClick(View view, UserInfo userInfo, int position) {
         Toast.makeText(this, "position:" + position + " data:" + userInfo, Toast.LENGTH_SHORT).show();
     }
 
-    @OnItemLongClick(values = {R.id.rv_container})
+    @OnItemLongClick(value = "mAdapter")
     public boolean onItemLongClick(View view, UserInfo userInfo, int position) {
         Toast.makeText(this, "long position"+position, Toast.LENGTH_SHORT).show();
         return true;
     }
 
-    @OnItemChildClick(values = {R.id.rv_container})
+    @OnItemChildClick(value = "mAdapter")
     public void onItemChildClick(LeeViewHolder viewHolder,List<UserInfo> data) {
         TextView tvTitle = viewHolder.getConvertView().findViewById(R.id.tv_title);
         tvTitle.setOnClickListener(v -> {
@@ -127,23 +126,23 @@ public class MainActivity extends BaseActivity {
         });
     }
 
-    @OnRefresh(values = {R.id.refresh})
-    public void onRefresh() {
-        new Thread() {
-            @Override
-            public void run() {
-                super.run();
-                data.clear();
-                initData();
-                runOnUiThread(() -> {
-                    multiAdapter.notifyDataSetChanged();
-                    refresh.setRefreshCompleted();
-                });
-            }
-        }.start();
-    }
+//    @OnRefresh(values = {R.id.refresh})
+//    public void onRefresh() {
+//        new Thread() {
+//            @Override
+//            public void run() {
+//                super.run();
+//                data.clear();
+//                initData();
+//                runOnUiThread(() -> {
+//                    mAdapter.notifyDataSetChanged();
+//                    refresh.setRefreshCompleted();
+//                });
+//            }
+//        }.start();
+//    }
 
-    @AutoLoadMore(values = {R.id.rv_container})
+    @AutoLoadMore(value = "mAdapter")
     public void autoLoadMore(){
         Log.i(">>>", "auto load more");
         ThreadTool.getInstance().addTask(new Runnable() {
@@ -155,7 +154,7 @@ public class MainActivity extends BaseActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            multiAdapter.loadMoreEnd();
+                            mAdapter.loadMoreEnd();
                         }
                     });
 
@@ -163,25 +162,25 @@ public class MainActivity extends BaseActivity {
                 }
                 initData();
                 runOnUiThread(() -> {
-                    multiAdapter.loadMoreCompleted();
+                    mAdapter.loadMoreCompleted();
                 });
             }
         });
     }
 
-    @OnLoadingMore(values = {R.id.refresh})
-    public void onLoadingMore() {
-        new Thread() {
-            @Override
-            public void run() {
-                super.run();
-                initData();
-                runOnUiThread(() -> {
-                    multiAdapter.notifyDataSetChanged();
-                    refresh.setLoadingMoreCompleted();
-                });
-            }
-        }.start();
-    }
+//    @OnLoadingMore(values = {R.id.refresh})
+//    public void onLoadingMore() {
+//        new Thread() {
+//            @Override
+//            public void run() {
+//                super.run();
+//                initData();
+//                runOnUiThread(() -> {
+//                    mAdapter.notifyDataSetChanged();
+//                    refresh.setLoadingMoreCompleted();
+//                });
+//            }
+//        }.start();
+//    }
 
 }

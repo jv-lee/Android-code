@@ -26,6 +26,9 @@ public class InjectFragment extends BaseFragment {
     @Override
     protected void bindData(Bundle savedInstanceState) {
         tvContent.setText("this is content text");
+
+        TextView textView = getView().findViewById(R.id.tv_content);
+        Toast.makeText(mActivity, textView.getText(), Toast.LENGTH_SHORT).show();
     }
 
     @Override

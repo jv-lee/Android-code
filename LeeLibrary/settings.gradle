@@ -1,1 +1,1 @@
-include ':app', ':library', ':library-androidx', ':tabmenu', ':bottomnative', ':statuslayout'
+include ':app', ':library', ':library-androidx', ':tabmenu', ':bottomnative', ':statuslayout', ':itemdecoration'
