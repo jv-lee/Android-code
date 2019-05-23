@@ -1,1 +1,1 @@
-include ':app', ':andfix'
+include ':app', ':andfix', ':git'
