@@ -18,7 +18,6 @@ public abstract class BaseFragment extends Fragment {
     protected BaseActivity mActivity;
     protected FragmentManager mFragmentManager;
     private View mRootView;
-    private int mRootResId;
     private boolean isVisibleUser = false;
     private boolean isVisibleView = false;
     private boolean fistVisible = true;
@@ -26,28 +25,19 @@ public abstract class BaseFragment extends Fragment {
     public BaseFragment() {
     }
 
-    public void setContentView(int resId){
-        this.mRootResId = resId;
-    }
-
-    public <T extends View> T findViewById(int id) {
-        return (T) mRootView.findViewById(id);
-    }
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        InjectManager.injectLayout(this);
-        mRootView = inflater.inflate(mRootResId,container,false);
-        InjectManager.injectViews(this);
+        mRootView = InjectManager.injectLayout(this);
         return mRootView;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+        InjectManager.injectViews(this);
         mActivity = (BaseActivity) getActivity();
         mFragmentManager = getChildFragmentManager();
+        super.onActivityCreated(savedInstanceState);
         bindData(savedInstanceState);
         bindView();
         InjectManager.injectEvents(this);

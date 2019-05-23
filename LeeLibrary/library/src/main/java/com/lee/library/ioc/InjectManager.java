@@ -1,18 +1,19 @@
 package com.lee.library.ioc;
 
 import android.app.Activity;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
 import android.view.View;
 
-import com.lee.library.base.BaseFragment;
 import com.lee.library.ioc.annotation.ContentView;
 import com.lee.library.ioc.annotation.EventBase;
 import com.lee.library.ioc.annotation.InjectView;
-import com.lee.library.utils.LogUtil;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import java.util.Objects;
 
 /**
  * @author jv.lee
@@ -28,48 +29,30 @@ public class InjectManager {
         injectEvents(activity);
     }
 
-    public static void inject(BaseFragment fragment) {
-        //布局注入
-        injectLayout(fragment);
-        //控件注入
-        injectViews(fragment);
-        //事件注入
-        injectEvents(fragment);
-    }
-
     private static void injectLayout(Activity activity) {
         Class<? extends Activity> aClass = activity.getClass();
         ContentView contentView = aClass.getAnnotation(ContentView.class);
         if (contentView != null) {
             int layoutId = contentView.value();
-            //第一种方法
-            activity.setContentView(layoutId);
-            //第二种方法 反射注入
-//            try {
-//                Method method = aClass.getMethod("setContentView", int.class);
-//                method.invoke(activity, layoutId);
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
+            try {
+                Method method = aClass.getMethod("setContentView", int.class);
+                method.invoke(activity, layoutId);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
-    public static void injectLayout(BaseFragment fragment) {
-        Class<? extends BaseFragment> aClass = fragment.getClass();
+    public static View injectLayout(Fragment fragment) {
+        Class<? extends Fragment> aClass = fragment.getClass();
         ContentView contentView = aClass.getAnnotation(ContentView.class);
+        View view = null;
         if (contentView != null) {
             int layoutId = contentView.value();
             //第一种方法
-            (fragment).setContentView(layoutId);
-            //第二种方法 反射注入
-//            try {
-//                Method method = aClass.getMethod("setContentView", int.class);
-//                method.invoke(fragment, layoutId);
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//                throw new RuntimeException(">>> Fragment not extends com.lee.library.base.BaseFragment");
-//            }
+            view = LayoutInflater.from(fragment.getContext()).inflate(layoutId, null, false);
         }
+        return view;
     }
 
     private static void injectViews(Activity activity) {
@@ -85,14 +68,9 @@ public class InjectManager {
 
                 //获取方法
                 try {
-                    //第一种写法
                     Method findViewById = aClass.getMethod("findViewById", int.class);
-                    //执行方法
                     Object view = findViewById.invoke(activity, viewId);
-                    //第二种写法
-//                    view = activity.findViewById(viewId);
 
-                    //修改属性值为私有 赋值错误
                     field.setAccessible(true);
                     field.set(activity, view);
                 } catch (Exception e) {
@@ -102,8 +80,8 @@ public class InjectManager {
         }
     }
 
-    public static void injectViews(BaseFragment fragment) {
-        Class<? extends BaseFragment> aClass = fragment.getClass();
+    public static void injectViews(Fragment fragment) {
+        Class<? extends Fragment> aClass = fragment.getClass();
         //获取类的所有属性
         Field[] declaredFields = aClass.getDeclaredFields();
         for (Field field : declaredFields) {
@@ -114,12 +92,7 @@ public class InjectManager {
                 int viewId = injectView.value();
                 //获取方法
                 try {
-                    //第一种写法
-//                  Object view = fragment.findViewById(viewId);
-
-                    //第二种写法 修改属性值为私有 赋值错误
-                    Method findViewById = aClass.getMethod("findViewById", int.class);
-                    Object view = findViewById.invoke(fragment, viewId);
+                    View view = Objects.requireNonNull(fragment.getView()).findViewById(viewId);
 
                     field.setAccessible(true);
                     field.set(fragment, view);
@@ -185,8 +158,8 @@ public class InjectManager {
         }
     }
 
-    public static void injectEvents(BaseFragment fragment) {
-        Class<? extends BaseFragment> aClass = fragment.getClass();
+    public static void injectEvents(Fragment fragment) {
+        Class<? extends Fragment> aClass = fragment.getClass();
         Method[] declaredMethods = aClass.getDeclaredMethods();
         for (Method method : declaredMethods) {
             //获取每个方法的注解 可能又多个注解
@@ -213,12 +186,11 @@ public class InjectManager {
                             int[] viewIds = (int[]) valueMethod.invoke(annotation);
 
                             for (int viewId : viewIds) {
-                                View view = fragment.findViewById(viewId);
+                                View view = Objects.requireNonNull(fragment.getView()).findViewById(viewId);
                                 Method setter = view.getClass().getMethod(listenerSetter, listenerType);
                                 setter.invoke(view, listener);
                             }
                         } catch (Exception e) {
-                            e.printStackTrace();
                         }
 
                         try {
@@ -231,7 +203,6 @@ public class InjectManager {
                             Method setter = declaredField.getType().getMethod(listenerSetter, listenerType);
                             setter.invoke(declaredField.get(fragment), listener);
                         } catch (Exception e) {
-                            e.printStackTrace();
                         }
 
                     }
