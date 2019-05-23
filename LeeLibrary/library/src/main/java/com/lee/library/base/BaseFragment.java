@@ -34,10 +34,10 @@ public abstract class BaseFragment extends Fragment {
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        InjectManager.injectViews(this);
         mActivity = (BaseActivity) getActivity();
         mFragmentManager = getChildFragmentManager();
         super.onActivityCreated(savedInstanceState);
+        InjectManager.injectViews(this);
         bindData(savedInstanceState);
         bindView();
         InjectManager.injectEvents(this);
