@@ -23,4 +23,10 @@
         </attr>
     </declare-styleable>
 
+    <declare-styleable name="MarqueeView">
+        <attr name="left_drawable" format="reference" />
+        <attr name="font_color" format="color" />
+        <attr name="font_size" format="dimension" />
+    </declare-styleable>
+
 </resources>
