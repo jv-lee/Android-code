@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.io.File;
 
@@ -44,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 File file = new File(Environment.getExternalStorageDirectory(), "demo.gif");
+                Toast.makeText(MainActivity.this, "::"+file.exists(), Toast.LENGTH_SHORT).show();
                 gifHandler = new GifHandler(file.getAbsolutePath());
 
                 //获取gif宽高

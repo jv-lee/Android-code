@@ -14,7 +14,7 @@ android {
         //指定源文件的编译方式及配置编译选项
         externalNativeBuild {
             cmake {
-                cppFlags ""
+                cppFlags "-frtti -fexceptions"
             }
         }
     }
