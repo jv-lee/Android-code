@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:ignore="MissingConstraints"
+        tools:context=".MainActivity"
+        >
+
+    <SurfaceView
+            android:id="@+id/surfaceView"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            />
+
+    <SeekBar
+            android:id="@+id/seekBar"
+            android:max="100"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+
+    <Button
+            android:text="打开视频流"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:onClick="open"
+            />
+
+    <Button
+            android:text="转码音频文件"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="codeAudio"
+            />
+
+</LinearLayout>
