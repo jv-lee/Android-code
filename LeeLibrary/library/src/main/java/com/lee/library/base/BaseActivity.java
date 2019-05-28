@@ -6,7 +6,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
-import android.view.View;
 import android.widget.Toast;
 
 import com.lee.library.ioc.InjectManager;
@@ -33,6 +32,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         InjectManager.inject(this);
         bindData(savedInstanceState);
         bindView();
+        InjectManager.injectEvents(this);
     }
 
     /**
@@ -51,21 +51,19 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
-        switch (keyCode) {
-            case KeyEvent.KEYCODE_BACK:
-                if (hasBackExit) {
-                    long secondTime = System.currentTimeMillis();
-                    //如果两次按键时间间隔大于2秒，则不退出
-                    if (secondTime - firstTime > hasBackExitTimer) {
-                        Toast.makeText(this, "再次按下退出", Toast.LENGTH_SHORT).show();
-                        //更新firstTime
-                        firstTime = secondTime;
-                        return true;
-                    } else {//两次按键小于2秒时，退出应用
-                        finish();
-                    }
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (hasBackExit) {
+                long secondTime = System.currentTimeMillis();
+                //如果两次按键时间间隔大于2秒，则不退出
+                if (secondTime - firstTime > hasBackExitTimer) {
+                    Toast.makeText(this, "再次按下退出", Toast.LENGTH_SHORT).show();
+                    //更新firstTime
+                    firstTime = secondTime;
+                    return true;
+                } else {//两次按键小于2秒时，退出应用
+                    finish();
                 }
-            default:
+            }
         }
         return super.onKeyUp(keyCode, event);
     }

@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.lee.library.ioc.annotation.ContentView;
 import com.lee.library.ioc.annotation.EventBase;
@@ -26,8 +25,6 @@ public class InjectManager {
         injectLayout(activity);
         //控件注入
         injectViews(activity);
-        //事件注入
-        injectEvents(activity);
     }
 
     private static void injectLayout(Activity activity) {
@@ -136,8 +133,7 @@ public class InjectManager {
                                 Method setter = view.getClass().getMethod(listenerSetter, listenerType);
                                 setter.invoke(view, listener);
                             }
-                        } catch (Exception e) {
-                            e.printStackTrace();
+                        } catch (Exception ignored) {
                         }
 
                         try {
@@ -149,8 +145,7 @@ public class InjectManager {
                             declaredField.setAccessible(true);
                             Method setter = declaredField.getType().getMethod(listenerSetter, listenerType);
                             setter.invoke(declaredField.get(activity), listener);
-                        } catch (Exception e) {
-                            e.printStackTrace();
+                        } catch (Exception ignored) {
                         }
 
                     }
@@ -191,7 +186,7 @@ public class InjectManager {
                                 Method setter = view.getClass().getMethod(listenerSetter, listenerType);
                                 setter.invoke(view, listener);
                             }
-                        } catch (Exception e) {
+                        } catch (Exception ignored) {
                         }
 
                         try {
@@ -203,7 +198,7 @@ public class InjectManager {
                             declaredField.setAccessible(true);
                             Method setter = declaredField.getType().getMethod(listenerSetter, listenerType);
                             setter.invoke(declaredField.get(fragment), listener);
-                        } catch (Exception e) {
+                        } catch (Exception ignored) {
                         }
 
                     }

@@ -2,6 +2,8 @@ package com.lee.code.adapter;
 
 
 
+import android.content.Context;
+
 import com.lee.code.adapter.item.AItem;
 import com.lee.code.adapter.item.BItem;
 import com.lee.code.adapter.item.CItem;
@@ -19,8 +21,8 @@ import java.util.List;
  */
 public class MultiAdapter extends LeeViewAdapter<UserInfo> {
 
-    public MultiAdapter(List<UserInfo> datas) {
-        super(datas);
+    public MultiAdapter(Context context, List<UserInfo> datas) {
+        super(context,datas);
         addItemStyles(new AItem());
         addItemStyles(new BItem());
         addItemStyles(new CItem());
@@ -29,11 +31,4 @@ public class MultiAdapter extends LeeViewAdapter<UserInfo> {
         addItemStyles(new FooterItem());
     }
 
-    @Override
-    public void loadMoreEnd() {
-        UserInfo userInfo = new UserInfo();
-        userInfo.setType(LeeViewAdapter.END_TYPE);
-        addData(userInfo);
-        super.loadMoreEnd();
-    }
 }

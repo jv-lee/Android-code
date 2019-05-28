@@ -7,8 +7,10 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,6 +18,7 @@ import android.widget.Toast;
 import com.lee.code.adapter.MultiAdapter;
 import com.lee.code.bean.UserInfo;
 import com.lee.library.adapter.LeeViewHolder;
+import com.lee.library.adapter.ProxyAdapter;
 import com.lee.library.base.BaseActivity;
 import com.lee.library.ioc.annotation.AutoLoadMore;
 import com.lee.library.ioc.annotation.ContentView;
@@ -49,21 +52,6 @@ public class MainActivity extends BaseActivity {
     private List<UserInfo> data = new ArrayList<>();
 
     @Override
-    protected void bindView() {
-        mAdapter = new MultiAdapter(data);
-        FrameLayout frameLayout = new FrameLayout(this);
-        frameLayout.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,100));
-        frameLayout.setBackgroundColor(Color.parseColor("#ff0000"));
-
-
-        rvContainer.setLayoutManager(new LinearLayoutManager(this));
-        rvContainer.setAdapter(mAdapter);
-        refresh.setDefaultView(container, rvContainer);
-    }
-
-    int i = 0;
-
-    @Override
     public void bindData(Bundle savedInstanceState) {
         initData();
 //        LiveDataBus.getInstance().injectBus(this);
@@ -76,6 +64,28 @@ public class MainActivity extends BaseActivity {
 //        IntentManager.getInstance().startAct(this,InjectActivity.class);
     }
 
+    @Override
+    protected void bindView() {
+        mAdapter = new MultiAdapter(this, data);
+        FrameLayout frameLayout = new FrameLayout(this);
+        frameLayout.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 100));
+        frameLayout.setBackgroundColor(Color.parseColor("#ff0000"));
+
+        View view = new View(mActivity);
+        view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 100));
+        view.setBackgroundColor(Color.parseColor("#000000"));
+
+        FrameLayout root = new FrameLayout(mActivity);
+        View inflate = getLayoutInflater().inflate(R.layout.item_footer, root,false);
+        mAdapter.addHeader(inflate);
+        mAdapter.addFooter(view);
+
+        rvContainer.setLayoutManager(new LinearLayoutManager(this));
+        rvContainer.setAdapter(mAdapter.getProxy());
+        refresh.setDefaultView(container, rvContainer);
+    }
+
+    int i = 0;
 
     @InjectBus(value = "event")
     public void event(String data) {
@@ -109,20 +119,20 @@ public class MainActivity extends BaseActivity {
 
     @OnItemClick(value = "mAdapter")
     public void onItemClick(View view, UserInfo userInfo, int position) {
-        Toast.makeText(this, "position:" + position + " data:" + userInfo, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "position:" + position + " data:" + userInfo.getAccount(), Toast.LENGTH_SHORT).show();
     }
 
     @OnItemLongClick(value = "mAdapter")
     public boolean onItemLongClick(View view, UserInfo userInfo, int position) {
-        Toast.makeText(this, "long position"+position, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "long position" + position, Toast.LENGTH_SHORT).show();
         return true;
     }
 
     @OnItemChildClick(value = "mAdapter")
-    public void onItemChildClick(LeeViewHolder viewHolder,List<UserInfo> data) {
+    public void onItemChildClick(LeeViewHolder viewHolder, UserInfo userInfo, int position) {
         TextView tvTitle = viewHolder.getConvertView().findViewById(R.id.tv_title);
         tvTitle.setOnClickListener(v -> {
-            Toast.makeText(this, "child Title -> position:"+ viewHolder.getLayoutPosition(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "child Title -> position:" + viewHolder.getLayoutPosition(), Toast.LENGTH_SHORT).show();
         });
     }
 
@@ -143,13 +153,13 @@ public class MainActivity extends BaseActivity {
 //    }
 
     @AutoLoadMore(value = "mAdapter")
-    public void autoLoadMore(){
+    public void autoLoadMore() {
         Log.i(">>>", "auto load more");
         ThreadTool.getInstance().addTask(new Runnable() {
             @Override
             public void run() {
                 i++;
-                if (i == 10) {
+                if (i == 3) {
 
                     runOnUiThread(new Runnable() {
                         @Override

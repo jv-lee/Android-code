@@ -1,5 +1,6 @@
 package com.lee.library.adapter;
 
+import android.annotation.SuppressLint;
 import android.support.annotation.IntDef;
 import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
@@ -37,7 +38,6 @@ public class ProxyAdapter extends RecyclerView.Adapter {
         RecyclerView.ViewHolder viewHolder;
         final int type = ViewTypeSpec.getType(viewType);
         final int value = ViewTypeSpec.getValue(viewType);
-
         if (type == ViewTypeSpec.HEADER) {
             viewHolder = new FixedViewHolder(mHeaderViews.get(value));
         } else if (type == ViewTypeSpec.FOOTER) {
@@ -61,6 +61,10 @@ public class ProxyAdapter extends RecyclerView.Adapter {
     @Override
     public int getItemCount() {
         return mHeaderViews.size() + mFooterViews.size() + mAdapter.getItemCount();
+    }
+
+    public int getHeaderCount(){
+        return mHeaderViews.size();
     }
 
     @Override
@@ -192,9 +196,9 @@ public class ProxyAdapter extends RecyclerView.Adapter {
             return (value & ~TYPE_MASK) | (type & TYPE_MASK);
         }
 
+        @SuppressLint("WrongConstant")
         @ViewTypeSpecMode
         static int getType(int viewType) {
-            //noinspection ResourceType
             return (viewType & TYPE_MASK);
         }
 
