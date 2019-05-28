@@ -10,6 +10,7 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/andfix" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/bsdiff" />
             <option value="$PROJECT_DIR$/ffmpeg" />
             <option value="$PROJECT_DIR$/git" />
           </set>

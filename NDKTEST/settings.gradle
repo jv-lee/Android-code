@@ -1,1 +1,1 @@
-include ':app', ':andfix', ':git', ':ffmpeg'
+include ':app', ':andfix', ':git', ':ffmpeg', ':bsdiff'
