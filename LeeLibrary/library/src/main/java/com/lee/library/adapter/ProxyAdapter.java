@@ -63,7 +63,7 @@ public class ProxyAdapter extends RecyclerView.Adapter {
         return mHeaderViews.size() + mFooterViews.size() + mAdapter.getItemCount();
     }
 
-    public int getHeaderCount(){
+    public int getHeaderCount() {
         return mHeaderViews.size();
     }
 
@@ -156,32 +156,24 @@ public class ProxyAdapter extends RecyclerView.Adapter {
     }
 
     public void addHeaderView(View view) {
-        if (mHeaderViews.add(view)) {
-            mAdapter.notifyDataSetChanged();
-        }
+        mHeaderViews.add(view);
     }
 
     public void removeHeaderView(View view) {
-        if (mHeaderViews.remove(view)) {
-            mAdapter.notifyDataSetChanged();
-        }
+        mHeaderViews.remove(view);
     }
 
     public void addFooterView(View view) {
-        if (mFooterViews.add(view)) {
-            mAdapter.notifyDataSetChanged();
-        }
+        mFooterViews.add(view);
     }
 
     public void removeFooterView(View view) {
-        if (mFooterViews.remove(view)) {
-            mAdapter.notifyDataSetChanged();
-        }
+        mFooterViews.remove(view);
     }
 
     static class ViewTypeSpec {
         static final int TYPE_SHIFT = 30;
-        static final int TYPE_MASK  = 0x3 << TYPE_SHIFT;
+        static final int TYPE_MASK = 0x3 << TYPE_SHIFT;
 
         static final int UNSPECIFIED = 0 << TYPE_SHIFT;
         static final int HEADER = 1 << TYPE_SHIFT;
@@ -189,7 +181,8 @@ public class ProxyAdapter extends RecyclerView.Adapter {
 
         @IntDef({UNSPECIFIED, HEADER, FOOTER})
         @Retention(RetentionPolicy.SOURCE)
-        @interface ViewTypeSpecMode {}
+        @interface ViewTypeSpecMode {
+        }
 
         static int makeItemViewTypeSpec(@IntRange(from = 0, to = (1 << TYPE_SHIFT) - 1) int value,
                                         @ViewTypeSpecMode int type) {

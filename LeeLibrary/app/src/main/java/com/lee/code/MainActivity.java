@@ -3,14 +3,13 @@ package com.lee.code;
 import android.arch.lifecycle.Observer;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,7 +17,6 @@ import android.widget.Toast;
 import com.lee.code.adapter.MultiAdapter;
 import com.lee.code.bean.UserInfo;
 import com.lee.library.adapter.LeeViewHolder;
-import com.lee.library.adapter.ProxyAdapter;
 import com.lee.library.base.BaseActivity;
 import com.lee.library.ioc.annotation.AutoLoadMore;
 import com.lee.library.ioc.annotation.ContentView;
@@ -31,6 +29,7 @@ import com.lee.library.livedatabus.InjectBus;
 import com.lee.library.livedatabus.LiveDataBus;
 import com.lee.library.tool.ThreadTool;
 import com.lee.library.widget.refresh.RefreshLayout;
+import com.lee.library.widget.refresh.header.DefaultHeader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,23 +65,19 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void bindView() {
-        mAdapter = new MultiAdapter(this, data);
-        FrameLayout frameLayout = new FrameLayout(this);
-        frameLayout.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 100));
-        frameLayout.setBackgroundColor(Color.parseColor("#ff0000"));
+        mAdapter = new MultiAdapter(mActivity, data);
+        mAdapter.openLoadMore();
 
         View view = new View(mActivity);
         view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 100));
         view.setBackgroundColor(Color.parseColor("#000000"));
 
-        FrameLayout root = new FrameLayout(mActivity);
-        View inflate = getLayoutInflater().inflate(R.layout.item_footer, root,false);
-        mAdapter.addHeader(inflate);
-        mAdapter.addFooter(view);
+//        View inflate = getLayoutInflater().inflate(R.layout.lee_item_end, new FrameLayout(mActivity), false);
+        mAdapter.addHeader(view);
 
         rvContainer.setLayoutManager(new LinearLayoutManager(this));
         rvContainer.setAdapter(mAdapter.getProxy());
-        refresh.setDefaultView(container, rvContainer);
+        refresh.setBootView(container, rvContainer, new DefaultHeader(this), null);
     }
 
     int i = 0;
@@ -135,7 +130,7 @@ public class MainActivity extends BaseActivity {
             Toast.makeText(this, "child Title -> position:" + viewHolder.getLayoutPosition(), Toast.LENGTH_SHORT).show();
         });
     }
-
+//
 //    @OnRefresh(values = {R.id.refresh})
 //    public void onRefresh() {
 //        new Thread() {
@@ -155,26 +150,19 @@ public class MainActivity extends BaseActivity {
     @AutoLoadMore(value = "mAdapter")
     public void autoLoadMore() {
         Log.i(">>>", "auto load more");
-        ThreadTool.getInstance().addTask(new Runnable() {
-            @Override
-            public void run() {
-                i++;
-                if (i == 3) {
-
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            mAdapter.loadMoreEnd();
-                        }
-                    });
-
-                    return;
-                }
-                initData();
-                runOnUiThread(() -> {
-                    mAdapter.loadMoreCompleted();
-                });
+        ThreadTool.getInstance().addTask(() -> {
+            i++;
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
+            if (i == 3) {
+                runOnUiThread(() -> mAdapter.loadMoreEnd());
+                return;
+            }
+            initData();
+            runOnUiThread(() -> mAdapter.loadMoreCompleted());
         });
     }
 
