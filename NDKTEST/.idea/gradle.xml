@@ -13,6 +13,7 @@
             <option value="$PROJECT_DIR$/bsdiff" />
             <option value="$PROJECT_DIR$/ffmpeg" />
             <option value="$PROJECT_DIR$/git" />
+            <option value="$PROJECT_DIR$/livepush" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
