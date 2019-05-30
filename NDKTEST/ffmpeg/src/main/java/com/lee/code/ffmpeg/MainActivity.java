@@ -9,6 +9,8 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import java.io.File;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * @author jv.lee
@@ -32,8 +34,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void open(View view) {
-        File file = new File(Environment.getExternalStorageDirectory(), "input.mp4");
-        myPlayer.start(file.getAbsolutePath());
+        //在子线程调用native层函数 绘制视频图像， surfaceView会自动把每一帧数据回调在主线程绘制
+        ExecutorService executorService = Executors.newFixedThreadPool(5);
+        executorService.execute(new Runnable() {
+            @Override
+            public void run() {
+                File file = new File(Environment.getExternalStorageDirectory(), "input.mp4");
+                myPlayer.start(file.getAbsolutePath());
+            }
+        });
     }
 
     public void codeAudio(View view) {
