@@ -266,6 +266,10 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
             loadMoreView.setVisibility(View.GONE);
         }
         addFooter(loadMoreView);
+        //设置图片闪烁，给所有item view添加tag
+        if (!hasStableIds()) {
+            setHasStableIds(true);
+        }
     }
 
     private void closeLoadMore() {
