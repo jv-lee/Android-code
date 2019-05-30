@@ -5,29 +5,25 @@ import android.view.SurfaceHolder;
 import com.lee.code.livepush.meida.AudioChannel;
 import com.lee.code.livepush.meida.VideoChannel;
 
-/**
- * @author jv.lee
- * @date 2019-05-30
- */
+
 public class LivePusher {
     private AudioChannel audioChannel;
     private VideoChannel videoChannel;
-
-    static{
+    static {
         System.loadLibrary("native-lib");
     }
 
-    public LivePusher(Activity activity, int width, int height, int bitrate, int fps, int cameraId) {
-        videoChannel = new VideoChannel();
-        audioChannel = new AudioChannel();
-    }
+    public LivePusher(Activity activity, int width, int height, int bitrate,
+                      int fps, int cameraId) {
+        videoChannel = new VideoChannel(this, activity, width, height, bitrate, fps, cameraId);
+        audioChannel = new AudioChannel(this);
 
+
+    }
     public void setPreviewDisplay(SurfaceHolder surfaceHolder) {
-
+        videoChannel.setPreviewDisplay(surfaceHolder);
     }
-
-    public void switchCamera(){
-
+    public void switchCamera() {
+        videoChannel.switchCamera();
     }
-
 }
