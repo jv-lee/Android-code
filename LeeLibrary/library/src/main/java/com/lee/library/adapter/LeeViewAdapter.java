@@ -33,8 +33,9 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
     private int loadMoreNum = 5;
     /**
      * 加载更多开关 true：可加载 反之即反
+     * 默认关闭
      */
-    private boolean hasLoadMore = true;
+    private boolean hasLoadMore = false;
     /**
      * 加载更多view显示 true：可加载 反之即反
      */
@@ -257,6 +258,7 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
     }
 
     public void openLoadMore() {
+        hasLoadMore = true;
         if (loadMoreView == null) {
             loadMoreView = LayoutInflater.from(context).inflate(loadResId == 0 ? R.layout.lee_item_load : loadResId, new FrameLayout(context), false);
         }
@@ -276,7 +278,6 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
      * 加载完成
      */
     public void loadMoreCompleted() {
-//        hideLoadMore();
         hasLoadMore = true;
         notifyDataSetChanged();
     }
@@ -307,7 +308,6 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
             getProxy();
         }
         openLoadMore();
-        hasLoadMore = true;
         proxyAdapter.removeFooterView(loadEndView);
     }
 

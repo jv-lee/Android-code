@@ -5,6 +5,7 @@ import android.support.annotation.IntDef;
 import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -156,7 +157,9 @@ public class ProxyAdapter extends RecyclerView.Adapter {
     }
 
     public void addHeaderView(View view) {
-        mHeaderViews.add(view);
+        if (!mHeaderViews.contains(view)) {
+            mHeaderViews.add(view);
+        }
     }
 
     public void removeHeaderView(View view) {
@@ -164,7 +167,9 @@ public class ProxyAdapter extends RecyclerView.Adapter {
     }
 
     public void addFooterView(View view) {
-        mFooterViews.add(view);
+        if (!mFooterViews.contains(view)) {
+            mFooterViews.add(view);
+        }
     }
 
     public void removeFooterView(View view) {
