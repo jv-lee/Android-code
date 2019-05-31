@@ -93,11 +93,13 @@ public class CameraHelper implements SurfaceHolder.Callback, Camera.PreviewCallb
                 degrees = 0;
                 mOnChangedSizeListener.onChanged(mHeight, mWidth);
                 break;
-            case Surface.ROTATION_90: // 横屏 左边是头部(home键在右边)
+            // 横屏 左边是头部(home键在右边)
+            case Surface.ROTATION_90:
                 degrees = 90;
                 mOnChangedSizeListener.onChanged(mWidth, mHeight);
                 break;
-            case Surface.ROTATION_270:// 横屏 头部在右边
+            // 横屏 头部在右边
+            case Surface.ROTATION_270:
                 degrees = 270;
                 mOnChangedSizeListener.onChanged(mWidth, mHeight);
                 break;
@@ -106,8 +108,9 @@ public class CameraHelper implements SurfaceHolder.Callback, Camera.PreviewCallb
         int result;
         if (info.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
             result = (info.orientation + degrees) % 360;
-            result = (360 - result) % 360; // compensate the mirror
-        } else { // back-facing
+            result = (360 - result) % 360;
+            // back-facing
+        } else {
             result = (info.orientation - degrees + 360) % 360;
         }
         //设置角度
@@ -176,10 +179,13 @@ public class CameraHelper implements SurfaceHolder.Callback, Camera.PreviewCallb
             case Surface.ROTATION_0:
                 rotation90(data);
                 break;
-            case Surface.ROTATION_90: // 横屏 左边是头部(home键在右边)
+            // 横屏 左边是头部(home键在右边)
+            case Surface.ROTATION_90:
                 break;
-            case Surface.ROTATION_270:// 横屏 头部在右边
+            // 横屏 头部在右边
+            case Surface.ROTATION_270:
                 break;
+            default:
         }
         // data数据依然是倒的
         mPreviewCallback.onPreviewFrame(bytes, camera);
