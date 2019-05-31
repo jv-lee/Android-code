@@ -34,10 +34,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void startLive(View view) {
-        livePusher.startLive("rtmp://47.107.132.117/myapp");
+        livePusher.startLive("rtmp://192.168.31.140/myapp");
     }
 
     public void stopLive(View view) {
+
     }
 
 }

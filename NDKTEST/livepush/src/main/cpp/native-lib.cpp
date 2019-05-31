@@ -8,11 +8,8 @@
 #include <pthread.h>
 #include "librtmp/rtmp.h"
 #include "VideoChannel.h"
-#include <android/log.h>
 #include <safe_queue.h>
-
-#define LOGE(...) __android_log_print(ANDROID_LOG_ERROR,"lee",__VA_ARGS__)
-#define DELETE(obj) if(obj){ delete obj; obj = 0;}
+#include "macro.h"
 
 //防止用户重复点击开始直播，导致重新初始化 设置一个start标识符
 int isStart = 0;
@@ -22,6 +19,15 @@ uint32_t start_time;
 int readyPushing = 0;
 //数据包队列
 SafeQueue<RTMPPacket *> packets;
+
+void callback(RTMPPacket *packet){
+    if (packet) {
+        //设置时间戳
+        packet->m_nTimeStamp = RTMP_GetTime() - start_time;
+        //加入队列
+        packets.put(packet);
+    }
+}
 
 //释放packet
 void releasePacket(RTMPPacket *&packet){
@@ -72,6 +78,7 @@ void *start(void *args) {
     start_time = RTMP_GetTime();
     //开始推流
     readyPushing = 1;
+    packets.setWork(1);
     RTMPPacket *packet = 0;
     while (readyPushing) {
         //队列中获取数据 packet数据包
@@ -101,7 +108,7 @@ void *start(void *args) {
         RTMP_Free(rtmp);
     }
     delete (url);
-
+    return 0;
 }
 
 extern "C"
@@ -119,6 +126,7 @@ extern "C"
 JNIEXPORT void JNICALL
 Java_com_lee_code_livepush_LivePusher_nativeInit(JNIEnv *env, jobject instance) {
     videoChannel = new VideoChannel;
+    videoChannel->setVideoCallback(callback);
 }
 
 extern "C"
@@ -128,7 +136,6 @@ Java_com_lee_code_livepush_LivePusher_nativeSetVideoEncInfo(JNIEnv *env, jobject
     if (!videoChannel) {
         return;
     }
-
     videoChannel->setVideoEncInfo(width, height, fps, bitrate);
 }
 

@@ -11,7 +11,7 @@ import com.lee.code.livepush.LivePusher;
  * @author jv.lee
  */
 public class VideoChannel implements Camera.PreviewCallback, CameraHelper.OnChangedSizeListener {
-    private static final String TAG = "tuch";
+    private static final String TAG = "LEE>>>";
     private CameraHelper cameraHelper;
     /**
      * 码率
@@ -35,8 +35,8 @@ public class VideoChannel implements Camera.PreviewCallback, CameraHelper.OnChan
 
     @Override
     public void onPreviewFrame(byte[] data, Camera camera) {
-        Log.i(TAG, "获取到一帧   onPreviewFrame: ");
         if (isLiving) {
+//            Log.i(TAG, "开启直播 获取到一帧   onPreviewFrame: ");
             mLivePusher.nativePushVideo(data);
         }
 

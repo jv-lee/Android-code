@@ -8,10 +8,5 @@ file(GLOB rtmp_source *.c)
 add_library(
         rtmp
         STATIC
-#        amf.c
-#        hashswf.c
-#        log.c
-#        parseurl.c
-#        rtmp.c
         ${rtmp_source}
 )

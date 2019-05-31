@@ -2,13 +2,11 @@ cmake_minimum_required(VERSION 3.4.1)
 
 #引入子目录
 add_subdirectory(src/main/cpp/librtmp)
-
+file(GLOB lib_source src/main/cpp/*.cpp)
 add_library(
         native-lib
         SHARED
-        src/main/cpp/native-lib.cpp
-        src/main/cpp/VideoChannel.cpp
-        src/main/cpp/macro.h
+        ${lib_source}
 )
 
 #引入头文件夹
@@ -23,9 +21,8 @@ find_library(
         log-lib
         log)
 
-
 target_link_libraries(
         native-lib
         rtmp
-        ${log-lib}
-        x264)
+        x264
+        ${log-lib})
