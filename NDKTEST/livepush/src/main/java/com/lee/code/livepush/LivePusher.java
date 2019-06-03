@@ -6,6 +6,9 @@ import com.lee.code.livepush.meida.AudioChannel;
 import com.lee.code.livepush.meida.VideoChannel;
 
 
+/**
+ * @author jv.lee
+ */
 public class LivePusher {
     private AudioChannel audioChannel;
     private VideoChannel videoChannel;
