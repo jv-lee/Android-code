@@ -8,19 +8,21 @@
 #include <pthread.h>
 #include "librtmp/rtmp.h"
 #include "VideoChannel.h"
-#include <safe_queue.h>
+#include "AudioChannel.h"
+#include "safe_queue.h"
 #include "macro.h"
 
 //防止用户重复点击开始直播，导致重新初始化 设置一个start标识符
 int isStart = 0;
 VideoChannel *videoChannel;
+AudioChannel *audioChannel;
 pthread_t pid;
 uint32_t start_time;
 int readyPushing = 0;
 //数据包队列
 SafeQueue<RTMPPacket *> packets;
 
-void callback(RTMPPacket *packet){
+void callback(RTMPPacket *packet) {
     if (packet) {
         //设置时间戳
         packet->m_nTimeStamp = RTMP_GetTime() - start_time;
@@ -30,7 +32,7 @@ void callback(RTMPPacket *packet){
 }
 
 //释放packet
-void releasePacket(RTMPPacket *&packet){
+void releasePacket(RTMPPacket *&packet) {
     if (packet) {
         RTMPPacket_Free(packet);
         delete packet;
@@ -80,6 +82,9 @@ void *start(void *args) {
     readyPushing = 1;
     packets.setWork(1);
     RTMPPacket *packet = 0;
+
+    //在推每一帧之前， 提前缓存一帧空音频数据 为了服务器可以根据该格式来解析
+    callback(audioChannel->getAudioTag());
     while (readyPushing) {
         //队列中获取数据 packet数据包
         packets.get(packet);
@@ -93,6 +98,10 @@ void *start(void *args) {
         //发送数据包
         packet->m_nInfoField2 = rtmp->m_stream_id;
         result = RTMP_SendPacket(rtmp, packet, 1);
+        if (!result) {
+            LOGE("RTMP 发送数据包失败");
+            return NULL;
+        }
 
         //释放packet
         releasePacket(packet);
@@ -127,6 +136,8 @@ JNIEXPORT void JNICALL
 Java_com_lee_code_livepush_LivePusher_nativeInit(JNIEnv *env, jobject instance) {
     videoChannel = new VideoChannel;
     videoChannel->setVideoCallback(callback);
+    audioChannel = new AudioChannel;
+    audioChannel->setAudioCallback(callback);
 }
 
 extern "C"
@@ -169,6 +180,35 @@ Java_com_lee_code_livepush_LivePusher_nativePushVideo(JNIEnv *env, jobject insta
     videoChannel->encodeData(data);
 
 
-
     env->ReleaseByteArrayElements(data_, data, 0);
+}
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_lee_code_livepush_LivePusher_nativePushAudio(JNIEnv *env, jobject instance, jbyteArray bytes_) {
+    jbyte *data = env->GetByteArrayElements(bytes_, NULL);
+
+    if (!audioChannel || !readyPushing) {
+        return;
+    }
+    audioChannel->encodeData(data);
+    env->ReleaseByteArrayElements(bytes_, data, 0);
+}
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_lee_code_livepush_LivePusher_nativeSetAudioEncInfo(JNIEnv *env, jobject instance, jint sampleRateInHz, jint channels) {
+    if (audioChannel) {
+        audioChannel->setAudioEncInfo(sampleRateInHz,channels);
+    }
+
+}
+
+extern "C"
+JNIEXPORT jint JNICALL
+Java_com_lee_code_livepush_LivePusher_getInputSamples(JNIEnv *env, jobject instance) {
+    if (audioChannel) {
+        return audioChannel->getInputSamples();
+    }
+    return -1;
 }

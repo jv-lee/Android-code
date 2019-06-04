@@ -33,6 +33,18 @@ public class VideoChannel implements Camera.PreviewCallback, CameraHelper.OnChan
         cameraHelper.setOnChangedSizeListener(this);
     }
 
+    public void switchCamera() {
+        cameraHelper.switchCamera();
+    }
+
+    public void setPreviewDisplay(SurfaceHolder surfaceHolder) {
+        cameraHelper.setPreviewDisplay(surfaceHolder);
+    }
+
+    public void startLive() {
+        isLiving = true;
+    }
+
     @Override
     public void onPreviewFrame(byte[] data, Camera camera) {
         if (isLiving) {
@@ -45,17 +57,5 @@ public class VideoChannel implements Camera.PreviewCallback, CameraHelper.OnChan
     @Override
     public void onChanged(int w, int h) {
         mLivePusher.nativeSetVideoEncInfo(w, h, mFps, mBitrate);
-    }
-
-    public void switchCamera() {
-        cameraHelper.switchCamera();
-    }
-
-    public void setPreviewDisplay(SurfaceHolder surfaceHolder) {
-        cameraHelper.setPreviewDisplay(surfaceHolder);
-    }
-
-    public void startLive() {
-        isLiving = true;
     }
 }
