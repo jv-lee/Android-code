@@ -14,9 +14,7 @@ include_directories(src/main/cpp/include)
 include_directories(src/main/cpp)
 
 #添加编译静态库变量
-#set(x264 ${})
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -L${CMAKE_SOURCE_DIR}/libs/${ANDROID_ABI}")
-
 find_library(
         log-lib
         log)
