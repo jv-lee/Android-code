@@ -20,7 +20,7 @@ int readyPushing = 0;
 //数据包队列
 SafeQueue<RTMPPacket *> packets;
 
-void callback(RTMPPacket *packet){
+void callback(RTMPPacket *packet) {
     if (packet) {
         //设置时间戳
         packet->m_nTimeStamp = RTMP_GetTime() - start_time;
@@ -30,7 +30,7 @@ void callback(RTMPPacket *packet){
 }
 
 //释放packet
-void releasePacket(RTMPPacket *&packet){
+void releasePacket(RTMPPacket *&packet) {
     if (packet) {
         RTMPPacket_Free(packet);
         delete packet;
@@ -93,6 +93,10 @@ void *start(void *args) {
         //发送数据包
         packet->m_nInfoField2 = rtmp->m_stream_id;
         result = RTMP_SendPacket(rtmp, packet, 1);
+        if (!result) {
+            LOGE("RTMP 发送数据包失败");
+            return NULL;
+        }
 
         //释放packet
         releasePacket(packet);
@@ -167,7 +171,6 @@ Java_com_lee_code_livepush_LivePusher_nativePushVideo(JNIEnv *env, jobject insta
     }
     jbyte *data = env->GetByteArrayElements(data_, NULL);
     videoChannel->encodeData(data);
-
 
 
     env->ReleaseByteArrayElements(data_, data, 0);
