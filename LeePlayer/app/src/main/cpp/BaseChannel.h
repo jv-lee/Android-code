@@ -31,7 +31,7 @@ public:
         }
         packet_queue.clear();
         frame_queue.clear();
-        LOGE("释放channel:%d %d", packet_queue.size(), frame_queue.size());
+//        LOGE("释放channel:%d %d", packet_queue.size(), frame_queue.size());
     };
 
     virtual void play() = 0;
