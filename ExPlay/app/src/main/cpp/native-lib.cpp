@@ -22,6 +22,10 @@ JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM *vm, void *reserved){
     return JNI_VERSION_1_4;
 }
 
+/**
+ * native开始准备
+ * 调用播放控制器 准备 音视频模块初始化
+ */
 extern "C"
 JNIEXPORT void JNICALL
 Java_com_examples_explay_ExPlay_nativePrepare(JNIEnv *env, jobject instance, jstring dataSource_) {
@@ -33,11 +37,16 @@ Java_com_examples_explay_ExPlay_nativePrepare(JNIEnv *env, jobject instance, jst
     env->ReleaseStringUTFChars(dataSource_, dataSource);
 }
 
+/**
+ * 准备完成 回调开始播放
+ */
 extern "C"
 JNIEXPORT void JNICALL
 Java_com_examples_explay_ExPlay_nativeStart(JNIEnv *env, jobject instance) {
-
-
+    //进入播放状态
+    if (playControl) {
+        playControl->start();
+    }
 }
 
 extern "C"

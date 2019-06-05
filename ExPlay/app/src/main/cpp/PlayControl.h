@@ -8,6 +8,8 @@
 #include <pthread.h>
 #include <android/native_window_jni.h>
 #include "JavaCallHelper.h"
+#include "VideoChannel.h"
+#include "AudioChannel.h"
 
 extern "C" {
 #include <libavformat/avformat.h>
@@ -19,16 +21,24 @@ extern "C" {
  */
 class PlayControl {
 public:
-    PlayControl(JavaCallHelper *javaCallHelper,const char *dataSource);
+    PlayControl(JavaCallHelper *javaCallHelper, const char *dataSource);
+
     ~PlayControl();
+
     void prepare();
+
     void prepareControl();
 
+    void start();
+
 private:
+    bool isPlaying;
     char *url;
     pthread_t pid_prepare;
     AVFormatContext *formatContext;
     JavaCallHelper *javaCallHelper;
+    VideoChannel *videoChannel;
+    AudioChannel *audioChannel;
 };
 
 
