@@ -6,10 +6,7 @@
 #define LEEPLAYER_BASECHANNEL_H
 
 extern "C" {
-//#include <libavcodec/avcodec.h>
-#include "include/libavutil/rational.h"
-#include "include/libavcodec/avcodec.h"
-#include "include/libavutil/frame.h"
+#include <libavcodec/avcodec.h>
 };
 
 #include "safe_queue.h"
@@ -21,6 +18,9 @@ class BaseChannel {
 public:
     BaseChannel(int id, JavaCallHelper *javaCallHelper, AVCodecContext *avCodecContext)
             : channelID(id), javaCallHelper(javaCallHelper), avCodecContext(avCodecContext) {
+        //添加解决方案 是否解决未知
+        packet_queue.setReleaseHandle(releaseAvPacket);
+        frame_queue.setReleaseHandle(releaseAvFrame);
     };
 
     virtual ~BaseChannel() {
@@ -31,8 +31,30 @@ public:
         }
         packet_queue.clear();
         frame_queue.clear();
-//        LOGE("释放channel:%d %d", packet_queue.size(), frame_queue.size());
+        LOGE("释放channel:%d %d", packet_queue.size(), frame_queue.size());
     };
+
+    /**
+     * 释放packet
+     * @param packet
+     */
+    static void releaseAvPacket(AVPacket *&packet) {
+        if (packet) {
+            av_packet_free(&packet);
+            packet = 0;
+        }
+    }
+
+    /**
+     * 释放frame
+     * @param frame
+     */
+    static void releaseAvFrame(AVFrame *&frame) {
+        if (frame) {
+            av_frame_free(&frame);
+            frame = 0;
+        }
+    }
 
     virtual void play() = 0;
 

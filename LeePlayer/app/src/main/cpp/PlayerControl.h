@@ -30,14 +30,20 @@ public:
 
     void start();
 
+    void startControl();
+
+    void setRenderCallback(RenderFrame renderFrame);
+
 private:
     bool isPlaying;
     char *url;
-    pthread_t pid_prepare;
+    pthread_t pid_prepare;//准备线程运行结束即销毁
+    pthread_t pid_start;//解码线程一直存在 直到播放完毕
     AVFormatContext *formatContext;
     JavaCallHelper *javaCallHelper;
     VideoChannel *videoChannel;
     AudioChannel *audioChannel;
+    RenderFrame renderFrame;
 };
 
 

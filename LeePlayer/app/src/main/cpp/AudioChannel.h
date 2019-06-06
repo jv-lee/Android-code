@@ -6,15 +6,18 @@
 #define EXPLAY_AUDIOCHANNEL_H
 
 #include "JavaCallHelper.h"
+#include "BaseChannel.h"
+
 extern "C"{
 #include <libavcodec/avcodec.h>
 };
 
-class AudioChannel {
+class AudioChannel :public BaseChannel{
 
 public:
     AudioChannel(int id, JavaCallHelper *javaCallHelper, AVCodecContext *avCodecContext);
     void play();
+    void stop();
 };
 
 

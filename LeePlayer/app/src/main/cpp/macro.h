@@ -5,8 +5,9 @@
 #ifndef EXPLAY_MACRO_H
 #define EXPLAY_MACRO_H
 
+#include <android/log.h>
+
 #define LOGE(...) __android_log_print(ANDROID_LOG_ERROR,"FFMPEG",__VA_ARGS__)
-#define LOGI(FORMAT, ...) __android_log_print(ANDROID_LOG_INFO,"FFMPEG",FORMAT,##__VA_ARGS__);
 
 #define DELETE(obj) if(obj){delete obj; obj = 0;}
 

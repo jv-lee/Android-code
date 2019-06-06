@@ -5,6 +5,17 @@
 #include "PlayerControl.h"
 #include "macro.h"
 
+PlayControl::PlayControl(JavaCallHelper *javaCallHelper, const char *dataSource) {
+    url = new char[strlen(dataSource) + 1];
+    this->javaCallHelper = javaCallHelper;
+    //因为在上一层已经释放了， 所以在控制层再次拷贝url数据
+    strcpy(url, dataSource);
+}
+
+PlayControl::~PlayControl() {
+
+}
+
 /**
  * 线程函数
  *  当前类直接引用自身调用线程执行
@@ -15,17 +26,6 @@ void *prepareThread(void *args) {
     PlayControl *playControl = static_cast<PlayControl *>(args);
     playControl->prepareControl();
     return 0;
-}
-
-PlayControl::PlayControl(JavaCallHelper *javaCallHelper, const char *dataSource) {
-    url = new char[strlen(dataSource) + 1];
-    this->javaCallHelper = javaCallHelper;
-    //因为在上一层已经释放了， 所以在控制层再次拷贝url数据
-    strcpy(url, dataSource);
-}
-
-PlayControl::~PlayControl() {
-
 }
 
 /**
@@ -98,10 +98,11 @@ void PlayControl::prepareControl() {
         //获取音视频模块实例
         if (codecpar->codec_type == AVMEDIA_TYPE_AUDIO) {
             //音频
-            audioChannel = new AudioChannel(i,javaCallHelper,codecContext);
+            audioChannel = new AudioChannel(i, javaCallHelper, codecContext);
         } else if (codecpar->codec_type == AVMEDIA_TYPE_VIDEO) {
             //视频
-            videoChannel = new VideoChannel(i,javaCallHelper,codecContext);
+            videoChannel = new VideoChannel(i, javaCallHelper, codecContext);
+            videoChannel->setRenderCallback(renderFrame);
         }
 
         //音视频模块不存在  单一模块存在可以单独播放流媒体
@@ -122,14 +123,74 @@ void PlayControl::prepareControl() {
 
 }
 
+/**
+ * 开始解码线程
+ * @param args
+ * @return
+ */
+void *startThread(void *args) {
+    PlayControl *playControl = static_cast<PlayControl *>(args);
+    playControl->startControl();
+    return 0;
+}
+
 void PlayControl::start() {
     isPlaying = true;
-    if (audioChannel) {
-        audioChannel->play();
-    }
+//    if (audioChannel) {
+//        audioChannel->play();
+//    }
     if (videoChannel) {
         videoChannel->play();
     }
+    pthread_create(&pid_start, NULL, startThread, this);
+}
+
+void PlayControl::startControl() {
+    int result = 0;
+    while (isPlaying) {
+        //读取文件packet速度快于渲染 frame ， 渲染需要线程等待  100帧
+        if (audioChannel && audioChannel->packet_queue.size() > 100) {
+            //生产者的速度大于消费者的速度， 休眠10ms 毫秒
+            av_usleep(1000 * 10);
+            continue;
+        }
+        if (videoChannel && videoChannel->packet_queue.size() > 100) {
+            av_usleep(1000 * 10);
+            continue;
+        }
+
+        //读取数据包
+        AVPacket *packet = av_packet_alloc();
+        result = av_read_frame(formatContext, packet);
+        if (result == 0) {
+            //将数据包加入队列
+            if (audioChannel && packet->stream_index == audioChannel->channelID) {
+                audioChannel->packet_queue.enQueue(packet);
+            } else if (videoChannel && packet->stream_index == videoChannel->channelID) {
+                videoChannel->packet_queue.enQueue(packet);
+            }
+        } else if (result == AVERROR_EOF) {
+            //读取到文件末尾 读取完毕不一定播放完毕
+            if (videoChannel->packet_queue.empty() && videoChannel->frame_queue.empty() &&
+                audioChannel->packet_queue.empty() && audioChannel->frame_queue.empty()) {
+                LOGE("播放完毕 ...");
+                break;
+            }
+        } else {
+            //因为seek的存在，就算读取完毕依然要循环去执行 av_read_frame(否则seek了没用)
+            break;
+        }
+    }
+
+    //播放完毕修改状态
+    isPlaying = 0;
+    audioChannel->stop();
+    videoChannel->stop();
+
+}
+
+void PlayControl::setRenderCallback(RenderFrame renderFrame) {
+    this->renderFrame = renderFrame;
 }
 
 
