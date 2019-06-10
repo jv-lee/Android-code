@@ -165,7 +165,7 @@ void PlayControl::startControl() {
         if (result == 0) {
             //将数据包加入队列
             if (audioChannel && packet->stream_index == audioChannel->channelID) {
-                audioChannel->packet_queue.enQueue(packet);
+//                audioChannel->packet_queue.enQueue(packet);
             } else if (videoChannel && packet->stream_index == videoChannel->channelID) {
                 videoChannel->packet_queue.enQueue(packet);
             }

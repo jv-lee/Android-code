@@ -117,7 +117,7 @@ void VideoChannel::synchronizeFrame() {
             renderFrame(dst_data[0], dst_linesize[0], avCodecContext->width,
                         avCodecContext->height);
             //延迟16毫秒
-            av_usleep(16 * 1000000);
+            av_usleep(16 * 1000);
             //frame数据传rgb回调后 释放frame
             releaseAvFrame(frame);
         }
