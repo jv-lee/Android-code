@@ -1,5 +1,5 @@
 //
-// Created by Raytine on 2019/5/31.
+// Created by jv.lee on 2019/5/31.
 //
 
 #ifndef NDKTEST_MACRO_H
