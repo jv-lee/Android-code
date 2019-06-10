@@ -36,18 +36,19 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
      * 默认关闭
      */
     private boolean hasLoadMore = false;
-    /**
-     * 加载更多view显示 true：可加载 反之即反
-     */
-    private boolean hasShowLoad = true;
+
     /**
      * 加载更多 view
      */
+    private View loadMoreLayout;
     private View loadMoreView;
-    /**
-     * 没有更多view
-     */
     private View loadEndView;
+    private View loadErrorView;
+
+    private final int STATUS_INIT = 0;
+    private final int STATUS_MORE = 1;
+    private final int STATUS_END = 2;
+    private final int STATUS_ERROR = 3;
 
     /**
      * item类型管理器
@@ -75,7 +76,6 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
      */
     private List<T> mData;
 
-    private int endResId;
     private int loadResId;
 
     /**
@@ -249,32 +249,46 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
         int current = getItemCount() - position;
         //回调加载更多 关闭开关
         if (current == loadMoreNum) {
-            if (loadMoreView.getVisibility() == View.GONE) {
-                loadMoreView.setVisibility(View.VISIBLE);
-            }
+            updateStatus(STATUS_MORE);
             hasLoadMore = false;
             mAutoLoadMoreListener.autoLoadMore();
         }
     }
 
-    public void openLoadMore() {
-        hasLoadMore = true;
-        if (loadMoreView == null) {
-            loadMoreView = LayoutInflater.from(context).inflate(loadResId == 0 ? R.layout.lee_item_load : loadResId, new FrameLayout(context), false);
+    private void updateStatus(int status) {
+        if (loadMoreView == null || loadEndView == null || loadErrorView == null) {
+            return;
         }
-        if (loadMoreView.getVisibility() == View.VISIBLE) {
-            loadMoreView.setVisibility(View.GONE);
-        }
-        addFooter(loadMoreView);
-        //设置图片闪烁，给所有item view添加tag
-        if (!hasStableIds()) {
-            setHasStableIds(true);
+        loadMoreView.setVisibility(View.GONE);
+        loadErrorView.setVisibility(View.GONE);
+        loadEndView.setVisibility(View.GONE);
+        switch (status) {
+            case STATUS_MORE:
+                loadMoreView.setVisibility(View.VISIBLE);
+                break;
+            case STATUS_END:
+                loadEndView.setVisibility(View.VISIBLE);
+                break;
+            case STATUS_ERROR:
+                loadErrorView.setVisibility(View.VISIBLE);
+                break;
+            default:
         }
     }
 
-    private void closeLoadMore() {
-        if (loadMoreView != null) {
-            removeFooter(loadMoreView);
+    public void openLoadMore() {
+        hasLoadMore = true;
+        if (loadMoreLayout == null) {
+            loadMoreLayout = LayoutInflater.from(context).inflate(loadResId == 0 ? R.layout.lee_item_load : loadResId, new FrameLayout(context), false);
+            loadMoreView = loadMoreLayout.findViewById(R.id.view_loadMore);
+            loadEndView = loadMoreLayout.findViewById(R.id.view_loadEnd);
+            loadErrorView = loadMoreLayout.findViewById(R.id.view_loadError);
+            addFooter(loadMoreLayout);
+        }
+        updateStatus(STATUS_INIT);
+        //设置图片闪烁，给所有item view添加tag
+        if (!hasStableIds()) {
+            setHasStableIds(true);
         }
     }
 
@@ -294,34 +308,9 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
         if (proxyAdapter == null) {
             getProxy();
         }
-        closeLoadMore();
-        //加载end布局提示加载完毕
-        if (loadEndView == null) {
-            loadEndView = LayoutInflater.from(context).inflate(endResId == 0 ? R.layout.lee_item_end : endResId, new FrameLayout(context), false);
-        }
-        proxyAdapter.addFooterView(loadEndView);
+        updateStatus(STATUS_END);
         hasLoadMore = false;
         notifyDataSetChanged();
-    }
-
-    /**
-     * 刷新后 调用重置加载更多
-     */
-    public void reloadMoreEnd() {
-        if (proxyAdapter == null) {
-            getProxy();
-        }
-        openLoadMore();
-        proxyAdapter.removeFooterView(loadEndView);
-    }
-
-    /**
-     * 设置没有更多数据 layout id
-     *
-     * @param resId
-     */
-    public void setEndResId(int resId) {
-        this.endResId = resId;
     }
 
     /**
