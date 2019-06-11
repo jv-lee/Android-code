@@ -124,7 +124,7 @@ void VideoChannel::synchronizeFrame() {
     }
     //清理内存
     av_freep(&dst_data[0]);
-    isPlaying = 0;
+    isPlaying = false;
     releaseAvFrame(frame);
     sws_freeContext(sws_ctx);
 }

@@ -6,7 +6,7 @@
 #define EXPLAY_PLAYCONTROL_H
 
 #include <pthread.h>
-#include <android/native_window_jni.h>
+#include <android/native_window.h>
 #include "VideoChannel.h"
 #include "AudioChannel.h"
 

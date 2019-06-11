@@ -9,10 +9,6 @@
 #include "JavaCallHelper.h"
 #include "BaseChannel.h"
 
-extern "C"{
-#include <libavcodec/avcodec.h>
-};
-
 typedef void (*RenderFrame)(uint8_t *, int, int, int);
 class VideoChannel :public BaseChannel{
 public:

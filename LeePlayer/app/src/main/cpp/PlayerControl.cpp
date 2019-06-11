@@ -3,6 +3,7 @@
 //
 
 #include "PlayerControl.h"
+#include "JavaCallHelper.h"
 #include "macro.h"
 
 PlayControl::PlayControl(JavaCallHelper *javaCallHelper, const char *dataSource) {
@@ -104,20 +105,19 @@ void PlayControl::prepareControl() {
             videoChannel = new VideoChannel(i, javaCallHelper, codecContext);
             videoChannel->setRenderCallback(renderFrame);
         }
+    }
 
-        //音视频模块不存在  单一模块存在可以单独播放流媒体
-        if (!audioChannel && !videoChannel) {
-            if (javaCallHelper) {
-                javaCallHelper->onError(THREAD_CHILD, FFMPEG_NOMEDIA);
-            }
-            return;
-        }
-
-        //准备完成回调java层
+    //音视频模块不存在  单一模块存在可以单独播放流媒体
+    if (!audioChannel && !videoChannel) {
         if (javaCallHelper) {
-            javaCallHelper->onPrepare(THREAD_CHILD);
+            javaCallHelper->onError(THREAD_CHILD, FFMPEG_NOMEDIA);
         }
+        return;
+    }
 
+    //准备完成回调java层
+    if (javaCallHelper) {
+        javaCallHelper->onPrepare(THREAD_CHILD);
     }
 
 
@@ -136,9 +136,9 @@ void *startThread(void *args) {
 
 void PlayControl::start() {
     isPlaying = true;
-//    if (audioChannel) {
-//        audioChannel->play();
-//    }
+    if (audioChannel) {
+        audioChannel->play();
+    }
     if (videoChannel) {
         videoChannel->play();
     }
@@ -165,7 +165,7 @@ void PlayControl::startControl() {
         if (result == 0) {
             //将数据包加入队列
             if (audioChannel && packet->stream_index == audioChannel->channelID) {
-//                audioChannel->packet_queue.enQueue(packet);
+                audioChannel->packet_queue.enQueue(packet);
             } else if (videoChannel && packet->stream_index == videoChannel->channelID) {
                 videoChannel->packet_queue.enQueue(packet);
             }

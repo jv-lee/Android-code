@@ -11,7 +11,6 @@ extern "C" {
 
 #include "safe_queue.h"
 #include "JavaCallHelper.h"
-#include "macro.h"
 
 
 class BaseChannel {
@@ -57,10 +56,7 @@ public:
     }
 
     virtual void play() = 0;
-
     virtual void stop() = 0;
-
-
     SafeQueue<AVPacket *> packet_queue;
     SafeQueue<AVFrame *> frame_queue;
     volatile int channelID;

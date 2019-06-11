@@ -18,7 +18,6 @@ PlayControl *playControl;
  * native子线程回调java层需要绑定 jvm实列
  */
 JavaVM *javaVM = NULL;
-
 JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM *vm, void *reserved) {
     javaVM = vm;
     return JNI_VERSION_1_4;
