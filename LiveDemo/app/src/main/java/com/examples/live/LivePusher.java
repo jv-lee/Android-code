@@ -2,7 +2,6 @@ package com.examples.live;
 
 import android.app.Activity;
 import android.view.SurfaceHolder;
-import android.view.SurfaceView;
 
 import com.examples.live.meida.AudioChannel;
 import com.examples.live.meida.VideoChannel;
