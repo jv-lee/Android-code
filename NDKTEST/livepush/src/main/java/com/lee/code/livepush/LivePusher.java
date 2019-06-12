@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.view.SurfaceHolder;
 import com.lee.code.livepush.meida.AudioChannel;
 import com.lee.code.livepush.meida.VideoChannel;
+import com.lee.code.livepush.meida.VideoChannel2;
 
 
 /**
@@ -11,7 +12,7 @@ import com.lee.code.livepush.meida.VideoChannel;
  */
 public class LivePusher {
     private AudioChannel audioChannel;
-    private VideoChannel videoChannel;
+    private VideoChannel2 videoChannel;
 
     static {
         System.loadLibrary("native-lib");
@@ -20,7 +21,7 @@ public class LivePusher {
     LivePusher(Activity activity, int width, int height, int bitrate,
                int fps, int cameraId) {
         nativeInit();
-        videoChannel = new VideoChannel(this, activity, width, height, bitrate, fps, cameraId);
+        videoChannel = new VideoChannel2(this, activity, width, height, bitrate, fps, cameraId);
         audioChannel = new AudioChannel(this);
     }
 
