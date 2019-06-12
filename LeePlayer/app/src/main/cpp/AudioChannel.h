@@ -15,7 +15,7 @@ extern "C" {
 class AudioChannel : public BaseChannel {
 
 public:
-    AudioChannel(int id, JavaCallHelper *javaCallHelper, AVCodecContext *avCodecContext);
+    AudioChannel(int id, JavaCallHelper *javaCallHelper, AVCodecContext *avCodecContext,AVRational time_base);
 
     void play();
 

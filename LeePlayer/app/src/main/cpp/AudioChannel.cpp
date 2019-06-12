@@ -6,8 +6,8 @@
 
 #include "AudioChannel.h"
 
-AudioChannel::AudioChannel(int id, JavaCallHelper *javaCallHelper, AVCodecContext *avCodecContext)
-        : BaseChannel(id, javaCallHelper, avCodecContext) {
+AudioChannel::AudioChannel(int id, JavaCallHelper *javaCallHelper, AVCodecContext *avCodecContext,AVRational time_base)
+        : BaseChannel(id, javaCallHelper, avCodecContext,time_base) {
 //根据布局获取声道数
     out_channels = av_get_channel_layout_nb_channels(AV_CH_LAYOUT_STEREO);
     out_samplesize = av_get_bytes_per_sample(AV_SAMPLE_FMT_S16);
@@ -217,6 +217,9 @@ int AudioChannel::getPcm() {
                              frame->nb_samples);
         //转换后多少数据 buffer size
         data_size = nb*out_channels*out_samplesize;
+
+        //计算时间线
+        clock = frame->pts * av_q2d(time_base);
         break;
     }
     releaseAvFrame(frame);

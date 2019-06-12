@@ -8,21 +8,34 @@
 
 #include "JavaCallHelper.h"
 #include "BaseChannel.h"
+#include "AudioChannel.h"
 
 typedef void (*RenderFrame)(uint8_t *, int, int, int);
-class VideoChannel :public BaseChannel{
+
+class VideoChannel : public BaseChannel {
 public:
-    VideoChannel(int id, JavaCallHelper *javaCallHelper, AVCodecContext *avCodecContext);
+    VideoChannel(int id, JavaCallHelper *javaCallHelper, AVCodecContext *avCodecContext,AVRational time_base);
+
     virtual void play();
+
     virtual void stop();
+
     void decodePacket();
+
     void synchronizeFrame();
 
-    void setRenderCallback(RenderFrame renderFrame1);
+    void setRenderCallback(RenderFrame renderFrame);
+
+    void setFps(int fps);
+
 private:
     pthread_t pid_video_play;
     pthread_t pid_synchronize;
     RenderFrame renderFrame;
+    int fps;
+
+public:
+    AudioChannel *audioChannel;
 };
 
 

@@ -15,8 +15,8 @@ extern "C" {
 
 class BaseChannel {
 public:
-    BaseChannel(int id, JavaCallHelper *javaCallHelper, AVCodecContext *avCodecContext)
-            : channelID(id), javaCallHelper(javaCallHelper), avCodecContext(avCodecContext) {
+    BaseChannel(int id, JavaCallHelper *javaCallHelper, AVCodecContext *avCodecContext,AVRational time_base)
+            : channelID(id), javaCallHelper(javaCallHelper), avCodecContext(avCodecContext),time_base(time_base) {
         //添加解决方案 是否解决未知
         packet_queue.setReleaseHandle(releaseAvPacket);
         frame_queue.setReleaseHandle(releaseAvFrame);
@@ -63,6 +63,8 @@ public:
     volatile bool isPlaying;
     AVCodecContext *avCodecContext;
     JavaCallHelper *javaCallHelper;
+    AVRational time_base;
+    double clock = 0;
 };
 
 

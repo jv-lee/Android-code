@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
     private void initNative() {
         mLeePlayer = new LeePlayer();
         mLeePlayer.setSurfaceView(surfaceView);
-        mLeePlayer.setDataSource(new File(Environment.getExternalStorageDirectory(), "input.mp4").getAbsolutePath());
+        mLeePlayer.setDataSource(new File(Environment.getExternalStorageDirectory(), "input2.mp4").getAbsolutePath());
         mLeePlayer.setOnPrepareListener(new LeePlayer.OnPrepareListener() {
             @Override
             public void onPrepared() {

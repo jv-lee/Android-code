@@ -65,6 +65,8 @@ void PlayControl::prepareControl() {
 
     for (int i = 0; i < formatContext->nb_streams; ++i) {
         AVCodecParameters *codecpar = formatContext->streams[i]->codecpar;
+        //获取流 音视频同步处理
+        AVStream *stream = formatContext->streams[i];
         //找到解码器
         AVCodec *dec = avcodec_find_decoder(codecpar->codec_id);
         if (!dec) {
@@ -99,11 +101,17 @@ void PlayControl::prepareControl() {
         //获取音视频模块实例
         if (codecpar->codec_type == AVMEDIA_TYPE_AUDIO) {
             //音频
-            audioChannel = new AudioChannel(i, javaCallHelper, codecContext);
+            audioChannel = new AudioChannel(i, javaCallHelper, codecContext,stream->time_base);
         } else if (codecpar->codec_type == AVMEDIA_TYPE_VIDEO) {
+            //获取视频帧率
+            AVRational frame_rate = stream->avg_frame_rate;
+//            int fps = frame_rate.num / frame_rate.den;
+            int fps = static_cast<int>(av_q2d(frame_rate));
+
             //视频
-            videoChannel = new VideoChannel(i, javaCallHelper, codecContext);
+            videoChannel = new VideoChannel(i, javaCallHelper, codecContext,stream->time_base);
             videoChannel->setRenderCallback(renderFrame);
+            videoChannel->setFps(fps);
         }
     }
 
@@ -114,6 +122,9 @@ void PlayControl::prepareControl() {
         }
         return;
     }
+
+    //将audioChannel 赋值给videoChannel 进行音视频同步
+    videoChannel->audioChannel = audioChannel;
 
     //准备完成回调java层
     if (javaCallHelper) {

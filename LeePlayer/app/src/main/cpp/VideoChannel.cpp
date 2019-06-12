@@ -11,10 +11,38 @@ extern "C" {
 #include <libswscale/swscale.h>
 };
 
-VideoChannel::VideoChannel(int id, JavaCallHelper *javaCallHelper, AVCodecContext *avCodecContext)
-        : BaseChannel(id, javaCallHelper, avCodecContext) {
+//音视频同步处理(视频慢于音频时) 丢掉packet非关键帧 和 音频保持同步
+void dropPacket(queue<AVPacket *> &queue) {
+    while (!queue.empty()) {
+        LOGE("丢弃视频帧...");
+        AVPacket *packet = queue.front();
+        //不等于关键帧
+        if (packet->flags != AV_PKT_FLAG_KEY) {
+            queue.pop();
+            BaseChannel::releaseAvPacket(packet);
+        } else {
+            break;
+        }
+    }
+}
+
+//音视频同步处理(视频慢于音频时) 丢掉frame非关键帧 和 音频保持同步
+void dropFrame(queue<AVFrame *> &queue) {
+    if (!queue.empty()) {
+        AVFrame *frame = queue.front();
+        queue.pop();
+        BaseChannel::releaseAvFrame(frame);
+    }
+}
+
+VideoChannel::VideoChannel(int id, JavaCallHelper *javaCallHelper, AVCodecContext *avCodecContext,
+                           AVRational time_base)
+        : BaseChannel(id, javaCallHelper, avCodecContext, time_base) {
     this->javaCallHelper = javaCallHelper;
     this->avCodecContext = avCodecContext;
+    //设置丢帧策略
+    frame_queue.setReleaseHandle(releaseAvFrame);
+    frame_queue.setSyncHandle(dropFrame);
 }
 
 /**
@@ -116,8 +144,47 @@ void VideoChannel::synchronizeFrame() {
         if (renderFrame) {
             renderFrame(dst_data[0], dst_linesize[0], avCodecContext->width,
                         avCodecContext->height);
-            //延迟16毫秒
-            av_usleep(16 * 1000);
+            LOGE("解码一帧视频 %d", frame_queue.size());
+
+            //根据fps 获得延迟时间
+            clock = frame->pts * av_q2d(time_base);
+
+            double frame_delays = 1.0 / fps;
+            double audioClock = audioChannel->clock;
+
+            //解码时间
+            double extra_delay = frame->repeat_pict / (2 * fps);
+            //延迟时间 将解码时间 和 延迟时间相加
+            double delay = extra_delay + frame_delays;
+
+            //时差值
+            double diff = clock - audioClock;
+
+            LOGE("-------相差------%d", diff);
+
+            if (clock > audioClock) {
+                //视频超前处理
+                if (diff > 1) {
+                    //不可控
+                    av_usleep((delay * 2) * 1000000);
+                } else {
+                    //可控范围内
+                    av_usleep((delay + diff) * 1000000);
+                }
+            } else {
+                //视频延后处理
+                if (diff > 1) {
+                    //不休眠
+                } else if (diff >= 0.05) {
+                    //可控 视频追赶音频 丢帧
+                    releaseAvFrame(frame);
+                    //调用丢帧方法
+                    frame_queue.sync();
+                } else {
+
+                }
+            }
+
             //frame数据传rgb回调后 释放frame
             releaseAvFrame(frame);
         }
@@ -132,4 +199,8 @@ void VideoChannel::synchronizeFrame() {
 //提供接口回调函数
 void VideoChannel::setRenderCallback(RenderFrame renderFrame) {
     this->renderFrame = renderFrame;
+}
+
+void VideoChannel::setFps(int fps) {
+    this->fps = fps;
 }
