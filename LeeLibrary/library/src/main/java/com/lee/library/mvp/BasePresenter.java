@@ -1,11 +1,13 @@
 package com.lee.library.mvp;
 
+import java.lang.ref.WeakReference;
+
 /**
  * @author jv.lee
  * @date 2019/5/6
  */
 public abstract class BasePresenter<V> implements BaseLifecycleObserver {
-    private V mView;
+    private WeakReference<V> mView;
     public int STATUS_TAG = 0;
     public static final int ON_CREATE = 1;
     public static final int ON_START = 2;
@@ -24,11 +26,14 @@ public abstract class BasePresenter<V> implements BaseLifecycleObserver {
     public abstract void bindModel();
 
     public void onAttachView(V view) {
-        mView = view;
+        mView = new WeakReference<>(view);
     }
 
     public V getView() {
-        return mView;
+        if (mView != null) {
+            return mView.get();
+        }
+        return null;
     }
 
     @Override
@@ -62,7 +67,11 @@ public abstract class BasePresenter<V> implements BaseLifecycleObserver {
     @Override
     public void onDestroy() {
         STATUS_TAG = ON_DESTROY;
-        mView = null;
+        if (mView != null) {
+            mView.clear();
+            mView = null;
+            System.gc();
+        }
     }
 
 }
