@@ -73,7 +73,7 @@ void VideoChannel::play() {
 }
 
 void VideoChannel::stop() {
-
+    isPlaying = 0;
 }
 
 /**
@@ -203,4 +203,8 @@ void VideoChannel::setRenderCallback(RenderFrame renderFrame) {
 
 void VideoChannel::setFps(int fps) {
     this->fps = fps;
+}
+
+VideoChannel::~VideoChannel() {
+
 }

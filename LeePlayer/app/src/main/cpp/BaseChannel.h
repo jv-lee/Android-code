@@ -33,6 +33,22 @@ public:
         LOGE("释放channel:%d %d", packet_queue.size(), frame_queue.size());
     };
 
+    //清空队列
+    void clear(){
+        packet_queue.clear();
+        frame_queue.clear();
+    }
+
+    void startWork(){
+        packet_queue.setWork(1);
+        frame_queue.setWork(1);
+    }
+
+    void stopWork(){
+        packet_queue.setWork(0);
+        frame_queue.setWork(0);
+    }
+
     /**
      * 释放packet
      * @param packet

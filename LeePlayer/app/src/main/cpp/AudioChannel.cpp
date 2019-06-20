@@ -49,7 +49,7 @@ void AudioChannel::play() {
 }
 
 void AudioChannel::stop() {
-
+    isPlaying = 0;
 }
 
 void bqPlayerCallback(SLAndroidSimpleBufferQueueItf bq, void *context) {
@@ -222,8 +222,18 @@ int AudioChannel::getPcm() {
         clock = frame->pts * av_q2d(time_base);
         break;
     }
+
+    //返回java层progress
+    if (javaCallHelper) {
+        javaCallHelper->onProgress(THREAD_CHILD, clock);
+    }
     releaseAvFrame(frame);
     return data_size;
+}
+
+AudioChannel::~AudioChannel() {
+    free(buffer);
+    buffer = 0;
 }
 
 

@@ -20,6 +20,8 @@ extern "C" {
  */
 class PlayControl {
 public:
+    int duration;
+
     PlayControl(JavaCallHelper *javaCallHelper, const char *dataSource);
 
     ~PlayControl();
@@ -34,16 +36,25 @@ public:
 
     void setRenderCallback(RenderFrame renderFrame);
 
-private:
+    int getDuration();
+
+    void seek(int progress);
+
+    void stop();
+
+public:
     bool isPlaying;
     char *url;
     pthread_t pid_prepare;//准备线程运行结束即销毁
     pthread_t pid_start;//解码线程一直存在 直到播放完毕
+    pthread_t pid_stop;//释放线程
     AVFormatContext *formatContext;
     JavaCallHelper *javaCallHelper;
     VideoChannel *videoChannel;
     AudioChannel *audioChannel;
     RenderFrame renderFrame;
+    bool isSeek = 0;
+    pthread_mutex_t seekMutex;
 };
 
 

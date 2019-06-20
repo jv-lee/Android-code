@@ -21,6 +21,14 @@ public class LeePlayer implements SurfaceHolder.Callback {
 
     private native void nativeSetSurface(Surface surface);
 
+    private native int nativeGetDuration();
+
+    private native void nativeSeek(int progress);
+
+    private native void nativeStop();
+
+    private native void nativeRelease();
+
     private SurfaceHolder mSurfaceHolder;
     private String dataSource;
 
@@ -72,6 +80,43 @@ public class LeePlayer implements SurfaceHolder.Callback {
     }
 
     /**
+     * 获取播放进度
+     */
+    public int getDuration() {
+        return nativeGetDuration();
+    }
+
+    /**
+     * 拖动进度条
+     * @param progress
+     */
+    public void seek(final int progress) {
+        new Thread(){
+            @Override
+            public void run() {
+                nativeSeek(progress);
+            }
+        }.start();
+    }
+
+    /**
+     * 停止播放
+     */
+    public void stop(){
+        nativeStop();
+    }
+
+    /**
+     * 停止播放后释放资源
+     */
+    public void release(){
+        if (null != mSurfaceHolder) {
+            mSurfaceHolder.removeCallback(this);
+        }
+        nativeRelease();
+    }
+
+    /**
      * native层反射调用
      * native层准备完成后调用
      */
@@ -118,7 +163,6 @@ public class LeePlayer implements SurfaceHolder.Callback {
     }
 
 
-
     public interface OnPrepareListener {
         /**
          * native层初始化完成通知java
@@ -129,6 +173,7 @@ public class LeePlayer implements SurfaceHolder.Callback {
     public interface OnProgressListener {
         /**
          * native层不断回调进度通知java层
+         *
          * @param progress
          */
         void onProgress(int progress);
@@ -137,6 +182,7 @@ public class LeePlayer implements SurfaceHolder.Callback {
     public interface OnErrorListener {
         /**
          * native层错误信息回调java层
+         *
          * @param error
          */
         void onError(int error);

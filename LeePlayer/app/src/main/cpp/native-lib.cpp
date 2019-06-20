@@ -11,25 +11,33 @@ extern "C" {
 JavaCallHelper *javaCallHelper;
 ANativeWindow *window = 0;
 PlayControl *playControl;
-
+pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 
 /**
  * jni会自动调用构建 jvm实列
  * native子线程回调java层需要绑定 jvm实列
  */
 JavaVM *javaVM = NULL;
+
 JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM *vm, void *reserved) {
     javaVM = vm;
     return JNI_VERSION_1_4;
 }
 
 void renderFrame(uint8_t *data, int linesize, int width, int height) {
+    //添加线程锁
+    pthread_mutex_lock(&mutex);
+    if (!window) {
+        pthread_mutex_unlock(&mutex);
+        return;
+    }
     //渲染
     ANativeWindow_setBuffersGeometry(window, width, height, WINDOW_FORMAT_RGBA_8888);
     ANativeWindow_Buffer window_buffer;
     if (ANativeWindow_lock(window, &window_buffer, 0)) {
         ANativeWindow_release(window);
         window = 0;
+        pthread_mutex_unlock(&mutex);
         return;
     }
     //缓冲区 window_data[0] = 255;
@@ -46,6 +54,7 @@ void renderFrame(uint8_t *data, int linesize, int width, int height) {
         memcpy(window_data + i * window_linesize, src_data + i * linesize, window_linesize);
     }
     ANativeWindow_unlockAndPost(window);
+    pthread_mutex_unlock(&mutex);
 }
 
 /**
@@ -88,4 +97,45 @@ Java_com_lee_code_player_LeePlayer_nativeSetSurface(JNIEnv *env, jobject instanc
     }
     //创建新的窗口用于视频显示
     window = ANativeWindow_fromSurface(env, surface);
+}
+
+extern "C"
+JNIEXPORT jint JNICALL
+Java_com_lee_code_player_LeePlayer_nativeGetDuration(JNIEnv *env, jobject instance) {
+    //返回视频总进度
+    if (playControl) {
+        return playControl->getDuration();
+    }
+
+}
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_lee_code_player_LeePlayer_nativeSeek(JNIEnv *env, jobject instance, jint progress) {
+
+    if (playControl) {
+        playControl->seek(progress);
+    }
+
+}
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_lee_code_player_LeePlayer_nativeStop(JNIEnv *env, jobject instance) {
+    if (playControl) {
+        playControl->stop();
+    }
+    if (javaCallHelper) {
+        delete javaCallHelper;
+        javaCallHelper = 0;
+    }
+}
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_lee_code_player_LeePlayer_nativeRelease(JNIEnv *env, jobject instance) {
+    if (window) {
+        ANativeWindow_release(window);
+        window = 0;
+    }
 }

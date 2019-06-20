@@ -24,6 +24,13 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
     private SeekBar seekBar;
     private Button btnPlay, btnPause;
 
+    /**
+     * 可以触摸
+     */
+    private boolean isTouch;
+    private boolean isSeek;
+    private int progress;
+
     private final String[] permissions = {
             Manifest.permission.ACCESS_COARSE_LOCATION,
             Manifest.permission.ACCESS_FINE_LOCATION,
@@ -60,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
                 isGranted = false;
             }
             if (!isGranted) {
-                requestPermissions(permissions,REQUEST_CODE);
+                requestPermissions(permissions, REQUEST_CODE);
             }
         }
     }
@@ -72,7 +79,39 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
         mLeePlayer.setOnPrepareListener(new LeePlayer.OnPrepareListener() {
             @Override
             public void onPrepared() {
+                int duration = mLeePlayer.getDuration();
+                if (duration != 0) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            seekBar.setVisibility(View.VISIBLE);
+                        }
+                    });
+                }
                 mLeePlayer.start();
+            }
+        });
+        mLeePlayer.setOnProgressListener(new LeePlayer.OnProgressListener() {
+            @Override
+            public void onProgress(final int progress) {
+                if (!isTouch) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            int duration = mLeePlayer.getDuration();
+                            if (duration != 0) {
+                                if (isSeek) {
+                                    isSeek = false;
+                                    return;
+                                }
+                                //更新进度
+                                if (seekBar != null) {
+                                    seekBar.setProgress(progress * 100 / duration);
+                                }
+                            }
+                        }
+                    });
+                }
             }
         });
     }
@@ -82,6 +121,7 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
     }
 
     public void pause(View view) {
+        mLeePlayer.stop();
     }
 
     @Override
@@ -91,11 +131,23 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
 
     @Override
     public void onStartTrackingTouch(SeekBar seekBar) {
-
+        isTouch = true;
     }
 
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
+        isTouch = false;
+        isSeek = true;
+        //获取进度百分比
+        progress = mLeePlayer.getDuration() * seekBar.getProgress() / 100;
+        mLeePlayer.seek(progress);
+    }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mLeePlayer != null) {
+            mLeePlayer.release();
+        }
     }
 }

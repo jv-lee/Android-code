@@ -11,10 +11,15 @@ PlayControl::PlayControl(JavaCallHelper *javaCallHelper, const char *dataSource)
     this->javaCallHelper = javaCallHelper;
     //因为在上一层已经释放了， 所以在控制层再次拷贝url数据
     strcpy(url, dataSource);
+    duration = 0;
+    //初始化线程锁
+    pthread_mutex_init(&seekMutex, 0);
 }
 
 PlayControl::~PlayControl() {
-
+    pthread_mutex_destroy(&seekMutex);
+    javaCallHelper = 0;
+    DELETE(url);
 }
 
 /**
@@ -63,6 +68,9 @@ void PlayControl::prepareControl() {
         return;
     }
 
+    //获取进度条
+    duration = formatContext->duration / 1000000;
+
     for (int i = 0; i < formatContext->nb_streams; ++i) {
         AVCodecParameters *codecpar = formatContext->streams[i]->codecpar;
         //获取流 音视频同步处理
@@ -101,7 +109,7 @@ void PlayControl::prepareControl() {
         //获取音视频模块实例
         if (codecpar->codec_type == AVMEDIA_TYPE_AUDIO) {
             //音频
-            audioChannel = new AudioChannel(i, javaCallHelper, codecContext,stream->time_base);
+            audioChannel = new AudioChannel(i, javaCallHelper, codecContext, stream->time_base);
         } else if (codecpar->codec_type == AVMEDIA_TYPE_VIDEO) {
             //获取视频帧率
             AVRational frame_rate = stream->avg_frame_rate;
@@ -109,7 +117,7 @@ void PlayControl::prepareControl() {
             int fps = static_cast<int>(av_q2d(frame_rate));
 
             //视频
-            videoChannel = new VideoChannel(i, javaCallHelper, codecContext,stream->time_base);
+            videoChannel = new VideoChannel(i, javaCallHelper, codecContext, stream->time_base);
             videoChannel->setRenderCallback(renderFrame);
             videoChannel->setFps(fps);
         }
@@ -204,4 +212,71 @@ void PlayControl::setRenderCallback(RenderFrame renderFrame) {
     this->renderFrame = renderFrame;
 }
 
+int PlayControl::getDuration() {
+    return this->duration;
+}
 
+void PlayControl::seek(int progress) {
+    //进去必须在 0-duration之间
+    if (progress < 0 || progress >= duration) {
+        return;
+    }
+    if (!formatContext) {
+        return;
+    }
+    //线程加锁
+    pthread_mutex_lock(&seekMutex);
+
+    isSeek = 1;
+    //换算百分比为微秒
+    int64_t seek = progress * 1000000;
+    LOGE("时间%d", seek);
+
+    //设置seek位置
+    av_seek_frame(formatContext, -1, seek, AVSEEK_FLAG_BACKWARD);
+    //清空队列
+    if (audioChannel) {
+        audioChannel->stopWork();
+        audioChannel->clear();
+        audioChannel->startWork();
+    }
+    if (videoChannel) {
+        videoChannel->stopWork();
+        videoChannel->clear();
+        videoChannel->startWork();
+    }
+    pthread_mutex_unlock(&seekMutex);
+    isSeek = 0;
+}
+
+void *async_stop(void *args) {
+    PlayControl *playControl = static_cast<PlayControl *>(args);
+    //关闭解码线程和播放线程
+    pthread_join(playControl->pid_prepare, 0);
+    pthread_join(playControl->pid_start, 0);
+    playControl->isPlaying = 0;
+    DELETE(playControl->audioChannel);
+    DELETE(playControl->videoChannel);
+    if (playControl->formatContext) {
+        avformat_close_input(&playControl->formatContext);
+        avformat_free_context(playControl->formatContext);
+        playControl->formatContext = NULL;
+    }
+    DELETE(playControl);
+    LOGE("释放....");
+    return 0;
+}
+
+void PlayControl::stop() {
+    javaCallHelper = 0;
+    if (audioChannel) {
+        audioChannel->javaCallHelper = 0;
+    }
+    if (videoChannel) {
+        videoChannel->javaCallHelper = 0;
+    }
+    //停止解码线程while循环
+    isPlaying = 0;
+    //创建释放线程
+    pthread_create(&pid_stop, 0, async_stop, this);
+}
