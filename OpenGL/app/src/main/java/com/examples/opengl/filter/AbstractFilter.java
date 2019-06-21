@@ -94,6 +94,9 @@ public abstract class AbstractFilter {
         GLES20.glVertexAttribPointer(vCoord, 2, GLES20.GL_FLOAT, false, 0, mTextureBuffer);
         GLES20.glEnableVertexAttribArray(vCoord);
 
+        //激活摄像头 采集数据
+        GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
+//        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D,);
     }
 
 }
