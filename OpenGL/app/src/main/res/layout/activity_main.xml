@@ -6,8 +6,12 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-<com.examples.opengl.FGLView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" />
+<!--<com.examples.opengl.FGLView-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent" />-->
+
+    <com.examples.opengl.widget.PhotoView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </android.support.constraint.ConstraintLayout>

@@ -14,7 +14,7 @@ import javax.microedition.khronos.opengles.GL10;
 /**
  * @author jv.lee
  * @date 2019/6/20.
- * description：
+ * @description 滤镜基类
  */
 public abstract class AbstractFilter {
 
@@ -82,11 +82,12 @@ public abstract class AbstractFilter {
         vTexture = GLES20.glGetAttribLocation(mProgram, "vTexture");
     }
 
-    public void onDrawFrame(GL10 gl) {
+    public int onDrawFrame(int textureId) {
         //设置显示窗口
         GLES20.glViewport(0, 0, mWidth, mHeight);
         //使用着色器
         GLES20.glUseProgram(mProgram);
+        mVertexBuffer.position(0);
         GLES20.glVertexAttribPointer(vPosition, 2, GLES20.GL_FLOAT, false, 0, mVertexBuffer);
         GLES20.glEnableVertexAttribArray(vPosition);
 
@@ -96,7 +97,16 @@ public abstract class AbstractFilter {
 
         //激活摄像头 采集数据
         GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
-//        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D,);
+        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureId);
+        GLES20.glUniform1i(vTexture, 0);
+        GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, 4);
+
+        return textureId;
     }
 
+
+    public void onReady(int width, int height) {
+        mWidth = width;
+        mHeight = height;
+    }
 }

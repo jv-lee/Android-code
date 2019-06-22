@@ -1,3 +1,4 @@
+#extension GL_OES_EGL_image_external : require
 //SurfaceTexture 特殊性
 //float数据是什么精度
 precision mediump float;
@@ -7,7 +8,7 @@ varying vec2 aCoord;
 
 //采样器 不是从android的surfaceTexture中的纹理 采数据了，所以不再需要android的扩展纹理采样了
 //正常使用的 sampler2D
-uniform sampler2D vTexture;
+uniform samplerExternalOES vTexture;
 
 void main(){
     //变量 接收像素值

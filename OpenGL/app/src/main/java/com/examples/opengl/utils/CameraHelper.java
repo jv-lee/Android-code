@@ -36,7 +36,7 @@ public class CameraHelper implements Camera.PreviewCallback {
         return mCameraId;
     }
 
-    private void startPreview(SurfaceTexture surfaceTexture) {
+    public void startPreview(SurfaceTexture surfaceTexture) {
         mSurfaceTexture = surfaceTexture;
         try {
             mCamera = Camera.open(mCameraId);

@@ -93,4 +93,22 @@ public class OpenGLUtil {
         GLES20.glDeleteShader(fShader);
         return program;
     }
+
+    public static void glGenTextures(int[] textures) {
+        GLES20.glGenTextures(textures.length,textures,0);
+        for (int texture : textures) {
+            //后面的代码配置纹理，就是bind的这个纹理
+            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D,texture);
+            //配置远端文件显示方式
+            GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D,GLES20.GL_TEXTURE_MAG_FILTER,GLES20.GL_NEAREST);
+            GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D,GLES20.GL_TEXTURE_MIN_FILTER,GLES20.GL_NEAREST);
+
+            //纹理环绕方向 S = X方向   T = Y 方向
+            GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D,GLES20.GL_TEXTURE_WRAP_S,GLES20.GL_REPEAT);
+            GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D,GLES20.GL_TEXTURE_WRAP_T,GLES20.GL_REPEAT);
+
+            //解绑
+            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0);
+        }
+    }
 }
