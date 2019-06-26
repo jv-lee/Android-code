@@ -20,6 +20,7 @@ import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.CaptureResult;
 import android.hardware.camera2.TotalCaptureResult;
 import android.hardware.camera2.params.StreamConfigurationMap;
+import android.media.Image;
 import android.media.ImageReader;
 import android.os.Handler;
 import android.os.HandlerThread;
@@ -35,7 +36,11 @@ import android.widget.Toast;
 
 import com.lee.opencv.face.widget.AutoFitTextureView;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.lang.ref.WeakReference;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -96,6 +101,11 @@ public class CameraTool {
      * 一个处理静态图像捕获的{@link ImageReader}。
      */
     private ImageReader mImageReader;
+
+    /**
+     * 一个处理预览图像原始数据的{@link ImageReader}
+     */
+    private ImageReader mPreviewReader;
 
     /**
      * 当前{@link CameraDevice}的ID。
@@ -237,7 +247,7 @@ public class CameraTool {
     private CameraCaptureSession.CaptureCallback mCaptureCallback = new CameraCaptureSession.CaptureCallback() {
 
         private void process(CaptureResult result) {
-            showToast("onProcess");
+//            showToast("onProcess");
 //            switch (mState) {
 //                case STATE_PREVIEW: {
 //                    // We have nothing to do when the camera preview is working normally.
@@ -305,8 +315,7 @@ public class CameraTool {
      * 这是{@link ImageReader}的回调对象。 a时会调用“onImageAvailable”
      * 静止图像已准备好保存。
      */
-    private final ImageReader.OnImageAvailableListener mOnImageAvailableListener
-            = new ImageReader.OnImageAvailableListener() {
+    private final ImageReader.OnImageAvailableListener mOnImageAvailableListener = new ImageReader.OnImageAvailableListener() {
 
         @Override
         public void onImageAvailable(ImageReader reader) {
@@ -314,6 +323,17 @@ public class CameraTool {
 //            mBackgroundHandler.post(new ImageSaver(reader.acquireNextImage(), mFile));
         }
 
+    };
+
+    /**
+     * 这是{@link ImageReader}的回调对象。 a时会调用“onImageAvailable”
+     * 图像预览原始数据。
+     */
+    private final ImageReader.OnImageAvailableListener mOnPreviewAvailableListener = new ImageReader.OnImageAvailableListener() {
+        @Override
+        public void onImageAvailable(ImageReader reader) {
+            Log.i(TAG, "预览数据");
+        }
     };
 
 
@@ -397,6 +417,7 @@ public class CameraTool {
             mPreviewRequestBuilder = mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
             mPreviewRequestBuilder.addTarget(surface);
 
+
             //在这里，我们为相机预览创建一个CameraCaptureSession。
             mCameraDevice.createCaptureSession(Arrays.asList(surface, mImageReader.getSurface()),
                     new CameraCaptureSession.StateCallback() {
@@ -412,8 +433,7 @@ public class CameraTool {
                             mCaptureSession = cameraCaptureSession;
                             try {
                                 //对于相机预览，自动对焦应该是连续的。
-                                mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_MODE,
-                                        CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE);
+                                mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE);
                                 //必要时自动启用Flash。
                                 setAutoFlash(mPreviewRequestBuilder);
 
@@ -501,6 +521,9 @@ public class CameraTool {
                 Size largest = Collections.max(Arrays.asList(map.getOutputSizes(ImageFormat.JPEG)), new CompareSizesByArea());
                 mImageReader = ImageReader.newInstance(largest.getWidth(), largest.getHeight(), ImageFormat.JPEG, 2);
                 mImageReader.setOnImageAvailableListener(mOnImageAvailableListener, mBackgroundHandler);
+
+                mPreviewReader = ImageReader.newInstance(largest.getWidth(), largest.getHeight(), ImageFormat.YUV_420_888, 1);
+                mPreviewReader.setOnImageAvailableListener(mOnPreviewAvailableListener,null);
 
                 //找出我们是否需要交换尺寸以获得相对于传感器的预览尺寸
                 // 坐标.
@@ -664,6 +687,51 @@ public class CameraTool {
             //我们在这里投射以确保乘法不会溢出
             return Long.signum((long) lhs.getWidth() * lhs.getHeight() -
                     (long) rhs.getWidth() * rhs.getHeight());
+        }
+
+    }
+
+
+    /**
+     * Saves a JPEG {@link Image} into the specified {@link File}.
+     */
+    private static class ImageSaver implements Runnable {
+
+        /**
+         * The JPEG image
+         */
+        private final Image mImage;
+        /**
+         * The file we save the image into.
+         */
+        private final File mFile;
+
+        ImageSaver(Image image, File file) {
+            mImage = image;
+            mFile = file;
+        }
+
+        @Override
+        public void run() {
+            ByteBuffer buffer = mImage.getPlanes()[0].getBuffer();
+            byte[] bytes = new byte[buffer.remaining()];
+            buffer.get(bytes);
+            FileOutputStream output = null;
+            try {
+                output = new FileOutputStream(mFile);
+                output.write(bytes);
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                mImage.close();
+                if (null != output) {
+                    try {
+                        output.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
         }
 
     }
