@@ -1,10 +1,7 @@
 package com.lee.opencv.face;
 
-import android.hardware.Camera;
-import android.hardware.camera2.CameraCharacteristics;
 import android.media.FaceDetector;
 import android.os.Environment;
-import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.SurfaceHolder;
@@ -23,8 +20,8 @@ public class MainActivity extends AppCompatActivity {
 
     private OpenCvJni openCvJni;
     private Camera2Helper cameraHelper2;
-    private static final int WIDTH = 640;
-    private static final int HEIGHT = 480;
+    private static final int WIDTH = 1080;
+    private static final int HEIGHT = 1920;
     private boolean isTrue;
 
     /**
@@ -42,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
         cameraHelper2 = new Camera2Helper(this, 1, WIDTH, HEIGHT);
         cameraHelper2.setPreviewDisplay(surfaceView.getHolder());
-        cameraHelper2.setOnSurfaceChange(new Camera2Helper.OnSurfaceChange() {
+        cameraHelper2.setOnSurfaceChange(new Camera2Helper.SurfaceChange() {
             @Override
             public void onPreviewFrame(byte[] data) {
 //                try {
@@ -50,11 +47,11 @@ public class MainActivity extends AppCompatActivity {
 //                } catch (Exception e) {
 //                    e.printStackTrace();
 //                }
-//                if (!isTrue) {
-//                    isTrue = true;
-//                    openCvJni.postData(data, cameraHelper2.getHeight(), cameraHelper2.getWidth(), cameraHelper2.getCameraId());
-//                }
-                openCvJni.postData(data, cameraHelper2.getHeight(), cameraHelper2.getWidth(), CameraCharacteristics.LENS_FACING_FRONT);
+                if (!isTrue) {
+                    isTrue = true;
+                    openCvJni.postData(data, cameraHelper2.getHeight(), cameraHelper2.getWidth(), cameraHelper2.getCameraId());
+                }
+//                openCvJni.postData(data, cameraHelper2.getHeight(), cameraHelper2.getWidth(), CameraCharacteristics.LENS_FACING_FRONT);
             }
 
             @Override
@@ -62,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
                 openCvJni.setSurface(holder.getSurface());
             }
         });
+
     }
 
     @Override
@@ -72,8 +70,28 @@ public class MainActivity extends AppCompatActivity {
         openCvJni.init(path);
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (cameraHelper2 != null) {
+            cameraHelper2.stopPreview();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (cameraHelper2 != null) {
+            cameraHelper2.releaseCamera();
+            cameraHelper2.releaseThread();
+        }
+    }
+
     public void switchPreview(View view) {
         cameraHelper2.switchCamera();
     }
 
+    public void takePicture(View view) {
+        cameraHelper2.takePicture();
+    }
 }

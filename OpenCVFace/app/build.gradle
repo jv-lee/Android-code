@@ -29,7 +29,7 @@ android {
         }
     }
     //静态库添加静态库地址
-    sourceSets{
+    sourceSets {
         main {
             jniLibs.srcDirs = ['src/main/cpp/libs']
         }
