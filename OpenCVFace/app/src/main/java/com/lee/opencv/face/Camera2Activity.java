@@ -6,30 +6,41 @@ import android.view.TextureView;
 import android.view.View;
 
 import com.lee.opencv.face.utils.CameraTool;
+import com.lee.opencv.face.widget.AutoFitTextureView;
 
+/**
+ * @author jv.lee
+ */
 public class Camera2Activity extends AppCompatActivity {
 
-    private CameraTool camera2Tool;
+    private CameraTool cameraTool;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera2);
-        camera2Tool = new CameraTool(this, (TextureView) findViewById(R.id.texture));
+        AutoFitTextureView textureView = (AutoFitTextureView) findViewById(R.id.texture);
+        cameraTool = new CameraTool(this, textureView);
     }
 
     public void takePicture(View view) {
-        camera2Tool.takePic();
     }
 
     public void switchPreview(View view) {
-        camera2Tool.exchangeCamera();
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        camera2Tool.releaseCamera();
-        camera2Tool.releaseThread();
+    protected void onResume() {
+        super.onResume();
+        cameraTool.startBackgroundTherad();
+        cameraTool.startPreview();
     }
+
+    @Override
+    protected void onPause() {
+        cameraTool.stopPreview();
+        cameraTool.stopBackgroundThread();
+        super.onPause();
+    }
+
 }

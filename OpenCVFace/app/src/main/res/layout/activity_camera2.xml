@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".Camera2Activity">
 
-    <TextureView
+    <com.lee.opencv.face.widget.AutoFitTextureView
         android:id="@+id/texture"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
