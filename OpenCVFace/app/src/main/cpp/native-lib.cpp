@@ -70,7 +70,7 @@ Java_com_lee_opencv_face_OpenCvJni_postData(JNIEnv *env, jobject instance, jbyte
     Mat src(height + height / 2, width, CV_8UC1, data);
     // nv21 -> RGBA  (转换类型 原始数据NV21 )  (把原来的src 重新设置 所以 第二个也是src ，无需声明2个 Mat)
     cvtColor(src, src, COLOR_YUV2RGBA_NV21);
-    imwrite("/storage/emulated/0/src.jpg", src);
+//    imwrite("/storage/emulated/0/src.jpg", src);
     if (cameraId == 1) {
 //        imwrite("/storage/emulated/0/src.jpg", src);
         //前置摄像头  逆时针旋转90度

@@ -1,4 +1,4 @@
-package com.lee.opencv.face.utils;
+package com.lee.codev.camera.tool;
 
 
 import android.Manifest;
@@ -36,7 +36,8 @@ import android.view.Surface;
 import android.view.TextureView;
 import android.widget.Toast;
 
-import com.lee.opencv.face.widget.AutoFitTextureView;
+
+import com.lee.codev.camera.widget.AutoFitTextureView;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -112,10 +113,10 @@ public class CameraTool {
     /**
      * 当前{@link CameraDevice}的ID。
      */
-    private int mCameraId = CameraCharacteristics.LENS_FACING_BACK;
+    private int mCameraId = CameraCharacteristics.LENS_FACING_FRONT;
 
     /**
-     * 相机预览的{@link android.util.Size}。
+     * 相机预览的{@link Size}。
      */
     private Size mPreviewSize;
 
@@ -133,8 +134,6 @@ public class CameraTool {
      * A {@link Semaphore} 在关闭相机之前阻止应用程序退出.
      */
     private Semaphore mCameraOpenCloseLock = new Semaphore(1);
-
-    private Surface mSurface;
 
     /**
      * 当前相机设备是否支持Flash。
@@ -227,10 +226,10 @@ public class CameraTool {
      * 这是{@link ImageReader}的回调对象。 a时会调用“onImageAvailable”
      * 图像预览原始数据。
      */
-    private ImageReader.OnImageAvailableListener mOnPreviewAvailableListener = new ImageReader.OnImageAvailableListener() {
+    private final ImageReader.OnImageAvailableListener mOnPreviewAvailableListener = new ImageReader.OnImageAvailableListener() {
         @Override
         public void onImageAvailable(ImageReader reader) {
-            showToast("预览数据中");
+            Log.i(TAG, "预览数据");
         }
     };
 
@@ -247,7 +246,6 @@ public class CameraTool {
 
         @Override
         public void onSurfaceTextureSizeChanged(SurfaceTexture texture, int width, int height) {
-            onSurfaceChange(mSurface, width, height);
             configureTransform(width, height);
         }
 
@@ -258,13 +256,12 @@ public class CameraTool {
 
         @Override
         public void onSurfaceTextureUpdated(SurfaceTexture texture) {
-//            if (mTextureView != null) {
-//                if (mTextureView.getBitmap() != null) {
-//                    Bitmap bitmap = mTextureView.getBitmap();
-//                    final byte[] nv21 = ImageUtil.getNV21(bitmap.getWidth(), bitmap.getHeight(), bitmap);
-//                    onPreviewFrame(nv21);
-//                }
-//            }
+            if (mTextureView != null) {
+                if (mTextureView.getBitmap() != null) {
+                    Bitmap bitmap = mTextureView.getBitmap();
+                    onPreviewFrame(ImageUtil.getNV21(bitmap.getWidth(), bitmap.getHeight(), bitmap));
+                }
+            }
         }
 
     };
@@ -315,7 +312,6 @@ public class CameraTool {
                 case STATE_WAITING_LOCK: {
                     Integer afState = result.get(CaptureResult.CONTROL_AF_STATE);
                     if (afState == null) {
-                        Log.i(TAG, "afState == null");
                         captureStillPicture();
                     } else if (CaptureResult.CONTROL_AF_STATE_FOCUSED_LOCKED == afState ||
                             CaptureResult.CONTROL_AF_STATE_NOT_FOCUSED_LOCKED == afState) {
@@ -328,9 +324,6 @@ public class CameraTool {
                         } else {
                             runPrecaptureSequence();
                         }
-                    } else {
-                        mState = STATE_PICTURE_TAKEN;
-                        captureStillPicture();
                     }
                     break;
                 }
@@ -463,11 +456,11 @@ public class CameraTool {
         return mWidth;
     }
 
-    public int getHeight() {
+    public int getHeight(){
         return mHeight;
     }
 
-    public int getCameraId() {
+    public int getCameraId(){
         return mCameraId;
     }
 
@@ -519,16 +512,14 @@ public class CameraTool {
             texture.setDefaultBufferSize(mPreviewSize.getWidth(), mPreviewSize.getHeight());
 
             //这是我们开始预览所需的输出Surface。
-            mSurface = new Surface(texture);
+            Surface surface = new Surface(texture);
 
             //我们使用输出Surface设置CaptureRequest.Builder。
             mPreviewRequestBuilder = mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
-            mPreviewRequestBuilder.addTarget(mPreviewReader.getSurface());
-            mPreviewRequestBuilder.addTarget(mSurface);
-
+            mPreviewRequestBuilder.addTarget(surface);
 
             //在这里，我们为相机预览创建一个CameraCaptureSession。
-            mCameraDevice.createCaptureSession(Arrays.asList(mSurface, mImageReader.getSurface(), mPreviewReader.getSurface()),
+            mCameraDevice.createCaptureSession(Arrays.asList(surface, mImageReader.getSurface()),
                     new CameraCaptureSession.StateCallback() {
 
                         @Override
@@ -584,7 +575,7 @@ public class CameraTool {
 
 
     /**
-     * 将必要的{@link android.graphics.Matrix}转换配置为`mTextureView`。
+     * 将必要的{@link Matrix}转换配置为`mTextureView`。
      * 在确定相机预览尺寸后应调用此方法
      * setUpCameraOutputs以及`mTextureView`的大小是固定的。
      *
@@ -601,7 +592,7 @@ public class CameraTool {
         mWidth = viewWidth;
         mHeight = viewHeight;
         //将textureView 宽高改变后的参数回调
-//        onSurfaceChange(new Surface(mTextureView.getSurfaceTexture()), viewWidth, viewHeight);
+        onSurfaceChange(new Surface(mTextureView.getSurfaceTexture()), viewWidth, viewHeight);
 
         int rotation = activity.getWindowManager().getDefaultDisplay().getRotation();
         Matrix matrix = new Matrix();

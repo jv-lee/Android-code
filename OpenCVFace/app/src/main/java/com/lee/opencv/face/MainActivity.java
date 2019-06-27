@@ -1,5 +1,6 @@
 package com.lee.opencv.face;
 
+import android.hardware.Camera;
 import android.media.FaceDetector;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
@@ -8,7 +9,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 
-import com.lee.opencv.face.utils.Camera2Helper;
+import com.lee.opencv.face.utils.CameraHelper;
 import com.lee.opencv.face.utils.Utils;
 
 import java.io.File;
@@ -16,12 +17,13 @@ import java.io.File;
 /**
  * @author jv.lee
  */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SurfaceHolder.Callback, Camera.PreviewCallback{
 
     private OpenCvJni openCvJni;
-    private Camera2Helper cameraHelper2;
+    private CameraHelper cameraHelper;
     private static final int WIDTH = 1080;
     private static final int HEIGHT = 1920;
+    int cameraId = Camera.CameraInfo.CAMERA_FACING_FRONT;
     private boolean isTrue;
 
     /**
@@ -35,30 +37,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         SurfaceView surfaceView = findViewById(R.id.surface_view);
         openCvJni = new OpenCvJni();
+        surfaceView.getHolder().addCallback(this);
+        cameraHelper = new CameraHelper(cameraId);
+        cameraHelper.setPreviewCallback(this);
         Utils.copyAssets(this, "lbpcascade_frontalface.xml");
-
-        cameraHelper2 = new Camera2Helper(this, 1, WIDTH, HEIGHT);
-        cameraHelper2.setPreviewDisplay(surfaceView.getHolder());
-        cameraHelper2.setOnSurfaceChange(new Camera2Helper.SurfaceChange() {
-            @Override
-            public void onPreviewFrame(byte[] data) {
-//                try {
-//                    SystemClock.sleep(100);
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-                if (!isTrue) {
-                    isTrue = true;
-                    openCvJni.postData(data, cameraHelper2.getHeight(), cameraHelper2.getWidth(), cameraHelper2.getCameraId());
-                }
-//                openCvJni.postData(data, cameraHelper2.getHeight(), cameraHelper2.getWidth(), CameraCharacteristics.LENS_FACING_FRONT);
-            }
-
-            @Override
-            public void onChanged(SurfaceHolder holder, int w, int h) {
-                openCvJni.setSurface(holder.getSurface());
-            }
-        });
 
     }
 
@@ -66,32 +48,45 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         String path = new File(Environment.getExternalStorageDirectory(), "lbpcascade_frontalface.xml").getAbsolutePath();
-        cameraHelper2.startPreview();
+        cameraHelper.startPreview();
         openCvJni.init(path);
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if (cameraHelper2 != null) {
-            cameraHelper2.stopPreview();
-        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (cameraHelper2 != null) {
-            cameraHelper2.releaseCamera();
-            cameraHelper2.releaseThread();
-        }
-    }
-
     public void switchPreview(View view) {
-        cameraHelper2.switchCamera();
+        cameraHelper.switchCamera();
+        cameraId = cameraHelper.getCameraId();
     }
 
     public void takePicture(View view) {
-        cameraHelper2.takePicture();
+//        cameraHelper2.takePicture();
+    }
+
+    @Override
+    public void onPreviewFrame(byte[] data, Camera camera) {
+        //                try {
+//                    SystemClock.sleep(100);
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//        if (!isTrue) {
+//            isTrue = true;
+//            openCvJni.postData(data, CameraHelper.WIDTH, CameraHelper.HEIGHT, cameraId);
+//        }
+            openCvJni.postData(data, CameraHelper.WIDTH, CameraHelper.HEIGHT, cameraId);
+    }
+
+    @Override
+    public void surfaceCreated(SurfaceHolder holder) {
+
+    }
+
+    @Override
+    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+        openCvJni.setSurface(holder.getSurface());
+    }
+
+    @Override
+    public void surfaceDestroyed(SurfaceHolder holder) {
+
     }
 }

@@ -1,4 +1,4 @@
-package com.lee.opencv.face.utils;
+package com.lee.codev.camera.tool;
 
 import android.Manifest;
 import android.app.Activity;
@@ -21,9 +21,7 @@ import android.support.v4.app.ActivityCompat;
 import android.util.SparseIntArray;
 import android.view.Surface;
 import android.view.SurfaceHolder;
-import android.view.TextureView;
 import android.widget.Toast;
-
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -33,7 +31,7 @@ import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.Objects;
 
-import static com.lee.opencv.face.utils.ImageUtil.YUV420P;
+import static com.lee.codev.camera.tool.ImageUtil.YUV420P;
 
 
 /**
@@ -126,6 +124,10 @@ public class Camera2Helper implements SurfaceHolder.Callback {
     }
 
     public void stopPreview() {
+        if (null != mCameraCaptureSession) {
+            mCameraCaptureSession.close();
+            mCameraCaptureSession = null;
+        }
         if (null != mCameraDevice) {
             mCameraDevice.close();
             mCameraDevice = null;
