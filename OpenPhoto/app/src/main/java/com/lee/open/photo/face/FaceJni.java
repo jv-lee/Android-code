@@ -1,5 +1,6 @@
 package com.lee.open.photo.face;
 
+import android.hardware.Camera;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Message;
@@ -18,6 +19,7 @@ public class FaceJni {
     private Handler mBackgroundHandler;
     private HandlerThread mBackgroundThread;
     private CameraHelper mCameraHelper;
+    private Face mFace;
 
     static {
         System.loadLibrary("native-lib");
@@ -29,14 +31,14 @@ public class FaceJni {
 
     private native Face nativeDetector(long self, byte[] data, int cameraId, int width, int height);
 
-    public FaceJni(String path,CameraHelper cameraHelper) {
-        self = nativeInit(path, "");
+    public FaceJni(String path, String seeta, CameraHelper cameraHelper) {
+        self = nativeInit(path, seeta);
         mBackgroundThread = new HandlerThread("faceThread");
         mBackgroundThread.start();
         mBackgroundHandler = new Handler(mBackgroundThread.getLooper()) {
             @Override
             public void handleMessage(Message msg) {
-                nativeDetector(self, (byte[]) msg.obj, mCameraHelper.getCameraId(),CameraHelper.WIDTH,CameraHelper.HEIGHT);
+                mFace = nativeDetector(self, (byte[]) msg.obj, Camera.CameraInfo.CAMERA_FACING_FRONT, CameraHelper.WIDTH, CameraHelper.HEIGHT);
             }
         };
     }
@@ -58,5 +60,9 @@ public class FaceJni {
         Message message = mBackgroundHandler.obtainMessage(CHAECK_FACE);
         message.obj = data;
         mBackgroundHandler.sendMessage(message);
+    }
+
+    public Face getFace() {
+        return mFace;
     }
 }

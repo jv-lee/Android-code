@@ -12,14 +12,12 @@ import com.lee.open.photo.R;
  */
 public class ScreenFilter extends AbstractFilter {
 
-
     public ScreenFilter(Context context) {
         super(context, R.raw.base_vertex, R.raw.base_frag);
     }
 
     @Override
-    protected void initCoordination() {
+    protected void initCoordinate() {
 
     }
-
 }

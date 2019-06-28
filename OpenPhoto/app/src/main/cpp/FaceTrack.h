@@ -1,5 +1,5 @@
 //
-// Created by Raytine on 2019/6/27.
+// Created by jv.lee on 2019/6/27.
 //
 
 #ifndef OPENPHOTO_FACETRACK_H
@@ -10,6 +10,7 @@
 #include <vector>
 #include "opencv2/objdetect.hpp"
 #include "face_alignment.h"
+#include "macro.h"
 
 using namespace std;
 using namespace cv;
@@ -43,14 +44,15 @@ private:
 
 class FaceTrack {
 public:
-    FaceTrack(const char *path);
+    FaceTrack(const char *path, const char *seeta);
 
     void startTracking();
 
-    void detector(Mat mat);
+    vector<Rect2f> detector(Mat mat);
 
 private:
     Ptr<DetectionBasedTracker> tracker;
+    Ptr<seeta::FaceAlignment> faceAlignment;
 };
 
 

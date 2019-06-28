@@ -4,7 +4,7 @@ import android.content.Context;
 import android.opengl.GLES20;
 
 
-import com.lee.open.photo.utils.OpenGLUtil;
+import com.lee.open.photo.utils.OpenGLUtils;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -28,12 +28,11 @@ public abstract class AbstractFilter {
     protected int mFragmentShaderId;
     protected FloatBuffer mTextureBuffer;
 
-
-    protected int mProgram;
     protected int vTexture;
     protected int vMatrix;
     protected int vCoord;
     protected int vPosition;
+    protected int mProgram;
     protected int mWidth;
     protected int mHeight;
 
@@ -43,42 +42,43 @@ public abstract class AbstractFilter {
         //摄像头是2D
         mVertexBuffer = ByteBuffer.allocateDirect(4 * 2 * 4).order(ByteOrder.nativeOrder()).asFloatBuffer();
         mVertexBuffer.clear();
-        //java层坐标转换为OpenGL
-        float[] VERIEX = {
+        float[] VERTEX = {
                 -1.0f, -1.0f,
                 1.0f, -1.0f,
                 -1.0f, 1.0f,
                 1.0f, 1.0f
         };
-        mVertexBuffer.put(VERIEX);
+        mVertexBuffer.put(VERTEX);
 
-        mTextureBuffer = ByteBuffer.allocateDirect(4 * 2 * 4).order(ByteOrder.nativeOrder()).asFloatBuffer();
+        mTextureBuffer = ByteBuffer.allocateDirect(4 * 2 * 4)
+                .order(ByteOrder.nativeOrder())
+                .asFloatBuffer();
         mTextureBuffer.clear();
-        //java层坐标转换为OpenGL
         float[] TEXTURE = {
                 0.0f, 1.0f,
                 1.0f, 1.0f,
                 0.0f, 0.0f,
                 1.0f, 0.0f
         };
-        mTextureBuffer.put(VERIEX);
+        mTextureBuffer.put(TEXTURE);
         initilize(context);
+        initCoordinate();
     }
 
-    protected abstract void initCoordination();
+    protected abstract void initCoordinate();
 
     private void initilize(Context context) {
         //获取着色器代码
-        String vertexShader = OpenGLUtil.readRawTextFile(context, mVertexShaderId);
-        String fragmentShader = OpenGLUtil.readRawTextFile(context, mFragmentShaderId);
+        String vertexShader = OpenGLUtils.readRawTextFile(context, mVertexShaderId);
+        String fragmentShader = OpenGLUtils.readRawTextFile(context, mFragmentShaderId);
 
         //获取程序
-        mProgram = OpenGLUtil.loadProgram(vertexShader, fragmentShader);
+        mProgram = OpenGLUtils.loadProgram(vertexShader, fragmentShader);
         //获取vPosition
         vPosition = GLES20.glGetAttribLocation(mProgram, "vPosition");
         vCoord = GLES20.glGetAttribLocation(mProgram, "vCoord");
-        vMatrix = GLES20.glGetAttribLocation(mProgram, "vMatrix");
-        vTexture = GLES20.glGetAttribLocation(mProgram, "vTexture");
+        vMatrix = GLES20.glGetUniformLocation(mProgram, "vMatrix");
+        vTexture = GLES20.glGetUniformLocation(mProgram, "vTexture");
     }
 
     public int onDrawFrame(int textureId) {
@@ -103,9 +103,8 @@ public abstract class AbstractFilter {
         return textureId;
     }
 
-
     public void onReady(int width, int height) {
-        mWidth = width;
-        mHeight = height;
+        this.mWidth = width;
+        this.mHeight = height;
     }
 }

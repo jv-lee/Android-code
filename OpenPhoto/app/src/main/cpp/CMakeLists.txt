@@ -9,8 +9,8 @@ add_library(
         SHARED
         ${SOURCE})
 
-add_subdirectory(FaceAlignment)
-include_directories(FaceAlignment/include)
+add_subdirectory(FaceAlignment/)
+include_directories(FaceAlignment/include/)
 
 target_link_libraries(
         native-lib

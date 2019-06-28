@@ -8,10 +8,11 @@ import android.os.Environment;
 
 
 import com.lee.open.photo.face.FaceJni;
+import com.lee.open.photo.filter.BigEyeFilter;
 import com.lee.open.photo.filter.CameraFilter;
 import com.lee.open.photo.filter.ScreenFilter;
 import com.lee.open.photo.utils.CameraHelper;
-import com.lee.open.photo.utils.OpenGLUtil;
+import com.lee.open.photo.utils.OpenGLUtils;
 
 import java.io.File;
 
@@ -28,28 +29,34 @@ public class PhotoRender implements GLSurfaceView.Renderer, SurfaceTexture.OnFra
     private CameraHelper mCameraHelper;
     private PhotoView mView;
     private SurfaceTexture mSurfaceTexture;
-    private CameraFilter mCameraFilter;
-    private ScreenFilter mScreenFilter;
-
-    private FaceJni faceJni;
-    File file = new File(Environment.getExternalStorageDirectory(), "lbpcascade_frontalface.xml");
-
     /**
      * 纹理ID
      */
     private int[] mTextures;
     private float[] mtx = new float[16];
 
+    private CameraFilter mCameraFilter;
+    private ScreenFilter mScreenFilter;
+    private BigEyeFilter mBigEyeFilter;
+
+    private FaceJni faceJni;
+    File lbpcascade_frontalface = new File(Environment.getExternalStorageDirectory(), "lbpcascade_frontalface.xml");
+    File seeta_fa_v1 = new File(Environment.getExternalStorageDirectory(), "seeta_fa_v1.1.bin");
+
+
     public PhotoRender(PhotoView view) {
         mView = view;
-        //拷贝assets 原型文件至sd卡
-        OpenGLUtil.copyAssets(view.getContext(), file.getAbsolutePath());
+        //拷贝 模型
+        OpenGLUtils.copyAssets2SdCard(mView.getContext(), "lbpcascade_frontalface.xml",
+                lbpcascade_frontalface.getAbsolutePath());
+        OpenGLUtils.copyAssets2SdCard(mView.getContext(), "seeta_fa_v1.1.bin",
+                seeta_fa_v1.getAbsolutePath());
     }
 
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
         //打开摄像头
-        mCameraHelper = new CameraHelper(Camera.CameraInfo.CAMERA_FACING_BACK);
+        mCameraHelper = new CameraHelper(Camera.CameraInfo.CAMERA_FACING_FRONT);
         mTextures = new int[1];
         //入参出参对象
         GLES20.glGenTextures(mTextures.length, mTextures, 0);
@@ -59,6 +66,7 @@ public class PhotoRender implements GLSurfaceView.Renderer, SurfaceTexture.OnFra
         mSurfaceTexture.getTransformMatrix(mtx);
         mCameraFilter = new CameraFilter(mView.getContext());
         mScreenFilter = new ScreenFilter(mView.getContext());
+        mBigEyeFilter = new BigEyeFilter(mView.getContext());
         mCameraFilter.setMatrix(mtx);
     }
 
@@ -68,7 +76,8 @@ public class PhotoRender implements GLSurfaceView.Renderer, SurfaceTexture.OnFra
         mCameraHelper.setPreviewCallback(this);
         mCameraFilter.onReady(width, height);
         mScreenFilter.onReady(width, height);
-        faceJni = new FaceJni(file.getAbsolutePath(), mCameraHelper);
+        mBigEyeFilter.onReady(width, height );
+        faceJni = new FaceJni(lbpcascade_frontalface.getAbsolutePath(), seeta_fa_v1.getAbsolutePath(), mCameraHelper);
         faceJni.startTrack();
     }
 
@@ -87,7 +96,10 @@ public class PhotoRender implements GLSurfaceView.Renderer, SurfaceTexture.OnFra
         mCameraFilter.setMatrix(mtx);
 
         //传入纹理
-        mCameraFilter.onDrawFrame(mTextures[0]);
+        int id = mCameraFilter.onDrawFrame(mTextures[0]);
+        mBigEyeFilter.setFace(faceJni.getFace());
+        id = mBigEyeFilter.onDrawFrame(id);
+        mScreenFilter.onDrawFrame(id);
     }
 
     @Override

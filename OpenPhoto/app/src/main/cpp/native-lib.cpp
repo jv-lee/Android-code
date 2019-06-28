@@ -9,7 +9,7 @@ Java_com_lee_open_photo_face_FaceJni_nativeInit(JNIEnv *env, jobject instance, j
     const char *path = env->GetStringUTFChars(path_, 0);
     const char *seeta = env->GetStringUTFChars(seeta_, 0);
 
-    FaceTrack *faceTrack = new FaceTrack(path);
+    FaceTrack *faceTrack = new FaceTrack(path, seeta);
 
     env->ReleaseStringUTFChars(path_, path);
     env->ReleaseStringUTFChars(seeta_, seeta);
@@ -63,6 +63,28 @@ Java_com_lee_open_photo_face_FaceJni_nativeDetector(JNIEnv *env, jobject instanc
     equalizeHist(gray, gray);
 
     //这里我们开始使用openCv开始检测
-    me->detector(gray);
+    vector<Rect2f> rects = me->detector(gray);
+    width = src.cols;
+    height = src.rows;
+    //Face对象
+    int ret = rects.size();
+    if (ret) {
+        jclass clazz = env->FindClass("com/lee/open/photo/face/Face");
+        jmethodID costruct = env->GetMethodID(clazz, "<init>", "(IIII[F)V");
+        int size = ret * 2;
+        //创建java 的float 数组
+        jfloatArray floatArray = env->NewFloatArray(size);
+        for (int i = 0; i < size; ++i) {
+            float f[2] = {rects[i].x, rects[i].y};
+            env->SetFloatArrayRegion(floatArray, i, 2, f);
+            i += 2;
+        }
+        Rect2f faceRect = rects[0];
+        int f_width = faceRect.width;
+        int f_height = faceRect.height;
+        jobject face = env->NewObject(clazz, costruct, f_width, f_height, width, height, floatArray);
+        return face;
+    }
     env->ReleaseByteArrayElements(data_, data, 0);
+    return NULL;
 }
