@@ -32,11 +32,10 @@ public class Camera2Activity extends AppCompatActivity {
         cameraTool.setPictureCallback(new CameraTool.PictureCallback() {
             @Override
             public void onPreviewFrame(byte[] data) {
-//                if (!isTrue) {
+                if (!isTrue) {
 //                    isTrue = true;
-//                    openCvJni.postData(data,cameraTool.getWidth(),cameraTool.getHeight(),cameraTool.getCameraId());
-//                }
-                openCvJni.postData(data,cameraTool.getWidth(),cameraTool.getHeight(),cameraTool.getCameraId());
+                    openCvJni.postData(data, cameraTool.getWidth(), cameraTool.getHeight(), cameraTool.getCameraId());
+                }
             }
 
             @Override

@@ -21,8 +21,6 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
 
     private OpenCvJni openCvJni;
     private CameraHelper cameraHelper;
-    private static final int WIDTH = 1080;
-    private static final int HEIGHT = 1920;
     int cameraId = Camera.CameraInfo.CAMERA_FACING_FRONT;
     private boolean isTrue;
 
@@ -35,8 +33,8 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        SurfaceView surfaceView = findViewById(R.id.surface_view);
         openCvJni = new OpenCvJni();
+        SurfaceView surfaceView = findViewById(R.id.surface_view);
         surfaceView.getHolder().addCallback(this);
         cameraHelper = new CameraHelper(cameraId);
         cameraHelper.setPreviewCallback(this);
@@ -63,16 +61,10 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
 
     @Override
     public void onPreviewFrame(byte[] data, Camera camera) {
-        //                try {
-//                    SystemClock.sleep(100);
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//        if (!isTrue) {
+        if (!isTrue) {
 //            isTrue = true;
-//            openCvJni.postData(data, CameraHelper.WIDTH, CameraHelper.HEIGHT, cameraId);
-//        }
             openCvJni.postData(data, CameraHelper.WIDTH, CameraHelper.HEIGHT, cameraId);
+        }
     }
 
     @Override

@@ -112,7 +112,7 @@ public class CameraTool {
     /**
      * 当前{@link CameraDevice}的ID。
      */
-    private int mCameraId = CameraCharacteristics.LENS_FACING_BACK;
+    private int mCameraId = CameraCharacteristics.LENS_FACING_FRONT;
 
     /**
      * 相机预览的{@link android.util.Size}。
@@ -230,7 +230,7 @@ public class CameraTool {
     private ImageReader.OnImageAvailableListener mOnPreviewAvailableListener = new ImageReader.OnImageAvailableListener() {
         @Override
         public void onImageAvailable(ImageReader reader) {
-            showToast("预览数据中");
+            Log.i(TAG, "原始数据预览");
         }
     };
 
@@ -247,7 +247,6 @@ public class CameraTool {
 
         @Override
         public void onSurfaceTextureSizeChanged(SurfaceTexture texture, int width, int height) {
-            onSurfaceChange(mSurface, width, height);
             configureTransform(width, height);
         }
 
@@ -258,13 +257,22 @@ public class CameraTool {
 
         @Override
         public void onSurfaceTextureUpdated(SurfaceTexture texture) {
-//            if (mTextureView != null) {
-//                if (mTextureView.getBitmap() != null) {
-//                    Bitmap bitmap = mTextureView.getBitmap();
-//                    final byte[] nv21 = ImageUtil.getNV21(bitmap.getWidth(), bitmap.getHeight(), bitmap);
-//                    onPreviewFrame(nv21);
-//                }
-//            }
+            if (ThreadTool.getInstance().getExecutor().getActiveCount() > 0) {
+                return;
+            }
+            ThreadTool.getInstance().addTask(new Runnable() {
+                @Override
+                public void run() {
+                    if (mTextureView != null) {
+                        if (mTextureView.getBitmap() != null) {
+                            Bitmap bitmap = mTextureView.getBitmap();
+                            final byte[] nv21 = Utils.getNV21(bitmap.getWidth(), bitmap.getHeight(), bitmap);
+                            onPreviewFrame(nv21);
+                        }
+                    }
+                }
+            });
+
         }
 
     };
@@ -372,7 +380,6 @@ public class CameraTool {
         }
 
     };
-
 
     public CameraTool(Activity activity, AutoFitTextureView textureView) {
         mActivity = new WeakReference<>(activity);
@@ -520,15 +527,15 @@ public class CameraTool {
 
             //这是我们开始预览所需的输出Surface。
             mSurface = new Surface(texture);
+            onSurfaceChange(mSurface, mWidth, mHeight);
 
             //我们使用输出Surface设置CaptureRequest.Builder。
             mPreviewRequestBuilder = mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
-            mPreviewRequestBuilder.addTarget(mPreviewReader.getSurface());
+//            mPreviewRequestBuilder.addTarget(mPreviewReader.getSurface());
             mPreviewRequestBuilder.addTarget(mSurface);
 
-
-            //在这里，我们为相机预览创建一个CameraCaptureSession。
-            mCameraDevice.createCaptureSession(Arrays.asList(mSurface, mImageReader.getSurface(), mPreviewReader.getSurface()),
+            //在这里，我们为相机预览创建一个CameraCaptureSession。 mPreviewReader.getSurface()
+            mCameraDevice.createCaptureSession(Arrays.asList(mSurface, mImageReader.getSurface()),
                     new CameraCaptureSession.StateCallback() {
 
                         @Override
@@ -545,6 +552,9 @@ public class CameraTool {
                                 mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE);
                                 //必要时自动启用Flash。
                                 setAutoFlash(mPreviewRequestBuilder);
+                                // 设置预览画面成像角度Orientation
+                                int rotation = mActivity.get().getWindowManager().getDefaultDisplay().getRotation();
+                                mPreviewRequestBuilder.set(CaptureRequest.JPEG_ORIENTATION, getOrientation(rotation));
 
                                 //最后，我们开始显示相机预览。
                                 mPreviewRequest = mPreviewRequestBuilder.build();

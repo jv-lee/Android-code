@@ -2,6 +2,7 @@
 #include <string>
 #include <opencv2/opencv.hpp>
 #include <android/native_window_jni.h>
+#include "macro.h"
 
 using namespace cv;
 
@@ -14,7 +15,6 @@ public:
     CascadeDetectorAdapter(cv::Ptr<cv::CascadeClassifier> detector) :
             IDetector(),
             Detector(detector) {
-        CV_Assert(detector);
     }
 
     /**
@@ -54,8 +54,6 @@ Java_com_lee_opencv_face_OpenCvJni_init(JNIEnv *env, jobject instance, jstring p
     //tracker =  封装了 检测器和跟踪器的对象
     tracker = new DetectionBasedTracker(mainDetector, trackingDetector, DetectionParameters);
     tracker->run();
-//    tracker->process();
-
     env->ReleaseStringUTFChars(path_, path);
 }
 
@@ -71,23 +69,21 @@ Java_com_lee_opencv_face_OpenCvJni_postData(JNIEnv *env, jobject instance, jbyte
     // nv21 -> RGBA  (转换类型 原始数据NV21 )  (把原来的src 重新设置 所以 第二个也是src ，无需声明2个 Mat)
     cvtColor(src, src, COLOR_YUV2RGBA_NV21);
 //    imwrite("/storage/emulated/0/src.jpg", src);
-    if (cameraId == 1) {
-//        imwrite("/storage/emulated/0/src.jpg", src);
-        //前置摄像头  逆时针旋转90度
-        rotate(src, src, ROTATE_90_COUNTERCLOCKWISE);
-//        imwrite("/storage/emulated/0/src2.jpg", src);
-        //镜像操作 1=水平翻转  0=垂直翻转
-        flip(src, src, 1);
-//        imwrite("/storage/emulated/0/src3.jpg", src);
-    } else {
-        //后置摄像头  顺时针旋转90度
-        rotate(src, src, ROTATE_90_CLOCKWISE);
-//        imwrite("/storage/emulated/0/src2.jpg", src);
-    }
+
+    //使用Camera1工具时 判断前后摄像头 设置旋转图像
+//    if (cameraId == 1) {
+//        //前置摄像头  逆时针旋转90度
+//        rotate(src, src, ROTATE_90_COUNTERCLOCKWISE);
+//        //镜像操作 1=水平翻转  0=垂直翻转
+//        flip(src, src, 1);
+//    } else {
+//        //后置摄像头  顺时针旋转90度
+//        rotate(src, src, ROTATE_90_CLOCKWISE);
+//    }
 
     //转换为灰度图
     Mat gray;
-    cvtColor(src, gray, COLOR_RGB2GRAY);
+    cvtColor(src, gray, COLOR_RGBA2GRAY);
 //    imwrite("/storage/emulated/0/src4.jpg", gray);
 
     //对比度 二值化
@@ -98,6 +94,11 @@ Java_com_lee_opencv_face_OpenCvJni_postData(JNIEnv *env, jobject instance, jbyte
     std::vector<Rect> faces;
     tracker->process(gray);
     tracker->getObjects(faces);
+
+
+    if (faces.size()) {
+        LOGE("检测到人脸");
+    }
 
     for (Rect face:faces) {
         rectangle(src, face, Scalar(255, 0, 255));
@@ -115,16 +116,19 @@ Java_com_lee_opencv_face_OpenCvJni_postData(JNIEnv *env, jobject instance, jbyte
 
     //将图像拷贝至window中
     if (window) {
-        ANativeWindow_setBuffersGeometry(window, src.cols, src.rows, WINDOW_FORMAT_RGBA_8888);
+        ANativeWindow_setBuffersGeometry(window, src.cols, src.rows,WINDOW_FORMAT_RGBA_8888);
         ANativeWindow_Buffer window_buffer;
         do {
             //锁定失败 直接退出
             if (ANativeWindow_lock(window, &window_buffer, 0)) {
                 ANativeWindow_release(window);
                 window = 0;
+                LOGE("Window锁定失败");
                 break;
             }
 
+
+            LOGE("开始拷贝");
             uint8_t *dst_data = static_cast<uint8_t *>(window_buffer.bits);
             int dst_linesize = window_buffer.stride * 4;
 
@@ -133,6 +137,7 @@ Java_com_lee_opencv_face_OpenCvJni_postData(JNIEnv *env, jobject instance, jbyte
                 memcpy(dst_data + i * dst_linesize, src.data + i * src.cols * 4, dst_linesize);
             }
             //提交刷新 解锁通知
+            LOGE("拷贝完成");
             ANativeWindow_unlockAndPost(window);
 
         } while (0);
@@ -150,8 +155,10 @@ extern "C"
 JNIEXPORT void JNICALL
 Java_com_lee_opencv_face_OpenCvJni_setSurface(JNIEnv *env, jobject instance, jobject surface) {
     if (window) {
+        LOGE("清空window");
         ANativeWindow_release(window);
         window = 0;
     }
+    LOGE("创建window");
     window = ANativeWindow_fromSurface(env, surface);
 }
