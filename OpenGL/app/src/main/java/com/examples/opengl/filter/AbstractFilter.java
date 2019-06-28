@@ -78,8 +78,8 @@ public abstract class AbstractFilter {
         //获取vPosition
         vPosition = GLES20.glGetAttribLocation(mProgram, "vPosition");
         vCoord = GLES20.glGetAttribLocation(mProgram, "vCoord");
-        vMatrix = GLES20.glGetAttribLocation(mProgram, "vMatrix");
-        vTexture = GLES20.glGetAttribLocation(mProgram, "vTexture");
+        vMatrix = GLES20.glGetUniformLocation(mProgram, "vMatrix");
+        vTexture = GLES20.glGetUniformLocation(mProgram, "vTexture");
     }
 
     public int onDrawFrame(int textureId) {
