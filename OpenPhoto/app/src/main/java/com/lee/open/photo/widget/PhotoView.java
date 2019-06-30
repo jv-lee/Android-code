@@ -11,6 +11,8 @@ import android.util.AttributeSet;
  */
 public class PhotoView extends GLSurfaceView {
 
+    private PhotoRender mRender;
+
     public PhotoView(Context context) {
         super(context);
     }
@@ -18,7 +20,12 @@ public class PhotoView extends GLSurfaceView {
     public PhotoView(Context context, AttributeSet attrs) {
         super(context, attrs);
         setEGLContextClientVersion(2);
-        setRenderer(new PhotoRender(this));
+        mRender = new PhotoRender(this);
+        setRenderer(mRender);
         setRenderMode(RENDERMODE_WHEN_DIRTY);
+    }
+
+    public void enableBeauty(boolean isChecked) {
+        mRender.enableBeauty(isChecked);
     }
 }

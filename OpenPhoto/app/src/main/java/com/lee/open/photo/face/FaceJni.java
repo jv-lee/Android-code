@@ -4,6 +4,7 @@ import android.hardware.Camera;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Message;
+import android.util.Log;
 
 import com.lee.open.photo.utils.CameraHelper;
 
@@ -38,6 +39,7 @@ public class FaceJni {
         mBackgroundHandler = new Handler(mBackgroundThread.getLooper()) {
             @Override
             public void handleMessage(Message msg) {
+                //当前为子线程
                 mFace = nativeDetector(self, (byte[]) msg.obj, Camera.CameraInfo.CAMERA_FACING_FRONT, CameraHelper.WIDTH, CameraHelper.HEIGHT);
             }
         };

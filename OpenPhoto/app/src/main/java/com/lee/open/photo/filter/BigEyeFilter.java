@@ -13,7 +13,7 @@ import java.nio.FloatBuffer;
 /**
  * @author jv.lee
  * @date 2019/6/28.
- * @description
+ * @description 大眼睛滤镜
  */
 public class BigEyeFilter extends AbstractFrameFilter {
 
@@ -42,10 +42,16 @@ public class BigEyeFilter extends AbstractFrameFilter {
     protected void initCoordinate() {
         mTextureBuffer.clear();
         //摄像头颠倒 原始坐标 摄像头是颠倒的（90度） + 镜像
+//        float[] TEXTURE = {
+//                0.0f, 0.0f,
+//                1.0f, 0.0f,
+//                0.0f, 1.0f,
+//                1.0f, 1.0f
+//        };
         float[] TEXTURE = {
                 0.0f, 0.0f,
-                1.0f, 0.0f,
                 0.0f, 1.0f,
+                1.0f, 0.0f,
                 1.0f, 1.0f
         };
         mTextureBuffer.put(TEXTURE);
@@ -70,8 +76,8 @@ public class BigEyeFilter extends AbstractFrameFilter {
 
         float[] landmarks = mFace.faceRects;
         //左眼
-        float x = landmarks[0] / mFace.imgWidth;
-        float y = landmarks[1] / mFace.imgHeight;
+        float x = landmarks[2] / mFace.imgWidth;
+        float y = landmarks[3] / mFace.imgHeight;
         left.clear();
         left.put(x);
         left.put(y);

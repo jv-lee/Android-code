@@ -16,9 +16,7 @@ FaceTrack::FaceTrack(const char *path, const char *seeta) {
     //追踪器
     tracker = makePtr<DetectionBasedTracker>(mainDetector, trackingDetector, detectorParams);
 
-//    faceAlignment = makePtr(seeta);
-
-
+    faceAlignment = makePtr<seeta::FaceAlignment>(seeta);
 }
 
 /**
@@ -39,13 +37,14 @@ vector<Rect2f> FaceTrack::detector(Mat mat) {
     tracker->process(mat);
     //获取结果
     tracker->getObjects(faces);
+    LOGE("人脸 数量%d", faces.size());
     //定义5个关键点 识别人脸
     seeta::FacialLandmark points[5];
     //遍历多个人脸 对每一个人眼进行定位 放大
     if (faces.size()) {
         Rect face = faces[0];
         //人脸的区域
-//        rects.push_back(Rect2f(face.x, face.y, face.width, face.height));
+        rects.push_back(Rect2f(face.x, face.y, face.width, face.height));
 
 
         seeta::ImageData imageData(mat.cols, mat.rows);
@@ -64,14 +63,13 @@ vector<Rect2f> FaceTrack::detector(Mat mat) {
         for (int i = 0; i < 5; ++i) {
             rects.push_back(Rect2f(points[i].x, points[i].y, 0, 0));
             if (i == 0) {
-                LOGE("左眼坐标 x %ld y %ld", points[i].x, points[i].y);
+                LOGE("左眼坐标 x %ld y %ld", points[0].x, points[0].y);
             }
             if (i == 1) {
-                LOGE("右眼坐标 x %ld y %ld", points[i].x, points[i].y);
+                LOGE("右眼坐标 x %ld y %ld", points[1].x, points[1].y);
             }
         }
     }
-    LOGE("人脸 数量%d", faces.size());
     LOGE("5个关键点 数量%d", rects.size());
     return rects;
 }

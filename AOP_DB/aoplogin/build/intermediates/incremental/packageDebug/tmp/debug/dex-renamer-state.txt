@@ -1,0 +1,7 @@
+#Tue Jun 18 23:10:24 CST 2019
+base.0=/Users/jv.lee/workspaces/netease_android/AOP_DB/aoplogin/build/intermediates/dex/debug/mergeExtDexDebug/out
+path.1=classes.dex
+renamed.1=classes2.dex
+path.0=classes.dex
+renamed.0=classes.dex
+base.1=/Users/jv.lee/workspaces/netease_android/AOP_DB/aoplogin/build/intermediates/dex/debug/mergeProjectDexDebug/out

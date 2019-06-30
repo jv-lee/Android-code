@@ -10,8 +10,6 @@ import java.util.Arrays;
  * @description Native反射生成人脸数据
  */
 public class Face {
-    public float[] faceRects;
-
     /**
      * 人脸宽度
      */
@@ -32,12 +30,17 @@ public class Face {
      */
     public int imgHeight;
 
-    public Face(float[] faceRects, int width, int height, int imgWidth, int imgHeight) {
-        this.faceRects = faceRects;
+    public float[] faceRects;
+
+    public Face() {
+    }
+
+    public Face(int width, int height, int imgWidth, int imgHeight, float[] faceRects) {
         this.width = width;
         this.height = height;
         this.imgWidth = imgWidth;
         this.imgHeight = imgHeight;
+        this.faceRects = faceRects;
         Log.i("lee >>>", "Face:" + toString());
     }
 

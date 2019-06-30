@@ -134,8 +134,6 @@ public class CameraTool {
      */
     private Semaphore mCameraOpenCloseLock = new Semaphore(1);
 
-    private Surface mSurface;
-
     /**
      * 当前相机设备是否支持Flash。
      */
@@ -201,7 +199,7 @@ public class CameraTool {
     /**
      * 照片存放目录
      */
-    File mFile;
+    private File mPhotoFile;
 
     /**
      * {@link PictureCallback}图像回调接口
@@ -209,14 +207,14 @@ public class CameraTool {
     private static PictureCallback mPictureCallback;
 
     /**
-     * 这是{@link ImageReader}的回调对象。 a时会调用“onImageAvailable”
+     * 这是{@link ImageReader}的回调对象。 拍照申请时会调用“onImageAvailable”
      * 静止图像已准备好保存。
      */
     private final ImageReader.OnImageAvailableListener mOnImageAvailableListener = new ImageReader.OnImageAvailableListener() {
 
         @Override
         public void onImageAvailable(ImageReader reader) {
-            File file = new File(mFile == null ? Environment.getExternalStorageDirectory() : mFile,
+            File file = new File(mPhotoFile == null ? Environment.getExternalStorageDirectory() : mPhotoFile,
                     System.currentTimeMillis() + ".jpg");
             mBackgroundHandler.post(new ImageSaver(reader.acquireNextImage(), file));
         }
@@ -257,6 +255,7 @@ public class CameraTool {
 
         @Override
         public void onSurfaceTextureUpdated(SurfaceTexture texture) {
+            //通过子线程回调每一帧原始数据
             if (ThreadTool.getInstance().getExecutor().getActiveCount() > 0) {
                 return;
             }
@@ -264,17 +263,13 @@ public class CameraTool {
                 @Override
                 public void run() {
                     if (mTextureView != null) {
-                        if (mTextureView.getBitmap() != null) {
-                            Bitmap bitmap = mTextureView.getBitmap();
-                            final byte[] nv21 = Utils.getNV21(bitmap.getWidth(), bitmap.getHeight(), bitmap);
-                            onPreviewFrame(nv21);
-                        }
+                        Bitmap bitmap = mTextureView.getBitmap();
+                        final byte[] nv21 = Utils.getNV21(bitmap.getWidth(), bitmap.getHeight(), bitmap);
+                        onPreviewFrame(nv21);
                     }
                 }
             });
-
         }
-
     };
 
     /**
@@ -491,8 +486,8 @@ public class CameraTool {
     /**
      * 打开{@link ＃mCameraId}指定的摄像头。
      *
-     * @param width
-     * @param height
+     * @param width  渲染宽度
+     * @param height 渲染高度
      */
     private void openCamera(int width, int height) {
         if (ContextCompat.checkSelfPermission(mActivity.get(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
@@ -526,16 +521,15 @@ public class CameraTool {
             texture.setDefaultBufferSize(mPreviewSize.getWidth(), mPreviewSize.getHeight());
 
             //这是我们开始预览所需的输出Surface。
-            mSurface = new Surface(texture);
-            onSurfaceChange(mSurface, mWidth, mHeight);
+            Surface surface = new Surface(texture);
+            onSurfaceChange(surface, mWidth, mHeight);
 
             //我们使用输出Surface设置CaptureRequest.Builder。
             mPreviewRequestBuilder = mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
-//            mPreviewRequestBuilder.addTarget(mPreviewReader.getSurface());
-            mPreviewRequestBuilder.addTarget(mSurface);
+            mPreviewRequestBuilder.addTarget(surface);
 
-            //在这里，我们为相机预览创建一个CameraCaptureSession。 mPreviewReader.getSurface()
-            mCameraDevice.createCaptureSession(Arrays.asList(mSurface, mImageReader.getSurface()),
+            //在这里，我们为相机预览创建一个CameraCaptureSession。
+            mCameraDevice.createCaptureSession(Arrays.asList(surface, mImageReader.getSurface()),
                     new CameraCaptureSession.StateCallback() {
 
                         @Override
@@ -610,8 +604,6 @@ public class CameraTool {
         //设置初始宽高
         mWidth = viewWidth;
         mHeight = viewHeight;
-        //将textureView 宽高改变后的参数回调
-//        onSurfaceChange(new Surface(mTextureView.getSurfaceTexture()), viewWidth, viewHeight);
 
         int rotation = activity.getWindowManager().getDefaultDisplay().getRotation();
         Matrix matrix = new Matrix();

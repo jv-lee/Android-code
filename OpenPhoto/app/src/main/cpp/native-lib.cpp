@@ -74,15 +74,16 @@ Java_com_lee_open_photo_face_FaceJni_nativeDetector(JNIEnv *env, jobject instanc
         int size = ret * 2;
         //创建java 的float 数组
         jfloatArray floatArray = env->NewFloatArray(size);
-        for (int i = 0; i < size; ++i) {
-            float f[2] = {rects[i].x, rects[i].y};
+        for (int i = 0,j=0; i < size; j++) {
+            float f[2] = {rects[j].x, rects[j].y};
             env->SetFloatArrayRegion(floatArray, i, 2, f);
             i += 2;
         }
         Rect2f faceRect = rects[0];
         int f_width = faceRect.width;
         int f_height = faceRect.height;
-        jobject face = env->NewObject(clazz, costruct, f_width, f_height, width, height, floatArray);
+        //参数  fwidth fheight 定位位置的宽高  、  width height 整张图像的宽高
+        jobject face = env->NewObject(clazz, costruct,f_width ,f_height,width, height,floatArray);
         return face;
     }
     env->ReleaseByteArrayElements(data_, data, 0);
