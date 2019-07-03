@@ -27,6 +27,7 @@ import android.media.ImageReader;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -201,6 +202,8 @@ public class CameraTool {
      */
     private File mPhotoFile;
 
+    private final int MESSAGE_CODE = 0x010;
+
     /**
      * {@link PictureCallback}图像回调接口
      */
@@ -255,20 +258,7 @@ public class CameraTool {
 
         @Override
         public void onSurfaceTextureUpdated(SurfaceTexture texture) {
-            //通过子线程回调每一帧原始数据
-            if (ThreadTool.getInstance().getExecutor().getActiveCount() > 0) {
-                return;
-            }
-            ThreadTool.getInstance().addTask(new Runnable() {
-                @Override
-                public void run() {
-                    if (mTextureView != null) {
-                        Bitmap bitmap = mTextureView.getBitmap();
-                        final byte[] nv21 = Utils.getNV21(bitmap.getWidth(), bitmap.getHeight(), bitmap);
-                        onPreviewFrame(nv21);
-                    }
-                }
-            });
+            mBackgroundHandler.sendMessage(Message.obtain(mBackgroundHandler, MESSAGE_CODE));
         }
     };
 
@@ -388,7 +378,13 @@ public class CameraTool {
         //创建handlerThread 使子线程创建的handler 可以自动调用 Looper轮询机制 Looper.prepare() Looper.loop()
         mBackgroundThread = new HandlerThread("CameraBackground");
         mBackgroundThread.start();
-        mBackgroundHandler = new Handler(mBackgroundThread.getLooper());
+        mBackgroundHandler = new Handler(mBackgroundThread.getLooper()) {
+            @Override
+            public void handleMessage(Message msg) {
+                //实时转换nv21数据回调
+                callNv21();
+            }
+        };
     }
 
     /**
@@ -873,6 +869,17 @@ public class CameraTool {
                     mBackgroundHandler);
         } catch (CameraAccessException e) {
             e.printStackTrace();
+        }
+    }
+
+    /**
+     * 实时获取{@link TextureView} 中的Bitmap数据 转换为NV21返回
+     */
+    private void callNv21() {
+        if (mTextureView != null) {
+            Bitmap bitmap = mTextureView.getBitmap();
+            final byte[] nv21 = Utils.getNV21(bitmap.getWidth(), bitmap.getHeight(), bitmap);
+            onPreviewFrame(nv21);
         }
     }
 
