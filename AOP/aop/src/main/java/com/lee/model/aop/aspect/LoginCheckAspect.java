@@ -9,9 +9,12 @@ import android.widget.Toast;
 import com.lee.model.aop.Config;
 import com.lee.model.aop.LoginActivity;
 
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 
 /**
@@ -33,6 +36,10 @@ public class LoginCheckAspect {
     public void methodPointCut() {
     }
 
+    @Before("methodPointCut()")
+    public void joinPointBefore(JoinPoint joinPoint){
+        Log.i(TAG, "login before");
+    }
     /**
      * 2.对切入点如何处理
      */
@@ -52,4 +59,10 @@ public class LoginCheckAspect {
             return null;
         }
     }
+
+    @After("methodPointCut()")
+    public void joinPointAfter(JoinPoint joinPoint){
+        Log.i(TAG, "login after");
+    }
+
 }
