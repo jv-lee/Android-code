@@ -21,10 +21,6 @@ public class SheetDialogActivity extends AppCompatActivity {
     }
 
     public void sheetDialog(View view) {
-        if (dialog.isShowing()) {
-            dialog.show();
-        } else {
-            dialog.dismiss();
-        }
+        dialog.show();
     }
 }

@@ -1,11 +1,16 @@
 package com.lee.sheet;
 
 import android.app.Dialog;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.BottomSheetDialogFragment;
+import android.support.design.widget.CoordinatorLayout;
 import android.view.View;
+import android.view.ViewGroup;
 
 /**
  * @author jv.lee
@@ -13,6 +18,8 @@ import android.view.View;
 public class SheetDialogFragment extends BottomSheetDialogFragment {
     private BottomSheetBehavior mBehavior;
 
+
+    @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         BottomSheetDialog dialog = (BottomSheetDialog) super.onCreateDialog(savedInstanceState);
@@ -25,10 +32,13 @@ public class SheetDialogFragment extends BottomSheetDialogFragment {
     @Override
     public void onStart() {
         super.onStart();
+        Dialog dialog = getDialog();
+        if (dialog != null) {
+            View bottomSheet = dialog.findViewById(R.id.design_bottom_sheet);
+            bottomSheet.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
+        }
         mBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+
     }
 
-    public void doclick(View v) {
-        mBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-    }
 }

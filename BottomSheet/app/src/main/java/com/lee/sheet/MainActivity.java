@@ -29,7 +29,4 @@ public class MainActivity extends AppCompatActivity {
         new SheetDialogFragment().show(getSupportFragmentManager(), "dialog");
     }
 
-    public void sheetSimple(View view) {
-        startActivity(new Intent(this,BottomSheetActivity.class));
-    }
 }
