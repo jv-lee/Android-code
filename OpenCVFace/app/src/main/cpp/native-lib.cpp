@@ -118,11 +118,13 @@ Java_com_lee_opencv_face_OpenCvJni_postData(JNIEnv *env, jobject instance, jbyte
     if (window) {
         ANativeWindow_setBuffersGeometry(window, src.cols, src.rows,WINDOW_FORMAT_RGBA_8888);
         ANativeWindow_Buffer window_buffer;
+        //通知HardwareLayer解除锁定
+        ANativeWindow_acquire(window);
         do {
             //锁定失败 直接退出
-            if (ANativeWindow_lock(window, &window_buffer, 0)) {
+            if (ANativeWindow_lock(window, &window_buffer, NULL)) {
                 ANativeWindow_release(window);
-                window = 0;
+                window = NULL;
                 LOGE("Window锁定失败");
                 break;
             }
