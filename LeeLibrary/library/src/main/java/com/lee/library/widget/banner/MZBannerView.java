@@ -1,7 +1,5 @@
 package com.lee.library.widget.banner;
 
-import android.widget.RelativeLayout;
-
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
@@ -25,8 +23,8 @@ import android.view.ViewGroup;
 import android.view.animation.Interpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Scroller;
-
 
 import com.lee.library.R;
 import com.lee.library.widget.banner.holder.MZHolderCreator;

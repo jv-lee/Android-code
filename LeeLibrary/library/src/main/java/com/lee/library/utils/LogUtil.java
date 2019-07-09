@@ -10,7 +10,7 @@ import android.util.Log;
 public class LogUtil {
 
     private final static boolean IS_DEBUG = true;
-    private final static String TAG = "debug: >>>";
+    private final static String TAG = "debug>>>";
 
     public static void getStackTraceString(Throwable throwable) {
         if (throwable != null) {

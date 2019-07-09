@@ -59,13 +59,13 @@ public class PermissionManager {
 
         //判断权限
         if (PermissionUtils.hasSelfPermissions(weakActivity.get(), permissions)) {
-            permissionRequest.onSuccess();
+            permissionRequest.onPermissionSuccess();
         }else{
-            fragment.requestPermissions(permissions, PermissionManager.PERMISSION_CODE);
+            fragment.requestPermissions(permissions,PermissionManager.PERMISSION_CODE);
         }
 
 //        if (PermissionUtils.hasSelfPermissions(weakActivity.get(), permissions)) {
-//            permissionRequest.onSuccess();
+//            permissionRequest.onPermissionSuccess();
 //        } else if (PermissionUtils.shouldShowRequestPermissionRationale(weakActivity.get(), permissions)) {
 //
 //        }else{
@@ -78,6 +78,6 @@ public class PermissionManager {
 //                return;
 //            }
 //        }
-//        permissionRequest.onSuccess();
+//        permissionRequest.onPermissionSuccess();
     }
 }

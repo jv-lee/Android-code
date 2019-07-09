@@ -26,14 +26,11 @@ public abstract class BasePresenter<V> implements BaseLifecycleObserver {
     public abstract void bindModel();
 
     public void onAttachView(V view) {
-        mView = new WeakReference<>(view);
+        mView = new WeakReference<V>(view);
     }
 
     public V getView() {
-        if (mView != null) {
-            return mView.get();
-        }
-        return null;
+        return mView.get();
     }
 
     @Override

@@ -13,6 +13,7 @@ import android.view.WindowManager;
 
 /**
  * 状态栏工具
+ *
  * @author jv.lee
  * @date 2019/4/5
  */
@@ -20,10 +21,11 @@ public class StatusTool {
 
     /**
      * 设置沉浸式状态栏
-     * @param activity 引用
+     *
+     * @param activity                 引用
      * @param navigationBarTranslucent 导航栏是否设置为透明
      */
-    public static void statusBar(Activity activity,boolean navigationBarTranslucent) {
+    public static void statusBar(Activity activity, boolean navigationBarTranslucent) {
         Window window = activity.getWindow();
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
             return;
@@ -48,7 +50,7 @@ public class StatusTool {
             visibility |= View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
             window.getDecorView().setSystemUiVisibility(visibility);
             //4.0设置
-        }else{
+        } else {
             //设置沉浸式 状态栏
             window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             //设置沉浸式 导航栏
@@ -60,9 +62,10 @@ public class StatusTool {
 
     /**
      * 设置状态栏颜色 黑色
+     *
      * @param activity
      */
-    public static void setStatusFontLight(Activity activity){
+    public static void setStatusFontLight(Activity activity) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             //获取窗口区域
             Window window = activity.getWindow();
@@ -72,10 +75,38 @@ public class StatusTool {
     }
 
     /**
-     * 全屏模式
+     * 保持原有flag 设置深色状态栏颜色
+     *
      * @param activity
      */
-    public static void fullWindow(Activity activity){
+    public static void setStatusFontLight2(Activity activity) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            int originFlag = activity.getWindow().getDecorView().getSystemUiVisibility();
+            activity.getWindow().getDecorView().setSystemUiVisibility(originFlag | View
+                    .SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        }
+    }
+
+    /**
+     * 保留原有flag 清除深色状态栏颜色
+     *
+     * @param activity
+     */
+    public static void claerStatusFontLight2(Activity activity) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            int originFlag = activity.getWindow().getDecorView().getSystemUiVisibility();
+            //使用异或清除SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+            activity.getWindow().getDecorView().setSystemUiVisibility(originFlag ^ View
+                    .SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        }
+    }
+
+    /**
+     * 全屏模式
+     *
+     * @param activity
+     */
+    public static void fullWindow(Activity activity) {
         //1.设置全屏幕
         activity.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
@@ -85,6 +116,7 @@ public class StatusTool {
 
     /**
      * 获取状态栏高度
+     *
      * @param context
      * @return
      */
@@ -98,6 +130,7 @@ public class StatusTool {
 
     /**
      * 设置自定义toolbar高度
+     *
      * @param context
      * @param view
      */
@@ -105,12 +138,12 @@ public class StatusTool {
         ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
         int statusHeight = getStatusBarHeight(context);
         layoutParams.height += statusHeight;
-        view.setPadding(view.getPaddingLeft(),view.getPaddingTop()+statusHeight,view.getPaddingRight(),view.getPaddingBottom());
+        view.setPadding(view.getPaddingLeft(), view.getPaddingTop() + statusHeight, view.getPaddingRight(), view.getPaddingBottom());
     }
 
     public static void setStatusPadding(Context context, Toolbar view) {
         int statusHeight = getStatusBarHeight(context);
-        view.setPadding(0,statusHeight,0,0);
+        view.setPadding(0, statusHeight, 0, 0);
     }
 
 }

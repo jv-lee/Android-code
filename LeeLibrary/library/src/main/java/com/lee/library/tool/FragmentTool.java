@@ -13,8 +13,10 @@ public class FragmentTool {
 
     private static FragmentTool instance;
 
-    private FragmentTool(){}
-    public static FragmentTool getInstance(){
+    private FragmentTool() {
+    }
+
+    public static FragmentTool getInstance() {
         if (instance == null) {
             synchronized (FragmentTool.class) {
                 if (instance == null) {
@@ -26,8 +28,11 @@ public class FragmentTool {
     }
 
     public void showFragmentDialog(FragmentTransaction transaction, Bundle bundle, DialogFragment fragment) {
+        if (fragment.isAdded()) {
+            transaction.remove(fragment);
+        }
         fragment.setArguments(bundle);
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-        fragment.show(transaction, "df");
+        fragment.show(transaction, fragment.getClass().getSimpleName());
     }
 }

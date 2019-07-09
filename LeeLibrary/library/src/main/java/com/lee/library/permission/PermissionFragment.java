@@ -18,13 +18,13 @@ public class PermissionFragment extends Fragment {
                 for (int i = 0;i<grantResults.length;i++) {
                     if (grantResults[i] == PackageManager.PERMISSION_DENIED) {
                         if (PermissionManager.getInstance().permissionRequest != null) {
-                            PermissionManager.getInstance().permissionRequest.onFiled(permissions[i]);
+                            PermissionManager.getInstance().permissionRequest.onPermissionFiled(permissions[i]);
                         }
                         return;
                     }
                 }
                 if (PermissionManager.getInstance().permissionRequest != null) {
-                    PermissionManager.getInstance().permissionRequest.onSuccess();
+                    PermissionManager.getInstance().permissionRequest.onPermissionSuccess();
                 }
             }
         }

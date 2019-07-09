@@ -46,7 +46,7 @@ public class IntentManager {
         activity.startActivity(intent);
     }
 
-    public void startActForResult(FragmentActivity activity, Class<?> clazz, IntentRequest intentRequest) {
+    public void startActForResult(FragmentActivity activity, Class<?> clazz,IntentRequest intentRequest) {
         startActForResult(activity,clazz,null,intentRequest);
     }
 

@@ -1,6 +1,7 @@
 package com.lee.library.ioc;
 
 import android.app.Activity;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.view.View;
 import com.lee.library.ioc.annotation.ContentView;
 import com.lee.library.ioc.annotation.EventBase;
 import com.lee.library.ioc.annotation.InjectView;
+import com.lee.library.utils.LogUtil;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -90,12 +92,18 @@ public class InjectManager {
                 int viewId = injectView.value();
                 //获取方法
                 try {
-                    View view = Objects.requireNonNull(fragment.getView()).findViewById(viewId);
+                    View view;
+                    if (fragment.getView() == null) {
+                        view = Objects.requireNonNull(((DialogFragment) fragment).getDialog()).findViewById(viewId);
+                    } else {
+                        view = Objects.requireNonNull(fragment.getView()).findViewById(viewId);
+                    }
 
                     field.setAccessible(true);
                     field.set(fragment, view);
                 } catch (Exception e) {
                     e.printStackTrace();
+                    LogUtil.getStackTraceString(e);
                 }
             }
         }
@@ -145,7 +153,8 @@ public class InjectManager {
                             declaredField.setAccessible(true);
                             Method setter = declaredField.getType().getMethod(listenerSetter, listenerType);
                             setter.invoke(declaredField.get(activity), listener);
-                        } catch (Exception ignored) {
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
 
                     }
@@ -182,7 +191,12 @@ public class InjectManager {
                             int[] viewIds = (int[]) valueMethod.invoke(annotation);
 
                             for (int viewId : viewIds) {
-                                View view = Objects.requireNonNull(fragment.getView()).findViewById(viewId);
+                                View view;
+                                if (fragment.getView() == null) {
+                                    view = Objects.requireNonNull(((DialogFragment) fragment).getDialog()).findViewById(viewId);
+                                } else {
+                                    view = Objects.requireNonNull(fragment.getView()).findViewById(viewId);
+                                }
                                 Method setter = view.getClass().getMethod(listenerSetter, listenerType);
                                 setter.invoke(view, listener);
                             }
