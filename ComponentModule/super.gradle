@@ -1,0 +1,126 @@
+apply plugin: 'com.android.application'
+
+//赋值引用
+def androidId = rootProject.ext.androidId
+def appId = rootProject.ext.appId
+def support = rootProject.ext.dependencies
+def url = rootProject.ext.url
+
+android {
+    compileSdkVersion androidId.compileSdkVersion
+
+    defaultConfig {
+        applicationId appId.applicationId
+        minSdkVersion androidId.minSdkVersion
+        targetSdkVersion androidId.targetSdkVersion
+        versionCode androidId.versionCode
+        versionName androidId.versionName
+
+        //开启分包
+        multiDexEnabled true
+        //使用support-v7兼容 svg生成png图
+        vectorDrawables.useSupportLibrary = true
+        //只保留指定的默认资源
+        resConfigs('zh-rCN')
+
+        //配置so库架构 (真机：arm，模拟器：x86)
+        ndk{
+//            abiFilters('armeabi','armeabi-v7a')
+            abiFilters('x86','x86_64')
+        }
+
+        //源集 - 设置源集的属性，更改源集的Java目录或者自由目录等
+        sourceSets{
+            main{
+                if(!isRelease){
+                    //如果是组件化模式，需要单独运行时
+                    manifest.srcFile 'src/main/AndroidManifest.xml'
+                    java.srcDirs = ['src/main/java']
+                    res.srcDirs = ['src/main/res']
+                    resources.srcDirs = ['src/main/resources']
+                    aidl.srcDirs = ['src/main/aidl']
+                    assets.srcDirs = ['src/main/assets']
+                }else{
+                    //集成化模式，整个项目打包
+                    manifest.srcFile 'src/main/AndroidManifest.xml'
+                }
+            }
+        }
+
+    }
+
+    //签名配置（必须写在buildTypes之前）
+    signingConfigs {
+        debug {
+            storeFile file("../key.jks")
+            storePassword "android"
+            keyAlias "android"
+            keyPassword "android"
+        }
+        release{
+            storeFile file("../key.jks")
+            storePassword "android"
+            keyAlias "android"
+            keyPassword "android"
+            v2SigningEnabled true
+        }
+    }
+
+    buildTypes {
+        debug{
+            signingConfig signingConfigs.debug
+            buildConfigField("String","SERVER_API","\"${url.debug}\"")
+        }
+        release {
+            minifyEnabled false
+            signingConfig signingConfigs.release
+            buildConfigField("String","SERVER_API","\"${url.release}\"")
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    //ADBOptions 可以对adb操作选项添加配置
+    adbOptions{
+        //配置操作超时时间，单位毫秒
+        timeOutInMs 5 * 1000_0
+
+        //adb install 命令的选项配置
+        installOptions '-r','-s'
+    }
+
+    //对 dx 操作的配置，接收一个 DexOptions 类型的闭包，配置由 DexOptions 提供
+    dexOptions{
+        //配置执行dx 命令是为其分配最大堆内存
+        javaMaxHeapSize "4g"
+        //配置是否预执行 dex Libraries 工程，开启后回提高增量构建速度，不过回影响clean 构建的速度，默认 true
+        preDexLibraries = false
+        //配置是否开启 jumbo模式，代码方法是超过65535 需要强制开启才能构建成功
+        jumboMode true
+        // 配置Gradle 运行 dx 命令时使用的线程数量
+        threadCount 8
+        //配置multiDex参数
+        additionalParameters = [
+                '--multi-dex',//多dex分包
+                '--set-max-idx-number=50000',//每个分包内方法数量上限
+//                '--main-dex-list='+'/multidex-config.txt',//打包到主classes.dex的文件类标
+                '--minimal-main-dex'
+        ]
+    }
+
+    //执行 gradle lint 命令即可运行lint检查，默认生成的报告在outputs/lint-results.html中
+    lintOptions{
+        //遇到 lint 检查错误回种植构建，一般设置为false
+        abortOnError false
+        //将警告作为错误来处理（老版本：warningAsErros)
+        warningsAsErrors false
+        //检查新 API
+        check 'NewApi'
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    support.each {k,v -> implementation v}
+}

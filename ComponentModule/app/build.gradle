@@ -1,0 +1,48 @@
+apply plugin: 'com.android.application'
+
+//赋值引用
+def androidId = rootProject.ext.androidId
+def appId = rootProject.ext.appId
+def support = rootProject.ext.dependencies
+def url = rootProject.ext.url
+
+android {
+    compileSdkVersion androidId.compileSdkVersion
+
+    defaultConfig {
+        applicationId appId.applicationId
+        minSdkVersion androidId.minSdkVersion
+        targetSdkVersion androidId.targetSdkVersion
+        versionCode androidId.versionCode
+        versionName androidId.versionName
+
+        //配置组件化标志
+        buildConfigField("boolean","isRelease",String.valueOf(isRelease))
+    }
+
+
+    buildTypes {
+        debug{
+            buildConfigField("String","SERVER_API","\"${url.debug}\"")
+        }
+        release {
+            minifyEnabled false
+            buildConfigField("String","SERVER_API","\"${url.release}\"")
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    //引入第三方依赖
+    support.each {k,v -> implementation v}
+    //引入公共基础库
+//    implementation project(':common')
+    //组件化配置
+    if(isRelease){
+        implementation project(':order')
+        implementation project(':personal')
+    }
+}
