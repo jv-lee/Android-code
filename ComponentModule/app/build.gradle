@@ -39,7 +39,7 @@ dependencies {
     //引入第三方依赖
     support.each {k,v -> implementation v}
     //引入公共基础库
-//    implementation project(':common')
+    implementation project(':library')
     //组件化配置
     if(isRelease){
         implementation project(':order')
