@@ -10,17 +10,18 @@ import com.lee.component.annotation.ARouter;
 /**
  * @author jv.lee
  */
-@ARouter(path = "/app/MainActivity")
-public class MainActivity extends AppCompatActivity {
+@ARouter(path = "/app/PersonalActivity")
+public class PersonalActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_personal);
     }
 
     public void jump(View view) {
-        Class<?> targetClass = OrderActivity$$ARouter.findTargetClass("/app/OrderActivity");
+        Class<?> targetClass = MainActivity$$ARouter.findTargetClass("/app/MainActivity");
         startActivity(new Intent(this,targetClass));
     }
+
 }
