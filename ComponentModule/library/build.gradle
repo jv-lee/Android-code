@@ -26,4 +26,6 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     support.each {k,v -> implementation v}
+    api project(':annotation')
+    api project(':arouter_api')
 }

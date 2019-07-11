@@ -2,6 +2,7 @@ package com.lee.component.compiler;
 
 import com.google.auto.service.AutoService;
 import com.lee.component.annotation.ARouter;
+import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeSpec;
@@ -51,7 +52,7 @@ public class ARouterProcessor extends AbstractProcessor {
         filer = processingEnvironment.getFiler();
 
         String content = processingEnvironment.getOptions().get("content");
-        messager.printMessage(Diagnostic.Kind.NOTE,content);
+        messager.printMessage(Diagnostic.Kind.NOTE, content);
     }
 
     @Override
@@ -66,23 +67,25 @@ public class ARouterProcessor extends AbstractProcessor {
             String packageName = elementsUtils.getPackageOf(element).getQualifiedName().toString();
             //获取简单类名
             String className = element.getSimpleName().toString();
-            messager.printMessage(Diagnostic.Kind.NOTE,"被@ARouter注解的类有："+className);
+            messager.printMessage(Diagnostic.Kind.NOTE, "被@ARouter注解的类有：" + className);
             //最终生成的类文件名
             String finalClassName = className + "$$ARouter";
 
-            MethodSpec main = MethodSpec.methodBuilder("main")
+            ARouter aRouter = element.getAnnotation(ARouter.class);
+
+            MethodSpec methodSpec = MethodSpec.methodBuilder("findTargetClass")
                     .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
-                    .returns(void.class)
-                    .addParameter(String[].class, "args")
-                    .addStatement("$T.out.println($S)", System.class, "Hello,JavaPoet!")
+                    .returns(Class.class)
+                    .addParameter(String.class, "path")
+                    .addStatement("return $S.equals(path) ? $T.class : null", aRouter.path(), ClassName.get((TypeElement) element))
                     .build();
 
-            TypeSpec helloWorld = TypeSpec.classBuilder("HelloWorld")
-                    .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
-                    .addMethod(main)
+            TypeSpec typeSpec = TypeSpec.classBuilder(finalClassName)
+                    .addModifiers(Modifier.PUBLIC)
+                    .addMethod(methodSpec)
                     .build();
 
-            JavaFile javaFile = JavaFile.builder(packageName, helloWorld).build();
+            JavaFile javaFile = JavaFile.builder(packageName, typeSpec).build();
             try {
                 javaFile.writeTo(filer);
             } catch (IOException e) {
