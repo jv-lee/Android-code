@@ -1,4 +1,4 @@
-package com.lee.code.build.factorymethod;
+package com.lee.code.build.factory_method;
 
 /**
  * @author jv.lee

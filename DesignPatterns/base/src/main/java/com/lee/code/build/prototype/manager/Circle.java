@@ -5,7 +5,7 @@ import java.util.Scanner;
 /**
  * @author jv.lee
  * @date 2019/6/24.
- * @description 原型模式 原型实例 圆
+ * @description 创建型模式 - 原型模式 原型实例 圆
  */
 public class Circle implements Shape {
     @Override

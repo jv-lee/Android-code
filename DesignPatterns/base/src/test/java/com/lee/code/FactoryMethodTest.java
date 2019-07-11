@@ -1,9 +1,9 @@
 package com.lee.code;
 
-import com.lee.code.build.factorymethod.AbstractFactory;
-import com.lee.code.build.factorymethod.ConCreateFactory1;
-import com.lee.code.build.factorymethod.ConCreateFactory2;
-import com.lee.code.build.factorymethod.Product;
+import com.lee.code.build.factory_method.AbstractFactory;
+import com.lee.code.build.factory_method.ConCreateFactory1;
+import com.lee.code.build.factory_method.ConCreateFactory2;
+import com.lee.code.build.factory_method.Product;
 
 import org.junit.Test;
 

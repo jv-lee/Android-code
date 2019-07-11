@@ -5,7 +5,7 @@ import java.util.HashMap;
 /**
  * @author jv.lee
  * @date 2019/6/24.
- * @description 原型管理器
+ * @description 创建型模式 - 原型管理器
  */
 public class ProtoTypeManager {
     private HashMap<String, Shape> map = new HashMap<>();

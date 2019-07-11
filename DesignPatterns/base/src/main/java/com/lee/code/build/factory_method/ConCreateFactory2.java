@@ -1,9 +1,9 @@
-package com.lee.code.build.factorymethod;
+package com.lee.code.build.factory_method;
 
 /**
  * @author jv.lee
  * @date 2019/6/24.
- * @description 具体工厂2
+ * @description 创建型模式 - 具体工厂2
  */
 public class ConCreateFactory2 implements AbstractFactory {
     @Override

@@ -3,7 +3,7 @@ package com.lee.code.build.prototype;
 /**
  * @author jv.lee
  * @date 2019/6/24.
- * @description 原型模式 生成一样的对象
+ * @description 创建型模式 - 原型模式 生成一样的对象
  */
 public class Realizetype implements Cloneable {
 
