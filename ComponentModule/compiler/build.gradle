@@ -12,10 +12,10 @@ dependencies {
     implementation project(':annotation')
 }
 
-// java控制台输出中文乱码
-tasks.withType(JavaCompile) {
-    options.encoding = "UTF-8  "
-}
+//// java控制台输出中文乱码
+//tasks.withType(JavaCompile) {
+//    options.encoding = "UTF-8  "
+//}
 
 sourceCompatibility = "7"
 targetCompatibility = "7"

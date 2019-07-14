@@ -23,6 +23,14 @@ android {
 
         //配置组件化标志
         buildConfigField("boolean", "isRelease", String.valueOf(isRelease))
+
+        //在gradle文件中配置选项参数（用于APT传参接收） 必须在defaultConfig节点下
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [moduleName: project.getName(), packageNameForAPT: packageNameForAPT]
+            }
+        }
+
     }
 
     buildTypes {

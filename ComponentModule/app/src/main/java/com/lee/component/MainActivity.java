@@ -7,8 +7,8 @@ import android.view.View;
 
 import com.lee.component.annotation.ARouter;
 import com.lee.component.annotation.model.RouterBean;
-import com.lee.component.api.ARouterLoadGroup;
-import com.lee.component.api.ARouterLoadPath;
+import com.lee.component.api.core.ARouterLoadGroup;
+import com.lee.component.api.core.ARouterLoadPath;
 import com.lee.component.test.ARouter$$Group$$order;
 import com.lee.component.test.ARouter$$Group$$personal;
 

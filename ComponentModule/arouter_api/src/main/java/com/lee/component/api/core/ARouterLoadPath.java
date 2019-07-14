@@ -1,4 +1,4 @@
-package com.lee.component.api;
+package com.lee.component.api.core;
 
 import com.lee.component.annotation.model.RouterBean;
 

@@ -1,7 +1,7 @@
 package com.lee.component.test;
 
-import com.lee.component.api.ARouterLoadGroup;
-import com.lee.component.api.ARouterLoadPath;
+import com.lee.component.api.core.ARouterLoadGroup;
+import com.lee.component.api.core.ARouterLoadPath;
 
 import java.util.HashMap;
 import java.util.Map;

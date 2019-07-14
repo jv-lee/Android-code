@@ -17,17 +17,25 @@ android {
         versionName androidId.versionName
 
         //配置组件化标志
-        buildConfigField("boolean","isRelease",String.valueOf(isRelease))
+        buildConfigField("boolean", "isRelease", String.valueOf(isRelease))
+
+        //在gradle文件中配置选项参数（用于APT传参接收） 必须在defaultConfig节点下
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [moduleName: project.getName(), packageNameForAPT: packageNameForAPT]
+            }
+        }
+
     }
 
 
     buildTypes {
-        debug{
-            buildConfigField("String","SERVER_API","\"${url.debug}\"")
+        debug {
+            buildConfigField("String", "SERVER_API", "\"${url.debug}\"")
         }
         release {
             minifyEnabled false
-            buildConfigField("String","SERVER_API","\"${url.release}\"")
+            buildConfigField("String", "SERVER_API", "\"${url.release}\"")
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -37,11 +45,14 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     //引入第三方依赖
-    support.each {k,v -> implementation v}
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+    support.each { k, v -> implementation v }
     //引入公共基础库
     implementation project(':library')
+    //注解处理器触发
+    annotationProcessor project(':compiler')
     //组件化配置
-    if(isRelease){
+    if (isRelease) {
         implementation project(':order')
         implementation project(':personal')
     }

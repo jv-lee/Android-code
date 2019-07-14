@@ -1,7 +1,7 @@
 package com.lee.component.test;
 
 import com.lee.component.annotation.model.RouterBean;
-import com.lee.component.api.ARouterLoadPath;
+import com.lee.component.api.core.ARouterLoadPath;
 import com.lee.component.order.Order_MainActivity;
 
 import java.util.HashMap;
