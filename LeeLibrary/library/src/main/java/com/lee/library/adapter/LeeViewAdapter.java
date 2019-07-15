@@ -238,6 +238,8 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
         if (mAutoLoadMoreListener != null && hasLoadMore) {
             callEnd(position);
         }
+        //子view监听
+        setChildListener(holder);
     }
 
     /**
@@ -350,6 +352,20 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
     }
 
     /**
+     * 设置子点击监听事件
+     *
+     * @param viewHolder view复用器
+     */
+    private void setChildListener(LeeViewHolder viewHolder) {
+        if (mOnItemChildChange != null) {
+            int index = getPosition(viewHolder);
+            if (index >= 0) {
+                mOnItemChildChange.onItemChild(viewHolder, mData.get(index), index);
+            }
+        }
+    }
+
+    /**
      * 设置点击监听事件
      *
      * @param viewHolder view复用器
@@ -368,13 +384,6 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
                     mOnItemClickListener.onItemClick(v, mData.get(position), position);
                 }
             });
-        }
-
-        if (mOnItemChildChange != null) {
-            int position = getPosition(viewHolder);
-            if (position >= 0) {
-                mOnItemChildChange.onItemChild(viewHolder, mData.get(position), position);
-            }
         }
 
         if (mOnItemLongClickListener != null) {
