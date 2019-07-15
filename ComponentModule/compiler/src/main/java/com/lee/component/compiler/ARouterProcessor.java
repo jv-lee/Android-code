@@ -4,12 +4,14 @@ import com.google.auto.service.AutoService;
 import com.lee.component.annotation.ARouter;
 import com.lee.component.annotation.model.RouterBean;
 import com.lee.component.compiler.utils.Constants;
+import com.lee.component.compiler.utils.EmptyUtils;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.ParameterizedTypeName;
 import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
+import com.squareup.javapoet.WildcardTypeName;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -25,6 +27,7 @@ import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedAnnotationTypes;
+import javax.annotation.processing.SupportedOptions;
 import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
@@ -43,6 +46,7 @@ import javax.tools.Diagnostic;
 @AutoService(Processor.class)
 @SupportedAnnotationTypes({Constants.AROUTER_ANNOTATION_TYPES})
 @SupportedSourceVersion(SourceVersion.RELEASE_7)
+@SupportedOptions({Constants.MODULE_NAME, Constants.APT_PACKAGE})
 public class ARouterProcessor extends AbstractProcessor {
 
     /**
@@ -97,7 +101,7 @@ public class ARouterProcessor extends AbstractProcessor {
 
         //通过ProcessingEnvironment去获取对应的参数
         Map<String, String> options = processingEnvironment.getOptions();
-        if (!options.isEmpty()) {
+        if (!EmptyUtils.isEmpty(options)) {
             moduleName = options.get(Constants.MODULE_NAME);
             packageNameForAPT = options.get(Constants.APT_PACKAGE);
             messager.printMessage(Diagnostic.Kind.NOTE, "moduleName>>>" + moduleName);
@@ -105,7 +109,7 @@ public class ARouterProcessor extends AbstractProcessor {
         }
 
         //必传参数盘空（乱码问题：添加java控制台输出中文乱码）
-        if (moduleName == null && packageNameForAPT == null) {
+        if (EmptyUtils.isEmpty(moduleName) && EmptyUtils.isEmpty(packageNameForAPT)) {
             throw new RuntimeException("注解处理器需要的参数module&packageName为空，请在对应build.gradle配置参数");
         }
 
@@ -114,11 +118,11 @@ public class ARouterProcessor extends AbstractProcessor {
     @Override
     public boolean process(Set<? extends TypeElement> set, RoundEnvironment roundEnvironment) {
         //一旦有类上使用了@ARouter注解
-        if (set != null) {
+        if (!EmptyUtils.isEmpty(set)) {
             //获取所有被@ARouter注解 的元素集合
             Set<? extends Element> elements = roundEnvironment.getElementsAnnotatedWith(ARouter.class);
 
-            if (elements != null) {
+            if (!EmptyUtils.isEmpty(elements)) {
                 //解析元素
                 try {
                     parseElements(elements);
@@ -135,7 +139,7 @@ public class ARouterProcessor extends AbstractProcessor {
     /**
      * 解析所有被@ARouter注解的元素集合
      *
-     * @param elements
+     * @param elements 元素
      */
     private void parseElements(Set<? extends Element> elements) throws IOException {
 
@@ -186,7 +190,7 @@ public class ARouterProcessor extends AbstractProcessor {
      * @param pathLoadType ARouterLoadPath接口信息
      */
     private void createPathFile(TypeElement pathLoadType) throws IOException {
-        if (tempPathMap == null) {
+        if (EmptyUtils.isEmpty(tempPathMap)) {
             return;
         }
         // 方法的返回值Map<String,RouterBean>
@@ -224,7 +228,7 @@ public class ARouterProcessor extends AbstractProcessor {
                         ClassName.get((TypeElement) bean.getElement()),
                         bean.getPath(),
                         bean.getGroup()
-                        );
+                );
             }
 
             //遍历过后，最后return pathMap
@@ -232,7 +236,7 @@ public class ARouterProcessor extends AbstractProcessor {
 
             //生成类文件,如：ARouter$$Path$$app
             String finalClassName = Constants.PATH_FILE_NAME + entry.getKey();
-            messager.printMessage(Diagnostic.Kind.NOTE,"APT生成路由PATH类文件为："+packageNameForAPT+"."+finalClassName);
+            messager.printMessage(Diagnostic.Kind.NOTE, "APT生成路由PATH类文件为：" + packageNameForAPT + "." + finalClassName);
 
             JavaFile.builder(packageNameForAPT,
                     TypeSpec.classBuilder(finalClassName)
@@ -241,8 +245,9 @@ public class ARouterProcessor extends AbstractProcessor {
                             .addMethod(methodBuilder.build())
                             .build())
                     .build()
-            .writeTo(filer);
+                    .writeTo(filer);
 
+            //临时租中根据path路径存放group组数据 方便生成组文件
             tempGroupMap.put(entry.getKey(), finalClassName);
         }
 
@@ -255,7 +260,61 @@ public class ARouterProcessor extends AbstractProcessor {
      * @param groupLoadType ARouterLoadGroup接口信息
      * @param pathLoadType  ARouterLoadPath接口信息
      */
-    private void createGroupFile(TypeElement groupLoadType, TypeElement pathLoadType) {
+    private void createGroupFile(TypeElement groupLoadType, TypeElement pathLoadType) throws IOException {
+        //判断是否有需要生成的类文件
+        if (EmptyUtils.isEmpty(tempGroupMap) || EmptyUtils.isEmpty(tempPathMap)) {
+            return;
+        }
+
+        // Map/Map<String,第二个参数：Class<? extends ARouterLoadPath>> , 某Class是否属于ARouterLoadPath接口的实现类
+        TypeName methodReturns = ParameterizedTypeName.get(
+                ClassName.get(Map.class),
+                ClassName.get(String.class),
+                ParameterizedTypeName.get(ClassName.get(Class.class),
+                        WildcardTypeName.subtypeOf(ClassName.get(pathLoadType)))
+        );
+
+        //方法配置：{ public Map<String,Class<? extends ARouterLoadPath>> loadGroup() }
+        MethodSpec.Builder methodBuilder = MethodSpec.methodBuilder(Constants.GROUP_METHOD_NAME)
+                .addAnnotation(Override.class)
+                .addModifiers(Modifier.PUBLIC)
+                .returns(methodReturns);
+
+        //遍历之前：{ Map<String,Class<? extends ARouterLoadPath>> groupMap = new HashMap<>(); }
+        methodBuilder.addStatement("$T<$T,$T> $N = new $T<>()",
+                ClassName.get(Map.class),
+                ClassName.get(String.class),
+                ParameterizedTypeName.get(ClassName.get(Class.class),
+                        WildcardTypeName.subtypeOf(ClassName.get(pathLoadType))),
+                Constants.GROUP_PARAMETER_NAME,
+                HashMap.class);
+
+        //方法内容配置
+        for (Map.Entry<String, String> entry : tempGroupMap.entrySet()) {
+            //类似String.format("hello %s code %d","code",123)通配符
+            // { groupMap.put("main",ARouter$$Path$$app.class); }
+            methodBuilder.addStatement("$N.put($S,$T.class)",
+                    Constants.GROUP_PARAMETER_NAME,
+                    entry.getKey(),
+                    ClassName.get(packageNameForAPT, entry.getValue()));
+        }
+
+        //遍历之后：return groupMap;
+        methodBuilder.addStatement("return $N", Constants.GROUP_PARAMETER_NAME);
+
+        //最终生成的类文件名
+        String finalClassName = Constants.GROUP_FILE_NAME + moduleName;
+        messager.printMessage(Diagnostic.Kind.NOTE, packageNameForAPT + "." + finalClassName);
+
+        //生成类文件：ARouter$$Group$$app
+        JavaFile.builder(packageNameForAPT,
+                TypeSpec.classBuilder(finalClassName)
+                        .addSuperinterface(ClassName.get(groupLoadType))
+                        .addModifiers(Modifier.PUBLIC)
+                        .addMethod(methodBuilder.build())
+                        .build())
+                .build()
+                .writeTo(filer);
 
     }
 
@@ -271,7 +330,7 @@ public class ARouterProcessor extends AbstractProcessor {
             //开始赋值
             List<RouterBean> routerBeans = tempPathMap.get(bean.getGroup());
             //如果从Map中找不到key
-            if (routerBeans == null) {
+            if (EmptyUtils.isEmpty(routerBeans)) {
                 routerBeans = new ArrayList<>();
                 routerBeans.add(bean);
                 tempPathMap.put(bean.getGroup(), routerBeans);
@@ -293,7 +352,7 @@ public class ARouterProcessor extends AbstractProcessor {
         String group = bean.getGroup();
         String path = bean.getPath();
         //@ARouter注解的path值，必须以/开头（模仿阿里ARouter路由框架
-        if (path == null || !path.startsWith("/")) {
+        if (EmptyUtils.isEmpty(path) || !path.startsWith("/")) {
             messager.printMessage(Diagnostic.Kind.ERROR, "@ARouter注解未按规范，如：/app/MainActivity");
             return false;
         }
@@ -313,7 +372,7 @@ public class ARouterProcessor extends AbstractProcessor {
         }
 
         //@ARouter注解中有group赋值
-        if (!group.equals("")&& !group.equals(moduleName)) {
+        if (!EmptyUtils.isEmpty(group) && !group.equals(moduleName)) {
             messager.printMessage(Diagnostic.Kind.ERROR, "@ARouter注解中的group值必须和当前子模块名相同");
             return false;
         } else {

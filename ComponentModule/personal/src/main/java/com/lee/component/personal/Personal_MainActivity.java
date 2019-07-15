@@ -4,12 +4,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import com.lee.component.annotation.ARouter;
 import com.lee.library.base.BaseActivity;
 import com.lee.library.utils.Constants;
 
 /**
  * @author jv.lee
  */
+@ARouter(path = "/personal/Personal_MainActivity")
 public class Personal_MainActivity extends BaseActivity {
 
     @Override

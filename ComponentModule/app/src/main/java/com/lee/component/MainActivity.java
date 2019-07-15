@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.lee.component.annotation.ARouter;
+import com.lee.component.annotation.Parameter;
 import com.lee.component.annotation.model.RouterBean;
 import com.lee.component.api.core.ARouterLoadGroup;
 import com.lee.component.api.core.ARouterLoadPath;
@@ -19,6 +20,11 @@ import java.util.Map;
  */
 @ARouter(path = "/app/MainActivity")
 public class MainActivity extends AppCompatActivity {
+
+    @Parameter
+    String name;
+    @Parameter(name = "agex")
+    int age = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +59,10 @@ public class MainActivity extends AppCompatActivity {
             //获取order/Order_MainActivity
             RouterBean routerBean = pathMap.get("/order/Order_MainActivity");
             if (routerBean != null) {
-                startActivity(new Intent(this, routerBean.getClazz()));
+                Intent intent = new Intent(this, routerBean.getClazz());
+                intent.putExtra("username", "jv.lee");
+                intent.putExtra("count", 100);
+                startActivity(intent);
             }
         } catch (Exception e) {
             e.printStackTrace();
