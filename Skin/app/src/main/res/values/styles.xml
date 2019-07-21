@@ -8,4 +8,7 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <!-- 字体相关 -->
+    <!--<item name="custom_typeface">@string/custom_typeface_string</item>-->
+
 </resources>
