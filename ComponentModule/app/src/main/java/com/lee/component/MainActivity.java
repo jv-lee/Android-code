@@ -7,13 +7,7 @@ import android.view.View;
 
 import com.lee.component.annotation.ARouter;
 import com.lee.component.annotation.Parameter;
-import com.lee.component.annotation.model.RouterBean;
-import com.lee.component.api.core.ARouterLoadGroup;
-import com.lee.component.api.core.ARouterLoadPath;
-import com.lee.component.test.ARouter$$Group$$order;
-import com.lee.component.test.ARouter$$Group$$personal;
-
-import java.util.Map;
+import com.lee.component.api.RouterManager;
 
 /**
  * @author jv.lee
@@ -33,39 +27,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void jumpPersonal(View view) {
-        ARouterLoadGroup loadGroup = new ARouter$$Group$$personal();
-        Map<String, Class<? extends ARouterLoadPath>> groupMap = loadGroup.loadGroup();
-        Class<? extends ARouterLoadPath> clazz = groupMap.get("personal");
-        try {
-            ARouterLoadPath path = clazz.newInstance();
-            Map<String, RouterBean> pathMap = path.loadPath();
-            //获取order/Order_MainActivity
-            RouterBean routerBean = pathMap.get("/personal/Personal_MainActivity");
-            if (routerBean != null) {
-                startActivity(new Intent(this, routerBean.getClazz()));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        RouterManager.getInstance()
+                .build("/personal/Personal_MainActivity")
+                .navigation(this);
     }
 
     public void jumpOrder(View view) {
-        ARouterLoadGroup loadGroup = new ARouter$$Group$$order();
-        Map<String, Class<? extends ARouterLoadPath>> groupMap = loadGroup.loadGroup();
-        Class<? extends ARouterLoadPath> clazz = groupMap.get("order");
-        try {
-            ARouterLoadPath path = clazz.newInstance();
-            Map<String, RouterBean> pathMap = path.loadPath();
-            //获取order/Order_MainActivity
-            RouterBean routerBean = pathMap.get("/order/Order_MainActivity");
-            if (routerBean != null) {
-                Intent intent = new Intent(this, routerBean.getClazz());
-                intent.putExtra("username", "jv.lee");
-                intent.putExtra("count", 100);
-                startActivity(intent);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        RouterManager.getInstance()
+                .build("/order/Order_MainActivity")
+                .navigation(this);
     }
 }

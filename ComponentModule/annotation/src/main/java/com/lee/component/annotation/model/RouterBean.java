@@ -16,7 +16,11 @@ public class RouterBean {
         /**
          * 作用在Activity上作为跳转
          */
-        ACTIVITY
+        ACTIVITY,
+        /**
+         * 阔模块的业务接口
+         */
+        CALL
     }
 
     /**

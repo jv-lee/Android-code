@@ -104,6 +104,8 @@ public class ParameterFactory {
             //{ t.s = t.getIntent.getStringExtra("s"); }
             if (typeMirror.toString().equalsIgnoreCase(Constants.STRING)) {
                 methodContent += "getStringExtra($S)";
+            }else if(typeUtils.isSubtype(typeMirror,callMirror)){
+//                methodContent = "t."
             }
         }
 

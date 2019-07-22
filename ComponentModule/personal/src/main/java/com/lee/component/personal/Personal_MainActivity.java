@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.lee.component.annotation.ARouter;
+import com.lee.component.api.RouterManager;
 import com.lee.library.base.BaseActivity;
 import com.lee.library.utils.Constants;
 
@@ -22,11 +23,15 @@ public class Personal_MainActivity extends BaseActivity {
     }
 
     public void jumpApp(View view) {
-
+        RouterManager.getInstance()
+                .build("/app/MainActivity")
+                .navigation(this);
     }
 
     public void jumpOrder(View view) {
-
+        RouterManager.getInstance()
+                .build("/order/Order_MainActivity")
+                .navigation(this);
     }
 
 }

@@ -8,7 +8,8 @@ import android.widget.Toast;
 
 import com.lee.component.annotation.ARouter;
 import com.lee.component.annotation.Parameter;
-import com.lee.component.api.core.ParameterLoad;
+import com.lee.component.api.ParameterManager;
+import com.lee.component.api.RouterManager;
 import com.lee.library.base.BaseActivity;
 import com.lee.library.utils.Constants;
 
@@ -29,18 +30,22 @@ public class Order_MainActivity extends BaseActivity {
         setContentView(R.layout.order_activity_main);
         Log.e(Constants.TAG, "common/Order_MainActivity");
 
-        ParameterLoad parameterLoad = new Order_MainActivity$$Parameter();
-        parameterLoad.loadParameter(this);
+        ParameterManager.getInstance().loadParameter(this);
 
         Toast.makeText(this, "username:" + username + "  -  count:" + count, Toast.LENGTH_SHORT).show();
     }
 
 
     public void jumpApp(View view) {
-
+        RouterManager.getInstance()
+                .build("/app/MainActivity")
+                .navigation(this);
     }
 
     public void jumpPersonal(View view) {
+        RouterManager.getInstance()
+                .build("/personal/Personal_MainActivity")
+                .navigation(this);
 
     }
 

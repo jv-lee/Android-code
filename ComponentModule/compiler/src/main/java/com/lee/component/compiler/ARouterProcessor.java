@@ -145,6 +145,7 @@ public class ARouterProcessor extends AbstractProcessor {
 
         //通过Element工具类，获取Activity类型
         TypeElement activityType = elementUtils.getTypeElement(Constants.ACTIVITY);
+        TypeElement callType = elementUtils.getTypeElement(Constants.CALL);
         //显示类的信息
         TypeMirror activityMirror = activityType.asType();
 

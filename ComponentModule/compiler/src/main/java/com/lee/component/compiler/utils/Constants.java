@@ -77,7 +77,15 @@ public class Constants {
      */
     public static final String GROUP_METHOD_NAME = "loadGroup";
 
+    /**
+     * 获取参数，
+     */
     public static final String PARAMETER_METHOD_NAME = "loadParameter";
+
+    /**
+     * 业务接口地址
+     */
+    public static final String CALL = BASE_PACKAGE + ".core.Call";
 
     /**
      * 路由组Group，参数名
