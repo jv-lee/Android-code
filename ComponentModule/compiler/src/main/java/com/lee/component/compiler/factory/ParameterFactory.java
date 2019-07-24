@@ -6,6 +6,7 @@ import com.lee.component.compiler.utils.EmptyUtils;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.ParameterSpec;
+import com.squareup.javapoet.TypeName;
 
 import javax.annotation.processing.Messager;
 import javax.lang.model.element.Element;
@@ -44,6 +45,11 @@ public class ParameterFactory {
     private Types typeUtils;
 
     /**
+     * type(类信息)工具类，包含用于操作TypeMirror的工具方法
+     */
+    private TypeMirror callMirror;
+
+    /**
      * 类名，如：MainActivity
      */
     private ClassName className;
@@ -58,6 +64,11 @@ public class ParameterFactory {
                 .addAnnotation(Override.class)
                 .addModifiers(Modifier.PUBLIC)
                 .addParameter(builder.parameterSpec);
+
+        //获取call接口类型信息
+        this.callMirror = builder.elementUtils
+                .getTypeElement(Constants.CALL)
+                .asType();
     }
 
     /**
@@ -104,8 +115,14 @@ public class ParameterFactory {
             //{ t.s = t.getIntent.getStringExtra("s"); }
             if (typeMirror.toString().equalsIgnoreCase(Constants.STRING)) {
                 methodContent += "getStringExtra($S)";
-            }else if(typeUtils.isSubtype(typeMirror,callMirror)){
-//                methodContent = "t."
+            } else if (typeUtils.isSubtype(typeMirror, callMirror)) {
+                //{ t.iUser = (IUserImpl) RouterManager.getInstance().build("/order/getUserInfo").navigation(t); }  接口等于接口的实现类
+                methodContent = "t." + fieldName + " = ($T) $T.getInstance().build($S).navigation(t)";
+                methodBuilder.addStatement(methodContent,
+                        TypeName.get(typeMirror),
+                        ClassName.get(Constants.BASE_PACKAGE, Constants.ROUTER_MANAGER),
+                        annotationValue);
+                return;
             }
         }
 

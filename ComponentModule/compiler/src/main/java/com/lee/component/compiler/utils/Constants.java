@@ -43,6 +43,11 @@ public class Constants {
     public static final String ACTIVITY = "android.app.Activity";
 
     /**
+     * RouterManager类名
+     */
+    public static final String ROUTER_MANAGER = "RouterManager";
+
+    /**
      * 包名前缀封装
      */
     public static final String BASE_PACKAGE = "com.lee.component.api";

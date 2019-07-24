@@ -4,7 +4,6 @@ package com.lee.component.order;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import com.lee.component.annotation.ARouter;
 import com.lee.component.annotation.Parameter;
@@ -21,30 +20,27 @@ public class Order_MainActivity extends BaseActivity {
 
     @Parameter
     String username;
-    @Parameter
-    int count;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.order_activity_main);
-        Log.e(Constants.TAG, "common/Order_MainActivity");
-
         ParameterManager.getInstance().loadParameter(this);
-
-        Toast.makeText(this, "username:" + username + "  -  count:" + count, Toast.LENGTH_SHORT).show();
+        Log.e(Constants.TAG, "/order/Order_MainActivity:"+username);
     }
 
 
     public void jumpApp(View view) {
         RouterManager.getInstance()
                 .build("/app/MainActivity")
+                .withString("username","jv.lee")
                 .navigation(this);
     }
 
     public void jumpPersonal(View view) {
         RouterManager.getInstance()
                 .build("/personal/Personal_MainActivity")
+                .withString("username","jv.lee")
                 .navigation(this);
 
     }
