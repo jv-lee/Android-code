@@ -6,6 +6,8 @@ import com.lee.webrtc.connection.PeerConnectionManager;
 import com.lee.webrtc.permission.PermissionRequest;
 import com.lee.webrtc.socket.JavaWebSocket;
 
+import org.webrtc.EglBase;
+
 /**
  * @author jv.lee
  * @date 2019-07-31
@@ -26,6 +28,11 @@ public class WebRTCManager {
     private WebRTCManager() {
     }
 
+    /**
+     * 初始化连接 创建socket连接， 音视频会话管理器
+     * @param activity
+     * @param roomId
+     */
     public void connect(MainActivity activity, String roomId) {
         this.roomId = roomId;
         webSocket = new JavaWebSocket(activity);
@@ -33,7 +40,13 @@ public class WebRTCManager {
         webSocket.connect("wss://47.107.132.117/wss");
     }
 
-    public void joinRoom(ChatRoomActivity chatRoomActivity) {
+    /**
+     * 开启连接至房间
+     * @param chatRoomActivity
+     * @param eglBase
+     */
+    public void joinRoom(ChatRoomActivity chatRoomActivity, EglBase eglBase) {
+        peerConnectionManager.initContext(chatRoomActivity,eglBase);
         webSocket.joinRoom(roomId);
     }
 }

@@ -14,6 +14,8 @@ import android.widget.RelativeLayout;
 import com.lee.webrtc.permission.PermissionManager;
 import com.lee.webrtc.permission.PermissionRequest;
 
+import org.webrtc.EglBase;
+
 
 /**
  * @author jv.lee
@@ -24,6 +26,7 @@ public class ChatRoomActivity extends FragmentActivity {
 
     private FrameLayout frameVideoView;
     private WebRTCManager webRTCManager;
+    private EglBase eglBase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +42,8 @@ public class ChatRoomActivity extends FragmentActivity {
     }
 
     private void initView() {
+        eglBase = EglBase.create();
+
         frameVideoView = findViewById(R.id.frame_video_view);
         frameVideoView.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
@@ -50,7 +55,7 @@ public class ChatRoomActivity extends FragmentActivity {
                 .listener(new PermissionRequest() {
                     @Override
                     public void onPermissionSuccess() {
-                        webRTCManager.joinRoom(this);
+                        webRTCManager.joinRoom(ChatRoomActivity.this,eglBase);
                     }
 
                     @Override

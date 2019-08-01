@@ -2,9 +2,13 @@ package com.lee.webrtc.socket;
 
 import android.util.Log;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.lee.webrtc.ChatRoomActivity;
 import com.lee.webrtc.MainActivity;
+import com.lee.webrtc.connection.PeerConnectionManager;
 
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
@@ -14,6 +18,7 @@ import java.net.URISyntaxException;
 import java.security.SecureRandom;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,19 +35,29 @@ import javax.net.ssl.X509TrustManager;
 public class JavaWebSocket {
     private static final String TAG = "JavaWebSocket";
     private WebSocketClient mWebSocketClient;
+    private PeerConnectionManager peerConnectionManager;
     private MainActivity mActivity;
 
     public JavaWebSocket(MainActivity activity) {
         this.mActivity = activity;
     }
 
+    /**
+     * 和服务器建立socket连接
+     * @param wss
+     */
     public void connect(String wss) {
+        //初始化peer音视频会话房间管理器
+        peerConnectionManager = PeerConnectionManager.getInstance();
+
         URI uri = null;
         try {
             uri = new URI(wss);
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
+
+        //创建socket连接
         mWebSocketClient = new WebSocketClient(uri) {
             @Override
             public void onOpen(ServerHandshake handshakedata) {
@@ -52,7 +67,8 @@ public class JavaWebSocket {
 
             @Override
             public void onMessage(String message) {
-                Log.i(TAG, "onMessage:"+message);
+                Log.i(TAG, "onMessage:" + message);
+                handlerMessage(message);
             }
 
             @Override
@@ -81,6 +97,37 @@ public class JavaWebSocket {
             }
         }
         mWebSocketClient.connect();
+    }
+
+    /**
+     * 发送消息进入房间
+     * @param message
+     */
+    private void handlerMessage(String message) {
+        Map map = JSON.parseObject(message, Map.class);
+        String eventName = (String) map.get("eventName");
+
+        //p2p通信
+        if (eventName.equals("__peers")) {
+            handlerJoinRoom(map);
+        }
+    }
+
+    /**
+     * 连接至房间
+     * @param map
+     */
+    private void handlerJoinRoom(Map map) {
+        Map data = (Map) map.get("data");
+        JSONArray array;
+        if (data != null) {
+            array = (JSONArray) data.get("connections");
+            String js = JSONObject.toJSONString(array, SerializerFeature.WriteClassName);
+            ArrayList<String> connections = (ArrayList<String>) JSONObject.parseArray(js, String.class);
+            //获取自身唯一id
+            String myId = (String) data.get("you");
+            peerConnectionManager.joinToRoom(this,false, connections, myId);
+        }
     }
 
     /**
