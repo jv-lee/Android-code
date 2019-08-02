@@ -2,13 +2,26 @@ package com.lee.webrtc.connection;
 
 import android.content.Context;
 
+import com.alibaba.fastjson.asm.Label;
+import com.lee.webrtc.ChatRoomActivity;
 import com.lee.webrtc.socket.JavaWebSocket;
 
+import org.webrtc.AudioSource;
+import org.webrtc.AudioTrack;
+import org.webrtc.Camera1Enumerator;
+import org.webrtc.Camera2Enumerator;
+import org.webrtc.CameraEnumerator;
 import org.webrtc.DefaultVideoDecoderFactory;
 import org.webrtc.DefaultVideoEncoderFactory;
 import org.webrtc.EglBase;
+import org.webrtc.MediaConstraints;
+import org.webrtc.MediaStream;
 import org.webrtc.PeerConnection;
 import org.webrtc.PeerConnectionFactory;
+import org.webrtc.SurfaceTextureHelper;
+import org.webrtc.VideoCapturer;
+import org.webrtc.VideoSource;
+import org.webrtc.VideoTrack;
 import org.webrtc.audio.JavaAudioDeviceModule;
 
 import java.util.ArrayList;
@@ -23,11 +36,12 @@ import java.util.concurrent.Executors;
  */
 public class PeerConnectionManager {
 
-    private Context mContext;
+    private ChatRoomActivity mContext;
+    private String myId;
     /**
      * 是否开启视频画面
      */
-    private boolean isVideoEnable;
+    private boolean videoEnable;
 
     /**
      * 线程池
@@ -44,7 +58,66 @@ public class PeerConnectionManager {
      */
     private PeerConnectionFactory factory;
 
+    /**
+     * OpenGl上下文
+     */
     private EglBase eglBase;
+
+    private static final String STREAM_LABEL = "ARDAMS";
+
+    /**
+     * 多媒体音视频流
+     */
+    private MediaStream localStream;
+
+    /**
+     * 音频源
+     */
+    private AudioSource audioSource;
+
+    /**
+     * 音频轨道
+     */
+    private AudioTrack localAudioTrack;
+
+    /**
+     * 视频源
+     */
+    private VideoSource videoSource;
+
+    /**
+     * 视频轨道
+     */
+    private VideoTrack localVideoTrack;
+
+    /**
+     * 回音消除标识符
+     */
+    private static final String AUDIO_ECHO_CANCELLATION_CONSTRAINT = "googEchoCancellation";
+    /**
+     * 噪音抑制标识符
+     */
+    private static final String AUDIO_NOISE_SUPPRESSION_CONSTRAINT = "googNoiseSuppression";
+    /**
+     * 自动增益控制
+     */
+    private static final String AUDIO_AUTO_GAIN_CONTROL_CONSTRAINT = "googAutoGainControl";
+    /**
+     * 高通滤波器
+     */
+    private static final String AUDIO_HIGH_PASS_FILTER_CONSTRAINT = "googHighpassFilter";
+
+    /**
+     * 获取摄像头的设备 camera1 camera2
+     */
+    private VideoCapturer capturerAndroid;
+
+
+    /**
+     * 帮助渲染到本地预览
+     */
+    private SurfaceTextureHelper surfaceTextureHelper;
+
 
     private static final PeerConnectionManager outInstance = new PeerConnectionManager();
 
@@ -56,7 +129,7 @@ public class PeerConnectionManager {
         executor = Executors.newSingleThreadExecutor();
     }
 
-    public void initContext(Context context, EglBase eglBase) {
+    public void initContext(ChatRoomActivity context, EglBase eglBase) {
         this.eglBase = eglBase;
         this.mContext = context;
     }
@@ -70,13 +143,105 @@ public class PeerConnectionManager {
      * @param myId          自身id
      */
     public void joinToRoom(JavaWebSocket javaWebSocket, boolean isVideoEnable, ArrayList<String> connections, String myId) {
-        this.isVideoEnable = isVideoEnable;
+        this.videoEnable = isVideoEnable;
+        this.myId = myId;
         //大量的初始化 PeerConnection
         executor.execute(() -> {
             if (factory == null) {
                 factory = createConnectionFactory();
             }
+
+            if (localStream == null) {
+                createLocalStream();
+            }
         });
+    }
+
+    private void createLocalStream() {
+        localStream = factory.createLocalMediaStream(STREAM_LABEL);
+
+        //音频
+        audioSource = factory.createAudioSource(createAudioConstraints());
+        //采集音频
+        localAudioTrack = factory.createAudioTrack(STREAM_LABEL + "a0", audioSource);
+        //增加音频轨道
+        localStream.addTrack(localAudioTrack);
+
+        //是否开启视频源
+        if (videoEnable) {
+            //视频源
+            capturerAndroid = createVideoCapture();
+            videoSource = factory.createVideoSource(capturerAndroid.isScreencast());
+
+            surfaceTextureHelper = SurfaceTextureHelper.create("CaptureThread", eglBase.getEglBaseContext());
+            //初始化 capturerAndroid
+            capturerAndroid.initialize(surfaceTextureHelper, mContext, videoSource.getCapturerObserver());
+            //摄像头开始预览:  宽度，高度，帧率
+            capturerAndroid.startCapture(320, 240, 10);
+            //视频轨道
+            localVideoTrack = factory.createVideoTrack(STREAM_LABEL + "v0", videoSource);
+            //视屏轨道添加到多媒体流
+            localStream.addTrack(localVideoTrack);
+            if (mContext != null) {
+                mContext.setLocalStream(localStream, myId);
+            }
+        }
+    }
+
+    /**
+     * 创建摄像头对象
+     *
+     * @return
+     */
+    private VideoCapturer createVideoCapture() {
+        VideoCapturer videoCapturer = null;
+        if (Camera2Enumerator.isSupported(mContext)) {
+            Camera2Enumerator enumerator = new Camera2Enumerator(mContext);
+            videoCapturer = createCameraCapture(enumerator);
+        } else {
+            Camera1Enumerator enumerator = new Camera1Enumerator(true);
+            videoCapturer = createCameraCapture(enumerator);
+        }
+        return videoCapturer;
+    }
+
+    /**
+     * 通过api获取前置摄像头capture
+     *
+     * @return
+     */
+    private VideoCapturer createCameraCapture(CameraEnumerator enumerator) {
+        String[] deviceNames = enumerator.getDeviceNames();
+        for (String deviceName : deviceNames) {
+            //前置摄像头
+            if (enumerator.isFrontFacing(deviceName)) {
+                VideoCapturer videoCapturer = enumerator.createCapturer(deviceName, null);
+                if (videoCapturer != null) {
+                    return videoCapturer;
+                }
+            }
+            //后置摄像头
+            if (enumerator.isBackFacing(deviceName)) {
+                VideoCapturer videoCapturer = enumerator.createCapturer(deviceName, null);
+                if (videoCapturer != null) {
+                    return videoCapturer;
+                }
+            }
+        }
+        return null;
+    }
+
+    private MediaConstraints createAudioConstraints() {
+        MediaConstraints audioConstraints = new MediaConstraints();
+        //设置回音消除
+        audioConstraints.mandatory.add(new MediaConstraints.KeyValuePair(AUDIO_ECHO_CANCELLATION_CONSTRAINT, "true"));
+        //设置噪音抑制
+        audioConstraints.mandatory.add(new MediaConstraints.KeyValuePair(AUDIO_NOISE_SUPPRESSION_CONSTRAINT, "true"));
+        //不设置自动增益
+        audioConstraints.mandatory.add(new MediaConstraints.KeyValuePair(AUDIO_AUTO_GAIN_CONTROL_CONSTRAINT, "false"));
+        //不设置高通滤波器
+        audioConstraints.mandatory.add(new MediaConstraints.KeyValuePair(AUDIO_HIGH_PASS_FILTER_CONSTRAINT, "false"));
+        return audioConstraints;
     }
 
     private PeerConnectionFactory createConnectionFactory() {
