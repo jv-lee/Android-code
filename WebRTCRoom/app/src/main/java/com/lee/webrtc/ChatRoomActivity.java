@@ -140,9 +140,14 @@ public class ChatRoomActivity extends FragmentActivity {
         }
     }
 
+    public void onAddRemoteStream(MediaStream mediaStream, String socketId) {
+        runOnUiThread(() -> addView(socketId, mediaStream));
+    }
+
     public static void openActivity(Activity activity) {
         Intent intent = new Intent(activity, ChatRoomActivity.class);
         activity.startActivity(intent);
     }
+
 
 }

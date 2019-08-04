@@ -12,6 +12,8 @@ import com.lee.webrtc.connection.PeerConnectionManager;
 
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
+import org.webrtc.IceCandidate;
+import org.webrtc.SessionDescription;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -44,6 +46,7 @@ public class JavaWebSocket {
 
     /**
      * 和服务器建立socket连接
+     *
      * @param wss
      */
     public void connect(String wss) {
@@ -101,6 +104,7 @@ public class JavaWebSocket {
 
     /**
      * 发送消息进入房间
+     *
      * @param message
      */
     private void handlerMessage(String message) {
@@ -108,13 +112,24 @@ public class JavaWebSocket {
         String eventName = (String) map.get("eventName");
 
         //p2p通信
-        if (eventName.equals("__peers")) {
+        if ("__peers".equals(eventName)) {
             handlerJoinRoom(map);
+        }
+        // offer 对方响应 _ice_candidate 对方的小目标 -> 大目标 json
+        if ("_ice_candidate".equals(eventName)) {
+            handlerRemoteCandidate(map);
+        }
+
+        //对方的sdp
+        if ("__answer".equals(eventName)) {
+            handlerAnswer(map);
         }
     }
 
+
     /**
      * 连接至房间
+     *
      * @param map
      */
     private void handlerJoinRoom(Map map) {
@@ -126,7 +141,34 @@ public class JavaWebSocket {
             ArrayList<String> connections = (ArrayList<String>) JSONObject.parseArray(js, String.class);
             //获取自身唯一id
             String myId = (String) data.get("you");
-            peerConnectionManager.joinToRoom(this,false, connections, myId);
+            peerConnectionManager.joinToRoom(this, false, connections, myId);
+        }
+    }
+
+    private void handlerRemoteCandidate(Map map) {
+        Log.i(TAG, "handleRemoteCandidate:");
+        Map data = (Map) map.get("data");
+        String socketId;
+        if (data != null) {
+            socketId = (String) data.get("socketId");
+            String sdpMid = (String) data.get("id");
+            sdpMid = (null == sdpMid) ? "video" : sdpMid;
+            int sdpMLineIndex = (int) Double.parseDouble(String.valueOf(data.get("label")));
+            String candidate = (String) data.get("canditate");
+
+            IceCandidate iceCandidate = new IceCandidate(sdpMid, sdpMLineIndex, candidate);
+            peerConnectionManager.onRemoteIceCandidate(socketId, iceCandidate);
+        }
+    }
+
+    private void handlerAnswer(Map map) {
+        Map data = (Map) map.get("data");
+        Map sdpDic;
+        if (data != null) {
+            sdpDic = (Map) data.get("sdp");
+            String socketId = (String) data.get("socketId");
+            String sdp = (String) sdpDic.get("sdp");
+            peerConnectionManager.onReceiverAnswer(socketId, sdp);
         }
     }
 
@@ -150,6 +192,48 @@ public class JavaWebSocket {
         String jsonString = jsonObject.toJSONString();
 
         mWebSocketClient.send(jsonString);
+    }
+
+    /**
+     * 发送邀请
+     *
+     * @param socketId
+     * @param localDescription
+     */
+    public void sendOffer(String socketId, SessionDescription localDescription) {
+        HashMap<String, Object> childMap1 = new HashMap<>();
+        childMap1.put("type", "offer");
+        childMap1.put("sdp", localDescription);
+
+        HashMap<String, Object> childMap2 = new HashMap<>();
+        childMap2.put("socketId", socketId);
+        childMap2.put("sdp", childMap1);
+
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("eventName", "__offer");
+        map.put("data", childMap2);
+
+        JSONObject object = new JSONObject(map);
+        String json = object.toString();
+        Log.d(TAG, "send->" + json);
+        mWebSocketClient.send(json);
+    }
+
+    public void sendIceCandidate(String socketId, IceCandidate iceCandidate) {
+        HashMap<String, Object> childMap = new HashMap<>();
+        childMap.put("id", iceCandidate.sdpMid);
+        childMap.put("label", iceCandidate.sdpMLineIndex);
+        childMap.put("candidate", iceCandidate.sdp);
+        childMap.put("socketId", socketId);
+
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("eventName", "__ice_candidate");
+        map.put("data", childMap);
+
+        JSONObject object = new JSONObject(map);
+        String json = object.toString();
+        Log.d(TAG, "send->" + json);
+        mWebSocketClient.send(json);
     }
 
     /**
