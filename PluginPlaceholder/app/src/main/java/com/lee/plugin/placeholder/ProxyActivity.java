@@ -1,7 +1,10 @@
 package com.lee.plugin.placeholder;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
@@ -58,10 +61,30 @@ public class ProxyActivity extends Activity {
     @Override
     public void startActivity(Intent intent) {
         String className = intent.getStringExtra("className");
-        Log.d("ProxyActivity", "startActivity: "+className);
+        Log.d("ProxyActivity", "startActivity: " + className);
         //要给TestActivity 进栈
         Intent proxyIntent = new Intent(this, ProxyActivity.class);
         proxyIntent.putExtra("className", className);
         super.startActivity(proxyIntent);
+    }
+
+    @Override
+    public ComponentName startService(Intent service) {
+        String className = service.getStringExtra("className");
+        Intent intent = new Intent(this, ProxyService.class);
+        intent.putExtra("className", className);
+        return super.startService(intent);
+    }
+
+    @Override
+    public Intent registerReceiver(BroadcastReceiver receiver, IntentFilter filter) {
+        //在宿主注册广播
+        String testReceiverClassName = receiver.getClass().getName();
+        return super.registerReceiver(new ProxyReceiver(testReceiverClassName), filter);
+    }
+
+    @Override
+    public void sendBroadcast(Intent intent) {
+        super.sendBroadcast(intent);
     }
 }

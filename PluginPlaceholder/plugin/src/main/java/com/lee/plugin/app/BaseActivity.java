@@ -2,7 +2,10 @@ package com.lee.plugin.app;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.View;
 
@@ -79,12 +82,26 @@ public class BaseActivity extends Activity implements ActivityInterface {
     public void startActivity(Intent intent) {
         //调用 bindContext 进来的 ProxyActivity的 startActivity方法
         Intent intentNew = new Intent();
-        //设置包名+类名 全名称
+        //设置包名+类名 全名称 TestActivity
         intentNew.putExtra("className", Objects.requireNonNull(intent.getComponent()).getClassName());
         activity.startActivity(intentNew);
     }
 
+    @Override
+    public ComponentName startService(Intent service) {
+        Intent intentNew = new Intent();
+        //TestService
+        intentNew.putExtra("className", Objects.requireNonNull(service.getComponent()).getClassName());
+        return activity.startService(intentNew);
+    }
 
+    @Override
+    public Intent registerReceiver(BroadcastReceiver receiver, IntentFilter filter) {
+        return activity.registerReceiver(receiver, filter);
+    }
 
-
+    @Override
+    public void sendBroadcast(Intent intent) {
+        activity.sendBroadcast(intent);
+    }
 }
