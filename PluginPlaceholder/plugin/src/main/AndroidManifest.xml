@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.lee.plugin.app">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.lee.plugin.app"
+    tools:ignore="GoogleAppIndexingWarning">
 
     <application
         android:allowBackup="true"
@@ -16,6 +18,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!--插件静态注册的广播-->
+        <receiver android:name=".StaticReceiver">
+            <intent-filter>
+                <action android:name="plugin.static_receiver" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

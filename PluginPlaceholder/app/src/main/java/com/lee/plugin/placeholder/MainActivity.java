@@ -22,7 +22,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
-
     /**
      * 加载插件
      *
@@ -47,5 +46,23 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, ProxyActivity.class);
         intent.putExtra("className", activityInfo.name);
         startActivity(intent);
+    }
+
+    /**
+     * 注册插件中的静态广播
+     *
+     * @param view
+     */
+    public void loadPluginStaticReceiver(View view) {
+        PluginManager.getInstance(this).parserApkAction();
+    }
+
+    /**
+     * 发送静态广播 使插件静态广播执行
+     *
+     * @param view
+     */
+    public void sendPluginStaticReceiver(View view) {
+        sendBroadcast(new Intent("plugin.static_receiver"));
     }
 }
