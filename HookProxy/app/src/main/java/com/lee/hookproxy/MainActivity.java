@@ -1,5 +1,6 @@
 package com.lee.hookproxy;
 
+import android.content.ComponentName;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -29,7 +30,10 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.button_start).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, HookActivity.class));
+//                startActivity(new Intent(MainActivity.this, TestActivity.class));
+                Intent intent = new Intent();
+                intent.setComponent(new ComponentName("com.lee.plugin", "com.lee.plugin.PluginActivity"));
+                startActivity(intent);
             }
         });
 
