@@ -2,33 +2,34 @@ package com.lee.hookproxy;
 
 import android.app.Application;
 import android.content.Intent;
-import android.content.res.AssetManager;
-import android.content.res.Resources;
+import android.content.pm.ActivityInfo;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
+import com.lee.hookproxy.loaded.PluginClassLoader;
+
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.lang.reflect.Array;
+import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.List;
-import java.util.Objects;
-
-import dalvik.system.DexClassLoader;
-import dalvik.system.PathClassLoader;
+import java.util.Map;
 
 /**
  * @author jv.lee
  * @date 2019-08-09
- * @description Hook式插件化application
+ * @description loadedApk式插件化application
  */
-public class HookApplication extends Application {
+public class LoadedApkApplication extends Application {
 
     private static final String TAG = "LoadedApkApplication";
     private static final String INTENT_TAG = "action_intent";
@@ -45,9 +46,6 @@ public class HookApplication extends Application {
      * 插件包class缓存地址
      */
     private String pluginCachePath;
-
-    private Resources resources;
-    private AssetManager assetManager;
 
     @Override
     public void onCreate() {
@@ -67,12 +65,12 @@ public class HookApplication extends Application {
             Log.d(TAG, "onCreate: hookAmsAction失败e:" + e.toString());
         }
 
-
         try {
-            //融合 dex的方式
-            pluginToApplication();
+            //自定义LoadedApk的方式
+            customLoadedApkAction();
         } catch (Exception e) {
             e.printStackTrace();
+            Log.d(TAG, "onCreate: customLoadedApkAction失败e:" + e.toString());
         }
 
     }
@@ -102,7 +100,7 @@ public class HookApplication extends Application {
         final Object mIActivityManager = mActivityManagerNativeClass.getMethod("getDefault").invoke(null);
 
         //代理监听当前方法
-        Object mIActivityManagerProxy = Proxy.newProxyInstance(HookApplication.class.getClassLoader()
+        Object mIActivityManagerProxy = Proxy.newProxyInstance(LoadedApkApplication.class.getClassLoader()
                 , new Class[]{mIActivityManagerClass},
                 new InvocationHandler() {
 
@@ -117,7 +115,7 @@ public class HookApplication extends Application {
                     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
                         if ("startActivity".equals(method.getName())) {
                             //做自己的业务逻辑
-                            Intent intent = new Intent(HookApplication.this, ProxyActivity.class);
+                            Intent intent = new Intent(LoadedApkApplication.this, ProxyActivity.class);
                             //把没有注册的保存
                             intent.putExtra(INTENT_TAG, (Intent) args[2]);
                             args[2] = intent;
@@ -164,7 +162,6 @@ public class HookApplication extends Application {
     }
 
     /**
-     * 9.0以前适用
      * Hook LauncherActivity ActivityThread准备启动时 把TestActivity替换回去
      *
      * @throws Exception
@@ -210,7 +207,7 @@ public class HookApplication extends Application {
                 return false;
             }
             try {
-                //做我们自己的业务逻辑 （把proxyActivity替换回 TestActivity)
+                //做我们自己的业务逻辑 （把proxyActivity替换回 TestActivity)  obj == ActivityClientRecord（activity记录）
                 Object obj = msg.obj;
                 //获取之前hook携带过来的TestActivity
                 Field intentField = obj.getClass().getDeclaredField("intent");
@@ -223,6 +220,24 @@ public class HookApplication extends Application {
                 if (actionIntent != null) {
                     //替换intent
                     intentField.set(obj, actionIntent);
+
+                    //在以下代码中做插件和宿主区分 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+                    Field activityInfoField = obj.getClass().getDeclaredField("activityInfo");
+                    activityInfoField.setAccessible(true);
+                    ActivityInfo activityInfo = (ActivityInfo) activityInfoField.get(obj);
+
+                    //判断加载插件时机和宿主 actionIntent为插件
+                    if (actionIntent.getPackage() == null) {
+                        //插件
+                        activityInfo.applicationInfo.packageName = actionIntent.getComponent().getPackageName();
+
+                        // Hook 拦截此 getPackageInfo 做自己的逻辑
+                        hookGetPackageInfo();
+                    } else {
+                        //宿主
+                        activityInfo.applicationInfo.packageName = actionIntent.getPackage();
+                    }
+
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -284,10 +299,26 @@ public class HookApplication extends Application {
 
                     //获取intent 替换
                     Intent intent = (Intent) mIntentField.get(mLaunchActivityItemObj);
-                    Intent actionIntent = (Intent) Objects.requireNonNull(intent.getExtras()).get(INTENT_TAG);
+                    Intent actionIntent = intent.getParcelableExtra(INTENT_TAG);
                     if (actionIntent != null) {
                         //用原来的intent 替换
                         mIntentField.set(mLaunchActivityItemObj, actionIntent);
+
+                        //在以下代码中做插件和宿主区分 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+                        Field activityInfoField = mLaunchActivityItemClass.getDeclaredField("mInfo");
+                        activityInfoField.setAccessible(true);
+                        ActivityInfo activityInfo = (ActivityInfo) activityInfoField.get(mLaunchActivityItemObj);
+
+                        //判断加载插件时机和宿主 actionIntent为插件
+                        if (actionIntent.getPackage() == null) {
+                            //插件
+                            activityInfo.applicationInfo.packageName = actionIntent.getComponent().getPackageName();
+
+                            hookGetPackageInfo();
+                        } else {
+                            //宿主
+                            activityInfo.applicationInfo.packageName = actionIntent.getPackage();
+                        }
                     }
 
                     return false;
@@ -300,123 +331,130 @@ public class HookApplication extends Application {
     }
 
     /**
-     * 把插件dexElement 和宿主 dexElement 融为一体
-     *
-     * @throws Exception
+     * 自己创建一个LoadedApk.ClassLoader 添加到 mPackages,此LoadedApk 专门用来加载插件里面的class
      */
-    private void pluginToApplication() throws Exception {
-        /**
-         * 1.找到dexElements 得到此对象
-         */
-        //classLoader的实现最终就是 PathClassLoader
-        PathClassLoader pathClassLoader = (PathClassLoader) this.getClassLoader();
-
-        Class<?> mBaseDexClassLoaderClass = Class.forName("dalvik.system.BaseDexClassLoader");
-        // private final DexPathList pathList;
-        Field mPathListField = mBaseDexClassLoaderClass.getDeclaredField("pathList");
-        mPathListField.setAccessible(true);
-        Object mDexPathList = mPathListField.get(pathClassLoader);
-
-        Field mDexElementsField = mDexPathList.getClass().getDeclaredField("dexElements");
-        mDexElementsField.setAccessible(true);
-
-        //本质是 Element[] dexElements　
-        Object mDexElementsObj = mDexElementsField.get(mDexPathList);
-
-
-        /**
-         * 2.找到插件的 dexElements 得到此对象  ， 代表插件 DexClassLoader
-         */
+    private void customLoadedApkAction() throws Exception {
         if (!pluginFile.exists()) {
-            throw new FileNotFoundException("没有找到插件包");
+            throw new FileNotFoundException("插件包不存在");
         }
-        DexClassLoader dexClassLoader = new DexClassLoader(pluginPath, pluginCachePath, null, getClassLoader());
+        //mPackages 添加自定义的LoadedApk
+        //final ArrayMap<String,WeakReference<LoadedApk>> mPackages 添加自定义LoadedApk
+        Class<?> mActivityThreadClass = Class.forName("android.app.ActivityThread");
 
-        Class<?> mBaseDexClassLoaderClassPlugin = Class.forName("dalvik.system.BaseDexClassLoader");
-        // private final DexPathList pathList;
-        Field mPathListFieldPlugin = mBaseDexClassLoaderClassPlugin.getDeclaredField("pathList");
-        mPathListFieldPlugin.setAccessible(true);
-        Object mDexPathListPlugin = mPathListFieldPlugin.get(dexClassLoader);
+        //执行此方法 public static ActivityThread currentActivityThread() 拿到ActivityThread对象
+        Object mActivityThreadObj = mActivityThreadClass.getMethod("currentActivityThread").invoke(null);
+        //获取mPackages属性
+        Field mPackagesField = mActivityThreadClass.getDeclaredField("mPackages");
+        mPackagesField.setAccessible(true);
 
-        Field mDexElementsFieldPlugin = mDexPathListPlugin.getClass().getDeclaredField("dexElements");
-        mDexElementsFieldPlugin.setAccessible(true);
-        //本质是 Element[] dexElements　
-        Object mDexElementsPlugin = mDexElementsFieldPlugin.get(mDexPathListPlugin);
+        //拿到mPackages对象
+        Object mPackagesObj = mPackagesField.get(mActivityThreadObj);
 
-        /**
-         * 3.创建出 新的 dexElements[] newDexDexElements
-         */
-        //获取宿主长度、插件长度
-        int mainDexElementsLength = Array.getLength(mDexElementsObj);
-        int pluginDexElementsLength = Array.getLength(mDexElementsPlugin);
-        int sumDexLength = mainDexElementsLength + pluginDexElementsLength;
+        //强转实质类型
+        Map mPackages = (Map) mPackagesObj;
 
-        //参数1：int[]  String[]  , 参数2：数组的length  获取的对象 实质：Element[] newDexElements
-        Object newDexElements = Array.newInstance(mDexElementsObj.getClass().getComponentType(), sumDexLength);
+        //如何自定义LoadedApk
+        //执行此方法  public final LoadedApk getPackageInfoNoCheck(ApplicationInfo ai,CompatibilityInfo compatInfo)
+        Class<?> mCompatibilityInfoClass = Class.forName("android.content.res.CompatibilityInfo");
+        //该属性直接拿到CompatibilityInfo实例
+        Field mDefaultCompatibilityInfoField = mCompatibilityInfoClass.getDeclaredField("DEFAULT_COMPATIBILITY_INFO");
+        mDefaultCompatibilityInfoField.setAccessible(true);
+        //获得CompatibilityInfo实例
+        Object mCompatibilityInfoObj = mDefaultCompatibilityInfoField.get(null);
 
-        /**
-         * 4.宿主dexElements + 插件dexElements = 新的newDexElements
-         */
-        for (int i = 0; i < sumDexLength; i++) {
-            //先融合宿主
-            if (i < mainDexElementsLength) {
-                //参数1：新药融合的容器-- newDexElements  将宿主中的element 先从0开始到最后一个填充到新的 dexElements容器中去
-                Array.set(newDexElements, i, Array.get(mDexElementsObj, i));
+        //ApplicationInfo 如何获取
+        ApplicationInfo applicationInfo = getApplicationInfoAction();
 
-                //在融合插件的  插件从宿主融合完后 接着放到新容器中去 ， i-mainLength 会再从0开始取数组的element ， 放置到 新容器i的位置
-            } else {
-                Array.set(newDexElements, i, Array.get(mDexElementsPlugin, i - mainDexElementsLength));
-            }
-        }
+        //执行拿到 LoadedApk对象 成功创建自定义的loadedApk
+        Method mLoadedApkMethod = mActivityThreadClass.getMethod("getPackageInfoNoCheck", ApplicationInfo.class, mCompatibilityInfoClass);
+        Object mLoadedApkObj = mLoadedApkMethod.invoke(mActivityThreadObj, applicationInfo, mCompatibilityInfoObj);
 
-        /**
-         * 5.把新的newDexElements 设置到宿主中去
-         */
-        //宿主的mDexPathList,  宿主+插件的newDexElements
-        mDexElementsField.set(mDexPathList, newDexElements);
+        //添加自定义的LoadedApk 专门加载插件中的Class  自定义ClassLoader
+        ClassLoader classLoader = new PluginClassLoader(pluginPath, pluginCachePath, null, getClassLoader());
+        Field mClassLoaderField = mLoadedApkObj.getClass().getDeclaredField("mClassLoader");
+        mClassLoaderField.setAccessible(true);
+        //替换loaderApk里面的ClassLoader
+        mClassLoaderField.set(mLoadedApkObj, classLoader);
 
-        //处理插件中的布局
-        doPluginLayoutLoad();
+        //最终的目标
+        WeakReference weakReference = new WeakReference(mLoadedApkObj);
+        mPackages.put(applicationInfo.packageName, weakReference);
     }
 
     /**
-     * 融合 dex的方式 hook
+     * 获得ApplicationInfo 为插件服务的
+     * getPackageInfoNoCheck 第一个参数
      *
+     * @return
      * @throws Exception
      */
-    private void doPluginLayoutLoad() throws Exception {
-        assetManager = AssetManager.class.newInstance();
+    private ApplicationInfo getApplicationInfoAction() throws Exception {
+        //执行此方法 public static ApplicationInfo generateApplicationInfo(Package p, int flags,PackageUserState state) {
+        Class<?> mPackageParserClass = Class.forName("android.content.pm.PackageParser");
+        Object mPackageParserObj = mPackageParserClass.newInstance();
 
-        //把插件的路径 给 Assets
-        if (!pluginFile.exists()) {
-            throw new FileNotFoundException("没有找到插件包");
+        //generateApplicationInfo方法 参数类型
+        Class<?> $packageClass = Class.forName("android.content.pm.PackageParser$Package");
+        Class<?> mPackageUserStateClass = Class.forName("android.content.pm.PackageUserState");
+
+        Method mGenerateApplicationInfoMethod = mPackageParserClass.getMethod("generateApplicationInfo", $packageClass, int.class, mPackageUserStateClass);
+
+        //执行此public Package parsePackage(File packageFile, int flags) 方法 ，拿到内部类的 Package
+        Method mParsePackageMethod = mPackageParserClass.getMethod("parsePackage", File.class, int.class);
+        Object mPackageObj = mParsePackageMethod.invoke(mPackageParserObj, pluginFile, PackageManager.GET_ACTIVITIES);
+
+        //获得插件的applicationInfo
+        ApplicationInfo applicationInfo = (ApplicationInfo) mGenerateApplicationInfoMethod.invoke(mPackageParserObj, mPackageObj, 0, mPackageUserStateClass.newInstance());
+
+        //插件的applicationInfo 设置插件路径
+        applicationInfo.publicSourceDir = pluginPath;
+        applicationInfo.sourceDir = pluginPath;
+
+        return applicationInfo;
+    }
+
+
+    /**
+     * Hook 拦截此 getPackageInfo 方法
+     */
+    private void hookGetPackageInfo() {
+        try {
+            // sPackageManager 替换成我们自己的动态代理
+            Class<?> mActivityThreadClass = Class.forName("android.app.ActivityThread");
+            Field sCurrentActivityThreadField = mActivityThreadClass.getDeclaredField("sCurrentActivityThread");
+            sCurrentActivityThreadField.setAccessible(true);
+
+            Field sPackageManagerField = mActivityThreadClass.getDeclaredField("sPackageManager");
+            sPackageManagerField.setAccessible(true);
+            //静态参数
+            final Object mPackageManagerObj = sPackageManagerField.get(null);
+
+            /**
+             * 动态代理sPackageManager
+             * 被监听的接口 IPackageManager
+             */
+            Class<?> mIPackageManagerClass = Class.forName("android.content.pm.IPackageManager");
+            Object mIPackageManagerProxy = Proxy.newProxyInstance(getClassLoader(),
+                    new Class[]{mIPackageManagerClass},
+                    new InvocationHandler() {
+                        @Override
+                        public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+                            if ("getPackageInfo".equals(method.getName())) {
+                                //pi != null
+                                return new PackageInfo();
+                            }
+
+                            //让系统继续执行
+                            return method.invoke(mPackageManagerObj, args);
+                        }
+                    });
+
+            //替换 换成自己的动态代理 静态无需传引入对象
+            sPackageManagerField.set(null, mIPackageManagerProxy);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.i(TAG, "hookGetPackageInfo: hook失败");
         }
-
-        //执行 public final int addAssetsPath(String path) 方法 ， 才能把插件的路径添加进去
-        Method addAssetPathMethod = assetManager.getClass().getDeclaredMethod("addAssetPath", String.class);
-        addAssetPathMethod.setAccessible(true);
-        addAssetPathMethod.invoke(assetManager, pluginPath);
-
-        //获取到宿主的配置信息 ， 其实是为了获取配置信息
-        Resources r = getResources();
-
-        // 实例化此方法 final StringBlock[] ensureStringBlocks()  9.0以后不用调用
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
-            Method ensureStringBlocksMethod = assetManager.getClass().getDeclaredMethod("ensureStringBlocks");
-            ensureStringBlocksMethod.setAccessible(true);
-            ensureStringBlocksMethod.invoke(assetManager);
-        }
-
-        //特殊：专门加载插件资源
-        resources = new Resources(assetManager, r.getDisplayMetrics(), r.getConfiguration());
     }
 
-    @Override
-    public Resources getResources() {
-        return resources == null ? super.getResources() : resources;
-    }
-
-    public AssetManager getAssetManager() {
-        return assetManager == null ? super.getAssets() : assetManager;
-    }
 }

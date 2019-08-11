@@ -1,12 +1,11 @@
 package com.lee.plugin;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 /**
  * @author jv.lee
  */
-public class PluginActivity extends AppCompatActivity {
+public class PluginActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
