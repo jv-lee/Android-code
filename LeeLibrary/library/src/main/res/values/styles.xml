@@ -10,32 +10,4 @@
         <item name="android:maxHeight">60dp</item>
     </style>
 
-    <!--魅族Banner-->
-    <declare-styleable name="MZBannerView">
-        <attr name="open_mz_mode" format="boolean" />
-        <attr name="canLoop" format="boolean" />
-        <attr name="indicatorPaddingLeft" format="dimension" />
-        <attr name="indicatorPaddingRight" format="dimension" />
-        <attr name="indicatorAlign">
-            <enum name="left" value="0" />
-            <enum name="center" value="1" />
-            <enum name="right" value="2" />
-        </attr>
-    </declare-styleable>
-
-    <!--自定义跑马灯-->
-    <declare-styleable name="MarqueeView">
-        <attr name="left_drawable" format="reference" />
-        <attr name="font_color" format="color" />
-        <attr name="font_size" format="dimension" />
-    </declare-styleable>
-
-    <!--自定义条目更新提示控件-->
-    <declare-styleable name="ItemNotificationView">
-        <attr name="notification_text" format="string" />
-        <attr name="notification_color" format="color" />
-        <attr name="notification_text_color" format="color" />
-        <attr name="notification_text_size" format="dimension" />
-    </declare-styleable>
-
 </resources>

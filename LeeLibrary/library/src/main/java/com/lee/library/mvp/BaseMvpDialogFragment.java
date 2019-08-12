@@ -7,14 +7,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-
+import com.lee.library.base.BaseDialogFragment;
 import com.lee.library.base.BaseFragment;
 
 /**
  * @author jv.lee
  * @date 2019/5/6
  */
-public abstract class BaseMvpFragment extends BaseFragment {
+public abstract class BaseMvpDialogFragment extends BaseDialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

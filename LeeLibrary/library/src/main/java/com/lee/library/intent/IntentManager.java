@@ -34,6 +34,7 @@ public class IntentManager {
     public IntentRequest intentRequest;
     public IntentFragment fragment;
 
+
     public void startAct(Activity activity, Class<?> clazz) {
         startAct(activity, clazz, null);
     }
@@ -46,8 +47,14 @@ public class IntentManager {
         activity.startActivity(intent);
     }
 
-    public void startActForResult(FragmentActivity activity, Class<?> clazz,IntentRequest intentRequest) {
-        startActForResult(activity,clazz,null,intentRequest);
+    public void startAct(Activity activity, Class<?> clazz, Bundle bundle, int enterAnim, int exitAnim) {
+        startAct(activity, clazz, bundle);
+        activity.overridePendingTransition(enterAnim, exitAnim);
+    }
+
+
+    public void startActForResult(FragmentActivity activity, Class<?> clazz, IntentRequest intentRequest) {
+        startActForResult(activity, clazz, null, intentRequest);
     }
 
     public void startActForResult(FragmentActivity activity, Class<?> clazz, Bundle bundle, IntentRequest intentRequest) {
@@ -57,6 +64,9 @@ public class IntentManager {
             fragment = new IntentFragment();
         }
         FragmentTransaction fragmentTransaction = manager.beginTransaction();
+        if (fragment.isAdded()) {
+            fragmentTransaction.remove(fragment);
+        }
         fragmentTransaction.add(fragment, INTENT_TAG);
         fragmentTransaction.addToBackStack(INTENT_TAG);
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
@@ -67,7 +77,26 @@ public class IntentManager {
         if (bundle != null) {
             intent.putExtras(bundle);
         }
-        fragment.startActivityForResult(intent,REQUEST_CODE);
+        fragment.startActivityForResult(intent, REQUEST_CODE);
+    }
+
+    public void startActForResult(FragmentActivity activity, Intent intent, IntentRequest intentRequest) {
+        this.intentRequest = intentRequest;
+        FragmentManager manager = activity.getSupportFragmentManager();
+        if (fragment == null) {
+            fragment = new IntentFragment();
+        }
+        FragmentTransaction fragmentTransaction = manager.beginTransaction();
+        if (fragment.isAdded()) {
+            fragmentTransaction.remove(fragment);
+        }
+        fragmentTransaction.add(fragment, INTENT_TAG);
+        fragmentTransaction.addToBackStack(INTENT_TAG);
+        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        fragmentTransaction.commitAllowingStateLoss();
+        manager.executePendingTransactions();
+
+        fragment.startActivityForResult(intent, REQUEST_CODE);
     }
 
 }

@@ -19,22 +19,25 @@ import com.lee.library.R;
  * @author jv.lee
  * @date 2019/5/7
  */
-public class DotView extends View {
+public class DotNumberView extends View {
     private Paint mBackgroundPaint;
+    private Paint mNumberPaint;
     private int mWidth;
     private int mHeight;
     private int backgroundColor = Color.RED;
+    private int numberColor = Color.WHITE;
+    private int numberCount = 0;
 
 
-    public DotView(Context context) {
+    public DotNumberView(Context context) {
         this(context, null);
     }
 
-    public DotView(Context context, AttributeSet attrs) {
+    public DotNumberView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public DotView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public DotNumberView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initPaint();
     }
@@ -44,6 +47,11 @@ public class DotView extends View {
         mBackgroundPaint.setColor(backgroundColor);
         mBackgroundPaint.setStrokeWidth(1);
         mBackgroundPaint.setStyle(Paint.Style.FILL);
+        mNumberPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+        mNumberPaint.setColor(numberColor);
+        mNumberPaint.setStrokeWidth(1);
+        mNumberPaint.setTextAlign(Paint.Align.CENTER);
+        mNumberPaint.setStyle(Paint.Style.FILL);
     }
 
     @Override
@@ -61,8 +69,32 @@ public class DotView extends View {
     @SuppressLint("DrawAllocation")
     @Override
     protected void onDraw(Canvas canvas) {
-        canvas.setDrawFilter(new PaintFlagsDrawFilter(0, Paint.ANTI_ALIAS_FLAG));
-        drawBackground(canvas);
+        if (drawCount()) {
+            canvas.setDrawFilter(new PaintFlagsDrawFilter(0, Paint.ANTI_ALIAS_FLAG));
+            drawBackground(canvas);
+            drawTextCount(canvas);
+        }
+    }
+
+    private boolean drawCount() {
+        if (numberCount <= 0) {
+            setVisibility(GONE);
+            return false;
+        }
+        setVisibility(VISIBLE);
+        return true;
+    }
+
+    private void drawTextCount(Canvas canvas) {
+        mNumberPaint.setColor(numberColor);
+        String count = String.valueOf(numberCount);
+
+        Rect bounds = new Rect();
+        mNumberPaint.setTextSize((float) (mHeight * 0.6));
+        mNumberPaint.getTextBounds(count, 0, count.length(), bounds);
+        float offSet = (bounds.top + bounds.bottom) / 2;
+
+        canvas.drawText(count, mWidth / 2, (mHeight / 2) - offSet, mNumberPaint);
     }
 
     private void drawBackground(Canvas canvas) {
@@ -80,4 +112,12 @@ public class DotView extends View {
         this.backgroundColor = backgroundColor;
     }
 
+    public void setNumberColor(int numberColor) {
+        this.numberColor = numberColor;
+    }
+
+    public void setNumberCount(int numberCount) {
+        this.numberCount = numberCount;
+        invalidate();
+    }
 }

@@ -3,7 +3,11 @@ package com.lee.library.mvp;
 
 
 import android.arch.lifecycle.LifecycleObserver;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 
+import com.lee.library.base.BaseActivity;
+import com.lee.library.base.BaseFragment;
 import com.lee.library.utils.LogUtil;
 
 import java.lang.reflect.Field;
@@ -15,8 +19,8 @@ import java.lang.reflect.Method;
  */
 class MvpManager {
 
-    static void injectPresenter(BaseMvpActivity activity) {
-        Class<? extends BaseMvpActivity> aClass = activity.getClass();
+    static void injectPresenter(FragmentActivity activity) {
+        Class<? extends FragmentActivity> aClass = activity.getClass();
         Field[] declaredFields = aClass.getDeclaredFields();
         for (Field field : declaredFields) {
             //获取属性上的注解
@@ -46,8 +50,8 @@ class MvpManager {
         }
     }
 
-    static void injectPresenter(BaseMvpFragment fragment) {
-        Class<? extends BaseMvpFragment> aClass = fragment.getClass();
+    static void injectPresenter(Fragment fragment) {
+        Class<? extends Fragment> aClass = fragment.getClass();
         Field[] declaredFields = aClass.getDeclaredFields();
         for (Field field : declaredFields) {
             //获取属性上的注解

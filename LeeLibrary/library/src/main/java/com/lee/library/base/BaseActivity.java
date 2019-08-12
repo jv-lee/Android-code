@@ -9,7 +9,7 @@ import android.view.KeyEvent;
 import android.widget.Toast;
 
 import com.lee.library.ioc.InjectManager;
-import com.lee.library.tool.StatusTool;
+import com.lee.library.utils.StatusUtil;
 
 /**
  * @author jv.lee
@@ -23,7 +23,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        StatusTool.statusBar(this, false);
+        StatusUtil.statusBar(this, false);
         super.onCreate(savedInstanceState);
         mActivity = this;
         mFragmentManager = getSupportFragmentManager();

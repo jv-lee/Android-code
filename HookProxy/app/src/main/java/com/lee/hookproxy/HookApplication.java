@@ -116,9 +116,9 @@ public class HookApplication extends Application {
                     @Override
                     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
                         if ("startActivity".equals(method.getName())) {
-                            //做自己的业务逻辑
+                            //做自己的业务逻辑 使用ProxyActivity 已经注册的activity 先设置成intent 可以通过检测
                             Intent intent = new Intent(HookApplication.this, ProxyActivity.class);
-                            //把没有注册的保存
+                            //把没有注册的保存在intent Extra中在最后启动时重新赋值
                             intent.putExtra(INTENT_TAG, (Intent) args[2]);
                             args[2] = intent;
                         }
@@ -164,8 +164,8 @@ public class HookApplication extends Application {
     }
 
     /**
-     * 9.0以前适用
      * Hook LauncherActivity ActivityThread准备启动时 把TestActivity替换回去
+     * 通过设置mH  Handler 监听回调重新设置TestActivity没有注册的 启动
      *
      * @throws Exception
      */

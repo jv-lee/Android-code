@@ -1,6 +1,8 @@
 package com.lee.library.utils;
 
 import android.content.Context;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.View;
@@ -154,6 +156,32 @@ public class SizeUtil {
     }
 
     /**
+     * 获取绘制区域文字宽度
+     *
+     * @param text
+     * @param paint
+     * @return
+     */
+    public static int getTextWidth(String text, Paint paint) {
+        Rect rect = new Rect();
+        paint.getTextBounds(text, 0, text.length(), rect);
+        return rect.width();
+    }
+
+    /**
+     * 获取绘制区域文字高度
+     *
+     * @param text
+     * @param paint
+     * @return
+     */
+    public static int getTextHeight(String text, Paint paint) {
+        Rect rect = new Rect();
+        paint.getTextBounds(text, 0, text.length(), rect);
+        return rect.height();
+    }
+
+    /**
      * 获取测量视图宽度
      *
      * @param view 视图
@@ -180,6 +208,7 @@ public class SizeUtil {
 
         /**
          * 获取view实时尺寸
+         *
          * @param view 需要监听的view
          */
         void onGetSize(View view);

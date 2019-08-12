@@ -9,7 +9,7 @@ import android.view.KeyEvent;
 import android.widget.Toast;
 
 import com.lee.library.ioc.InjectManager;
-import com.lee.library.tool.StatusTool;
+import com.lee.library.utils.StatusUtil;
 
 /**
  * @author jv.lee
@@ -23,7 +23,7 @@ public abstract class BaseFullActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        StatusTool.fullWindow(this);
+        StatusUtil.fullWindow(this);
         super.onCreate(savedInstanceState);
         mActivity = this;
         mFragmentManager = getSupportFragmentManager();
@@ -32,6 +32,7 @@ public abstract class BaseFullActivity extends AppCompatActivity {
         InjectManager.inject(this);
         bindData(savedInstanceState);
         bindView();
+        InjectManager.injectEvents(this);
     }
 
     /**

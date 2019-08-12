@@ -5,12 +5,12 @@ import android.util.Log;
 
 /**
  * @author jv.lee
- *  on 2016/8/31.
+ * on 2016/8/31.
  */
 public class LogUtil {
 
     private final static boolean IS_DEBUG = true;
-    private final static String TAG = "debug>>>";
+    private final static String TAG = "reader>>>";
 
     public static void getStackTraceString(Throwable throwable) {
         if (throwable != null) {

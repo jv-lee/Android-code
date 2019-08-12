@@ -137,6 +137,13 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
         this.mData.clear();
     }
 
+    public List<T> getData() {
+        if (mData == null) {
+            throw new RuntimeException("LeeViewAdapter getData - > mData == null");
+        }
+        return mData;
+    }
+
     public T getItemByPosition(int position) {
         if (mData == null) {
             throw new RuntimeException("LeeViewAdapter getItemByPosition -> mData == null");
@@ -227,7 +234,7 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
 
         //点击的监听
         if (item.openClick()) {
-            setListener(viewHolder);
+            setListener(viewHolder, item.openShake());
         }
         return viewHolder;
     }
@@ -370,16 +377,18 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
      *
      * @param viewHolder view复用器
      */
-    private void setListener(LeeViewHolder viewHolder) {
+    private void setListener(LeeViewHolder viewHolder, boolean shake) {
         //阻塞事件
         if (mOnItemClickListener != null) {
             viewHolder.getConvertView().setOnClickListener(v -> {
                 int position = getPosition(viewHolder);
-                long timeSpan = System.currentTimeMillis() - lastClickTime;
-                if (timeSpan < QUICK_EVENT_TIME_SPAN) {
-                    return;
+                if (shake) {
+                    long timeSpan = System.currentTimeMillis() - lastClickTime;
+                    if (timeSpan < QUICK_EVENT_TIME_SPAN) {
+                        return;
+                    }
+                    lastClickTime = System.currentTimeMillis();
                 }
-                lastClickTime = System.currentTimeMillis();
                 if (position >= 0) {
                     mOnItemClickListener.onItemClick(v, mData.get(position), position);
                 }

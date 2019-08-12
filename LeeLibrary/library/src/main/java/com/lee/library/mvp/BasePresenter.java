@@ -8,7 +8,7 @@ import java.lang.ref.WeakReference;
  */
 public abstract class BasePresenter<V> implements BaseLifecycleObserver {
     private WeakReference<V> mView;
-    public int STATUS_TAG = 0;
+    protected int STATUS_TAG = 0;
     public static final int ON_CREATE = 1;
     public static final int ON_START = 2;
     public static final int ON_RESUME = 3;
@@ -23,7 +23,7 @@ public abstract class BasePresenter<V> implements BaseLifecycleObserver {
     /**
      * 初始化model层
      */
-    public abstract void bindModel();
+    protected abstract void bindModel();
 
     public void onAttachView(V view) {
         mView = new WeakReference<V>(view);
@@ -31,6 +31,10 @@ public abstract class BasePresenter<V> implements BaseLifecycleObserver {
 
     public V getView() {
         return mView.get();
+    }
+
+    protected boolean isDestroy() {
+        return STATUS_TAG == ON_DESTROY;
     }
 
     @Override

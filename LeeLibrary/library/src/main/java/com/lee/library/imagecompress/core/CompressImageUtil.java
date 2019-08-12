@@ -10,7 +10,7 @@ import android.util.Log;
 import com.lee.library.imagecompress.config.CompressConfig;
 import com.lee.library.imagecompress.listener.CompressResultListener;
 import com.lee.library.imagecompress.utils.Constants;
-import com.lee.library.tool.ThreadTool;
+import com.lee.library.utils.ThreadUtil;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -98,7 +98,7 @@ public class CompressImageUtil {
                 }
             }
         };
-        ThreadTool.getInstance().addTask(runnable);
+        ThreadUtil.getInstance().addTask(runnable);
     }
 
     /**

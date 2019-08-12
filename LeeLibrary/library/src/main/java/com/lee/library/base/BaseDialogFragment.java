@@ -1,8 +1,11 @@
 package com.lee.library.base;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
@@ -11,10 +14,12 @@ import android.view.ViewGroup;
 
 import com.lee.library.ioc.InjectManager;
 
+import java.util.Objects;
+
 /**
  * @author jv.lee
  */
-public abstract class BaseFragment extends Fragment {
+public abstract class BaseDialogFragment extends DialogFragment {
     protected BaseActivity mActivity;
     protected FragmentManager mFragmentManager;
     private View mRootView;
@@ -22,12 +27,15 @@ public abstract class BaseFragment extends Fragment {
     private boolean isVisibleView = false;
     private boolean fistVisible = true;
 
-    public BaseFragment() {
+    public BaseDialogFragment() {
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        Objects.requireNonNull(getDialog().getWindow()).setBackgroundDrawable(new ColorDrawable(Color.parseColor("#00000000")));
+        this.getDialog().setCancelable(false);
+        this.getDialog().setCanceledOnTouchOutside(false);
         mRootView = InjectManager.injectLayout(this);
         return mRootView;
     }

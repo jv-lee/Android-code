@@ -2,6 +2,7 @@ package com.lee.library.widget;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;
 import android.graphics.Canvas;
@@ -15,8 +16,11 @@ import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
+import com.lee.library.R;
+
 /**
  * 自定义view - 圆形图片
+ *
  * @author jv.lee
  * @date 2019/4/5
  * 圆形图 可设置padding生效 直接获取paddingTop设置圆形图padding值
@@ -34,12 +38,14 @@ public class ImageViewRound extends ImageView {
      */
     private int mWidth;
     private int mRadius;
-    private int mRoundRadius;
+    private float mRoundRadius;
     private int mPadding;
     private int mType;
     private Paint mPaint;
     private RectF mRect;
     private Matrix mMatrix;
+
+    private boolean scFlag;
 
     /**
      * 0 圆形、1 圆角矩形、2 椭圆、10 默认圆角大小
@@ -59,7 +65,15 @@ public class ImageViewRound extends ImageView {
 
     public ImageViewRound(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        initAttr(attrs);
         initView();
+    }
+
+    private void initAttr(AttributeSet attrs) {
+        TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.ImageViewRound);
+        mType = typedArray.getInt(R.styleable.ImageViewRound_layout_mode, TYPE_CIRCLE);
+        mRoundRadius = typedArray.getFloat(R.styleable.ImageViewRound_radius, DEFAULT_ROUND_RADIUS);
+        typedArray.recycle();
     }
 
     /**
@@ -69,7 +83,6 @@ public class ImageViewRound extends ImageView {
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
         mMatrix = new Matrix();
-        mRoundRadius = DEFAULT_ROUND_RADIUS;
     }
 
     @Override
@@ -90,7 +103,7 @@ public class ImageViewRound extends ImageView {
         }
         setBitmapShader();
         if (mType == TYPE_CIRCLE) {
-            canvas.drawCircle(mRadius, mRadius, mRadius-(getPaddingTop()/2), mPaint);
+            canvas.drawCircle(mRadius, mRadius, mRadius - (getPaddingTop() / 2), mPaint);
         } else if (mType == TYPE_ROUND) {
             mPaint.setColor(Color.RED);
             canvas.drawRoundRect(mRect, mRoundRadius, mRoundRadius, mPaint);
@@ -124,18 +137,20 @@ public class ImageViewRound extends ImageView {
 
         } else if (mType == TYPE_ROUND || mType == TYPE_OVAL) {
             // 如果图片的宽或者高与view的宽高不匹配，计算出需要缩放的比例；缩放后的图片的宽高，一定要大于我们view的宽高；所以我们这里取大值；
-            scale = Math.max(getWidth() * 1.0f / bitmap.getWidth(), getHeight() * 1.0f / bitmap.getHeight());
+            if (!scFlag) {
+                scale = Math.max(getWidth() * 1.0f / bitmap.getWidth(), getHeight() * 1.0f / bitmap.getHeight());
+            }
         }
         // shader的变换矩阵，我们这里主要用于放大或者缩小
         mMatrix.setScale(scale, scale);
         // 设置变换矩阵
         mBitmapShader.setLocalMatrix(mMatrix);
         mPaint.setShader(mBitmapShader);
-
     }
 
     /**
      * drawable转bitmap
+     *
      * @param drawable 资源文件
      */
     private Bitmap drawableToBitmap(Drawable drawable) {
@@ -154,6 +169,7 @@ public class ImageViewRound extends ImageView {
 
     /**
      * 设置图片类型：
+     *
      * @param mType 圆形、圆角矩形、椭圆形
      */
     public void setType(int mType) {
@@ -166,6 +182,7 @@ public class ImageViewRound extends ImageView {
 
     /**
      * 设置圆角大小
+     *
      * @param mRoundRadius int
      */
     public void setRoundRadius(int mRoundRadius) {
@@ -173,6 +190,15 @@ public class ImageViewRound extends ImageView {
             this.mRoundRadius = mRoundRadius;
             invalidate();
         }
-
     }
+
+    /**
+     * 设置大图是否缩放关闭开关
+     *
+     * @param flag
+     */
+    public void scaleCloseEnable(boolean flag) {
+        scFlag = flag;
+    }
+
 }

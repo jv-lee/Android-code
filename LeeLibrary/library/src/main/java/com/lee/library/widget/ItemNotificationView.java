@@ -3,6 +3,8 @@ package com.lee.library.widget;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
@@ -14,7 +16,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lee.library.R;
+import com.lee.library.utils.LogUtil;
 import com.lee.library.utils.SizeUtil;
+
+import static android.animation.ValueAnimator.INFINITE;
 
 /**
  * @author jv.lee
@@ -64,7 +69,7 @@ public class ItemNotificationView extends FrameLayout {
         TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.ItemNotificationView);
         notificationText = typedArray.getString(R.styleable.ItemNotificationView_notification_text);
         notificationTextColor = typedArray.getColor(R.styleable.ItemNotificationView_notification_text_color, Color.WHITE);
-        notificationTextSize = typedArray.getDimension(R.styleable.ItemNotificationView_notification_text_size, SizeUtil.px2sp(getContext(), 20));
+        notificationTextSize = typedArray.getDimension(R.styleable.ItemNotificationView_notification_text_size, 16);
         backgroundColor = typedArray.getColor(R.styleable.ItemNotificationView_notification_color, Color.BLUE);
         typedArray.recycle();
     }
@@ -87,21 +92,33 @@ public class ItemNotificationView extends FrameLayout {
         addView(tvContent);
     }
 
+    @SuppressLint("WrongConstant")
     public void update(String text) {
-        notificationText = text;
-        setVisibility(VISIBLE);
-        ObjectAnimator.ofFloat(tvBackground, ViewGroup.SCALE_X, 0.5F, 1F).setDuration(500).start();
+        tvContent.setText(text);
 
+        setVisibility(VISIBLE);
+        ObjectAnimator objAnim = ObjectAnimator.ofFloat(tvBackground, ViewGroup.SCALE_X, 0.5F, 1F).setDuration(500);
+        objAnim.setRepeatMode(ValueAnimator.INFINITE);
+        objAnim.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                anim();
+            }
+        });
+        objAnim.start();
+    }
+
+    public void anim() {
         ObjectAnimator animator = ObjectAnimator.ofFloat(this, ViewGroup.TRANSLATION_Y, 0, -100).setDuration(500);
         animator.setStartDelay(1000);
         animator.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
+                setY(0);
                 setVisibility(GONE);
             }
         });
         animator.start();
-
     }
 
 }

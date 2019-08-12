@@ -25,7 +25,7 @@ import java.util.List;
 public class BottomNavView extends BottomNavigationView implements BottomNavigationView.OnNavigationItemSelectedListener {
 
     private ViewPager mViewPager;
-    private List<DotView> dots;
+    private List<DotNumberView> dots;
     private ItemPositionListener mItemPositionListener;
 
     public BottomNavView(Context context) {
@@ -86,7 +86,7 @@ public class BottomNavView extends BottomNavigationView implements BottomNavigat
                 params.gravity = Gravity.RIGHT;
                 params.topMargin = SizeUtil.dp2px(getContext(), 5);
                 params.rightMargin = SizeUtil.dp2px(getContext(),15);
-                DotView dotView = new DotView(getContext());
+                DotNumberView dotView = new DotNumberView(getContext());
                 itemView.addView(dotView, params);
                 dots.add(dotView);
             }

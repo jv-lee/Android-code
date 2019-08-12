@@ -11,18 +11,28 @@ public interface LeeViewItem<T> {
 
     /**
      * 获取item的布局
+     *
      * @return 布局id
      */
     int getItemLayout();
 
     /**
      * 是否开启item点击
+     *
      * @return boolean值
      */
     boolean openClick();
 
     /**
+     * 是否打开防抖
+     *
+     * @return boolean
+     */
+    boolean openShake();
+
+    /**
      * 是否为当前的item布局
+     *
      * @param entity
      * @param position
      * @return
@@ -31,6 +41,7 @@ public interface LeeViewItem<T> {
 
     /**
      * 将item的控件与需要显示数据绑定
+     *
      * @param holder
      * @param entity
      * @param position
