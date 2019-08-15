@@ -22,6 +22,8 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView rvContainer;
     private List<String> list;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

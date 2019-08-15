@@ -1,0 +1,55 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion Integer.valueOf(COMPILE_VERSION)
+
+    defaultConfig {
+        minSdkVersion Integer.valueOf(MIN_VERSION)
+        targetSdkVersion Integer.valueOf(TARGET_VERSION)
+        versionCode Integer.valueOf(VERSION_CODE)
+        versionName String.valueOf(VERSION_NAME)
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility = '1.8'
+        targetCompatibility = '1.8'
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    api 'com.android.support.constraint:constraint-layout:' + constraint_version
+    api 'com.android.support:appcompat-v7:' + support_version
+    api 'com.android.support:recyclerview-v7:' + support_version
+    api 'com.android.support:support-v4:' + support_version
+    api 'com.android.support:design:' + support_version
+
+    api "android.arch.persistence.room:runtime:" + room_version
+    annotationProcessor "android.arch.persistence.room:compiler:" + room_version
+    api "android.arch.persistence.room:rxjava2:" + room_version
+
+    //Glide - 图片加载
+    api 'com.github.bumptech.glide:glide:' + glide_version
+    annotationProcessor 'com.github.bumptech.glide:compiler:' + glide_version
+
+    //Gson - json解析
+    api 'com.google.code.gson:gson:' + gson_version
+
+    //rx - 协调
+    api 'io.reactivex.rxjava2:rxandroid:' + rxandroid_version
+    api 'io.reactivex.rxjava2:rxjava:' + rxjava_version
+
+    //okhttp3/retrofit2 网络请求
+    api "com.squareup.retrofit2:retrofit:" + retrofit_version
+    api "com.squareup.retrofit2:adapter-rxjava2:" + retrofit_version
+    api "com.squareup.retrofit2:converter-gson:" + retrofit_version
+    api("com.squareup.retrofit2:converter-gson: " + retrofit_version)
+            { exclude group: "com.google.code.gson" }
+}
