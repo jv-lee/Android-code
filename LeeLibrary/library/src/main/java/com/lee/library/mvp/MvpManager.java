@@ -1,10 +1,13 @@
 package com.lee.library.mvp;
 
 
+
 import android.arch.lifecycle.LifecycleObserver;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 
+import com.lee.library.base.BaseActivity;
+import com.lee.library.base.BaseFragment;
 import com.lee.library.utils.LogUtil;
 
 import java.lang.reflect.Field;
