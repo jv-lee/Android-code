@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="default_footer">48dp</dimen>
+    <dimen name="default_height">48dp</dimen>
+    <item name="cb_item_tag" type="id"/>
+    <item name="rl_login_password" type="id"/>
+    <item name="rl_login_proving" type="id"/>
+    <string name="app_name">library</string>
+    <string name="load_completed">加载完成</string>
+    <string name="load_more">加载更多</string>
+    <string name="loading">正在加载...</string>
+    <string name="refresh_completed">刷新完成</string>
+    <string name="refresh_drag">下拉刷新</string>
+    <string name="refresh_release">释放立即刷新</string>
+    <string name="refreshing">正在刷新...</string>
+    <style name="Progress_circle_acting">
+        <item name="android:indeterminateDrawable">@drawable/ratate_progress_bar</item>
+        <item name="android:minWidth">20dp</item>
+        <item name="android:minHeight">20dp</item>
+        <item name="android:maxWidth">60dp</item>
+        <item name="android:maxHeight">60dp</item>
+    </style>
+    <declare-styleable name="BottomNavGroup">
+        <attr format="reference" name="button_array"/>
+        <attr format="reference" name="text_array"/>
+        <attr format="reference" name="text_background"/>
+    </declare-styleable>
+</resources>
