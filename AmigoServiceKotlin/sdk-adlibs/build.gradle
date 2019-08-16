@@ -1,0 +1,39 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 28
+	
+	useLibrary 'org.apache.http.legacy'
+
+    defaultConfig {
+        minSdkVersion 15
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false 
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    repositories {
+        flatDir {
+            dirs 'libs'
+        }
+    }
+}
+
+dependencies {
+    api fileTree(dir: 'libs', include: ['*.jar'])
+    // 引入libs文件夹下所有的aar文件，不需要引入的建议删除，在需要时再添加
+    fileTree(dir: 'libs', include: ['*.aar']).each { file ->
+        api(name: file.name.lastIndexOf('.').with {
+            it != -1 ? file.name[0..<it] : file.name
+        }, ext: 'aar')
+    }
+    //谷歌广告
+    api 'com.google.android.gms:play-services-ads:17.2.0'
+}

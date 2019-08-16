@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+            android:id="@+id/action_settings"
+            android:orderInCategory="100"
+            android:showAsAction="always"
+            android:icon="@drawable/gn_fb_drawable_multi_mode_delete"
+            android:title="@string/gn_fb_string_delete_menu"/>
+</menu>

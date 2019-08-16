@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ImageButton android:id="@+id/amigo_increment"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:src="@color/gn_account_transparent_color"
+        android:background="@null"
+        android:paddingTop="16dip"
+        android:paddingBottom="22dip" />
+
+    <view class="com.gionee.account.sdk.core.view.GnAccountNumberPicker$CustomEditText"
+        android:id="@+id/amigo_numberpicker_input"
+        android:layout_width="120dip"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:paddingTop="13sp"
+        android:paddingBottom="13sp"
+        android:paddingLeft="2sp"
+        android:paddingRight="2sp"
+        android:gravity="center"
+        android:singleLine="true"
+        
+        android:textSize="20sp" />
+    <!-- android:textColor="?android:attr/colorAccent"-->
+    <!--shaozj android:textColor="@color/amigo_numberpicker_enable" -->
+        <!--         android:textColor="?android:attr/textColorPrimary"      -->
+
+    <ImageButton android:id="@+id/amigo_decrement"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:src="@color/gn_account_transparent_color"
+        android:background="@null"
+        android:paddingTop="16dip"
+        android:paddingBottom="22dip" />
+
+</merge>

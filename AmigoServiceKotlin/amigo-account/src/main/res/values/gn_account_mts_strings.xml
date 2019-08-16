@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="gn_account_mts_string_serviceoutlets_label">Repair service</string>
+    <string name="gn_account_mts_string_serviceoutletscity_label">Select a city  </string>
+    <string name="gn_account_mts_string_schedule_label">Repair status</string>
+    <string name="gn_account_mts_string_bookingservice_label">Repair appointment</string>
+    <string name="gn_account_mts_string_faulttype_label">Fault type</string>
+    <string name="gn_account_mts_string_service_look_route_plan_label">Route</string>
+    <string name="gn_account_mts_string_navi_gudie_label">Destination</string>
+    <string name="gn_account_mts_string_service_route_plan_label">Location</string>
+    <string name="gn_account_mts_string_service_custom_schedule">Repair status</string>
+    <string name="gn_account_mts_string_serviceoutlets_city_city">市</string>
+    <string name="gn_account_mts_string_serviceoutlets_city_district">县</string>
+    <string name="gn_account_mts_string_serviceoutlets_city_county">区</string>
+    <string name="gn_account_mts_string_serviceoutlets_city_def">Unknown</string>
+    <string name="gn_account_mts_string_serviceoutlets_city_node_total_num">%1$s has %2$d service centers</string>
+    <string name="gn_account_mts_string_serviceoutlets_loading">Loading...</string>
+    <string name="gn_account_mts_string_serviceoutlets_not_find">No result</string>
+    <string name="gn_account_mts_string_serviceoutlets_autosearch_hint">Select a city</string>
+    <string name="gn_account_mts_service_outlets_netnode_item_fail">Can not find a service center. Please check your network and try again. </string>
+    <string name="gn_account_mts_service_outlets_netnode_item_bookingservice">Repair appointment</string>
+    <string name="gn_account_mts_service_outlets_netnode_item_map">Location</string>
+    <string name="gn_account_mts_service_outlets_netnode_item_telephone">Contact</string>
+    <string name="gn_account_mts_service_outlets_netnode_item_dialog_cancel">Cancel</string>
+    <string name="gn_account_mts_service_outlets_netnode_item_dialog_call">Call</string>
+    <string name="gn_account_mts_service_outlets_netnode_item_worktime" format="true">Opening Hours:%s</string>
+    <string name="gn_account_mts_service_outlets_netnode_item_distance_m" format="true">%dm</string>
+    <string name="gn_account_mts_service_outlets_netnode_item_distance_km" format="true">%.1f km</string>
+    <string name="gn_account_mts_service_outlets_search_layout_empty_location">Have a problem in locating</string>
+    <string name="gn_account_mts_service_outlets_search_layout_empty_netnode">Repair service is not available in this city</string>
+    <string name="gn_account_mts_service_bookingservice_layout_notice">Complete the appointment information in case that we could contact you in time</string>
+    <string name="gn_account_mts_service_bookingservice_layout_name">Name:</string>
+    <string name="gn_account_mts_service_bookingservice_layout_telephone">Contact：</string>
+    <string name="gn_account_mts_service_bookingservice_layout_imei">IMEI:</string>
+    <string name="gn_account_mts_service_bookingservice_layout_faulttype">Fault type:</string>
+    <string name="gn_account_mts_service_bookingservice_layout_faulttype_def">Select an issue</string>
+    <string name="gn_account_mts_service_bookingservice_layout_certificate">Warranty:</string>
+    <string name="gn_account_mts_service_bookingservice_layout_certificate_def">Please select a warranty</string>
+    <string name="gn_account_mts_service_bookingservice_layout_repair">Mail to us or not:</string>
+    <string name="gn_account_mts_service_bookingservice_layout_address">Address:</string>
+    <string name="gn_account_mts_service_bookingservice_layout_name_hint">Input your name</string>
+    <string name="gn_account_mts_service_bookingservice_layout_telephone_hint">Please leave your phone number in case that we contact you in time</string>
+    <string name="gn_account_mts_service_bookingservice_layout_imei_hint">Please input your phone IMEI number(dial the number*#06# to search)</string>
+    <string name="gn_account_mts_service_bookingservice_layout_address_hint">Your address</string>
+    <string name="gn_account_mts_service_bookingservice_layout_submitbt">Submit your appointment</string>
+    <string name="gn_account_mts_service_bookingservice_layout_submiting">Submitting...</string>
+    <string name="gn_account_mts_service_bookingservice_layout_submit_again">Resubmit</string>
+    <string name="gn_account_mts_service_bookingservice_layout_submit_finish_update">Modify successfully</string>
+    <string name="gn_account_mts_service_bookingservice_layout_radio_yes">Yes</string>
+    <string name="gn_account_mts_service_bookingservice_layout_radio_no">No</string>
+    <string name="gn_account_mts_service_bookingservice_layout_fail_sc">Set up an appointment unsuccessfully!</string>
+    <string name="gn_account_mts_service_bookingservice_layout_fail_goback">Return</string>
+    <string name="gn_account_mts_service_bookingservice_layout_success_sc">Set up an appointment successfully!</string>
+    <string name="gn_account_mts_service_bookingservice_layout_success_order_num">Appointment number:%s</string>
+    <string name="gn_account_mts_service_bookingservice_layout_success_notice">        You can check the repair status by the appointment number or IMEI number. Please make sure we can contact you through your phone number.Please take the warranty with you when you go to service center</string>
+    <string name="gn_account_mts_service_bookingservice_layout_fail_notice">You can’t make an appointment again when we are dealing with your repair order you had before.</string>
+    <string name="gn_account_mts_service_bookingservice_layout_success_change">Change</string>
+    <string name="gn_account_mts_service_bookingservice_layout_success_cancel">Cancel</string>
+    <string name="gn_account_mts_service_bookingservice_layout_success_cancel_dialog_title">Cancel appointment</string>
+    <string name="gn_account_mts_service_bookingservice_layout_success_cancel_dialog_message">Are you sure you want to cancel this appointment?</string>
+    <string name="gn_account_mts_service_bookingservice_layout_success_cancel_dialog_submit">Cancel appointment</string>
+    <string name="gn_account_mts_service_bookingservice_layout_success_cancel_dialog_cancel">Consider it</string>
+    <string name="gn_account_mts_service_bookingservice_layout_success_cancel_sccuess">Cancel the appointment successfully!</string>
+    <string name="gn_account_mts_service_bookingservice_layout_cancel_fail">Network unavailable.Fail in canceling.Check network</string>
+    <string name="gn_account_mts_service_bookingservice_layout_submit_fail">Network unavailable.Fail in submitting.Check network</string>
+    <string name="gn_account_mts_service_bookingservice_layout_scheduler_fail">Network unavailable.Fail in getting repair status.Check network</string>
+    <string name="gn_account_mts_service_bookingservice_layout_please_input_name">Input your name</string>
+    <string name="gn_account_mts_service_bookingservice_layout_please_input_right_imei">Input right IMEI number</string>
+    <string name="gn_account_mts_service_bookingservice_layout_please_input_phone">Input your contact</string>
+    <string name="gn_account_mts_service_bookingservice_layout_please_choose_faulttype">Select a Fault type</string>
+    <string name="gn_account_mts_service_bookingservice_layout_please_choose_certificate">Select a warranty </string>
+    <string name="gn_account_mts_service_bookingservice_layout_please_input_infos">The information that is marked with&#042; must be finished</string>
+    <string name="gn_account_mts_service_bookingservice_layout_star">&#042;</string>
+    <string name="gn_account_mts_service_bookingservice_certificate_warm_notice_dialog_title">Tips</string>
+    <string name="gn_account_mts_service_bookingservice_certificate_warm_notice_dialog_message">The appointment will not be made as the information is not complete.Do you want to stop?</string>
+    <string name="gn_account_mts_service_bookingservice_certificate_warm_notice_dialog_submit">Yes</string>
+    <string name="gn_account_mts_service_bookingservice_certificate_warm_notice_dialog_cancel">No</string>
+    <string name="gn_account_mts_service_bookingservice_certificate_dialog_title">Warranty</string>
+    <string name="gn_account_mts_service_faulttype_layout_notice">Choose 3 types at most</string>
+    <string name="gn_account_mts_service_faulttype_layout_okbt">Yes</string>
+    <string name="gn_account_mts_service_faulttype_layout_other_hint">Describe your issue...</string>
+    <string name="gn_account_mts_service_faulttype_layout_other_max_length">Description should be under 300 words</string>
+    <string name="gn_account_mts_service_schedule_query_layout_query">Search</string>
+    <string name="gn_account_mts_service_schedule_query_layout_querying">Searching...</string>
+    <string name="gn_account_mts_service_schedule_query_layout_imei_hint">Input your appointment number or IMEI number to search</string>
+    <string name="gn_account_mts_service_schedule_query_layout_imei_input_error_notice">Information incorrect.Check your information</string>
+    <string name="gn_account_mts_service_schedule_list_notice">Select a repair order you want to check</string>
+    <string name="gn_account_mts_service_schedule_list_empty">No repair status</string>
+    <string name="gn_account_mts_service_schedule_list_item_num_format">Order number:%s</string>
+    <string name="gn_account_mts_service_schedule_list_item_date_format">Appointment time:%s</string>
+    <string name="gn_account_mts_service_route_plan_layout_transit_text">Bus</string>
+    <string name="gn_account_mts_service_route_plan_layout_walk_text">Walk</string>
+    <string name="gn_account_mts_service_route_plan_layout_drive_text">Drive</string>
+    <string name="gn_account_mts_service_route_plan_layout_duration_minutes">%d minute</string>
+    <string name="gn_account_mts_service_route_plan_layout_duration_hour_minutes">%1$d hour %2$dminute</string>
+    <string name="gn_account_mts_service_route_plan_driver">Drive</string>
+    <string name="gn_account_mts_service_route_plan_transit">Bus</string>
+    <string name="gn_account_mts_service_route_plan_walk">Walk</string>
+    <string name="gn_account_mts_service_route_plan_popup_layout_navigation">Direction</string>
+    <string name="gn_account_mts_service_look_route_plan_layout_route_empty">Route information unavailable</string>
+    <string name="gn_account_mts_service_look_route_plan_layout_transit_item_linenum">Route%d</string>
+    <string name="gn_account_mts_service_look_route_plan_layout_transit_item_distance">%.2f km</string>
+    <string name="gn_account_mts_service_look_route_plan_layout_transit_item_duration">%d minute</string>
+    <string name="gn_account_mts_service_look_route_plan_not_found">No result</string>
+    <string name="gn_account_mts_service_schedule_result_createshortremark">Make an appointment successfully</string>
+    <string name="gn_account_mts_service_schedule_result_createremark">Make an appointment successfully!We will deal with your problem quickly</string>
+    <string name="gn_account_mts_service_schedule_result_callbackshortremark">Handling with your appointment</string>
+    <string name="gn_account_mts_service_schedule_result_callbackremark">Have been in touch with you</string>
+    <string name="gn_account_mts_service_schedule_result_acceptshortremark">Repairing</string>
+    <string name="gn_account_mts_service_schedule_result_acceptremark">Repairing</string>
+    <string name="gn_account_mts_service_schedule_result_saveremark">Service center has received your phone</string>
+    <string name="gn_account_mts_service_schedule_result_confirmshortremark">Repair complete</string>
+    <string name="gn_account_mts_service_schedule_result_confirmremark">Repair complete.We will contact you to get your phone quickly</string>
+    <string name="gn_account_mts_service_schedule_result_giveshortremark">Take your phone</string>
+    <string name="gn_account_mts_service_schedule_result_giveremark">Your phone received</string>
+    <string name="gn_account_mts_service_schedule_result_layout_Information">Repair information</string>
+    <string name="gn_account_mts_service_schedule_result_layout_time">Time</string>
+    <string name="gn_account_mts_service_schedule_result_layout_status">Status</string>
+    <string name="gn_account_mts_service_schedule_result_layout_phone">Check repair status:%s</string>
+    <string name="gn_account_mts_service_schedule_result_layout_phone_dialog_title">Check repair status:</string>
+    <string name="gn_account_mts_service_schedule_result_layout_phone_dialog_message" format="true">Call%s</string>
+    <string name="gn_account_mts_service_network_not_connect">Network unavailable.Check network</string>
+    <string name="gn_account_mts_service_network_not_available">Network unavailable.Check network</string>
+    <string name="gn_account_mts_dirction_download_fail">Network unavailable.Fail in downloading direction.Check network</string>
+
+    <string-array name="gn_account_mts_string_faulttype_array">
+        <item>Unable to charge</item>
+        <item>Unable to power on</item>
+        <item>System is unresponsive</item>
+        <item>Unable to read SD card</item>
+        <item>Screen or display quality</item>
+        <item>Unable to connect to signal or network</item>
+        <item>Problem with shooting</item>
+    </string-array>
+    <string-array name="gn_account_mts_string_certificate_array">
+        <item>Have a receipt</item>
+        <item>Have service manual</item>
+        <item>Have no warranty</item>
+    </string-array>
+
+    <string name="gn_account_mts_select_area">Select Area</string>
+
+</resources>

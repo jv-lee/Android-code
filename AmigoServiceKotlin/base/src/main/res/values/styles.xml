@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!--全局动画-->
+    <style name="AppTheme.Animation" parent="@android:style/Animation.Activity">
+        <!--A->B  B-in(animation)-->
+        <item name="android:activityOpenEnterAnimation">@anim/left_in</item>
+        <!--A->B  A-out(animation)-->
+        <item name="android:activityOpenExitAnimation">@anim/right_out</item>
+        <!--A<-B  A-in(animation)-->
+        <item name="android:activityCloseEnterAnimation">@anim/right_in</item>
+        <!--A<-B  B-out(animation)-->
+        <item name="android:activityCloseExitAnimation">@anim/left_out</item>
+    </style>
+
+    <!--Main页面动画-->
+    <style name="MainTheme.Animation" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/alpha_in</item>
+        <item name="android:activityOpenExitAnimation">@anim/right_out</item>
+        <item name="android:activityCloseEnterAnimation">@anim/right_in</item>
+        <item name="android:activityCloseExitAnimation">@anim/left_out</item>
+    </style>
+
+    <!--自定义圆形进度-->
+    <style name="Progress_circle_acting">
+        <item name="android:indeterminateDrawable">@drawable/ratate_progress_bar</item>
+        <item name="android:minWidth">20dp</item>
+        <item name="android:minHeight">20dp</item>
+        <item name="android:maxWidth">60dp</item>
+        <item name="android:maxHeight">60dp</item>
+    </style>
+
+</resources>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="uc_recyleview_user_center_module_background">#fafafa</color>
+    <color name="uc_txt_user_center_title_member_activity_color">#8a8e99</color>
+
+    <color name="uc_layout_member_setting_color">#fafafa</color>
+    <color name="uc_user_center_card_background">#eaeaea</color>
+    <color name="uc_user_center_card_background_save_mode">#01070d</color>
+    <color name="uc_user_center_card_integral_num">#d1773b</color>
+
+    <color name="uc_user_center_card_integral_task_num">#d1773b</color>
+
+    <color name="uc_user_center_task_finish_icon_color">#66828282</color>
+
+</resources>

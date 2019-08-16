@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- start light theme -->
+    <!--<style name="Theme.Light" parent="@amigo:style/Theme.Amigo.Light">-->
+        <!--<item name="amigo:amigoactionBarStyle">@style/Theme.ActionBar.Light</item>-->
+    <!--</style>-->
+
+    <!--<style name="Theme.ActionBar.Light" parent="@amigo:style/Widget.Amigo.Light.ActionBar.Solid">-->
+        <!--<item name="amigo:amigobackground">@color/gn_fb_color_statusbar</item>-->
+        <!--<item name="amigo:amigobackgroundStacked">@color/gn_fb_color_statusbar</item>-->
+        <!--<item name="amigo:amigotitleTextStyle">@style/Theme.Light.ActionBarTitleText</item>-->
+    <!--</style>-->
+
+    <style name="Theme.Light.ActionBarTitleText" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/gn_fb_color_actionMenuTextColor</item>
+    </style>
+
+    <!--<style name="Theme.TranslucentActionBar" parent="@amigo:style/Theme.Amigo.Light">-->
+        <!--<item name="amigo:amigoactionBarStyle">@style/Widget.ActionBar</item>-->
+        <!--<item name="android:windowActionBarOverlay">true</item>-->
+        <!--<item name="android:actionModeBackground">@color/gn_fb_color_alpha_actionbar</item>-->
+        <!--<item name="android:actionMenuTextColor">@color/gn_fb_color_actionMenuTextColor</item>-->
+    <!--</style>-->
+
+    <!--<style name="Widget.ActionBar" parent="@amigo:style/Widget.Amigo.Light.ActionBar.Solid.Inverse">-->
+        <!--<item name="amigo:amigobackground">@color/gn_fb_color_alpha_actionbar</item>-->
+        <!--<item name="amigo:amigobackgroundSplit">@color/gn_fb_color_alpha_actionbar</item>-->
+        <!--<item name="amigo:amigobackgroundStacked">@color/gn_fb_color_alpha_actionbar</item>-->
+    <!--</style>-->
+    <!-- end light theme -->
+    <style name="Widget.Amigo.Light.ActionBar" parent="Theme.AppCompat.Light.NoActionBar"/>
+</resources>

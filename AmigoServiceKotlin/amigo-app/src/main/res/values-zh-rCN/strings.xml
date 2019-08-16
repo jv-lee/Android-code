@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="uc_user_center">用户中心</string>
+    <string name="uc_permission_request_dialog_title">权限申请</string>
+    <string name="uc_permission_request_dialog_bbs_content">金粉俱乐部在使用过程中需要获取以下权限：\n连接网络\n是否同意获取？</string>
+    <string name="uc_permission_request_dialog_positive">同意</string>
+    <string name="uc_permission_request_dialog_negative">不同意</string>
+    <string name="uc_permission_request_dialog_nolonger_warn">下次不再提示</string>
+
+    <!--首页-->
+    <string name="uc_user_center_pemission_quest_deny_toast">权限未授予，启动用户中心失败！请到设置里授权用户中心相关权限</string>
+    <string name="uc_btn_user_center_member">查看我的会员卡</string>
+    <string name="uc_txt_user_center_title_member_service">—&#160;&#160;会员服务&#160;&#160;—</string>
+    <string name="uc_txt_user_center_title_member_activity">—&#160;&#160;会员活动&#160;&#160;—</string>
+    <string name="uc_member_activity_title">会员活动</string>
+    <string name="uc_recyleview_user_center_module_cloud_backup">云服务</string>
+    <string name="uc_recyleview_user_center_module_amigo_bbs">金粉俱乐部</string>
+    <string name="uc_recyleview_user_center_module_user_feedback">在线客服</string>
+    <string name="uc_recyleview_user_center_module_ota">系统升级</string>
+    <string name="uc_recyleview_user_center_module_electronic_warranty">电子保卡</string>
+    <string name="uc_recyleview_user_center_module_customer_service_helper">官方售后</string>
+    <string name="uc_recyleview_user_center_module_amigo_dataghost">Ami换机</string>
+    <string name="uc_txt_user_center_account_unlogin_register">注册</string>
+    <string name="uc_txt_user_center_account_unlogin_login">登录</string>
+    <string name="uc_txt_user_center_account_login_warranty">保修%s年</string>
+    <string name="uc_pref_member_setting_notify_switch_title">通知开关</string>
+    <string name="uc_pref_member_setting_feedback_title">用户反馈</string>
+    <string name="uc_btn_member_setting_change_account">退出登录</string>
+    <string name="amigo_lunar_calendar">日历</string>
+    <!--4.0.2-->
+    <string name="uc_user_center_member_privilege">会员特权</string>
+    <string name="uc_user_center_member_integral">会员积分</string>
+    <string name="uc_user_center_member_coupon">会员优惠券</string>
+    <string name="uc_user_center_member_service">会员服务</string>
+
+    <string name="uc_user_center_member_integral_lottery">每日抽奖</string>
+    <string name="uc_user_center_member_integral_lottery_description">今天还剩%1s次免费机会</string>
+    <string name="uc_user_center_member_integral_mall">积分商城</string>
+    <string name="uc_user_center_member_integral_mall_description">共%1s个积分\n快去兑换好礼把！</string>
+    <string name="uc_user_center_member_integral_make">赚积分</string>
+    <string name="uc_user_center_member_fetch_integral_fail">获取积分任务失败</string>
+    <string name="uc_user_center_member_integral_make_description">今天还剩%1$s个任务\n可获取%2$s积分</string>
+    <string name="uc_user_center_member_integral_make_description_empty">今天任务已全部完成</string>
+    <string name="uc_user_center_member_integral_task_description">还剩%1$s个任务,可获取%2$s积分</string>
+    <string name="uc_user_center_member_integral_make_beyond_max">今日已达到每日获取积分的最大限额,明天再来吧</string>
+    <string name="uc_privilege_action_title">活动详情</string>
+    <string name="uc_user_center_member_integral_make_success">恭喜完成，+%1$s积分</string>
+
+</resources>

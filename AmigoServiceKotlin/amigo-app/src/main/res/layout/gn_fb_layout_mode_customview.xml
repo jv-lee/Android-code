@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+<amigo.widget.AmigoTextView
+        android:id="@+id/gn_fb_id_mutil_selecttitle"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:layout_marginStart="20dp"
+        style="?android:attr/actionBarTabTextStyle" />
+
+<amigo.widget.AmigoButton
+        android:id="@+id/gn_fb_id_mutil_selectbutton"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:text="@string/gn_fb_string_mutil_selectall"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
+        style="?android:attr/actionBarTabTextStyle" />
+</RelativeLayout>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<amigo.preference.AmigoPreferenceScreen
+    xmlns:amigo="http://schemas.android.com/apk/res-auto"
+    amigo:amigokey="setting_screen">
+    <amigo.preference.AmigoSwitchPreference
+        amigo:amigotitle="@string/uc_pref_member_setting_notify_switch_title"
+        amigo:amigokey="key_member_setting_push_switch"
+        amigo:amigodefaultValue="true"/>
+    <amigo.preference.AmigoPreference
+        amigo:amigotitle="@string/uc_pref_member_setting_feedback_title"
+        amigo:amigokey="key_member_feedback_setting"/>
+</amigo.preference.AmigoPreferenceScreen>

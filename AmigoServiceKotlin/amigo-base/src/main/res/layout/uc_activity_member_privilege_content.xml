@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="#fafafa"
+    android:id="@+id/layout_member_privilege_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/img_member_privilege_content_big_pic"
+            android:layout_width="match_parent"
+            android:layout_height="202dp"
+            android:layout_alignParentTop="true"
+            android:scaleType="fitXY" />
+
+        <LinearLayout
+            android:id="@+id/llayout_member_privilege_contents"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/img_member_privilege_content_big_pic"
+            android:layout_marginTop="30dp"
+            android:orientation="vertical"
+            android:paddingLeft="20dp"
+            android:paddingRight="12dp" />
+
+        <!--<AdapterRecyleView
+                android:id="@+id/recycler_member_privilege_content_privileges"
+                android:layout_below="@id/txt_member_privilege_content_title_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="12dp"
+                />-->
+
+    </RelativeLayout>
+</ScrollView>

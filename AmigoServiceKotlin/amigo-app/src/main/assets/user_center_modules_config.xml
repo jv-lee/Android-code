@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tags>
+    <!--官方售后-->
+    <tag>
+        <tagproperty name="serviceIsApk">true</tagproperty>
+        <tagproperty name="serviceBigDisplay">false</tagproperty>
+        <tagproperty name="serviceIsIntentAction">true</tagproperty>
+        <tagproperty name="serviceName">uc_recyleview_user_center_module_customer_service_helper</tagproperty>
+        <tagproperty name="serviceIcon">uc_ic_user_center_customerhelper</tagproperty>
+        <tagproperty name="serviceTarget">com.gionee.customerhelper.mainActivity</tagproperty>
+    </tag>
+    <!--系统升级-->
+    <tag>
+        <tagproperty name="serviceIsApk">true</tagproperty>
+        <tagproperty name="serviceBigDisplay">false</tagproperty>
+        <tagproperty name="serviceIsIntentAction">true</tagproperty>
+        <tagproperty name="serviceName">uc_recyleview_user_center_module_ota</tagproperty>
+        <tagproperty name="serviceIcon">uc_ic_user_center_ota</tagproperty>
+        <tagproperty name="serviceTarget">gn.com.android.update.action.recover.system</tagproperty>
+    </tag>
+    <!--在线客服-->
+    <tag>
+        <tagproperty name="serviceIsApk">true</tagproperty>
+        <tagproperty name="serviceBigDisplay">false</tagproperty>
+        <tagproperty name="serviceIsIntentAction">true</tagproperty>
+        <tagproperty name="serviceName">uc_recyleview_user_center_module_user_feedback</tagproperty>
+        <tagproperty name="serviceIcon">uc_ic_user_center_feedback</tagproperty>
+        <tagproperty name="serviceTargetPackage">com.gionee.telepath</tagproperty>
+        <tagproperty name="serviceTarget">com.gionee.telepath.action.SEND_FEEDBACK</tagproperty>
+    </tag>
+    <!--金粉俱乐部-->
+    <tag>
+        <tagproperty name="serviceIsApk">false</tagproperty>
+        <tagproperty name="serviceBigDisplay">false</tagproperty>
+        <tagproperty name="needShowTrafficAlertFirst">true</tagproperty>
+        <tagproperty name="serviceName">uc_recyleview_user_center_module_amigo_bbs</tagproperty>
+        <tagproperty name="serviceIcon">uc_ic_user_center_bbs</tagproperty>
+        <tagproperty name="serviceTarget">com.gionee.gnservice.module.bbs.AmigoBBSActivity</tagproperty>
+    </tag>
+    <!--云服务-->
+    <tag>
+        <tagproperty name="serviceIsApk">true</tagproperty>
+        <tagproperty name="serviceBigDisplay">false</tagproperty>
+        <tagproperty name="serviceName">uc_recyleview_user_center_module_cloud_backup</tagproperty>
+        <tagproperty name="serviceIcon">uc_ic_user_center_cloud</tagproperty>
+        <tagproperty name="serviceTargetPackage">gn.com.android.synchronizer</tagproperty>
+        <tagproperty name="serviceTarget">gn.com.android.synchronizer.WelcomeActivity</tagproperty>
+    </tag>
+    <!--Ami换机-->
+    <tag>
+        <tagproperty name="serviceIsApk">true</tagproperty>
+        <tagproperty name="serviceBigDisplay">false</tagproperty>
+        <tagproperty name="serviceIsIntentAction">true</tagproperty>
+        <tagproperty name="serviceName">uc_recyleview_user_center_module_amigo_dataghost</tagproperty>
+        <tagproperty name="serviceIcon">uc_ic_user_center_change_phone</tagproperty>
+        <tagproperty name="serviceTargetPackage">com.gionee.dataghost</tagproperty>
+        <tagproperty name="serviceTarget">com.gionee.dataghost.action.TO_ENTRANCEACTIVITY</tagproperty>
+    </tag>
+
+</tags>

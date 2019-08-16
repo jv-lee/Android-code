@@ -5,6 +5,7 @@ import android.os.Bundle
 import com.lee.library.R
 import com.lee.library.base.BaseActivity
 import com.lee.library.databinding.ActivityMainBinding
+import com.lee.library.view.fragment.MainFragment
 import com.lee.library.viewmodel.MainViewModel
 
 
@@ -15,7 +16,7 @@ class MainActivity :
 
     override fun bindView() {
         binding.setClick {
-            notificationData()
+            mFragmentManager.beginTransaction().add(R.id.frame_container, MainFragment()).commit()
         }
     }
 

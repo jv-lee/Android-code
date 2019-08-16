@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent"
+    android:descendantFocusability="blocksDescendants">
+
+    <ImageView
+        android:id="@+id/gn_fb_id_feedbackitem_readstate_icon"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="13dp"
+        android:scaleType="center"
+        android:src="@drawable/gn_fb_drawable_time_unread" />
+
+    <RelativeLayout
+        android:id="@+id/gn_fb_id_feedbackItem_contentLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="14dp"
+        android:layout_toRightOf="@id/gn_fb_id_feedbackitem_readstate_icon"
+        android:background="@drawable/gn_fb_drawable_item_bg">
+
+        <CheckBox
+            android:id="@+id/gn_fb_id_chechbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="4dp"
+            android:clickable="false" />
+
+        <com.gionee.feedback.ui.ExpandableTextView
+            android:id="@+id/gn_fb_id_messagecontent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/gn_fb_id_chechbox"
+            android:paddingRight="@dimen/gn_fb_dimen_messagecontent_paddingright" />
+
+        <TextView
+            android:id="@+id/gn_fb_id_attach_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/gn_fb_id_messagecontent"
+            android:drawableLeft="@drawable/gn_fb_drawable_attach_icon"
+            android:drawablePadding="5dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            android:padding="10dp" />
+
+        <amigo.widget.AmigoTextView
+            android:id="@+id/gn_fb_id_senddate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/gn_fb_id_attach_count"
+            android:drawableLeft="@drawable/gn_fb_drawable_time"
+            android:drawablePadding="5dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="10dp"
+            android:textColor="@color/gn_fb_color_senddate_text"
+            android:textSize="@dimen/gn_fb_dimen_senddate_textsize" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/gn_fb_id_replylist"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/gn_fb_id_feedbackItem_contentLayout"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="1dp"
+        android:layout_toRightOf="@id/gn_fb_id_feedbackitem_readstate_icon"
+        android:background="@drawable/gn_fb_drawable_reply_bg"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/gn_fb_dimen_replylist_paddingbottom"
+        android:visibility="gone" />
+</RelativeLayout>

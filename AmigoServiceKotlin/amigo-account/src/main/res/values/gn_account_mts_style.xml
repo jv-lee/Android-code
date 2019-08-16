@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+<!--     <style name="Theme.Light" parent="style/Theme.Amigo.Light">
+        <item name="amigoactionBarStyle">@style/Theme.Light.ActionBar</item>
+    </style>
+
+    <style name="Theme.Light.ActionBar" parent="style/Widget.Amigo.Light.ActionBar.Solid"></style>
+
+    <style name="Theme.Support.Light" parent="style/Theme.Amigo.Light">
+        <item name="android:actionBarStyle">@style/Theme.Light.ActionBar</item>
+    </style>
+
+    <style name="Theme.Support.Light.ActionBar" parent="style/Widget.Amigo.Light.ActionBar.Solid"></style>
+ -->
+</resources>

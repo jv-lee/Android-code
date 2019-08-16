@@ -1,0 +1,39 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Base application theme. 全局主题 -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@android:color/holo_blue_light</item>
+        <item name="colorPrimaryDark">@android:color/holo_blue_bright</item>
+        <item name="colorAccent">@android:color/holo_orange_dark</item>
+        <item name="android:statusBarColor" tools:ignore="NewApi">@android:color/transparent</item>
+        <item name="android:windowAnimationStyle">@style/AppTheme.Animation</item>
+        <!--<item name="android:progressDrawable">@drawable/progress_background</item>-->
+        <!--<item name="android:indeterminateTint" tools:ignore="NewApi">@color/colorMain</item>-->
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <!--欢迎界面主题-->
+    <style name="WelcomeTheme" parent="AppTheme">
+        <!--<item name="android:windowBackground">@drawable/welcome</item>-->
+    </style>
+
+    <!--Main页面主题-->
+    <style name="MainTheme" parent="AppTheme">
+        <item name="android:windowAnimationStyle">@style/MainTheme.Animation</item>
+    </style>
+
+    <!--视频界面主题-->
+    <style name="VideoTheme" parent="AppTheme">
+        <!--<item name="android:progressBarStyle">@style/progress_video</item>-->
+    </style>
+
+</resources>

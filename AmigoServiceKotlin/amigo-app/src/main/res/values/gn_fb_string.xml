@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="gn_fb_string_send">Send</string>
+    <string name="gn_fb_string_send_success">Send success!</string>
+    <string name="gn_fb_string_title_feedback">Feedback</string>
+    <string name="gn_fb_string_title_record">Record</string>
+    <string name="gn_fb_string_message_hint">Your opinion is our greatest power forward, thank you!</string>
+    <string name="gn_fb_string_contact_hint">Send QQ, telephone or mail</string>
+    <string name="gn_fb_string_send_failed">ReSend</string>
+    <string name="gn_fb_string_sending">Sending ...</string>
+    <string name="gn_fb_string_feedback_person_title">Replier:% s</string>
+    <string name="gn_fb_string_message_not_null">Message can not be empty</string>
+    <string name="gn_fb_string_message_beyond_max">Feedback should not exceed 800 words!</string>
+    <string name="gn_fb_string_contact_beyond_max">Contacts should not exceed 40 words!</string>
+    <string name="gn_fb_string_message_network_disconnected">Network link is broken</string>
+    <string name="fb_fb_string_message_network_exception">Network exception, check the network</string>
+    <string name="gn_fb_string_delete_message_title">Bulk Delete</string>
+    <string name="gn_fb_string_delete_message_content">You sure you want to delete the selected feedback record?</string>
+    <string name="gn_fb_string_recordempty">Feedback record is empty</string>
+    <string name="gn_fb_string_delete_menu">Delete</string>
+    <string name="gn_fb_string_format">yyyy.MM.dd HH:mm</string>
+    <string name="gn_fb_string_mutil_select_more">Selected %d</string>
+    <string name="gn_fb_string_mutil_selectall">Select All</string>
+    <string name="gn_fb_string_mutil_cancel_selectall">Cancel all</string>
+    <string name="gn_fb_string_expansion">Expansion</string>
+    <string name="gn_fb_string_packup">Collapse</string>
+    <string name="gn_fb_string_notification_ticker">Feedback</string>
+    <string name="gn_fb_string_notification_title">Feedback</string>
+    <string name="gn_fb_string_notification_content">Your feedback has been reply, click on View</string>
+    <string name="gn_fb_string_dialog_delete_title">Delete</string>
+    <string name="gn_fb_string_dialog_delete_message">Are you sure to delete the selected content?</string>
+    <string name="gn_fb_string_attach_count">Attached(%d pics)</string>
+    <string name="gn_fb_string_attach_text">Add attachment</string>
+    <string name="gn_fb_string_attach_max_length">Feedback with photo should not exceed 25M, please reselect photos</string>
+    <string name="gn_fb_string_attach_illegal">The picture can not be distinguished.</string>
+    <string name="gn_fb_string_message_contain_emoji">Feedback does not support the expression and other related symbols</string>
+    <string name="gn_fb_string_file_path_not_found">File path not found</string>
+    <string name="gn_fb_string_contact_verify_failed">Contact does not support the expression and other related symbols</string>
+    <string name="gn_fb_string_edittext_word_limit">Input character limit!</string>
+    <string name="gn_fb_string_get_attach_failed">Failed to get the picture</string>
+</resources>
