@@ -8,6 +8,14 @@ android {
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
+
+        //配置eventBus 构建参数
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [packageName: 'lee.eventbus.apt', className: "EventBusIndex"]
+            }
+        }
+
     }
     buildTypes {
         release {
