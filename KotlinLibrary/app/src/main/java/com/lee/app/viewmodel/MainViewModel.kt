@@ -16,5 +16,4 @@ class MainViewModel : BaseViewModel() {
     var user: ObservableField<User> = ObservableField()
 
 
-
 }

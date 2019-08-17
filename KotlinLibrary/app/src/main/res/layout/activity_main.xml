@@ -2,7 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable name="click" type="android.view.View.OnClickListener"/>
-        <variable name="viewModel" type="com.lee.library.viewmodel.MainViewModel"/>
+        <variable name="viewModel" type="com.lee.app.viewmodel.MainViewModel"/>
     </data>
     <android.support.constraint.ConstraintLayout
             android:padding="16dp"
