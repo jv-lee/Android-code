@@ -210,9 +210,12 @@ public class SubscribeProcessor extends AbstractProcessor {
 
         //双层循环，第一层遍历被@Subcribe注解的方法所属类，第二层遍历每个类中所有订阅的方法
         for (Map.Entry<TypeElement, List<ExecutableElement>> entry : methodsByClass.entrySet()) {
-            //此处不能使用codeBlock，会造成错误嵌套
+            //此处不能使用codeBlock，会造成错误嵌套  contentBlock 为最内层对象数组的new 对象 代码块
+            // new SubscriberMethod(MainActivity.class,"onEvent",UserInfo.class,ThreadMode.POSTING,0,false)}
             CodeBlock.Builder contentBlock = CodeBlock.builder();
-            CodeBlock contentCode = null;
+            //此处为最外层代码块 putIndex(new EventBeans(MainActivity.class,new SubscriberMethod[]{
+            CodeBlock contentCode;
+            //转译拼接多个数组对象中的 new Object
             String format;
 
             for (int i = 0; i < entry.getValue().size(); i++) {

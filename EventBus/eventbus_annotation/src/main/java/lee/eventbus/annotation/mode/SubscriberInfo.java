@@ -13,7 +13,6 @@ public interface SubscriberInfo {
     Class<?> getSubscriberClass();
 
     /**
-     *
      * @return 获取订阅所属类中所有订阅事件的方法
      */
     SubscriberMethod[] getSubscriberMethods();
