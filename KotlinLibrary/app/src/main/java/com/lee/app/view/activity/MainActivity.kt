@@ -2,6 +2,7 @@ package com.lee.app.view.activity
 
 import android.arch.lifecycle.Observer
 import android.os.Bundle
+import android.widget.Toast
 import com.lee.app.R
 import com.lee.app.base.BaseActivity
 import com.lee.app.databinding.ActivityMainBinding
@@ -23,6 +24,7 @@ class MainActivity :
     override fun bindData(savedInstanceState: Bundle?) {
         binding.viewModel = viewModel
         notificationData()
+        toast(viewModel.test().toString())
     }
 
     private fun notificationData() {
