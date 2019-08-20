@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.lee.db.database.BaseDao;
 import com.lee.db.database.BaseDaoFactory;
 import com.lee.db.database.IBaseDao;
+import com.lee.db.database.OrderDao;
 
 import java.util.List;
 
@@ -28,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final String TAG = "MainActivity";
 
     private IBaseDao<User> dao;
+    private OrderDao<User> orderDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +37,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         dao = BaseDaoFactory.getInstance().getBaseDao(User.class);
+        orderDao = BaseDaoFactory.getInstance().getBaseDao(OrderDao.class, User.class);
+
 
         findViewById(R.id.btn_insert).setOnClickListener(this);
         findViewById(R.id.btn_delete).setOnClickListener(this);
