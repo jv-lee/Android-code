@@ -1,13 +1,17 @@
 apply plugin: 'com.android.library'
 
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-android-extensions'
+
 android {
-    compileSdkVersion Integer.valueOf(COMPILE_VERSION)
+    compileSdkVersion androidId.compileSdkVersion
 
     defaultConfig {
-        minSdkVersion Integer.valueOf(MIN_VERSION)
-        targetSdkVersion Integer.valueOf(TARGET_VERSION)
-        versionCode Integer.valueOf(VERSION_CODE)
-        versionName String.valueOf(VERSION_NAME)
+        minSdkVersion androidId.minSdkVersion
+        targetSdkVersion androidId.targetSdkVersion
+        versionCode androidId.versionCode
+        versionName androidId.versionName
     }
 
     buildTypes {
@@ -19,6 +23,10 @@ android {
     compileOptions {
         sourceCompatibility = '1.8'
         targetCompatibility = '1.8'
+    }
+
+    dataBinding{
+        enabled true
     }
 
 }

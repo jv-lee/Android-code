@@ -2,9 +2,8 @@ package com.lee.app.view.activity
 
 import android.arch.lifecycle.Observer
 import android.os.Bundle
-import android.widget.Toast
 import com.lee.app.R
-import com.lee.app.base.BaseActivity
+import com.lee.library.base.BaseActivity
 import com.lee.app.databinding.ActivityMainBinding
 import com.lee.app.view.fragment.MainFragment
 import com.lee.app.viewmodel.MainViewModel

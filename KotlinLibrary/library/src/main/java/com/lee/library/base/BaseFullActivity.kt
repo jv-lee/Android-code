@@ -1,4 +1,4 @@
-package com.lee.app.base
+package com.lee.library.base
 
 import android.app.Activity
 import android.arch.lifecycle.ViewModelProviders
@@ -9,14 +9,15 @@ import android.support.v4.app.FragmentManager
 import android.support.v7.app.AppCompatActivity
 import android.view.KeyEvent
 import android.widget.Toast
+import com.lee.library.mvvm.BaseViewModel
+import com.lee.library.utils.StatusUtil
 
 /**
  * @author jv.lee
  * @date 2019-08-15
  * @description
  */
-abstract class BaseActivity<V : ViewDataBinding, VM : BaseViewModel>(var layoutId: Int, var vm: Class<VM>) :
-    AppCompatActivity() {
+abstract class BaseFullActivity<V : ViewDataBinding, VM : BaseViewModel>(var layoutId: Int, var vm: Class<VM>) : AppCompatActivity() {
 
     protected lateinit var binding: V
     protected lateinit var viewModel: VM
@@ -29,6 +30,7 @@ abstract class BaseActivity<V : ViewDataBinding, VM : BaseViewModel>(var layoutI
     private var hasBackExitTimer = 2000
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        StatusUtil.fullWindow(this)
         super.onCreate(savedInstanceState)
         mActivity = this
         mFragmentManager = supportFragmentManager

@@ -1,4 +1,4 @@
-package com.lee.app.base
+package com.lee.library.base
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProviders

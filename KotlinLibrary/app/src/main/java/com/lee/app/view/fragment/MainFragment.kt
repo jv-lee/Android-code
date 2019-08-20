@@ -3,7 +3,7 @@ package com.lee.app.view.fragment
 import android.arch.lifecycle.ViewModel
 import android.os.Bundle
 import com.lee.app.R
-import com.lee.app.base.BaseFragment
+import com.lee.library.base.BaseFragment
 import com.lee.app.databinding.FragmentMainBinding
 
 /**
