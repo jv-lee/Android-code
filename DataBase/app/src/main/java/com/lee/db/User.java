@@ -11,9 +11,18 @@ import com.lee.db.annotation.DBTable;
 @DBTable("tb_user")
 public class User {
     @DBField("u_id")
-    private int id;
+    private Integer id;
     private String name;
     private String password;
+
+    public User() {
+    }
+
+    public User(int id, String name, String password) {
+        this.id = id;
+        this.name = name;
+        this.password = password;
+    }
 
     public int getId() {
         return id;

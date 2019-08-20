@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
  * @date 2019-08-19
  * @description
  */
-public class BaseDaoFactory<T> {
+public class BaseDaoFactory {
 
     private static BaseDaoFactory instance;
 
@@ -27,7 +27,7 @@ public class BaseDaoFactory<T> {
         sqLiteDatabase = SQLiteDatabase.openOrCreateDatabase(databasePath, null);
     }
 
-    public BaseDao<T> getBaseDao(Class<T> entityClass) {
+    public IBaseDao getBaseDao(Class entityClass) {
         BaseDao baseDao = null;
         try {
             baseDao = BaseDao.class.newInstance();
