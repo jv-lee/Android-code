@@ -6,6 +6,7 @@ import com.lee.app.R
 import com.lee.library.base.BaseActivity
 import com.lee.app.databinding.ActivityMainBinding
 import com.lee.app.view.fragment.MainFragment
+import com.lee.app.view.fragment.MyBottomSheetFragment
 import com.lee.app.viewmodel.MainViewModel
 
 
@@ -16,8 +17,17 @@ class MainActivity :
 
     override fun bindView() {
         binding.setClick {
-            mFragmentManager.beginTransaction().add(R.id.frame_container, MainFragment()).commit()
+            when (it.id) {
+                R.id.button -> {
+                    supportFragmentManager.beginTransaction().add(R.id.frame_container, MainFragment()).commit()
+                }
+                R.id.button2 -> {
+                    MyBottomSheetFragment().show(supportFragmentManager, "dialog")
+                }
+            }
+
         }
+
     }
 
     override fun bindData(savedInstanceState: Bundle?) {

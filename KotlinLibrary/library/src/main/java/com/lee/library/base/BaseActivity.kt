@@ -1,6 +1,7 @@
 package com.lee.library.base
 
 import android.app.Activity
+import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProviders
 import android.databinding.DataBindingUtil
 import android.databinding.ViewDataBinding
@@ -16,14 +17,13 @@ import com.lee.library.mvvm.BaseViewModel
  * @date 2019-08-15
  * @description
  */
-abstract class BaseActivity<V : ViewDataBinding, VM : BaseViewModel>(var layoutId: Int, var vm: Class<VM>) :
+abstract class BaseActivity<V : ViewDataBinding, VM : ViewModel>(var layoutId: Int, var vm: Class<VM>?) :
     AppCompatActivity() {
 
     protected lateinit var binding: V
     protected lateinit var viewModel: VM
 
     protected lateinit var mActivity: AppCompatActivity
-    protected lateinit var mFragmentManager: FragmentManager
 
     private var firstTime: Long = 0
     private var hasBackExit = false
@@ -32,13 +32,12 @@ abstract class BaseActivity<V : ViewDataBinding, VM : BaseViewModel>(var layoutI
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mActivity = this
-        mFragmentManager = supportFragmentManager
 
         //设置viewBinding
         binding = DataBindingUtil.setContentView(this, layoutId)
 
         //设置viewModel
-        viewModel = ViewModelProviders.of(this).get(vm)
+        if (vm != null) viewModel = ViewModelProviders.of(this).get<VM>(vm!!)
 
         //设置view and data
         bindView()

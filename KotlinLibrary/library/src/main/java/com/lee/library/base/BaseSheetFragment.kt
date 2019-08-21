@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.support.design.widget.BottomSheetBehavior
 import android.support.design.widget.BottomSheetDialog
 import android.support.design.widget.BottomSheetDialogFragment
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.lee.library.R
@@ -23,20 +24,37 @@ abstract class BaseSheetFragment<V : ViewDataBinding, VM : ViewModel>(
 
     protected lateinit var binding: V
     protected lateinit var viewModel: VM
-    protected lateinit var mBehavior: BottomSheetBehavior<*>
 
+    private var mBehavior: BottomSheetBehavior<*>? = null
     private var isVisibleUser = false
     private var isVisibleView = false
     private var fistVisible = true
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val dialog = super.onCreateDialog(savedInstanceState) as BottomSheetDialog
+        return super.onCreateDialog(savedInstanceState) as BottomSheetDialog
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         //设置viewBinding
-        binding = DataBindingUtil.inflate(layoutInflater, layoutId, null, false)
-        dialog.setContentView(binding.root)
-        var mBehavior = BottomSheetBehavior.from(binding.root!!.parent as View)
-        this.mBehavior = mBehavior
-        return dialog
+        binding = DataBindingUtil.inflate(layoutInflater, layoutId, container, false)
+        return binding.root
+    }
+
+    override fun onStart() {
+        super.onStart()
+        val dialog = dialog
+        if (dialog != null) {
+            val bottomSheet = dialog.findViewById<View>(R.id.design_bottom_sheet)
+            bottomSheet.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
+        }
+        getBehavior()!!.state = BottomSheetBehavior.STATE_EXPANDED
+    }
+
+    protected fun getBehavior(): BottomSheetBehavior<*>? {
+        if (mBehavior == null) {
+            mBehavior = BottomSheetBehavior.from(binding.root!!.parent as View)
+        }
+        return mBehavior
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -49,16 +67,6 @@ abstract class BaseSheetFragment<V : ViewDataBinding, VM : ViewModel>(
         if (isVisibleUser && fistVisible) {
             fistVisible = false
         }
-    }
-
-    override fun onStart() {
-        super.onStart()
-        val dialog = dialog
-        if (dialog != null) {
-            val bottomSheet = dialog.findViewById<View>(R.id.design_bottom_sheet)
-            bottomSheet.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
-        }
-        mBehavior.state = BottomSheetBehavior.STATE_EXPANDED
     }
 
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
@@ -79,17 +87,6 @@ abstract class BaseSheetFragment<V : ViewDataBinding, VM : ViewModel>(
     protected fun onFragmentResume() {}
 
     protected fun onFragmentPause() {}
-
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-
-    }
 
     /**
      * 设置加载数据等业务操作

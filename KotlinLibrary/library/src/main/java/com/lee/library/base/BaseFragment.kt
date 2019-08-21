@@ -64,16 +64,6 @@ abstract class BaseFragment<V : ViewDataBinding, VM : ViewModel>(var layoutId: I
     protected fun onFragmentPause() {}
 
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-
-    }
-
     /**
      * 设置加载数据等业务操作
      *

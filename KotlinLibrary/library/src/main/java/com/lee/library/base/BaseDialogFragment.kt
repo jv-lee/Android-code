@@ -72,17 +72,6 @@ abstract class BaseDialogFragment<V : ViewDataBinding, VM : ViewModel>(var layou
 
     protected fun onFragmentPause() {}
 
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-
-    }
-
     /**
      * 设置加载数据等业务操作
      *

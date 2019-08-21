@@ -1,7 +1,9 @@
 package com.lee.app.view.fragment
 
 import android.arch.lifecycle.ViewModel
-import android.databinding.ViewDataBinding
+import android.os.Bundle
+import com.lee.app.R
+import com.lee.app.databinding.FragmentMyBootomBinding
 import com.lee.library.base.BaseSheetFragment
 
 /**
@@ -9,6 +11,14 @@ import com.lee.library.base.BaseSheetFragment
  * @date 2019/8/20.
  * @description
  */
-//class MyBottomSheetFragment:BaseSheetFragment<ViewDataBinding,ViewModel>(){
-//
-//}
+class MyBottomSheetFragment : BaseSheetFragment<FragmentMyBootomBinding, ViewModel>(R.layout.fragment_my_bootom, null) {
+
+    override fun bindData(savedInstanceState: Bundle?) {
+
+    }
+
+    override fun bindView() {
+
+    }
+
+}
