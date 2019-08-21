@@ -3,9 +3,6 @@ anim mintegral_reward_activity_open
 anim mintegral_reward_activity_stay
 anim tt_dislike_animation_dismiss
 anim tt_dislike_animation_show
-attr adSize
-attr adSizes
-attr adUnitId
 attr font
 attr fontProviderAuthority
 attr fontProviderCerts
@@ -748,7 +745,6 @@ id zkas_popular_item_name
 id zkas_popular_item_size
 id zkas_popular_progress_btn
 integer cancel_button_image_alpha
-integer google_play_services_version
 integer status_bar_notification_info_maxnum
 integer tt_video_progress_max
 layout appdownloader_notification_layout
@@ -881,7 +877,6 @@ string as_network_unavailable
 string as_search_empty_prompt_text
 string as_search_failed_prompt_text
 string as_search_progress_prompt_text
-string common_google_play_services_unknown_issue
 string history_clear
 string loading
 string mintegral_reward_appdesc
@@ -891,13 +886,6 @@ string mintegral_reward_endcard_ad
 string mintegral_reward_endcard_vast_notice
 string mintegral_reward_install
 string no_app
-string s1
-string s2
-string s3
-string s4
-string s5
-string s6
-string s7
 string status_bar_notification_info_overflow
 string title_search
 string tt_00_00
@@ -945,7 +933,6 @@ style TextAppearance_Compat_Notification_Title
 style TextAppearance_Compat_Notification_Title_Media
 style Theme_Dialog_TTDownload
 style Theme_Dialog_TTDownloadOld
-style Theme_IAPTheme
 style Widget_Compat_NotificationActionContainer
 style Widget_Compat_NotificationActionText
 style appdownloader_detail_download_progress_bar
@@ -963,7 +950,6 @@ style tt_ss_popup_toast_anim
 style tt_wg_insert_dialog
 style zkas_app_title
 style zkas_banner_desc
-styleable AdsAttrs adSize adSizes adUnitId
 styleable FontFamily fontProviderAuthority fontProviderCerts fontProviderFetchStrategy fontProviderFetchTimeout fontProviderPackage fontProviderQuery
 styleable FontFamilyFont font fontStyle fontWeight
 styleable GifTextureView gifSource isOpaque

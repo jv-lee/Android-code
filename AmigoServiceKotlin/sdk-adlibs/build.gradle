@@ -35,5 +35,5 @@ dependencies {
         }, ext: 'aar')
     }
     //谷歌广告
-    api 'com.google.android.gms:play-services-ads:17.2.0'
+//    api 'com.google.android.gms:play-services-ads:17.2.0'
 }

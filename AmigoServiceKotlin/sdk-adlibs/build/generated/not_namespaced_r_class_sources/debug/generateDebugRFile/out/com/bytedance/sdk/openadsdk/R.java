@@ -283,7 +283,7 @@ public final class R {
     public static final class integer {
         private integer() {}
 
-        public static int tt_video_progress_max = 0x7f0d0004;
+        public static int tt_video_progress_max = 0x7f0d0003;
     }
     public static final class layout {
         private layout() {}
@@ -343,55 +343,55 @@ public final class R {
         public static int appdownloader_wifi_recommended_title = 0x7f15001d;
         public static int appdownloader_wifi_required_body = 0x7f15001e;
         public static int appdownloader_wifi_required_title = 0x7f15001f;
-        public static int tt_00_00 = 0x7f15004a;
-        public static int tt_ad = 0x7f15004b;
-        public static int tt_app_name = 0x7f15004c;
-        public static int tt_auto_play_cancel_text = 0x7f15004d;
-        public static int tt_cancel = 0x7f15004e;
-        public static int tt_comment_num = 0x7f15004f;
-        public static int tt_comment_score = 0x7f150050;
-        public static int tt_confirm_download = 0x7f150051;
-        public static int tt_confirm_download_have_app_name = 0x7f150052;
-        public static int tt_dislike_header_tv_back = 0x7f150053;
-        public static int tt_dislike_header_tv_title = 0x7f150054;
-        public static int tt_full_screen_skip_tx = 0x7f150055;
-        public static int tt_label_cancel = 0x7f150056;
-        public static int tt_label_ok = 0x7f150057;
-        public static int tt_no_network = 0x7f150058;
-        public static int tt_permission_denied = 0x7f150059;
-        public static int tt_request_permission_descript_external_storage = 0x7f15005a;
-        public static int tt_request_permission_descript_location = 0x7f15005b;
-        public static int tt_request_permission_descript_read_phone_state = 0x7f15005c;
-        public static int tt_splash_skip_tv = 0x7f15005d;
-        public static int tt_tip = 0x7f15005e;
-        public static int tt_unlike = 0x7f15005f;
-        public static int tt_video_bytesize = 0x7f150060;
-        public static int tt_video_bytesize_M = 0x7f150061;
-        public static int tt_video_bytesize_MB = 0x7f150062;
-        public static int tt_video_continue_play = 0x7f150063;
-        public static int tt_video_dial_phone = 0x7f150064;
-        public static int tt_video_download_apk = 0x7f150065;
-        public static int tt_video_mobile_go_detail = 0x7f150066;
-        public static int tt_video_retry_des = 0x7f150067;
-        public static int tt_video_without_wifi_tips = 0x7f150068;
-        public static int tt_web_title_default = 0x7f150069;
-        public static int tt_will_play = 0x7f15006a;
+        public static int tt_00_00 = 0x7f150042;
+        public static int tt_ad = 0x7f150043;
+        public static int tt_app_name = 0x7f150044;
+        public static int tt_auto_play_cancel_text = 0x7f150045;
+        public static int tt_cancel = 0x7f150046;
+        public static int tt_comment_num = 0x7f150047;
+        public static int tt_comment_score = 0x7f150048;
+        public static int tt_confirm_download = 0x7f150049;
+        public static int tt_confirm_download_have_app_name = 0x7f15004a;
+        public static int tt_dislike_header_tv_back = 0x7f15004b;
+        public static int tt_dislike_header_tv_title = 0x7f15004c;
+        public static int tt_full_screen_skip_tx = 0x7f15004d;
+        public static int tt_label_cancel = 0x7f15004e;
+        public static int tt_label_ok = 0x7f15004f;
+        public static int tt_no_network = 0x7f150050;
+        public static int tt_permission_denied = 0x7f150051;
+        public static int tt_request_permission_descript_external_storage = 0x7f150052;
+        public static int tt_request_permission_descript_location = 0x7f150053;
+        public static int tt_request_permission_descript_read_phone_state = 0x7f150054;
+        public static int tt_splash_skip_tv = 0x7f150055;
+        public static int tt_tip = 0x7f150056;
+        public static int tt_unlike = 0x7f150057;
+        public static int tt_video_bytesize = 0x7f150058;
+        public static int tt_video_bytesize_M = 0x7f150059;
+        public static int tt_video_bytesize_MB = 0x7f15005a;
+        public static int tt_video_continue_play = 0x7f15005b;
+        public static int tt_video_dial_phone = 0x7f15005c;
+        public static int tt_video_download_apk = 0x7f15005d;
+        public static int tt_video_mobile_go_detail = 0x7f15005e;
+        public static int tt_video_retry_des = 0x7f15005f;
+        public static int tt_video_without_wifi_tips = 0x7f150060;
+        public static int tt_web_title_default = 0x7f150061;
+        public static int tt_will_play = 0x7f150062;
     }
     public static final class style {
         private style() {}
 
         public static int Theme_Dialog_TTDownload = 0x7f16000b;
         public static int Theme_Dialog_TTDownloadOld = 0x7f16000c;
-        public static int appdownloader_detail_download_progress_bar = 0x7f160010;
-        public static int appdownloader_notification_text = 0x7f160011;
-        public static int appdownloader_notification_title = 0x7f160012;
-        public static int appdownloader_progress_bar = 0x7f160013;
-        public static int tt_Widget_ProgressBar_Horizontal = 0x7f160016;
-        public static int tt_back_view = 0x7f160017;
-        public static int tt_custom_dialog = 0x7f160018;
-        public static int tt_dislikeDialog = 0x7f160019;
-        public static int tt_dislikeDialogAnimation = 0x7f16001a;
-        public static int tt_ss_popup_toast_anim = 0x7f16001b;
-        public static int tt_wg_insert_dialog = 0x7f16001c;
+        public static int appdownloader_detail_download_progress_bar = 0x7f16000f;
+        public static int appdownloader_notification_text = 0x7f160010;
+        public static int appdownloader_notification_title = 0x7f160011;
+        public static int appdownloader_progress_bar = 0x7f160012;
+        public static int tt_Widget_ProgressBar_Horizontal = 0x7f160015;
+        public static int tt_back_view = 0x7f160016;
+        public static int tt_custom_dialog = 0x7f160017;
+        public static int tt_dislikeDialog = 0x7f160018;
+        public static int tt_dislikeDialogAnimation = 0x7f160019;
+        public static int tt_ss_popup_toast_anim = 0x7f16001a;
+        public static int tt_wg_insert_dialog = 0x7f16001b;
     }
 }

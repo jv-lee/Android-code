@@ -18,15 +18,15 @@ public final class R {
     public static final class attr {
         private attr() {}
 
-        public static int font = 0x7f040004;
-        public static int fontProviderAuthority = 0x7f040005;
-        public static int fontProviderCerts = 0x7f040006;
-        public static int fontProviderFetchStrategy = 0x7f040007;
-        public static int fontProviderFetchTimeout = 0x7f040008;
-        public static int fontProviderPackage = 0x7f040009;
-        public static int fontProviderQuery = 0x7f04000a;
-        public static int fontStyle = 0x7f04000b;
-        public static int fontWeight = 0x7f04000c;
+        public static int font = 0x7f040001;
+        public static int fontProviderAuthority = 0x7f040002;
+        public static int fontProviderCerts = 0x7f040003;
+        public static int fontProviderFetchStrategy = 0x7f040004;
+        public static int fontProviderFetchTimeout = 0x7f040005;
+        public static int fontProviderPackage = 0x7f040006;
+        public static int fontProviderQuery = 0x7f040007;
+        public static int fontStyle = 0x7f040008;
+        public static int fontWeight = 0x7f040009;
     }
     public static final class bool {
         private bool() {}
@@ -354,7 +354,7 @@ public final class R {
         private integer() {}
 
         public static int cancel_button_image_alpha = 0x7f0d0001;
-        public static int status_bar_notification_info_maxnum = 0x7f0d0003;
+        public static int status_bar_notification_info_maxnum = 0x7f0d0002;
     }
     public static final class layout {
         private layout() {}
@@ -398,13 +398,13 @@ public final class R {
     public static final class string {
         private string() {}
 
-        public static int mintegral_reward_appdesc = 0x7f15003a;
-        public static int mintegral_reward_apptitle = 0x7f15003b;
-        public static int mintegral_reward_clickable_cta_btntext = 0x7f15003c;
-        public static int mintegral_reward_endcard_ad = 0x7f15003d;
-        public static int mintegral_reward_endcard_vast_notice = 0x7f15003e;
-        public static int mintegral_reward_install = 0x7f15003f;
-        public static int status_bar_notification_info_overflow = 0x7f150048;
+        public static int mintegral_reward_appdesc = 0x7f150039;
+        public static int mintegral_reward_apptitle = 0x7f15003a;
+        public static int mintegral_reward_clickable_cta_btntext = 0x7f15003b;
+        public static int mintegral_reward_endcard_ad = 0x7f15003c;
+        public static int mintegral_reward_endcard_vast_notice = 0x7f15003d;
+        public static int mintegral_reward_install = 0x7f15003e;
+        public static int status_bar_notification_info_overflow = 0x7f150040;
     }
     public static final class style {
         private style() {}
@@ -419,22 +419,22 @@ public final class R {
         public static int TextAppearance_Compat_Notification_Time_Media = 0x7f160008;
         public static int TextAppearance_Compat_Notification_Title = 0x7f160009;
         public static int TextAppearance_Compat_Notification_Title_Media = 0x7f16000a;
-        public static int Widget_Compat_NotificationActionContainer = 0x7f16000e;
-        public static int Widget_Compat_NotificationActionText = 0x7f16000f;
-        public static int mintegral_reward_theme = 0x7f160014;
-        public static int mintegral_transparent_theme = 0x7f160015;
+        public static int Widget_Compat_NotificationActionContainer = 0x7f16000d;
+        public static int Widget_Compat_NotificationActionText = 0x7f16000e;
+        public static int mintegral_reward_theme = 0x7f160013;
+        public static int mintegral_transparent_theme = 0x7f160014;
     }
     public static final class styleable {
         private styleable() {}
 
-        public static int[] FontFamily = { 0x7f040005, 0x7f040006, 0x7f040007, 0x7f040008, 0x7f040009, 0x7f04000a };
+        public static int[] FontFamily = { 0x7f040002, 0x7f040003, 0x7f040004, 0x7f040005, 0x7f040006, 0x7f040007 };
         public static int FontFamily_fontProviderAuthority = 0;
         public static int FontFamily_fontProviderCerts = 1;
         public static int FontFamily_fontProviderFetchStrategy = 2;
         public static int FontFamily_fontProviderFetchTimeout = 3;
         public static int FontFamily_fontProviderPackage = 4;
         public static int FontFamily_fontProviderQuery = 5;
-        public static int[] FontFamilyFont = { 0x7f040004, 0x7f04000b, 0x7f04000c };
+        public static int[] FontFamilyFont = { 0x7f040001, 0x7f040008, 0x7f040009 };
         public static int FontFamilyFont_font = 0;
         public static int FontFamilyFont_fontStyle = 1;
         public static int FontFamilyFont_fontWeight = 2;

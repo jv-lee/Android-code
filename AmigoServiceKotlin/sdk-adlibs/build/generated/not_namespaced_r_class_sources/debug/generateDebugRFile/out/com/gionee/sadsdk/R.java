@@ -254,16 +254,16 @@ public final class R {
         public static int as_search_empty_prompt_text = 0x7f150034;
         public static int as_search_failed_prompt_text = 0x7f150035;
         public static int as_search_progress_prompt_text = 0x7f150036;
-        public static int history_clear = 0x7f150038;
-        public static int loading = 0x7f150039;
-        public static int no_app = 0x7f150040;
-        public static int title_search = 0x7f150049;
+        public static int history_clear = 0x7f150037;
+        public static int loading = 0x7f150038;
+        public static int no_app = 0x7f15003f;
+        public static int title_search = 0x7f150041;
     }
     public static final class style {
         private style() {}
 
-        public static int zkas_app_title = 0x7f16001d;
-        public static int zkas_banner_desc = 0x7f16001e;
+        public static int zkas_app_title = 0x7f16001c;
+        public static int zkas_banner_desc = 0x7f16001d;
     }
     public static final class xml {
         private xml() {}
