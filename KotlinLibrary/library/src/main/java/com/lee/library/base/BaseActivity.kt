@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.KeyEvent
 import android.widget.Toast
 import com.lee.library.mvvm.BaseViewModel
+import com.lee.library.utils.StatusUtil
 
 /**
  * @author jv.lee
@@ -30,6 +31,7 @@ abstract class BaseActivity<V : ViewDataBinding, VM : ViewModel>(var layoutId: I
     private var hasBackExitTimer = 2000
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        StatusUtil.statusBar(this, false)
         super.onCreate(savedInstanceState)
         mActivity = this
 
