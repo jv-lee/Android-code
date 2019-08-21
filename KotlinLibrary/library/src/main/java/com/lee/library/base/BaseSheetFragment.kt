@@ -50,7 +50,7 @@ abstract class BaseSheetFragment<V : ViewDataBinding, VM : ViewModel>(
         getBehavior()!!.state = BottomSheetBehavior.STATE_EXPANDED
     }
 
-    protected fun getBehavior(): BottomSheetBehavior<*>? {
+    open fun getBehavior(): BottomSheetBehavior<*>? {
         if (mBehavior == null) {
             mBehavior = BottomSheetBehavior.from(binding.root!!.parent as View)
         }
@@ -84,9 +84,9 @@ abstract class BaseSheetFragment<V : ViewDataBinding, VM : ViewModel>(
         }
     }
 
-    protected fun onFragmentResume() {}
+    open fun onFragmentResume() {}
 
-    protected fun onFragmentPause() {}
+    open fun onFragmentPause() {}
 
     /**
      * 设置加载数据等业务操作

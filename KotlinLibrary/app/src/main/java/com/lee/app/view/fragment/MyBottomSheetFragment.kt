@@ -14,7 +14,6 @@ import com.lee.library.base.BaseSheetFragment
 class MyBottomSheetFragment : BaseSheetFragment<FragmentMyBootomBinding, ViewModel>(R.layout.fragment_my_bootom, null) {
 
     override fun bindData(savedInstanceState: Bundle?) {
-
     }
 
     override fun bindView() {

@@ -59,9 +59,9 @@ abstract class BaseFragment<V : ViewDataBinding, VM : ViewModel>(var layoutId: I
         }
     }
 
-    protected fun onFragmentResume() {}
+    open fun onFragmentResume() {}
 
-    protected fun onFragmentPause() {}
+    open fun onFragmentPause() {}
 
 
     /**
@@ -79,5 +79,5 @@ abstract class BaseFragment<V : ViewDataBinding, VM : ViewModel>(var layoutId: I
     /**
      * 使用page 多fragment时 懒加载
      */
-    protected fun lazyLoad() {}
+    open fun lazyLoad() {}
 }

@@ -68,9 +68,9 @@ abstract class BaseDialogFragment<V : ViewDataBinding, VM : ViewModel>(var layou
         }
     }
 
-    protected fun onFragmentResume() {}
+    open fun onFragmentResume() {}
 
-    protected fun onFragmentPause() {}
+    open fun onFragmentPause() {}
 
     /**
      * 设置加载数据等业务操作
@@ -87,5 +87,5 @@ abstract class BaseDialogFragment<V : ViewDataBinding, VM : ViewModel>(var layou
     /**
      * 使用page 多fragment时 懒加载
      */
-    protected fun lazyLoad() {}
+    open fun lazyLoad() {}
 }
