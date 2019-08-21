@@ -1,4 +1,7 @@
-package com.lee.db.database;
+package com.lee.db.dao;
+
+
+import com.lee.db.database.BaseDao;
 
 import java.util.List;
 
@@ -7,10 +10,10 @@ import java.util.List;
  * @date 2019-08-21
  * @description 自定义自己的需求
  */
-public class OrderDao<T> extends BaseDao<T> {
+public class SqlDao<T> extends BaseDao<T> {
 
     public List<T> query(String sql) {
-
         return null;
     }
+
 }

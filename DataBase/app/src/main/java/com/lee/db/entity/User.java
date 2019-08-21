@@ -1,4 +1,4 @@
-package com.lee.db;
+package com.lee.db.entity;
 
 import com.lee.db.annotation.DBField;
 import com.lee.db.annotation.DBTable;
@@ -10,25 +10,33 @@ import com.lee.db.annotation.DBTable;
  */
 @DBTable("tb_user")
 public class User {
-    @DBField("u_id")
+    @DBField(value = "u_id", primarykey = true)
     private Integer id;
     private String name;
     private String password;
+    private Integer status;
 
     public User() {
     }
 
-    public User(int id, String name, String password) {
+    public User(Integer id, String name, String password) {
         this.id = id;
         this.name = name;
         this.password = password;
     }
 
-    public int getId() {
+    public User(Integer id, String name, String password, Integer status) {
+        this.id = id;
+        this.name = name;
+        this.password = password;
+        this.status = status;
+    }
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -48,12 +56,21 @@ public class User {
         this.password = password;
     }
 
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", password='" + password + '\'' +
+                ", status='" + status + '\'' +
                 '}';
     }
 }

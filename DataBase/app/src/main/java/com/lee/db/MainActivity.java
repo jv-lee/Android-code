@@ -4,15 +4,18 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.lee.db.dao.PhotoDao;
 import com.lee.db.database.BaseDao;
 import com.lee.db.database.BaseDaoFactory;
-import com.lee.db.database.IBaseDao;
-import com.lee.db.database.OrderDao;
+import com.lee.db.dao.SqlDao;
+import com.lee.db.dao.UserDao;
+import com.lee.db.entity.Photo;
+import com.lee.db.entity.User;
+import com.lee.db.subdatabase.BaseDaoSubFactory;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -28,22 +31,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private static final String TAG = "MainActivity";
 
-    private IBaseDao<User> dao;
-    private OrderDao<User> orderDao;
+    private BaseDao<User> dao;
+    private SqlDao<User> orderDao;
+    private UserDao userDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        dao = BaseDaoFactory.getInstance().getBaseDao(User.class);
-        orderDao = BaseDaoFactory.getInstance().getBaseDao(OrderDao.class, User.class);
+        dao = BaseDaoFactory.getInstance().getBaseDao(BaseDao.class, User.class);
+        orderDao = BaseDaoFactory.getInstance().getBaseDao(SqlDao.class, User.class);
 
+
+        userDao = BaseDaoFactory.getInstance().getBaseDao(UserDao.class, User.class);
 
         findViewById(R.id.btn_insert).setOnClickListener(this);
         findViewById(R.id.btn_delete).setOnClickListener(this);
         findViewById(R.id.btn_update).setOnClickListener(this);
         findViewById(R.id.btn_select).setOnClickListener(this);
+        findViewById(R.id.btn_login).setOnClickListener(this);
+        findViewById(R.id.btn_equal_insert).setOnClickListener(this);
     }
 
     @Override
@@ -61,9 +69,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_select:
                 select();
                 break;
+            case R.id.btn_login:
+                login();
+                break;
+            case R.id.btn_equal_insert:
+                equalInsert();
+                break;
             default:
         }
     }
+
 
     private void insert() {
         for (int i = 0; i < 10; i++) {
@@ -99,4 +114,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Log.i(TAG, "select: " + user.toString());
         }
     }
+
+    int i = 0;
+
+    private void login() {
+        //服务器返回信息
+        User user = new User();
+        user.setName("elizabeth" + (i++));
+        user.setPassword("123456");
+        user.setId(i);
+
+        //数据插入
+        long insert = userDao.insert(user);
+        Toast.makeText(this, "插入了" + insert + "条数据", Toast.LENGTH_SHORT).show();
+    }
+
+
+    private void equalInsert() {
+        Photo photo = new Photo();
+        photo.setPath("/data/data/xxx.jpg");
+        photo.setTime(new Date().toString());
+        PhotoDao photoDao = BaseDaoSubFactory.getInstance().getBaseDao(PhotoDao.class, Photo.class);
+        photoDao.insert(photo);
+    }
+
 }

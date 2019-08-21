@@ -45,4 +45,24 @@
         app:layout_constraintTop_toBottomOf="@id/btn_update" />
 
 
+    <Button
+        android:id="@+id/btn_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="login"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_select" />
+
+
+    <Button
+        android:id="@+id/btn_equal_insert"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="分库插入"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_login" />
+
+
 </android.support.constraint.ConstraintLayout>

@@ -54,7 +54,7 @@ public class BaseDao<T> implements IBaseDao<T> {
     /**
      * 初始化dao表
      */
-    protected boolean init(SQLiteDatabase sqLiteDatabase, Class<T> entityClass) {
+    public boolean init(SQLiteDatabase sqLiteDatabase, Class<T> entityClass) {
         this.sqLiteDatabase = sqLiteDatabase;
         this.entityClass = entityClass;
 
@@ -95,19 +95,19 @@ public class BaseDao<T> implements IBaseDao<T> {
             if (dbField != null && !"".equals(dbField.value())) {
                 if (type == String.class) {
                     stringBuilder.append(dbField.value())
-                            .append(" TEXT,");
+                            .append(" TEXT");
                 } else if (type == Integer.class || type == int.class) {
                     stringBuilder.append(dbField.value())
-                            .append(" INTEGER,");
+                            .append(" INTEGER");
                 } else if (type == Long.class || type == long.class) {
                     stringBuilder.append(dbField.value())
-                            .append(" BIGINT,");
+                            .append(" BIGINT");
                 } else if (type == Double.class || type == double.class) {
                     stringBuilder.append(dbField.value())
-                            .append(" DOUBLE,");
+                            .append(" DOUBLE");
                 } else if (type == byte[].class) {
                     stringBuilder.append(dbField.value())
-                            .append(" BLOB,");
+                            .append(" BLOB");
                 } else {
                     //不支持的类型
                     try {
@@ -115,6 +115,11 @@ public class BaseDao<T> implements IBaseDao<T> {
                     } catch (ClassNotFoundException e) {
                         e.printStackTrace();
                     }
+                }
+                if (dbField.primarykey()) {
+                    stringBuilder.append(" PRIMARY KEY,");
+                } else {
+                    stringBuilder.append(",");
                 }
             } else {
                 if (type == String.class) {
