@@ -1,5 +1,6 @@
-package gionee.gnservice
+package gionee.gnservice.app
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.support.multidex.MultiDex
 import com.android.droi.books.BooksInit
@@ -7,8 +8,8 @@ import com.cmcm.cmgame.CmGameSdk
 import com.cmcm.cmgame.gamedata.CmGameAppInfo
 import com.dl.infostream.InfoStreamManager
 import com.gionee.gnservice.AmigoServiceApp
+import com.lee.library.utils.SPUtil
 import com.s.main.sdk.SDK
-import gionee.gnservice.app.BuildConfig
 import gionee.gnservice.app.utils.GameImageLoader
 
 /**
@@ -20,19 +21,31 @@ class App : AmigoServiceApp() {
 
     private val TAG: String = App::class.java.simpleName
 
+    companion object {
+        @SuppressLint("StaticFieldLeak")
+        lateinit var instance: Context
+    }
+
     override fun onCreate() {
         super.onCreate()
+        instance = applicationContext
         //在主进程中初始化
         if (applicationContext.packageName == currentProcessName) {
+            initComponent()
             initSDK()
         }
     }
 
-    override fun attachBaseContext(base: Context) {
-        super.attachBaseContext(base)
-        MultiDex.install(this)
+    /**
+     * app工具组件初始化
+     */
+    private fun initComponent() {
+        SPUtil.getInstance(this)
     }
 
+    /**
+     * 第三方SDK初始化
+     */
     private fun initSDK() {
         //资讯初始化
         InfoStreamManager.getInstance().init(this, BuildConfig.NEWS_ID, BuildConfig.NEWS_KEY, false)
@@ -75,6 +88,11 @@ class App : AmigoServiceApp() {
         cmGameAppInfo.sigmobInfo = sigmobInfo
 
         CmGameSdk.initCmGameSdk(this, cmGameAppInfo, GameImageLoader(), BuildConfig.DEBUG)
+    }
+
+    override fun attachBaseContext(base: Context) {
+        super.attachBaseContext(base)
+        MultiDex.install(this)
     }
 
 }

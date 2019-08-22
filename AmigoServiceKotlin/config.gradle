@@ -21,13 +21,8 @@ ext {
 
     //服务器地址
     uri = [
-            onlineUri : "http://overseas.hclwapi.com",
-            testUri   : "http://192.168.0.171:8084",
-            newsUri   : "https://newsapi.org/v2",
-            newsKey   : "c5e5b4f1d02047f7a59203ea86fef83c",
-            youtubeUri: "https://www.googleapis.com/youtube/v3",
-            youtubeKey: "AIzaSyAtF5C8GRdszLkdkMmj9e9kM06dyDuW6og",
-//            youtubeKey: "AIzaSyBq2zrIxQoyM0brB-4QTr3AHaUokvWsD8A"
+            onlineUri : "http://ucenter.hclw.online",
+            testUri   : "http://uc-test.hclw.online",
     ]
 
     key = [
