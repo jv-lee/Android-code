@@ -1,1 +1,1 @@
-include ':app', ':base', ':amigo-account', ':amigo-base', ':amigo-app', ':sdk-news', ':sdk-book', ':sdk-game', ':sdk-adlibs'
+include ':sdk-book', ':base', ':amigo-base', ':sdk-adlibs', ':sdk-game', ':amigo-app', ':sdk-news', ':app', ':amigo-account'

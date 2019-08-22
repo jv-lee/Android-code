@@ -2,6 +2,7 @@ package gionee.gnservice
 
 import android.content.Context
 import android.support.multidex.MultiDex
+import com.android.droi.books.BooksInit
 import com.cmcm.cmgame.CmGameSdk
 import com.cmcm.cmgame.gamedata.CmGameAppInfo
 import com.dl.infostream.InfoStreamManager
@@ -37,7 +38,7 @@ class App : AmigoServiceApp() {
         InfoStreamManager.getInstance().init(this, BuildConfig.NEWS_ID, BuildConfig.NEWS_KEY, false)
 
         //小说初始化
-//        BooksInit.getInstance().setUserInfo(this, "3")
+        BooksInit.getInstance().setUserInfo(this, "3")
 
         //游戏初始化
         initCmGameSdk()

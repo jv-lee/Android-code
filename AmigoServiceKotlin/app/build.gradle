@@ -63,7 +63,7 @@ dependencies {
     implementation project(path: ':base')
     implementation project(path: ':amigo-app')
     implementation project(path: ':sdk-news')
-//    implementation project(path: ':sdk-book')
+    implementation project(path: ':sdk-book')
     implementation project(path: ':sdk-game')
     implementation project(path: ':sdk-adlibs')
     testImplementation 'junit:junit:4.12'

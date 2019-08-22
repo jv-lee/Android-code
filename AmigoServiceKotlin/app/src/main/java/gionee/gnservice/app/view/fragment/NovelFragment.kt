@@ -2,6 +2,7 @@ package gionee.gnservice.app.view.fragment
 
 import android.arch.lifecycle.ViewModel
 import android.os.Bundle
+import com.android.droi.books.BooksLayout
 import com.lee.library.base.BaseFragment
 import com.lee.library.ioc.annotation.ContentView
 import gionee.gnservice.app.R
@@ -14,6 +15,8 @@ import gionee.gnservice.app.databinding.FragmentNovelBinding
  */
 class NovelFragment : BaseFragment<FragmentNovelBinding, ViewModel>(R.layout.fragment_novel, null) {
 
+    private val booksLayout: BooksLayout? = null
+
     override fun bindData(savedInstanceState: Bundle?) {
     }
 
@@ -22,7 +25,7 @@ class NovelFragment : BaseFragment<FragmentNovelBinding, ViewModel>(R.layout.fra
 
     override fun lazyLoad() {
         super.lazyLoad()
-//        frame_container.addView(BooksLayout(activity))
+        binding.frameContainer.addView(BooksLayout(activity))
     }
 
 
