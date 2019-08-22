@@ -12,6 +12,7 @@ buildscript {
         mavenCentral()
         maven { url 'https://maven.fabric.io/public' }
         maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+        maven{ url 'http://maven.aliyun.com/nexus/content/groups/public/'}
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.2.1'
@@ -34,6 +35,7 @@ allprojects {
         maven { url 'https://jitpack.io' }
         maven { url 'https://dl.bintray.com/qichuan/maven/' }
         maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+        maven{ url 'http://maven.aliyun.com/nexus/content/groups/public/'}
 
         //全局aar文件路径
         flatDir {
