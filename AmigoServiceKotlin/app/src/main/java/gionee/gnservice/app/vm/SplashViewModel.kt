@@ -11,6 +11,6 @@ import gionee.gnservice.app.model.repository.LoginRepository
  */
 class SplashViewModel(application: Application) : BaseViewModel(application = application) {
 
-    val model: LoginRepository = LoginRepository()
+    val model by lazy { LoginRepository() }
 
 }
