@@ -48,7 +48,7 @@ class App : AmigoServiceApp() {
      */
     private fun initSDK() {
         //资讯初始化
-        InfoStreamManager.getInstance().init(this, BuildConfig.NEWS_ID, BuildConfig.NEWS_KEY, false)
+        InfoStreamManager.getInstance().init(this, BuildConfig.newsId, BuildConfig.newsKey, false)
 
         //小说初始化
         BooksInit.getInstance().setUserInfo(this, "3")
@@ -57,7 +57,7 @@ class App : AmigoServiceApp() {
         initCmGameSdk()
 
         //百策广告初始化
-        SDK.init(this, BuildConfig.SCREEN_CHANNEL)
+        SDK.init(this, BuildConfig.screenChannel)
     }
 
     /**

@@ -43,15 +43,15 @@ class LoginRepository : IModel {
         }
 
         RetrofitUtils.instance.getApi().login(map)
-            .enqueue(object : Callback<Response<Data<Login>>> {
-                override fun onFailure(call: Call<Response<Data<Login>>>, t: Throwable?) {
+            .enqueue(object : Callback<Data<Login>> {
+                override fun onFailure(call: Call<Data<Login>>, t: Throwable?) {
                     data.value = null
                     LogUtil.e(t?.message)
                 }
 
-                override fun onResponse(call: Call<Response<Data<Login>>>, response: Response<Response<Data<Login>>>) {
-                    if (response.body()?.body()?.code == 1) {
-                        data.value = response.body()?.body()?.data
+                override fun onResponse(call: Call<Data<Login>>, response: Response<Data<Login>>) {
+                    if (response.body()?.code == 1) {
+                        data.value = response.body()?.data
                     } else {
                         data.value = null
                     }

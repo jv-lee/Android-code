@@ -7,6 +7,6 @@ package gionee.gnservice.app.model.entity
  */
 data class Data<T>(
     val code: Int,
-    val msg: String,
-    val data: T
+    val data: T,
+    val msg: String
 )

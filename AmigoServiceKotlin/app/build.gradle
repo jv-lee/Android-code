@@ -14,9 +14,12 @@ android {
 
         multiDexEnabled configs.multiDexEnabled
 
-        buildConfigField("String", "NEWS_ID", "\"$key.newsId\"")
-        buildConfigField("String", "NEWS_KEY", "\"$key.newsKey\"")
-        buildConfigField("String", "SCREEN_CHANNEL", "\"$key.screenChannel\"")
+//        buildConfigField("String", "NEWS_ID", "\"$key.newsId\"")
+//        buildConfigField("String", "NEWS_KEY", "\"$key.newsKey\"")
+//        buildConfigField("String", "SCREEN_CHANNEL", "\"$key.screenChannel\"")
+        key.each { k, v ->
+            buildConfigField("String", k, "\"" + v + "\"")
+        }
     }
 
     //签名配置

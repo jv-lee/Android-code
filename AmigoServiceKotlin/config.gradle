@@ -29,8 +29,12 @@ ext {
             //新闻sdk
             newsId       : "gngs",
             newsKey      : "f834ebbeb3570184217fdf1d146b5a86",
+            //乐逗sdk
+            mobgiAppId : "C24BCCA4345E9DC7287A",
             //百策sdk
-            screenChannel: "AD_D1009_Service"
+            screenChannel: "AD_D1009_Service",
+            screenAppId:"2844",
+            screenId:"41555"
     ]
 
     //第三方依赖版本号

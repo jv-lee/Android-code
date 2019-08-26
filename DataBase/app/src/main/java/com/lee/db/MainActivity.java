@@ -14,6 +14,7 @@ import com.lee.db.dao.UserDao;
 import com.lee.db.entity.Photo;
 import com.lee.db.entity.User;
 import com.lee.db.subdatabase.BaseDaoSubFactory;
+import com.lee.db.update.UpdateManager;
 
 import java.util.Date;
 import java.util.List;
@@ -52,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.btn_select).setOnClickListener(this);
         findViewById(R.id.btn_login).setOnClickListener(this);
         findViewById(R.id.btn_equal_insert).setOnClickListener(this);
+        findViewById(R.id.btn_update_version).setOnClickListener(this);
     }
 
     @Override
@@ -75,10 +77,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_equal_insert:
                 equalInsert();
                 break;
+            case R.id.btn_update_version:
+                updateVersion();
+                break;
             default:
         }
     }
-
 
     private void insert() {
         for (int i = 0; i < 10; i++) {
@@ -129,13 +133,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Toast.makeText(this, "插入了" + insert + "条数据", Toast.LENGTH_SHORT).show();
     }
 
-
     private void equalInsert() {
         Photo photo = new Photo();
         photo.setPath("/data/data/xxx.jpg");
         photo.setTime(new Date().toString());
         PhotoDao photoDao = BaseDaoSubFactory.getInstance().getBaseDao(PhotoDao.class, Photo.class);
         photoDao.insert(photo);
+    }
+
+    private void updateVersion() {
+        UpdateManager updateManager = new UpdateManager();
+        updateManager.startUpdateDb(this);
     }
 
 }

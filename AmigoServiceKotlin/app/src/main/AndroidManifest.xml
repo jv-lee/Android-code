@@ -16,6 +16,10 @@
             android:theme="@style/AppTheme"
             tools:replace="android:label,android:allowBackup,icon">
 
+        <meta-data
+                android:name="com.google.android.gms.ads.APPLICATION_ID"
+                android:value="ca-app-pub-2261221715899905~9143459369" />
+
         <activity android:name=".view.activity.MainActivity"/>
 
         <activity android:name=".view.activity.SplashActivity">

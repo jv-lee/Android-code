@@ -3,7 +3,7 @@ package gionee.gnservice.app.model.entity
 /**
  * @author jv.lee
  * @date 2019/8/22.
- * @description
+ * @description 登陆用户信息
  */
 data class Login(
     val isNew: Int,
