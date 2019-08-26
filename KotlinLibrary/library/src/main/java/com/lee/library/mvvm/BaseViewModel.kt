@@ -9,3 +9,5 @@ import android.arch.lifecycle.AndroidViewModel
  * @description
  */
 abstract class BaseViewModel(application: Application) : AndroidViewModel(application)
+
+

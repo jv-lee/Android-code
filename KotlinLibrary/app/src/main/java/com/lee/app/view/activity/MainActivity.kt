@@ -13,7 +13,7 @@ import com.lee.app.viewmodel.MainViewModel
 class MainActivity :
     BaseActivity<ActivityMainBinding, MainViewModel>(R.layout.activity_main, MainViewModel::class.java) {
 
-    private var id: Int = 1994
+    private var id: Int = 1999
 
     override fun bindView() {
         binding.setClick {
@@ -22,7 +22,8 @@ class MainActivity :
                     supportFragmentManager.beginTransaction().add(R.id.frame_container, MainFragment()).commit()
                 }
                 R.id.button2 -> {
-                    MyBottomSheetFragment().show(supportFragmentManager, "dialog")
+//                    MyBottomSheetFragment().show(supportFragmentManager, "dialog")
+                    viewModel.login(id++)
                 }
             }
 
@@ -32,15 +33,13 @@ class MainActivity :
 
     override fun bindData(savedInstanceState: Bundle?) {
         binding.viewModel = viewModel
-        notificationData()
-        toast(viewModel.test().toString())
-    }
 
-    private fun notificationData() {
-        id++
-        viewModel.model.getUserInfo(id).observe(this, Observer {
-            viewModel.user.set(it)
-        })
+        viewModel.apply {
+            userInfo.observe(this@MainActivity, Observer {
+                user.set(it)
+            })
+        }
+        viewModel.login(id++)
     }
 
 }
