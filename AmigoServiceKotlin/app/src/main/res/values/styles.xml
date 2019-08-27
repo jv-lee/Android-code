@@ -8,8 +8,6 @@
         <item name="colorAccent">@android:color/holo_orange_dark</item>
         <item name="android:statusBarColor" tools:ignore="NewApi">@android:color/transparent</item>
         <item name="android:windowAnimationStyle">@style/AppTheme.Animation</item>
-        <!--<item name="android:progressDrawable">@drawable/progress_background</item>-->
-        <!--<item name="android:indeterminateTint" tools:ignore="NewApi">@color/colorMain</item>-->
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -29,11 +27,6 @@
     <!--Main页面主题-->
     <style name="MainTheme" parent="AppTheme">
         <item name="android:windowAnimationStyle">@style/MainTheme.Animation</item>
-    </style>
-
-    <!--视频界面主题-->
-    <style name="VideoTheme" parent="AppTheme">
-        <!--<item name="android:progressBarStyle">@style/progress_video</item>-->
     </style>
 
 </resources>

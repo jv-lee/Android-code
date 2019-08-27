@@ -15,21 +15,18 @@ import com.s.main.sdk.SplashView
 import com.s.main.sdk.SplashViewCallBack
 import gionee.gnservice.app.BuildConfig
 import gionee.gnservice.app.R
+import gionee.gnservice.app.constants.EventConstants
 import gionee.gnservice.app.databinding.ActivitySplashBinding
 import gionee.gnservice.app.model.entity.Data
 import gionee.gnservice.app.model.server.RetrofitUtils
 import gionee.gnservice.app.vm.SplashViewModel
 
+/**
+ * 开屏页面
+ */
 class SplashActivity :
     BaseActivity<ActivitySplashBinding, SplashViewModel>(R.layout.activity_splash, SplashViewModel::class.java),
     PermissionRequest {
-
-    private val PERMISSIONS = arrayOf(
-        android.Manifest.permission.READ_CALENDAR,
-        android.Manifest.permission.WRITE_CALENDAR,
-        android.Manifest.permission.READ_PHONE_STATE,
-        android.Manifest.permission.WRITE_EXTERNAL_STORAGE
-    )
 
     private var isLogin: Boolean = false
     private var isSplash: Boolean = false
@@ -41,7 +38,10 @@ class SplashActivity :
         //获取权限信息 初始化sdk
         PermissionManager.getInstance()
             .attach(this)
-            .request(*PERMISSIONS)
+            .request(
+                android.Manifest.permission.READ_PHONE_STATE,
+                android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+            )
             .listener(this)
     }
 
@@ -49,13 +49,14 @@ class SplashActivity :
     }
 
     override fun onPermissionSuccess() {
+        StatisticsUtil.onEvent(this, EventConstants.Desktop_Start)
         initSplash()
         initLogin()
         initSDK()
     }
 
     override fun onPermissionFiled(permission: String?) {
-        finish()
+        toast(permission!!)
     }
 
     override fun onResume() {
@@ -78,6 +79,7 @@ class SplashActivity :
      * 初始化开屏广告
      */
     private fun initSplash() {
+        StatisticsUtil.onEvent(this, EventConstants.Splash_Fetch_Times, "冷启动")
         splashView = SplashView(this)
         splashView?.setAdBound(resources.displayMetrics.widthPixels, resources.displayMetrics.heightPixels)
         splashView?.setAdJumpView(null, 5)
@@ -94,6 +96,7 @@ class SplashActivity :
             }
 
             override fun onAdTimeOut(p0: String?) {
+                StatisticsUtil.onEvent(this@SplashActivity, EventConstants.Splash_Result, "冷启动_拉取超时")
                 isSplash = true
                 sendMain()
             }
@@ -104,9 +107,11 @@ class SplashActivity :
             }
 
             override fun onAdPresent(p0: String?) {
+                StatisticsUtil.onEvent(this@SplashActivity, EventConstants.Splash_Result, "冷启动_成功曝光")
             }
 
             override fun onAdClick(p0: String?) {
+                StatisticsUtil.onEvent(this@SplashActivity, EventConstants.Splash_Result, "冷启动_广告点击")
             }
         })
         binding.frameSplashContainer.addView(splashView)
@@ -129,13 +134,24 @@ class SplashActivity :
      * 初始化乐逗广告
      */
     private fun initSDK() {
+        StatisticsUtil.onEvent(this, EventConstants.Ads_Init_Times)
         MobgiAds.init(applicationContext, BuildConfig.mobgiAppId, object : MobgiAds.InitCallback {
             override fun onSuccess() {
+                StatisticsUtil.onEvent(
+                    this@SplashActivity,
+                    EventConstants.Ads_Init_Result,
+                    EventConstants.Ads_Init_Success
+                )
                 isOldAd = true
                 sendMain()
             }
 
             override fun onError(throwable: Throwable) {
+                StatisticsUtil.onEvent(
+                    this@SplashActivity,
+                    EventConstants.Ads_Init_Result,
+                    EventConstants.Ads_Init_Error
+                )
                 isOldAd = true
                 sendMain()
             }
@@ -150,7 +166,9 @@ class SplashActivity :
             return
         }
         val intent = Intent(this, MainActivity::class.java)
-        intent.putExtras(getIntent().extras)
+        if (getIntent().extras != null) {
+            intent.putExtras(getIntent()!!.extras!!)
+        }
         intent.data = getIntent().data
         startActivity(intent)
         finish()

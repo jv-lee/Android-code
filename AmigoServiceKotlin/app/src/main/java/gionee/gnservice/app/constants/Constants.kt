@@ -17,6 +17,16 @@ class Constants {
          * 用户数据标识符
          */
         const val USER_KEY = "user_key"
+
+        /**
+         * 是否是子入口
+         */
+        const val IS_SUB = "is_sub"
+
+        /**
+         * 通知栏标识符
+         */
+        const val NOTIFICATION_LABLE = "notification"
     }
 
 

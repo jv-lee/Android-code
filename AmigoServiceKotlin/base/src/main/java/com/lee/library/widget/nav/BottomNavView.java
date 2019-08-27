@@ -68,6 +68,10 @@ public class BottomNavView extends BottomNavigationView implements BottomNavigat
         return true;
     }
 
+    public void toPosition(int postion) {
+        onNavigationItemSelected(getMenu().getItem(postion));
+    }
+
     public void initUnReadMessageViews() {
         //初始化红点view
         BottomNavigationMenuView menuView = null;
@@ -82,10 +86,10 @@ public class BottomNavView extends BottomNavigationView implements BottomNavigat
             dots = new ArrayList<>();
             for (int i = 0; i < menuView.getChildCount(); i++) {
                 BottomNavigationItemView itemView = (BottomNavigationItemView) menuView.getChildAt(i);
-                BottomNavigationItemView.LayoutParams params = new BottomNavigationItemView.LayoutParams(SizeUtil.dp2px(getContext(),15), SizeUtil.dp2px(getContext(),15));
+                BottomNavigationItemView.LayoutParams params = new BottomNavigationItemView.LayoutParams(SizeUtil.dp2px(getContext(), 15), SizeUtil.dp2px(getContext(), 15));
                 params.gravity = Gravity.RIGHT;
                 params.topMargin = SizeUtil.dp2px(getContext(), 5);
-                params.rightMargin = SizeUtil.dp2px(getContext(),15);
+                params.rightMargin = SizeUtil.dp2px(getContext(), 15);
                 DotNumberView dotView = new DotNumberView(getContext());
                 itemView.addView(dotView, params);
                 dots.add(dotView);

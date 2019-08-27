@@ -16,13 +16,37 @@
             android:theme="@style/AppTheme"
             tools:replace="android:label,android:allowBackup,icon">
 
+        <uses-library
+                android:name="org.apache.http.legacy"
+                android:required="false"/>
+
         <meta-data
                 android:name="com.google.android.gms.ads.APPLICATION_ID"
-                android:value="ca-app-pub-2261221715899905~9143459369" />
+                android:value="ca-app-pub-2261221715899905~9143459369"/>
+        <meta-data
+                android:name="YJ_APP_ID"
+                android:value="C28ED24A9B7B49A1"/>
+        <meta-data
+                android:name="com.baidu.lbsapi.API_KEY"
+                android:value="lATyCKo95WbkM6i0K2Gadz1k"/>
+        <meta-data
+                android:name="FeedBack_AppId"
+                android:value="6d7e1f5ff763426b81f9ec362ac52bc2"/>
 
-        <activity android:name=".view.activity.MainActivity"/>
-
-        <activity android:name=".view.activity.SplashActivity">
+        <activity
+                android:name=".view.activity.SplashActivity"
+                android:theme="@style/WelcomeTheme"
+                android:screenOrientation="portrait">
+            <intent-filter>
+                <!-- 协议部分，随便设置 glucenter://init?ch= -->
+                <data
+                        android:host="start"
+                        android:scheme="glucenter"/>
+                <!-- 下面这几行也必须得设置 -->
+                <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+            </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -30,9 +54,32 @@
             </intent-filter>
         </activity>
 
-        <uses-library
-                android:name="org.apache.http.legacy"
-                android:required="false"/>
+        <activity
+                android:name=".view.activity.SplashSubActivity"
+                android:theme="@style/WelcomeTheme"
+                android:screenOrientation="portrait"/>
+        <activity
+                android:name=".view.activity.SplashRunActivity"
+                android:theme="@style/WelcomeTheme"
+                android:screenOrientation="portrait"/>
+        <activity
+                android:name=".view.activity.MainActivity"
+                android:theme="@style/MainTheme"
+                android:configChanges="orientation|screenSize|keyboardHidden"
+                android:launchMode="singleTop"
+                android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="com.gionee.gnservice.WelcomActivity"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.gionee.gnservice.GNServiceActivity"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+
     </application>
 
 </manifest>

@@ -7,8 +7,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 import com.gionee.gnservice.R;
-import com.gionee.gnservice.UserCenterActivity;
 import com.gionee.gnservice.module.setting.MemberSettingActivity;
 import com.gionee.gnservice.utils.LogUtil;
 
@@ -18,6 +18,14 @@ import com.gionee.gnservice.utils.LogUtil;
 // */
 public class PushReceiver extends BroadcastReceiver {
     private static final String TAG = "SERVICE_PUSH";
+    public static final String REGISTERATION_KEY_PACKAGENAME = "packagename";
+    public static final String REGISTERATION_KEY_MESSAGE_ID = "messageId";
+    public static final String REGISTERATION_KEY_ERROR = "error";
+    public static final String REGISTERATION_KEY_CLICK_TIME = "clickTime";
+    public static final String REGISTERATION_KEY_EFFECT = "effect";
+    public static final String REGISTERATION_KEY_RID = "rid";
+    public static final String REGISTERATION_KEY_TITLE = "title";
+    public static final String REGISTERATION_KEY_CREATE_TIME = "createTime";
 
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
@@ -32,7 +40,7 @@ public class PushReceiver extends BroadcastReceiver {
                 rid = intent.getStringExtra("registration_id");
                 LogUtil.d(TAG, "onReceive rid = " + rid);
 //                ReceiverNotifier.getInstance().notifyRidGot(rid);
-//                new InfoSendThread(context, rid).start();
+//                new InfoSendThread(context, rid).init();
                 PushHelper.writeRid(context, rid);
 
                 // Cancel RID success
@@ -56,31 +64,58 @@ public class PushReceiver extends BroadcastReceiver {
             LogUtil.d(TAG, "recive push messge=" + message);
 //            ReceiverNotifier.getInstance().notifyMessage(message);
 //            EmptyService.cancelKeep(context);
-            sendNotification(context.getApplicationContext(), message);
+            try {
+                sendNotification(context.getApplicationContext(), intent);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
-    public void sendNotification(Context context, String message) {
+    public void sendNotification(Context context, Intent parentIntent) {
+        Log.i(">>>", parentIntent.toString());
         boolean enable = MemberSettingActivity.isNotifySwitchEnable(context);
         if (!enable) {
             LogUtil.d("notify is disable,not send notification");
             return;
         }
+        String message = parentIntent.getStringExtra("message");
         NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        Intent intent = new Intent(context, UserCenterActivity.class);
+        int requestCode = (int) System.currentTimeMillis();
+        PushEntity entity = PushIntentUtils.getEntity(message);
+        Intent intent = PushIntentUtils.getIntent(context, entity, parentIntent);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, requestCode, intent, 0);
         Notification notify = new Notification.Builder(context)
                 .setSmallIcon(R.drawable.uc_ic_push_notify_icon)
                 .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.uc_ic_push_notify_icon))
                 .setAutoCancel(true)
-                .setContentTitle(context.getResources().getString(R.string.uc_user_center))
-                .setContentText(message)
+                .setContentTitle(entity.getTitle())
+                .setContentText(entity.getDes())
                 .setContentIntent(pendingIntent)
                 .build();
         notify.flags |= Notification.FLAG_AUTO_CANCEL;
-        manager.notify(0, notify);
+        manager.notify(requestCode, notify);
+    }
 
+    public static void startSaveServer(Context context, String messageId) {
+        Intent intent = new Intent("com.gionee.cloud.intent.SEND_RESULT");
+        intent.setPackage("com.gionee.cloud.gpe");
+        intent.putExtra(REGISTERATION_KEY_PACKAGENAME, context.getPackageName());
+        intent.putExtra(REGISTERATION_KEY_MESSAGE_ID, messageId);
+        intent.putExtra(REGISTERATION_KEY_ERROR, "");
+        intent.putExtra(REGISTERATION_KEY_CLICK_TIME, System.currentTimeMillis());
+        intent.putExtra(REGISTERATION_KEY_EFFECT, 1);
+        intent.putExtra(REGISTERATION_KEY_RID, PushHelper.readRid(context));
+        try {
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                context.startForegroundService(intent);
+            } else {
+                context.startService(intent);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }
