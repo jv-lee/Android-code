@@ -16,8 +16,10 @@ class ServerConstants {
         const val WRITE_TIMEOUT: Long = 5
 
         const val BASE_PATH: String = "/app/api.php"
-        const val BASE_ACT :String = "act"
+        const val BASE_ACT: String = "act"
 
         const val ACT_LOGIN: String = "login.sign"
+        const val ACT_VIDEO_CATEGORY: String = "video.init"
+        const val ACT_VIDEO_LIST: String = "video.getVideoListByCid"
     }
 }

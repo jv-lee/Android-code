@@ -52,7 +52,23 @@ class MainActivity :
      * 导航tab选中监听
      */
     override fun onPosition(menuItem: MenuItem?, position: Int) {
+        when (position) {
+            0 -> {
 
+            }
+            1 -> {
+
+            }
+            2 -> {
+
+            }
+            3 -> {
+
+            }
+            4 -> {
+
+            }
+        }
     }
 
     /**
@@ -65,12 +81,10 @@ class MainActivity :
         }
 
         var lable = "桌面"
-        if (intent.extras != null) {
-            if (intent.getStringExtra("k1") != null) {
-                lable = "推送"
-            } else if (intent.data?.getQueryParameter("ch") != null) {
-                lable = intent.data.getQueryParameter("ch")
-            }
+        if (intent.getStringExtra("k1") != null) {
+            lable = "推送"
+        } else if (intent.data?.getQueryParameter("ch") != null) {
+            lable = intent.data?.getQueryParameter("ch")!!
         }
         StatisticsUtil.onEvent(mActivity, EventConstants.Cold_Start, lable)
     }
@@ -85,7 +99,7 @@ class MainActivity :
         //通过系统推送打开
         if (k1 != null) {
             val entity = PushIntentUtils.getEntity(k1)
-            startTabMode(entity.getData().getVtype())
+            startTabMode(entity.data.vtype)
         }
         //增加统计
         PushReceiver.startSaveServer(mActivity, intent.getStringExtra(PushReceiver.REGISTERATION_KEY_MESSAGE_ID))

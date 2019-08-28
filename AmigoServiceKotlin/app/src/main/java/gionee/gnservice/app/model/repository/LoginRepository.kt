@@ -29,7 +29,6 @@ class LoginRepository : IModel {
         val infos = TCache.get(App.instance).getSerializable<AccountInfo>("card/accountinfo")
 
         //设置参数
-        map.put(ServerConstants.BASE_ACT, ServerConstants.ACT_LOGIN)
         map.put("imei", 1)
         map.put("eqid", 1)
         map.put("ch", 1)
@@ -42,18 +41,16 @@ class LoginRepository : IModel {
             map.put("thirdid", 0)
         }
 
-        RetrofitUtils.instance.getApi().login(map)
+        RetrofitUtils.instance.getApi()
+            .login(ServerConstants.ACT_LOGIN, map)
             .enqueue(object : Callback<Data<Login>> {
                 override fun onFailure(call: Call<Data<Login>>, t: Throwable?) {
-                    data.value = null
                     LogUtil.e(t?.message)
                 }
 
                 override fun onResponse(call: Call<Data<Login>>, response: Response<Data<Login>>) {
                     if (response.body()?.code == 1) {
                         data.value = response.body()?.data
-                    } else {
-                        data.value = null
                     }
                 }
 

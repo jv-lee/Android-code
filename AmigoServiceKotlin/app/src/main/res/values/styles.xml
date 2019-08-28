@@ -21,7 +21,7 @@
 
     <!--欢迎界面主题-->
     <style name="WelcomeTheme" parent="AppTheme">
-        <!--<item name="android:windowBackground">@drawable/welcome</item>-->
+        <item name="android:windowBackground">@mipmap/ic_welcome</item>
     </style>
 
     <!--Main页面主题-->

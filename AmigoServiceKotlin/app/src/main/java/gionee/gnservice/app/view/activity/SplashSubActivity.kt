@@ -7,6 +7,7 @@ import com.gionee.gnservice.statistics.StatisticsUtil
 import com.lee.library.base.BaseActivity
 import com.lee.library.permission.PermissionManager
 import com.lee.library.permission.PermissionRequest
+import com.lee.library.utils.LogUtil
 import com.mobgi.MobgiAds
 import com.s.main.sdk.SplashView
 import com.s.main.sdk.SplashViewCallBack
@@ -87,31 +88,37 @@ class SplashSubActivity :
         splashView?.setAdIds(BuildConfig.screenId, BuildConfig.screenAppId)
         splashView?.setAdLoadCallBack(object : SplashViewCallBack {
             override fun onAdJump(p0: String?) {
+                LogUtil.i("splash -> onAdJump:$p0")
                 isSplash = true
                 sendMain()
             }
 
             override fun onAdFailed(p0: String?, p1: String?) {
+                LogUtil.i("splash -> onAdFailed:$p0----$p1")
                 isSplash = true
                 sendMain()
             }
 
             override fun onAdTimeOut(p0: String?) {
+                LogUtil.i("splash -> onAdTimeOut:$p0")
                 StatisticsUtil.onEvent(this@SplashSubActivity, EventConstants.Splash_Result, "冷启动_拉取超时")
                 isSplash = true
                 sendMain()
             }
 
             override fun onAdDismissed(p0: String?) {
+                LogUtil.i("splash -> onAdDismissed:$p0")
                 isSplash = true
                 sendMain()
             }
 
             override fun onAdPresent(p0: String?) {
+                LogUtil.i("splash -> onAdPresent:$p0")
                 StatisticsUtil.onEvent(this@SplashSubActivity, EventConstants.Splash_Result, "冷启动_成功曝光")
             }
 
             override fun onAdClick(p0: String?) {
+                LogUtil.i("splash -> onAdClick:$p0")
                 StatisticsUtil.onEvent(this@SplashSubActivity, EventConstants.Splash_Result, "冷启动_广告点击")
             }
         })
@@ -138,6 +145,7 @@ class SplashSubActivity :
         StatisticsUtil.onEvent(this, EventConstants.Ads_Init_Times)
         MobgiAds.init(applicationContext, BuildConfig.mobgiAppId, object : MobgiAds.InitCallback {
             override fun onSuccess() {
+                LogUtil.i("init mobgi success")
                 StatisticsUtil.onEvent(
                     this@SplashSubActivity,
                     EventConstants.Ads_Init_Result,
@@ -148,6 +156,7 @@ class SplashSubActivity :
             }
 
             override fun onError(throwable: Throwable) {
+                LogUtil.i("init mobgi error:$throwable")
                 StatisticsUtil.onEvent(
                     this@SplashSubActivity,
                     EventConstants.Ads_Init_Result,
@@ -168,7 +177,9 @@ class SplashSubActivity :
         }
         val intent = Intent(this, MainActivity::class.java)
         intent.putExtra(Constants.IS_SUB, true)
-        intent.putExtras(getIntent().extras)
+        if (getIntent().extras != null) {
+            intent.putExtras(getIntent()!!.extras!!)
+        }
         intent.data = getIntent().data
         startActivity(intent)
         finish()

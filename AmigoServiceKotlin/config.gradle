@@ -3,8 +3,8 @@ ext {
             compileSdkVersion: 28,
             minSdkVersion    : 21,
             targetSdkVersion : 28,
-            versionCode      : 2005000902,
-            versionName      : "5.0.9",
+            versionCode      : 2005001000,
+            versionName      : "5.1.0.b",
             applicationId    : "com.gionee.gnservice.kotlin"
     ]
 

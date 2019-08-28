@@ -9,7 +9,7 @@ import gionee.gnservice.app.model.repository.LoginRepository
  * @date 2019/8/22.
  * @description
  */
-class SplashViewModel(application: Application) : BaseViewModel(application = application) {
+class SplashViewModel(application: Application) : BaseViewModel(application) {
 
     val model by lazy { LoginRepository() }
 

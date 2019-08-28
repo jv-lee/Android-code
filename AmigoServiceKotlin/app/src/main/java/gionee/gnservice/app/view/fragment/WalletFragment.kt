@@ -17,6 +17,7 @@ import gionee.gnservice.app.databinding.FragmentWalletBinding
 class WalletFragment : BaseFragment<FragmentWalletBinding, ViewModel>(R.layout.fragment_wallet, null) {
 
     override fun bindData(savedInstanceState: Bundle?) {
+        binding.web.loadUrl("file:///android_asset/html/wallet/index.html")
     }
 
     override fun bindView() {

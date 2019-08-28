@@ -14,9 +14,6 @@ android {
 
         multiDexEnabled configs.multiDexEnabled
 
-//        buildConfigField("String", "NEWS_ID", "\"$key.newsId\"")
-//        buildConfigField("String", "NEWS_KEY", "\"$key.newsKey\"")
-//        buildConfigField("String", "SCREEN_CHANNEL", "\"$key.screenChannel\"")
         key.each { k, v ->
             buildConfigField("String", k, "\"" + v + "\"")
         }
@@ -62,13 +59,14 @@ android {
         enabled true
     }
 
+    sourceSets { main { assets.srcDirs = ['src/main/assets', 'src/main/assets/'] } }
 }
 
 dependencies {
     implementation project(path: ':base')
     implementation project(path: ':amigo-app')
     implementation project(path: ':sdk-news')
-//    implementation project(path: ':sdk-book')
+    implementation project(path: ':sdk-book')
     implementation project(path: ':sdk-game')
     implementation project(path: ':sdk-adlibs')
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'

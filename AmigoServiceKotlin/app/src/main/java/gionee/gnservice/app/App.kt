@@ -3,13 +3,15 @@ package gionee.gnservice.app
 import android.annotation.SuppressLint
 import android.content.Context
 import android.support.multidex.MultiDex
+import com.android.droi.books.BooksInit
 import com.cmcm.cmgame.CmGameSdk
 import com.cmcm.cmgame.gamedata.CmGameAppInfo
 import com.dl.infostream.InfoStreamManager
 import com.gionee.gnservice.AmigoServiceApp
 import com.lee.library.utils.SPUtil
 import com.s.main.sdk.SDK
-import gionee.gnservice.app.utils.GameImageLoader
+import gionee.gnservice.app.tool.GameImageLoader
+import gionee.gnservice.app.tool.GlideTool
 
 /**
  * @author jv.lee
@@ -40,6 +42,7 @@ class App : AmigoServiceApp() {
      */
     private fun initComponent() {
         SPUtil.getInstance(this)
+        GlideTool.getInstance(this)
     }
 
     /**
@@ -50,7 +53,7 @@ class App : AmigoServiceApp() {
         InfoStreamManager.getInstance().init(this, BuildConfig.newsId, BuildConfig.newsKey, false)
 
         //小说初始化
-//        BooksInit.getInstance().setUserInfo(this, "3")
+        BooksInit.getInstance().setUserInfo(this, "3")
 
         //游戏初始化
         initCmGameSdk()

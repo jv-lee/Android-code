@@ -1,62 +1,49 @@
 package gionee.gnservice.app.view.fragment
 
-import android.arch.lifecycle.ViewModel
+import android.arch.lifecycle.Observer
 import android.os.Bundle
-import android.util.Log
+import android.support.v4.app.Fragment
+import com.lee.library.adapter.UiPagerAdapter
 import com.lee.library.base.BaseFragment
-import com.lee.library.ioc.annotation.ContentView
-import com.mobgi.MobgiVideoAd
 import gionee.gnservice.app.R
 import gionee.gnservice.app.databinding.FragmentVideoBinding
+import gionee.gnservice.app.vm.VideoViewModel
+import java.util.ArrayList
 
 /**
  * @author jv.lee
  * @date 2019/8/14.
  * @description
  */
-class VideoFragment : BaseFragment<FragmentVideoBinding, ViewModel>(R.layout.fragment_video, null) {
+class VideoFragment :
+    BaseFragment<FragmentVideoBinding, VideoViewModel>(R.layout.fragment_video, VideoViewModel::class.java) {
 
-    private val TAG: String = "AManager"
-
-    private var mMobgiVideoAd: MobgiVideoAd? = null
+    private val vpAdapter by lazy { UiPagerAdapter(childFragmentManager, fragments, titles) }
+    private val fragments = ArrayList<Fragment>()
+    private val titles = ArrayList<String>()
 
     override fun bindData(savedInstanceState: Bundle?) {
-        mMobgiVideoAd = MobgiVideoAd(activity,
-            object : MobgiVideoAd.AdListener {
+        binding.vpContainer.adapter = vpAdapter
+        binding.vpContainer.offscreenPageLimit = 2
+        binding.tab.setupWithViewPager(binding.vpContainer)
 
-                override fun onAdLoaded() {
-                    Log.v(TAG, "onAdLoaded")
-                }
-
-                override fun onAdLoadFailed(code: Int, msg: String) {
-                    Log.v(TAG, "onAdLoadFailed errorCode = $code msg = $msg")
-                }
-
-                override fun onAdDisplayed(blockId: String) {
-                    Log.v(TAG, "onAdDisplayed blockId = $blockId")
-                }
-
-                override fun onAdClicked(blockId: String) {
-                    Log.v(TAG, "onAdClicked blockId = $blockId")
-                }
-
-                override fun onAdDismissed(blockId: String, reward: Boolean) {
-                    Log.v(TAG, "onAdClicked blockId = $blockId,reward = $reward")
-                }
-
-                override fun onAdError(blockId: String, code: Int, message: String) {
-                    Log.v(TAG, "onAdError")
-                }
-            })
+        viewModel.videoCategory.observe(this@VideoFragment, Observer {
+            if (it == null) return@Observer
+            for (category in it.cList) {
+                titles.add(category.name)
+                fragments.add(VideoChildFragment.get(category.cid))
+            }
+            vpAdapter.notifyDataSetChanged()
+            binding.vpContainer.offscreenPageLimit = fragments.size - 1
+        })
     }
 
     override fun bindView() {
-        binding.btn.setOnClickListener {
-            if (mMobgiVideoAd!!.isReady("2019041911062079551052")) {
-                mMobgiVideoAd!!.show(activity, "2019041911062079551052")
-            }
 
-        }
+    }
+
+    override fun lazyLoad() {
+        viewModel.loadVideoCategory()
     }
 
 
