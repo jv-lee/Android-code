@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.ComponentCallbacks;
 import android.content.res.Configuration;
-import android.os.Bundle;
 import android.util.DisplayMetrics;
 
 public class DensityUtil {

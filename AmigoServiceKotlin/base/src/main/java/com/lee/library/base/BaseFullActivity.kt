@@ -40,8 +40,8 @@ abstract class BaseFullActivity<V : ViewDataBinding, VM : ViewModel>(var layoutI
         if (vm != null) viewModel = ViewModelProviders.of(this).get<VM>(vm!!)
 
         //设置view and data
-        bindView()
         bindData(savedInstanceState)
+        bindView()
     }
 
     protected abstract fun bindData(savedInstanceState: Bundle?)

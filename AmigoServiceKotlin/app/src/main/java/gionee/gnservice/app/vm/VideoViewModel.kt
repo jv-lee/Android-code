@@ -5,6 +5,7 @@ import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.Transformations
 import com.lee.library.mvvm.BaseViewModel
 import com.lee.library.utils.LogUtil
+import gionee.gnservice.app.Config.Companion.limit
 import gionee.gnservice.app.model.entity.Video
 import gionee.gnservice.app.model.entity.VideoCategory
 import gionee.gnservice.app.model.repository.VideoRepository
@@ -17,8 +18,10 @@ import gionee.gnservice.app.model.repository.VideoRepository
 class VideoViewModel(application: Application) : BaseViewModel(application) {
 
     private val model by lazy { VideoRepository() }
-    val videoCategory: MutableLiveData<VideoCategory> = MutableLiveData()
+    val videoCategory by lazy { MutableLiveData<VideoCategory>() }
     val videoLists by lazy { MutableLiveData<Video>() }
+    private var page: Int = 0
+
 
     fun loadVideoCategory() {
         model.videoCategory().observeForever {
@@ -26,7 +29,14 @@ class VideoViewModel(application: Application) : BaseViewModel(application) {
         }
     }
 
-    fun loadVideos(cid: String, page: Int, limit: Int) {
+    fun loadVideos(cid: String) {
+        model.videoList(cid, ++page, limit).observeForever {
+            videoLists.value = it
+        }
+    }
+
+    fun refreshVideos(cid: String) {
+        page = 1
         model.videoList(cid, page, limit).observeForever {
             videoLists.value = it
         }

@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <dimen name="status_height" tools:ignore="MissingDefaultResource">24dp</dimen>
+    <dimen name="toolbar_height" tools:ignore="MissingDefaultResource">46dp</dimen>
+    <dimen name="status_toolbar_height" tools:ignore="MissingDefaultResource">70dp</dimen>
 </resources>

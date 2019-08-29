@@ -27,6 +27,12 @@ class Constants {
          * 通知栏标识符
          */
         const val NOTIFICATION_LABLE = "notification"
+
+        const val TITLE = "title"
+
+        const val URL = "url"
+
+        const val V_TYPE = "v_type"
     }
 
 

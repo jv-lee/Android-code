@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/layout_container"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/status_toolbar_height"
+        android:paddingTop="@dimen/status_height"
+        android:background="@android:color/white"
+        android:elevation="10dp">
+
+    <ImageView
+            android:id="@+id/back"
+            android:foreground="?attr/selectableItemBackground"
+            android:layout_width="56dp"
+            android:layout_height="match_parent"
+            android:padding="12dp"
+            android:src="@drawable/ic_arrow_back_black_24dp"/>
+
+    <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:ellipsize="end"
+            android:maxLength="5"
+            android:maxLines="1"
+            android:textColor="@android:color/black"
+            android:textSize="20sp"/>
+
+    <ProgressBar
+            android:id="@+id/progress"
+            style="@android:style/Widget.Holo.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:layout_gravity="bottom"/>
+
+</FrameLayout>

@@ -15,6 +15,10 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             tools:replace="android:label,android:allowBackup,icon">
+        <activity android:name=".view.activity.GameActivity">
+        </activity>
+        <activity android:name=".view.activity.VideoDetailsActivity">
+        </activity>
 
         <uses-library
                 android:name="org.apache.http.legacy"
@@ -35,16 +39,19 @@
 
         <activity
                 android:name=".view.activity.SplashActivity"
-                android:theme="@style/WelcomeTheme"
-                android:screenOrientation="portrait">
+                android:screenOrientation="portrait"
+                android:theme="@style/WelcomeTheme">
             <intent-filter>
+
                 <!-- 协议部分，随便设置 glucenter://init?ch= -->
                 <data
                         android:host="start"
                         android:scheme="glucenter"/>
                 <!-- 下面这几行也必须得设置 -->
                 <category android:name="android.intent.category.DEFAULT"/>
+
                 <action android:name="android.intent.action.VIEW"/>
+
                 <category android:name="android.intent.category.BROWSABLE"/>
             </intent-filter>
             <intent-filter>
@@ -53,21 +60,20 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-
         <activity
                 android:name=".view.activity.SplashSubActivity"
-                android:theme="@style/WelcomeTheme"
-                android:screenOrientation="portrait"/>
+                android:screenOrientation="portrait"
+                android:theme="@style/WelcomeTheme"/>
         <activity
                 android:name=".view.activity.SplashRunActivity"
-                android:theme="@style/WelcomeTheme"
-                android:screenOrientation="portrait"/>
+                android:screenOrientation="portrait"
+                android:theme="@style/WelcomeTheme"/>
         <activity
                 android:name=".view.activity.MainActivity"
-                android:theme="@style/MainTheme"
                 android:configChanges="orientation|screenSize|keyboardHidden"
                 android:launchMode="singleTop"
-                android:screenOrientation="portrait">
+                android:screenOrientation="portrait"
+                android:theme="@style/MainTheme">
             <intent-filter>
                 <action android:name="com.gionee.gnservice.WelcomActivity"/>
 
@@ -79,7 +85,6 @@
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>
