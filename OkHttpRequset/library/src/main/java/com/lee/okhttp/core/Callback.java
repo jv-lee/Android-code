@@ -5,7 +5,7 @@ import java.io.IOException;
 /**
  * @author jv.lee
  * @date 2019/8/29.
- * @description
+ * @description 异步任务响应回调接口
  */
 public interface Callback {
     /**

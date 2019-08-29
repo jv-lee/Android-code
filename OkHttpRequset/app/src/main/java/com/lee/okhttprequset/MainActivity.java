@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     public void okhttp() {
         OkHttpClient okhttp = new OkHttpClient.Builder().build();
         Request request = new Request.Builder().url(PATH).build();
+
         Call call = okhttp.newCall(request);
         call.enqueue(new Callback() {
             @Override

@@ -1,12 +1,14 @@
 package com.lee.okhttp.core;
 
+import com.lee.okhttp.RequestBody;
+
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * @author jv.lee
  * @date 2019/8/29.
- * @description
+ * @description 请求参数 数据封装类
  */
 public final class Request {
 
@@ -21,12 +23,21 @@ public final class Request {
     /**
      * 默认情况下使用GET
      */
-    private String requestMethod = GET;
+    private String requestMethod;
 
     /**
      * 请求头map
      */
-    private Map<String, String> mHeaderList = new HashMap<>();
+    private Map<String, String> headerList;
+
+    /**
+     * 请求体
+     */
+    private RequestBody requestBody;
+
+    public RequestBody getRequestBody() {
+        return requestBody;
+    }
 
     public String getUrl() {
         return url;
@@ -36,8 +47,8 @@ public final class Request {
         return requestMethod;
     }
 
-    public Map<String, String> getmHeaderList() {
-        return mHeaderList;
+    public Map<String, String> getHeaderList() {
+        return headerList;
     }
 
     public Request() {
@@ -47,25 +58,19 @@ public final class Request {
     public Request(Builder builder) {
         this.url = builder.url;
         this.requestMethod = builder.requestMethod;
-        this.mHeaderList = builder.mHeaderList;
+        this.headerList = builder.mHeaderList;
+        this.requestBody = builder.requestBody;
     }
 
     public final static class Builder {
 
-        /**
-         * 请求地址
-         */
         private String url;
 
-        /**
-         * 默认情况下使用GET
-         */
         private String requestMethod = GET;
 
-        /**
-         * 请求头map
-         */
         private Map<String, String> mHeaderList = new HashMap<>();
+
+        private RequestBody requestBody;
 
         public Builder url(String url) {
             this.url = url;
@@ -77,8 +82,9 @@ public final class Request {
             return this;
         }
 
-        public Builder post() {
+        public Builder post(RequestBody requestBody) {
             this.requestMethod = POST;
+            this.requestBody = requestBody;
             return this;
         }
 
