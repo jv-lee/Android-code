@@ -10,8 +10,8 @@ import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import com.lee.library.R;
 
+import com.lee.library.R;
 
 /**
  * 默认刷新头，可以直接复制更改头中视图类容

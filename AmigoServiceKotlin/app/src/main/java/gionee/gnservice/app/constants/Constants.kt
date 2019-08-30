@@ -33,6 +33,23 @@ class Constants {
         const val URL = "url"
 
         const val V_TYPE = "v_type"
+
+
+        /**
+         * 磁铁跳转页面
+         */
+        const val MAGNET_TYPE_TAB = 1
+        const val MAGNET_TYPE_GAME = 2
+        const val MAGNET_TYPE_ACTIVE = 3
+        const val MAGNET_TYPE_SDK_H5 = 4
+
+        const val MAGNET_NEWS = 1
+        const val MAGNET_NOVEL = 2
+        const val MAGNET_WALLET = 3
+        const val MAGNET_WECHAT = 6
+        const val MAGNET_GAME = 7
+        const val MAGNET_VIDEO = 17
+        const val MAGNET_WALLET_TASK = 19
     }
 
 

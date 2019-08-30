@@ -1,5 +1,6 @@
 package com.lee.library.base
 
+import android.app.Activity
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProviders
 import android.databinding.DataBindingUtil
@@ -9,6 +10,7 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 
 /**
  * @author jv.lee
@@ -80,4 +82,8 @@ abstract class BaseFragment<V : ViewDataBinding, VM : ViewModel>(var layoutId: I
      * 使用page 多fragment时 懒加载
      */
     open fun lazyLoad() {}
+
+    fun Fragment.toast(message: CharSequence, duration: Int = Toast.LENGTH_SHORT) {
+        Toast.makeText(activity, message, duration).show()
+    }
 }

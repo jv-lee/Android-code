@@ -14,6 +14,7 @@ android {
 
         multiDexEnabled configs.multiDexEnabled
 
+        //密钥常量
         key.each { k, v ->
             buildConfigField("String", k, "\"" + v + "\"")
         }
@@ -35,17 +36,21 @@ android {
             zipAlignEnabled configs.zipAlignEnabled // Zipalign优化
             shrinkResources configs.minifyEnabled // 移除无用的resource文件
             signingConfig signingConfigs.config //签名配置
-            buildConfigField("String", "BASE_URI", "\"$uri.onlineUri\"") //服务器地址
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            //混淆配置
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'//混淆配置
+            //服务器地址常量
+            uri.each { k, v ->
+                buildConfigField("String", k, "\"" + v + "\"")
+            }
         }
         debug {
             minifyEnabled configs.minifyEnabled
             zipAlignEnabled configs.zipAlignEnabled
             shrinkResources configs.minifyEnabled
             signingConfig signingConfigs.config
-            buildConfigField("String", "BASE_URI", "\"$uri.testUri\"") //服务器地址
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            uri.each { k, v ->
+                buildConfigField("String", k, "\"" + v + "\"")
+            }
         }
     }
 

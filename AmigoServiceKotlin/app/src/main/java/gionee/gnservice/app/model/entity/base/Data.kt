@@ -1,4 +1,4 @@
-package gionee.gnservice.app.model.entity
+package gionee.gnservice.app.model.entity.base
 
 /**
  * @author jv.lee

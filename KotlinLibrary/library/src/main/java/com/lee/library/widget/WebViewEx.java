@@ -23,6 +23,7 @@ import android.webkit.WebViewClient;
 public class WebViewEx extends WebView {
 
     private boolean isFailed = false;
+    private boolean isPause = false;
 
     public WebViewEx(Context context) {
         this(context, null);
@@ -79,6 +80,10 @@ public class WebViewEx extends WebView {
                 super.onPageStarted(view, url, favicon);
                 getSettings().setBlockNetworkImage(true);
                 isFailed = true;
+                if (webStatusListenerAdapter != null) {
+                    webStatusListenerAdapter.callStart();
+                    return;
+                }
                 if (webStatusCallBack != null) {
                     webStatusCallBack.callStart();
                 }
@@ -94,6 +99,10 @@ public class WebViewEx extends WebView {
                     getSettings().setBlockNetworkImage(false);
                     getSettings().setLoadsImagesAutomatically(true);
                 }
+                if (webStatusListenerAdapter != null && isFailed) {
+                    webStatusListenerAdapter.callSuccess();
+                    return;
+                }
                 if (webStatusCallBack != null && isFailed) {
                     webStatusCallBack.callSuccess();
                 }
@@ -104,6 +113,10 @@ public class WebViewEx extends WebView {
             public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
                 super.onReceivedError(view, errorCode, description, failingUrl);
                 isFailed = false;
+                if (webStatusListenerAdapter != null) {
+                    webStatusListenerAdapter.callFailed();
+                    return;
+                }
                 if (webStatusCallBack != null) {
                     webStatusCallBack.callFailed();
                 }
@@ -113,6 +126,10 @@ public class WebViewEx extends WebView {
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
                 super.onProgressChanged(view, newProgress);
+                if (webStatusListenerAdapter != null) {
+                    webStatusListenerAdapter.callProgress(newProgress);
+                    return;
+                }
                 if (webStatusCallBack != null) {
                     webStatusCallBack.callProgress(newProgress);
                 }
@@ -127,10 +144,69 @@ public class WebViewEx extends WebView {
     protected void onScrollChanged(int l, int t, int oldl, int oldt) {
         super.onScrollChanged(l, t, oldl, oldt);
         if (System.currentTimeMillis() - time >= 1000) {
+            if (webStatusListenerAdapter != null) {
+                time = System.currentTimeMillis();
+                webStatusListenerAdapter.callScroll();
+                return;
+            }
             if (webStatusCallBack != null) {
                 time = System.currentTimeMillis();
                 webStatusCallBack.callScroll();
             }
+        }
+    }
+
+    public void exResume() {
+        if (isPause) {
+            onResume();
+        }
+        isPause = false;
+    }
+
+    public void exPause() {
+        onPause();
+        isPause = true;
+    }
+
+    public void exDestroy() {
+        setVisibility(GONE);
+        clearCache(true);
+        clearHistory();
+        removeAllViews();
+        destroy();
+        isPause = false;
+    }
+
+    private WebStatusListenerAdapter webStatusListenerAdapter;
+
+    public void addWebStatusListenerAdapter(WebStatusListenerAdapter webStatusListenerAdapter) {
+        this.webStatusListenerAdapter = webStatusListenerAdapter;
+    }
+
+    public abstract static class WebStatusListenerAdapter implements WebStatusCallBack {
+        @Override
+        public void callStart() {
+
+        }
+
+        @Override
+        public void callSuccess() {
+
+        }
+
+        @Override
+        public void callFailed() {
+
+        }
+
+        @Override
+        public void callProgress(int progress) {
+
+        }
+
+        @Override
+        public void callScroll() {
+
         }
     }
 

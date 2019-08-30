@@ -18,8 +18,20 @@ class ServerConstants {
         const val BASE_PATH: String = "/app/api.php"
         const val BASE_ACT: String = "act"
 
+        //登陆接口
         const val ACT_LOGIN: String = "login.sign"
+        //获取全局配置
+        const val ACT_CONFIG: String = "diyConfig.getAllDiyConfig"
+        //获取推送奖励
+        const val ACT_PUSH_AWARD: String = "activity.getPushAward"
+        //获取红点通知数
+        const val ACT_RED_POINT: String = "red.getAllRedList"
+        //获取磁铁信息
+        const val ACT_MAGNET: String = "banner.getMagnet"
+        //获取视频分类
         const val ACT_VIDEO_CATEGORY: String = "video.init"
+        //获取视频列表
         const val ACT_VIDEO_LIST: String = "video.getVideoListByCid"
+
     }
 }

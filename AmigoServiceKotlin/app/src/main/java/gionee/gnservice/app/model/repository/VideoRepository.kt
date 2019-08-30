@@ -5,7 +5,7 @@ import android.arch.lifecycle.MutableLiveData
 import com.lee.library.mvvm.IModel
 import com.lee.library.utils.LogUtil
 import gionee.gnservice.app.constants.ServerConstants
-import gionee.gnservice.app.model.entity.Data
+import gionee.gnservice.app.model.entity.base.Data
 import gionee.gnservice.app.model.entity.Video
 import gionee.gnservice.app.model.entity.VideoCategory
 import gionee.gnservice.app.model.server.RetrofitUtils
@@ -28,7 +28,7 @@ class VideoRepository : IModel {
             .videoCategory(ServerConstants.ACT_VIDEO_CATEGORY)
             .enqueue(object : Callback<Data<VideoCategory>> {
                 override fun onFailure(call: Call<Data<VideoCategory>>, t: Throwable?) {
-                    LogUtil.e(t?.message)
+                    LogUtil.e("videoCategory ${t?.message}")
                 }
 
                 override fun onResponse(call: Call<Data<VideoCategory>>, response: Response<Data<VideoCategory>>) {
@@ -53,7 +53,7 @@ class VideoRepository : IModel {
             .videoList(ServerConstants.ACT_VIDEO_LIST, map)
             .enqueue(object : Callback<Data<Video>> {
                 override fun onFailure(call: Call<Data<Video>>, t: Throwable) {
-                    LogUtil.e(t.message)
+                    LogUtil.e("videoList ${t.message}")
                 }
 
                 override fun onResponse(call: Call<Data<Video>>, response: Response<Data<Video>>) {

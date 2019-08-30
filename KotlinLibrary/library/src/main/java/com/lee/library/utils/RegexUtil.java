@@ -5,6 +5,18 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.lee.library.utils.ConstUtil.REGEX_DATE;
+import static com.lee.library.utils.ConstUtil.REGEX_EMAIL;
+import static com.lee.library.utils.ConstUtil.REGEX_ID_CARD15;
+import static com.lee.library.utils.ConstUtil.REGEX_ID_CARD18;
+import static com.lee.library.utils.ConstUtil.REGEX_IP;
+import static com.lee.library.utils.ConstUtil.REGEX_MOBILE_EXACT;
+import static com.lee.library.utils.ConstUtil.REGEX_MOBILE_SIMPLE;
+import static com.lee.library.utils.ConstUtil.REGEX_TEL;
+import static com.lee.library.utils.ConstUtil.REGEX_URL;
+import static com.lee.library.utils.ConstUtil.REGEX_USERNAME;
+import static com.lee.library.utils.ConstUtil.REGEX_ZH;
+
 
 /**
  * <pre>
@@ -28,7 +40,7 @@ public class RegexUtil {
      * @return {@code true}: 匹配<br>{@code false}: 不匹配
      */
     public static boolean isMobileSimple(CharSequence input) {
-        return isMatch(ConstUtil.REGEX_MOBILE_SIMPLE, input);
+        return isMatch(REGEX_MOBILE_SIMPLE, input);
     }
 
     /**
@@ -38,7 +50,7 @@ public class RegexUtil {
      * @return {@code true}: 匹配<br>{@code false}: 不匹配
      */
     public static boolean isMobileExact(CharSequence input) {
-        return isMatch(ConstUtil.REGEX_MOBILE_EXACT, input);
+        return isMatch(REGEX_MOBILE_EXACT, input);
     }
 
     /**
@@ -48,7 +60,7 @@ public class RegexUtil {
      * @return {@code true}: 匹配<br>{@code false}: 不匹配
      */
     public static boolean isTel(CharSequence input) {
-        return isMatch(ConstUtil.REGEX_TEL, input);
+        return isMatch(REGEX_TEL, input);
     }
 
     /**
@@ -58,7 +70,7 @@ public class RegexUtil {
      * @return {@code true}: 匹配<br>{@code false}: 不匹配
      */
     public static boolean isIDCard15(CharSequence input) {
-        return isMatch(ConstUtil.REGEX_ID_CARD15, input);
+        return isMatch(REGEX_ID_CARD15, input);
     }
 
     /**
@@ -68,7 +80,7 @@ public class RegexUtil {
      * @return {@code true}: 匹配<br>{@code false}: 不匹配
      */
     public static boolean isIDCard18(CharSequence input) {
-        return isMatch(ConstUtil.REGEX_ID_CARD18, input);
+        return isMatch(REGEX_ID_CARD18, input);
     }
 
     /**
@@ -78,7 +90,7 @@ public class RegexUtil {
      * @return {@code true}: 匹配<br>{@code false}: 不匹配
      */
     public static boolean isEmail(CharSequence input) {
-        return isMatch(ConstUtil.REGEX_EMAIL, input);
+        return isMatch(REGEX_EMAIL, input);
     }
 
     /**
@@ -88,7 +100,7 @@ public class RegexUtil {
      * @return {@code true}: 匹配<br>{@code false}: 不匹配
      */
     public static boolean isURL(CharSequence input) {
-        return isMatch(ConstUtil.REGEX_URL, input);
+        return isMatch(REGEX_URL, input);
     }
 
     /**
@@ -98,7 +110,7 @@ public class RegexUtil {
      * @return {@code true}: 匹配<br>{@code false}: 不匹配
      */
     public static boolean isZh(CharSequence input) {
-        return isMatch(ConstUtil.REGEX_ZH, input);
+        return isMatch(REGEX_ZH, input);
     }
 
     /**
@@ -109,7 +121,7 @@ public class RegexUtil {
      * @return {@code true}: 匹配<br>{@code false}: 不匹配
      */
     public static boolean isUsername(CharSequence input) {
-        return isMatch(ConstUtil.REGEX_USERNAME, input);
+        return isMatch(REGEX_USERNAME, input);
     }
 
     /**
@@ -119,7 +131,7 @@ public class RegexUtil {
      * @return {@code true}: 匹配<br>{@code false}: 不匹配
      */
     public static boolean isDate(CharSequence input) {
-        return isMatch(ConstUtil.REGEX_DATE, input);
+        return isMatch(REGEX_DATE, input);
     }
 
     /**
@@ -129,7 +141,7 @@ public class RegexUtil {
      * @return {@code true}: 匹配<br>{@code false}: 不匹配
      */
     public static boolean isIP(CharSequence input) {
-        return isMatch(ConstUtil.REGEX_IP, input);
+        return isMatch(REGEX_IP, input);
     }
 
     /**

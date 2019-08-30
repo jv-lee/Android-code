@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import com.gionee.gnservice.statistics.StatisticsUtil
 import com.lee.library.base.BaseActivity
+import com.lee.library.base.BaseFullActivity
 import com.lee.library.permission.PermissionManager
 import com.lee.library.permission.PermissionRequest
 import com.lee.library.utils.LogUtil
@@ -22,7 +23,7 @@ import gionee.gnservice.app.vm.SplashViewModel
  * 开屏页面
  */
 class SplashActivity :
-    BaseActivity<ActivitySplashBinding, SplashViewModel>(R.layout.activity_splash, SplashViewModel::class.java),
+    BaseFullActivity<ActivitySplashBinding, SplashViewModel>(R.layout.activity_splash, SplashViewModel::class.java),
     PermissionRequest {
 
     private var isLogin: Boolean = false
@@ -78,9 +79,6 @@ class SplashActivity :
     private fun initSplash() {
         StatisticsUtil.onEvent(this, EventConstants.Splash_Fetch_Times, "冷启动")
         splashView = SplashView(this)
-        splashView?.setAdBound(resources.displayMetrics.widthPixels, resources.displayMetrics.heightPixels)
-        splashView?.setAdJumpView(null, 5)
-        splashView?.setAdIds(BuildConfig.screenId, BuildConfig.screenAppId)
         splashView?.setAdLoadCallBack(object : SplashViewCallBack {
             override fun onAdJump(p0: String?) {
                 LogUtil.i("splash -> onAdJump:$p0")
@@ -117,6 +115,9 @@ class SplashActivity :
                 StatisticsUtil.onEvent(this@SplashActivity, EventConstants.Splash_Result, "冷启动_广告点击")
             }
         })
+        splashView?.setAdBound(resources.displayMetrics.widthPixels, resources.displayMetrics.heightPixels)
+        splashView?.setAdJumpView(null, 5)
+        splashView?.setAdIds(BuildConfig.screenId, BuildConfig.screenAppId)
         binding.frameSplashContainer.addView(splashView)
     }
 
@@ -167,7 +168,7 @@ class SplashActivity :
      * 启动主页面
      */
     private fun sendMain() {
-        if (!isLogin && !isSplash && !isOldAd) {
+        if (!isLogin || !isSplash || !isOldAd) {
             return
         }
         val intent = Intent(this, MainActivity::class.java)

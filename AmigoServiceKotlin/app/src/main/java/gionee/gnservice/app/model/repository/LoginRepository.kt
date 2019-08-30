@@ -8,7 +8,7 @@ import com.lee.library.mvvm.IModel
 import com.lee.library.utils.LogUtil
 import gionee.gnservice.app.App
 import gionee.gnservice.app.constants.ServerConstants
-import gionee.gnservice.app.model.entity.Data
+import gionee.gnservice.app.model.entity.base.Data
 import gionee.gnservice.app.model.entity.Login
 import gionee.gnservice.app.model.server.RetrofitUtils
 import retrofit2.Call
@@ -45,7 +45,7 @@ class LoginRepository : IModel {
             .login(ServerConstants.ACT_LOGIN, map)
             .enqueue(object : Callback<Data<Login>> {
                 override fun onFailure(call: Call<Data<Login>>, t: Throwable?) {
-                    LogUtil.e(t?.message)
+                    LogUtil.e("login ${t?.message}")
                 }
 
                 override fun onResponse(call: Call<Data<Login>>, response: Response<Data<Login>>) {

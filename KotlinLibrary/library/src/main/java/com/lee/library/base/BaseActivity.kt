@@ -18,7 +18,7 @@ import com.lee.library.utils.StatusUtil
  * @date 2019-08-15
  * @description
  */
-abstract class BaseActivity<V : ViewDataBinding, VM : BaseViewModel>(var layoutId: Int, var vm: Class<VM>?) :
+abstract class BaseActivity<V : ViewDataBinding, VM : ViewModel>(var layoutId: Int, var vm: Class<VM>?) :
     AppCompatActivity() {
 
     protected lateinit var binding: V
@@ -40,10 +40,10 @@ abstract class BaseActivity<V : ViewDataBinding, VM : BaseViewModel>(var layoutI
 
         //设置viewModel
         if (vm != null) viewModel = ViewModelProviders.of(this).get<VM>(vm!!)
-        viewModel.register(this)
 
-        //设置data and view
+        //设置view and data
         bindData(savedInstanceState)
+
         bindView()
     }
 

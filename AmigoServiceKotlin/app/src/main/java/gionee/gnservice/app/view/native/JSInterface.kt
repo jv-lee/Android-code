@@ -1,10 +1,10 @@
 package gionee.gnservice.app.view.native
 
 import android.content.Context
+import android.util.Log
 import android.webkit.JavascriptInterface
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.lee.library.utils.LogUtil
 import gionee.gnservice.app.BuildConfig
 import gionee.gnservice.app.model.server.RetrofitUtils
 import gionee.gnservice.app.network.HttpUtil
@@ -76,7 +76,7 @@ class JSInterface {
     }
 
     private fun getHttpBuilder(url: String, headers: String): HttpUtil.Builder {
-        LogUtil.e("url: $url, headers: $headers")
+        Log.e(this.javaClass.simpleName,"url: $url, headers: $headers")
         val type = object : TypeToken<HashMap<String, String>>() {}.type
         val hashMap = Gson().fromJson<HashMap<String, String>>(headers, type)
 

@@ -9,6 +9,9 @@ class CommonTool {
 
     companion object {
 
+        /**
+         * 获取视频总时长 换算分钟
+         */
         fun videoTotalTime(time: Int): String {
             val builder = StringBuilder()
             if (time <= 60) {

@@ -15,7 +15,6 @@ import kotlinx.android.synthetic.main.layout_status_toolbar.view.*
 class VideoDetailsActivity :
     BaseActivity<ActivityVideoDetailsBinding, ViewModel>(R.layout.activity_video_details, null) {
 
-    private var isOnPause: Boolean = false
     private var url: String? = null
 
     override fun bindData(savedInstanceState: Bundle?) {
@@ -27,16 +26,7 @@ class VideoDetailsActivity :
         binding.include.title.text = "视频"
         binding.include.back.setOnClickListener { finish() }
 
-        binding.web.setWebStatusCallBack(object : WebViewEx.WebStatusCallBack {
-            override fun callStart() {
-            }
-
-            override fun callSuccess() {
-            }
-
-            override fun callFailed() {
-            }
-
+        binding.web.addWebStatusListenerAdapter(object:WebViewEx.WebStatusListenerAdapter(){
             override fun callProgress(progress: Int) {
                 if (progress < 90) {
                     binding.include.progress.visibility = View.VISIBLE
@@ -44,9 +34,6 @@ class VideoDetailsActivity :
                 } else {
                     binding.include.progress.visibility = View.GONE
                 }
-            }
-
-            override fun callScroll() {
             }
         })
         binding.web.loadUrl(url)
@@ -64,25 +51,16 @@ class VideoDetailsActivity :
 
     override fun onResume() {
         super.onResume()
-        if (isOnPause) {
-            binding.web.onResume()
-        }
-        isOnPause = false
+        binding.web.exResume()
     }
 
     override fun onPause() {
         super.onPause()
-        binding.web.onPause()
-        isOnPause = true
+        binding.web.exPause()
     }
 
     override fun onDestroy() {
-        binding.web.clearCache(true)
-        binding.web.clearHistory()
-        binding.web.visibility = View.GONE
-        binding.web.removeAllViews()
-        binding.web.destroy()
-        isOnPause = false
+        binding.web.exDestroy()
         super.onDestroy()
     }
 

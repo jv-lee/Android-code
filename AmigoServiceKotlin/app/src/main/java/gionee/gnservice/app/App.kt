@@ -8,6 +8,7 @@ import com.cmcm.cmgame.CmGameSdk
 import com.cmcm.cmgame.gamedata.CmGameAppInfo
 import com.dl.infostream.InfoStreamManager
 import com.gionee.gnservice.AmigoServiceApp
+import com.lee.library.utils.LogUtil
 import com.lee.library.utils.SPUtil
 import com.s.main.sdk.SDK
 import gionee.gnservice.app.tool.GameImageLoader

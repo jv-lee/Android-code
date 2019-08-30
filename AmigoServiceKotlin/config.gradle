@@ -20,9 +20,36 @@ ext {
     ]
 
     //服务器地址
+    env = 1
+    base_uri = [
+            "http://ucenter.hclw.online",
+            "http://uc-test.hclw.online",
+            "http://192.168.0.171:8080/",
+    ]
+
+    js_uri = [
+            "file:///android_asset/html/wallet/",
+            "file:///android_asset/html/wallet/",
+            "http://192.168.0.54:8080/"
+    ]
+
+    wallet_uri = [
+            "file:///android_asset/html/wallet/index.html",
+            "file:///android_asset/html/wallet/index.html",
+            "http://192.168.0.54:8080/"
+    ]
+
+    game_uri = [
+            "file:///android_asset/html/game/index.html",
+            "file:///android_asset/html/game/index.html",
+            "http://192.168.0.54:8081/"
+    ]
+
     uri = [
-            onlineUri : "http://ucenter.hclw.online",
-            testUri   : "http://uc-test.hclw.online",
+            BASE_URI  : base_uri[env],
+            JS_URI    : js_uri[env],
+            WALLET_URI: wallet_uri[env],
+            GAME_URI  : game_uri[env]
     ]
 
     key = [
@@ -30,11 +57,11 @@ ext {
             newsId       : "gngs",
             newsKey      : "f834ebbeb3570184217fdf1d146b5a86",
             //乐逗sdk
-            mobgiAppId : "C24BCCA4345E9DC7287A",
+            mobgiAppId   : "C24BCCA4345E9DC7287A",
             //百策sdk
             screenChannel: "AD_D1009_Service",
-            screenAppId:"2844",
-            screenId:"41555"
+            screenAppId  : "2844",
+            screenId     : "41555"
     ]
 
     //第三方依赖版本号

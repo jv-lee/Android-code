@@ -1,7 +1,6 @@
 package com.lee.library.ioc.annotation;
 
 import com.lee.library.adapter.LeeViewAdapter;
-
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

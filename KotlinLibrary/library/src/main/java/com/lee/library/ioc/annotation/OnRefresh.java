@@ -2,6 +2,8 @@ package com.lee.library.ioc.annotation;
 
 import android.support.v4.widget.SwipeRefreshLayout;
 
+import com.lee.library.widget.refresh.RefreshCallBack;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

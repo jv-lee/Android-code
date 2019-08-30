@@ -26,13 +26,6 @@ class SplashSubActivity :
     BaseActivity<ActivitySplashBinding, SplashViewModel>(R.layout.activity_splash, SplashViewModel::class.java),
     PermissionRequest {
 
-    private val PERMISSIONS = arrayOf(
-        android.Manifest.permission.READ_CALENDAR,
-        android.Manifest.permission.WRITE_CALENDAR,
-        android.Manifest.permission.READ_PHONE_STATE,
-        android.Manifest.permission.WRITE_EXTERNAL_STORAGE
-    )
-
     private var isLogin: Boolean = false
     private var isSplash: Boolean = false
     private var isOldAd: Boolean = false
@@ -43,7 +36,10 @@ class SplashSubActivity :
         //获取权限信息 初始化sdk
         PermissionManager.getInstance()
             .attach(this)
-            .request(*PERMISSIONS)
+            .request(
+                android.Manifest.permission.READ_PHONE_STATE,
+                android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+            )
             .listener(this)
     }
 
@@ -172,7 +168,7 @@ class SplashSubActivity :
      * 启动主页面
      */
     private fun sendMain() {
-        if (!isLogin && !isSplash && !isOldAd) {
+        if (!isLogin || !isSplash || !isOldAd) {
             return
         }
         val intent = Intent(this, MainActivity::class.java)

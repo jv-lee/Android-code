@@ -10,6 +10,7 @@ import com.cmcm.cmgame.CmGameSdk
 import com.cmcm.cmgame.IGamePlayTimeCallback
 import com.google.gson.Gson
 import com.lee.library.base.BaseFragment
+import gionee.gnservice.app.BuildConfig
 import gionee.gnservice.app.R
 import gionee.gnservice.app.constants.Constants
 import gionee.gnservice.app.databinding.FragmentGameBinding
@@ -32,12 +33,16 @@ class GameFragment : BaseFragment<FragmentGameBinding, ViewModel>(R.layout.fragm
 
         })
         binding.web.addJavascriptInterface(JSInterface(context!!.applicationContext), "client")
-        binding.web.addJavascriptInterface(this, "gameClient")
+        binding.web.addJavascriptInterface(this, "game")
         binding.web.addJavascriptInterface(ADInterface(activity!!), "ad")
-        binding.web.loadUrl("file:///android_asset/html/game/index.html")
+        binding.web.loadUrl(BuildConfig.GAME_URI)
     }
 
     override fun bindView() {
+    }
+
+    override fun lazyLoad() {
+        super.lazyLoad()
     }
 
     @JavascriptInterface

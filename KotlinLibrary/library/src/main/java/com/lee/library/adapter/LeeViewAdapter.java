@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+
 import com.lee.library.R;
 import com.lee.library.adapter.listener.LeeViewItem;
 import com.lee.library.adapter.manager.LeeViewItemManager;

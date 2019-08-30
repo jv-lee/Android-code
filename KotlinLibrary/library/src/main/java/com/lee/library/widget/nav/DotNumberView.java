@@ -12,8 +12,8 @@ import android.support.v4.content.ContextCompat;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.View;
-import com.lee.library.R;
 
+import com.lee.library.R;
 
 /**
  * @author jv.lee
@@ -118,6 +118,6 @@ public class DotNumberView extends View {
 
     public void setNumberCount(int numberCount) {
         this.numberCount = numberCount;
-        invalidate();
+        postInvalidate();
     }
 }

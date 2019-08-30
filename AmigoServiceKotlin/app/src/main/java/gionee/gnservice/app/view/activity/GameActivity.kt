@@ -17,7 +17,6 @@ import gionee.gnservice.app.view.native.JSInterface
 
 class GameActivity : BaseFullActivity<ActivityGameBinding, ViewModel>(R.layout.activity_game, null) {
 
-    private var isOnPause: Boolean = false
     private var url: String? = null
     private var type: Int? = null
 
@@ -28,16 +27,7 @@ class GameActivity : BaseFullActivity<ActivityGameBinding, ViewModel>(R.layout.a
     }
 
     override fun bindView() {
-        binding.web.setWebStatusCallBack(object : WebViewEx.WebStatusCallBack {
-            override fun callStart() {
-            }
-
-            override fun callSuccess() {
-            }
-
-            override fun callFailed() {
-            }
-
+        binding.web.addWebStatusListenerAdapter(object: WebViewEx.WebStatusListenerAdapter() {
             override fun callProgress(progress: Int) {
                 LogUtil.i("progress:$progress")
                 if (progress > 90) {
@@ -45,10 +35,8 @@ class GameActivity : BaseFullActivity<ActivityGameBinding, ViewModel>(R.layout.a
                     binding.progress.visibility = View.GONE
                 }
             }
-
-            override fun callScroll() {
-            }
         })
+
         binding.web.addJavascriptInterface(JSInterface(applicationContext), "client")
         binding.web.addJavascriptInterface(this, "ctx")
         binding.web.visibility = View.INVISIBLE
@@ -86,25 +74,16 @@ class GameActivity : BaseFullActivity<ActivityGameBinding, ViewModel>(R.layout.a
             }
         }
         super.onResume()
-        if (isOnPause) {
-            binding.web.onResume()
-        }
-        isOnPause = false
+        binding.web.exResume()
     }
 
     override fun onPause() {
         super.onPause()
-        binding.web.onPause()
-        isOnPause = true
+        binding.web.exPause()
     }
 
     override fun onDestroy() {
-        binding.web.clearCache(true)
-        binding.web.clearHistory()
-        binding.web.visibility = View.GONE
-        binding.web.removeAllViews()
-        binding.web.destroy()
-        isOnPause = false
+        binding.web.exDestroy()
         super.onDestroy()
     }
 

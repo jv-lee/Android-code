@@ -2,10 +2,8 @@ package gionee.gnservice.app.model.server
 
 import gionee.gnservice.app.constants.ServerConstants.Companion.BASE_ACT
 import gionee.gnservice.app.constants.ServerConstants.Companion.BASE_PATH
-import gionee.gnservice.app.model.entity.Data
-import gionee.gnservice.app.model.entity.Login
-import gionee.gnservice.app.model.entity.Video
-import gionee.gnservice.app.model.entity.VideoCategory
+import gionee.gnservice.app.model.entity.*
+import gionee.gnservice.app.model.entity.base.Data
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -22,9 +20,22 @@ interface ApiServer {
     fun login(@Query(BASE_ACT) act: String, @QueryMap map: HashMap<String, Any>): Call<Data<Login>>
 
     @GET(BASE_PATH)
+    fun config(@Query(BASE_ACT) act: String): Call<Data<Config>>
+
+    @GET(BASE_PATH)
+    fun pushAward(@Query(BASE_ACT) act: String, @QueryMap map: HashMap<String, Any>): Call<Data<Push>>
+
+    @GET(BASE_PATH)
+    fun redPoint(@Query(BASE_ACT) act: String): Call<Data<RedPoint>>
+
+    @GET(BASE_PATH)
+    fun magnetActive(@Query(BASE_ACT) act: String): Call<Data<Magnet>>
+
+    @GET(BASE_PATH)
     fun videoCategory(@Query(BASE_ACT) act: String): Call<Data<VideoCategory>>
 
     @GET(BASE_PATH)
     fun videoList(@Query(BASE_ACT) act: String, @QueryMap map: HashMap<String, Any>): Call<Data<Video>>
+
 
 }

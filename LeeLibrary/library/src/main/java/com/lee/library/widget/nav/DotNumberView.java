@@ -118,6 +118,6 @@ public class DotNumberView extends View {
 
     public void setNumberCount(int numberCount) {
         this.numberCount = numberCount;
-        invalidate();
+        postInvalidate();
     }
 }
