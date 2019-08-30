@@ -1,5 +1,10 @@
-package com.lee.okhttp.core;
+package com.lee.okhttp;
 
+
+import com.lee.okhttp.core.Call;
+import com.lee.okhttp.core.Dispatcher;
+import com.lee.okhttp.core.RealCall;
+import com.lee.okhttp.core.Request;
 
 /**
  * @author jv.lee
@@ -8,7 +13,7 @@ package com.lee.okhttp.core;
  */
 public class OkHttpClient {
 
-    Dispatcher dispatcher;
+    public Dispatcher dispatcher;
 
     int retryCount;
 
@@ -65,7 +70,7 @@ public class OkHttpClient {
         return new RealCall(this, request);
     }
 
-    Dispatcher dispatcher() {
+    public Dispatcher dispatcher() {
         return dispatcher;
     }
 

@@ -1,4 +1,4 @@
-package com.lee.okhttp;
+package com.lee.okhttp.core;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;

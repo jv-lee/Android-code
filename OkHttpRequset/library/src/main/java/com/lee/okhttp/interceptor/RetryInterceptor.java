@@ -1,8 +1,9 @@
-package com.lee.okhttp.chain;
+package com.lee.okhttp.interceptor;
 
 import android.util.Log;
 
-import com.lee.okhttp.core.OkHttpClient;
+import com.lee.okhttp.OkHttpClient;
+import com.lee.okhttp.core.InterceptorManager;
 import com.lee.okhttp.core.Response;
 
 import java.io.IOException;
@@ -24,7 +25,7 @@ public class RetryInterceptor implements Interceptor {
 
     @Override
     public Response intercept(Chain chain) throws IOException {
-        ChainManager chainManager = (ChainManager) chain;
+        InterceptorManager chainManager = (InterceptorManager) chain;
         IOException ioException = null;
 
         if (client.getRetryCount() != 0) {

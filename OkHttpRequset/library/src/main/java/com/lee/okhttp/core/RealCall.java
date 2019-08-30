@@ -2,9 +2,11 @@ package com.lee.okhttp.core;
 
 import android.util.Log;
 
-import com.lee.okhttp.chain.ChainManager;
-import com.lee.okhttp.chain.Interceptor;
-import com.lee.okhttp.chain.RetryInterceptor;
+import com.lee.okhttp.OkHttpClient;
+import com.lee.okhttp.interceptor.ConnectionServerInterceptor;
+import com.lee.okhttp.interceptor.Interceptor;
+import com.lee.okhttp.interceptor.RequestHeaderInterceptor;
+import com.lee.okhttp.interceptor.RetryInterceptor;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -25,7 +27,7 @@ public class RealCall implements Call {
     private OkHttpClient okHttpClient;
     private Request request;
 
-    RealCall(OkHttpClient okHttpClient, Request request) {
+    public RealCall(OkHttpClient okHttpClient, Request request) {
         this.okHttpClient = okHttpClient;
         this.request = request;
     }
@@ -116,10 +118,14 @@ public class RealCall implements Call {
             List<Interceptor> interceptors = new ArrayList<>();
             //添加重试拦截器
             interceptors.add(new RetryInterceptor(okHttpClient));
+            //请求头数据拼接拦截器
+            interceptors.add(new RequestHeaderInterceptor());
+            //服务器连接拦截器
+            interceptors.add(new ConnectionServerInterceptor());
 
-            ChainManager chainManager = new ChainManager(interceptors, 0, request, RealCall.this);
+            InterceptorManager interceptorManager = new InterceptorManager(interceptors, 0, request, RealCall.this);
             //最终返回的Response
-            return chainManager.proceed(request);
+            return interceptorManager.proceed(request);
         }
 
 

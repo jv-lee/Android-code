@@ -1,4 +1,4 @@
-package com.lee.okhttp.chain;
+package com.lee.okhttp.interceptor;
 
 import com.lee.okhttp.core.Request;
 import com.lee.okhttp.core.Response;

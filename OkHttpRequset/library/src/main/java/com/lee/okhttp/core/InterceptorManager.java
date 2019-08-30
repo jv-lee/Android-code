@@ -1,8 +1,6 @@
-package com.lee.okhttp.chain;
+package com.lee.okhttp.core;
 
-import com.lee.okhttp.core.Call;
-import com.lee.okhttp.core.Request;
-import com.lee.okhttp.core.Response;
+import com.lee.okhttp.interceptor.Interceptor;
 
 import java.io.IOException;
 import java.util.List;
@@ -12,14 +10,14 @@ import java.util.List;
  * @date 2019-08-29
  * @description 拦截器责任链管理类
  */
-public class ChainManager implements Interceptor.Chain {
+public class InterceptorManager implements Interceptor.Chain {
 
     private final List<Interceptor> interceptors;
     private final int index;
     private final Request request;
     private final Call call;
 
-    public ChainManager(List<Interceptor> interceptors, int index, Request request, Call call) {
+    public InterceptorManager(List<Interceptor> interceptors, int index, Request request, Call call) {
         this.interceptors = interceptors;
         this.index = index;
         this.request = request;
@@ -42,12 +40,11 @@ public class ChainManager implements Interceptor.Chain {
             throw new IOException("interceptors is empty");
         }
 
-        ChainManager manager = new ChainManager(interceptors, index + 1, request, call);
-
-        //取出第一个拦截器
+        //取出第一个拦截器 以此类推
         Interceptor interceptor = interceptors.get(index);
-        Response response = interceptor.intercept(manager);
 
-        return response;
+        InterceptorManager manager = new InterceptorManager(interceptors, index + 1, request, call);
+
+        return interceptor.intercept(manager);
     }
 }

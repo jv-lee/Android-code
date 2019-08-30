@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import com.lee.okhttp.core.RequestBody;
+
 import java.io.IOException;
 
 import okhttp3.Call;
@@ -16,7 +18,7 @@ import okhttp3.Response;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
-    private final String PATH = "http://restapi.amap.com/v3/weather/weatherInfo?city=110101&key=13cb58f5884f9749287abbead9c658f2";
+    private final String PATH = "http://restapi.amap.com/v3/weather/weatherInfo";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,9 +59,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void myOkhttp() {
-        com.lee.okhttp.core.OkHttpClient client = new com.lee.okhttp.core.OkHttpClient.Builder().build();
+        com.lee.okhttp.OkHttpClient client = new com.lee.okhttp.OkHttpClient.Builder().build();
 
-        com.lee.okhttp.core.Request request = new com.lee.okhttp.core.Request.Builder().url(PATH).build();
+        //Post ?city=110101&key=13cb58f5884f9749287abbead9c658f2
+        RequestBody requestBody = new RequestBody();
+        requestBody.addBody("city", "110101");
+        requestBody.addBody("key", "13cb58f5884f9749287abbead9c658f2");
+
+        com.lee.okhttp.core.Request request = new com.lee.okhttp.core.Request.Builder().post(requestBody).url(PATH).build();
         com.lee.okhttp.core.Call call = client.newCall(request);
         call.enqueue(new com.lee.okhttp.core.Callback() {
             @Override
@@ -69,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(com.lee.okhttp.core.Call call, com.lee.okhttp.core.Response response) throws IOException {
-                Log.i(TAG, "onResponse: " + response.string());
+                Log.i(TAG, "onResponse: code:" + response.code + " result: " + response.body);
             }
         });
     }

@@ -1,7 +1,5 @@
 package com.lee.okhttp.core;
 
-import com.lee.okhttp.RequestBody;
-
 import java.util.HashMap;
 import java.util.Map;
 

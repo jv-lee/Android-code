@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
  * @date 2019/8/29.
  * @description 任务时间分发器
  */
-class Dispatcher {
+public class Dispatcher {
     /**
      * 同时访问的任务最大限制值 64个任务
      */

@@ -7,17 +7,8 @@ package com.lee.okhttp.core;
  */
 public class Response {
 
-    private String body;
+    public String body;
 
-    public String getBody() {
-        return body;
-    }
+    public int code;
 
-    public void setBody(String body) {
-        this.body = body;
-    }
-
-    public String string() {
-        return body;
-    }
 }
