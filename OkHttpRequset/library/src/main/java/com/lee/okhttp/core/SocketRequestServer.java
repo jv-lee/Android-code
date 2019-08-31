@@ -9,13 +9,23 @@ import static com.lee.okhttp.core.Request.POST;
 /**
  * @author jv.lee
  * @date 2019-08-29
- * @description
+ * @description 解析request 、解析请求头、解析请求行、解析请求体 等能力
  */
 public class SocketRequestServer {
 
     private final String K = " ";
     private final String VERSION = "HTTP/1.1";
     private final String GRGN = "\r\n";
+
+    public boolean isHttps(Request request) {
+        try {
+            URL url = new URL(request.getUrl());
+            return url.getProtocol().equalsIgnoreCase("https");
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
     /**
      * TODO 通过request对象 寻找到域名host

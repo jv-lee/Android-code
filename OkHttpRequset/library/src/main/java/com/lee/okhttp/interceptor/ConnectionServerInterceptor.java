@@ -9,14 +9,12 @@ import com.lee.okhttp.core.SocketRequestServer;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
+
+import javax.net.ssl.SSLSocketFactory;
 
 /**
  * @author jv.lee
@@ -31,9 +29,14 @@ public class ConnectionServerInterceptor implements Interceptor {
     public Response intercept(Chain chain) throws IOException {
         SocketRequestServer srs = new SocketRequestServer();
         Request request = chain.request();
+        Socket socket = null;
 
         //通过socket 连接服务器 获取请求数据
-        Socket socket = new Socket(srs.getHost(request), srs.getPort(request));
+        if (srs.isHttps(request)) {
+            socket = SSLSocketFactory.getDefault().createSocket(srs.getHost(request), srs.getPort(request));
+        } else {
+            socket = new Socket(srs.getHost(request), srs.getPort(request));
+        }
 
         //TODO  请求 Output
         BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
@@ -64,7 +67,6 @@ public class ConnectionServerInterceptor implements Interceptor {
                 }
             }
         });
-
         Response response = new Response();
 
         //TODO 取出请求码
