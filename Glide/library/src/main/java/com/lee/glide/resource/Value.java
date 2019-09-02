@@ -58,8 +58,9 @@ public class Value {
      * TODO 不使用当前资源设置使用次数-1
      */
     public void nonUseAction() {
+        count--;
         //不再使用了 回调提示
-        if (count-- <= 0 && callback != null) {
+        if (count <= 0 && callback != null) {
             callback.nonUse(key, this);
         }
     }

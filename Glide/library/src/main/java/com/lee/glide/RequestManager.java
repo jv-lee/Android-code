@@ -67,12 +67,10 @@ public class RequestManager {
         if (fragment == null) {
             fragment = new FragmentActivityLifecycle(requestTargetEngine);
         }
-        if (fragment.isAdded()) {
-            fragmentTransaction.remove(fragment);
+        if (!fragment.isAdded()) {
+            fragmentTransaction.add(fragment, FRAGMENT_ACTIVITY_NAME).commitAllowingStateLoss();
+            mHandler.sendEmptyMessage(NEXT_HANDLER_MSG);
         }
-        fragmentTransaction.add(fragment, FRAGMENT_ACTIVITY_NAME).commitAllowingStateLoss();
-
-        mHandler.sendEmptyMessage(NEXT_HANDLER_MSG);
     }
 
     RequestManager(Context context) {
@@ -88,6 +86,9 @@ public class RequestManager {
     RequestTargetEngine load(String path) {
         //移除Handler
         mHandler.removeMessages(NEXT_HANDLER_MSG);
+
+        requestTargetEngine.loadValueInitAction(path, requestManagerContext);
+
         return requestTargetEngine;
     }
 
