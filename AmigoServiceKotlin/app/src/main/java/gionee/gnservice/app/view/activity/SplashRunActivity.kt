@@ -7,7 +7,7 @@ import com.s.main.sdk.SplashView
 import com.s.main.sdk.SplashViewCallBack
 import gionee.gnservice.app.BuildConfig
 import gionee.gnservice.app.R
-import gionee.gnservice.app.constants.EventConstants
+import gionee.gnservice.app.constants.StatisticsConstants
 import gionee.gnservice.app.databinding.ActivitySplashBinding
 import gionee.gnservice.app.vm.SplashViewModel
 
@@ -46,7 +46,7 @@ class SplashRunActivity :
      * 初始化开屏广告
      */
     private fun initSplash() {
-        StatisticsUtil.onEvent(this, EventConstants.Splash_Fetch_Times, "热启动")
+        StatisticsUtil.onEvent(this, StatisticsConstants.Splash_Fetch_Times, "热启动")
         splashView = SplashView(this)
         splashView?.setAdBound(resources.displayMetrics.widthPixels, resources.displayMetrics.heightPixels)
         splashView?.setAdJumpView(null, 5)
@@ -61,7 +61,7 @@ class SplashRunActivity :
             }
 
             override fun onAdTimeOut(p0: String?) {
-                StatisticsUtil.onEvent(this@SplashRunActivity, EventConstants.Splash_Result, "热启动_拉取失败")
+                StatisticsUtil.onEvent(this@SplashRunActivity, StatisticsConstants.Splash_Result, "热启动_拉取失败")
                 finishAnimator()
             }
 
@@ -70,11 +70,11 @@ class SplashRunActivity :
             }
 
             override fun onAdPresent(p0: String?) {
-                StatisticsUtil.onEvent(this@SplashRunActivity, EventConstants.Splash_Result, "热启动_成功曝光")
+                StatisticsUtil.onEvent(this@SplashRunActivity, StatisticsConstants.Splash_Result, "热启动_成功曝光")
             }
 
             override fun onAdClick(p0: String?) {
-                StatisticsUtil.onEvent(this@SplashRunActivity, EventConstants.Splash_Result, "热启动_广告点击")
+                StatisticsUtil.onEvent(this@SplashRunActivity, StatisticsConstants.Splash_Result, "热启动_广告点击")
             }
         })
         binding.frameSplashContainer.addView(splashView)

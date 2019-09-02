@@ -1,5 +1,11 @@
 package gionee.gnservice.app.tool
 
+import android.annotation.SuppressLint
+import android.content.Context
+import android.provider.Settings
+import android.telephony.TelephonyManager
+import android.webkit.JavascriptInterface
+
 /**
  * @author jv.lee
  * @date 2019/8/28.
@@ -8,6 +14,45 @@ package gionee.gnservice.app.tool
 class CommonTool {
 
     companion object {
+
+        /**
+         * 获取IMEI
+         *
+         * @param context
+         * @return
+         */
+        @SuppressLint("MissingPermission")
+        @JavascriptInterface
+        fun getIMEI(context: Context): String {
+            try {
+                val telephonyManager = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+                val imei = telephonyManager.deviceId
+                return imei ?: ""
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+
+            return ""
+        }
+
+        /**
+         * 获取设备id
+         *
+         * @param context
+         * @return
+         */
+        @JavascriptInterface
+        fun getEquipID(context: Context): String {
+            try {
+                val eqId = Settings.System.getString(context.contentResolver, Settings.Secure.ANDROID_ID)
+                return eqId ?: ""
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+
+            return ""
+        }
+
 
         /**
          * 获取视频总时长 换算分钟

@@ -14,7 +14,7 @@ import com.s.main.sdk.SplashViewCallBack
 import gionee.gnservice.app.BuildConfig
 import gionee.gnservice.app.R
 import gionee.gnservice.app.constants.Constants
-import gionee.gnservice.app.constants.EventConstants
+import gionee.gnservice.app.constants.StatisticsConstants
 import gionee.gnservice.app.databinding.ActivitySplashBinding
 import gionee.gnservice.app.model.server.RetrofitUtils
 import gionee.gnservice.app.vm.SplashViewModel
@@ -47,7 +47,7 @@ class SplashSubActivity :
     }
 
     override fun onPermissionSuccess() {
-        StatisticsUtil.onEvent(this, EventConstants.Desktop_Start)
+        StatisticsUtil.onEvent(this, StatisticsConstants.Desktop_Start)
         initSplash()
         initLogin()
         initSDK()
@@ -77,7 +77,7 @@ class SplashSubActivity :
      * 初始化开屏广告
      */
     private fun initSplash() {
-        StatisticsUtil.onEvent(this, EventConstants.Splash_Fetch_Times, "冷启动")
+        StatisticsUtil.onEvent(this, StatisticsConstants.Splash_Fetch_Times, "冷启动")
         splashView = SplashView(this)
         splashView?.setAdBound(resources.displayMetrics.widthPixels, resources.displayMetrics.heightPixels)
         splashView?.setAdJumpView(null, 5)
@@ -97,7 +97,7 @@ class SplashSubActivity :
 
             override fun onAdTimeOut(p0: String?) {
                 LogUtil.i("splash -> onAdTimeOut:$p0")
-                StatisticsUtil.onEvent(this@SplashSubActivity, EventConstants.Splash_Result, "冷启动_拉取超时")
+                StatisticsUtil.onEvent(this@SplashSubActivity, StatisticsConstants.Splash_Result, "冷启动_拉取超时")
                 isSplash = true
                 sendMain()
             }
@@ -110,12 +110,12 @@ class SplashSubActivity :
 
             override fun onAdPresent(p0: String?) {
                 LogUtil.i("splash -> onAdPresent:$p0")
-                StatisticsUtil.onEvent(this@SplashSubActivity, EventConstants.Splash_Result, "冷启动_成功曝光")
+                StatisticsUtil.onEvent(this@SplashSubActivity, StatisticsConstants.Splash_Result, "冷启动_成功曝光")
             }
 
             override fun onAdClick(p0: String?) {
                 LogUtil.i("splash -> onAdClick:$p0")
-                StatisticsUtil.onEvent(this@SplashSubActivity, EventConstants.Splash_Result, "冷启动_广告点击")
+                StatisticsUtil.onEvent(this@SplashSubActivity, StatisticsConstants.Splash_Result, "冷启动_广告点击")
             }
         })
         binding.frameSplashContainer.addView(splashView)
@@ -138,14 +138,14 @@ class SplashSubActivity :
      * 初始化乐逗广告
      */
     private fun initSDK() {
-        StatisticsUtil.onEvent(this, EventConstants.Ads_Init_Times)
+        StatisticsUtil.onEvent(this, StatisticsConstants.Ads_Init_Times)
         MobgiAds.init(applicationContext, BuildConfig.mobgiAppId, object : MobgiAds.InitCallback {
             override fun onSuccess() {
                 LogUtil.i("init mobgi success")
                 StatisticsUtil.onEvent(
                     this@SplashSubActivity,
-                    EventConstants.Ads_Init_Result,
-                    EventConstants.Ads_Init_Success
+                    StatisticsConstants.Ads_Init_Result,
+                    StatisticsConstants.Ads_Init_Success
                 )
                 isOldAd = true
                 sendMain()
@@ -155,8 +155,8 @@ class SplashSubActivity :
                 LogUtil.i("init mobgi error:$throwable")
                 StatisticsUtil.onEvent(
                     this@SplashSubActivity,
-                    EventConstants.Ads_Init_Result,
-                    EventConstants.Ads_Init_Error
+                    StatisticsConstants.Ads_Init_Result,
+                    StatisticsConstants.Ads_Init_Error
                 )
                 isOldAd = true
                 sendMain()

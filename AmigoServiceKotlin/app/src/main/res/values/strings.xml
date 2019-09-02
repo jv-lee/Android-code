@@ -8,4 +8,7 @@
     <string name="nav_novel">小说</string>
     <string name="nav_game">游戏</string>
     <string name="nav_wallet">钱包</string>
+    <string name="dialog_back_title">确定退出用户中心</string>
+    <string name="dialog_back_define">去看看</string>
+    <string name="dialog_back_cancel">狠心放弃</string>
 </resources>

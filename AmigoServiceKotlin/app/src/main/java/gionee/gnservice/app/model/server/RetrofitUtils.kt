@@ -4,11 +4,8 @@ import com.google.gson.Gson
 import com.lee.library.utils.LogUtil
 import com.lee.library.utils.MD5Util
 import com.lee.library.utils.SPUtil
+import gionee.gnservice.app.BuildConfig
 import gionee.gnservice.app.constants.Constants
-import gionee.gnservice.app.constants.ServerConstants.Companion.BASE_URL
-import gionee.gnservice.app.constants.ServerConstants.Companion.DEFAULT_TIMEOUT
-import gionee.gnservice.app.constants.ServerConstants.Companion.READ_TIMEOUT
-import gionee.gnservice.app.constants.ServerConstants.Companion.WRITE_TIMEOUT
 import gionee.gnservice.app.model.entity.Login
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -32,7 +29,7 @@ class RetrofitUtils private constructor() {
         val retrofit = Retrofit.Builder().client(getOkHttpClient())
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            .baseUrl(BASE_URL)
+            .baseUrl(BuildConfig.BASE_URI)
             .build()
         apiServer = retrofit.create(ApiServer::class.java)
     }
@@ -49,10 +46,10 @@ class RetrofitUtils private constructor() {
         return OkHttpClient.Builder()
             .sslSocketFactory(getSSLSocketFactory())
             .hostnameVerifier(getHostnameVerifier())
-            .addInterceptor(GetParameterInterceptor())
-            .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
-            .writeTimeout(WRITE_TIMEOUT, TimeUnit.SECONDS)
-            .readTimeout(READ_TIMEOUT, TimeUnit.SECONDS)
+            .addInterceptor(PutParameterInterceptor())
+            .connectTimeout(5, TimeUnit.SECONDS)
+            .writeTimeout(5, TimeUnit.SECONDS)
+            .readTimeout(5, TimeUnit.SECONDS)
             .build()
     }
 

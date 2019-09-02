@@ -13,14 +13,12 @@ import java.io.IOException
  * @date 2019/8/22.
  * @description 所有接口必传参数 添加拦截器
  */
-class GetParameterInterceptor : Interceptor {
+class PutParameterInterceptor : Interceptor {
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response {
         var request = chain.request()
         val url = request.url()
-        if (BuildConfig.BASE_URI.contains(request.url().host()) &&
-            !request.url().queryParameter(ServerConstants.BASE_ACT).equals("login.sign")
-        ) {
+        if (!url.queryParameter(ServerConstants.BASE_ACT).equals(ServerConstants.ACT_LOGIN)) {
             val ts = RetrofitUtils.instance.getTs()
             val sessionKey = RetrofitUtils.instance.getSessionKey()
             val sign = RetrofitUtils.instance.getSign(sessionKey, ts)

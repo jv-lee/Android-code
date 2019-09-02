@@ -3,14 +3,13 @@ package gionee.gnservice.app.vm
 import android.app.Application
 import android.arch.lifecycle.MutableLiveData
 import android.content.Intent
-import android.databinding.ObservableField
 import com.gionee.gnservice.module.setting.push.PushIntentUtils
 import com.gionee.gnservice.module.setting.push.PushReceiver
 import com.gionee.gnservice.statistics.StatisticsUtil
 import com.lee.library.mvvm.BaseViewModel
 import com.lee.library.utils.SPUtil
 import gionee.gnservice.app.constants.Constants
-import gionee.gnservice.app.constants.EventConstants
+import gionee.gnservice.app.constants.StatisticsConstants
 import gionee.gnservice.app.model.entity.Magnet
 import gionee.gnservice.app.model.entity.Push
 import gionee.gnservice.app.model.entity.RedPoint
@@ -38,7 +37,7 @@ class MainViewModel(application: Application) : BaseViewModel(application) {
     fun initEvent(intent: Intent) {
         val notification = intent.getIntExtra(Constants.NOTIFICATION_LABLE, 0)
         if (notification == 1) {
-            StatisticsUtil.onEvent(getApplication(), EventConstants.Client_Notification, "点击")
+            StatisticsUtil.onEvent(getApplication(), StatisticsConstants.Client_Notification, "点击")
         }
 
         var lable = "桌面"
@@ -47,7 +46,7 @@ class MainViewModel(application: Application) : BaseViewModel(application) {
         } else if (intent.data?.getQueryParameter("ch") != null) {
             lable = intent.data?.getQueryParameter("ch")!!
         }
-        StatisticsUtil.onEvent(getApplication(), EventConstants.Cold_Start, lable)
+        StatisticsUtil.onEvent(getApplication(), StatisticsConstants.Cold_Start, lable)
     }
 
     fun initPush(intent: Intent) {

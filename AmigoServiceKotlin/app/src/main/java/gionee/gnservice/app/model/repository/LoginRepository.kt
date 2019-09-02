@@ -11,6 +11,7 @@ import gionee.gnservice.app.constants.ServerConstants
 import gionee.gnservice.app.model.entity.base.Data
 import gionee.gnservice.app.model.entity.Login
 import gionee.gnservice.app.model.server.RetrofitUtils
+import gionee.gnservice.app.tool.CommonTool
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -29,9 +30,9 @@ class LoginRepository : IModel {
         val infos = TCache.get(App.instance).getSerializable<AccountInfo>("card/accountinfo")
 
         //设置参数
-        map.put("imei", 1)
-        map.put("eqid", 1)
-        map.put("ch", 1)
+        map.put("imei", CommonTool.getIMEI(App.instance))
+        map.put("eqid", CommonTool.getEquipID(App.instance))
+        map.put("ch", "uc_jl")
 
         if (infos?.userId != null) {
             map.put("thirdid", 1)
@@ -46,6 +47,7 @@ class LoginRepository : IModel {
             .enqueue(object : Callback<Data<Login>> {
                 override fun onFailure(call: Call<Data<Login>>, t: Throwable?) {
                     LogUtil.e("login ${t?.message}")
+                    data.value = null
                 }
 
                 override fun onResponse(call: Call<Data<Login>>, response: Response<Data<Login>>) {
@@ -57,4 +59,5 @@ class LoginRepository : IModel {
             })
         return data
     }
+
 }

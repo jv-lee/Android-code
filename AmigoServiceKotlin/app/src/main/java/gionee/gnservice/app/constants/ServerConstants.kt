@@ -10,11 +10,6 @@ import gionee.gnservice.app.BuildConfig
 class ServerConstants {
 
     companion object {
-        const val BASE_URL = BuildConfig.BASE_URI
-        const val DEFAULT_TIMEOUT: Long = 5
-        const val READ_TIMEOUT: Long = 5
-        const val WRITE_TIMEOUT: Long = 5
-
         const val BASE_PATH: String = "/app/api.php"
         const val BASE_ACT: String = "act"
 
