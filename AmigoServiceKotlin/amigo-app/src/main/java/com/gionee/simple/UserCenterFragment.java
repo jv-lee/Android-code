@@ -5,7 +5,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Debug;
-import android.support.v7.widget.CardView;
+import android.support.annotation.Nullable;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
@@ -31,6 +31,7 @@ import com.gionee.gnservice.module.main.banner.BannerImageLoader;
 import com.gionee.gnservice.module.main.banner.OnBannerListener;
 import com.gionee.gnservice.module.main.mvp.IUserCenterContract;
 import com.gionee.gnservice.module.main.mvp.UserCenterPresenter;
+import com.gionee.gnservice.module.setting.push.PushHelper;
 import com.gionee.gnservice.sdk.AmigoServiceCardView;
 import com.gionee.gnservice.sdk.AmigoServiceSdk;
 import com.gionee.gnservice.sdk.IAmigoServiceSdk;
@@ -41,17 +42,14 @@ import com.gionee.gnservice.sdk.integral.mvp.IMemberIntegralContract;
 import com.gionee.gnservice.sdk.integral.mvp.MemberIntegralPresenter;
 import com.gionee.gnservice.statistics.StatisticsEvents;
 import com.gionee.gnservice.statistics.StatisticsUtil;
-import com.gionee.gnservice.utils.LogUtil;
-import com.gionee.gnservice.utils.PhoneUtil;
-import com.gionee.gnservice.utils.RepeatClickUtil;
-import com.gionee.gnservice.utils.ResourceUtil;
+import com.gionee.gnservice.utils.*;
 import com.gionee.gnservice.widget.AdapterGridLayoutManager;
 import com.gionee.gnservice.widget.AdapterRecyclerView;
 import com.gionee.gnservice.widget.AutoVerticalScrollTextView;
-import com.hwangjr.rxbus.RxBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -80,12 +78,19 @@ public class UserCenterFragment extends BaseFragment implements IUserCenterContr
     private List<ServiceInfo> mServiceInfoList;
     private AmigoServiceCardView mAmigoServiceCardView;
 
-    private CardView webCardContainer;
-
     public UserCenterFragment() {
     }
 
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        SdkUtil.setFromSdkDemo(false);
+        if (AppConfig.DEBUG && AppConfig.TRACE_DEBUG) {
+            Debug.startMethodTracing("service");
+        }
+        PushHelper.registerPushRid(getActivity());
+        super.onActivityCreated(savedInstanceState);
+    }
 
     @Override
     protected int bindRootView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -94,9 +99,6 @@ public class UserCenterFragment extends BaseFragment implements IUserCenterContr
 
     @Override
     protected void bindData() {
-        RxBus.get().register(this);
-        webCardContainer = getV(R.id.web_card_container);
-
         mPresenter = new UserCenterPresenter(appContext(), this);
         mIntegralPresenter = new MemberIntegralPresenter(appContext(), this);
         mServiceInfoList = new ArrayList<>();
@@ -113,16 +115,8 @@ public class UserCenterFragment extends BaseFragment implements IUserCenterContr
         initCardLoginListener();
     }
 
-
     public void login() {
         mAppContext.accountHelper().login(loginCallBack);
-    }
-
-    public void showWebCardView() {
-        ViewGroup.LayoutParams layoutParams = webCardContainer.getLayoutParams();
-        layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT;
-        webCardContainer.setLayoutParams(layoutParams);
-        webCardContainer.setVisibility(View.VISIBLE);
     }
 
     // FIXME 登录逻辑要抽取出来
@@ -132,14 +126,13 @@ public class UserCenterFragment extends BaseFragment implements IUserCenterContr
         loginCallBack = new IAmigoServiceSdk.OnHandleListener() {
             @Override
             public void onSuccess(LoginInfo loginInfo) {
-                Log.i(">>>", "onLoginSuccess");
-                Log.i(">>>", loginInfo.getName());
-                Log.i(">>>", loginInfo.getUid());
-//                Map<String, String> map = getLoginHclwParams(true);
-//                map.put("userid", loginInfo.getUid());
-//                map.put("phone", loginInfo.getName());
-//                map.put("nick", loginInfo.getName());
-                Log.i(">>>", "user 回调登陆");
+                try {
+                    Class<?> loginClass = Class.forName("gionee.gnservice.app.tool.ReflectLogin");
+                    Method loginMethod = loginClass.getDeclaredMethod("login", String.class, String.class);
+                    loginMethod.invoke(null, loginInfo.getUid(), loginInfo.getName());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override
@@ -558,7 +551,6 @@ public class UserCenterFragment extends BaseFragment implements IUserCenterContr
 
     @Override
     public void onDestroy() {
-        RxBus.get().unregister(this);
         super.onDestroy();
     }
 

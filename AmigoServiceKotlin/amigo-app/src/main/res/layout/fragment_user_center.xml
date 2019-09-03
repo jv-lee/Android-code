@@ -60,19 +60,6 @@
                 android:layout_marginTop="8dp"
                 android:visibility="gone" />
 
-            <android.support.v7.widget.CardView
-                android:id="@+id/web_card_container"
-                android:layout_width="@dimen/uc_include_member_view_card_width"
-                android:layout_height="1dp"
-                android:layout_gravity="center_horizontal"
-                android:clickable="true"
-                android:foreground="?attr/selectableItemBackground"
-                android:visibility="invisible"
-                app:cardCornerRadius="15dp"
-                app:cardElevation="15dp"
-                app:cardPreventCornerOverlap="false">
-
-            </android.support.v7.widget.CardView>
 
             <!--会员服务-->
             <LinearLayout

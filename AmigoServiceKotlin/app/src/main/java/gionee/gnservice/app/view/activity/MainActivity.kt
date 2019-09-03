@@ -66,8 +66,6 @@ class MainActivity :
 
     override fun bindData(savedInstanceState: Bundle?) {
         StatusUtil.setStatusFontLight2(mActivity)
-        SdkUtil.setFromSdkDemo(false)
-        PushHelper.registerPushRid(this)
         LiveDataBus.getInstance().injectBus(this)
 
         supportFragmentManager.beginTransaction().add(R.id.frame_usercenter_container, UserCenterFragment()).commit()

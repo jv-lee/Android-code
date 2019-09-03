@@ -128,7 +128,7 @@ public class MemberCardActivity extends BaseActionbarTransparentActivity impleme
         mItemInfoList2.add(mItemInfo4);
 
         if (showSetting()) {
-            mItemInfoList3.add(mItemInfo5);
+//            mItemInfoList3.add(mItemInfo5);
         }
 
     }
