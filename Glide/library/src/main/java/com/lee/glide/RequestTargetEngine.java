@@ -152,7 +152,7 @@ public class RequestTargetEngine implements LifycycleCallback, ValueCallback, Me
         Log.i(TAG, "glideInitAction: glide生命周期回收");
         if (activeCache != null) {
             //释放活动缓存
-            activeCache.closeThread();  
+            activeCache.closeThread();
         }
 
     }

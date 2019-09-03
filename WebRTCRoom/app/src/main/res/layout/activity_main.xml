@@ -7,28 +7,76 @@
     tools:context=".MainActivity">
 
     <EditText
-        android:id="@+id/et_number"
+        android:id="@+id/et_signal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:hint="server地址（wss://）"
+        android:text="wss://47.107.132.117/wss"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/et_port"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="端口"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/et_signal" />
+
+    <EditText
+        android:id="@+id/et_room"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="房间号(123456)"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/et_port" />
 
     <Button
         android:id="@+id/btn_add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:onClick="JoinRoom"
         android:text="加入房间"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/et_number" />
+        app:layout_constraintTop_toBottomOf="@id/et_room" />
 
     <Button
-        android:id="@+id/btn_point_to_point"
+        android:id="@+id/btn_point_to_video"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="一对一视频聊天"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btn_add" />
+
+    <Button
+        android:id="@+id/btn_point_to_audio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="一对一音频聊天"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_point_to_video" />
+
+    <EditText
+        android:id="@+id/et_wss"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="wss://118.192.68.107:4436"
+        app:layout_constraintTop_toBottomOf="@id/btn_point_to_audio" />
+
+    <Button
+        android:id="@+id/btn_wss"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="WSS测试"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/et_wss" />
 
 
 </android.support.constraint.ConstraintLayout>
