@@ -5,9 +5,9 @@ package gionee.gnservice.app.model.entity
  * @date 2019/8/30.
  * @description 磁铁类
  */
-data class Magnet(val list: Data)
+data class Magnet(val list: MagnetData)
 
-data class Data(
+data class MagnetData(
     val icon: String,
     val isActive: Int,
     val skip: Int,

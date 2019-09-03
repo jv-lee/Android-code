@@ -3,11 +3,15 @@ package gionee.gnservice.app.constants
 /**
  * @author jv.lee
  * @date 2019/8/22.
- * @description
+ * @description 项目通用常量
  */
 class Constants {
 
     companion object {
+        /**
+         * activity包路径
+         */
+        const val ACTIVITY_PACKAGE_PATH = "gionee.gnservice.app.view.activity"
         /**
          * session_key标识符
          */

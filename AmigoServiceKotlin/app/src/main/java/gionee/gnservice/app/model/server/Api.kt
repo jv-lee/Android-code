@@ -32,6 +32,12 @@ interface ApiServer {
     fun magnetActive(@Query(BASE_ACT) act: String): Call<Data<Magnet>>
 
     @GET(BASE_PATH)
+    fun versionInfo(@Query(BASE_ACT) act: String): Call<Data<VersionInfo>>
+
+    @GET(BASE_PATH)
+    fun redPackageAward(@Query(BASE_ACT) act: String): Call<Data<RedPacketAward>>
+
+    @GET(BASE_PATH)
     fun videoCategory(@Query(BASE_ACT) act: String): Call<Data<VideoCategory>>
 
     @GET(BASE_PATH)

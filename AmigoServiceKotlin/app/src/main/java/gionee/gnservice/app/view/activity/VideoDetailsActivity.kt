@@ -12,6 +12,11 @@ import gionee.gnservice.app.constants.Constants
 import gionee.gnservice.app.databinding.ActivityVideoDetailsBinding
 import kotlinx.android.synthetic.main.layout_status_toolbar.view.*
 
+/**
+ * @author jv.lee
+ * @date 2019/8/16.
+ * @description 视频详情页面
+ */
 class VideoDetailsActivity :
     BaseActivity<ActivityVideoDetailsBinding, ViewModel>(R.layout.activity_video_details, null) {
 

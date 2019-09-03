@@ -14,7 +14,11 @@ import gionee.gnservice.app.constants.Constants
 import gionee.gnservice.app.databinding.ActivityGameBinding
 import gionee.gnservice.app.view.native.JSInterface
 
-
+/**
+ * @author jv.lee
+ * @date 2019/8/22.
+ * @description 游戏窗口
+ */
 class GameActivity : BaseFullActivity<ActivityGameBinding, ViewModel>(R.layout.activity_game, null) {
 
     private var url: String? = null

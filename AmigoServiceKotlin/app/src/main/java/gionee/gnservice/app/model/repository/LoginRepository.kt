@@ -37,7 +37,13 @@ class LoginRepository : IModel {
         if (infos?.userId != null) {
             map.put("thirdid", 1)
             map.put("userid", infos.userId)
-            map.put("nick", infos.nickName)
+            map.put(
+                "nick", if (infos.nickName == null) {
+                    infos.userName!!
+                } else {
+                    infos.nickName
+                }
+            )
         } else {
             map.put("thirdid", 0)
         }

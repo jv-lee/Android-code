@@ -5,11 +5,14 @@ import android.content.Context
 import android.provider.Settings
 import android.telephony.TelephonyManager
 import android.webkit.JavascriptInterface
+import java.math.BigDecimal
+import java.text.SimpleDateFormat
+import java.util.*
 
 /**
  * @author jv.lee
  * @date 2019/8/28.
- * @description
+ * @description 项目基础通用 工具方法
  */
 class CommonTool {
 
@@ -75,6 +78,26 @@ class CommonTool {
                 }
             }
             return builder.toString()
+        }
+
+        /**
+         * 向上取整 精确到小数，保留后一位
+         *
+         * @param value
+         * @return
+         */
+        fun commandCeil(value: String): String {
+            val newValue = java.lang.Double.valueOf(value) / 10000
+            val newValue2 = BigDecimal(newValue).setScale(1, BigDecimal.ROUND_UP).toDouble()
+            return newValue2.toString()
+        }
+
+        /**
+         * 红包雨下次时间换算
+         */
+        fun nextRedPackageTime(time: Long): String {
+            @SuppressLint("SimpleDateFormat") val hh = SimpleDateFormat("HH")
+            return hh.format(Date(time))
         }
 
     }

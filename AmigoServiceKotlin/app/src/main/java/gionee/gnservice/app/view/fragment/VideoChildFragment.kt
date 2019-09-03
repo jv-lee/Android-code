@@ -17,8 +17,9 @@ import gionee.gnservice.app.vm.VideoViewModel
 import java.util.*
 
 /**
- * A simple [Fragment] subclass.
- *
+ * @author jv.lee
+ * @date 2019/8/14.
+ * @description 主TAB 视频板块 - 子页面
  */
 class VideoChildFragment :
     BaseFragment<FragmentVideoChildBinding, VideoViewModel>(R.layout.fragment_video_child, VideoViewModel::class.java) {

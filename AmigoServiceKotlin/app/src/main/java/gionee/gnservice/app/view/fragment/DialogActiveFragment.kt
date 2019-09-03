@@ -16,8 +16,9 @@ import gionee.gnservice.app.view.activity.MainActivity
 import gionee.gnservice.app.view.native.JSInterface
 
 /**
- * A simple [Fragment] subclass.
- *
+ * @author jv.lee
+ * @date 2019/9/2.
+ * @description 活动弹窗
  */
 class DialogActiveFragment : BaseDialogFragment<FragmentDialogActiveBinding, ViewModel>(R.layout.fragment_dialog_active, null) {
 

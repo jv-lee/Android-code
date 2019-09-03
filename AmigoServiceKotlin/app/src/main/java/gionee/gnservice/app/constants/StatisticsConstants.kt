@@ -3,7 +3,7 @@ package gionee.gnservice.app.constants
 /**
  * @author jv.lee
  * @date 2019/8/26.
- * @description 统计
+ * @description 统计常量
  */
 class StatisticsConstants {
     companion object {

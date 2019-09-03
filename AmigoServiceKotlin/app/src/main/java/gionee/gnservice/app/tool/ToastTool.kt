@@ -12,7 +12,7 @@ import gionee.gnservice.app.R
 /**
  * @author jv.lee
  * @date 2019/8/30.
- * @description
+ * @description 项目全局 自定义Toast提示
  */
 class ToastTool{
 

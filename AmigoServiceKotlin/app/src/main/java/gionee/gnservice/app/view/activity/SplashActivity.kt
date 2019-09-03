@@ -19,7 +19,9 @@ import gionee.gnservice.app.model.server.RetrofitUtils
 import gionee.gnservice.app.vm.SplashViewModel
 
 /**
- * 开屏页面
+ * @author jv.lee
+ * @date 2019/8/22.
+ * @description 主Main启动页面 开屏广告
  */
 class SplashActivity :
     BaseFullActivity<ActivitySplashBinding, SplashViewModel>(R.layout.activity_splash, SplashViewModel::class.java),

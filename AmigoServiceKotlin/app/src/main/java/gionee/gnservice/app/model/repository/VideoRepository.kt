@@ -16,7 +16,7 @@ import retrofit2.Response
 /**
  * @author jv.lee
  * @date 2019/8/28.
- * @description
+ * @description 视频业务数据
  */
 class VideoRepository : IModel {
 

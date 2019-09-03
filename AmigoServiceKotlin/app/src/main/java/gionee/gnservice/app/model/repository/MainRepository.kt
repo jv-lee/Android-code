@@ -18,12 +18,12 @@ import retrofit2.Response
 /**
  * @author jv.lee
  * @date 2019/8/30.
- * @description
+ * @description 主页业务数据
  */
 class MainRepository : IModel {
 
-    fun getConfig(): LiveData<Data<Config>> {
-        val data = MutableLiveData<Data<Config>>()
+    fun getConfig(): LiveData<Config> {
+        val data = MutableLiveData<Config>()
 
         RetrofitUtils.instance.getApi()
             .config(ServerConstants.ACT_CONFIG)
@@ -33,7 +33,9 @@ class MainRepository : IModel {
                 }
 
                 override fun onResponse(call: Call<Data<Config>>, response: Response<Data<Config>>) {
-                    data.value = response.body()
+                    if (response.body()?.code == 1) {
+                        data.value = response.body()?.data
+                    }
                 }
 
             })
@@ -52,7 +54,7 @@ class MainRepository : IModel {
 
                 override fun onResponse(call: Call<Data<Push>>, response: Response<Data<Push>>) {
                     if (response.body()?.code == 1) {
-                        data.value = response.body()!!.data
+                        data.value = response.body()?.data
                     }
                 }
             })
@@ -70,6 +72,9 @@ class MainRepository : IModel {
                 }
 
                 override fun onResponse(call: Call<Data<RedPoint>>, response: Response<Data<RedPoint>>) {
+                    if (response.body()?.code == 1) {
+                        data.value = response.body()?.data
+                    }
                 }
 
             })
@@ -85,6 +90,7 @@ class MainRepository : IModel {
                 override fun onFailure(call: Call<Data<Magnet>>, t: Throwable) {
                     LogUtil.e("getMagnet ${t.message}")
                 }
+
                 override fun onResponse(call: Call<Data<Magnet>>, response: Response<Data<Magnet>>) {
                     if (response.body()?.code == 1) {
                         data.value = response.body()?.data

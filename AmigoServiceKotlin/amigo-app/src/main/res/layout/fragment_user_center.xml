@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/uc_default_activity_background_color">
+
+        <LinearLayout
+            android:id="@+id/layout_user_center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!--卡片-->
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.gionee.gnservice.sdk.AmigoServiceCardView
+                    android:id="@+id/uc_member_card_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </FrameLayout>
+
+            <!--会员特权-->
+            <LinearLayout
+                android:id="@+id/layout_user_center_privilege_bannar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/uc_default_activity_content_background_color"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:layout_marginBottom="14dp"
+                    android:gravity="center"
+                    android:text="@string/uc_user_center_member_privilege"
+                    android:textColor="#cc000000"
+                    android:textSize="16dp" />
+
+                <com.gionee.gnservice.module.main.banner.Banner
+                    android:id="@+id/banner_user_center_privilege"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <!--会员积分-->
+            <include
+                android:id="@+id/uc_user_center_integral_view"
+                layout="@layout/uc_include_user_center_integral"
+                android:layout_marginTop="8dp"
+                android:visibility="gone" />
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/web_card_container"
+                android:layout_width="@dimen/uc_include_member_view_card_width"
+                android:layout_height="1dp"
+                android:layout_gravity="center_horizontal"
+                android:clickable="true"
+                android:foreground="?attr/selectableItemBackground"
+                android:visibility="invisible"
+                app:cardCornerRadius="15dp"
+                app:cardElevation="15dp"
+                app:cardPreventCornerOverlap="false">
+
+            </android.support.v7.widget.CardView>
+
+            <!--会员服务-->
+            <LinearLayout
+                android:id="@+id/layout_user_center_service"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@color/uc_default_activity_content_background_color"
+                android:orientation="vertical"
+                android:paddingBottom="20dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:gravity="center"
+                    android:text="@string/uc_user_center_member_service"
+                    android:textColor="#cc000000"
+                    android:textSize="16dp" />
+
+                <com.gionee.gnservice.widget.AdapterRecyclerView
+                    android:id="@+id/recyleview_user_center_services"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</FrameLayout>

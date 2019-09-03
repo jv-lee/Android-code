@@ -12,7 +12,9 @@ import gionee.gnservice.app.databinding.ActivitySplashBinding
 import gionee.gnservice.app.vm.SplashViewModel
 
 /**
- * 开屏热启动页面
+ * @author jv.lee
+ * @date 2019/8/22.
+ * @description 热启动开屏广告
  */
 class SplashRunActivity :
     BaseActivity<ActivitySplashBinding, SplashViewModel>(R.layout.activity_splash, SplashViewModel::class.java) {

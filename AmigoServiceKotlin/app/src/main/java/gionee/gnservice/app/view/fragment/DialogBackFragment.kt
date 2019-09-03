@@ -12,8 +12,9 @@ import gionee.gnservice.app.constants.EventConstants
 import gionee.gnservice.app.databinding.FragmentDialogBackBinding
 
 /**
- * A simple [Fragment] subclass.
- *
+ * @author jv.lee
+ * @date 2019/9/2.
+ * @description 退出提示弹窗
  */
 class DialogBackFragment :
     BaseDialogFragment<FragmentDialogBackBinding, ViewModel>(R.layout.fragment_dialog_back, null) {

@@ -30,7 +30,7 @@ class MainViewModel(application: Application) : BaseViewModel(application) {
 
     fun getConfig() {
         model.getConfig().observeForever {
-            SPUtil.save("web_url", it?.data?.value?.user_web_url)
+            SPUtil.save("web_url", it?.value?.user_web_url)
         }
     }
 

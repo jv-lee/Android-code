@@ -10,7 +10,7 @@ import gionee.gnservice.app.databinding.FragmentNovelBinding
 /**
  * @author jv.lee
  * @date 2019/8/14.
- * @description
+ * @description 主TAB 小说板块
  */
 class NovelFragment : BaseFragment<FragmentNovelBinding, ViewModel>(R.layout.fragment_novel, null) {
 

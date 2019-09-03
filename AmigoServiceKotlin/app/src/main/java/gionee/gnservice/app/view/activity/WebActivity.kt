@@ -11,6 +11,11 @@ import gionee.gnservice.app.constants.Constants
 import gionee.gnservice.app.databinding.ActivityWebBinding
 import kotlinx.android.synthetic.main.layout_status_toolbar.view.*
 
+/**
+ * @author jv.lee
+ * @date 2019/8/22.
+ * @description 通用H5容器视窗
+ */
 class WebActivity : BaseActivity<ActivityWebBinding, ViewModel>(R.layout.activity_web, null) {
 
     var title: String? = null

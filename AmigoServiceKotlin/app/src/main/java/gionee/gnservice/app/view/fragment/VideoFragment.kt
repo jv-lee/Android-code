@@ -13,7 +13,7 @@ import java.util.ArrayList
 /**
  * @author jv.lee
  * @date 2019/8/14.
- * @description
+ * @description 主TAB 视频板块
  */
 class VideoFragment :
     BaseFragment<FragmentVideoBinding, VideoViewModel>(R.layout.fragment_video, VideoViewModel::class.java) {
@@ -36,6 +36,7 @@ class VideoFragment :
             vpAdapter.notifyDataSetChanged()
             binding.vpContainer.offscreenPageLimit = fragments.size - 1
         })
+        viewModel.loadVideoCategory()
     }
 
     override fun bindView() {
@@ -43,7 +44,6 @@ class VideoFragment :
     }
 
     override fun lazyLoad() {
-        viewModel.loadVideoCategory()
     }
 
 

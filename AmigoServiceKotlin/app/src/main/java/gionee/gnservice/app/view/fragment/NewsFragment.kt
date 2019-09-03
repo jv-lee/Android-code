@@ -15,8 +15,9 @@ import gionee.gnservice.app.R
 import gionee.gnservice.app.databinding.FragmentNewsBinding
 
 /**
- * A simple [Fragment] subclass.
- *
+ * @author jv.lee
+ * @date 2019/8/14.
+ * @description 主TAB 新闻板块 - 首页
  */
 class NewsFragment : BaseFragment<FragmentNewsBinding, ViewModel>(R.layout.fragment_news, null) {
     private var mInfoStreamView: InfoStreamView? = null

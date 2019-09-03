@@ -6,7 +6,7 @@ import android.webkit.JavascriptInterface
 /**
  * @author jv.lee
  * @date 2019/8/29.
- * @description
+ * @description 广告 javascriptInterface接口
  */
 class ADInterface {
 

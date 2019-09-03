@@ -21,7 +21,7 @@ import gionee.gnservice.app.view.native.JSInterface
 /**
  * @author jv.lee
  * @date 2019/8/14.
- * @description
+ * @description 主TAB 游戏板块 （H5）
  */
 class GameFragment : BaseFragment<FragmentGameBinding, ViewModel>(R.layout.fragment_game, null) {
 

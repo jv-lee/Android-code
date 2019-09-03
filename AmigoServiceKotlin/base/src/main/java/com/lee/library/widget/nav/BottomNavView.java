@@ -98,12 +98,9 @@ public class BottomNavView extends BottomNavigationView implements BottomNavigat
     }
 
     public void setDotNotRead(final int index, final int number) {
-        post(() -> {
-            if (dots != null) {
-                dots.get(index).setNumberCount(number);
-            }
-        });
-
+        if (dots != null) {
+            dots.get(index).setNumberCount(number);
+        }
     }
 
     public interface ItemPositionListener {

@@ -1,16 +1,21 @@
 package gionee.gnservice.app
 
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.app.Application
 import android.content.Context
+import android.os.Bundle
 import android.support.multidex.MultiDex
 import com.android.droi.books.BooksInit
 import com.cmcm.cmgame.CmGameSdk
 import com.cmcm.cmgame.gamedata.CmGameAppInfo
 import com.dl.infostream.InfoStreamManager
 import com.gionee.gnservice.AmigoServiceApp
+import com.lee.library.utils.DensityUtil
 import com.lee.library.utils.LogUtil
 import com.lee.library.utils.SPUtil
 import com.s.main.sdk.SDK
+import gionee.gnservice.app.constants.Constants
 import gionee.gnservice.app.tool.GameImageLoader
 import gionee.gnservice.app.tool.GlideTool
 
@@ -35,6 +40,7 @@ class App : AmigoServiceApp() {
         if (applicationContext.packageName == currentProcessName) {
             initComponent()
             initSDK()
+            injectCallback()
         }
     }
 
@@ -96,6 +102,35 @@ class App : AmigoServiceApp() {
     override fun attachBaseContext(base: Context) {
         super.attachBaseContext(base)
         MultiDex.install(this)
+    }
+
+    private fun injectCallback() {
+        registerActivityLifecycleCallbacks(object : Application.ActivityLifecycleCallbacks {
+
+            override fun onActivitySaveInstanceState(activity: Activity?, outState: Bundle?) {
+            }
+
+            override fun onActivityCreated(activity: Activity?, savedInstanceState: Bundle?) {
+                if (activity?.localClassName!!.contains(Constants.ACTIVITY_PACKAGE_PATH)) {
+                    DensityUtil.setDensity(this@App, activity)
+                }
+            }
+
+            override fun onActivityStarted(activity: Activity?) {
+            }
+
+            override fun onActivityResumed(activity: Activity?) {
+            }
+
+            override fun onActivityPaused(activity: Activity?) {
+            }
+
+            override fun onActivityStopped(activity: Activity?) {
+            }
+
+            override fun onActivityDestroyed(activity: Activity?) {
+            }
+        })
     }
 
 }

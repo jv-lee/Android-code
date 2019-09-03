@@ -8,7 +8,7 @@ package gionee.gnservice.app.model.entity
 data class Login(
     val isNew: Int,
     val isShowAct: Int,
-    val redPacketInfo: RedPacketInfo,
+    var redPacketInfo: RedPacketInfo,
     val sessionKey: String,
     val userInfo: UserInfo
 )

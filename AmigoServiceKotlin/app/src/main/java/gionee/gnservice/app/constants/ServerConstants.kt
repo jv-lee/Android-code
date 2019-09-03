@@ -5,7 +5,7 @@ import gionee.gnservice.app.BuildConfig
 /**
  * @author jv.lee
  * @date 2019/8/22.
- * @description
+ * @description 服务器常量
  */
 class ServerConstants {
 
@@ -23,6 +23,10 @@ class ServerConstants {
         const val ACT_RED_POINT: String = "red.getAllRedList"
         //获取磁铁信息
         const val ACT_MAGNET: String = "banner.getMagnet"
+        //获取更新信息
+        const val ACT_VERSION_INFO: String = "diyConfig.getVersionContent"
+        //获取红包雨奖励
+        const val ACT_RED_PACKAGE_AWARD: String = "activity.getRedPacketAward"
         //获取视频分类
         const val ACT_VIDEO_CATEGORY: String = "video.init"
         //获取视频列表

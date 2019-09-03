@@ -13,7 +13,7 @@ import java.util.*
 /**
  * @author jv.lee
  * @date 2019/8/29.
- * @description
+ * @description 基础组件 javascriptInterface接口
  */
 class JSInterface {
 

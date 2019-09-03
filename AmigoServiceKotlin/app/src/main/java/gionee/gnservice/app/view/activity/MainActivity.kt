@@ -1,12 +1,18 @@
 package gionee.gnservice.app.view.activity
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.arch.lifecycle.Observer
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.view.KeyEvent
 import android.view.MenuItem
+import com.gionee.gnservice.UserCenterActivity
 import com.gionee.gnservice.module.setting.push.PushHelper
 import com.gionee.gnservice.statistics.StatisticsUtil
+import com.gionee.gnservice.utils.SdkUtil
+import com.gionee.simple.UserCenterFragment
 import com.lee.library.adapter.UiPagerAdapter
 import com.lee.library.base.BaseActivity
 import com.lee.library.livedatabus.InjectBus
@@ -14,11 +20,14 @@ import com.lee.library.livedatabus.LiveDataBus
 import com.lee.library.utils.LogUtil
 import com.lee.library.utils.StatusUtil
 import com.lee.library.widget.nav.BottomNavView
+import gionee.gnservice.app.Config
 import gionee.gnservice.app.R
 import gionee.gnservice.app.constants.Constants
 import gionee.gnservice.app.constants.EventConstants
 import gionee.gnservice.app.databinding.ActivityMainBinding
 import gionee.gnservice.app.model.entity.Magnet
+import gionee.gnservice.app.model.server.RetrofitUtils
+import gionee.gnservice.app.tool.AnimatorTool
 import gionee.gnservice.app.tool.GlideTool
 import gionee.gnservice.app.tool.PrefAccess
 import gionee.gnservice.app.tool.ToastTool
@@ -26,6 +35,11 @@ import gionee.gnservice.app.view.fragment.*
 import gionee.gnservice.app.vm.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 
+/**
+ * @author jv.lee
+ * @date 2019/8/14.
+ * @description 主页面 （包含主TAB 新闻/视频/小说/游戏/钱包）
+ */
 class MainActivity :
     BaseActivity<ActivityMainBinding, MainViewModel>(R.layout.activity_main, MainViewModel::class.java),
     BottomNavView.ItemPositionListener {
@@ -38,15 +52,33 @@ class MainActivity :
         arrayOf(NewsFragment(), VideoFragment(), NovelFragment(), GameFragment(), WalletFragment())
     }
 
+    //通过Handler轮询 红包雨活动
+    private var handler: Handler? = Handler { msg -> false }
+    private var runnable = Runnable { runnableFun() }
+    private fun runnableFun() {
+        if (Config.isPlayGame || Config.isPlayVideo) {
+            handler?.postDelayed(runnable, 1000 * 60)
+        } else {
+            startActivity(Intent(this, RedPackageActivity::class.java))
+            overridePendingTransition(R.anim.alpha_in, R.anim.alpha_out)
+        }
+    }
+
     override fun bindData(savedInstanceState: Bundle?) {
         StatusUtil.setStatusFontLight2(mActivity)
+        SdkUtil.setFromSdkDemo(false)
         PushHelper.registerPushRid(this)
         LiveDataBus.getInstance().injectBus(this)
+
+        supportFragmentManager.beginTransaction().add(R.id.frame_usercenter_container, UserCenterFragment()).commit()
 
         viewModel.apply {
             //推送奖励
             push.observe(this@MainActivity, Observer {
-                if (it?.haveAward == 1) ToastTool.show(this@MainActivity, "推送点击奖励 +${it.count}")
+                if (it?.haveAward == 1) ToastTool.show(
+                    this@MainActivity,
+                    getString(R.string.notification_awared, it.count.toString())
+                )
             })
 
             //推送跳转
@@ -76,12 +108,13 @@ class MainActivity :
             })
         }
 
-        //初始化配置及事件统计
+        //初始化配置及事件统计,及磁贴
         viewModel.getConfig()
         viewModel.initEvent(intent)
         viewModel.initPush(intent)
-        viewModel.initRedPoint()
+        viewModel.initMagnetActive()
 
+        initRedPoint(0)
         initUpdateAlert()
     }
 
@@ -90,6 +123,7 @@ class MainActivity :
         binding.vpContainer.setNoScroll(true)
         binding.vpContainer.offscreenPageLimit = fragments.size - 1
 
+        binding.nav.initUnReadMessageViews()
         binding.nav.itemIconTintList = null
         binding.nav.bindViewPager(binding.vpContainer)
         binding.nav.setItemPositionListener(this@MainActivity)
@@ -118,21 +152,17 @@ class MainActivity :
         }
     }
 
-    fun startTabMode(code: Int) {
-        when (code) {
-            //小说
-            1 -> nav.toPosition(2)
-            //游戏
-            2 -> nav.toPosition(3)
-            //资讯
-            3 -> nav.toPosition(0)
-            //钱包
-            4 -> nav.toPosition(4)
-            //钱包任务栏
-            5 -> nav.toPosition(4)
-        }
+    /**
+     * TODO 刷新红点提示事件
+     */
+    @InjectBus(EventConstants.UPDATE_RED_POINT)
+    fun initRedPoint(code: Int) {
+        viewModel.initRedPoint()
     }
 
+    /**
+     * TODO 跳转tab事件
+     */
     @InjectBus(EventConstants.START_PAGE)
     fun startTabMode2(code: Int) {
         when (code) {
@@ -145,6 +175,32 @@ class MainActivity :
             }
             Constants.MAGNET_WECHAT -> {
             }
+        }
+    }
+
+    /**
+     * TODO 启动红包雨事件
+     */
+    @InjectBus(EventConstants.RED_PACKAGE_ACTIVITY)
+    fun showRedPackageActivity(code: Int) {
+        if (Config.nextDT != 0) {
+            handler?.removeCallbacks(runnable)
+            handler?.postDelayed(runnable, (Config.nextDT * 1000).toLong())
+        }
+    }
+
+    fun startTabMode(code: Int) {
+        when (code) {
+            //小说
+            1 -> nav.toPosition(2)
+            //游戏
+            2 -> nav.toPosition(3)
+            //资讯
+            3 -> nav.toPosition(0)
+            //钱包
+            4 -> nav.toPosition(4)
+            //钱包任务栏
+            5 -> nav.toPosition(4)
         }
     }
 
@@ -176,24 +232,26 @@ class MainActivity :
         if (PrefAccess.isOpenUpdate()) {
             showUpdate()
         } else {
-            //显示红包雨及磁贴
-            initMagnet()
-            initRedPackage()
+            //显示红包雨
+            AnimatorTool.timeChange(object : AnimatorListenerAdapter() {
+                override fun onAnimationEnd(animation: Animator?) {
+                    initRedPackage()
+                }
+            }, 1000, 0, 1)
         }
-    }
-
-    /**
-     * TODO 初始化磁贴 外部调用 DialogUpdateFragment
-     */
-    fun initMagnet() {
-        viewModel.initMagnetActive()
     }
 
     /**
      * TODO 初始化红包雨 外部调用 DialogUpdateFragment
      */
     fun initRedPackage() {
-
+        val user = RetrofitUtils.instance.getUser()
+        if ((user?.redPacketInfo?.isOpenLogin == 1 || user?.redPacketInfo?.isOpenTime == 1) && user.isNew == 0) {
+            startActivity(Intent(this, RedPackageActivity::class.java))
+            overridePendingTransition(R.anim.alpha_in, R.anim.alpha_out)
+        } else {
+            LiveDataBus.getInstance().getChannel(EventConstants.RED_PACKAGE_ACTIVITY).value = 0
+        }
     }
 
     /**

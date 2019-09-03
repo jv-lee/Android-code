@@ -18,8 +18,9 @@ import gionee.gnservice.app.view.native.ADInterface
 import gionee.gnservice.app.view.native.JSInterface
 
 /**
- * A simple [Fragment] subclass.
- *
+ * @author jv.lee
+ * @date 2019/8/14.
+ * @description 主TAB 钱包板块 （H5）
  */
 class WalletFragment : BaseFragment<FragmentWalletBinding, ViewModel>(R.layout.fragment_wallet, null) {
 
