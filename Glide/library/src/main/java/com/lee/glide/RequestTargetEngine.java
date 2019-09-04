@@ -12,6 +12,8 @@ import com.lee.glide.disk.DiskLruCacheImpl;
 import com.lee.glide.lifecycle.LifycycleCallback;
 import com.lee.glide.load.LoadDataManager;
 import com.lee.glide.load.ResponseListener;
+import com.lee.glide.pool.BitmapPool;
+import com.lee.glide.pool.BitmapPoolImpl;
 import com.lee.glide.resource.Key;
 import com.lee.glide.resource.Value;
 import com.lee.glide.resource.ValueCallback;
@@ -46,10 +48,15 @@ public class RequestTargetEngine implements LifycycleCallback, ValueCallback, Me
      */
     private DiskLruCacheImpl diskLruCache;
 
+    private BitmapPool bitmapPool;
+
     private final int MEMORY_MAX_SIZE = 1024 * 1024 * 60;
 
 
     RequestTargetEngine() {
+        if (bitmapPool == null) {
+            bitmapPool = new BitmapPoolImpl(MEMORY_MAX_SIZE);
+        }
         if (activeCache == null) {
             activeCache = new ActiveCache(this);
         }
@@ -180,6 +187,7 @@ public class RequestTargetEngine implements LifycycleCallback, ValueCallback, Me
     @Override
     public void entryRemovedMemoryCache(String key, Value oldValue) {
         //添加到复用池 ....
+        bitmapPool.put(oldValue.getBitmap());
     }
 
     @Override

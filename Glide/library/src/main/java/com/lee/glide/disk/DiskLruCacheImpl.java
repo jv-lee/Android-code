@@ -4,6 +4,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
 
+import com.lee.glide.Tool;
+import com.lee.glide.pool.BitmapPool;
 import com.lee.glide.resource.Value;
 
 import java.io.File;
@@ -97,6 +99,21 @@ public class DiskLruCacheImpl {
             if (snapshot != null) {
                 is = snapshot.getInputStream(0);
                 Value value = Value.getInstance();
+
+//                BitmapFactory.Options sizeOptions = new BitmapFactory.Options();
+//                sizeOptions.inJustDecodeBounds = true;
+//                BitmapFactory.decodeStream(is, null, sizeOptions);
+//                int w = sizeOptions.outWidth;
+//                int h = sizeOptions.outHeight;
+//
+//                BitmapFactory.Options options = new BitmapFactory.Options();
+//                options.inBitmap = bitmapPool.get(w, h, Bitmap.Config.ARGB_8888);
+//                options.inMutable = true;
+//                options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+//                options.inJustDecodeBounds = false;
+//                options.inSampleSize = Tool.sampleBitmapSize(options, w, h);
+//                Bitmap bitmap = BitmapFactory.decodeStream(is, null, options);
+
                 Bitmap bitmap = BitmapFactory.decodeStream(is);
                 value.setBitmap(bitmap);
                 value.setKey(key);
