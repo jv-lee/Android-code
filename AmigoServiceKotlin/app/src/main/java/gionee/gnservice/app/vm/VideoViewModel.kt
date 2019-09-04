@@ -6,8 +6,10 @@ import android.arch.lifecycle.Transformations
 import com.lee.library.mvvm.BaseViewModel
 import com.lee.library.utils.LogUtil
 import gionee.gnservice.app.Config.Companion.limit
+import gionee.gnservice.app.model.entity.TaskInfo
 import gionee.gnservice.app.model.entity.Video
 import gionee.gnservice.app.model.entity.VideoCategory
+import gionee.gnservice.app.model.repository.TimeRepository
 import gionee.gnservice.app.model.repository.VideoRepository
 
 /**
@@ -21,6 +23,9 @@ class VideoViewModel(application: Application) : BaseViewModel(application) {
     val videoCategory by lazy { MutableLiveData<VideoCategory>() }
     val videoLists by lazy { MutableLiveData<Video>() }
     private var page: Int = 0
+
+    private val timeModel by lazy { TimeRepository() }
+    val taskInfo by lazy { MutableLiveData<TaskInfo>() }
 
 
     fun loadVideoCategory() {
@@ -41,5 +46,14 @@ class VideoViewModel(application: Application) : BaseViewModel(application) {
             videoLists.value = it
         }
     }
+
+    fun subAddTime(time: String, type: String, gid: String?) {
+        timeModel.subAddTime(time, type, gid).observeForever {
+            if (it != null) {
+                taskInfo.value = it
+            }
+        }
+    }
+
 
 }

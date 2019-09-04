@@ -37,11 +37,30 @@ interface ApiServer {
     @GET(BASE_PATH)
     fun redPackageAward(@Query(BASE_ACT) act: String): Call<Data<RedPacketAward>>
 
+    /**
+     * type 默认传1
+     */
+    @GET(BASE_PATH)
+    fun noviceAward(@Query(BASE_ACT) act: String, @Query("type") type: String): Call<Data<NoviceAward>>
+
+    /**
+     * 时长上报
+     * @param time    要累加的时长 单位/秒
+     * @param type    类型 1资讯 2小说 3游戏 4视频
+     * @param gid     当type=3时 游戏id
+     */
+    @GET(BASE_PATH)
+    fun subAddTime(
+        @Query(BASE_ACT) act: String,
+        @Query("s") time: String,
+        @Query("type") type: String,
+        @Query("gid") gid: String?
+    ): Call<Data<TaskInfo>>
+
     @GET(BASE_PATH)
     fun videoCategory(@Query(BASE_ACT) act: String): Call<Data<VideoCategory>>
 
     @GET(BASE_PATH)
     fun videoList(@Query(BASE_ACT) act: String, @QueryMap map: HashMap<String, Any>): Call<Data<Video>>
-
 
 }

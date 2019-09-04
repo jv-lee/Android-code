@@ -32,6 +32,57 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"/>
 
+        <TextView
+                android:id="@+id/guideNews"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|bottom"
+                android:layout_marginStart="3dp"
+                android:layout_marginBottom="?attr/actionBarSize"
+                android:background="@mipmap/ic_guide_bg"
+                android:paddingStart="10dp"
+                android:paddingTop="10dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="16dp"
+                android:visibility="gone"
+                android:text="新鲜资讯"
+                android:textColor="#ffffffff"
+                android:textSize="12sp"/>
+
+        <TextView
+                android:id="@+id/guideVideo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|bottom"
+                android:layout_marginStart="75dp"
+                android:layout_marginBottom="?attr/actionBarSize"
+                android:background="@mipmap/ic_guide_bg"
+                android:paddingStart="10dp"
+                android:paddingTop="10dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="16dp"
+                android:text="热门视频"
+                android:visibility="gone"
+                android:textColor="#ffffffff"
+                android:textSize="12sp"/>
+
+        <TextView
+                android:id="@+id/guideNovel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|bottom"
+                android:layout_marginStart="147dp"
+                android:layout_marginBottom="?attr/actionBarSize"
+                android:background="@mipmap/ic_guide_bg"
+                android:paddingStart="10dp"
+                android:paddingTop="10dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="16dp"
+                android:text="免费小说"
+                android:visibility="gone"
+                android:textColor="#ffffffff"
+                android:textSize="12sp"/>
+
         <gionee.gnservice.app.view.widget.TouchMoveView
                 android:id="@+id/iv_active"
                 android:layout_width="60dp"
@@ -42,9 +93,10 @@
 
         <FrameLayout
                 android:id="@+id/frame_usercenter_container"
+                android:visibility="invisible"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#ffffff" />
+                android:background="#ffffff"/>
 
     </FrameLayout>
 </layout>

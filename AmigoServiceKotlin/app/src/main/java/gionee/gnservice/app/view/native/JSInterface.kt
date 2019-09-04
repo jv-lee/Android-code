@@ -58,7 +58,7 @@ class JSInterface {
         val sessionKey = RetrofitUtils.instance.getSessionKey()
         map["ts"] = ts
         map["sessionKey"] = sessionKey
-        map["version"] = BuildConfig.VERSION_NAME
+        map["VERSION"] = BuildConfig.VERSION_NAME
         map["sign"] = RetrofitUtils.instance.getSign(sessionKey, ts)!!
 
         return Gson().toJson(map)

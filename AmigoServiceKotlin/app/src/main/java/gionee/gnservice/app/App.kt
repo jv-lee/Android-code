@@ -1,9 +1,12 @@
 package gionee.gnservice.app
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Application
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.multidex.MultiDex
 import com.android.droi.books.BooksInit
@@ -11,13 +14,26 @@ import com.cmcm.cmgame.CmGameSdk
 import com.cmcm.cmgame.gamedata.CmGameAppInfo
 import com.dl.infostream.InfoStreamManager
 import com.gionee.gnservice.AmigoServiceApp
+import com.gionee.gnservice.statistics.StatisticsUtil
+import com.lee.library.livedatabus.LiveDataBus
 import com.lee.library.utils.DensityUtil
 import com.lee.library.utils.LogUtil
 import com.lee.library.utils.SPUtil
 import com.s.main.sdk.SDK
 import gionee.gnservice.app.constants.Constants
+import gionee.gnservice.app.constants.Constants.Companion.READING_ACTIVITY_NAME
+import gionee.gnservice.app.constants.EventConstants
+import gionee.gnservice.app.service.LocalService
+import gionee.gnservice.app.service.RemoteService
+import gionee.gnservice.app.tool.CommonTool
+import gionee.gnservice.app.tool.CommonTool.Companion.event
+import gionee.gnservice.app.tool.CommonTool.Companion.minute
+import gionee.gnservice.app.tool.CommonTool.Companion.second
+import gionee.gnservice.app.tool.DelayTimeTool
 import gionee.gnservice.app.tool.GameImageLoader
 import gionee.gnservice.app.tool.GlideTool
+import gionee.gnservice.app.view.activity.MainActivity
+import gionee.gnservice.app.view.activity.SplashRunActivity
 
 /**
  * @author jv.lee
@@ -27,6 +43,15 @@ import gionee.gnservice.app.tool.GlideTool
 class App : AmigoServiceApp() {
 
     private val TAG: String = App::class.java.simpleName
+
+    /**
+     * 热启动标识符
+     */
+    private var isRun: Boolean = false
+    /**
+     * 退出到后台的起始时间
+     */
+    private var pauseTime: Long = 0
 
     companion object {
         @SuppressLint("StaticFieldLeak")
@@ -38,6 +63,7 @@ class App : AmigoServiceApp() {
         instance = applicationContext
         //在主进程中初始化
         if (applicationContext.packageName == currentProcessName) {
+            initLocalService()
             initComponent()
             initSDK()
             injectCallback()
@@ -117,20 +143,57 @@ class App : AmigoServiceApp() {
             }
 
             override fun onActivityStarted(activity: Activity?) {
+
             }
 
             override fun onActivityResumed(activity: Activity?) {
+                if (isRun) {
+                    isRun = false
+                    val time = System.currentTimeMillis() - pauseTime
+                    if (time > 1000) event(time)
+                    if (time > minute(5)) startActivity(
+                        Intent(this@App, SplashRunActivity::class.java)
+                            .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    )
+                }
+
+                //阅读小说计时开始
+                if (READING_ACTIVITY_NAME == activity?.localClassName) {
+                    LogUtil.i("阅读小说计时开始")
+                    LiveDataBus.getInstance().getChannel(EventConstants.NOVEL_TIMER_STATUS).value = true
+                }
             }
 
             override fun onActivityPaused(activity: Activity?) {
+                isRun = true
+                pauseTime = System.currentTimeMillis()
+
+                //阅读小说计时结束
+                if (READING_ACTIVITY_NAME == activity?.localClassName) {
+                    LogUtil.i("阅读小说计时结束")
+                    LiveDataBus.getInstance().getChannel(EventConstants.NOVEL_TIMER_STATUS).value = false
+                }
             }
 
             override fun onActivityStopped(activity: Activity?) {
             }
 
             override fun onActivityDestroyed(activity: Activity?) {
+                if (activity is MainActivity) {
+                    isRun = false
+                }
             }
         })
+    }
+
+    /**
+     * 启动守护服务 开始任务
+     */
+    private fun initLocalService() {
+        if (!CommonTool.thisServiceHasRun(this, LocalService::class.java.simpleName)) {
+            startService(Intent(this, LocalService::class.java))
+            startService(Intent(this, RemoteService::class.java))
+        }
     }
 
 }

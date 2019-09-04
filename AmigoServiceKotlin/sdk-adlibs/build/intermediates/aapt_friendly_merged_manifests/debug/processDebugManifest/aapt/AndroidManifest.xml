@@ -36,9 +36,10 @@
     <application
         android:allowBackup="false"
         android:allowClearUserData="true"
-        android:supportsRtl="true" >
+        android:supportsRtl="true" > <!-- targetSdkVersion >= 28时添加，否则可以移除 -->
 
-        <!-- >= 28 -->
+
+        <!-- targetSdkVersion >= 28 -->
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
@@ -46,7 +47,7 @@
         <!-- MobgiAds start -->
         <provider
             android:name="com.mobgi.AdFileProvider"
-            android:authorities="dollar_openBracket_applicationId_closeBracket.fileprovider"
+            android:authorities="com.gionee.gnservice.test.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true" >
             <meta-data
@@ -57,7 +58,7 @@
         <!-- baidu start -->
         <provider
             android:name="com.baidu.mobads.openad.FileProvider"
-            android:authorities="dollar_openBracket_applicationId_closeBracket.bd.provider"
+            android:authorities="com.gionee.gnservice.test.bd.provider"
             android:exported="false"
             android:grantUriPermissions="true" >
             <meta-data
@@ -101,7 +102,7 @@
         <!-- Mintegral start -->
         <provider
             android:name="com.mintegral.msdk.base.utils.MTGFileProvider"
-            android:authorities="dollar_openBracket_applicationId_closeBracket.mtgFileProvider"
+            android:authorities="com.gionee.gnservice.test.mtgFileProvider"
             android:exported="false"
             android:grantUriPermissions="true" >
             <meta-data
@@ -145,7 +146,7 @@
         <!-- Oneway Start -->
         <provider
             android:name="com.liulishuo.okdownload.OkDownloadProvider"
-            android:authorities="dollar_openBracket_applicationId_closeBracket.com.liulishuo.okdownload"
+            android:authorities="com.gionee.gnservice.test.com.liulishuo.okdownload"
             android:exported="false" />
 
         <activity
@@ -160,7 +161,7 @@
         <!-- TouTiao start -->
         <provider
             android:name="com.bytedance.sdk.openadsdk.TTFileProvider"
-            android:authorities="dollar_openBracket_applicationId_closeBracket.TTFileProvider"
+            android:authorities="com.gionee.gnservice.test.TTFileProvider"
             android:exported="false"
             android:grantUriPermissions="true" >
             <meta-data
@@ -169,7 +170,7 @@
         </provider>
         <provider
             android:name="com.bytedance.sdk.openadsdk.multipro.TTMultiProvider"
-            android:authorities="dollar_openBracket_applicationId_closeBracket.TTMultiProvider"
+            android:authorities="com.gionee.gnservice.test.TTMultiProvider"
             android:exported="false" />
 
         <activity
@@ -216,7 +217,7 @@
         <!-- UniplaySDK嵌入代码开始 -->
         <provider
             android:name="com.uniplay.adsdk.UniPlayFileProvider"
-            android:authorities="dollar_openBracket_applicationId_closeBracket.joomob.fileprovider"
+            android:authorities="com.gionee.gnservice.test.joomob.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true" >
             <meta-data
@@ -247,6 +248,24 @@
         <service android:name="com.uniplay.adsdk.DownloadService" />
         <!-- UniplaySDK嵌入代码结束 -->
         <!-- UniplaySDK End -->
+
+
+        <!-- SigMob Start -->
+        <provider
+            android:name="com.sigmob.sdk.SigmobFileProvider"
+            android:authorities="com.gionee.gnservice.test.sigprovider"
+            android:exported="false"
+            android:grantUriPermissions="true" >
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/sigmob_provider_paths" />
+        </provider>
+        <!-- 广告展示Activity -->
+        <activity
+            android:name="com.sigmob.sdk.base.common.AdActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@android:style/Theme.DeviceDefault" />
+        <!-- SigMob End -->
 
     </application>
 

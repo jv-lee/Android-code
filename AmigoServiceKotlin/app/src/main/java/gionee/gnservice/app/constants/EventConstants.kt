@@ -12,6 +12,14 @@ class EventConstants {
         //更新红点
         const val UPDATE_RED_POINT: String = "NOTIFICATION_RED_POINT"
         //红包雨
-        const val RED_PACKAGE_ACTIVITY :String = "RED_PACKAGE_ACTIVITY"
+        const val RED_PACKAGE_ACTIVITY: String = "RED_PACKAGE_ACTIVITY"
+        //首次打开客户端新手红包
+        const val NOVICE_AWARD: String = "NOVICE_AWARD"
+        //小说计时器状态
+        const val NOVEL_TIMER_STATUS: String = "NOVEL_TIMER_STATUS"
+        //视频计时器状态
+        const val VIDEO_TIMER_STATUS: String = "VIDEO_TIMER_STATUS"
+        //游戏计时器状态
+        const val GAME_TIMER_STATUS: String = "GAME_TIMER_STATUS"
     }
 }

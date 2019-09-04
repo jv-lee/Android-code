@@ -11,6 +11,7 @@ import com.lee.library.utils.SPUtil
 import gionee.gnservice.app.constants.Constants
 import gionee.gnservice.app.constants.StatisticsConstants
 import gionee.gnservice.app.model.entity.Magnet
+import gionee.gnservice.app.model.entity.NoviceAward
 import gionee.gnservice.app.model.entity.Push
 import gionee.gnservice.app.model.entity.RedPoint
 import gionee.gnservice.app.model.repository.MainRepository
@@ -27,6 +28,7 @@ class MainViewModel(application: Application) : BaseViewModel(application) {
     val push by lazy { MutableLiveData<Push>() }
     val redPoint by lazy { MutableLiveData<RedPoint>() }
     val magnet by lazy { MutableLiveData<Magnet>() }
+    val novice by lazy { MutableLiveData<NoviceAward>() }
 
     fun getConfig() {
         model.getConfig().observeForever {
@@ -82,6 +84,12 @@ class MainViewModel(application: Application) : BaseViewModel(application) {
     fun initMagnetActive() {
         model.getMagnet().observeForever {
             magnet.value = it
+        }
+    }
+
+    fun initNoviceAward() {
+        model.noviceAward().observeForever {
+            novice.value = it
         }
     }
 

@@ -5,7 +5,7 @@ ext {
             targetSdkVersion : 28,
             versionCode      : 2005001000,
             versionName      : "5.1.0.b",
-            applicationId    : "com.gionee.gnservice.kotlin"
+            applicationId    : "com.gionee.gnservice.test"
     ]
 
     //签名混淆压缩配置
@@ -61,7 +61,10 @@ ext {
             //百策sdk
             screenChannel: "AD_D1009_Service",
             screenAppId  : "2844",
-            screenId     : "41555"
+            screenId     : "41555",
+            //google激励视频
+            googleAppId  : "ca-app-pub-2261221715899905~9143459369",
+            googleVideoId: "ca-app-pub-2261221715899905/9702696717"
     ]
 
     //第三方依赖版本号

@@ -2,16 +2,17 @@ package gionee.gnservice.app.view.activity
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.app.AlertDialog
 import android.arch.lifecycle.Observer
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.view.KeyEvent
+import android.view.LayoutInflater
 import android.view.MenuItem
-import com.gionee.gnservice.UserCenterActivity
-import com.gionee.gnservice.module.setting.push.PushHelper
+import android.view.View
+import android.widget.ImageView
 import com.gionee.gnservice.statistics.StatisticsUtil
-import com.gionee.gnservice.utils.SdkUtil
 import com.gionee.simple.UserCenterFragment
 import com.lee.library.adapter.UiPagerAdapter
 import com.lee.library.base.BaseActivity
@@ -27,10 +28,8 @@ import gionee.gnservice.app.constants.EventConstants
 import gionee.gnservice.app.databinding.ActivityMainBinding
 import gionee.gnservice.app.model.entity.Magnet
 import gionee.gnservice.app.model.server.RetrofitUtils
-import gionee.gnservice.app.tool.AnimatorTool
-import gionee.gnservice.app.tool.GlideTool
-import gionee.gnservice.app.tool.PrefAccess
-import gionee.gnservice.app.tool.ToastTool
+import gionee.gnservice.app.tool.*
+import gionee.gnservice.app.view.alert.DialogEx
 import gionee.gnservice.app.view.fragment.*
 import gionee.gnservice.app.vm.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
@@ -48,11 +47,18 @@ class MainActivity :
     private var dialogUpdateFragment: DialogUpdateFragment? = null
     private var dialogBackFragment: DialogBackFragment? = null
 
+    /**
+     * 新手任务提示弹窗
+     */
+    private var dialog: AlertDialog? = null
+
     private val fragments by lazy {
         arrayOf(NewsFragment(), VideoFragment(), NovelFragment(), GameFragment(), WalletFragment())
     }
 
-    //通过Handler轮询 红包雨活动
+    /**
+     * 通过Handler轮询 红包雨活动
+     */
     private var handler: Handler? = Handler { msg -> false }
     private var runnable = Runnable { runnableFun() }
     private fun runnableFun() {
@@ -67,7 +73,9 @@ class MainActivity :
     override fun bindData(savedInstanceState: Bundle?) {
         StatusUtil.setStatusFontLight2(mActivity)
         LiveDataBus.getInstance().injectBus(this)
+        AManager.getInstance().init(this)
 
+        //添加隐藏的用户中心fragment 初始化用户中心基础组件
         supportFragmentManager.beginTransaction().add(R.id.frame_usercenter_container, UserCenterFragment()).commit()
 
         viewModel.apply {
@@ -104,6 +112,23 @@ class MainActivity :
                     }
                 }
             })
+
+            //新手奖励提示窗
+            novice.observe(this@MainActivity, Observer {
+                if (it == null) return@Observer
+                if (it.isOverOpenClick == 1) {
+                    dialog = DialogEx(
+                        this@MainActivity,
+                        DialogEx.ViewInterface {
+                            val view =
+                                LayoutInflater.from(this@MainActivity).inflate(R.layout.alert_task_first_open, null)
+                            view.findViewById<ImageView>(R.id.closeBtn).setOnClickListener {
+                                dialog?.dismiss()
+                            }
+                            view
+                        }).build()
+                }
+            })
         }
 
         //初始化配置及事件统计,及磁贴
@@ -111,6 +136,10 @@ class MainActivity :
         viewModel.initEvent(intent)
         viewModel.initPush(intent)
         viewModel.initMagnetActive()
+
+        PrefAccess.isGuide(binding.guideNews, PrefAccess.KEY_GUIDE_FINISHED_NEWS)
+        PrefAccess.isGuide(binding.guideVideo, PrefAccess.KEY_GUIDE_FINISHED_VIDEO)
+        PrefAccess.isGuide(binding.guideNovel, PrefAccess.KEY_GUIDE_FINISHED_NOVEL)
 
         initRedPoint(0)
         initUpdateAlert()
@@ -134,12 +163,15 @@ class MainActivity :
         when (position) {
             0 -> {
                 LogUtil.i("nav -> news")
+                binding.guideNews.visibility = View.GONE
             }
             1 -> {
                 LogUtil.i("nav -> video")
+                binding.guideVideo.visibility = View.GONE
             }
             2 -> {
                 LogUtil.i("nav -> novel")
+                binding.guideNovel.visibility = View.GONE
             }
             3 -> {
                 LogUtil.i("nav -> game")
@@ -187,6 +219,14 @@ class MainActivity :
         }
     }
 
+    /**
+     * TODO 首次打开奖励
+     */
+    @InjectBus(EventConstants.NOVICE_AWARD)
+    fun showNoviceAward(code: Int) {
+        if (PrefAccess.isFirstOpen()) viewModel.initNoviceAward()
+    }
+
     fun startTabMode(code: Int) {
         when (code) {
             //小说
@@ -205,7 +245,7 @@ class MainActivity :
     private fun showActiveMode(entity: Magnet) {
         when (entity.list.way) {
             //内部页面跳转
-            Constants.MAGNET_TYPE_TAB -> startTabMode2(entity.list.skip)
+//            Constants.MAGNET_TYPE_TAB -> startTabMode2(LiveEvent<Int>().data = entity.list.skip)
             //H5游戏跳转
             Constants.MAGNET_TYPE_GAME -> startActivity(
                 Intent(this, GameActivity::class.java)
@@ -231,7 +271,7 @@ class MainActivity :
             showUpdate()
         } else {
             //显示红包雨
-            AnimatorTool.timeChange(object : AnimatorListenerAdapter() {
+            DelayTimeTool.timeChange(object : AnimatorListenerAdapter() {
                 override fun onAnimationEnd(animation: Animator?) {
                     initRedPackage()
                 }
@@ -249,6 +289,7 @@ class MainActivity :
             overridePendingTransition(R.anim.alpha_in, R.anim.alpha_out)
         } else {
             LiveDataBus.getInstance().getChannel(EventConstants.RED_PACKAGE_ACTIVITY).value = 0
+            LiveDataBus.getInstance().getChannel(EventConstants.NOVICE_AWARD).value = 0
         }
     }
 
@@ -294,15 +335,26 @@ class MainActivity :
         dialogBackFragment?.show(supportFragmentManager, dialogBackFragment!!::class.java.simpleName)
     }
 
+    fun showUserCenter() {
+        binding.nav.visibility = View.INVISIBLE
+        binding.frameUsercenterContainer.visibility = View.VISIBLE
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        handler?.removeCallbacks(runnable)
+        handler = null
+    }
+
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             //判断用户中心fragment是否显示 处理相应操作
-//            if (usercenterContainer != null && usercenterContainer.getVisibility() != View.INVISIBLE) {
-//                showOrHide(true)
-//                usercenterContainer.setVisibility(View.INVISIBLE)
-//                return true
-//            }
+            if (binding.frameUsercenterContainer.visibility != View.INVISIBLE) {
+                binding.frameUsercenterContainer.visibility = View.INVISIBLE
+                binding.nav.visibility = View.VISIBLE
+                return true
+            }
             //非新闻tab 先跳回news tab
             if (fragments[binding.vpContainer.currentItem] !is NewsFragment) {
                 nav.toPosition(0)

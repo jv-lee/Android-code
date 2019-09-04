@@ -25,8 +25,10 @@ class DialogUpdateFragment :
         isCancelable = false
 
         viewModel.versionInfo.observe(this, Observer {
-            for (item in it!!.list) {
-                binding.tvContent.append(item + "\n")
+            if (it?.list != null) {
+                for (item in it.list) {
+                    binding.tvContent.append(item + "\n")
+                }
             }
         })
 

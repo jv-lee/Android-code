@@ -8,6 +8,12 @@ package gionee.gnservice.app.constants
 class Constants {
 
     companion object {
+
+        /**
+         * 阅读统计activity
+         */
+        const val READING_ACTIVITY_NAME = "com.android.droi.books.ui.activity.ReadActivity"
+
         /**
          * activity包路径
          */
@@ -33,11 +39,15 @@ class Constants {
         const val NOTIFICATION_LABLE = "notification"
 
         const val TITLE = "title"
-
         const val URL = "url"
-
         const val V_TYPE = "v_type"
+        const val GID = "gid"
 
+
+        const val TYPE_NEWS = "1"
+        const val TYPE_NOVEL = "2"
+        const val TYPE_GAME = "3"
+        const val TYPE_VIDEO = "4"
 
         /**
          * 磁铁跳转页面

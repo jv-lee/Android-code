@@ -68,8 +68,8 @@ public class BottomNavView extends BottomNavigationView implements BottomNavigat
         return true;
     }
 
-    public void toPosition(int postion) {
-        onNavigationItemSelected(getMenu().getItem(postion));
+    public void toPosition(int position) {
+        setSelectedItemId(getMenu().getItem(position).getItemId());
     }
 
     public void initUnReadMessageViews() {

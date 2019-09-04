@@ -2,19 +2,23 @@ apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 28
-	
-	useLibrary 'org.apache.http.legacy'
+
+    useLibrary 'org.apache.http.legacy'
 
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
+
+        manifestPlaceholders = [
+                package: androidId.applicationId
+        ]
     }
 
     buildTypes {
         release {
-            minifyEnabled false 
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -24,6 +28,7 @@ android {
             dirs 'libs'
         }
     }
+
 }
 
 dependencies {
@@ -35,5 +40,5 @@ dependencies {
         }, ext: 'aar')
     }
     //谷歌广告
-//    api 'com.google.android.gms:play-services-ads:17.2.0'
+    api 'com.google.android.gms:play-services-ads:17.2.0'
 }

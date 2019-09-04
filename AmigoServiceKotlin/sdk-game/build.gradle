@@ -32,5 +32,4 @@ dependencies {
     // 以下为 cmgame 的 sdk 包依赖
     api name: 'cmgame-sdk-sigmob2112-1.1.4', ext: 'aar'
     implementation files('libs/qq_x5.jar')
-    implementation files('libs/windAd-2.11.2.jar')
 }

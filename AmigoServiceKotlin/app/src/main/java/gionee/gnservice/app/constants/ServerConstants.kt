@@ -27,6 +27,10 @@ class ServerConstants {
         const val ACT_VERSION_INFO: String = "diyConfig.getVersionContent"
         //获取红包雨奖励
         const val ACT_RED_PACKAGE_AWARD: String = "activity.getRedPacketAward"
+        //新手任务奖励
+        const val ACT_NOVICE_AWARD: String = "times.getInit"
+        //时长上报接口
+        const val ACT_ADD_TIME: String = "times.subAddTime"
         //获取视频分类
         const val ACT_VIDEO_CATEGORY: String = "video.init"
         //获取视频列表

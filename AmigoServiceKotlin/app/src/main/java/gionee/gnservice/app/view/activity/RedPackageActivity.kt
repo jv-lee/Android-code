@@ -10,13 +10,15 @@ import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.widget.TextView
 import com.lee.library.base.BaseActivity
+import com.lee.library.livedatabus.LiveDataBus
 import gionee.gnservice.app.R
+import gionee.gnservice.app.constants.EventConstants
 import gionee.gnservice.app.databinding.ActivityRedPackageBinding
 import gionee.gnservice.app.model.entity.RedPacketInfo
 import gionee.gnservice.app.model.server.RetrofitUtils
-import gionee.gnservice.app.tool.AnimatorTool
+import gionee.gnservice.app.tool.DelayTimeTool
 import gionee.gnservice.app.tool.CommonTool
-import gionee.gnservice.app.tool.DialogTool
+import gionee.gnservice.app.view.alert.DialogEx
 import gionee.gnservice.app.view.widget.RedRainView
 import gionee.gnservice.app.vm.RedPackageViewModel
 
@@ -37,31 +39,36 @@ class RedPackageActivity : BaseActivity<ActivityRedPackageBinding, RedPackageVie
         viewModel.redPackageAward.observe(this, Observer {
             dialog = if (it == null || it.count == 0) {
                 //过期提示
-                DialogTool(this, DialogTool.ViewInterface {
-                    val view = LayoutInflater.from(this@RedPackageActivity).inflate(R.layout.layout_red_out, null)
-                    view.findViewById<TextView>(R.id.tv_button).setOnClickListener {
-                        dialog?.dismiss()
-                        useClose()
-                    }
-                    view
-                }).build()
+                DialogEx(
+                    this,
+                    DialogEx.ViewInterface {
+                        val view = LayoutInflater.from(this@RedPackageActivity).inflate(R.layout.layout_red_out, null)
+                        view.findViewById<TextView>(R.id.tv_button).setOnClickListener {
+                            dialog?.dismiss()
+                            useClose()
+                        }
+                        view
+                    }).build()
             } else {
                 //奖励提示
-                DialogTool(this, DialogTool.ViewInterface {
-                    val view = LayoutInflater.from(this@RedPackageActivity).inflate(R.layout.layout_red_reward, null)
-                    view.findViewById<TextView>(R.id.tv_yudan_count).text = "+" + it.count
-                    view.findViewById<TextView>(R.id.tv_money_count).text =
-                        getString(R.string.red_dialog_red_money, CommonTool.commandCeil(it.count.toString()))
-                    view.findViewById<TextView>(R.id.tv_next_time).text = getString(
-                        R.string.red_dialog_nexttime,
-                        CommonTool.nextRedPackageTime(System.currentTimeMillis() + (it.nextDT * 1000))
-                    )
-                    view.findViewById<TextView>(R.id.tv_button).setOnClickListener {
-                        dialog?.dismiss()
-                        useClose()
-                    }
-                    view
-                }).build()
+                DialogEx(
+                    this,
+                    DialogEx.ViewInterface {
+                        val view =
+                            LayoutInflater.from(this@RedPackageActivity).inflate(R.layout.layout_red_reward, null)
+                        view.findViewById<TextView>(R.id.tv_yudan_count).text = "+" + it.count
+                        view.findViewById<TextView>(R.id.tv_money_count).text =
+                            getString(R.string.red_dialog_red_money, CommonTool.commandCeil(it.count.toString()))
+                        view.findViewById<TextView>(R.id.tv_next_time).text = getString(
+                            R.string.red_dialog_nexttime,
+                            CommonTool.nextRedPackageTime(System.currentTimeMillis() + (it.nextDT * 1000))
+                        )
+                        view.findViewById<TextView>(R.id.tv_button).setOnClickListener {
+                            dialog?.dismiss()
+                            useClose()
+                        }
+                        view
+                    }).build()
             }
 
             if (it != null) {
@@ -85,7 +92,7 @@ class RedPackageActivity : BaseActivity<ActivityRedPackageBinding, RedPackageVie
 
         })
 
-        AnimatorTool.timeChange(object : AnimatorListenerAdapter() {
+        DelayTimeTool.timeChange(object : AnimatorListenerAdapter() {
             override fun onAnimationEnd(animation: Animator?) {
                 binding.redRain.startAnimators()
             }
@@ -115,8 +122,7 @@ class RedPackageActivity : BaseActivity<ActivityRedPackageBinding, RedPackageVie
     }
 
     fun useClose() {
-//        RxBus.get().post(BusEvent.SHOW_RED_ACTIVITY, 1)
-//        RxBus.get().post(BusEvent.SHOW_NOVICE_ALERT, 1)
+        LiveDataBus.getInstance().getChannel(EventConstants.RED_PACKAGE_ACTIVITY).postValue(0)
         finish()
         overridePendingTransition(R.anim.alpha_in, R.anim.alpha_out)
     }

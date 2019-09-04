@@ -18,15 +18,15 @@ public final class R {
     public static final class attr {
         private attr() {}
 
-        public static int font = 0x7f040001;
-        public static int fontProviderAuthority = 0x7f040002;
-        public static int fontProviderCerts = 0x7f040003;
-        public static int fontProviderFetchStrategy = 0x7f040004;
-        public static int fontProviderFetchTimeout = 0x7f040005;
-        public static int fontProviderPackage = 0x7f040006;
-        public static int fontProviderQuery = 0x7f040007;
-        public static int fontStyle = 0x7f040008;
-        public static int fontWeight = 0x7f040009;
+        public static int font = 0x7f040004;
+        public static int fontProviderAuthority = 0x7f040005;
+        public static int fontProviderCerts = 0x7f040006;
+        public static int fontProviderFetchStrategy = 0x7f040007;
+        public static int fontProviderFetchTimeout = 0x7f040008;
+        public static int fontProviderPackage = 0x7f040009;
+        public static int fontProviderQuery = 0x7f04000a;
+        public static int fontStyle = 0x7f04000b;
+        public static int fontWeight = 0x7f04000c;
     }
     public static final class bool {
         private bool() {}
@@ -36,48 +36,48 @@ public final class R {
     public static final class color {
         private color() {}
 
-        public static int mintegral_feeds_blank = 0x7f060017;
-        public static int mintegral_feeds_blue_normal = 0x7f060018;
-        public static int mintegral_feeds_blue_pressed = 0x7f060019;
-        public static int mintegral_feeds_gray = 0x7f06001a;
-        public static int mintegral_feeds_playerview_bg = 0x7f06001b;
-        public static int mintegral_feeds_white = 0x7f06001c;
-        public static int mintegral_interstitial_black = 0x7f06001d;
-        public static int mintegral_interstitial_white = 0x7f06001e;
-        public static int mintegral_nativex_cta_txt_nor = 0x7f06001f;
-        public static int mintegral_nativex_cta_txt_pre = 0x7f060020;
-        public static int mintegral_nativex_land_cta_bg_nor = 0x7f060021;
-        public static int mintegral_nativex_por_cta_bg_nor = 0x7f060022;
-        public static int mintegral_nativex_por_cta_bg_pre = 0x7f060023;
-        public static int mintegral_nativex_sound_bg = 0x7f060024;
-        public static int mintegral_reward_black = 0x7f060025;
-        public static int mintegral_reward_cta_bg = 0x7f060026;
-        public static int mintegral_reward_desc_textcolor = 0x7f060027;
-        public static int mintegral_reward_endcard_hor_bg = 0x7f060028;
-        public static int mintegral_reward_endcard_land_bg = 0x7f060029;
-        public static int mintegral_reward_endcard_line_bg = 0x7f06002a;
-        public static int mintegral_reward_endcard_vast_bg = 0x7f06002b;
-        public static int mintegral_reward_kiloo_background = 0x7f06002c;
-        public static int mintegral_reward_minicard_bg = 0x7f06002d;
-        public static int mintegral_reward_six_black_transparent = 0x7f06002e;
-        public static int mintegral_reward_title_textcolor = 0x7f06002f;
-        public static int mintegral_reward_white = 0x7f060030;
-        public static int mintegral_video_common_alertview_bg = 0x7f060031;
-        public static int mintegral_video_common_alertview_cancel_button_bg_default = 0x7f060032;
-        public static int mintegral_video_common_alertview_cancel_button_bg_pressed = 0x7f060033;
-        public static int mintegral_video_common_alertview_cancel_button_textcolor = 0x7f060034;
-        public static int mintegral_video_common_alertview_confirm_button_bg_default = 0x7f060035;
-        public static int mintegral_video_common_alertview_confirm_button_bg_pressed = 0x7f060036;
-        public static int mintegral_video_common_alertview_confirm_button_textcolor = 0x7f060037;
-        public static int mintegral_video_common_alertview_content_textcolor = 0x7f060038;
-        public static int mintegral_video_common_alertview_title_textcolor = 0x7f060039;
-        public static int notification_action_color_filter = 0x7f06003a;
-        public static int notification_icon_bg_color = 0x7f06003b;
-        public static int notification_material_background_media_default_color = 0x7f06003c;
-        public static int primary_text_default_material_dark = 0x7f06003d;
-        public static int ripple_material_light = 0x7f06003e;
-        public static int secondary_text_default_material_dark = 0x7f06003f;
-        public static int secondary_text_default_material_light = 0x7f060040;
+        public static int mintegral_feeds_blank = 0x7f060016;
+        public static int mintegral_feeds_blue_normal = 0x7f060017;
+        public static int mintegral_feeds_blue_pressed = 0x7f060018;
+        public static int mintegral_feeds_gray = 0x7f060019;
+        public static int mintegral_feeds_playerview_bg = 0x7f06001a;
+        public static int mintegral_feeds_white = 0x7f06001b;
+        public static int mintegral_interstitial_black = 0x7f06001c;
+        public static int mintegral_interstitial_white = 0x7f06001d;
+        public static int mintegral_nativex_cta_txt_nor = 0x7f06001e;
+        public static int mintegral_nativex_cta_txt_pre = 0x7f06001f;
+        public static int mintegral_nativex_land_cta_bg_nor = 0x7f060020;
+        public static int mintegral_nativex_por_cta_bg_nor = 0x7f060021;
+        public static int mintegral_nativex_por_cta_bg_pre = 0x7f060022;
+        public static int mintegral_nativex_sound_bg = 0x7f060023;
+        public static int mintegral_reward_black = 0x7f060024;
+        public static int mintegral_reward_cta_bg = 0x7f060025;
+        public static int mintegral_reward_desc_textcolor = 0x7f060026;
+        public static int mintegral_reward_endcard_hor_bg = 0x7f060027;
+        public static int mintegral_reward_endcard_land_bg = 0x7f060028;
+        public static int mintegral_reward_endcard_line_bg = 0x7f060029;
+        public static int mintegral_reward_endcard_vast_bg = 0x7f06002a;
+        public static int mintegral_reward_kiloo_background = 0x7f06002b;
+        public static int mintegral_reward_minicard_bg = 0x7f06002c;
+        public static int mintegral_reward_six_black_transparent = 0x7f06002d;
+        public static int mintegral_reward_title_textcolor = 0x7f06002e;
+        public static int mintegral_reward_white = 0x7f06002f;
+        public static int mintegral_video_common_alertview_bg = 0x7f060030;
+        public static int mintegral_video_common_alertview_cancel_button_bg_default = 0x7f060031;
+        public static int mintegral_video_common_alertview_cancel_button_bg_pressed = 0x7f060032;
+        public static int mintegral_video_common_alertview_cancel_button_textcolor = 0x7f060033;
+        public static int mintegral_video_common_alertview_confirm_button_bg_default = 0x7f060034;
+        public static int mintegral_video_common_alertview_confirm_button_bg_pressed = 0x7f060035;
+        public static int mintegral_video_common_alertview_confirm_button_textcolor = 0x7f060036;
+        public static int mintegral_video_common_alertview_content_textcolor = 0x7f060037;
+        public static int mintegral_video_common_alertview_title_textcolor = 0x7f060038;
+        public static int notification_action_color_filter = 0x7f060039;
+        public static int notification_icon_bg_color = 0x7f06003a;
+        public static int notification_material_background_media_default_color = 0x7f06003b;
+        public static int primary_text_default_material_dark = 0x7f06003c;
+        public static int ripple_material_light = 0x7f06003d;
+        public static int secondary_text_default_material_dark = 0x7f06003e;
+        public static int secondary_text_default_material_light = 0x7f06003f;
     }
     public static final class dimen {
         private dimen() {}
@@ -117,97 +117,97 @@ public final class R {
     public static final class drawable {
         private drawable() {}
 
-        public static int mintegral_cm_backward = 0x7f090020;
-        public static int mintegral_cm_backward_disabled = 0x7f090021;
-        public static int mintegral_cm_backward_nor = 0x7f090022;
-        public static int mintegral_cm_backward_selected = 0x7f090023;
-        public static int mintegral_cm_end_animation = 0x7f090024;
-        public static int mintegral_cm_exits = 0x7f090025;
-        public static int mintegral_cm_exits_nor = 0x7f090026;
-        public static int mintegral_cm_exits_selected = 0x7f090027;
-        public static int mintegral_cm_forward = 0x7f090028;
-        public static int mintegral_cm_forward_disabled = 0x7f090029;
-        public static int mintegral_cm_forward_nor = 0x7f09002a;
-        public static int mintegral_cm_forward_selected = 0x7f09002b;
-        public static int mintegral_cm_head = 0x7f09002c;
-        public static int mintegral_cm_highlight = 0x7f09002d;
-        public static int mintegral_cm_progress = 0x7f09002e;
-        public static int mintegral_cm_refresh = 0x7f09002f;
-        public static int mintegral_cm_refresh_nor = 0x7f090030;
-        public static int mintegral_cm_refresh_selected = 0x7f090031;
-        public static int mintegral_cm_tail = 0x7f090032;
-        public static int mintegral_demo_star_nor = 0x7f090033;
-        public static int mintegral_demo_star_sel = 0x7f090034;
-        public static int mintegral_feeds_btn = 0x7f090035;
-        public static int mintegral_feeds_close = 0x7f090036;
-        public static int mintegral_feeds_cta_atv_btn = 0x7f090037;
-        public static int mintegral_feeds_cta_normal = 0x7f090038;
-        public static int mintegral_feeds_cta_pressed = 0x7f090039;
-        public static int mintegral_feeds_play = 0x7f09003a;
-        public static int mintegral_feeds_play_progress = 0x7f09003b;
-        public static int mintegral_feeds_sound_close = 0x7f09003c;
-        public static int mintegral_feeds_sound_open = 0x7f09003d;
-        public static int mintegral_interstitial_close = 0x7f09003e;
-        public static int mintegral_interstitial_over = 0x7f09003f;
-        public static int mintegral_native_bg_loading_camera = 0x7f090040;
-        public static int mintegral_nativex_close = 0x7f090041;
-        public static int mintegral_nativex_cta_land_nor = 0x7f090042;
-        public static int mintegral_nativex_cta_land_pre = 0x7f090043;
-        public static int mintegral_nativex_cta_por_nor = 0x7f090044;
-        public static int mintegral_nativex_cta_por_pre = 0x7f090045;
-        public static int mintegral_nativex_full_land_close = 0x7f090046;
-        public static int mintegral_nativex_full_protial_close = 0x7f090047;
-        public static int mintegral_nativex_fullview_background = 0x7f090048;
-        public static int mintegral_nativex_pause = 0x7f090049;
-        public static int mintegral_nativex_play = 0x7f09004a;
-        public static int mintegral_nativex_play_bg = 0x7f09004b;
-        public static int mintegral_nativex_play_progress = 0x7f09004c;
-        public static int mintegral_nativex_sound1 = 0x7f09004d;
-        public static int mintegral_nativex_sound2 = 0x7f09004e;
-        public static int mintegral_nativex_sound3 = 0x7f09004f;
-        public static int mintegral_nativex_sound4 = 0x7f090050;
-        public static int mintegral_nativex_sound5 = 0x7f090051;
-        public static int mintegral_nativex_sound6 = 0x7f090052;
-        public static int mintegral_nativex_sound7 = 0x7f090053;
-        public static int mintegral_nativex_sound8 = 0x7f090054;
-        public static int mintegral_nativex_sound_animation = 0x7f090055;
-        public static int mintegral_nativex_sound_bg = 0x7f090056;
-        public static int mintegral_nativex_sound_close = 0x7f090057;
-        public static int mintegral_nativex_sound_open = 0x7f090058;
-        public static int mintegral_reward_activity_ad_end_land_des_rl_hot = 0x7f090059;
-        public static int mintegral_reward_close = 0x7f09005a;
-        public static int mintegral_reward_end_close_shape_oval = 0x7f09005b;
-        public static int mintegral_reward_end_land_shape = 0x7f09005c;
-        public static int mintegral_reward_end_pager_logo = 0x7f09005d;
-        public static int mintegral_reward_end_shape_oval = 0x7f09005e;
-        public static int mintegral_reward_shape_end_pager = 0x7f09005f;
-        public static int mintegral_reward_shape_progress = 0x7f090060;
-        public static int mintegral_reward_sound_close = 0x7f090061;
-        public static int mintegral_reward_sound_open = 0x7f090062;
-        public static int mintegral_reward_vast_end_close = 0x7f090063;
-        public static int mintegral_reward_vast_end_ok = 0x7f090064;
-        public static int mintegral_video_common_alertview_bg = 0x7f090065;
-        public static int mintegral_video_common_alertview_cancel_bg = 0x7f090066;
-        public static int mintegral_video_common_alertview_cancel_bg_nor = 0x7f090067;
-        public static int mintegral_video_common_alertview_cancel_bg_pressed = 0x7f090068;
-        public static int mintegral_video_common_alertview_confirm_bg = 0x7f090069;
-        public static int mintegral_video_common_alertview_confirm_bg_nor = 0x7f09006a;
-        public static int mintegral_video_common_alertview_confirm_bg_pressed = 0x7f09006b;
-        public static int mintegral_video_common_full_star = 0x7f09006c;
-        public static int mintegral_video_common_full_while_star = 0x7f09006d;
-        public static int mintegral_video_common_half_star = 0x7f09006e;
-        public static int notification_action_background = 0x7f09006f;
-        public static int notification_bg = 0x7f090070;
-        public static int notification_bg_low = 0x7f090071;
-        public static int notification_bg_low_normal = 0x7f090072;
-        public static int notification_bg_low_pressed = 0x7f090073;
-        public static int notification_bg_normal = 0x7f090074;
-        public static int notification_bg_normal_pressed = 0x7f090075;
-        public static int notification_icon_background = 0x7f090076;
-        public static int notification_template_icon_bg = 0x7f090077;
-        public static int notification_template_icon_low_bg = 0x7f090078;
-        public static int notification_tile_bg = 0x7f090079;
-        public static int notify_panel_notification_icon_bg = 0x7f09007a;
+        public static int mintegral_cm_backward = 0x7f09001f;
+        public static int mintegral_cm_backward_disabled = 0x7f090020;
+        public static int mintegral_cm_backward_nor = 0x7f090021;
+        public static int mintegral_cm_backward_selected = 0x7f090022;
+        public static int mintegral_cm_end_animation = 0x7f090023;
+        public static int mintegral_cm_exits = 0x7f090024;
+        public static int mintegral_cm_exits_nor = 0x7f090025;
+        public static int mintegral_cm_exits_selected = 0x7f090026;
+        public static int mintegral_cm_forward = 0x7f090027;
+        public static int mintegral_cm_forward_disabled = 0x7f090028;
+        public static int mintegral_cm_forward_nor = 0x7f090029;
+        public static int mintegral_cm_forward_selected = 0x7f09002a;
+        public static int mintegral_cm_head = 0x7f09002b;
+        public static int mintegral_cm_highlight = 0x7f09002c;
+        public static int mintegral_cm_progress = 0x7f09002d;
+        public static int mintegral_cm_refresh = 0x7f09002e;
+        public static int mintegral_cm_refresh_nor = 0x7f09002f;
+        public static int mintegral_cm_refresh_selected = 0x7f090030;
+        public static int mintegral_cm_tail = 0x7f090031;
+        public static int mintegral_demo_star_nor = 0x7f090032;
+        public static int mintegral_demo_star_sel = 0x7f090033;
+        public static int mintegral_feeds_btn = 0x7f090034;
+        public static int mintegral_feeds_close = 0x7f090035;
+        public static int mintegral_feeds_cta_atv_btn = 0x7f090036;
+        public static int mintegral_feeds_cta_normal = 0x7f090037;
+        public static int mintegral_feeds_cta_pressed = 0x7f090038;
+        public static int mintegral_feeds_play = 0x7f090039;
+        public static int mintegral_feeds_play_progress = 0x7f09003a;
+        public static int mintegral_feeds_sound_close = 0x7f09003b;
+        public static int mintegral_feeds_sound_open = 0x7f09003c;
+        public static int mintegral_interstitial_close = 0x7f09003d;
+        public static int mintegral_interstitial_over = 0x7f09003e;
+        public static int mintegral_native_bg_loading_camera = 0x7f09003f;
+        public static int mintegral_nativex_close = 0x7f090040;
+        public static int mintegral_nativex_cta_land_nor = 0x7f090041;
+        public static int mintegral_nativex_cta_land_pre = 0x7f090042;
+        public static int mintegral_nativex_cta_por_nor = 0x7f090043;
+        public static int mintegral_nativex_cta_por_pre = 0x7f090044;
+        public static int mintegral_nativex_full_land_close = 0x7f090045;
+        public static int mintegral_nativex_full_protial_close = 0x7f090046;
+        public static int mintegral_nativex_fullview_background = 0x7f090047;
+        public static int mintegral_nativex_pause = 0x7f090048;
+        public static int mintegral_nativex_play = 0x7f090049;
+        public static int mintegral_nativex_play_bg = 0x7f09004a;
+        public static int mintegral_nativex_play_progress = 0x7f09004b;
+        public static int mintegral_nativex_sound1 = 0x7f09004c;
+        public static int mintegral_nativex_sound2 = 0x7f09004d;
+        public static int mintegral_nativex_sound3 = 0x7f09004e;
+        public static int mintegral_nativex_sound4 = 0x7f09004f;
+        public static int mintegral_nativex_sound5 = 0x7f090050;
+        public static int mintegral_nativex_sound6 = 0x7f090051;
+        public static int mintegral_nativex_sound7 = 0x7f090052;
+        public static int mintegral_nativex_sound8 = 0x7f090053;
+        public static int mintegral_nativex_sound_animation = 0x7f090054;
+        public static int mintegral_nativex_sound_bg = 0x7f090055;
+        public static int mintegral_nativex_sound_close = 0x7f090056;
+        public static int mintegral_nativex_sound_open = 0x7f090057;
+        public static int mintegral_reward_activity_ad_end_land_des_rl_hot = 0x7f090058;
+        public static int mintegral_reward_close = 0x7f090059;
+        public static int mintegral_reward_end_close_shape_oval = 0x7f09005a;
+        public static int mintegral_reward_end_land_shape = 0x7f09005b;
+        public static int mintegral_reward_end_pager_logo = 0x7f09005c;
+        public static int mintegral_reward_end_shape_oval = 0x7f09005d;
+        public static int mintegral_reward_shape_end_pager = 0x7f09005e;
+        public static int mintegral_reward_shape_progress = 0x7f09005f;
+        public static int mintegral_reward_sound_close = 0x7f090060;
+        public static int mintegral_reward_sound_open = 0x7f090061;
+        public static int mintegral_reward_vast_end_close = 0x7f090062;
+        public static int mintegral_reward_vast_end_ok = 0x7f090063;
+        public static int mintegral_video_common_alertview_bg = 0x7f090064;
+        public static int mintegral_video_common_alertview_cancel_bg = 0x7f090065;
+        public static int mintegral_video_common_alertview_cancel_bg_nor = 0x7f090066;
+        public static int mintegral_video_common_alertview_cancel_bg_pressed = 0x7f090067;
+        public static int mintegral_video_common_alertview_confirm_bg = 0x7f090068;
+        public static int mintegral_video_common_alertview_confirm_bg_nor = 0x7f090069;
+        public static int mintegral_video_common_alertview_confirm_bg_pressed = 0x7f09006a;
+        public static int mintegral_video_common_full_star = 0x7f09006b;
+        public static int mintegral_video_common_full_while_star = 0x7f09006c;
+        public static int mintegral_video_common_half_star = 0x7f09006d;
+        public static int notification_action_background = 0x7f09006e;
+        public static int notification_bg = 0x7f09006f;
+        public static int notification_bg_low = 0x7f090070;
+        public static int notification_bg_low_normal = 0x7f090071;
+        public static int notification_bg_low_pressed = 0x7f090072;
+        public static int notification_bg_normal = 0x7f090073;
+        public static int notification_bg_normal_pressed = 0x7f090074;
+        public static int notification_icon_background = 0x7f090075;
+        public static int notification_template_icon_bg = 0x7f090076;
+        public static int notification_template_icon_low_bg = 0x7f090077;
+        public static int notification_tile_bg = 0x7f090078;
+        public static int notify_panel_notification_icon_bg = 0x7f090079;
     }
     public static final class id {
         private id() {}
@@ -354,7 +354,7 @@ public final class R {
         private integer() {}
 
         public static int cancel_button_image_alpha = 0x7f0d0001;
-        public static int status_bar_notification_info_maxnum = 0x7f0d0002;
+        public static int status_bar_notification_info_maxnum = 0x7f0d0003;
     }
     public static final class layout {
         private layout() {}
@@ -398,13 +398,13 @@ public final class R {
     public static final class string {
         private string() {}
 
-        public static int mintegral_reward_appdesc = 0x7f150039;
-        public static int mintegral_reward_apptitle = 0x7f15003a;
-        public static int mintegral_reward_clickable_cta_btntext = 0x7f15003b;
-        public static int mintegral_reward_endcard_ad = 0x7f15003c;
-        public static int mintegral_reward_endcard_vast_notice = 0x7f15003d;
-        public static int mintegral_reward_install = 0x7f15003e;
-        public static int status_bar_notification_info_overflow = 0x7f150040;
+        public static int mintegral_reward_appdesc = 0x7f15003c;
+        public static int mintegral_reward_apptitle = 0x7f15003d;
+        public static int mintegral_reward_clickable_cta_btntext = 0x7f15003e;
+        public static int mintegral_reward_endcard_ad = 0x7f15003f;
+        public static int mintegral_reward_endcard_vast_notice = 0x7f150040;
+        public static int mintegral_reward_install = 0x7f150041;
+        public static int status_bar_notification_info_overflow = 0x7f15004a;
     }
     public static final class style {
         private style() {}
@@ -419,22 +419,22 @@ public final class R {
         public static int TextAppearance_Compat_Notification_Time_Media = 0x7f160008;
         public static int TextAppearance_Compat_Notification_Title = 0x7f160009;
         public static int TextAppearance_Compat_Notification_Title_Media = 0x7f16000a;
-        public static int Widget_Compat_NotificationActionContainer = 0x7f16000d;
-        public static int Widget_Compat_NotificationActionText = 0x7f16000e;
-        public static int mintegral_reward_theme = 0x7f160013;
-        public static int mintegral_transparent_theme = 0x7f160014;
+        public static int Widget_Compat_NotificationActionContainer = 0x7f16000e;
+        public static int Widget_Compat_NotificationActionText = 0x7f16000f;
+        public static int mintegral_reward_theme = 0x7f160014;
+        public static int mintegral_transparent_theme = 0x7f160015;
     }
     public static final class styleable {
         private styleable() {}
 
-        public static int[] FontFamily = { 0x7f040002, 0x7f040003, 0x7f040004, 0x7f040005, 0x7f040006, 0x7f040007 };
+        public static int[] FontFamily = { 0x7f040005, 0x7f040006, 0x7f040007, 0x7f040008, 0x7f040009, 0x7f04000a };
         public static int FontFamily_fontProviderAuthority = 0;
         public static int FontFamily_fontProviderCerts = 1;
         public static int FontFamily_fontProviderFetchStrategy = 2;
         public static int FontFamily_fontProviderFetchTimeout = 3;
         public static int FontFamily_fontProviderPackage = 4;
         public static int FontFamily_fontProviderQuery = 5;
-        public static int[] FontFamilyFont = { 0x7f040001, 0x7f040008, 0x7f040009 };
+        public static int[] FontFamilyFont = { 0x7f040004, 0x7f04000b, 0x7f04000c };
         public static int FontFamilyFont_font = 0;
         public static int FontFamilyFont_fontStyle = 1;
         public static int FontFamilyFont_fontWeight = 2;

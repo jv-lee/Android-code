@@ -5,10 +5,12 @@ import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
 import com.lee.library.base.BaseActivity
+import com.lee.library.livedatabus.LiveDataBus
 import com.lee.library.utils.StatusUtil
 import com.lee.library.widget.WebViewEx
 import gionee.gnservice.app.R
 import gionee.gnservice.app.constants.Constants
+import gionee.gnservice.app.constants.EventConstants
 import gionee.gnservice.app.databinding.ActivityVideoDetailsBinding
 import kotlinx.android.synthetic.main.layout_status_toolbar.view.*
 
@@ -31,7 +33,7 @@ class VideoDetailsActivity :
         binding.include.title.text = "视频"
         binding.include.back.setOnClickListener { finish() }
 
-        binding.web.addWebStatusListenerAdapter(object:WebViewEx.WebStatusListenerAdapter(){
+        binding.web.addWebStatusListenerAdapter(object : WebViewEx.WebStatusListenerAdapter() {
             override fun callProgress(progress: Int) {
                 if (progress < 90) {
                     binding.include.progress.visibility = View.VISIBLE
@@ -56,11 +58,13 @@ class VideoDetailsActivity :
 
     override fun onResume() {
         super.onResume()
+        LiveDataBus.getInstance().getChannel(EventConstants.VIDEO_TIMER_STATUS).value = true
         binding.web.exResume()
     }
 
     override fun onPause() {
         super.onPause()
+        LiveDataBus.getInstance().getChannel(EventConstants.VIDEO_TIMER_STATUS).value = false
         binding.web.exPause()
     }
 

@@ -26,7 +26,7 @@ class PutParameterInterceptor : Interceptor {
                 .addEncodedQueryParameter("sessionKey", sessionKey)
                 .addEncodedQueryParameter("sign", sign)
                 .addEncodedQueryParameter("ts", ts)
-                .addEncodedQueryParameter("version", BuildConfig.VERSION_NAME)
+                .addEncodedQueryParameter("VERSION", BuildConfig.VERSION_NAME)
                 .build()
             request = request.newBuilder()
                 .addHeader("Connection", "close")
