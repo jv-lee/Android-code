@@ -118,4 +118,25 @@ class MainRepository : IModel {
         return data
     }
 
+    fun tabIndex(isSub: String): LiveData<Menu> {
+        val data = MutableLiveData<Menu>()
+
+        RetrofitUtils.instance.getApi()
+            .tabIndex(ServerConstants.ACT_TAB_INDEX, isSub)
+            .enqueue(object : Callback<Data<Menu>> {
+                override fun onFailure(call: Call<Data<Menu>>, t: Throwable) {
+                    LogUtil.e("tabIndex failure :${t.message}")
+                    data.value = null
+                }
+
+                override fun onResponse(call: Call<Data<Menu>>, response: Response<Data<Menu>>) {
+                    if (response.body()?.code == 1) {
+                        data.value = response.body()?.data
+                    }
+                }
+            })
+
+        return data
+    }
+
 }

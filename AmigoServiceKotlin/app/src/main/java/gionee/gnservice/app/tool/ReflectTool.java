@@ -1,15 +1,22 @@
 package gionee.gnservice.app.tool;
 
+import android.app.Activity;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import com.lee.library.livedatabus.LiveDataBus;
 import com.lee.library.utils.LogUtil;
 import gionee.gnservice.app.App;
+import gionee.gnservice.app.constants.EventConstants;
 import gionee.gnservice.app.constants.ServerConstants;
 import gionee.gnservice.app.model.entity.Login;
 import gionee.gnservice.app.model.entity.base.Data;
 import gionee.gnservice.app.model.server.RetrofitUtils;
+import gionee.gnservice.app.view.fragment.NovelFragment;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import java.lang.reflect.Method;
 import java.util.HashMap;
 
 /**
@@ -17,7 +24,7 @@ import java.util.HashMap;
  * @date 2019/9/3.
  * @description 提供给外部模块反射调用重新登陆金立用户
  */
-public class ReflectLogin {
+public class ReflectTool {
 
     public static void login(String uid, String name) {
         HashMap<String, Object> map = new HashMap<>();
@@ -46,4 +53,20 @@ public class ReflectLogin {
                     }
                 });
     }
+
+    public static void timer(FragmentActivity activity,String methodName) {
+        try {
+            Class<?> novel = Class.forName("gionee.gnservice.app.view.fragment.NovelFragment");
+            Method timeMethod = novel.getDeclaredMethod(methodName);
+            for (Fragment fragment : activity.getSupportFragmentManager().getFragments()) {
+                if (fragment instanceof NovelFragment) {
+                    timeMethod.invoke(fragment);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            LogUtil.getStackTraceString(e);
+        }
+    }
+
 }

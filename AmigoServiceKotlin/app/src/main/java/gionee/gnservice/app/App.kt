@@ -1,7 +1,5 @@
 package gionee.gnservice.app
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Application
@@ -9,31 +7,28 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.multidex.MultiDex
+import android.support.v4.app.FragmentActivity
 import com.android.droi.books.BooksInit
 import com.cmcm.cmgame.CmGameSdk
 import com.cmcm.cmgame.gamedata.CmGameAppInfo
 import com.dl.infostream.InfoStreamManager
 import com.gionee.gnservice.AmigoServiceApp
-import com.gionee.gnservice.statistics.StatisticsUtil
-import com.lee.library.livedatabus.LiveDataBus
 import com.lee.library.utils.DensityUtil
-import com.lee.library.utils.LogUtil
 import com.lee.library.utils.SPUtil
 import com.s.main.sdk.SDK
 import gionee.gnservice.app.constants.Constants
 import gionee.gnservice.app.constants.Constants.Companion.READING_ACTIVITY_NAME
-import gionee.gnservice.app.constants.EventConstants
 import gionee.gnservice.app.service.LocalService
 import gionee.gnservice.app.service.RemoteService
 import gionee.gnservice.app.tool.CommonTool
 import gionee.gnservice.app.tool.CommonTool.Companion.event
 import gionee.gnservice.app.tool.CommonTool.Companion.minute
-import gionee.gnservice.app.tool.CommonTool.Companion.second
-import gionee.gnservice.app.tool.DelayTimeTool
 import gionee.gnservice.app.tool.GameImageLoader
 import gionee.gnservice.app.tool.GlideTool
+import gionee.gnservice.app.tool.ReflectTool
 import gionee.gnservice.app.view.activity.MainActivity
 import gionee.gnservice.app.view.activity.SplashRunActivity
+import java.util.concurrent.ThreadPoolExecutor
 
 /**
  * @author jv.lee
@@ -43,6 +38,8 @@ import gionee.gnservice.app.view.activity.SplashRunActivity
 class App : AmigoServiceApp() {
 
     private val TAG: String = App::class.java.simpleName
+
+    private var mainActivity: FragmentActivity? = null
 
     /**
      * 热启动标识符
@@ -64,9 +61,9 @@ class App : AmigoServiceApp() {
         //在主进程中初始化
         if (applicationContext.packageName == currentProcessName) {
             initLocalService()
-            initComponent()
-            initSDK()
             injectCallback()
+            initComponent()
+            Thread(Runnable { initSDK() }).start()
         }
     }
 
@@ -140,6 +137,9 @@ class App : AmigoServiceApp() {
                 if (activity?.localClassName!!.contains(Constants.ACTIVITY_PACKAGE_PATH)) {
                     DensityUtil.setDensity(this@App, activity)
                 }
+                if (activity.localClassName == "gionee.gnservice.app.view.activity.MainActivity") {
+                    mainActivity = activity as FragmentActivity?
+                }
             }
 
             override fun onActivityStarted(activity: Activity?) {
@@ -159,8 +159,7 @@ class App : AmigoServiceApp() {
 
                 //阅读小说计时开始
                 if (READING_ACTIVITY_NAME == activity?.localClassName) {
-                    LogUtil.i("阅读小说计时开始")
-                    LiveDataBus.getInstance().getChannel(EventConstants.NOVEL_TIMER_STATUS).value = true
+                    ReflectTool.timer(mainActivity!!, "resumeTimer")
                 }
             }
 
@@ -170,8 +169,7 @@ class App : AmigoServiceApp() {
 
                 //阅读小说计时结束
                 if (READING_ACTIVITY_NAME == activity?.localClassName) {
-                    LogUtil.i("阅读小说计时结束")
-                    LiveDataBus.getInstance().getChannel(EventConstants.NOVEL_TIMER_STATUS).value = false
+                    ReflectTool.timer(mainActivity!!, "pauseTimer")
                 }
             }
 

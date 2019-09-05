@@ -35,9 +35,13 @@ interface ApiServer {
     fun versionInfo(@Query(BASE_ACT) act: String): Call<Data<VersionInfo>>
 
     @GET(BASE_PATH)
+    fun tabIndex(@Query(BASE_ACT) act: String, @Query("isSub") isSub: String): Call<Data<Menu>>
+
+    @GET(BASE_PATH)
     fun redPackageAward(@Query(BASE_ACT) act: String): Call<Data<RedPacketAward>>
 
     /**
+     * 首次打开奖励
      * type 默认传1
      */
     @GET(BASE_PATH)

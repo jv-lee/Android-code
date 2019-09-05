@@ -25,6 +25,8 @@ class ServerConstants {
         const val ACT_MAGNET: String = "banner.getMagnet"
         //获取更新信息
         const val ACT_VERSION_INFO: String = "diyConfig.getVersionContent"
+        //主界面tab排序
+        const val ACT_TAB_INDEX: String = "login.initConf"
         //获取红包雨奖励
         const val ACT_RED_PACKAGE_AWARD: String = "activity.getRedPacketAward"
         //新手任务奖励

@@ -8,12 +8,10 @@ import com.gionee.gnservice.module.setting.push.PushReceiver
 import com.gionee.gnservice.statistics.StatisticsUtil
 import com.lee.library.mvvm.BaseViewModel
 import com.lee.library.utils.SPUtil
+import gionee.gnservice.app.App
 import gionee.gnservice.app.constants.Constants
 import gionee.gnservice.app.constants.StatisticsConstants
-import gionee.gnservice.app.model.entity.Magnet
-import gionee.gnservice.app.model.entity.NoviceAward
-import gionee.gnservice.app.model.entity.Push
-import gionee.gnservice.app.model.entity.RedPoint
+import gionee.gnservice.app.model.entity.*
 import gionee.gnservice.app.model.repository.MainRepository
 
 /**
@@ -29,6 +27,7 @@ class MainViewModel(application: Application) : BaseViewModel(application) {
     val redPoint by lazy { MutableLiveData<RedPoint>() }
     val magnet by lazy { MutableLiveData<Magnet>() }
     val novice by lazy { MutableLiveData<NoviceAward>() }
+    val tabIndex by lazy { MutableLiveData<Menu>() }
 
     fun getConfig() {
         model.getConfig().observeForever {
@@ -84,6 +83,21 @@ class MainViewModel(application: Application) : BaseViewModel(application) {
     fun initMagnetActive() {
         model.getMagnet().observeForever {
             magnet.value = it
+        }
+    }
+
+    fun initTabIndex(intent: Intent) {
+        val isSub = intent.getBooleanExtra(Constants.IS_SUB, false)
+        model.tabIndex(if (isSub) "1" else "0").observeForever {
+            tabIndex.value = it
+
+            when (it?.menu?.index!!) {
+                0 -> StatisticsUtil.onEvent(getApplication<App>(), "Exposure_UCenterPage", "资讯")
+                1 -> StatisticsUtil.onEvent(getApplication<App>(), "Exposure_UCenterPage", "视频")
+                2 -> StatisticsUtil.onEvent(getApplication<App>(), "Exposure_UCenterPage", "小说")
+                3 -> StatisticsUtil.onEvent(getApplication<App>(), "Exposure_UCenterPage", "游戏")
+                4 -> StatisticsUtil.onEvent(getApplication<App>(), "Exposure_UCenterPage", "钱包")
+            }
         }
     }
 

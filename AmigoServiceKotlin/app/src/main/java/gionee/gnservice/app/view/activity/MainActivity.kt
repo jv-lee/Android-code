@@ -113,6 +113,15 @@ class MainActivity :
                 }
             })
 
+            tabIndex.observe(this@MainActivity, Observer {
+                if (it?.menu?.index == 0) {
+                    binding.ivActive.visibility = View.VISIBLE
+                } else {
+                    binding.ivActive.visibility = View.INVISIBLE
+                }
+                nav.toPosition(it?.menu?.index!!)
+            })
+
             //新手奖励提示窗
             novice.observe(this@MainActivity, Observer {
                 if (it == null) return@Observer
@@ -154,6 +163,8 @@ class MainActivity :
         binding.nav.itemIconTintList = null
         binding.nav.bindViewPager(binding.vpContainer)
         binding.nav.setItemPositionListener(this@MainActivity)
+
+        viewModel.initTabIndex(intent)
     }
 
     /**
@@ -228,17 +239,11 @@ class MainActivity :
     }
 
     fun startTabMode(code: Int) {
-        when (code) {
-            //小说
-            1 -> nav.toPosition(2)
-            //游戏
-            2 -> nav.toPosition(3)
-            //资讯
-            3 -> nav.toPosition(0)
-            //钱包
-            4 -> nav.toPosition(4)
+        if (code != 5) {
+            nav.toPosition(code)
+        }else{
             //钱包任务栏
-            5 -> nav.toPosition(4)
+            nav.toPosition(4)
         }
     }
 

@@ -19,6 +19,7 @@ import gionee.gnservice.app.databinding.FragmentGameBinding
 import gionee.gnservice.app.tool.ToastTool
 import gionee.gnservice.app.tool.ValueTimer
 import gionee.gnservice.app.view.activity.GameActivity
+import gionee.gnservice.app.view.activity.MainActivity
 import gionee.gnservice.app.view.native.ADInterface
 import gionee.gnservice.app.view.native.JSInterface
 import gionee.gnservice.app.vm.TimeViewModel
@@ -105,7 +106,9 @@ class GameFragment :
 
     @JavascriptInterface
     fun startPage(code: Int, arg: String) {
-
+        activity?.runOnUiThread {
+            (activity as MainActivity).startTabMode(code)
+        }
     }
 
     override fun onFragmentResume() {
