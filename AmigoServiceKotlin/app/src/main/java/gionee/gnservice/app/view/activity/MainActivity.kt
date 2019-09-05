@@ -94,7 +94,7 @@ class MainActivity :
 
             //红点提示
             redPoint.observe(this@MainActivity, Observer {
-                if (it != null) binding.nav.setDotNotRead(4, it.t1)
+                if (it != null) binding.nav.setNumberDot(4, it.t1)
             })
 
             //磁铁or活动
@@ -159,7 +159,6 @@ class MainActivity :
         binding.vpContainer.setNoScroll(true)
         binding.vpContainer.offscreenPageLimit = fragments.size - 1
 
-        binding.nav.initUnReadMessageViews()
         binding.nav.itemIconTintList = null
         binding.nav.bindViewPager(binding.vpContainer)
         binding.nav.setItemPositionListener(this@MainActivity)
