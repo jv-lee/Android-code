@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Glide.with(MainActivity.this).load("https://img.iplaysoft.com/axdres/sidebar/lychee/imazing_v1.png").into(imageView);
+                Glide.with(MainActivity.this).load("https://cn.bing.com/sa/simg/hpb/LaDigue_EN-CA1115245085_1920x1080.jpg").into(imageView);
             }
         });
     }

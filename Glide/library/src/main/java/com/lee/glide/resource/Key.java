@@ -1,5 +1,7 @@
 package com.lee.glide.resource;
 
+import com.lee.glide.Tool;
+
 /**
  * @author jv.lee
  * @date 2019-09-01
@@ -10,8 +12,8 @@ public class Key {
     private String key;
 
     public Key(String key) {
-        //加密处理 Tool加密方法
-        this.key = String.valueOf(key.hashCode());
+        //加密处理
+        this.key = Tool.getSHA256StrJava(key);
     }
 
     public String getKey() {

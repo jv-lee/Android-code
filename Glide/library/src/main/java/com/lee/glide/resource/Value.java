@@ -3,6 +3,8 @@ package com.lee.glide.resource;
 import android.graphics.Bitmap;
 import android.util.Log;
 
+import com.lee.glide.Tool;
+
 /**
  * @author jv.lee
  * @date 2019-09-01
@@ -47,7 +49,10 @@ public class Value {
      * TODO 使用当前资源设置使用次数+1
      */
     public void useAction() {
-        if (bitmap == null || bitmap.isRecycled()) {
+        Tool.checkNotEmpty(bitmap);
+
+        if (bitmap.isRecycled()) {
+            Log.i(TAG, "useAction: bitmap已经被回收了");
             return;
         }
         count++;
@@ -61,8 +66,9 @@ public class Value {
         count--;
         //不再使用了 回调提示
         if (count <= 0 && callback != null) {
-            callback.nonUse(key, this);
+            callback.nonUse(key, value);
         }
+        Log.i(TAG, "useAction: value.count - 1 ->" + count);
     }
 
     /**

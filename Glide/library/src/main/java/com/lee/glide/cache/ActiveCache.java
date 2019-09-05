@@ -1,5 +1,7 @@
 package com.lee.glide.cache;
 
+import android.graphics.Bitmap;
+
 import com.lee.glide.resource.Value;
 import com.lee.glide.resource.ValueCallback;
 
@@ -19,6 +21,7 @@ import java.util.concurrent.Executors;
 public class ActiveCache {
 
     private Map<String, WeakReference<Value>> cacheMap = new HashMap<>();
+    private Map<String, Bitmap> valueMap = new HashMap<>();
     /**
      * 为了监听若引用是否被回收
      */
@@ -47,6 +50,7 @@ public class ActiveCache {
 
         //存储
         cacheMap.put(key, new CustomizeWeakReference(value, getQueue(), key));
+        valueMap.put(key, value.getBitmap());
     }
 
     /**
@@ -58,7 +62,10 @@ public class ActiveCache {
     public Value get(String key) {
         WeakReference<Value> valueWeakReference = cacheMap.get(key);
         if (valueWeakReference != null) {
-            return valueWeakReference.get();
+            Value value = valueWeakReference.get();
+            value.setBitmap(valueMap.get(key));
+            value.setKey(key);
+            return value;
         }
         return null;
     }
@@ -131,8 +138,9 @@ public class ActiveCache {
                                 CustomizeWeakReference weakReference = (CustomizeWeakReference) remove;
 
                                 //移除容器中包含的资源
-                                if (cacheMap != null && !cacheMap.isEmpty()) {
+                                if (cacheMap != null && !cacheMap.isEmpty() && !valueMap.isEmpty()) {
                                     cacheMap.remove(weakReference.key);
+                                    valueMap.remove(weakReference.key);
                                 }
                             }
 

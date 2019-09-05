@@ -27,12 +27,30 @@ public class RequestTargetEngine implements LifycycleCallback, ValueCallback, Me
 
     private static final String TAG = "RequestTargetEngine";
 
+    @Override
+    public void glideInitAction() {
+        Log.i(TAG, "glideInitAction: glide生命周期初始化");
+    }
+
+    @Override
+    public void glideStopAction() {
+        Log.i(TAG, "glideInitAction: glide生命周期停止");
+    }
+
+    @Override
+    public void glideRecycleAction() {
+        Log.i(TAG, "glideInitAction: Glide生命周期之 进行释放操作 缓存策略释放操作等 >>>>>>");
+        if (activeCache != null) {
+            //释放活动缓存
+            activeCache.closeThread();
+        }
+
+    }
+
+
     private Context glideContext;
-
     private String path;
-
     private String key;
-
     private ImageView imageView;
 
     /**
@@ -48,25 +66,29 @@ public class RequestTargetEngine implements LifycycleCallback, ValueCallback, Me
      */
     private DiskLruCacheImpl diskLruCache;
 
+    /**
+     * Bitmap复用池
+     */
     private BitmapPool bitmapPool;
 
     private final int MEMORY_MAX_SIZE = 1024 * 1024 * 60;
 
 
     RequestTargetEngine() {
-        if (bitmapPool == null) {
-            bitmapPool = new BitmapPoolImpl(MEMORY_MAX_SIZE);
-        }
         if (activeCache == null) {
+            // 回调告诉外界，Value资源不再使用了 设置监听
             activeCache = new ActiveCache(this);
         }
         if (memoryCache == null) {
             memoryCache = new MemoryCache(MEMORY_MAX_SIZE);
+            //LRU最少使用的元素会被移除 设置监听
             memoryCache.setMemoryCacheCallback(this);
         }
-        //初始化磁盘缓存
         if (diskLruCache == null) {
             diskLruCache = new DiskLruCacheImpl();
+        }
+        if (bitmapPool == null) {
+            bitmapPool = new BitmapPoolImpl(MEMORY_MAX_SIZE);
         }
     }
 
@@ -85,13 +107,8 @@ public class RequestTargetEngine implements LifycycleCallback, ValueCallback, Me
     void into(ImageView imageView) {
         this.imageView = imageView;
 
-        if (imageView == null) {
-            throw new NullPointerException("Glide into imageView is Null");
-        }
-
-        if (Looper.myLooper() != Looper.getMainLooper()) {
-            throw new RuntimeException("current thread check is MainThread ?");
-        }
+        Tool.checkNotEmpty(imageView);
+        Tool.assertMainThread();
 
         Value value = cacheAction();
         if (null != value) {
@@ -110,7 +127,7 @@ public class RequestTargetEngine implements LifycycleCallback, ValueCallback, Me
         //TODO 第一步，判断活动缓存是否有资源 有则直接返回
         Value value = activeCache.get(key);
         if (null != value) {
-            Log.d(TAG, "cacheAction: 活动缓存中加载imageView resource success !");
+            Log.d(TAG, "cacheAction: (活动缓存)中加载imageView resource success !");
             //使用一次 计数
             value.useAction();
             return value;
@@ -122,18 +139,18 @@ public class RequestTargetEngine implements LifycycleCallback, ValueCallback, Me
             //移动操作
             memoryCache.useRemove(key);
             activeCache.put(key, value);
-            Log.d(TAG, "cacheAction: 内存缓存中加载imageView resource success !");
+            Log.d(TAG, "cacheAction: (内存缓存)中加载imageView resource success !");
             //使用一次 计数
             value.useAction();
             return value;
         }
 
         //TODO 第三步，判断磁盘缓存是否有资源 有则将资源移动到互动缓存再返回
-        value = diskLruCache.get(key);
+        value = diskLruCache.get(key, bitmapPool);
         if (null != value) {
             //把磁盘缓存中的元素 -> 加入到活动缓存中
             activeCache.put(key, value);
-            Log.d(TAG, "cacheAction: 磁盘缓存中加载imageView resource success !");
+            Log.d(TAG, "cacheAction: (磁盘缓存)中加载imageView resource success !");
             //使用一次 计数
             value.useAction();
             return value;
@@ -141,27 +158,10 @@ public class RequestTargetEngine implements LifycycleCallback, ValueCallback, Me
 
         //TODO 第四步，真正加载外部资源，网络/SD本地 加载
         value = new LoadDataManager().loadResource(path, this, glideContext);
-        return value;
-    }
-
-    @Override
-    public void glideInitAction() {
-        Log.i(TAG, "glideInitAction: glide生命周期初始化");
-    }
-
-    @Override
-    public void glideStopAction() {
-        Log.i(TAG, "glideInitAction: glide生命周期停止");
-    }
-
-    @Override
-    public void glideRecycleAction() {
-        Log.i(TAG, "glideInitAction: glide生命周期回收");
-        if (activeCache != null) {
-            //释放活动缓存
-            activeCache.closeThread();
+        if (value != null) {
+            return value;
         }
-
+        return null;
     }
 
     /**
@@ -205,6 +205,7 @@ public class RequestTargetEngine implements LifycycleCallback, ValueCallback, Me
     }
 
     private void saveCache(String key, Value value) {
+        Log.d(TAG, "saveCache: >>>>>>>>>>>>>>>>>>>>>> 加载外部资源成功后，保存到缓存中 key:" + key + " value:" + value);
         value.setKey(key);
 
         //保存到磁盘缓存

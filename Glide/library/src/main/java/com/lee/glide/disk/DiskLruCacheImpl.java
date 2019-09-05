@@ -3,6 +3,7 @@ package com.lee.glide.disk;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
+import android.util.Log;
 
 import com.lee.glide.Tool;
 import com.lee.glide.pool.BitmapPool;
@@ -38,7 +39,7 @@ public class DiskLruCacheImpl {
     /**
      * 最大缓存大小 可动态设置
      */
-    private final long MAX_SIZE = 1024 * 1024 * 10;
+    private final long MAX_SIZE = 1024 * 1024 * 100;
 
     /**
      * 磁盘缓存
@@ -55,7 +56,8 @@ public class DiskLruCacheImpl {
     }
 
     public void put(String key, Value value) {
-        //{Tool.checkNotEmpty(key)}
+        Tool.checkNotEmpty(key);
+
         DiskLruCache.Editor edit = null;
         OutputStream os = null;
         try {
@@ -90,31 +92,33 @@ public class DiskLruCacheImpl {
         }
     }
 
-    public Value get(String key) {
-        //{Tool.checkNotEmpty(key)}
+    public Value get(String key, BitmapPool bitmapPool) {
+        Tool.checkNotEmpty(key);
+
         DiskLruCache.Snapshot snapshot = null;
         InputStream is = null;
+        int width = 1920;
+        int height = 1080;
         try {
             snapshot = diskLruCache.get(key);
             if (snapshot != null) {
-                is = snapshot.getInputStream(0);
                 Value value = Value.getInstance();
+                is = snapshot.getInputStream(0);
 
 //                BitmapFactory.Options sizeOptions = new BitmapFactory.Options();
 //                sizeOptions.inJustDecodeBounds = true;
 //                BitmapFactory.decodeStream(is, null, sizeOptions);
-//                int w = sizeOptions.outWidth;
-//                int h = sizeOptions.outHeight;
-//
-//                BitmapFactory.Options options = new BitmapFactory.Options();
-//                options.inBitmap = bitmapPool.get(w, h, Bitmap.Config.ARGB_8888);
-//                options.inMutable = true;
-//                options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-//                options.inJustDecodeBounds = false;
-//                options.inSampleSize = Tool.sampleBitmapSize(options, w, h);
-//                Bitmap bitmap = BitmapFactory.decodeStream(is, null, options);
+//                width = sizeOptions.outWidth;
+//                height = sizeOptions.outHeight;
 
-                Bitmap bitmap = BitmapFactory.decodeStream(is);
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inBitmap = bitmapPool.get(width, height, Bitmap.Config.ARGB_8888);
+                options.inMutable = true;
+                options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+                options.inJustDecodeBounds = false;
+                options.inSampleSize = Tool.sampleBitmapSize(options, width, height);
+                Bitmap bitmap = BitmapFactory.decodeStream(is, null, options);
+
                 value.setBitmap(bitmap);
                 value.setKey(key);
                 return value;

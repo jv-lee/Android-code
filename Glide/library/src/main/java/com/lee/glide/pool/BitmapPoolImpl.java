@@ -36,6 +36,9 @@ public class BitmapPoolImpl extends LruCache<Integer, Bitmap> implements BitmapP
     public void put(Bitmap bitmap) {
         //TODO 条件一 bitmap.isMutable() == true
         if (!bitmap.isMutable()) {
+            if (!bitmap.isRecycled()) {
+                bitmap.recycle();
+            }
             Log.d(TAG, "put: bitmap.isMutable() == true 未满足，无法存入复用池...");
             return;
         }
@@ -43,6 +46,9 @@ public class BitmapPoolImpl extends LruCache<Integer, Bitmap> implements BitmapP
         //TODO 条件二 bitmapSize < maxSize
         int bitmapSize = getBitmapSize(bitmap);
         if (bitmapSize > maxSize()) {
+            if (!bitmap.isRecycled()) {
+                bitmap.recycle();
+            }
             Log.d(TAG, "put: bitmap.size > pool.maxSize , 未满足，无法存入复用池...");
             return;
         }
@@ -68,6 +74,8 @@ public class BitmapPoolImpl extends LruCache<Integer, Bitmap> implements BitmapP
 
         //可以查找到容器里面 和 getSize同样大小，也可以比 getSize还要大的 ， 如果容器中没有put过， 返回null
         Integer key = treeMap.ceilingKey(getSize);
+
+        Log.i(TAG, "get: treeMap.size() ->" + treeMap.size());
 
         //没有找到合适的 可以复用的 key
         if (key == null) {
@@ -99,6 +107,7 @@ public class BitmapPoolImpl extends LruCache<Integer, Bitmap> implements BitmapP
 
     /**
      * 元素大小
+     *
      * @param key
      * @param value
      * @return
@@ -111,5 +120,6 @@ public class BitmapPoolImpl extends LruCache<Integer, Bitmap> implements BitmapP
     @Override
     protected void entryRemoved(boolean evicted, @NonNull Integer key, @NonNull Bitmap oldValue, @Nullable Bitmap newValue) {
         super.entryRemoved(evicted, key, oldValue, newValue);
+        treeMap.remove(key);
     }
 }
