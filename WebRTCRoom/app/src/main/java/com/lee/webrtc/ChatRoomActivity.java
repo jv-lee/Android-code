@@ -5,12 +5,14 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
+import com.lee.webrtc.interfaces.IViewCallback;
 import com.lee.webrtc.permission.PermissionManager;
 import com.lee.webrtc.permission.PermissionRequest;
 import com.lee.webrtc.utils.Utils;
@@ -32,7 +34,7 @@ import java.util.Map;
  * @date 2019-07-31
  * @description
  */
-public class ChatRoomActivity extends FragmentActivity {
+public class ChatRoomActivity extends FragmentActivity implements IViewCallback {
 
     private FrameLayout frameVideoView;
     private WebRTCManager webRTCManager;
@@ -54,6 +56,7 @@ public class ChatRoomActivity extends FragmentActivity {
         setContentView(R.layout.activity_room);
         Utils.getInstance(this);
         initView();
+        initFragment();
     }
 
     private void initView() {
@@ -63,6 +66,7 @@ public class ChatRoomActivity extends FragmentActivity {
         frameVideoView.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
         webRTCManager = WebRTCManager.getInstance();
+        webRTCManager.setViewCallback(this);
 
         PermissionManager.getInstance()
                 .attach(this)
@@ -78,14 +82,21 @@ public class ChatRoomActivity extends FragmentActivity {
 
                     }
                 });
+    }
 
+    private void initFragment() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.frame_container, new ChatRoomFragment())
+                .commit();
     }
 
     /**
      * @param stream 本地多媒体流（音视频数据）
      * @param userId 服务器返回当前用户 userID
      */
-    public void setLocalStream(MediaStream stream, String userId) {
+    @Override
+    public void onSetLocalStream(MediaStream stream, String userId) {
         List<VideoTrack> videoTracks = stream.videoTracks;
         if (videoTracks.size() > 0) {
             localVideoTrack = videoTracks.get(0);
@@ -93,6 +104,11 @@ public class ChatRoomActivity extends FragmentActivity {
         runOnUiThread(() -> {
             addView(userId, stream);
         });
+    }
+
+    @Override
+    public void onAddRemoteStream(MediaStream mediaStream, String socketId) {
+        runOnUiThread(() -> addView(socketId, mediaStream));
     }
 
     /**
@@ -140,13 +156,66 @@ public class ChatRoomActivity extends FragmentActivity {
         }
     }
 
-    public void onAddRemoteStream(MediaStream mediaStream, String socketId) {
-        runOnUiThread(() -> addView(socketId, mediaStream));
+    @Override
+    public void onCloseWithId(String id) {
+        runOnUiThread(() -> removeView(id));
+    }
+
+    private void removeView(String id) {
+        //找到会议对应的人 布局
+        SurfaceViewRenderer renderer = videoVideos.get(id);
+        if (renderer != null) {
+            //释放surfaceView
+            renderer.release();
+            videoVideos.remove(id);
+            persons.remove(id);
+            //移除父容器
+            frameVideoView.removeView(renderer);
+
+            int size = videoVideos.size();
+            for (int i = 0; i < size; i++) {
+                String peerId = persons.get(i);
+                SurfaceViewRenderer render = videoVideos.get(peerId);
+                if (render != null) {
+                    FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                    layoutParams.width = Utils.getInstance().getWidth(size);
+                    layoutParams.height = Utils.getInstance().getWidth(size);
+                    layoutParams.leftMargin = Utils.getInstance().getX(size, i);
+                    layoutParams.leftMargin = Utils.getInstance().getY(size, i);
+                    render.setLayoutParams(layoutParams);
+                }
+            }
+        }
     }
 
     public static void openActivity(Activity activity) {
         Intent intent = new Intent(activity, ChatRoomActivity.class);
         activity.startActivity(intent);
+    }
+
+    public void toggleMic(boolean enableMic) {
+        webRTCManager.toggle(enableMic);
+    }
+
+    public void toggleLarge(boolean isChecked) {
+        webRTCManager.toggleLarge(isChecked);
+    }
+
+    public void toggleCameraEnable(boolean isChecked) {
+        webRTCManager.toggleCameraEnable(isChecked);
+    }
+
+    public void toggleCameraDevice(boolean isChecked) {
+        webRTCManager.toggleCameraDevice(isChecked);
+    }
+
+    public void closeSession() {
+        exit();
+    }
+
+    private void exit() {
+        webRTCManager.exitRoom();
+        this.finish();
     }
 
 
