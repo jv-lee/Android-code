@@ -1,37 +1,47 @@
 package gionee.gnservice.app.view.fragment
 
 
-import android.arch.lifecycle.ViewModel
+import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.webkit.JavascriptInterface
+import com.gionee.gnservice.wxapi.WXLoginListener
+import com.gionee.gnservice.wxapi.WeChatUtil
 import com.lee.library.base.BaseFragment
-import com.lee.library.utils.LogUtil
+import com.lee.library.livedatabus.LiveDataBus
+import com.lee.library.utils.NetworkUtil
 import gionee.gnservice.app.BuildConfig
 import gionee.gnservice.app.R
 import gionee.gnservice.app.constants.Constants
+import gionee.gnservice.app.constants.EventConstants
 import gionee.gnservice.app.databinding.FragmentWalletBinding
+import gionee.gnservice.app.tool.CommonTool
 import gionee.gnservice.app.view.activity.GameActivity
+import gionee.gnservice.app.view.activity.MainActivity
 import gionee.gnservice.app.view.activity.WebActivity
 import gionee.gnservice.app.view.native.ADInterface
 import gionee.gnservice.app.view.native.JSInterface
+import gionee.gnservice.app.vm.WalletViewModel
 
 /**
  * @author jv.lee
  * @date 2019/8/14.
  * @description 主TAB 钱包板块 （H5）
  */
-class WalletFragment : BaseFragment<FragmentWalletBinding, ViewModel>(R.layout.fragment_wallet, null) {
+class WalletFragment :
+    BaseFragment<FragmentWalletBinding, WalletViewModel>(R.layout.fragment_wallet, WalletViewModel::class.java) {
+
+    var progressDialog: ProgressDialog? = null
 
     override fun bindData(savedInstanceState: Bundle?) {
-        binding.web.addJavascriptInterface(JSInterface(context!!.applicationContext), "client")
+        binding.web.addJavascriptInterface(JSInterface(context!!.applicationContext), JSInterface.NAME)
         binding.web.addJavascriptInterface(this, "wallet")
-        binding.web.addJavascriptInterface(ADInterface(activity!!), "ad")
+        binding.web.addJavascriptInterface(ADInterface(activity!!, binding.web), ADInterface.NAME)
         binding.web.loadUrl(BuildConfig.WALLET_URI)
     }
 
     override fun bindView() {
+        progressDialog = ProgressDialog(activity)
     }
 
     //通用web页面跳转
@@ -61,27 +71,6 @@ class WalletFragment : BaseFragment<FragmentWalletBinding, ViewModel>(R.layout.f
     }
 
     @JavascriptInterface
-    fun checkRedPoint() {
-
-    }
-
-    @JavascriptInterface
-    fun isLogin(): Boolean {
-        return true
-    }
-
-    @JavascriptInterface
-    fun goLogin() {
-
-    }
-
-    @JavascriptInterface
-    fun isConnected(): Boolean {
-
-        return true
-    }
-
-    @JavascriptInterface
     fun startGame(url: String, vtype: Int, gid: String) {
         activity?.runOnUiThread {
             startActivity(
@@ -93,12 +82,63 @@ class WalletFragment : BaseFragment<FragmentWalletBinding, ViewModel>(R.layout.f
     }
 
     @JavascriptInterface
-    fun wxLogin() {
+    fun startPage(code: Int, arg: String) {
+        LiveDataBus.getInstance().getChannel(EventConstants.START_PAGE).postValue(code)
+    }
+
+    @JavascriptInterface
+    fun isLogin(): Boolean {
+        return (activity as MainActivity).getUserCenterFragment().isLogin
+    }
+
+    @JavascriptInterface
+    fun goLogin() {
+        activity?.runOnUiThread {
+            (activity as MainActivity).getUserCenterFragment().login()
+        }
+    }
+
+    @JavascriptInterface
+    fun isConnected(): Boolean {
+        return NetworkUtil.isConnected(activity?.applicationContext)
+    }
+
+    @JavascriptInterface
+    fun checkRedPoint() {
+        LiveDataBus.getInstance().getChannel(EventConstants.UPDATE_RED_POINT).postValue(0)
     }
 
 
     @JavascriptInterface
-    fun startPage(code: Int, arg: String) {
+    fun wxLogin() {
+        activity?.runOnUiThread {
+            progressDialog?.show()
+            WeChatUtil.wxLogin(activity?.applicationContext, object : WXLoginListener {
+                override fun onSuccess(code: String?) {
+                    binding.web.loadUrl("javascript:wxback2(1)")
+                }
+
+                override fun onFail(errMsg: String?) {
+                    binding.web.loadUrl("javascript:wxback2(0)")
+                }
+
+            })
+        }
+    }
+
+    @JavascriptInterface
+    fun showWeChat(name: String) {
+        activity?.runOnUiThread {
+            CommonTool.copy(activity!!, name)
+            CommonTool.getWeChatApi(activity!!)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (progressDialog?.isShowing!!) {
+            progressDialog?.cancel()
+        }
     }
 
 

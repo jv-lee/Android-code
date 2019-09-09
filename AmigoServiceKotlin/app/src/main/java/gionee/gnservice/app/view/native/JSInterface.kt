@@ -15,12 +15,12 @@ import java.util.*
  * @date 2019/8/29.
  * @description 基础组件 javascriptInterface接口
  */
-class JSInterface {
+class JSInterface(context: Context) {
 
-    private var context: Context? = null
+    private var context: Context? = context
 
-    constructor(context: Context) {
-        this.context = context
+    companion object {
+        const val NAME = "client"
     }
 
     @JavascriptInterface
@@ -58,7 +58,7 @@ class JSInterface {
         val sessionKey = RetrofitUtils.instance.getSessionKey()
         map["ts"] = ts
         map["sessionKey"] = sessionKey
-        map["VERSION"] = BuildConfig.VERSION_NAME
+        map["version"] = BuildConfig.VERSION_NAME
         map["sign"] = RetrofitUtils.instance.getSign(sessionKey, ts)!!
 
         return Gson().toJson(map)

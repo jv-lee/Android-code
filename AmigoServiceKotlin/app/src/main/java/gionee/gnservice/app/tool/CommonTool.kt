@@ -3,10 +3,11 @@ package gionee.gnservice.app.tool
 import android.annotation.SuppressLint
 import android.app.ActivityManager
 import android.app.Service
-import android.content.Context
+import android.content.*
 import android.provider.Settings
 import android.telephony.TelephonyManager
 import android.webkit.JavascriptInterface
+import android.widget.Toast
 import com.gionee.gnservice.statistics.StatisticsUtil
 import gionee.gnservice.app.App
 import java.math.BigDecimal
@@ -182,6 +183,67 @@ class CommonTool {
                 }
             }
             return false
+        }
+
+        /**
+         * 跳转到微信
+         */
+        fun getWeChatApi(context: Context) {
+            try {
+                val intent = Intent(Intent.ACTION_MAIN)
+                val cmp = ComponentName("com.tencent.mm", "com.tencent.mm.ui.LauncherUI")
+                intent.addCategory(Intent.CATEGORY_LAUNCHER)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                intent.component = cmp
+                context.startActivity(intent)
+            } catch (e: ActivityNotFoundException) {
+                // TODO: handle exception
+                Toast.makeText(context, "请安装微信", Toast.LENGTH_SHORT).show()
+            }
+
+        }
+
+        /**
+         * 复制内容到剪切板
+         *
+         * @param context
+         * @param copyStr
+         * @return
+         */
+        fun copy(context: Context, copyStr: String): Boolean {
+            try {
+                //获取剪贴板管理器
+                val cm = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                // 创建普通字符型ClipData
+                val mClipData = ClipData.newPlainText("Label", copyStr)
+                // 将ClipData内容放到系统剪贴板里。
+                cm.primaryClip = mClipData
+                return true
+            } catch (e: Exception) {
+                return false
+            }
+
+        }
+
+        /**
+         * 获取剪切板内容
+         *
+         * @param context
+         * @param copyStr
+         * @return
+         */
+        fun paste(context: Context, copyStr: String): String? {
+            try {
+                //获取剪贴板管理器
+                val cm = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                // 将ClipData内容放到系统剪贴板里。
+                val primaryClip = cm.primaryClip
+                val itemAt = primaryClip!!.getItemAt(0)
+                return itemAt.text.toString()
+            } catch (e: Exception) {
+                return null
+            }
+
         }
 
     }

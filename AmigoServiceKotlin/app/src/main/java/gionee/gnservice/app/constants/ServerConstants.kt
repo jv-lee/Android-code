@@ -37,6 +37,8 @@ class ServerConstants {
         const val ACT_VIDEO_CATEGORY: String = "video.init"
         //获取视频列表
         const val ACT_VIDEO_LIST: String = "video.getVideoListByCid"
+        //绑定微信接口
+        const val ACT_BIND_WX: String = "user.bindWX"
 
     }
 }

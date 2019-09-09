@@ -2,7 +2,9 @@ package gionee.gnservice.app.tool
 
 import android.view.View
 import com.lee.library.utils.SPUtil
+import com.lee.library.widget.nav.BottomNavView
 import gionee.gnservice.app.BuildConfig
+import gionee.gnservice.app.view.fragment.VideoChildFragment.Companion.key
 
 /**
  * @author jv.lee
@@ -45,16 +47,17 @@ class PrefAccess {
             }
         }
 
-        /**
-         * 设置引导图
-         */
-        fun isGuide(view: View, key: String) {
+        fun isGuide(index: Int, nav: BottomNavView, key: String) {
             if (SPUtil.get(key, true) as Boolean) {
-                SPUtil.save(key, false)
-                view.visibility = View.VISIBLE
-                view.setOnClickListener { view.visibility = View.GONE }
+                nav.setDotVisibility(index, View.VISIBLE)
             }
         }
+
+        fun useGuide(index: Int, nav: BottomNavView, key: String) {
+            SPUtil.save(key, false)
+            nav.setDotVisibility(index, View.GONE)
+        }
+
     }
 
 }

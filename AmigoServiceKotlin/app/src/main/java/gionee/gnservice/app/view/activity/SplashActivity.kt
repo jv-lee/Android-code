@@ -79,7 +79,7 @@ class SplashActivity :
      * 初始化开屏广告
      */
     private fun initSplash() {
-        StatisticsUtil.onEvent(this, StatisticsConstants.Splash_Fetch_Times, "冷启动")
+        StatisticsUtil.onEvent(this, StatisticsConstants.Splash_Fetch_Times, StatisticsConstants.Label_Cold_Start)
         splashView = SplashView(this)
         splashView?.setAdLoadCallBack(object : SplashViewCallBack {
             override fun onAdJump(p0: String?) {
@@ -96,7 +96,7 @@ class SplashActivity :
 
             override fun onAdTimeOut(p0: String?) {
                 LogUtil.i("splash -> onAdTimeOut:$p0")
-                StatisticsUtil.onEvent(this@SplashActivity, StatisticsConstants.Splash_Result, "冷启动_拉取超时")
+                StatisticsUtil.onEvent(this@SplashActivity, StatisticsConstants.Splash_Result, StatisticsConstants.Label_Cold_Start_TimeOut)
                 isSplash = true
                 sendMain()
             }
@@ -109,12 +109,12 @@ class SplashActivity :
 
             override fun onAdPresent(p0: String?) {
                 LogUtil.i("splash -> onAdPresent:$p0")
-                StatisticsUtil.onEvent(this@SplashActivity, StatisticsConstants.Splash_Result, "冷启动_成功曝光")
+                StatisticsUtil.onEvent(this@SplashActivity, StatisticsConstants.Splash_Result, StatisticsConstants.Label_Cold_Start_Success)
             }
 
             override fun onAdClick(p0: String?) {
                 LogUtil.i("splash -> onAdClick:$p0")
-                StatisticsUtil.onEvent(this@SplashActivity, StatisticsConstants.Splash_Result, "冷启动_广告点击")
+                StatisticsUtil.onEvent(this@SplashActivity, StatisticsConstants.Splash_Result, StatisticsConstants.Label_Cold_Start_AdClick)
             }
         })
         splashView?.setAdBound(resources.displayMetrics.widthPixels, resources.displayMetrics.heightPixels)

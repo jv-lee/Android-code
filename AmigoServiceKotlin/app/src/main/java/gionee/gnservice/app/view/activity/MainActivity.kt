@@ -25,6 +25,7 @@ import gionee.gnservice.app.Config
 import gionee.gnservice.app.R
 import gionee.gnservice.app.constants.Constants
 import gionee.gnservice.app.constants.EventConstants
+import gionee.gnservice.app.constants.StatisticsConstants
 import gionee.gnservice.app.databinding.ActivityMainBinding
 import gionee.gnservice.app.model.entity.Magnet
 import gionee.gnservice.app.model.server.RetrofitUtils
@@ -46,6 +47,7 @@ class MainActivity :
     private var dialogActiveFragment: DialogActiveFragment? = null
     private var dialogUpdateFragment: DialogUpdateFragment? = null
     private var dialogBackFragment: DialogBackFragment? = null
+    private var userCenterFragment: UserCenterFragment? = null
 
     /**
      * 新手任务提示弹窗
@@ -76,7 +78,7 @@ class MainActivity :
         AManager.getInstance().init(this)
 
         //添加隐藏的用户中心fragment 初始化用户中心基础组件
-        supportFragmentManager.beginTransaction().add(R.id.frame_usercenter_container, UserCenterFragment()).commit()
+        createUserCenterFragment()
 
         viewModel.apply {
             //推送奖励
@@ -94,7 +96,7 @@ class MainActivity :
 
             //红点提示
             redPoint.observe(this@MainActivity, Observer {
-                if (it != null) binding.nav.setNumberDot(4, it.t1)
+                if (it != null && it.t1 > 0) binding.nav.setDotVisibility(4, View.VISIBLE)
             })
 
             //磁铁or活动
@@ -107,19 +109,22 @@ class MainActivity :
                 if (it.list.isActive == 1) {
                     GlideTool.loadImage(it.list.icon, binding.ivActive)
                     binding.ivActive.setOnClickListener { v ->
-                        StatisticsUtil.onEvent(this@MainActivity, "", "")
+                        StatisticsUtil.onEvent(this@MainActivity, StatisticsConstants.MAGNET_CLICK)
                         showActiveMode(it)
                     }
                 }
             })
 
             tabIndex.observe(this@MainActivity, Observer {
-                if (it?.menu?.index == 0) {
+                if (it == null) {
+                    return@Observer
+                }
+                if (it.menu.index == 0) {
                     binding.ivActive.visibility = View.VISIBLE
                 } else {
                     binding.ivActive.visibility = View.INVISIBLE
                 }
-                nav.toPosition(it?.menu?.index!!)
+                nav.toPosition(it.menu.index)
             })
 
             //新手奖励提示窗
@@ -146,10 +151,6 @@ class MainActivity :
         viewModel.initPush(intent)
         viewModel.initMagnetActive()
 
-        PrefAccess.isGuide(binding.guideNews, PrefAccess.KEY_GUIDE_FINISHED_NEWS)
-        PrefAccess.isGuide(binding.guideVideo, PrefAccess.KEY_GUIDE_FINISHED_VIDEO)
-        PrefAccess.isGuide(binding.guideNovel, PrefAccess.KEY_GUIDE_FINISHED_NOVEL)
-
         initRedPoint(0)
         initUpdateAlert()
     }
@@ -163,6 +164,11 @@ class MainActivity :
         binding.nav.bindViewPager(binding.vpContainer)
         binding.nav.setItemPositionListener(this@MainActivity)
 
+        //设置引导红点
+        PrefAccess.isGuide(0, binding.nav, PrefAccess.KEY_GUIDE_FINISHED_NEWS)
+        PrefAccess.isGuide(0, binding.nav, PrefAccess.KEY_GUIDE_FINISHED_VIDEO)
+        PrefAccess.isGuide(0, binding.nav, PrefAccess.KEY_GUIDE_FINISHED_NOVEL)
+
         viewModel.initTabIndex(intent)
     }
 
@@ -173,21 +179,46 @@ class MainActivity :
         when (position) {
             0 -> {
                 LogUtil.i("nav -> news")
-                binding.guideNews.visibility = View.GONE
+                StatisticsUtil.onEvent(
+                    applicationContext,
+                    StatisticsConstants.USER_TAGSCLICK,
+                    StatisticsConstants.Label_TAB_NEWS
+                )
+                PrefAccess.useGuide(0, binding.nav, PrefAccess.KEY_GUIDE_FINISHED_NEWS)
             }
             1 -> {
                 LogUtil.i("nav -> video")
-                binding.guideVideo.visibility = View.GONE
+                StatisticsUtil.onEvent(
+                    applicationContext,
+                    StatisticsConstants.USER_TAGSCLICK,
+                    StatisticsConstants.Label_TAB_VIDEO
+                )
+                PrefAccess.useGuide(1, binding.nav, PrefAccess.KEY_GUIDE_FINISHED_VIDEO)
             }
             2 -> {
                 LogUtil.i("nav -> novel")
-                binding.guideNovel.visibility = View.GONE
+                StatisticsUtil.onEvent(
+                    applicationContext,
+                    StatisticsConstants.USER_TAGSCLICK,
+                    StatisticsConstants.Label_TAB_NOVEL
+                )
+                PrefAccess.useGuide(2, binding.nav, PrefAccess.KEY_GUIDE_FINISHED_NOVEL)
             }
             3 -> {
                 LogUtil.i("nav -> game")
+                StatisticsUtil.onEvent(
+                    applicationContext,
+                    StatisticsConstants.USER_TAGSCLICK,
+                    StatisticsConstants.Label_TAB_GAME
+                )
             }
             4 -> {
                 LogUtil.i("nav -> wallet")
+                StatisticsUtil.onEvent(
+                    applicationContext,
+                    StatisticsConstants.USER_TAGSCLICK,
+                    StatisticsConstants.Label_TAB_WALLET
+                )
             }
         }
     }
@@ -240,7 +271,7 @@ class MainActivity :
     fun startTabMode(code: Int) {
         if (code != 5) {
             nav.toPosition(code)
-        }else{
+        } else {
             //钱包任务栏
             nav.toPosition(4)
         }
@@ -265,6 +296,21 @@ class MainActivity :
                     .putExtra(Constants.TITLE, entity.list.name)
             )
         }
+    }
+
+    /**
+     * TODO 初始化用户中心碎片
+     */
+    private fun createUserCenterFragment() {
+        if (userCenterFragment == null) userCenterFragment = UserCenterFragment()
+        supportFragmentManager.beginTransaction().add(R.id.frame_usercenter_container, userCenterFragment!!).commit()
+    }
+
+    /**
+     * TODO 提供给钱包界面获取用户中心碎片
+     */
+    fun getUserCenterFragment(): UserCenterFragment {
+        return userCenterFragment!!
     }
 
     /**

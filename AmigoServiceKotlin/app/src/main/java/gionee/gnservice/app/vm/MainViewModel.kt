@@ -91,12 +91,33 @@ class MainViewModel(application: Application) : BaseViewModel(application) {
         model.tabIndex(if (isSub) "1" else "0").observeForever {
             tabIndex.value = it
 
+            //统计首页 首次曝光页面
             when (it?.menu?.index!!) {
-                0 -> StatisticsUtil.onEvent(getApplication<App>(), "Exposure_UCenterPage", "资讯")
-                1 -> StatisticsUtil.onEvent(getApplication<App>(), "Exposure_UCenterPage", "视频")
-                2 -> StatisticsUtil.onEvent(getApplication<App>(), "Exposure_UCenterPage", "小说")
-                3 -> StatisticsUtil.onEvent(getApplication<App>(), "Exposure_UCenterPage", "游戏")
-                4 -> StatisticsUtil.onEvent(getApplication<App>(), "Exposure_UCenterPage", "钱包")
+                0 -> StatisticsUtil.onEvent(
+                    getApplication<App>(),
+                    StatisticsConstants.Exposure_UCenterPage,
+                    StatisticsConstants.Label_TAB_NEWS
+                )
+                1 -> StatisticsUtil.onEvent(
+                    getApplication<App>(),
+                    StatisticsConstants.Exposure_UCenterPage,
+                    StatisticsConstants.Label_TAB_VIDEO
+                )
+                2 -> StatisticsUtil.onEvent(
+                    getApplication<App>(),
+                    StatisticsConstants.Exposure_UCenterPage,
+                    StatisticsConstants.Label_TAB_NOVEL
+                )
+                3 -> StatisticsUtil.onEvent(
+                    getApplication<App>(),
+                    StatisticsConstants.Exposure_UCenterPage,
+                    StatisticsConstants.Label_TAB_GAME
+                )
+                4 -> StatisticsUtil.onEvent(
+                    getApplication<App>(),
+                    StatisticsConstants.Exposure_UCenterPage,
+                    StatisticsConstants.Label_TAB_WALLET
+                )
             }
         }
     }

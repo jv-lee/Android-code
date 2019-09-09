@@ -18,15 +18,33 @@ class StatisticsConstants {
 
         //开屏广告
         const val Splash_Fetch_Times: String = "Splash_Fetch_Times"
-        const val Splash_Result: String = "Splash_Result"
+        const val Label_Cold_Start: String = "冷启动"
+        const val Label_Cold_Start_TimeOut: String = "冷启动_拉取超时"
+        const val Label_Cold_Start_Success: String = "冷启动_成功曝光"
+        const val Label_Cold_Start_AdClick: String = "冷启动_广告点击"
+        const val Label_Run_Start: String = "热启动"
+        const val Label_Run_Start_TimeOut: String = "热启动_拉取超时"
+        const val Label_Run_Start_Success: String = "热启动_成功曝光"
+        const val Label_Run_Start_AdClick: String = "热启动_广告点击"
 
-        //用户中心
-        const val Exposure_UCenterPage: String = "Exposure_UCenterPage"
+        const val Splash_Result: String = "Splash_Result"
 
         //冷启动 来源
         const val Cold_Start: String = "Cold_Start"
 
         //通知栏 统计
         const val Client_Notification: String = "Client_Notification"
+
+        //用户中心
+        const val Exposure_UCenterPage: String = "Exposure_UCenterPage"
+        //tab点击
+        const val USER_TAGSCLICK: String = "User_TagsClick"
+        const val Label_TAB_NEWS: String = "资讯"
+        const val Label_TAB_VIDEO: String = "视频"
+        const val Label_TAB_NOVEL: String = "小说"
+        const val Label_TAB_GAME: String = "游戏"
+        const val Label_TAB_WALLET: String = "钱包"
+
+        const val MAGNET_CLICK: String = "Magnet_Click"
     }
 }

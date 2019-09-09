@@ -16,6 +16,8 @@ import com.gionee.gnservice.AmigoServiceApp
 import com.lee.library.utils.DensityUtil
 import com.lee.library.utils.SPUtil
 import com.s.main.sdk.SDK
+import com.tencent.mm.opensdk.openapi.IWXAPI
+import com.tencent.mm.opensdk.openapi.WXAPIFactory
 import gionee.gnservice.app.constants.Constants
 import gionee.gnservice.app.constants.Constants.Companion.READING_ACTIVITY_NAME
 import gionee.gnservice.app.service.LocalService
@@ -28,7 +30,6 @@ import gionee.gnservice.app.tool.GlideTool
 import gionee.gnservice.app.tool.ReflectTool
 import gionee.gnservice.app.view.activity.MainActivity
 import gionee.gnservice.app.view.activity.SplashRunActivity
-import java.util.concurrent.ThreadPoolExecutor
 
 /**
  * @author jv.lee
@@ -53,6 +54,7 @@ class App : AmigoServiceApp() {
     companion object {
         @SuppressLint("StaticFieldLeak")
         lateinit var instance: Context
+        lateinit var wxApi: IWXAPI
     }
 
     override fun onCreate() {
@@ -79,6 +81,10 @@ class App : AmigoServiceApp() {
      * 第三方SDK初始化
      */
     private fun initSDK() {
+        //初始化微信
+        wxApi= WXAPIFactory.createWXAPI(this, BuildConfig.weChatAppId, false)
+        wxApi.registerApp(BuildConfig.weChatAppId)
+
         //资讯初始化
         InfoStreamManager.getInstance().init(this, BuildConfig.newsId, BuildConfig.newsKey, false)
 

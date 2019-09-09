@@ -9,6 +9,8 @@ import com.lee.library.base.BaseActivity
 import gionee.gnservice.app.R
 import gionee.gnservice.app.constants.Constants
 import gionee.gnservice.app.databinding.ActivityWebBinding
+import gionee.gnservice.app.view.native.ADInterface
+import gionee.gnservice.app.view.native.JSInterface
 import kotlinx.android.synthetic.main.layout_status_toolbar.view.*
 
 /**
@@ -35,6 +37,8 @@ class WebActivity : BaseActivity<ActivityWebBinding, ViewModel>(R.layout.activit
             binding.include.title.text = title
             binding.include.back.setOnClickListener { finish() }
         }
+        binding.web.addJavascriptInterface(JSInterface(applicationContext), JSInterface.NAME)
+        binding.web.addJavascriptInterface(ADInterface(this, binding.web), ADInterface.NAME)
         binding.web.loadUrl(url)
     }
 

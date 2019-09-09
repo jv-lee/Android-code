@@ -64,7 +64,9 @@ ext {
             screenId     : "41555",
             //google激励视频
             googleAppId  : "ca-app-pub-2261221715899905~9143459369",
-            googleVideoId: "ca-app-pub-2261221715899905/9702696717"
+            googleVideoId: "ca-app-pub-2261221715899905/9702696717",
+            //微信appid
+            weChatAppId  : "wx5dbbeef10c3f9d2c"
     ]
 
     //第三方依赖版本号

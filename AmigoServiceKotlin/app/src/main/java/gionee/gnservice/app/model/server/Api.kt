@@ -67,4 +67,7 @@ interface ApiServer {
     @GET(BASE_PATH)
     fun videoList(@Query(BASE_ACT) act: String, @QueryMap map: HashMap<String, Any>): Call<Data<Video>>
 
+    @GET(BASE_PATH)
+    fun bindWX(@Query(BASE_ACT) act: String, @Query("code") code: String): Call<Data<WXInfo>>
+
 }

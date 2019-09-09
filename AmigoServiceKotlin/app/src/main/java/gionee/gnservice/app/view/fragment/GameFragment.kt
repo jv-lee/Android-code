@@ -64,9 +64,9 @@ class GameFragment :
     }
 
     override fun bindView() {
-        binding.web.addJavascriptInterface(JSInterface(context!!.applicationContext), "client")
+        binding.web.addJavascriptInterface(JSInterface(context!!.applicationContext), JSInterface.NAME)
         binding.web.addJavascriptInterface(this, "game")
-        binding.web.addJavascriptInterface(ADInterface(activity!!), "ad")
+        binding.web.addJavascriptInterface(ADInterface(activity!!, binding.web), ADInterface.NAME)
         binding.web.loadUrl(BuildConfig.GAME_URI)
     }
 
