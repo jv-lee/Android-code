@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ChatRoomFragment">
+
+
+    <Switch
+        android:id="@+id/switch_mute"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="静音"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/switch_effect"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Switch
+        android:id="@+id/switch_effect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="免提"
+        app:layout_constraintLeft_toRightOf="@id/switch_mute"
+        app:layout_constraintRight_toLeftOf="@id/switch_camera_enable"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Switch
+        android:id="@+id/switch_camera_enable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="开启摄像头"
+        app:layout_constraintLeft_toRightOf="@id/switch_effect"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Switch
+        android:id="@+id/switch_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="挂断"
+        app:layout_constraintLeft_toRightOf="@id/switch_mute"
+        app:layout_constraintRight_toLeftOf="@id/switch_camera_device"
+        app:layout_constraintTop_toBottomOf="@id/switch_effect" />
+
+    <Switch
+        android:id="@+id/switch_camera_device"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="切换摄像头"
+        app:layout_constraintLeft_toRightOf="@id/switch_close"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/switch_camera_enable" />
+
+
+</android.support.constraint.ConstraintLayout>

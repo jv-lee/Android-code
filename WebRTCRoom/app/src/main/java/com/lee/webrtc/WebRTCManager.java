@@ -3,6 +3,7 @@ package com.lee.webrtc;
 import android.app.Activity;
 
 import com.lee.webrtc.connection.PeerConnectionManager;
+import com.lee.webrtc.interfaces.IViewCallback;
 import com.lee.webrtc.permission.PermissionRequest;
 import com.lee.webrtc.socket.JavaWebSocket;
 
@@ -30,6 +31,7 @@ public class WebRTCManager {
 
     /**
      * 初始化连接 创建socket连接， 音视频会话管理器
+     *
      * @param activity
      * @param roomId
      */
@@ -42,11 +44,49 @@ public class WebRTCManager {
 
     /**
      * 开启连接至房间
+     *
      * @param chatRoomActivity
      * @param eglBase
      */
     public void joinRoom(ChatRoomActivity chatRoomActivity, EglBase eglBase) {
-        peerConnectionManager.initContext(chatRoomActivity,eglBase);
+        peerConnectionManager.initContext(chatRoomActivity, eglBase);
         webSocket.joinRoom(roomId);
+    }
+
+    public void toggle(boolean enableMic) {
+        if (peerConnectionManager != null) {
+            peerConnectionManager.toggleSpeaker(enableMic);
+        }
+    }
+
+    public void toggleLarge(boolean isChecked) {
+        if (peerConnectionManager != null) {
+            peerConnectionManager.toggleLarge(isChecked);
+        }
+    }
+
+    public void toggleCameraEnable(boolean isChecked) {
+        if (peerConnectionManager != null) {
+            peerConnectionManager.toggleCameraEnable(isChecked);
+        }
+    }
+
+    public void toggleCameraDevice(boolean isChecked) {
+        if (peerConnectionManager != null) {
+            peerConnectionManager.toggleCameraDevice(isChecked);
+        }
+    }
+
+    public void exitRoom() {
+        if (peerConnectionManager != null) {
+            webSocket = null;
+            peerConnectionManager.exitRoom();
+        }
+    }
+
+    public void setViewCallback(IViewCallback viewCallback) {
+        if (peerConnectionManager != null) {
+            peerConnectionManager.setViewCallback(viewCallback);
+        }
     }
 }

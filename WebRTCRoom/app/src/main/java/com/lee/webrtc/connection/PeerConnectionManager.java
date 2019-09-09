@@ -1,8 +1,11 @@
 package com.lee.webrtc.connection;
 
+import android.content.Context;
+import android.media.AudioManager;
 import android.util.Log;
 
 import com.lee.webrtc.ChatRoomActivity;
+import com.lee.webrtc.interfaces.IViewCallback;
 import com.lee.webrtc.socket.JavaWebSocket;
 
 import org.webrtc.AudioSource;
@@ -10,6 +13,7 @@ import org.webrtc.AudioTrack;
 import org.webrtc.Camera1Enumerator;
 import org.webrtc.Camera2Enumerator;
 import org.webrtc.CameraEnumerator;
+import org.webrtc.CameraVideoCapturer;
 import org.webrtc.DataChannel;
 import org.webrtc.DefaultVideoDecoderFactory;
 import org.webrtc.DefaultVideoEncoderFactory;
@@ -44,7 +48,8 @@ public class PeerConnectionManager {
 
     private static final String TAG = "lee>>>";
 
-    private ChatRoomActivity mContext;
+    private Context mContext;
+    private IViewCallback viewCallback;
     private String myId;
     /**
      * 是否开启视频画面
@@ -141,6 +146,23 @@ public class PeerConnectionManager {
      */
     private Map<String, Peer> connectionPeerDic;
 
+
+    /**
+     * 当前用户角色
+     */
+    private Role role;
+
+    private JavaWebSocket javaWebSocket;
+
+    /**
+     * 声音服务类
+     */
+    private AudioManager audioManager;
+
+    public void setViewCallback(IViewCallback viewCallback) {
+        this.viewCallback = viewCallback;
+    }
+
     /**
      * 角色枚举
      */
@@ -155,11 +177,112 @@ public class PeerConnectionManager {
         Receiver}
 
     /**
-     * 当前用户角色
+     * 切换是否允许将本地的麦克风数据推送到远端
+     *
+     * @param enableMic
      */
-    private Role role;
+    public void toggleSpeaker(boolean enableMic) {
+        if (localAudioTrack != null) {
 
-    private JavaWebSocket javaWebSocket;
+            localAudioTrack.setEnabled(enableMic);
+        }
+    }
+
+    /**
+     * 切换播放设备，免提模式
+     *
+     * @param isChecked
+     */
+    public void toggleLarge(boolean isChecked) {
+        if (audioManager != null) {
+            audioManager.setSpeakerphoneOn(isChecked);
+        }
+    }
+
+    /**
+     * 关闭摄像头预览
+     *
+     * @param isChecked
+     */
+    public void toggleCameraEnable(boolean isChecked) {
+        if (localVideoTrack != null) {
+            localVideoTrack.setEnabled(isChecked);
+        }
+    }
+
+    /**
+     * 切换前置后置摄像头
+     *
+     * @param isChecked
+     */
+    public void toggleCameraDevice(boolean isChecked) {
+        if (capturerAndroid != null && capturerAndroid instanceof CameraVideoCapturer) {
+            CameraVideoCapturer cameraVideoCapturer = (CameraVideoCapturer) capturerAndroid;
+            cameraVideoCapturer.switchCamera(null);
+        }
+    }
+
+
+    /**
+     * 耗时操作
+     */
+    public void exitRoom() {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                ArrayList<String> myCopy = (ArrayList<String>) connectionIdArray.clone();
+                for (String id : myCopy) {
+                    closePeerConnection(id);
+                }
+                //清空单列集合
+                if (connectionIdArray != null) {
+                    connectionIdArray.clear();
+                }
+                //关闭音频推流
+                if (audioSource != null) {
+                    audioSource.dispose();
+                    audioSource = null;
+                }
+                //关闭视频推流
+                if (videoSource != null) {
+                    videoSource.dispose();
+                    videoSource = null;
+                }
+                //关闭摄像头预览
+                if (capturerAndroid != null) {
+                    try {
+                        capturerAndroid.stopCapture();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                //关闭辅助类
+                if (surfaceTextureHelper != null) {
+                    surfaceTextureHelper.dispose();
+                    surfaceTextureHelper = null;
+                }
+                //关闭工厂
+                if (factory != null) {
+                    factory.dispose();
+                    factory = null;
+                }
+            }
+        });
+    }
+
+    private void closePeerConnection(String id) {
+        //拿到链接的封装对象
+        Peer mPeer = connectionPeerDic.get(id);
+        if (mPeer != null) {
+            //关闭了P2P连接
+            mPeer.peerConnection.close();
+        }
+        connectionPeerDic.remove(id);
+        connectionIdArray.remove(id);
+        if (viewCallback != null) {
+            viewCallback.onCloseWithId(id);
+        }
+    }
 
     private static final PeerConnectionManager outInstance = new PeerConnectionManager();
 
@@ -177,6 +300,7 @@ public class PeerConnectionManager {
         this.iceServers = new ArrayList<>();
         this.connectionPeerDic = new HashMap<>();
         this.connectionIdArray = new ArrayList<>();
+        audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
 
         PeerConnection.IceServer iceServer1 = PeerConnection.IceServer
                 .builder("stun:47.107.132.117:3478?transport=udp")
@@ -191,6 +315,7 @@ public class PeerConnectionManager {
                 .createIceServer();
         iceServers.add(iceServer1);
         iceServers.add(iceServer2);
+
     }
 
     /**
@@ -300,8 +425,8 @@ public class PeerConnectionManager {
             localVideoTrack = factory.createVideoTrack(STREAM_LABEL + "v0", videoSource);
             //视屏轨道添加到多媒体流
             localStream.addTrack(localVideoTrack);
-            if (mContext != null) {
-                mContext.setLocalStream(localStream, myId);
+            if (viewCallback != null) {
+                viewCallback.onSetLocalStream(localStream,myId);
             }
         }
     }
@@ -494,7 +619,9 @@ public class PeerConnectionManager {
          */
         @Override
         public void onAddStream(MediaStream mediaStream) {
-            mContext.onAddRemoteStream(mediaStream, socketId);
+            if (viewCallback != null) {
+                viewCallback.onAddRemoteStream(mediaStream,socketId);
+            }
         }
 
         @Override
