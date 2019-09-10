@@ -3,11 +3,10 @@ package gionee.gnservice.app.view.fragment
 import android.arch.lifecycle.Observer
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import com.lee.library.base.BaseFragment
 import com.lee.library.widget.refresh.header.DefaultHeader
-import gionee.gnservice.app.Config.Companion.limit
+import gionee.gnservice.app.Cache.Companion.limit
 import gionee.gnservice.app.R
 import gionee.gnservice.app.constants.Constants
 import gionee.gnservice.app.databinding.FragmentVideoChildBinding

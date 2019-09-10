@@ -2,10 +2,8 @@ package gionee.gnservice.app.vm
 
 import android.app.Application
 import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.Transformations
 import com.lee.library.mvvm.BaseViewModel
-import com.lee.library.utils.LogUtil
-import gionee.gnservice.app.Config.Companion.limit
+import gionee.gnservice.app.Cache.Companion.limit
 import gionee.gnservice.app.model.entity.TaskInfo
 import gionee.gnservice.app.model.entity.Video
 import gionee.gnservice.app.model.entity.VideoCategory

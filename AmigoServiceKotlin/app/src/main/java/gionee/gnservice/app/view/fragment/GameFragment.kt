@@ -11,7 +11,7 @@ import com.lee.library.base.BaseFragment
 import com.lee.library.livedatabus.InjectBus
 import com.lee.library.livedatabus.LiveDataBus
 import gionee.gnservice.app.BuildConfig
-import gionee.gnservice.app.Config
+import gionee.gnservice.app.Cache
 import gionee.gnservice.app.R
 import gionee.gnservice.app.constants.Constants
 import gionee.gnservice.app.constants.EventConstants
@@ -35,7 +35,7 @@ class GameFragment :
     private val value by lazy {
         ValueTimer.init(30, object : ValueTimer.TimeCallback {
             override fun endRepeat() {
-                viewModel.subAddTime("30", Constants.TYPE_GAME, Config.playGameId)
+                viewModel.subAddTime("30", Constants.TYPE_GAME, Cache.playGameId)
             }
         })
     }
@@ -88,7 +88,7 @@ class GameFragment :
     @JavascriptInterface
     fun startGame(url: String, vtype: Int, gid: String) {
         activity?.runOnUiThread {
-            Config.playGameId = gid
+            Cache.playGameId = gid
             startActivity(
                 Intent(activity, GameActivity::class.java)
                     .putExtra(Constants.URL, url)

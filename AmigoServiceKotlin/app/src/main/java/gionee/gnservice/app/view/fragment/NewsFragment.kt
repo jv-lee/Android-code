@@ -2,19 +2,16 @@ package gionee.gnservice.app.view.fragment
 
 
 import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModel
 import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import android.widget.Toast
 import com.dl.infostream.InfoStreamEventListener
 import com.dl.infostream.InfoStreamManager
 import com.dl.infostream.InfoStreamView
-import com.dl.infostream.view.FloatingTimerButton
 import com.lee.library.base.BaseFragment
 import com.lee.library.livedatabus.LiveDataBus
+import gionee.gnservice.app.Cache
 import gionee.gnservice.app.R
 import gionee.gnservice.app.constants.Constants
 import gionee.gnservice.app.constants.EventConstants
@@ -34,29 +31,16 @@ class NewsFragment :
     override fun bindData(savedInstanceState: Bundle?) {
         viewModel.taskInfo.observe(this, Observer {
             if (it?.info != null) {
-                ToastTool.show(activity!!, getString(R.string.task_award, it.info.getYD))
-            }
-            if (it?.taskOverList != null && it.taskOverList.isNotEmpty()) {
-                for (taskOver in it.taskOverList) {
-                    if (taskOver.taskType == 2) {
-                        ToastTool.show(activity!!, getString(R.string.task_name, taskOver.taskName, taskOver.taskCount))
-                        LiveDataBus.getInstance().getChannel(EventConstants.UPDATE_RED_POINT).value = 0
-                    }
-                }
+                LiveDataBus.getInstance().getChannel(EventConstants.NOTIFICATION_AWARD).value =
+                    (Cache.ydCount + it.info.getYD)
             }
         })
 
-        InfoStreamManager.getInstance().setCountDownArgs(
-            BitmapFactory.decodeResource(resources, R.mipmap.loading_icon),
-            20000,
-            5000,
-            30,
-            30
-        )
-
         //设置计时器
+        InfoStreamManager.getInstance()
+            .setCountDownArgs(BitmapFactory.decodeResource(resources, R.mipmap.loading_icon), 5000, 5000, -300, 30)
         InfoStreamManager.getInstance().setCountDownFunction(true) {
-            viewModel.subAddTime("20", Constants.TYPE_NEWS, null)
+            viewModel.subAddTime("3", Constants.TYPE_NEWS, null)
         }
 
         InfoStreamManager.getInstance().infoStreamEventListener = object : InfoStreamEventListener {

@@ -46,5 +46,11 @@ class StatisticsConstants {
         const val Label_TAB_WALLET: String = "钱包"
 
         const val MAGNET_CLICK: String = "Magnet_Click"
+
+        //悬浮窗
+        const val Float_Icon_Permission: String = "Float_Icon_Permission"
+        const val Label_Permission_Success: String = "已授权"
+        const val Label_Permission_Failed: String = "未授权"
+        const val Float_Icon_Click: String = "Float_Icon_Click"
     }
 }

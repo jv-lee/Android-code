@@ -14,8 +14,11 @@ import java.lang.ref.WeakReference;
 public class PermissionManager {
 
     private static PermissionManager instance;
-    private PermissionManager(){}
-    public static PermissionManager getInstance(){
+
+    private PermissionManager() {
+    }
+
+    public static PermissionManager getInstance() {
         if (instance == null) {
             synchronized (PermissionManager.class) {
                 if (instance == null) {
@@ -33,7 +36,7 @@ public class PermissionManager {
     PermissionRequest permissionRequest;
     static final int PERMISSION_CODE = 1001;
 
-    public PermissionManager attach(FragmentActivity activity){
+    public PermissionManager attach(FragmentActivity activity) {
         weakActivity = new WeakReference<>(activity);
         return this;
     }
@@ -43,7 +46,7 @@ public class PermissionManager {
         return this;
     }
 
-    public void listener(PermissionRequest permissionRequest){
+    public void listener(PermissionRequest permissionRequest) {
         this.permissionRequest = permissionRequest;
 
         FragmentManager manager = weakActivity.get().getSupportFragmentManager();
@@ -51,6 +54,9 @@ public class PermissionManager {
             fragment = new PermissionFragment();
         }
         FragmentTransaction fragmentTransaction = manager.beginTransaction();
+        if (fragment.isAdded()) {
+            fragmentTransaction.remove(fragment);
+        }
         fragmentTransaction.add(fragment, PERMISSION_TAG);
         fragmentTransaction.addToBackStack(PERMISSION_TAG);
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
@@ -60,8 +66,8 @@ public class PermissionManager {
         //判断权限
         if (PermissionUtils.hasSelfPermissions(weakActivity.get(), permissions)) {
             permissionRequest.onPermissionSuccess();
-        }else{
-            fragment.requestPermissions(permissions,PermissionManager.PERMISSION_CODE);
+        } else {
+            fragment.requestPermissions(permissions, PermissionManager.PERMISSION_CODE);
         }
 
 //        if (PermissionUtils.hasSelfPermissions(weakActivity.get(), permissions)) {

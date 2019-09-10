@@ -51,6 +51,9 @@ public class PermissionManager {
             fragment = new PermissionFragment();
         }
         FragmentTransaction fragmentTransaction = manager.beginTransaction();
+        if (fragment.isAdded()) {
+            fragmentTransaction.remove(fragment);
+        }
         fragmentTransaction.add(fragment, PERMISSION_TAG);
         fragmentTransaction.addToBackStack(PERMISSION_TAG);
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);

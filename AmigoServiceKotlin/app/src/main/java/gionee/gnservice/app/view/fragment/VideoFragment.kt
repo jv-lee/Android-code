@@ -28,14 +28,6 @@ class VideoFragment :
     private val fragments = ArrayList<Fragment>()
     private val titles = ArrayList<String>()
 
-    private val value by lazy {
-        ValueTimer.init(30, object : ValueTimer.TimeCallback {
-            override fun endRepeat() {
-                viewModel.subAddTime("30", Constants.TYPE_VIDEO, null)
-            }
-        })
-    }
-
     override fun bindData(savedInstanceState: Bundle?) {
         LiveDataBus.getInstance().injectBus(this)
 
@@ -53,20 +45,6 @@ class VideoFragment :
                 vpAdapter.notifyDataSetChanged()
                 binding.vpContainer.offscreenPageLimit = fragments.size - 1
             })
-
-            taskInfo.observe(this@VideoFragment, Observer {
-                if (it?.taskOverList != null && it.taskOverList.isNotEmpty()) {
-                    for (taskOver in it.taskOverList) {
-                        if (taskOver.taskType == 2) {
-                            ToastTool.show(
-                                activity!!,
-                                getString(R.string.task_name, taskOver.taskName, taskOver.taskCount)
-                            )
-                            LiveDataBus.getInstance().getChannel(EventConstants.UPDATE_RED_POINT).value = 0
-                        }
-                    }
-                }
-            })
         }
 
         viewModel.loadVideoCategory()
@@ -78,20 +56,5 @@ class VideoFragment :
 
     override fun lazyLoad() {
     }
-
-    override fun onDestroy() {
-        ValueTimer.destroy(value)
-        super.onDestroy()
-    }
-
-    @InjectBus(value = EventConstants.VIDEO_TIMER_STATUS)
-    fun event(run: Boolean) {
-        if (run) {
-            ValueTimer.resume(value)
-        } else {
-            ValueTimer.pause(value)
-        }
-    }
-
 
 }

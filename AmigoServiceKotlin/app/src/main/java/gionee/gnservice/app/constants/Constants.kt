@@ -60,10 +60,18 @@ class Constants {
         const val MAGNET_NEWS = 1
         const val MAGNET_NOVEL = 2
         const val MAGNET_WALLET = 3
-        const val MAGNET_WECHAT = 6
         const val MAGNET_GAME = 7
         const val MAGNET_VIDEO = 17
         const val MAGNET_WALLET_TASK = 19
+        const val MAGNET_WALLET_WECHAT = 6
+
+        const val TAB_NEWS = 0
+        const val TAB_VIDEO = 1
+        const val TAB_NOVEL = 2
+        const val TAB_GAME = 3
+        const val TAB_WALLET = 4
+        const val TAB_WALLET_TASK = 5
+        const val TAB_WALLET_WECHAT = 6
     }
 
 

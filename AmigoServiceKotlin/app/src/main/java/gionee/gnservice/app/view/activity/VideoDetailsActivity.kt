@@ -1,5 +1,7 @@
 package gionee.gnservice.app.view.activity
 
+import android.animation.ValueAnimator
+import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModel
 import android.os.Bundle
 import android.view.KeyEvent
@@ -8,10 +10,13 @@ import com.lee.library.base.BaseActivity
 import com.lee.library.livedatabus.LiveDataBus
 import com.lee.library.utils.StatusUtil
 import com.lee.library.widget.WebViewEx
+import gionee.gnservice.app.Cache
 import gionee.gnservice.app.R
 import gionee.gnservice.app.constants.Constants
 import gionee.gnservice.app.constants.EventConstants
 import gionee.gnservice.app.databinding.ActivityVideoDetailsBinding
+import gionee.gnservice.app.tool.ValueTimer
+import gionee.gnservice.app.vm.VideoDetailsViewModel
 import kotlinx.android.synthetic.main.layout_status_toolbar.view.*
 
 /**
@@ -20,13 +25,21 @@ import kotlinx.android.synthetic.main.layout_status_toolbar.view.*
  * @description 视频详情页面
  */
 class VideoDetailsActivity :
-    BaseActivity<ActivityVideoDetailsBinding, ViewModel>(R.layout.activity_video_details, null) {
+    BaseActivity<ActivityVideoDetailsBinding, VideoDetailsViewModel>(
+        R.layout.activity_video_details,
+        VideoDetailsViewModel::class.java
+    ) {
 
     private var url: String? = null
+    private var value: ValueAnimator? = null
 
     override fun bindData(savedInstanceState: Bundle?) {
         StatusUtil.setStatusFontLight2(mActivity)
         url = intent.getStringExtra(Constants.URL)
+
+        viewModel.award.observe(this, Observer {
+            LiveDataBus.getInstance().getChannel(EventConstants.NOTIFICATION_AWARD).value = (Cache.ydCount + it!!.count)
+        })
     }
 
     override fun bindView() {
@@ -44,6 +57,14 @@ class VideoDetailsActivity :
             }
         })
         binding.web.loadUrl(url)
+
+        viewModel.getVideoAward(1)
+        value = ValueTimer.init(12, object : ValueTimer.TimeCallback {
+            override fun endRepeat() {
+                viewModel.getVideoAward(2)
+            }
+        })
+        value?.start()
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
@@ -58,18 +79,19 @@ class VideoDetailsActivity :
 
     override fun onResume() {
         super.onResume()
-        LiveDataBus.getInstance().getChannel(EventConstants.VIDEO_TIMER_STATUS).value = true
         binding.web.exResume()
+        ValueTimer.resume(value)
     }
 
     override fun onPause() {
         super.onPause()
-        LiveDataBus.getInstance().getChannel(EventConstants.VIDEO_TIMER_STATUS).value = false
         binding.web.exPause()
+        ValueTimer.pause(value)
     }
 
     override fun onDestroy() {
         binding.web.exDestroy()
+        ValueTimer.destroy(value)
         super.onDestroy()
     }
 

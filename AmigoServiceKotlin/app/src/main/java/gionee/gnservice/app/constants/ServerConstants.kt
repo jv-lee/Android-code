@@ -39,6 +39,10 @@ class ServerConstants {
         const val ACT_VIDEO_LIST: String = "video.getVideoListByCid"
         //绑定微信接口
         const val ACT_BIND_WX: String = "user.bindWX"
+        //获取视频奖励
+        const val ACT_VIDEO_AWARD: String = "video.getVideoAward"
+        //获取随机视频跳转数据
+        const val ACT_VIDEO_ONE: String = "video.getOneVideo"
 
     }
 }

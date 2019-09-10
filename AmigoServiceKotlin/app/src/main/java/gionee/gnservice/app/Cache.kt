@@ -7,7 +7,7 @@ import gionee.gnservice.app.model.entity.Login
  * @date 2019/8/29.
  * @description
  */
-class Config {
+class Cache {
 
     companion object {
         const val limit: Int = 20
@@ -16,6 +16,7 @@ class Config {
         var isOpenTime: Int = 0
         var isOpenLogin: Int = 0
         var nextDT: Int = 0
+        var ydCount: Int = 0
 
         /**
          * 设置红包雨参数

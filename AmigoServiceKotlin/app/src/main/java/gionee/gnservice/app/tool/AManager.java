@@ -1,7 +1,6 @@
 package gionee.gnservice.app.tool;
 
 import android.app.Activity;
-import android.util.Log;
 import com.gionee.gnservice.statistics.StatisticsUtil;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.MobileAds;
@@ -12,7 +11,7 @@ import com.lee.library.utils.LogUtil;
 import com.mobgi.MobgiInterstitialAd;
 import com.mobgi.MobgiVideoAd;
 import gionee.gnservice.app.BuildConfig;
-import gionee.gnservice.app.Config;
+import gionee.gnservice.app.Cache;
 
 public class AManager {
     private static AManager mInstance;
@@ -56,7 +55,7 @@ public class AManager {
 
             @Override
             public void onRewardedVideoAdOpened() {
-                Config.Companion.setPlayVideo(true);
+                Cache.Companion.setPlayVideo(true);
 //                StatisticsUtil.onEvent(activity.getApplicationContext(), EventConstant.Video_Ad_Show, "admob");
                 googleReady = false;
                 LogUtil.i("google>>>onRewardedVideoAdOpened");
@@ -69,7 +68,7 @@ public class AManager {
 
             @Override
             public void onRewardedVideoAdClosed() {
-                Config.Companion.setPlayVideo(false);
+                Cache.Companion.setPlayVideo(false);
                 LogUtil.i("google>>>onRewardedVideoAdClosed");
                 if (!isRewarded) {
 //                    StatisticsUtil.onEvent(activity.getApplicationContext(), EventConstant.Video_Ad_User_Break, "谷歌广告主动关闭");
@@ -94,7 +93,7 @@ public class AManager {
 
             @Override
             public void onRewardedVideoAdFailedToLoad(int i) {
-                Config.Companion.setPlayVideo(false);
+                Cache.Companion.setPlayVideo(false);
 //                StatisticsUtil.onEvent(activity, EventConstant.Video_Ad_User_Break, "谷歌广告拉取失败");
                 LogUtil.i("google>>>onRewardedVideoAdFailedToLoad:" + i);
             }
@@ -134,7 +133,7 @@ public class AManager {
             @Override
             public void onAdDisplayed(String s) {
                 LogUtil.i("mobgi>>>onAdDisplayed: " + s);
-                Config.Companion.setPlayVideo(true);
+                Cache.Companion.setPlayVideo(true);
 //                StatisticsUtil.onEvent(activity.getApplicationContext(), EventConstant.Video_Ad_Show, "乐逗");
             }
 
@@ -147,7 +146,7 @@ public class AManager {
             @Override
             public void onAdDismissed(String s, boolean b) {
                 LogUtil.i("mobgi>>>onAdDismissed:" + s + " flag:" + b);
-                Config.Companion.setPlayVideo(false);
+                Cache.Companion.setPlayVideo(false);
                 if (mACallback != null && adReady) {
 //                    StatisticsUtil.onEvent(activity.getApplicationContext(), EventConstant.Video_Ad_User_Finish, "乐逗");
                     mACallback.onResponse(b);
@@ -157,7 +156,7 @@ public class AManager {
             @Override
             public void onAdError(String s, int i, String s1) {
                 LogUtil.i("mobgi>>>onAdError: code->" + i + " msg->" + s + " Exception->" + s1);
-                Config.Companion.setPlayVideo(false);
+                Cache.Companion.setPlayVideo(false);
 //                StatisticsUtil.onEvent(activity.getApplicationContext(), EventConstant.Video_Ad_User_Break, "乐逗广告拉取失败");
             }
         });

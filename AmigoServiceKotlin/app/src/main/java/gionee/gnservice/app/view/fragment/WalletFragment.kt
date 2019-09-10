@@ -8,6 +8,7 @@ import android.webkit.JavascriptInterface
 import com.gionee.gnservice.wxapi.WXLoginListener
 import com.gionee.gnservice.wxapi.WeChatUtil
 import com.lee.library.base.BaseFragment
+import com.lee.library.livedatabus.InjectBus
 import com.lee.library.livedatabus.LiveDataBus
 import com.lee.library.utils.NetworkUtil
 import gionee.gnservice.app.BuildConfig
@@ -42,6 +43,17 @@ class WalletFragment :
 
     override fun bindView() {
         progressDialog = ProgressDialog(activity)
+    }
+
+    @InjectBus(value = EventConstants.START_WALLET_MODE)
+    fun event(code: Int) {
+        if (code == 0) {
+            //打开微信
+            binding.web.loadUrl("javascript:facthHomeData(6)")
+        } else if (code == 1) {
+            //打开任务列表
+            binding.web.loadUrl("javascript:gotask()")
+        }
     }
 
     //通用web页面跳转
@@ -110,7 +122,7 @@ class WalletFragment :
 
 
     @JavascriptInterface
-    fun wxLogin() {
+    fun wxLogin2() {
         activity?.runOnUiThread {
             progressDialog?.show()
             WeChatUtil.wxLogin(activity?.applicationContext, object : WXLoginListener {
@@ -134,10 +146,17 @@ class WalletFragment :
         }
     }
 
+    @JavascriptInterface
+    fun goUserCenter() {
+        activity?.runOnUiThread {
+            (activity as MainActivity).showUserCenter()
+        }
+    }
+
     override fun onResume() {
         super.onResume()
         if (progressDialog?.isShowing!!) {
-            progressDialog?.cancel()
+            progressDialog?.dismiss()
         }
     }
 

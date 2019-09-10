@@ -15,6 +15,10 @@ class EventConstants {
         const val RED_PACKAGE_ACTIVITY: String = "RED_PACKAGE_ACTIVITY"
         //首次打开客户端新手红包
         const val NOVICE_AWARD: String = "NOVICE_AWARD"
+        //钱包界面跳转
+        const val START_WALLET_MODE: String = "START_WALLET_MODE"
+        //通知更新福袋状态
+        const val NOTIFICATION_AWARD: String = "NOTIFICATION_AWARD"
         //视频计时器状态
         const val VIDEO_TIMER_STATUS: String = "VIDEO_TIMER_STATUS"
         //游戏计时器状态

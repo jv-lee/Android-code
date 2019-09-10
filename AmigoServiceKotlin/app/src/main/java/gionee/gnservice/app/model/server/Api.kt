@@ -70,4 +70,10 @@ interface ApiServer {
     @GET(BASE_PATH)
     fun bindWX(@Query(BASE_ACT) act: String, @Query("code") code: String): Call<Data<WXInfo>>
 
+    @GET(BASE_PATH)
+    fun getVideoAward(@Query(BASE_ACT) act: String, @Query("type") type: String): Call<Data<Award>>
+
+    @GET(BASE_PATH)
+    fun getVideoOne(@Query(BASE_ACT) act: String): Call<Data<VideoData>>
+
 }

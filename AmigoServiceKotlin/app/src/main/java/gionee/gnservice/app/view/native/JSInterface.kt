@@ -3,11 +3,15 @@ package gionee.gnservice.app.view.native
 import android.content.Context
 import android.util.Log
 import android.webkit.JavascriptInterface
+import com.gionee.gnservice.statistics.StatisticsUtil
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.lee.library.livedatabus.LiveDataBus
 import gionee.gnservice.app.BuildConfig
+import gionee.gnservice.app.constants.EventConstants
 import gionee.gnservice.app.model.server.RetrofitUtils
 import gionee.gnservice.app.network.HttpUtil
+import gionee.gnservice.app.tool.CommonTool
 import java.util.*
 
 /**
@@ -24,8 +28,13 @@ class JSInterface(context: Context) {
     }
 
     @JavascriptInterface
-    fun onEvent(eventId: String, label: String){
+    fun notificationBagCount(count: Int) {
+        LiveDataBus.getInstance().getChannel(EventConstants.NOTIFICATION_AWARD).postValue(count)
+    }
 
+    @JavascriptInterface
+    fun onEvent(eventId: String, label: String) {
+        StatisticsUtil.onEvent(context, eventId, CommonTool.convertYoujuLabel(eventId, label))
     }
 
     @JavascriptInterface
@@ -76,7 +85,7 @@ class JSInterface(context: Context) {
     }
 
     private fun getHttpBuilder(url: String, headers: String): HttpUtil.Builder {
-        Log.e(this.javaClass.simpleName,"url: $url, headers: $headers")
+        Log.e(this.javaClass.simpleName, "url: $url, headers: $headers")
         val type = object : TypeToken<HashMap<String, String>>() {}.type
         val hashMap = Gson().fromJson<HashMap<String, String>>(headers, type)
 

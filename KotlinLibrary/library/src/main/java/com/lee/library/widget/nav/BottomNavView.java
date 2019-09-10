@@ -12,7 +12,6 @@ import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
-
 import com.lee.library.utils.SizeUtil;
 
 import java.util.ArrayList;
@@ -25,7 +24,8 @@ import java.util.List;
 public class BottomNavView extends BottomNavigationView implements BottomNavigationView.OnNavigationItemSelectedListener {
 
     private ViewPager mViewPager;
-    private List<DotNumberView> dots;
+    private List<DotNumberView> numberDots;
+    private List<DotView> dots;
     private ItemPositionListener mItemPositionListener;
 
     public BottomNavView(Context context) {
@@ -41,6 +41,8 @@ public class BottomNavView extends BottomNavigationView implements BottomNavigat
         setHorizontalFadingEdgeEnabled(false);
         setLabelVisibilityMode(LabelVisibilityMode.LABEL_VISIBILITY_LABELED);
         setOnNavigationItemSelectedListener(this);
+        createNumberDotViews();
+        createDotViews();
     }
 
     @Override
@@ -68,11 +70,36 @@ public class BottomNavView extends BottomNavigationView implements BottomNavigat
         return true;
     }
 
-    public void toPosition(int postion) {
-        onNavigationItemSelected(getMenu().getItem(postion));
+    public void toPosition(int position) {
+        setSelectedItemId(getMenu().getItem(position).getItemId());
     }
 
-    public void initUnReadMessageViews() {
+    public void createNumberDotViews() {
+        //初始化红点view
+        BottomNavigationMenuView menuView = null;
+        for (int i = 0; i < getChildCount(); i++) {
+            View child = getChildAt(i);
+            if (child instanceof BottomNavigationMenuView) {
+                menuView = (BottomNavigationMenuView) child;
+                break;
+            }
+        }
+        if (menuView != null) {
+            numberDots = new ArrayList<>();
+            for (int i = 0; i < menuView.getChildCount(); i++) {
+                BottomNavigationItemView itemView = (BottomNavigationItemView) menuView.getChildAt(i);
+                LayoutParams params = new LayoutParams(SizeUtil.dp2px(getContext(), 15), SizeUtil.dp2px(getContext(), 15));
+                params.gravity = Gravity.RIGHT;
+                params.topMargin = SizeUtil.dp2px(getContext(), 5);
+                params.rightMargin = SizeUtil.dp2px(getContext(), 15);
+                DotNumberView dotView = new DotNumberView(getContext());
+                itemView.addView(dotView, params);
+                numberDots.add(dotView);
+            }
+        }
+    }
+
+    private void createDotViews() {
         //初始化红点view
         BottomNavigationMenuView menuView = null;
         for (int i = 0; i < getChildCount(); i++) {
@@ -86,24 +113,28 @@ public class BottomNavView extends BottomNavigationView implements BottomNavigat
             dots = new ArrayList<>();
             for (int i = 0; i < menuView.getChildCount(); i++) {
                 BottomNavigationItemView itemView = (BottomNavigationItemView) menuView.getChildAt(i);
-                BottomNavigationItemView.LayoutParams params = new BottomNavigationItemView.LayoutParams(SizeUtil.dp2px(getContext(), 15), SizeUtil.dp2px(getContext(), 15));
+                LayoutParams params = new LayoutParams(SizeUtil.dp2px(getContext(), 6), SizeUtil.dp2px(getContext(), 6));
                 params.gravity = Gravity.RIGHT;
                 params.topMargin = SizeUtil.dp2px(getContext(), 5);
                 params.rightMargin = SizeUtil.dp2px(getContext(), 15);
-                DotNumberView dotView = new DotNumberView(getContext());
+                DotView dotView = new DotView(getContext());
+                dotView.setVisibility(GONE);
                 itemView.addView(dotView, params);
                 dots.add(dotView);
             }
         }
     }
 
-    public void setDotNotRead(final int index, final int number) {
-        post(() -> {
-            if (dots != null) {
-                dots.get(index).setNumberCount(number);
-            }
-        });
+    public void setNumberDot(final int index, final int number) {
+        if (numberDots != null) {
+            numberDots.get(index).setNumberCount(number);
+        }
+    }
 
+    public void setDotVisibility(int index, int visibility) {
+        if (dots != null) {
+            dots.get(index).setVisibility(visibility);
+        }
     }
 
     public interface ItemPositionListener {

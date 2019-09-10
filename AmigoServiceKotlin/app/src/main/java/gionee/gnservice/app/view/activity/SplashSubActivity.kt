@@ -12,7 +12,7 @@ import com.mobgi.MobgiAds
 import com.s.main.sdk.SplashView
 import com.s.main.sdk.SplashViewCallBack
 import gionee.gnservice.app.BuildConfig
-import gionee.gnservice.app.Config
+import gionee.gnservice.app.Cache
 import gionee.gnservice.app.R
 import gionee.gnservice.app.constants.Constants
 import gionee.gnservice.app.constants.StatisticsConstants
@@ -132,7 +132,7 @@ class SplashSubActivity :
         viewModel.model.login().observe(this, Observer {
             RetrofitUtils.instance.saveSessionKey(it?.sessionKey)
             RetrofitUtils.instance.saveUser(it)
-            Config.saveRedPackageParameter(it!!)
+            Cache.saveRedPackageParameter(it!!)
             isLogin = true
             sendMain()
         })

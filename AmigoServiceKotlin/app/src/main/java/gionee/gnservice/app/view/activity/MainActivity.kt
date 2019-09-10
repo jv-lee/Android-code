@@ -2,26 +2,25 @@ package gionee.gnservice.app.view.activity
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
-import android.app.AlertDialog
 import android.arch.lifecycle.Observer
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.view.KeyEvent
-import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
-import android.widget.ImageView
 import com.gionee.gnservice.statistics.StatisticsUtil
 import com.gionee.simple.UserCenterFragment
 import com.lee.library.adapter.UiPagerAdapter
 import com.lee.library.base.BaseActivity
 import com.lee.library.livedatabus.InjectBus
 import com.lee.library.livedatabus.LiveDataBus
+import com.lee.library.utils.FragmentUtil
 import com.lee.library.utils.LogUtil
 import com.lee.library.utils.StatusUtil
 import com.lee.library.widget.nav.BottomNavView
-import gionee.gnservice.app.Config
+import gionee.gnservice.app.BuildConfig
+import gionee.gnservice.app.Cache
 import gionee.gnservice.app.R
 import gionee.gnservice.app.constants.Constants
 import gionee.gnservice.app.constants.EventConstants
@@ -30,8 +29,11 @@ import gionee.gnservice.app.databinding.ActivityMainBinding
 import gionee.gnservice.app.model.entity.Magnet
 import gionee.gnservice.app.model.server.RetrofitUtils
 import gionee.gnservice.app.tool.*
-import gionee.gnservice.app.view.alert.DialogEx
 import gionee.gnservice.app.view.fragment.*
+import gionee.gnservice.app.view.widget.BlissBagView
+import gionee.gnservice.app.view.widget.window.FloatWindowManager
+import gionee.gnservice.app.view.widget.window.FloatWindowView
+import gionee.gnservice.app.view.widget.window.WindowCallback
 import gionee.gnservice.app.vm.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -44,27 +46,21 @@ class MainActivity :
     BaseActivity<ActivityMainBinding, MainViewModel>(R.layout.activity_main, MainViewModel::class.java),
     BottomNavView.ItemPositionListener {
 
-    private var dialogActiveFragment: DialogActiveFragment? = null
-    private var dialogUpdateFragment: DialogUpdateFragment? = null
-    private var dialogBackFragment: DialogBackFragment? = null
     private var userCenterFragment: UserCenterFragment? = null
-
-    /**
-     * 新手任务提示弹窗
-     */
-    private var dialog: AlertDialog? = null
-
     private val fragments by lazy {
         arrayOf(NewsFragment(), VideoFragment(), NovelFragment(), GameFragment(), WalletFragment())
     }
 
+    private var floatWindowView: FloatWindowView? = null
+    private var blissBagView: BlissBagView? = null
+
     /**
      * 通过Handler轮询 红包雨活动
      */
-    private var handler: Handler? = Handler { msg -> false }
+    private var handler: Handler? = Handler(Handler.Callback { false })
     private var runnable = Runnable { runnableFun() }
     private fun runnableFun() {
-        if (Config.isPlayGame || Config.isPlayVideo) {
+        if (Cache.isPlayGame || Cache.isPlayVideo) {
             handler?.postDelayed(runnable, 1000 * 60)
         } else {
             startActivity(Intent(this, RedPackageActivity::class.java))
@@ -81,7 +77,7 @@ class MainActivity :
         createUserCenterFragment()
 
         viewModel.apply {
-            //推送奖励
+            //TODO 推送奖励
             push.observe(this@MainActivity, Observer {
                 if (it?.haveAward == 1) ToastTool.show(
                     this@MainActivity,
@@ -89,22 +85,27 @@ class MainActivity :
                 )
             })
 
-            //推送跳转
+            //TODO 推送跳转
             type.observe(this@MainActivity, Observer {
-                startTabMode(it!!)
+                startTabMode(CommonTool.pushTransformCode(it!!))
             })
 
-            //红点提示
+            //TODO 红点提示
             redPoint.observe(this@MainActivity, Observer {
                 if (it != null && it.t1 > 0) binding.nav.setDotVisibility(4, View.VISIBLE)
             })
 
-            //磁铁or活动
+            //TODO 磁铁or活动
             magnet.observe(this@MainActivity, Observer {
                 if (it == null) return@Observer
                 if (isDestroyed) return@Observer
-                if (it.list.first_login == 1) showActive(it.list.skipurl)
-
+                if (it.list.first_login == 1) {
+                    FragmentUtil.getInstance().showFragmentDialog(
+                        this@MainActivity,
+                        null,
+                        DialogActiveFragment.get(it.list.skipurl)
+                    )
+                }
                 //加载磁贴图及设置磁贴行为
                 if (it.list.isActive == 1) {
                     GlideTool.loadImage(it.list.icon, binding.ivActive)
@@ -115,6 +116,7 @@ class MainActivity :
                 }
             })
 
+            //TODO 初始化 跳转tab
             tabIndex.observe(this@MainActivity, Observer {
                 if (it == null) {
                     return@Observer
@@ -127,20 +129,11 @@ class MainActivity :
                 nav.toPosition(it.menu.index)
             })
 
-            //新手奖励提示窗
+            //TODO 新手奖励提示窗
             novice.observe(this@MainActivity, Observer {
                 if (it == null) return@Observer
                 if (it.isOverOpenClick == 1) {
-                    dialog = DialogEx(
-                        this@MainActivity,
-                        DialogEx.ViewInterface {
-                            val view =
-                                LayoutInflater.from(this@MainActivity).inflate(R.layout.alert_task_first_open, null)
-                            view.findViewById<ImageView>(R.id.closeBtn).setOnClickListener {
-                                dialog?.dismiss()
-                            }
-                            view
-                        }).build()
+                    FragmentUtil.getInstance().showFragmentDialog(this@MainActivity, null, DialogNoviceFragment())
                 }
             })
         }
@@ -150,9 +143,10 @@ class MainActivity :
         viewModel.initEvent(intent)
         viewModel.initPush(intent)
         viewModel.initMagnetActive()
+        viewModel.initRedPoint()
 
-        initRedPoint(0)
         initUpdateAlert()
+        initFloatWindow()
     }
 
     override fun bindView() {
@@ -173,7 +167,7 @@ class MainActivity :
     }
 
     /**
-     * 导航tab选中监听
+     * TODO 导航tab选中监听
      */
     override fun onPosition(menuItem: MenuItem?, position: Int) {
         when (position) {
@@ -227,24 +221,43 @@ class MainActivity :
      * TODO 刷新红点提示事件
      */
     @InjectBus(EventConstants.UPDATE_RED_POINT)
-    fun initRedPoint(code: Int) {
+    fun notificationPoint(code: Int) {
         viewModel.initRedPoint()
     }
 
     /**
-     * TODO 跳转tab事件
+     * TODO 更新福袋显示
+     */
+    @InjectBus(EventConstants.NOTIFICATION_AWARD)
+    fun notificationAward(count: Int) {
+        if (count == 0) return
+        if (count > Cache.ydCount) {
+            AudioUtil.playMusic(this, R.raw.award)
+            blissBagView?.notificationAward(count - Cache.ydCount)
+        } else {
+            blissBagView?.setCurrentAward(count)
+        }
+        Cache.ydCount = count
+    }
+
+    /**
+     * TODO 页面跳转
      */
     @InjectBus(EventConstants.START_PAGE)
-    fun startTabMode2(code: Int) {
+    fun startTabMode(code: Int) {
         when (code) {
-            Constants.MAGNET_NEWS -> nav.toPosition(0)
-            Constants.MAGNET_VIDEO -> nav.toPosition(1)
-            Constants.MAGNET_NOVEL -> nav.toPosition(2)
-            Constants.MAGNET_GAME -> nav.toPosition(3)
-            Constants.MAGNET_WALLET -> nav.toPosition(4)
-            Constants.MAGNET_WALLET_TASK -> {
+            Constants.TAB_NEWS -> nav.toPosition(0)
+            Constants.TAB_VIDEO -> nav.toPosition(1)
+            Constants.TAB_NOVEL -> nav.toPosition(2)
+            Constants.TAB_GAME -> nav.toPosition(3)
+            Constants.TAB_WALLET -> nav.toPosition(4)
+            Constants.TAB_WALLET_TASK -> {
+                nav.toPosition(4)
+                LiveDataBus.getInstance().getChannel(EventConstants.START_WALLET_MODE).value = 1
             }
-            Constants.MAGNET_WECHAT -> {
+            Constants.TAB_WALLET_WECHAT -> {
+                nav.toPosition(4)
+                LiveDataBus.getInstance().getChannel(EventConstants.START_WALLET_MODE).value = 0
             }
         }
     }
@@ -254,9 +267,9 @@ class MainActivity :
      */
     @InjectBus(EventConstants.RED_PACKAGE_ACTIVITY)
     fun showRedPackageActivity(code: Int) {
-        if (Config.nextDT != 0) {
+        if (Cache.nextDT != 0) {
             handler?.removeCallbacks(runnable)
-            handler?.postDelayed(runnable, (Config.nextDT * 1000).toLong())
+            handler?.postDelayed(runnable, (Cache.nextDT * 1000).toLong())
         }
     }
 
@@ -268,19 +281,13 @@ class MainActivity :
         if (PrefAccess.isFirstOpen()) viewModel.initNoviceAward()
     }
 
-    fun startTabMode(code: Int) {
-        if (code != 5) {
-            nav.toPosition(code)
-        } else {
-            //钱包任务栏
-            nav.toPosition(4)
-        }
-    }
-
+    /**
+     * TODO 活动跳转方式
+     */
     private fun showActiveMode(entity: Magnet) {
         when (entity.list.way) {
             //内部页面跳转
-//            Constants.MAGNET_TYPE_TAB -> startTabMode2(LiveEvent<Int>().data = entity.list.skip)
+            Constants.MAGNET_TYPE_TAB -> startTabMode(CommonTool.activeTransformCode(entity.list.skip))
             //H5游戏跳转
             Constants.MAGNET_TYPE_GAME -> startActivity(
                 Intent(this, GameActivity::class.java)
@@ -288,7 +295,11 @@ class MainActivity :
                     .putExtra(Constants.V_TYPE, entity.list.game.landspace)
             )
             //活动页面跳转
-            Constants.MAGNET_TYPE_ACTIVE -> showActive(entity.list.skipurl)
+            Constants.MAGNET_TYPE_ACTIVE -> {
+                FragmentUtil.getInstance()
+                    .showFragmentDialog(this@MainActivity, null, DialogActiveFragment.get(entity.list.skipurl))
+            }
+            //H5页面跳转
             Constants.MAGNET_TYPE_SDK_H5 -> startActivity(
                 Intent(this, WebActivity::class.java)
                     .putExtra(Constants.URL, entity.list.skipurl)
@@ -313,19 +324,25 @@ class MainActivity :
         return userCenterFragment!!
     }
 
+    fun showUserCenter() {
+        binding.nav.visibility = View.INVISIBLE
+        binding.frameUsercenterContainer.visibility = View.VISIBLE
+    }
+
     /**
      * TODO 初始化更新提示 或 红包雨和磁贴
      */
     private fun initUpdateAlert() {
         if (PrefAccess.isOpenUpdate()) {
-            showUpdate()
+            //显示更新dialog
+            FragmentUtil.getInstance().showFragmentDialog(this, null, DialogUpdateFragment())
         } else {
             //显示红包雨
             DelayTimeTool.timeChange(object : AnimatorListenerAdapter() {
                 override fun onAnimationEnd(animation: Animator?) {
                     initRedPackage()
                 }
-            }, 1000, 0, 1)
+            }, 5000, 0, 1)
         }
     }
 
@@ -344,58 +361,55 @@ class MainActivity :
     }
 
     /**
-     * TODO 活动弹窗
+     * TODO 初始化全局福袋窗口
      */
-    private fun showActive(url: String) {
-        if (isDestroyed) return
-        if (dialogActiveFragment == null) {
-            dialogActiveFragment = DialogActiveFragment.get(url)
-        }
-        if (dialogActiveFragment!!.isAdded) {
-            supportFragmentManager.beginTransaction().remove(dialogActiveFragment!!).commit()
-        }
-        dialogActiveFragment?.show(supportFragmentManager, dialogActiveFragment!!::class.java.simpleName)
-    }
+    private fun initFloatWindow() {
+        FloatWindowManager()
+            .requestPermission(this@MainActivity, object : WindowCallback {
+                override fun success() {
+                    StatisticsUtil.onEvent(
+                        applicationContext,
+                        StatisticsConstants.Float_Icon_Permission,
+                        StatisticsConstants.Label_Permission_Success
+                    )
+                    blissBagView = BlissBagView(applicationContext)
+                    blissBagView?.setCurrentAward(0)
 
-    /**
-     * TODO 更新弹窗
-     */
-    private fun showUpdate() {
-        if (isDestroyed) return
-        if (dialogUpdateFragment == null) {
-            dialogUpdateFragment = DialogUpdateFragment()
-        }
-        if (dialogUpdateFragment!!.isAdded) {
-            supportFragmentManager.beginTransaction().remove(dialogUpdateFragment!!).commit()
-        }
-        dialogUpdateFragment?.show(supportFragmentManager, dialogUpdateFragment!!::class.java.simpleName)
-    }
+                    try {
+                        floatWindowView = FloatWindowView(applicationContext)
+                        floatWindowView?.bindView(blissBagView)
+                        //设置可以显示的activity
+                        floatWindowView?.bindActivity(
+                            arrayOf(
+                                MainActivity::class.java,
+                                VideoDetailsActivity::class.java,
+                                Class.forName("com.hs.feed.ui.activity.WebViewDetailActivity")
+                            )
+                        )
+                        //设置点击跳转意图
+                        floatWindowView?.setOnClickListener {
+                            if (blissBagView?.isHasJump!!) {
+                                StatisticsUtil.onEvent(applicationContext, StatisticsConstants.Float_Icon_Click)
+                                startActivity(
+                                    Intent(this@MainActivity, WebActivity::class.java)
+                                        .putExtra(Constants.URL, BuildConfig.JS_URI + "cash.html")
+                                )
+                            }
+                        }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                }
 
-    /**
-     * TODO 退出弹窗
-     */
-    private fun showBack() {
-        if (isDestroyed) return
-        if (dialogBackFragment == null) {
-            dialogBackFragment = DialogBackFragment()
-        }
-        if (dialogBackFragment!!.isAdded) {
-            supportFragmentManager.beginTransaction().remove(dialogBackFragment!!).commit()
-        }
-        dialogBackFragment?.show(supportFragmentManager, dialogBackFragment!!::class.java.simpleName)
+                override fun filed() {
+                    StatisticsUtil.onEvent(
+                        applicationContext,
+                        StatisticsConstants.Float_Icon_Permission,
+                        StatisticsConstants.Label_Permission_Failed
+                    )
+                }
+            })
     }
-
-    fun showUserCenter() {
-        binding.nav.visibility = View.INVISIBLE
-        binding.frameUsercenterContainer.visibility = View.VISIBLE
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        handler?.removeCallbacks(runnable)
-        handler = null
-    }
-
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
@@ -410,10 +424,18 @@ class MainActivity :
                 nav.toPosition(0)
                 return true
             }
-            showBack()
+            //显示退出dialog弹窗
+            FragmentUtil.getInstance().showFragmentDialog(this, null, DialogBackFragment())
             return true
         }
         return super.onKeyDown(keyCode, event)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        floatWindowView?.unBind()
+        handler?.removeCallbacks(runnable)
+        handler = null
     }
 
 }
