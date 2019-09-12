@@ -3,6 +3,7 @@ package gionee.gnservice.app.view.activity
 import android.os.Bundle
 import com.gionee.gnservice.statistics.StatisticsUtil
 import com.lee.library.base.BaseActivity
+import com.lee.library.base.BaseFullActivity
 import com.s.main.sdk.SplashView
 import com.s.main.sdk.SplashViewCallBack
 import gionee.gnservice.app.BuildConfig
@@ -17,7 +18,7 @@ import gionee.gnservice.app.vm.SplashViewModel
  * @description 热启动开屏广告
  */
 class SplashRunActivity :
-    BaseActivity<ActivitySplashBinding, SplashViewModel>(R.layout.activity_splash, SplashViewModel::class.java) {
+    BaseFullActivity<ActivitySplashBinding, SplashViewModel>(R.layout.activity_splash, SplashViewModel::class.java) {
 
     private var splashView: SplashView? = null
 

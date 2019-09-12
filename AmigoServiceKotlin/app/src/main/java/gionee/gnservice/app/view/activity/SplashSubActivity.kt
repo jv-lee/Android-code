@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import com.gionee.gnservice.statistics.StatisticsUtil
 import com.lee.library.base.BaseActivity
+import com.lee.library.base.BaseFullActivity
 import com.lee.library.permission.PermissionManager
 import com.lee.library.permission.PermissionRequest
 import com.lee.library.utils.LogUtil
@@ -26,7 +27,7 @@ import gionee.gnservice.app.vm.SplashViewModel
  * @description 子入口 开屏广告
  */
 class SplashSubActivity :
-    BaseActivity<ActivitySplashBinding, SplashViewModel>(R.layout.activity_splash, SplashViewModel::class.java),
+    BaseFullActivity<ActivitySplashBinding, SplashViewModel>(R.layout.activity_splash, SplashViewModel::class.java),
     PermissionRequest {
 
     private var isLogin: Boolean = false
