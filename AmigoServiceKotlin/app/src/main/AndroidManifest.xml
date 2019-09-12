@@ -5,6 +5,11 @@
           tools:ignore="GoogleAppIndexingWarning">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_CALENDAR"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application
             android:name=".App"
@@ -16,7 +21,6 @@
             android:theme="@style/AppTheme"
             tools:replace="android:label,android:allowBackup,icon">
 
-        <!-- 百策开屏 -->
         <service android:name=".service.LocalService"/>
         <!--注册远程服务  新启动一个进程 ：remote-->
         <service

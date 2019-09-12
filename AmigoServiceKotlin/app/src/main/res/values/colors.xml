@@ -6,4 +6,6 @@
 
     <color name="color_press">#FC8B77</color>
     <color name="color_normal">#9E9E9E</color>
+
+    <color name="status_bar_color">#ffffff</color>
 </resources>

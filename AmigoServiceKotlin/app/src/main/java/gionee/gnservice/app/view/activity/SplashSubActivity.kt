@@ -41,7 +41,9 @@ class SplashSubActivity :
             .attach(this)
             .request(
                 android.Manifest.permission.READ_PHONE_STATE,
-                android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+                android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                android.Manifest.permission.READ_CALENDAR,
+                android.Manifest.permission.ACCESS_NETWORK_STATE
             )
             .listener(this)
     }

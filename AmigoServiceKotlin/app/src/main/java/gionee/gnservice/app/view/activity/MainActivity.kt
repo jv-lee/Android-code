@@ -2,13 +2,14 @@ package gionee.gnservice.app.view.activity
 
 import android.arch.lifecycle.Observer
 import android.content.Intent
-import android.graphics.Color
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
+import android.support.v4.content.ContextCompat
 import android.view.KeyEvent
 import android.view.MenuItem
 import android.view.View
+import android.widget.ImageView
 import com.gionee.gnservice.statistics.StatisticsUtil
 import com.gionee.simple.UserCenterFragment
 import com.lee.library.adapter.UiPagerAdapter
@@ -56,6 +57,8 @@ class MainActivity :
     private var blissBagView: BlissBagView? = null
 
     private val player by lazy { MediaPlayer.create(this@MainActivity, R.raw.award) }
+
+    private var firstOpen = true
 
     /**
      * 通过Handler轮询 红包雨活动
@@ -173,8 +176,16 @@ class MainActivity :
      * TODO 导航tab选中监听
      */
     override fun onPosition(menuItem: MenuItem?, position: Int) {
+        //默认显示悬浮窗，在小说板块隐藏
         floatWindowView?.showWindow()
-        binding.statusBar.setBackgroundColor(Color.parseColor("#fff"))
+        //设置默认状态栏颜色及系统图标颜色，在钱包页面切换
+        binding.statusBar.setBackgroundColor(ContextCompat.getColor(this, R.color.status_bar_color))
+        StatusUtil.setStatusFontLight2(this)
+        //取消默认选中统计
+        if (this.firstOpen) {
+            this.firstOpen = false
+            return
+        }
         when (position) {
             0 -> {
                 LogUtil.i("nav -> news")
@@ -213,7 +224,8 @@ class MainActivity :
                 )
             }
             4 -> {
-                binding.statusBar.setBackgroundColor(Color.parseColor("#ff3a2c"))
+                binding.statusBar.setBackgroundResource(R.drawable.shape_status_color)
+                StatusUtil.claerStatusFontLight2(this)
                 LogUtil.i("nav -> wallet")
                 StatisticsUtil.onEvent(
                     applicationContext,
@@ -225,7 +237,7 @@ class MainActivity :
     }
 
     /**
-     * TODO 刷新红点提示事件
+     * TODO 刷新红点提示事件 非活动状态可接受
      */
     @InjectBus(EventConstants.UPDATE_RED_POINT, isActive = false)
     fun notificationPoint(code: Int) {
@@ -233,7 +245,7 @@ class MainActivity :
     }
 
     /**
-     * TODO 更新福袋显示
+     * TODO 更新福袋显示 非活动状态可接受
      */
     @InjectBus(EventConstants.NOTIFICATION_AWARD, isActive = false)
     fun notificationAward(count: Int) {
@@ -415,6 +427,7 @@ class MainActivity :
 
     override fun onResume() {
         super.onResume()
+        //防止usercenter 通过其他页面跳转显示悬浮窗bug
         if (binding.frameUsercenterContainer.visibility != View.INVISIBLE) {
             floatWindowView?.hideWindow()
         }
@@ -443,10 +456,14 @@ class MainActivity :
 
     override fun onDestroy() {
         super.onDestroy()
+        //手动移除非活动状态订阅
         LiveDataBus.getInstance().unInjectBus(this)
+        //回收媒体资源
         player.stop()
         player.release()
+        //取消生命周期监听
         floatWindowView?.unBind()
+        //移除handler 防止内存泄露
         handler?.removeCallbacks(runnable)
         handler = null
     }

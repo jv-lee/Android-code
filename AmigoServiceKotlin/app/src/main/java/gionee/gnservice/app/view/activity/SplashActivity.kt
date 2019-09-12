@@ -40,7 +40,9 @@ class SplashActivity :
             .attach(this)
             .request(
                 android.Manifest.permission.READ_PHONE_STATE,
-                android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+                android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                android.Manifest.permission.READ_CALENDAR,
+                android.Manifest.permission.ACCESS_NETWORK_STATE
             )
             .listener(this)
     }
@@ -96,7 +98,11 @@ class SplashActivity :
 
             override fun onAdTimeOut(p0: String?) {
                 LogUtil.i("splash -> onAdTimeOut:$p0")
-                StatisticsUtil.onEvent(this@SplashActivity, StatisticsConstants.Splash_Result, StatisticsConstants.Label_Cold_Start_TimeOut)
+                StatisticsUtil.onEvent(
+                    this@SplashActivity,
+                    StatisticsConstants.Splash_Result,
+                    StatisticsConstants.Label_Cold_Start_TimeOut
+                )
                 isSplash = true
                 sendMain()
             }
@@ -109,12 +115,20 @@ class SplashActivity :
 
             override fun onAdPresent(p0: String?) {
                 LogUtil.i("splash -> onAdPresent:$p0")
-                StatisticsUtil.onEvent(this@SplashActivity, StatisticsConstants.Splash_Result, StatisticsConstants.Label_Cold_Start_Success)
+                StatisticsUtil.onEvent(
+                    this@SplashActivity,
+                    StatisticsConstants.Splash_Result,
+                    StatisticsConstants.Label_Cold_Start_Success
+                )
             }
 
             override fun onAdClick(p0: String?) {
                 LogUtil.i("splash -> onAdClick:$p0")
-                StatisticsUtil.onEvent(this@SplashActivity, StatisticsConstants.Splash_Result, StatisticsConstants.Label_Cold_Start_AdClick)
+                StatisticsUtil.onEvent(
+                    this@SplashActivity,
+                    StatisticsConstants.Splash_Result,
+                    StatisticsConstants.Label_Cold_Start_AdClick
+                )
                 isSplash = true
                 sendMain()
             }

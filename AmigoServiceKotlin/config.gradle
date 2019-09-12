@@ -20,7 +20,7 @@ ext {
     ]
 
     //服务器地址
-    env = 1
+    env = 0
     base_uri = [
             "http://ucenter.hclw.online",
             "http://uc-test.hclw.online",

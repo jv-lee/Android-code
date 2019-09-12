@@ -1,5 +1,6 @@
 package gionee.gnservice.app.model.server
 
+import android.util.Log
 import com.lee.library.utils.LogUtil
 import gionee.gnservice.app.BuildConfig
 import gionee.gnservice.app.constants.ServerConstants
@@ -14,6 +15,7 @@ import java.io.IOException
  * @description 所有接口必传参数 添加拦截器
  */
 class PutParameterInterceptor : Interceptor {
+
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response {
         var request = chain.request()
@@ -27,6 +29,7 @@ class PutParameterInterceptor : Interceptor {
                 .addEncodedQueryParameter("sign", sign)
                 .addEncodedQueryParameter("ts", ts)
                 .addEncodedQueryParameter("version", BuildConfig.VERSION_NAME)
+                .addEncodedQueryParameter("version_code", BuildConfig.VERSION_CODE.toString())
                 .build()
             request = request.newBuilder()
                 .addHeader("Connection", "close")
@@ -38,12 +41,12 @@ class PutParameterInterceptor : Interceptor {
     }
 
     private fun toLog(request: Request) {
-        LogUtil.e("request -> " + request.url().host() + request.url().encodedPath())
+        Log.e("PutParameterInterceptor", "request -> ${request.url().host()} ${request.url().encodedPath()} ")
         val params = StringBuilder()
         for (queryParameterName in request.url().queryParameterNames()) {
             params.append(queryParameterName).append(":").append(request.url().queryParameter(queryParameterName))
                 .append("\n")
         }
-        LogUtil.e("params -> \n$params")
+        Log.e("PutParameterInterceptor", "params -> \n$params")
     }
 }

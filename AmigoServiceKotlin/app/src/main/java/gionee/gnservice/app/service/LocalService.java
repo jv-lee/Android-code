@@ -38,6 +38,9 @@ public class LocalService extends Service {
     private static final String ALERT_TITLE = "【用户中心】签到提醒";
     private static final String ALERT_DESCRIPTION = "用户中心每日签到，邀你一起瓜分百万现金红包";
 
+    /**
+     * 线程池 计时器
+     */
     private ScheduledExecutorService executor = Executors.newScheduledThreadPool(2);
 
     @Override

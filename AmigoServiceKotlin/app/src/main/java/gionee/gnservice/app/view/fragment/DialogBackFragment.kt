@@ -34,7 +34,7 @@ class DialogBackFragment :
         binding.btnCancel.setOnClickListener { activity?.finish() }
         binding.btnDefine.setOnClickListener {
             dismiss()
-            LiveDataBus.getInstance().getChannel(EventConstants.START_PAGE).value = Constants.MAGNET_WALLET_TASK
+            LiveDataBus.getInstance().getChannel(EventConstants.START_PAGE).value = Constants.TAB_WALLET_TASK
         }
     }
 
