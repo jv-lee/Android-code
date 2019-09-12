@@ -8,18 +8,18 @@ buildscript {
     repositories {
         google()
         jcenter()
-        //小说sdk新增
         mavenCentral()
+        maven { url 'https://maven.google.com' }
+        maven { url 'https://jitpack.io' }
         maven { url 'https://maven.fabric.io/public' }
         maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
-        maven{ url 'http://maven.aliyun.com/nexus/content/groups/public/'}
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.2.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin"
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
-        //小说sdk新增
         classpath 'org.greenrobot:greendao-gradle-plugin:3.2.1'
         classpath 'me.tatarka:gradle-retrolambda:3.6.0'
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
@@ -31,11 +31,12 @@ allprojects {
     repositories {
         google()
         jcenter()
-        //小说sdk新增
+        mavenCentral()
+        maven { url 'https://maven.google.com' }
         maven { url 'https://jitpack.io' }
         maven { url 'https://dl.bintray.com/qichuan/maven/' }
         maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
-        maven{ url 'http://maven.aliyun.com/nexus/content/groups/public/'}
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
 
         //全局aar文件路径
         flatDir {

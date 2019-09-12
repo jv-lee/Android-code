@@ -20,7 +20,6 @@ import gionee.gnservice.app.view.alert.DialogEx
 import gionee.gnservice.app.view.widget.RedRainView
 import gionee.gnservice.app.vm.RedPackageViewModel
 import java.util.concurrent.ScheduledFuture
-import java.util.concurrent.TimeUnit
 
 /**
  * @author jv.lee
@@ -80,7 +79,8 @@ class RedPackageActivity : BaseActivity<ActivityRedPackageBinding, RedPackageVie
             }
         })
 
-        run = TimerEx.get().run({ useClose(0) }, (1000 * 60 * 10))
+        //10分钟自动关闭
+        run = TimerEx.get().run({ useClose(0) }, (60 * 10))
     }
 
     override fun bindView() {
@@ -95,7 +95,8 @@ class RedPackageActivity : BaseActivity<ActivityRedPackageBinding, RedPackageVie
 
         })
 
-        TimerEx.get().run({ binding.redRain.startAnimators() }, 100,TimeUnit.MILLISECONDS)
+        //开始红包雨动画
+        binding.redRain.startAnimators()
     }
 
     override fun onResume() {

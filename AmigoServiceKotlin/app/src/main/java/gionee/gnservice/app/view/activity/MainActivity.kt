@@ -9,7 +9,6 @@ import android.support.v4.content.ContextCompat
 import android.view.KeyEvent
 import android.view.MenuItem
 import android.view.View
-import android.widget.ImageView
 import com.gionee.gnservice.statistics.StatisticsUtil
 import com.gionee.simple.UserCenterFragment
 import com.lee.library.adapter.UiPagerAdapter
@@ -23,6 +22,7 @@ import com.lee.library.utils.TimerEx
 import com.lee.library.widget.nav.BottomNavView
 import com.lee.library.widget.window.FloatWindowManager
 import com.lee.library.widget.window.FloatWindowView
+import com.lee.library.widget.window.WindowCallback
 import gionee.gnservice.app.BuildConfig
 import gionee.gnservice.app.Cache
 import gionee.gnservice.app.R
@@ -35,7 +35,6 @@ import gionee.gnservice.app.model.server.RetrofitUtils
 import gionee.gnservice.app.tool.*
 import gionee.gnservice.app.view.fragment.*
 import gionee.gnservice.app.view.widget.BlissBagView
-import com.lee.library.widget.window.WindowCallback
 import gionee.gnservice.app.vm.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 

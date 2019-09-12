@@ -1,7 +1,6 @@
 package gionee.gnservice.app.view.widget;
 
-import android.animation.ObjectAnimator;
-import android.animation.PropertyValuesHolder;
+import android.animation.*;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.Gravity;
@@ -107,9 +106,18 @@ public class RedRainLayout extends FrameLayout implements View.OnClickListener {
     }
 
     public void startAnimators() {
-        for (ObjectAnimator animator : animators) {
-            animator.start();
-        }
+        ValueAnimator value = ValueAnimator.ofInt(0, 1);
+        value.setDuration(500);
+        value.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                for (ObjectAnimator animator : animators) {
+                    animator.start();
+                }
+                value.cancel();
+            }
+        });
+        value.start();
     }
 
     public void resumeAnimators() {
