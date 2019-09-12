@@ -63,9 +63,9 @@ public class LiveDataBus {
         @Override
         public void onChanged(@Nullable T t) {
             if (observer != null) {
-//                if (isCallOnObserve()) {
-//                    return;
-//                }
+                if (isCallOnObserve()) {
+                    return;
+                }
                 observer.onChanged(t);
             }
         }
