@@ -1,22 +1,16 @@
 package gionee.gnservice.app.tool;
 
-import android.app.Activity;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import com.lee.library.livedatabus.LiveDataBus;
 import com.lee.library.utils.LogUtil;
 import gionee.gnservice.app.App;
-import gionee.gnservice.app.constants.EventConstants;
+import gionee.gnservice.app.Cache;
 import gionee.gnservice.app.constants.ServerConstants;
 import gionee.gnservice.app.model.entity.Login;
 import gionee.gnservice.app.model.entity.base.Data;
 import gionee.gnservice.app.model.server.RetrofitUtils;
-import gionee.gnservice.app.view.fragment.NovelFragment;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import java.lang.reflect.Method;
 import java.util.HashMap;
 
 /**
@@ -32,9 +26,14 @@ public class ReflectTool {
         map.put("imei", CommonTool.Companion.getIMEI(App.instance));
         map.put("eqid", CommonTool.Companion.getEquipID(App.instance));
         map.put("ch", "uc_jl");
-        map.put("thirdid", 1);
-        map.put("userid", uid);
-        map.put("nick", name);
+        if (uid != null) {
+            map.put("thirdid", 1);
+            map.put("userid", uid);
+            map.put("nick", name);
+        } else {
+            map.put("thirdid", 0);
+        }
+
         RetrofitUtils.Companion.getInstance()
                 .getApi()
                 .login(ServerConstants.ACT_LOGIN, map)
@@ -44,6 +43,7 @@ public class ReflectTool {
                         if (response.code() == 200 && response.body() != null && response.body().getCode() == 1) {
                             RetrofitUtils.Companion.getInstance().saveSessionKey(response.body().getData().getSessionKey());
                             RetrofitUtils.Companion.getInstance().saveUser(response.body().getData());
+                            Cache.Companion.saveParameter(response.body().getData());
                         }
                     }
 
@@ -54,19 +54,5 @@ public class ReflectTool {
                 });
     }
 
-    public static void timer(FragmentActivity activity,String methodName) {
-        try {
-            Class<?> novel = Class.forName("gionee.gnservice.app.view.fragment.NovelFragment");
-            Method timeMethod = novel.getDeclaredMethod(methodName);
-            for (Fragment fragment : activity.getSupportFragmentManager().getFragments()) {
-                if (fragment instanceof NovelFragment) {
-                    timeMethod.invoke(fragment);
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            LogUtil.getStackTraceString(e);
-        }
-    }
 
 }

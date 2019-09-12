@@ -30,7 +30,7 @@ class LoginRepository : IModel {
         val infos = TCache.get(App.instance).getSerializable<AccountInfo>("card/accountinfo")
 
         //设置参数
-        map.put("imei", CommonTool.getIMEI(App.instance))
+        map.put("imei", CommonTool.getIMEI(App.instance)+"1666")
         map.put("eqid", CommonTool.getEquipID(App.instance))
         map.put("ch", "uc_jl")
 

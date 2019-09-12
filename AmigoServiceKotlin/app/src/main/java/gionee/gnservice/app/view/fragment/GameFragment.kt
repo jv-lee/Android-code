@@ -10,12 +10,15 @@ import com.google.gson.Gson
 import com.lee.library.base.BaseFragment
 import com.lee.library.livedatabus.InjectBus
 import com.lee.library.livedatabus.LiveDataBus
+import com.lee.library.utils.LogUtil
+import com.lee.library.widget.WebViewEx
 import gionee.gnservice.app.BuildConfig
 import gionee.gnservice.app.Cache
 import gionee.gnservice.app.R
 import gionee.gnservice.app.constants.Constants
 import gionee.gnservice.app.constants.EventConstants
 import gionee.gnservice.app.databinding.FragmentGameBinding
+import gionee.gnservice.app.model.entity.TaskInfo
 import gionee.gnservice.app.tool.ToastTool
 import gionee.gnservice.app.tool.ValueTimer
 import gionee.gnservice.app.view.activity.GameActivity
@@ -40,10 +43,8 @@ class GameFragment :
         })
     }
 
-    override fun bindData(savedInstanceState: Bundle?) {
-        LiveDataBus.getInstance().injectBus(this)
-
-        viewModel.taskInfo.observe(this, Observer {
+    private val observer by lazy {
+        Observer<TaskInfo> {
             if (it?.taskOverList != null && it.taskOverList.isNotEmpty()) {
                 for (taskOver in it.taskOverList) {
                     if (taskOver.taskType == 2) {
@@ -53,7 +54,13 @@ class GameFragment :
                     }
                 }
             }
-        })
+        }
+    }
+
+    override fun bindData(savedInstanceState: Bundle?) {
+        LiveDataBus.getInstance().injectBus(this)
+
+        viewModel.taskInfo.observeForever(observer)
 
         // 初始化小游戏 sdk 的账号数据，用于存储游戏内部的用户数据，
         // 为避免数据异常，这个方法建议在小游戏列表页面展现前（可以是二级页面）才调用
@@ -65,9 +72,47 @@ class GameFragment :
 
     override fun bindView() {
         binding.web.addJavascriptInterface(JSInterface(context!!.applicationContext), JSInterface.NAME)
-        binding.web.addJavascriptInterface(this, "game")
         binding.web.addJavascriptInterface(ADInterface(activity!!, binding.web), ADInterface.NAME)
+        binding.web.addJavascriptInterface(this, "page")
         binding.web.loadUrl(BuildConfig.GAME_URI)
+        binding.web.addWebStatusListenerAdapter(object : WebViewEx.WebStatusListenerAdapter() {
+            override fun callStart() {
+                super.callStart()
+                binding.progress.show()
+            }
+
+            override fun callFailed() {
+                super.callFailed()
+                binding.progress.hide()
+            }
+
+            override fun callSuccess() {
+                super.callSuccess()
+                binding.progress.hide()
+            }
+        })
+    }
+
+    override fun onFragmentResume() {
+        super.onFragmentResume()
+        binding.web.loadUrl("javascript:facthGameData()")
+    }
+
+    override fun onDestroy() {
+        viewModel.taskInfo.removeObserver(observer)
+        ValueTimer.destroy(value)
+        LiveDataBus.getInstance().unInjectBus(this)
+        super.onDestroy()
+    }
+
+    @InjectBus(value = EventConstants.GAME_TIMER_STATUS, isActive = false)
+    fun event(run: Boolean) {
+        LogUtil.i("time -> $run")
+        if (run) {
+            ValueTimer.resume(value)
+        } else {
+            ValueTimer.pause(value)
+        }
     }
 
     @JavascriptInterface
@@ -108,25 +153,6 @@ class GameFragment :
     fun startPage(code: Int, arg: String) {
         activity?.runOnUiThread {
             (activity as MainActivity).startTabMode(code)
-        }
-    }
-
-    override fun onFragmentResume() {
-        super.onFragmentResume()
-        binding.web.loadUrl("javascript:facthGameData()")
-    }
-
-    override fun onDestroy() {
-        ValueTimer.destroy(value)
-        super.onDestroy()
-    }
-
-    @InjectBus(value = EventConstants.GAME_TIMER_STATUS)
-    fun time(run: Int) {
-        if (run == 1) {
-            ValueTimer.resume(value)
-        } else {
-            ValueTimer.pause(value)
         }
     }
 

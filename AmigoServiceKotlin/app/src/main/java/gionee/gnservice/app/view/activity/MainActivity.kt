@@ -1,9 +1,9 @@
 package gionee.gnservice.app.view.activity
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
 import android.arch.lifecycle.Observer
 import android.content.Intent
+import android.graphics.Color
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
 import android.view.KeyEvent
@@ -18,7 +18,10 @@ import com.lee.library.livedatabus.LiveDataBus
 import com.lee.library.utils.FragmentUtil
 import com.lee.library.utils.LogUtil
 import com.lee.library.utils.StatusUtil
+import com.lee.library.utils.TimerEx
 import com.lee.library.widget.nav.BottomNavView
+import com.lee.library.widget.window.FloatWindowManager
+import com.lee.library.widget.window.FloatWindowView
 import gionee.gnservice.app.BuildConfig
 import gionee.gnservice.app.Cache
 import gionee.gnservice.app.R
@@ -31,9 +34,7 @@ import gionee.gnservice.app.model.server.RetrofitUtils
 import gionee.gnservice.app.tool.*
 import gionee.gnservice.app.view.fragment.*
 import gionee.gnservice.app.view.widget.BlissBagView
-import gionee.gnservice.app.view.widget.window.FloatWindowManager
-import gionee.gnservice.app.view.widget.window.FloatWindowView
-import gionee.gnservice.app.view.widget.window.WindowCallback
+import com.lee.library.widget.window.WindowCallback
 import gionee.gnservice.app.vm.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -53,6 +54,8 @@ class MainActivity :
 
     private var floatWindowView: FloatWindowView? = null
     private var blissBagView: BlissBagView? = null
+
+    private val player by lazy { MediaPlayer.create(this@MainActivity, R.raw.award) }
 
     /**
      * 通过Handler轮询 红包雨活动
@@ -132,7 +135,7 @@ class MainActivity :
             //TODO 新手奖励提示窗
             novice.observe(this@MainActivity, Observer {
                 if (it == null) return@Observer
-                if (it.isOverOpenClick == 1) {
+                if (Cache.isNew == 1) {
                     FragmentUtil.getInstance().showFragmentDialog(this@MainActivity, null, DialogNoviceFragment())
                 }
             })
@@ -170,6 +173,8 @@ class MainActivity :
      * TODO 导航tab选中监听
      */
     override fun onPosition(menuItem: MenuItem?, position: Int) {
+        floatWindowView?.showWindow()
+        binding.statusBar.setBackgroundColor(Color.parseColor("#fff"))
         when (position) {
             0 -> {
                 LogUtil.i("nav -> news")
@@ -190,6 +195,7 @@ class MainActivity :
                 PrefAccess.useGuide(1, binding.nav, PrefAccess.KEY_GUIDE_FINISHED_VIDEO)
             }
             2 -> {
+                floatWindowView?.hideWindow()
                 LogUtil.i("nav -> novel")
                 StatisticsUtil.onEvent(
                     applicationContext,
@@ -207,6 +213,7 @@ class MainActivity :
                 )
             }
             4 -> {
+                binding.statusBar.setBackgroundColor(Color.parseColor("#ff3a2c"))
                 LogUtil.i("nav -> wallet")
                 StatisticsUtil.onEvent(
                     applicationContext,
@@ -220,7 +227,7 @@ class MainActivity :
     /**
      * TODO 刷新红点提示事件
      */
-    @InjectBus(EventConstants.UPDATE_RED_POINT)
+    @InjectBus(EventConstants.UPDATE_RED_POINT, isActive = false)
     fun notificationPoint(code: Int) {
         viewModel.initRedPoint()
     }
@@ -228,11 +235,11 @@ class MainActivity :
     /**
      * TODO 更新福袋显示
      */
-    @InjectBus(EventConstants.NOTIFICATION_AWARD)
+    @InjectBus(EventConstants.NOTIFICATION_AWARD, isActive = false)
     fun notificationAward(count: Int) {
         if (count == 0) return
         if (count > Cache.ydCount) {
-            AudioUtil.playMusic(this, R.raw.award)
+            player.start()
             blissBagView?.notificationAward(count - Cache.ydCount)
         } else {
             blissBagView?.setCurrentAward(count)
@@ -325,6 +332,7 @@ class MainActivity :
     }
 
     fun showUserCenter() {
+        floatWindowView?.hideWindow()
         binding.nav.visibility = View.INVISIBLE
         binding.frameUsercenterContainer.visibility = View.VISIBLE
     }
@@ -338,11 +346,7 @@ class MainActivity :
             FragmentUtil.getInstance().showFragmentDialog(this, null, DialogUpdateFragment())
         } else {
             //显示红包雨
-            DelayTimeTool.timeChange(object : AnimatorListenerAdapter() {
-                override fun onAnimationEnd(animation: Animator?) {
-                    initRedPackage()
-                }
-            }, 5000, 0, 1)
+            TimerEx.get().run({ initRedPackage() }, 5)
         }
     }
 
@@ -373,7 +377,7 @@ class MainActivity :
                         StatisticsConstants.Label_Permission_Success
                     )
                     blissBagView = BlissBagView(applicationContext)
-                    blissBagView?.setCurrentAward(0)
+                    blissBagView?.setCurrentAward(Cache.ydCount)
 
                     try {
                         floatWindowView = FloatWindowView(applicationContext)
@@ -388,13 +392,11 @@ class MainActivity :
                         )
                         //设置点击跳转意图
                         floatWindowView?.setOnClickListener {
-                            if (blissBagView?.isHasJump!!) {
-                                StatisticsUtil.onEvent(applicationContext, StatisticsConstants.Float_Icon_Click)
-                                startActivity(
-                                    Intent(this@MainActivity, WebActivity::class.java)
-                                        .putExtra(Constants.URL, BuildConfig.JS_URI + "cash.html")
-                                )
-                            }
+                            StatisticsUtil.onEvent(applicationContext, StatisticsConstants.Float_Icon_Click)
+                            startActivity(
+                                Intent(this@MainActivity, WebActivity::class.java)
+                                    .putExtra(Constants.URL, BuildConfig.JS_URI + "cash.html")
+                            )
                         }
                     } catch (e: Exception) {
                         e.printStackTrace()
@@ -411,10 +413,18 @@ class MainActivity :
             })
     }
 
+    override fun onResume() {
+        super.onResume()
+        if (binding.frameUsercenterContainer.visibility != View.INVISIBLE) {
+            floatWindowView?.hideWindow()
+        }
+    }
+
     override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             //判断用户中心fragment是否显示 处理相应操作
             if (binding.frameUsercenterContainer.visibility != View.INVISIBLE) {
+                floatWindowView?.showWindow()
                 binding.frameUsercenterContainer.visibility = View.INVISIBLE
                 binding.nav.visibility = View.VISIBLE
                 return true
@@ -433,6 +443,9 @@ class MainActivity :
 
     override fun onDestroy() {
         super.onDestroy()
+        LiveDataBus.getInstance().unInjectBus(this)
+        player.stop()
+        player.release()
         floatWindowView?.unBind()
         handler?.removeCallbacks(runnable)
         handler = null

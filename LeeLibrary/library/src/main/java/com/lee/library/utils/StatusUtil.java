@@ -108,10 +108,20 @@ public class StatusUtil {
      */
     public static void fullWindow(Activity activity) {
         //1.设置全屏幕
-        activity.requestWindowFeature(Window.FEATURE_NO_TITLE);
-
-        activity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        int flags;
+        int curApiVersion = android.os.Build.VERSION.SDK_INT;
+        if (curApiVersion >= Build.VERSION_CODES.KITKAT) {
+            flags = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                    | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                    | View.SYSTEM_UI_FLAG_IMMERSIVE
+                    | View.SYSTEM_UI_FLAG_FULLSCREEN;
+        } else {
+            // touch the screen, the navigation bar will show
+            flags = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+        }
+        activity.getWindow().getDecorView().setSystemUiVisibility(flags);
     }
 
     /**

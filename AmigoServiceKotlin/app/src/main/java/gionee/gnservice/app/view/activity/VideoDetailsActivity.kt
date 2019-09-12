@@ -1,23 +1,22 @@
 package gionee.gnservice.app.view.activity
 
-import android.animation.ValueAnimator
 import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModel
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
 import com.lee.library.base.BaseActivity
 import com.lee.library.livedatabus.LiveDataBus
 import com.lee.library.utils.StatusUtil
+import com.lee.library.utils.TimerEx
 import com.lee.library.widget.WebViewEx
 import gionee.gnservice.app.Cache
 import gionee.gnservice.app.R
 import gionee.gnservice.app.constants.Constants
 import gionee.gnservice.app.constants.EventConstants
 import gionee.gnservice.app.databinding.ActivityVideoDetailsBinding
-import gionee.gnservice.app.tool.ValueTimer
 import gionee.gnservice.app.vm.VideoDetailsViewModel
 import kotlinx.android.synthetic.main.layout_status_toolbar.view.*
+import java.util.concurrent.ScheduledFuture
 
 /**
  * @author jv.lee
@@ -30,16 +29,27 @@ class VideoDetailsActivity :
         VideoDetailsViewModel::class.java
     ) {
 
+    var run: ScheduledFuture<*>? = null
     private var url: String? = null
-    private var value: ValueAnimator? = null
+    private var isFirst = true
+    private var hasAward = true
 
     override fun bindData(savedInstanceState: Bundle?) {
         StatusUtil.setStatusFontLight2(mActivity)
         url = intent.getStringExtra(Constants.URL)
 
         viewModel.award.observe(this, Observer {
-            LiveDataBus.getInstance().getChannel(EventConstants.NOTIFICATION_AWARD).value = (Cache.ydCount + it!!.count)
+            if (!isDestroyed) {
+                LiveDataBus.getInstance().getChannel(EventConstants.NOTIFICATION_AWARD).value =
+                    (Cache.ydCount + it!!.count)
+            }
         })
+
+        viewModel.hasAward.observe(this, Observer {
+            hasAward = it!!
+        })
+
+        viewModel.videoAwardEnable(url!!)
     }
 
     override fun bindView() {
@@ -47,6 +57,19 @@ class VideoDetailsActivity :
         binding.include.back.setOnClickListener { finish() }
 
         binding.web.addWebStatusListenerAdapter(object : WebViewEx.WebStatusListenerAdapter() {
+
+            override fun callSuccess() {
+                //首次打开奖励
+                if (isFirst && hasAward) {
+                    isFirst = false
+                    //进入奖励
+                    viewModel.getVideoAward(1)
+
+                    //延迟获取
+                    run = TimerEx.get().run({ viewModel.getVideoAward(2) }, 12)
+                }
+            }
+
             override fun callProgress(progress: Int) {
                 if (progress < 90) {
                     binding.include.progress.visibility = View.VISIBLE
@@ -57,14 +80,6 @@ class VideoDetailsActivity :
             }
         })
         binding.web.loadUrl(url)
-
-        viewModel.getVideoAward(1)
-        value = ValueTimer.init(12, object : ValueTimer.TimeCallback {
-            override fun endRepeat() {
-                viewModel.getVideoAward(2)
-            }
-        })
-        value?.start()
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
@@ -80,18 +95,20 @@ class VideoDetailsActivity :
     override fun onResume() {
         super.onResume()
         binding.web.exResume()
-        ValueTimer.resume(value)
     }
 
     override fun onPause() {
         super.onPause()
         binding.web.exPause()
-        ValueTimer.pause(value)
+    }
+
+    override fun finish() {
+        super.finish()
+        run?.cancel(true)
     }
 
     override fun onDestroy() {
         binding.web.exDestroy()
-        ValueTimer.destroy(value)
         super.onDestroy()
     }
 

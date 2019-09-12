@@ -1,7 +1,5 @@
 package gionee.gnservice.app.view.activity
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.arch.lifecycle.Observer
@@ -11,16 +9,18 @@ import android.view.LayoutInflater
 import android.widget.TextView
 import com.lee.library.base.BaseActivity
 import com.lee.library.livedatabus.LiveDataBus
+import com.lee.library.utils.TimerEx
 import gionee.gnservice.app.R
 import gionee.gnservice.app.constants.EventConstants
 import gionee.gnservice.app.databinding.ActivityRedPackageBinding
 import gionee.gnservice.app.model.entity.RedPacketInfo
 import gionee.gnservice.app.model.server.RetrofitUtils
-import gionee.gnservice.app.tool.DelayTimeTool
 import gionee.gnservice.app.tool.CommonTool
 import gionee.gnservice.app.view.alert.DialogEx
 import gionee.gnservice.app.view.widget.RedRainView
 import gionee.gnservice.app.vm.RedPackageViewModel
+import java.util.concurrent.ScheduledFuture
+import java.util.concurrent.TimeUnit
 
 /**
  * @author jv.lee
@@ -32,6 +32,7 @@ class RedPackageActivity : BaseActivity<ActivityRedPackageBinding, RedPackageVie
     RedPackageViewModel::class.java
 ) {
 
+    var run: ScheduledFuture<*>? = null
     var dialog: AlertDialog? = null
 
     @SuppressLint("SetTextI18n")
@@ -43,9 +44,9 @@ class RedPackageActivity : BaseActivity<ActivityRedPackageBinding, RedPackageVie
                     this,
                     DialogEx.ViewInterface {
                         val view = LayoutInflater.from(this@RedPackageActivity).inflate(R.layout.layout_red_out, null)
-                        view.findViewById<TextView>(R.id.tv_button).setOnClickListener {
+                        view.findViewById<TextView>(R.id.tv_button).setOnClickListener { v ->
                             dialog?.dismiss()
-                            useClose()
+                            useClose(0)
                         }
                         view
                     }).build()
@@ -63,9 +64,9 @@ class RedPackageActivity : BaseActivity<ActivityRedPackageBinding, RedPackageVie
                             R.string.red_dialog_nexttime,
                             CommonTool.nextRedPackageTime(System.currentTimeMillis() + (it.nextDT * 1000))
                         )
-                        view.findViewById<TextView>(R.id.tv_button).setOnClickListener {
+                        view.findViewById<TextView>(R.id.tv_button).setOnClickListener { v ->
                             dialog?.dismiss()
-                            useClose()
+                            useClose(it.count)
                         }
                         view
                     }).build()
@@ -78,6 +79,8 @@ class RedPackageActivity : BaseActivity<ActivityRedPackageBinding, RedPackageVie
                 RetrofitUtils.instance.saveUser(user)
             }
         })
+
+        run = TimerEx.get().run({ useClose(0) }, (1000 * 60 * 10))
     }
 
     override fun bindView() {
@@ -87,16 +90,12 @@ class RedPackageActivity : BaseActivity<ActivityRedPackageBinding, RedPackageVie
             }
 
             override fun closeCall() {
-                useClose()
+                useClose(0)
             }
 
         })
 
-        DelayTimeTool.timeChange(object : AnimatorListenerAdapter() {
-            override fun onAnimationEnd(animation: Animator?) {
-                binding.redRain.startAnimators()
-            }
-        }, 100, 0, 1)
+        TimerEx.get().run({ binding.redRain.startAnimators() }, 100,TimeUnit.MILLISECONDS)
     }
 
     override fun onResume() {
@@ -112,6 +111,7 @@ class RedPackageActivity : BaseActivity<ActivityRedPackageBinding, RedPackageVie
     override fun onDestroy() {
         super.onDestroy()
         binding.redRain.destroyAnimators()
+        run?.cancel(true)
     }
 
     override fun onKeyUp(keyCode: Int, event: KeyEvent): Boolean {
@@ -121,7 +121,10 @@ class RedPackageActivity : BaseActivity<ActivityRedPackageBinding, RedPackageVie
         return super.onKeyUp(keyCode, event)
     }
 
-    fun useClose() {
+    fun useClose(count: Int) {
+        if (count != 0) {
+            LiveDataBus.getInstance().getChannel(EventConstants.NOTIFICATION_AWARD).postValue(count)
+        }
         LiveDataBus.getInstance().getChannel(EventConstants.RED_PACKAGE_ACTIVITY).postValue(0)
         finish()
         overridePendingTransition(R.anim.alpha_in, R.anim.alpha_out)

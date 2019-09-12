@@ -10,7 +10,8 @@ data class Login(
     val isShowAct: Int,
     var redPacketInfo: RedPacketInfo,
     val sessionKey: String,
-    val userInfo: UserInfo
+    val userInfo: UserInfo,
+    val YDNum: Int
 )
 
 data class UserInfo(

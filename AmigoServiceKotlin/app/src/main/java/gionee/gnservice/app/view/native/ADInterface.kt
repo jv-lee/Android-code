@@ -25,7 +25,7 @@ class ADInterface(activity: Activity, web: WebViewEx) {
         activity?.runOnUiThread {
             AManager.getInstance()
                 .showVideoAD(activity, adId)
-                { isSuccess -> web?.loadUrl("javascript:nativeCallback('$methodName',$isSuccess)") }
+                { isSuccess -> web?.loadUrl("javascript:$methodName($isSuccess)") }
         }
     }
 

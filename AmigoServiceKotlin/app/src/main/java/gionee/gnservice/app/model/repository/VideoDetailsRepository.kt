@@ -8,6 +8,8 @@ import gionee.gnservice.app.constants.ServerConstants
 import gionee.gnservice.app.model.entity.Award
 import gionee.gnservice.app.model.entity.base.Data
 import gionee.gnservice.app.model.server.RetrofitUtils
+import gionee.gnservice.app.tool.disk.DiskLruCacheImpl
+import gionee.gnservice.app.view.fragment.VideoChildFragment.Companion.key
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -40,6 +42,29 @@ class VideoDetailsRepository : IModel {
                 }
 
             })
+
+        return data
+    }
+
+    private val video_key: String = "video_key"
+
+    fun videoAwardEnable(value: String): LiveData<Boolean> {
+        val data = MutableLiveData<Boolean>()
+        data.value = true
+
+        val diskLruCache = DiskLruCacheImpl()
+        val content = diskLruCache.get(video_key)
+
+        //设置数据
+        if (content != null) {
+            if (content.contains(value)) {
+                data.value = false
+            } else {
+                diskLruCache.put(video_key, "$content,$value")
+            }
+        } else {
+            diskLruCache.put(video_key, value)
+        }
 
         return data
     }

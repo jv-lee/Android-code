@@ -15,10 +15,17 @@ class VideoDetailsViewModel(application: Application) : BaseViewModel(applicatio
 
     val model by lazy { VideoDetailsRepository() }
     val award by lazy { MutableLiveData<Award>() }
+    val hasAward by lazy { MutableLiveData<Boolean>() }
 
     fun getVideoAward(type: Int) {
         model.getVideoAward(type).observeForever {
             award.value = it
+        }
+    }
+
+    fun videoAwardEnable(value: String) {
+        model.videoAwardEnable(value).observeForever {
+            hasAward.value = it
         }
     }
 

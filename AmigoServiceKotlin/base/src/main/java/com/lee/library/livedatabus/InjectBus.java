@@ -9,4 +9,6 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)//JVM运行时 通过反射获取注解的值
 public @interface InjectBus {
     String value();
+
+    boolean isActive() default true;
 }

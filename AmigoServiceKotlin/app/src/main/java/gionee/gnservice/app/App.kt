@@ -13,6 +13,7 @@ import com.cmcm.cmgame.CmGameSdk
 import com.cmcm.cmgame.gamedata.CmGameAppInfo
 import com.dl.infostream.InfoStreamManager
 import com.gionee.gnservice.AmigoServiceApp
+import com.lee.library.livedatabus.LiveDataBus
 import com.lee.library.utils.DensityUtil
 import com.lee.library.utils.SPUtil
 import com.s.main.sdk.SDK
@@ -20,6 +21,7 @@ import com.tencent.mm.opensdk.openapi.IWXAPI
 import com.tencent.mm.opensdk.openapi.WXAPIFactory
 import gionee.gnservice.app.constants.Constants
 import gionee.gnservice.app.constants.Constants.Companion.READING_ACTIVITY_NAME
+import gionee.gnservice.app.constants.EventConstants
 import gionee.gnservice.app.service.LocalService
 import gionee.gnservice.app.service.RemoteService
 import gionee.gnservice.app.tool.CommonTool
@@ -40,8 +42,6 @@ class App : AmigoServiceApp() {
 
     private val TAG: String = App::class.java.simpleName
 
-    private var mainActivity: FragmentActivity? = null
-
     /**
      * 热启动标识符
      */
@@ -55,6 +55,9 @@ class App : AmigoServiceApp() {
         @SuppressLint("StaticFieldLeak")
         lateinit var instance: Context
         lateinit var wxApi: IWXAPI
+        @SuppressLint("StaticFieldLeak")
+        lateinit var main: MainActivity
+
     }
 
     override fun onCreate() {
@@ -82,7 +85,7 @@ class App : AmigoServiceApp() {
      */
     private fun initSDK() {
         //初始化微信
-        wxApi= WXAPIFactory.createWXAPI(this, BuildConfig.weChatAppId, false)
+        wxApi = WXAPIFactory.createWXAPI(this, BuildConfig.weChatAppId, false)
         wxApi.registerApp(BuildConfig.weChatAppId)
 
         //资讯初始化
@@ -144,7 +147,10 @@ class App : AmigoServiceApp() {
                     DensityUtil.setDensity(this@App, activity)
                 }
                 if (activity.localClassName == "gionee.gnservice.app.view.activity.MainActivity") {
-                    mainActivity = activity as FragmentActivity?
+                    main = activity as MainActivity
+                }
+                if (activity.localClassName == "com.hs.feed.ui.activity.WebViewDetailActivity") {
+                    Cache.newsAwardCount = 0
                 }
             }
 
@@ -165,7 +171,7 @@ class App : AmigoServiceApp() {
 
                 //阅读小说计时开始
                 if (READING_ACTIVITY_NAME == activity?.localClassName) {
-                    ReflectTool.timer(mainActivity!!, "resumeTimer")
+                    LiveDataBus.getInstance().getChannel(EventConstants.NOVEL_TIMER_STATUS).value = true
                 }
             }
 
@@ -175,7 +181,7 @@ class App : AmigoServiceApp() {
 
                 //阅读小说计时结束
                 if (READING_ACTIVITY_NAME == activity?.localClassName) {
-                    ReflectTool.timer(mainActivity!!, "pauseTimer")
+                    LiveDataBus.getInstance().getChannel(EventConstants.NOVEL_TIMER_STATUS).value = false
                 }
             }
 
@@ -199,5 +205,4 @@ class App : AmigoServiceApp() {
             startService(Intent(this, RemoteService::class.java))
         }
     }
-
 }

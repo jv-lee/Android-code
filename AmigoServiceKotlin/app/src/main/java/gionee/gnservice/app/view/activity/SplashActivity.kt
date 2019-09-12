@@ -115,6 +115,8 @@ class SplashActivity :
             override fun onAdClick(p0: String?) {
                 LogUtil.i("splash -> onAdClick:$p0")
                 StatisticsUtil.onEvent(this@SplashActivity, StatisticsConstants.Splash_Result, StatisticsConstants.Label_Cold_Start_AdClick)
+                isSplash = true
+                sendMain()
             }
         })
         splashView?.setAdBound(resources.displayMetrics.widthPixels, resources.displayMetrics.heightPixels)
@@ -131,7 +133,7 @@ class SplashActivity :
         viewModel.model.login().observe(this, Observer {
             RetrofitUtils.instance.saveSessionKey(it?.sessionKey)
             RetrofitUtils.instance.saveUser(it)
-            Cache.saveRedPackageParameter(it!!)
+            Cache.saveParameter(it)
             isLogin = true
             sendMain()
         })

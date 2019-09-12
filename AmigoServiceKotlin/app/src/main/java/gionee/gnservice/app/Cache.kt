@@ -17,15 +17,17 @@ class Cache {
         var isOpenLogin: Int = 0
         var nextDT: Int = 0
         var ydCount: Int = 0
+        var newsAwardCount: Int = 0
 
         /**
          * 设置红包雨参数
          */
-        fun saveRedPackageParameter(login: Login) {
-            isNew = login.isNew
+        fun saveParameter(login: Login?) {
+            isNew = login?.isNew!!
             isOpenTime = login.redPacketInfo.isOpenTime
             isOpenLogin = login.redPacketInfo.isOpenLogin
             nextDT = login.redPacketInfo.nextDT
+            ydCount = login.YDNum
         }
 
         var isPlayVideo: Boolean = false

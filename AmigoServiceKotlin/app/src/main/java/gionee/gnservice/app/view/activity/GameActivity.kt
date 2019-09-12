@@ -7,11 +7,14 @@ import android.view.KeyEvent
 import android.view.View
 import android.webkit.JavascriptInterface
 import com.lee.library.base.BaseFullActivity
+import com.lee.library.livedatabus.LiveDataBus
 import com.lee.library.utils.LogUtil
 import com.lee.library.widget.WebViewEx
 import gionee.gnservice.app.R
 import gionee.gnservice.app.constants.Constants
+import gionee.gnservice.app.constants.EventConstants
 import gionee.gnservice.app.databinding.ActivityGameBinding
+import gionee.gnservice.app.tool.AManager
 import gionee.gnservice.app.view.native.JSInterface
 
 /**
@@ -31,7 +34,7 @@ class GameActivity : BaseFullActivity<ActivityGameBinding, ViewModel>(R.layout.a
     }
 
     override fun bindView() {
-        binding.web.addWebStatusListenerAdapter(object: WebViewEx.WebStatusListenerAdapter() {
+        binding.web.addWebStatusListenerAdapter(object : WebViewEx.WebStatusListenerAdapter() {
             override fun callProgress(progress: Int) {
                 LogUtil.i("progress:$progress")
                 if (progress > 90) {
@@ -48,25 +51,6 @@ class GameActivity : BaseFullActivity<ActivityGameBinding, ViewModel>(R.layout.a
         LogUtil.i("loadUrl:$url")
     }
 
-    @JavascriptInterface
-    fun showVideoAd(adId: String, methodName: String) {
-        runOnUiThread {
-            //            AManager.getInstance().showVideoAD(this, adId, { isSuccess ->
-//            binding.web.loadUrl("javascript:nativeCallback('$methodName',$isSuccess)")
-//            })
-        }
-    }
-
-    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if (binding.web.canGoBack()) {
-                binding.web.goBack()
-                return true
-            }
-        }
-        return super.onKeyDown(keyCode, event)
-    }
-
     override fun onResume() {
         if (type == 1) {
             if (requestedOrientation != ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
@@ -79,16 +63,37 @@ class GameActivity : BaseFullActivity<ActivityGameBinding, ViewModel>(R.layout.a
         }
         super.onResume()
         binding.web.exResume()
+        LiveDataBus.getInstance().getChannel(EventConstants.GAME_TIMER_STATUS).value = true
     }
 
     override fun onPause() {
         super.onPause()
         binding.web.exPause()
+        LiveDataBus.getInstance().getChannel(EventConstants.GAME_TIMER_STATUS).value = false
     }
 
     override fun onDestroy() {
         binding.web.exDestroy()
         super.onDestroy()
+    }
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (binding.web.canGoBack()) {
+                binding.web.goBack()
+                return true
+            }
+        }
+        return super.onKeyDown(keyCode, event)
+    }
+
+    @JavascriptInterface
+    fun showVideoAd(adId: String, methodName: String) {
+        runOnUiThread {
+            AManager.getInstance().showVideoAD(this, adId) { isSuccess ->
+                binding.web.loadUrl("javascript:nativeCallback('$methodName',$isSuccess)")
+            }
+        }
     }
 
 }

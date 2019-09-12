@@ -52,5 +52,15 @@ class StatisticsConstants {
         const val Label_Permission_Success: String = "已授权"
         const val Label_Permission_Failed: String = "未授权"
         const val Float_Icon_Click: String = "Float_Icon_Click"
+
+        //资讯
+        const val News_Details_Click: String = "News_Details_Click"
+        const val News_Slide: String = "News_Slide"
+
+        //小说
+        val BOOKS_GLIDE = "Books_glide"//小说界面滑动
+        val BOOKS_CLICK = "Books_Click"//小说点击打开上报
+        val BOOKS_CLICK_LABLE = "打开小说"//小说点击打开上报Lable
+
     }
 }

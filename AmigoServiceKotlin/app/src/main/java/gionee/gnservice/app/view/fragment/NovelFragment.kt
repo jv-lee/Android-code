@@ -6,13 +6,17 @@ import com.android.droi.books.BooksLayout
 import com.android.droi.books.interfaces.ReaderListener
 import com.android.droi.books.interfaces.RequireHandle
 import com.android.droi.books.model.bean.CollBookBean
+import com.gionee.gnservice.statistics.StatisticsUtil
 import com.lee.library.base.BaseFragment
+import com.lee.library.livedatabus.InjectBus
 import com.lee.library.livedatabus.LiveDataBus
 import com.lee.library.utils.LogUtil
 import gionee.gnservice.app.R
 import gionee.gnservice.app.constants.Constants
 import gionee.gnservice.app.constants.EventConstants
+import gionee.gnservice.app.constants.StatisticsConstants
 import gionee.gnservice.app.databinding.FragmentNovelBinding
+import gionee.gnservice.app.model.entity.TaskInfo
 import gionee.gnservice.app.tool.ToastTool
 import gionee.gnservice.app.tool.ValueTimer
 import gionee.gnservice.app.vm.TimeViewModel
@@ -33,21 +37,8 @@ class NovelFragment :
         })
     }
 
-    //统计
-    private val requireHandle by lazy {
-        RequireHandle(object : ReaderListener {
-            override fun onReader(collBookBean: CollBookBean?) {
-
-            }
-
-            override fun onChangePage(collBookBean: CollBookBean?) {
-            }
-
-        })
-    }
-
-    override fun bindData(savedInstanceState: Bundle?) {
-        viewModel.taskInfo.observe(this, Observer {
+    private val observer by lazy {
+        Observer<TaskInfo> {
             if (it?.taskOverList != null && it.taskOverList.isNotEmpty()) {
                 for (taskOver in it.taskOverList) {
                     if (taskOver.taskType == 2) {
@@ -59,7 +50,34 @@ class NovelFragment :
                     }
                 }
             }
+        }
+    }
+
+    //统计
+    private val requireHandle by lazy {
+        RequireHandle(object : ReaderListener {
+            override fun onReader(collBookBean: CollBookBean?) {
+                val map = HashMap<String, Any>()
+                map["name"] = collBookBean?.name!!
+                map["type"] = collBookBean.category_name
+                StatisticsUtil.onEvent(
+                    activity?.applicationContext,
+                    StatisticsConstants.BOOKS_CLICK,
+                    StatisticsConstants.BOOKS_CLICK_LABLE,
+                    map
+                )
+            }
+
+            override fun onChangePage(collBookBean: CollBookBean?) {
+                StatisticsUtil.onEvent(activity?.applicationContext, StatisticsConstants.BOOKS_GLIDE)
+            }
+
         })
+    }
+
+    override fun bindData(savedInstanceState: Bundle?) {
+        LiveDataBus.getInstance().injectBus(this)
+        viewModel.taskInfo.observeForever(observer)
     }
 
     override fun bindView() {
@@ -72,23 +90,19 @@ class NovelFragment :
     }
 
     override fun onDestroy() {
+        viewModel.taskInfo.removeObserver(observer)
         ValueTimer.destroy(value)
+        LiveDataBus.getInstance().unInjectBus(this)
         super.onDestroy()
     }
 
-    /**
-     * 由于LiveData 属于和activity生命周期所响应订阅的 ，在app中设置无效， 改用反射通知
-     * 提供外界反射开始计时器
-     */
-    fun resumeTimer() {
-        ValueTimer.resume(value)
-    }
-
-    /**
-     * 提供外界反射停止计时器
-     */
-    fun pauseTimer() {
-        ValueTimer.pause(value)
+    @InjectBus(EventConstants.NOVEL_TIMER_STATUS, isActive = false)
+    fun event(run: Boolean) {
+        if (run) {
+            ValueTimer.resume(value)
+        } else {
+            ValueTimer.pause(value)
+        }
     }
 
 }

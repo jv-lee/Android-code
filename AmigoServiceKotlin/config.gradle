@@ -3,8 +3,8 @@ ext {
             compileSdkVersion: 28,
             minSdkVersion    : 21,
             targetSdkVersion : 28,
-            versionCode      : 2005001000,
-            versionName      : "5.1.0.b",
+            versionCode      : 2005001002,
+            versionName      : "5.1.1.a",
             applicationId    : "com.gionee.gnservice.test"
     ]
 

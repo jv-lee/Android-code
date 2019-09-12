@@ -11,6 +11,7 @@ import com.lee.library.base.BaseFragment
 import com.lee.library.livedatabus.InjectBus
 import com.lee.library.livedatabus.LiveDataBus
 import com.lee.library.utils.NetworkUtil
+import com.lee.library.widget.WebViewEx
 import gionee.gnservice.app.BuildConfig
 import gionee.gnservice.app.R
 import gionee.gnservice.app.constants.Constants
@@ -21,6 +22,7 @@ import gionee.gnservice.app.view.activity.GameActivity
 import gionee.gnservice.app.view.activity.MainActivity
 import gionee.gnservice.app.view.activity.WebActivity
 import gionee.gnservice.app.view.native.ADInterface
+import gionee.gnservice.app.view.native.CommonInterface
 import gionee.gnservice.app.view.native.JSInterface
 import gionee.gnservice.app.vm.WalletViewModel
 
@@ -36,13 +38,43 @@ class WalletFragment :
 
     override fun bindData(savedInstanceState: Bundle?) {
         binding.web.addJavascriptInterface(JSInterface(context!!.applicationContext), JSInterface.NAME)
-        binding.web.addJavascriptInterface(this, "wallet")
+        binding.web.addJavascriptInterface(CommonInterface(activity!!), CommonInterface.NAME)
         binding.web.addJavascriptInterface(ADInterface(activity!!, binding.web), ADInterface.NAME)
+        binding.web.addJavascriptInterface(this, "page")
         binding.web.loadUrl(BuildConfig.WALLET_URI)
     }
 
     override fun bindView() {
         progressDialog = ProgressDialog(activity)
+
+        binding.web.addWebStatusListenerAdapter(object : WebViewEx.WebStatusListenerAdapter() {
+            override fun callStart() {
+                super.callStart()
+                binding.progress.show()
+            }
+
+            override fun callFailed() {
+                super.callFailed()
+                binding.progress.hide()
+            }
+
+            override fun callSuccess() {
+                super.callSuccess()
+                binding.progress.hide()
+            }
+        })
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (progressDialog?.isShowing!!) {
+            progressDialog?.dismiss()
+        }
+    }
+
+    override fun onFragmentResume() {
+        super.onFragmentResume()
+        binding.web.loadUrl("javascript:facthHomeData()")
     }
 
     @InjectBus(value = EventConstants.START_WALLET_MODE)
@@ -55,71 +87,6 @@ class WalletFragment :
             binding.web.loadUrl("javascript:gotask()")
         }
     }
-
-    //通用web页面跳转
-    @JavascriptInterface
-    fun startActivity(url: String, title: String?) {
-        activity?.runOnUiThread {
-            startActivity(
-                Intent(activity, WebActivity::class.java)
-                    .putExtra(Constants.URL, url)
-                    .putExtra(Constants.V_TYPE, 1)
-                    .putExtra(Constants.TITLE, title)
-            )
-        }
-    }
-
-    //本地钱包子页面跳转路径  BuildConfig.JS_URI + 页面地址
-    @JavascriptInterface
-    fun startLocalActivity(url: String, title: String?) {
-        activity?.runOnUiThread {
-            startActivity(
-                Intent(activity, WebActivity::class.java)
-                    .putExtra(Constants.URL, BuildConfig.JS_URI + url)
-                    .putExtra(Constants.V_TYPE, 1)
-                    .putExtra(Constants.TITLE, title)
-            )
-        }
-    }
-
-    @JavascriptInterface
-    fun startGame(url: String, vtype: Int, gid: String) {
-        activity?.runOnUiThread {
-            startActivity(
-                Intent(activity, GameActivity::class.java)
-                    .putExtra(Constants.URL, url)
-                    .putExtra(Constants.V_TYPE, vtype)
-            )
-        }
-    }
-
-    @JavascriptInterface
-    fun startPage(code: Int, arg: String) {
-        LiveDataBus.getInstance().getChannel(EventConstants.START_PAGE).postValue(code)
-    }
-
-    @JavascriptInterface
-    fun isLogin(): Boolean {
-        return (activity as MainActivity).getUserCenterFragment().isLogin
-    }
-
-    @JavascriptInterface
-    fun goLogin() {
-        activity?.runOnUiThread {
-            (activity as MainActivity).getUserCenterFragment().login()
-        }
-    }
-
-    @JavascriptInterface
-    fun isConnected(): Boolean {
-        return NetworkUtil.isConnected(activity?.applicationContext)
-    }
-
-    @JavascriptInterface
-    fun checkRedPoint() {
-        LiveDataBus.getInstance().getChannel(EventConstants.UPDATE_RED_POINT).postValue(0)
-    }
-
 
     @JavascriptInterface
     fun wxLogin2() {
@@ -136,34 +103,6 @@ class WalletFragment :
 
             })
         }
-    }
-
-    @JavascriptInterface
-    fun showWeChat(name: String) {
-        activity?.runOnUiThread {
-            CommonTool.copy(activity!!, name)
-            CommonTool.getWeChatApi(activity!!)
-        }
-    }
-
-    @JavascriptInterface
-    fun goUserCenter() {
-        activity?.runOnUiThread {
-            (activity as MainActivity).showUserCenter()
-        }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        if (progressDialog?.isShowing!!) {
-            progressDialog?.dismiss()
-        }
-    }
-
-
-    override fun onFragmentResume() {
-        super.onFragmentResume()
-        binding.web.loadUrl("javascript:facthHomeData()")
     }
 
 }

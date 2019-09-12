@@ -13,6 +13,8 @@
             tools:context="gionee.gnservice.app.view.activity.MianActivity">
 
         <View
+                android:id="@+id/status_bar"
+                android:background="@android:color/white"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/status_height"/>
 

@@ -23,12 +23,14 @@ public class LiveDataBus {
     /**
      * 消息通道
      */
-    private Map<String,BusMutableLiveData<Object>> bus;
+    private Map<String, BusMutableLiveData<Object>> bus;
     private static LiveDataBus instance;
+
     private LiveDataBus() {
         bus = new HashMap<>();
     }
-    public static LiveDataBus getInstance(){
+
+    public static LiveDataBus getInstance() {
         if (instance == null) {
             synchronized (LiveDataBus.class) {
                 if (instance == null) {
@@ -61,9 +63,9 @@ public class LiveDataBus {
         @Override
         public void onChanged(@Nullable T t) {
             if (observer != null) {
-                if (isCallOnObserve()) {
-                    return;
-                }
+//                if (isCallOnObserve()) {
+//                    return;
+//                }
                 observer.onChanged(t);
             }
         }
@@ -144,15 +146,27 @@ public class LiveDataBus {
         }
     }
 
+    /**
+     * 存储非激活事件的临时容器
+     */
+    private Map<String, Observer> tempMap = new HashMap<>();
+
+    /**
+     * 订阅通知
+     * @param lifecycleOwner
+     */
     public void injectBus(LifecycleOwner lifecycleOwner) {
         Class<? extends LifecycleOwner> aClass = lifecycleOwner.getClass();
         //获取当前类所有方法
         Method[] declaredMethods = aClass.getDeclaredMethods();
         for (Method method : declaredMethods) {
+            //激活通知
             InjectBus injectBus = method.getAnnotation(InjectBus.class);
             if (injectBus != null) {
                 String value = injectBus.value();
-                LiveDataBus.getInstance().getChannel(value).observe(lifecycleOwner, o -> {
+                boolean isActive = injectBus.isActive();
+
+                Observer<Object> observer = o -> {
                     try {
                         method.invoke(lifecycleOwner, o);
                     } catch (IllegalAccessException e) {
@@ -160,7 +174,41 @@ public class LiveDataBus {
                     } catch (InvocationTargetException e) {
                         e.printStackTrace();
                     }
-                });
+                };
+
+                //是否是激活状态通知
+                if (isActive) {
+                    LiveDataBus.getInstance().getChannel(value).observe(lifecycleOwner, observer);
+                } else {
+                    tempMap.put(value, observer);
+                    LiveDataBus.getInstance().getChannel(value).observeForever(observer);
+                }
+            }
+
+        }
+    }
+
+    /**
+     * 取消订阅通知 (仅在使用非激活状态可通知模式 需要取消订阅)
+     * @param lifecycleOwner
+     */
+    public void unInjectBus(LifecycleOwner lifecycleOwner) {
+        Class<? extends LifecycleOwner> aClass = lifecycleOwner.getClass();
+        //获取当前类所有方法
+        Method[] declaredMethods = aClass.getDeclaredMethods();
+        for (Method method : declaredMethods) {
+            InjectBus injectBus = method.getAnnotation(InjectBus.class);
+            if (injectBus != null) {
+                String value = injectBus.value();
+                boolean isActive = injectBus.isActive();
+
+                //非活跃状态通知取消订阅
+                if (!isActive) {
+                    Observer remove = tempMap.remove(value);
+                    if (remove != null) {
+                        LiveDataBus.getInstance().getChannel(value).removeObserver(remove);
+                    }
+                }
             }
         }
     }

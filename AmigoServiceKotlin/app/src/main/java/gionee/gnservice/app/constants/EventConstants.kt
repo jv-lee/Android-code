@@ -21,6 +21,8 @@ class EventConstants {
         const val NOTIFICATION_AWARD: String = "NOTIFICATION_AWARD"
         //视频计时器状态
         const val VIDEO_TIMER_STATUS: String = "VIDEO_TIMER_STATUS"
+        //小说计时器状态
+        const val NOVEL_TIMER_STATUS: String = "NOVEL_TIMER_STATUS"
         //游戏计时器状态
         const val GAME_TIMER_STATUS: String = "GAME_TIMER_STATUS"
     }
