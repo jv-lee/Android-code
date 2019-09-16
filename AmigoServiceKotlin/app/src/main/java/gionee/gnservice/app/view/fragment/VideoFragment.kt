@@ -5,14 +5,9 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import com.lee.library.adapter.UiPagerAdapter
 import com.lee.library.base.BaseFragment
-import com.lee.library.livedatabus.InjectBus
 import com.lee.library.livedatabus.LiveDataBus
 import gionee.gnservice.app.R
-import gionee.gnservice.app.constants.Constants
-import gionee.gnservice.app.constants.EventConstants
 import gionee.gnservice.app.databinding.FragmentVideoBinding
-import gionee.gnservice.app.tool.ToastTool
-import gionee.gnservice.app.tool.ValueTimer
 import gionee.gnservice.app.vm.VideoViewModel
 import java.util.ArrayList
 

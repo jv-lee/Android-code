@@ -34,7 +34,7 @@ class ServerConstants {
         //时长上报接口
         const val ACT_ADD_TIME: String = "times.subAddTime"
         //获取视频分类
-        const val ACT_VIDEO_CATEGORY: String = "video.init"
+        const val ACT_VIDEO_CATEGORY: String = "video.changeRepeat"
         //获取视频列表
         const val ACT_VIDEO_LIST: String = "video.getVideoListByCid"
         //绑定微信接口

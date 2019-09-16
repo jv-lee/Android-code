@@ -1,6 +1,8 @@
 package gionee.gnservice.app.view.widget;
 
-import android.animation.*;
+import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.Gravity;
@@ -10,6 +12,7 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import com.lee.library.utils.ValueTimerEx;
 import gionee.gnservice.app.R;
 
 import java.util.ArrayList;
@@ -40,6 +43,8 @@ public class RedRainLayout extends FrameLayout implements View.OnClickListener {
     private int imageSize = 0;
 
     private boolean isClick;
+
+    private ValueAnimator valueAnimator;
 
     private List<ObjectAnimator> animators = new ArrayList<>();
     private int resourceID = R.mipmap.ic_redrain_icon;
@@ -106,18 +111,11 @@ public class RedRainLayout extends FrameLayout implements View.OnClickListener {
     }
 
     public void startAnimators() {
-        ValueAnimator value = ValueAnimator.ofInt(0, 1);
-        value.setDuration(500);
-        value.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                for (ObjectAnimator animator : animators) {
-                    animator.start();
-                }
-                value.cancel();
+        valueAnimator = ValueTimerEx.changeEnd(500, () -> {
+            for (ObjectAnimator animator : animators) {
+                animator.start();
             }
         });
-        value.start();
     }
 
     public void resumeAnimators() {
@@ -141,6 +139,10 @@ public class RedRainLayout extends FrameLayout implements View.OnClickListener {
             if (animator != null) {
                 animator.cancel();
             }
+        }
+        if (valueAnimator != null) {
+            valueAnimator.cancel();
+            valueAnimator = null;
         }
     }
 

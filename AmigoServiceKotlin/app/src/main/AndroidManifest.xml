@@ -50,7 +50,7 @@
                 android:theme="@style/WelcomeTheme">
             <intent-filter>
 
-                <!-- 协议部分，随便设置 glucenter://init?ch= -->
+                <!-- 协议部分，随便设置 glucenter://changeRepeat?ch= -->
                 <data
                         android:host="start"
                         android:scheme="glucenter"/>

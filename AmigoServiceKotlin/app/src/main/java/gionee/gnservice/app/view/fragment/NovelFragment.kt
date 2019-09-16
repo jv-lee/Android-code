@@ -10,7 +10,7 @@ import com.gionee.gnservice.statistics.StatisticsUtil
 import com.lee.library.base.BaseFragment
 import com.lee.library.livedatabus.InjectBus
 import com.lee.library.livedatabus.LiveDataBus
-import com.lee.library.utils.LogUtil
+import com.lee.library.utils.ValueTimerEx
 import gionee.gnservice.app.R
 import gionee.gnservice.app.constants.Constants
 import gionee.gnservice.app.constants.EventConstants
@@ -18,7 +18,6 @@ import gionee.gnservice.app.constants.StatisticsConstants
 import gionee.gnservice.app.databinding.FragmentNovelBinding
 import gionee.gnservice.app.model.entity.TaskInfo
 import gionee.gnservice.app.tool.ToastTool
-import gionee.gnservice.app.tool.ValueTimer
 import gionee.gnservice.app.vm.TimeViewModel
 
 /**
@@ -30,11 +29,7 @@ class NovelFragment :
     BaseFragment<FragmentNovelBinding, TimeViewModel>(R.layout.fragment_novel, TimeViewModel::class.java) {
 
     private val value by lazy {
-        ValueTimer.init(30, object : ValueTimer.TimeCallback {
-            override fun endRepeat() {
-                viewModel.subAddTime("30", Constants.TYPE_NOVEL, null)
-            }
-        })
+        ValueTimerEx.changeRepeat(30 * 1000) { viewModel.subAddTime("30", Constants.TYPE_NOVEL, null) }
     }
 
     private val observer by lazy {
@@ -91,7 +86,7 @@ class NovelFragment :
 
     override fun onDestroy() {
         viewModel.taskInfo.removeObserver(observer)
-        ValueTimer.destroy(value)
+        ValueTimerEx.destroy(value)
         LiveDataBus.getInstance().unInjectBus(this)
         super.onDestroy()
     }
@@ -99,9 +94,9 @@ class NovelFragment :
     @InjectBus(EventConstants.NOVEL_TIMER_STATUS, isActive = false)
     fun event(run: Boolean) {
         if (run) {
-            ValueTimer.resume(value)
+            ValueTimerEx.resume(value)
         } else {
-            ValueTimer.pause(value)
+            ValueTimerEx.pause(value)
         }
     }
 

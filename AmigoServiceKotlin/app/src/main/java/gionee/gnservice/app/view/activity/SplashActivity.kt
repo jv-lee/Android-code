@@ -160,7 +160,7 @@ class SplashActivity :
         StatisticsUtil.onEvent(this, StatisticsConstants.Ads_Init_Times)
         MobgiAds.init(applicationContext, BuildConfig.mobgiAppId, object : MobgiAds.InitCallback {
             override fun onSuccess() {
-                LogUtil.i("init mobgi success")
+                LogUtil.i("changeRepeat mobgi success")
                 StatisticsUtil.onEvent(
                     this@SplashActivity,
                     StatisticsConstants.Ads_Init_Result,
@@ -171,7 +171,7 @@ class SplashActivity :
             }
 
             override fun onError(throwable: Throwable) {
-                LogUtil.i("init mobgi error:$throwable")
+                LogUtil.i("changeRepeat mobgi error:$throwable")
                 StatisticsUtil.onEvent(
                     this@SplashActivity,
                     StatisticsConstants.Ads_Init_Result,

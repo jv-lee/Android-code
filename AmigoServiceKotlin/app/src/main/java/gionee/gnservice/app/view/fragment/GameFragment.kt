@@ -11,6 +11,7 @@ import com.lee.library.base.BaseFragment
 import com.lee.library.livedatabus.InjectBus
 import com.lee.library.livedatabus.LiveDataBus
 import com.lee.library.utils.LogUtil
+import com.lee.library.utils.ValueTimerEx
 import com.lee.library.widget.WebViewEx
 import gionee.gnservice.app.BuildConfig
 import gionee.gnservice.app.Cache
@@ -20,7 +21,6 @@ import gionee.gnservice.app.constants.EventConstants
 import gionee.gnservice.app.databinding.FragmentGameBinding
 import gionee.gnservice.app.model.entity.TaskInfo
 import gionee.gnservice.app.tool.ToastTool
-import gionee.gnservice.app.tool.ValueTimer
 import gionee.gnservice.app.view.activity.GameActivity
 import gionee.gnservice.app.view.activity.MainActivity
 import gionee.gnservice.app.view.native.ADInterface
@@ -36,11 +36,7 @@ class GameFragment :
     BaseFragment<FragmentGameBinding, TimeViewModel>(R.layout.fragment_game, TimeViewModel::class.java) {
 
     private val value by lazy {
-        ValueTimer.init(30, object : ValueTimer.TimeCallback {
-            override fun endRepeat() {
-                viewModel.subAddTime("30", Constants.TYPE_GAME, Cache.playGameId)
-            }
-        })
+        ValueTimerEx.changeRepeat(30 * 1000) { viewModel.subAddTime("30", Constants.TYPE_GAME, Cache.playGameId) }
     }
 
     private val observer by lazy {
@@ -100,7 +96,7 @@ class GameFragment :
 
     override fun onDestroy() {
         viewModel.taskInfo.removeObserver(observer)
-        ValueTimer.destroy(value)
+        ValueTimerEx.destroy(value)
         LiveDataBus.getInstance().unInjectBus(this)
         super.onDestroy()
     }
@@ -109,9 +105,9 @@ class GameFragment :
     fun event(run: Boolean) {
         LogUtil.i("time -> $run")
         if (run) {
-            ValueTimer.resume(value)
+            ValueTimerEx.resume(value)
         } else {
-            ValueTimer.pause(value)
+            ValueTimerEx.pause(value)
         }
     }
 
