@@ -11,7 +11,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ThreadActivity"></activity>
+        <activity android:name=".RegisterLoginActivity"></activity>
+        <activity android:name=".FlowableActivity" />
+        <activity android:name=".ThreadActivity" />
         <activity android:name=".ExceptionActivity" />
         <activity android:name=".MergeActivity" />
         <activity android:name=".ConditionActivity" />
