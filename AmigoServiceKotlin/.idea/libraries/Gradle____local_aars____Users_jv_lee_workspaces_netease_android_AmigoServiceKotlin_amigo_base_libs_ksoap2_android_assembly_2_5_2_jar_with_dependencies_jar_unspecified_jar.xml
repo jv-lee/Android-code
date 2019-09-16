@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="Gradle: __local_aars__:/Users/jv.lee/workspaces/netease_android/AmigoServiceKotlin/amigo-base/libs/ksoap2-android-assembly-2.5.2-jar-with-dependencies.jar:unspecified@jar">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/amigo-base/libs/ksoap2-android-assembly-2.5.2-jar-with-dependencies.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>

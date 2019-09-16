@@ -1,1 +1,0 @@
-(function (){var css=document.getElementById('qiqu_browser_night_mode_style');if(css){css.parentNode.removeChild(css);var node = document.getElementById('qiqu_browser_day_mode_style');if(node)document.getElementsByTagName('head')[0].removeChild(node);}})();
