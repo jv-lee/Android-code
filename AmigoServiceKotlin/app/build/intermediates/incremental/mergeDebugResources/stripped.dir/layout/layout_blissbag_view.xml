@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent">
+
+    <FrameLayout
+            android:id="@+id/frame"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
+
+        <ImageView
+                android:id="@+id/iv_background"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:alpha="0"
+                android:background="@mipmap/ic_bag_bg"/>
+
+        <ImageView
+                android:id="@+id/iv_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@mipmap/ic_bag_after"
+                android:src="@mipmap/ic_bag_before"/>
+
+        <ImageView
+                android:id="@+id/iv_active"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="20dp"
+                android:layout_marginBottom="10dp"
+                android:src="@mipmap/ic_bag_btn"/>
+
+        <TextView
+                android:id="@+id/tv_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="4dp"
+                android:textColor="#fffff272"
+                android:textSize="10sp"
+                tools:ignore="SmallSp"/>
+
+    </FrameLayout>
+
+    <TextView
+            android:id="@+id/tv_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:alpha="0"
+            android:background="@mipmap/ic_bag_message"
+            android:paddingLeft="6dp"
+            android:paddingRight="6dp"
+            android:gravity="center"
+            android:textSize="12sp"
+            android:textColor="#B95519"/>
+
+    <FrameLayout
+            android:id="@+id/frame_egg"
+            android:layout_width="wrap_content"
+            android:layout_height="120dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="20dp">
+
+        <ImageView
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:alpha="0"
+                android:src="@mipmap/ic_bag_egg"/>
+
+        <ImageView
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_marginStart="5dp"
+                android:alpha="0"
+                android:src="@mipmap/ic_bag_egg"/>
+
+        <ImageView
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_marginStart="10dp"
+                android:alpha="0"
+                android:src="@mipmap/ic_bag_egg"/>
+
+        <ImageView
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_marginStart="15dp"
+                android:alpha="0"
+                android:src="@mipmap/ic_bag_egg"/>
+
+    </FrameLayout>
+
+</FrameLayout>

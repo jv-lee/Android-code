@@ -1,0 +1,14 @@
+[
+    {
+        "merged": "/Users/jv.lee/workspaces/netease_android/AmigoServiceKotlin/base/build/intermediates/res/merged/debug/interpolator-v21/mtrl_fast_out_linear_in.xml",
+        "source": "/Users/jv.lee/.gradle/caches/transforms-1/files-1.1/design-28.0.0.aar/08dc00a185ea37a3786087726cd69219/res/interpolator-v21/mtrl_fast_out_linear_in.xml"
+    },
+    {
+        "merged": "/Users/jv.lee/workspaces/netease_android/AmigoServiceKotlin/base/build/intermediates/res/merged/debug/interpolator-v21/mtrl_fast_out_slow_in.xml",
+        "source": "/Users/jv.lee/.gradle/caches/transforms-1/files-1.1/design-28.0.0.aar/08dc00a185ea37a3786087726cd69219/res/interpolator-v21/mtrl_fast_out_slow_in.xml"
+    },
+    {
+        "merged": "/Users/jv.lee/workspaces/netease_android/AmigoServiceKotlin/base/build/intermediates/res/merged/debug/interpolator-v21/mtrl_linear_out_slow_in.xml",
+        "source": "/Users/jv.lee/.gradle/caches/transforms-1/files-1.1/design-28.0.0.aar/08dc00a185ea37a3786087726cd69219/res/interpolator-v21/mtrl_linear_out_slow_in.xml"
+    }
+]

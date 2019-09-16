@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- android:layout_removeBorders="true" -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:background="@android:color/transparent" >
+
+    <amigoui.widget.AmigoListView android:id="@android:id/list"
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="1"
+        android:paddingTop="@dimen/amigo_preference_fragment_padding_top"
+        android:paddingBottom="@dimen/amigo_preference_fragment_padding_bottom"
+        android:paddingStart="@dimen/amigo_preference_fragment_padding_left"
+        android:paddingEnd="@dimen/amigo_preference_fragment_padding_right"
+        android:scrollbarStyle="insideOverlay"
+        android:clipToPadding="false"
+        android:drawSelectorOnTop="false"
+        android:cacheColorHint="@android:color/transparent"
+        android:scrollbarAlwaysDrawVerticalTrack="true" />
+
+    <amigoui.widget.AmigoTextView android:id="@android:id/empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/amigo_preference_fragment_padding_side"
+        android:gravity="center"
+        android:visibility="gone" />
+
+    <RelativeLayout android:id="@+id/amigo_button_bar"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_weight="0"
+        android:visibility="gone">
+
+        <Button android:id="@+id/amigo_back_button"
+            android:layout_width="150dip"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dip"
+            android:layout_alignParentStart="true"
+            android:text="@string/amigo_back_button_label"
+        />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true">
+
+            <Button android:id="@+id/amigo_skip_button"
+                android:layout_width="150dip"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dip"
+                android:text="@string/amigo_skip_button_label"
+                android:visibility="gone"
+            />
+
+            <Button android:id="@+id/amigo_next_button"
+                android:layout_width="150dip"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dip"
+                android:text="@string/amigo_next_button_label"
+            />
+        </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>

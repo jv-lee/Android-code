@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/github_selector_bg"
+    android:orientation="vertical"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp"
+    android:paddingTop="8dp">
+
+    <include layout="@layout/feed_include_news_title" />
+
+    <ImageView
+        android:id="@+id/iv_img"
+        android:layout_width="match_parent"
+        android:layout_height="185dp"
+        android:layout_marginTop="10dp"
+        android:scaleType="centerCrop"/>
+
+    <include
+        layout="@layout/feed_include_news_ad_bottom"/>
+
+</LinearLayout>

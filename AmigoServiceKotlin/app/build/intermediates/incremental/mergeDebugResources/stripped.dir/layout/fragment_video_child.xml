@@ -1,0 +1,27 @@
+
+                                                       
+
+    
+
+           
+
+    <FrameLayout
+            android:id="@+id/frame_video_child_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context="gionee.gnservice.app.view.fragment.VideoChildFragment" android:tag="layout/fragment_video_child_0" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
+
+        <com.lee.library.widget.refresh.RefreshLayout
+                android:id="@+id/refresh"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+        </com.lee.library.widget.refresh.RefreshLayout>
+
+    </FrameLayout>
+         

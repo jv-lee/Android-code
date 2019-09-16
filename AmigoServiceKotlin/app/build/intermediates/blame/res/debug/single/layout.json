@@ -1,0 +1,66 @@
+[
+    {
+        "merged": "/Users/jv.lee/workspaces/netease_android/AmigoServiceKotlin/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/fragment_video.xml",
+        "source": "/Users/jv.lee/workspaces/netease_android/AmigoServiceKotlin/app/src/main/res/layout/fragment_video.xml"
+    },
+    {
+        "merged": "/Users/jv.lee/workspaces/netease_android/AmigoServiceKotlin/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/activity_game.xml",
+        "source": "/Users/jv.lee/workspaces/netease_android/AmigoServiceKotlin/app/src/main/res/layout/activity_game.xml"
+    },
+    {
+        "merged": "/Users/jv.lee/workspaces/netease_android/AmigoServiceKotlin/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/fragment_dialog_active.xml",
+        "source": "/Users/jv.lee/workspaces/netease_android/AmigoServiceKotlin/app/src/main/res/layout/fragment_dialog_active.xml"
+    },
+    {
+        "merged": "/Users/jv.lee/workspaces/netease_android/AmigoServiceKotlin/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/fragment_dialog_novice.xml",
+        "source": "/Users/jv.lee/workspaces/netease_android/AmigoServiceKotlin/app/src/main/res/layout/fragment_dialog_novice.xml"
+    },
+    {
+        "merged": "/Users/jv.lee/workspaces/netease_android/AmigoServiceKotlin/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/fragment_dialog_back.xml",
+        "source": "/Users/jv.lee/workspaces/netease_android/AmigoServiceKotlin/app/src/main/res/layout/fragment_dialog_back.xml"
+    },
+    {
+        "merged": "/Users/jv.lee/workspaces/netease_android/AmigoServiceKotlin/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/activity_main.xml",
+        "source": "/Users/jv.lee/workspaces/netease_android/AmigoServiceKotlin/app/src/main/res/layout/activity_main.xml"
+    },
+    {
+        "merged": "/Users/jv.lee/workspaces/netease_android/AmigoServiceKotlin/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/activity_splash.xml",
+        "source": "/Users/jv.lee/workspaces/netease_android/AmigoServiceKotlin/app/src/main/res/layout/activity_splash.xml"
+    },
+    {
+        "merged": "/Users/jv.lee/workspaces/netease_android/AmigoServiceKotlin/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/fragment_dialog_update.xml",
+        "source": "/Users/jv.lee/workspaces/netease_android/AmigoServiceKotlin/app/src/main/res/layout/fragment_dialog_update.xml"
+    },
+    {
+        "merged": "/Users/jv.lee/workspaces/netease_android/AmigoServiceKotlin/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/activity_video_details.xml",
+        "source": "/Users/jv.lee/workspaces/netease_android/AmigoServiceKotlin/app/src/main/res/layout/activity_video_details.xml"
+    },
+    {
+        "merged": "/Users/jv.lee/workspaces/netease_android/AmigoServiceKotlin/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/activity_red_package.xml",
+        "source": "/Users/jv.lee/workspaces/netease_android/AmigoServiceKotlin/app/src/main/res/layout/activity_red_package.xml"
+    },
+    {
+        "merged": "/Users/jv.lee/workspaces/netease_android/AmigoServiceKotlin/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/fragment_video_child.xml",
+        "source": "/Users/jv.lee/workspaces/netease_android/AmigoServiceKotlin/app/src/main/res/layout/fragment_video_child.xml"
+    },
+    {
+        "merged": "/Users/jv.lee/workspaces/netease_android/AmigoServiceKotlin/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/fragment_news.xml",
+        "source": "/Users/jv.lee/workspaces/netease_android/AmigoServiceKotlin/app/src/main/res/layout/fragment_news.xml"
+    },
+    {
+        "merged": "/Users/jv.lee/workspaces/netease_android/AmigoServiceKotlin/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/activity_web.xml",
+        "source": "/Users/jv.lee/workspaces/netease_android/AmigoServiceKotlin/app/src/main/res/layout/activity_web.xml"
+    },
+    {
+        "merged": "/Users/jv.lee/workspaces/netease_android/AmigoServiceKotlin/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/fragment_wallet.xml",
+        "source": "/Users/jv.lee/workspaces/netease_android/AmigoServiceKotlin/app/src/main/res/layout/fragment_wallet.xml"
+    },
+    {
+        "merged": "/Users/jv.lee/workspaces/netease_android/AmigoServiceKotlin/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/fragment_novel.xml",
+        "source": "/Users/jv.lee/workspaces/netease_android/AmigoServiceKotlin/app/src/main/res/layout/fragment_novel.xml"
+    },
+    {
+        "merged": "/Users/jv.lee/workspaces/netease_android/AmigoServiceKotlin/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/fragment_game.xml",
+        "source": "/Users/jv.lee/workspaces/netease_android/AmigoServiceKotlin/app/src/main/res/layout/fragment_game.xml"
+    }
+]

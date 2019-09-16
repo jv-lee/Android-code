@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="7dp"
+    android:layout_marginBottom="10dp">
+
+    <com.hs.uikit.BorderTextView
+        android:id="@+id/tv_tag"
+        android:layout_width="30dp"
+        android:layout_height="17dp"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="5dp"
+        android:paddingBottom="1dp"
+        android:gravity="center"
+        android:text="@string/to_top"
+        android:textColor="@color/color_F96B6B"
+        android:textSize="10sp"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/tv_author"
+        style="@style/news_text_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="5dp"
+        android:layout_toEndOf="@+id/tv_tag"
+        android:textColor="@color/color_999999"
+        android:textSize="11sp" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/feed_shape_ad_blue"
+        android:textColor="@color/color_ffffffff"
+        android:textSize="12sp"
+        android:visibility="gone"/>
+    <View
+        android:id="@+id/divider"
+        android:layout_width="1dp"
+        android:layout_height="25dp"
+        android:layout_alignLeft="@+id/button"
+        android:layout_alignRight="@+id/button"
+        android:layout_alignParentRight="true"/>
+    <LinearLayout
+        android:id="@+id/tv_remove"
+        android:layout_width="40dp"
+        android:layout_height="25dp"
+        android:gravity="end|center_vertical"
+        android:layout_toLeftOf="@+id/divider"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/tv_remove_img"
+            android:layout_width="25dp"
+            android:layout_height="15dp"
+            android:background="@mipmap/feed_close_icon_dislike" />
+    </LinearLayout>
+</RelativeLayout>

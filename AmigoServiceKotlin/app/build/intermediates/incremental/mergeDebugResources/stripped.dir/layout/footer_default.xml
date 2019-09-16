@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/default_height">
+
+    <ProgressBar
+        android:id="@+id/pb_loading"
+        style="@style/Progress_circle_acting"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_gravity="center"
+        android:indeterminateDuration="900"
+        android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/iv_tip"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_gravity="center"
+        android:background="@drawable/completed"
+        android:visibility="gone" />
+
+</FrameLayout>

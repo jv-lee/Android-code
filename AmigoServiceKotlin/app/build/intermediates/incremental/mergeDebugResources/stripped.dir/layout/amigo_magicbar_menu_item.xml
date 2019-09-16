@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/amigo_substance_bar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom"
+    android:background="@android:color/transparent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/amigo_magicbar_backgroud"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="?attr/amigoMagicBarBg"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:id="@+id/amigo_magicbar_tab"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:background="@android:color/transparent"
+            android:orientation="horizontal"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp" >
+
+            <Button
+                android:id="@+id/amigo_icon0"
+                style="@style/Amigo.ActionBar.MagicBar.Item.Button" />
+
+            <Button
+                android:id="@+id/amigo_icon1"
+                style="@style/Amigo.ActionBar.MagicBar.Item.Button" />
+
+            <Button
+                android:id="@+id/amigo_icon2"
+                style="@style/Amigo.ActionBar.MagicBar.Item.Button" />
+
+            <Button
+                android:id="@+id/amigo_icon3"
+                style="@style/Amigo.ActionBar.MagicBar.Item.Button" />
+
+            <Button
+                android:id="@+id/amigo_icon4"
+                style="@style/Amigo.ActionBar.MagicBar.Item.Button" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/amigo_magicbar_tab_divider"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/amigo_divider_height"
+            android:background="@color/amigo_magicbar_tab_divider" />
+
+        <ScrollView
+            android:id="@+id/amigo_menu_scrollview"
+            android:requiresFadingEdge="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <LinearLayout
+                android:id="@+id/amigo_menu_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+        </ScrollView>
+
+        <ListView
+            android:id="@+id/amigo_listview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fadingEdgeLength="30dp"
+            android:visibility="gone"
+            android:overScrollMode="never"
+            android:requiresFadingEdge="vertical" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/amigo_magicbar_shadow"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:visibility="gone"
+        android:layout_above="@id/amigo_magicbar_backgroud"
+        android:background="@color/amigo_adaptive_color" >
+    </View>
+
+</RelativeLayout>

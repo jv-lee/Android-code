@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Layout of date picker -->
+
+
+<!--
+     Warning: everything within the "pickers" layout is removed and re-ordered
+     depending on the date format selected by the user.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:gravity="center"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/amigo_pickers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="24dip"
+        android:paddingEnd="24dip"
+        android:gravity="center"
+        android:layout_marginBottom="8dp"
+        android:orientation="horizontal" >
+
+        <!-- Gionee <zhangxx><2013-04-10> modify for CR00795646 begin -->
+
+
+        <!-- Month -->
+
+        <amigoui.widget.AmigoNumberPicker
+            android:id="@+id/amigo_month"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:textSize="24dp" />
+
+        <!-- Day -->
+
+        <amigoui.widget.AmigoNumberPicker
+            android:id="@+id/amigo_day"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:textSize="24dp" />
+
+        <!-- Year -->
+
+        <amigoui.widget.AmigoNumberPicker
+            android:id="@+id/amigo_year"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:focusable="true"
+            android:fontFamily="sans-serif"
+            android:focusableInTouchMode="true"
+            android:textSize="24dp" />
+        <!-- Gionee <zhangxx><2013-04-10> modify for CR00795646 end -->
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/amigo_lunar_mode_rl"
+        android:layout_width="match_parent"
+        android:layout_height="51dp"
+        android:background="?android:attr/listChoiceBackgroundIndicator"
+        android:clickable="true"
+        android:orientation="vertical" >
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/amigo_divider_height"
+            android:background="@color/amigo_divider_line_color" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="20dp" >
+
+            <amigoui.widget.AmigoTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:text="@string/amigo_lunar_calendar"
+                android:textColor="@color/amigo_content_color_primary_on_backgroud_c1"
+                android:textSize="16sp" />
+
+            <amigoui.widget.AmigoSwitch
+                android:id="@+id/amigo_lunar_mode_cb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:clickable="false" />
+        </RelativeLayout>
+    </LinearLayout>
+    <!-- calendar view -->
+
+    <CalendarView
+        android:id="@+id/amigo_calendar_view"
+        android:layout_width="245dip"
+        android:layout_height="280dip"
+        android:layout_weight="1"
+        android:focusable="true"
+        android:focusableInTouchMode="true" />
+
+</LinearLayout>

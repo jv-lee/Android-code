@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+                                                       
+
+    
+
+           
+
+    <FrameLayout
+            android:id="@+id/frame_splash_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context="gionee.gnservice.app.view.activity.SplashActivity" android:tag="layout/activity_splash_0" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
+
+    </FrameLayout>
+         

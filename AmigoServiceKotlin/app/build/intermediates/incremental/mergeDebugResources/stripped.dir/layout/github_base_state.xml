@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/empty_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="@string/no_news_now"
+        android:visibility="gone"/>
+
+    <include layout="@layout/github_page_loading" />
+
+    <include layout="@layout/github_page_net_error" />
+
+    <include layout="@layout/github_base_empty" />
+</merge>

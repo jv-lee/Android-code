@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:splitMotionEvents="false"
+    android:background="@android:color/transparent"
+    android:orientation="vertical" >
+    
+    <ImageView
+        android:id="@+id/amigo_forcetouch_indicator" 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/amigo_forcetouch_indicator"
+        android:visibility="invisible"
+        android:layout_marginBottom="@dimen/amigo_forcetouch_indicator_margin"
+        />
+    
+    <FrameLayout
+        android:id="@+id/amigo_forcetouch_custom_view"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="455dp"
+        android:background="@drawable/amigo_forcetouch_menu_bg" 
+        />
+
+</LinearLayout>

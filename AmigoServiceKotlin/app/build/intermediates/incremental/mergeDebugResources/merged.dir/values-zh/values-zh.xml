@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bcad_ad_flag_text">广告</string>
+    <string name="bcad_app_active">%1$sM · %2$s次安装</string>
+    <string name="bcad_app_active_billion">%1$sM · %2$s亿次安装</string>
+    <string name="bcad_app_active_million">%1$sM · %2$s万次安装</string>
+    <string name="bcad_app_active_pkg_size">%1$sM</string>
+    <string name="bcad_app_install_success">%1$s安装成功</string>
+    <string name="bcad_button_cancel">取消</string>
+    <string name="bcad_button_continue">继续</string>
+    <string name="bcad_button_done">完成</string>
+    <string name="bcad_button_open">打开</string>
+    <string name="bcad_developer">开发商</string>
+    <string name="bcad_dialog_mobile_prompt_content">当前使用移动数据网络，该应用大约为%1$sM，是否继续下载</string>
+    <string name="bcad_dialog_mobile_prompt_content_no_pkg_size">当前使用移动数据网络，是否继续下载</string>
+    <string name="bcad_dialog_mobile_prompt_download">下载</string>
+    <string name="bcad_dialog_mobile_prompt_title">下载提示</string>
+    <string name="bcad_download_status_complete">下载完成</string>
+    <string name="bcad_download_status_downloading">正在下载</string>
+    <string name="bcad_download_status_failed">下载失败</string>
+    <string name="bcad_download_status_pause">下载暂停</string>
+    <string name="bcad_download_status_start">下载开始</string>
+    <string name="bcad_downloading_long">下载中</string>
+    <string name="bcad_downloading_short">下载中</string>
+    <string name="bcad_install">安装</string>
+    <string name="bcad_installing">安装中</string>
+    <string name="bcad_mobile_network_download_alert">当前正在使用移动数据流量，继续下载可能会产生通讯费用</string>
+    <string name="bcad_open">打开</string>
+    <string name="bcad_pack_up">收起</string>
+    <string name="bcad_paused">已暂停</string>
+    <string name="bcad_pending">等待中…</string>
+    <string name="bcad_re_try">重试</string>
+    <string name="bcad_skip_ad_text">"跳过广告"</string>
+    <string name="bcad_summary">应用描述</string>
+    <string name="bcad_tips_error_bad_net">暂时无法连接网络，点击重新加载</string>
+    <string name="bcad_tips_error_bad_request">加载失败，点击重新加载</string>
+    <string name="bcad_tips_reload">重新加载</string>
+    <string name="bcad_toast_network_exception">网络异常</string>
+    <string name="bcad_unfold_more">展开更多</string>
+</resources>

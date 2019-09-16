@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_gravity="center_vertical">
+    
+    <ImageView 
+        android:id="@+id/amigo_action_bar_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:src="@drawable/amigo_ic_ab_back_light"
+        android:background="?android:attr/actionBarItemBackground"/>
+    
+    <ImageView 
+        android:id="@+id/amigo_action_bar_icon"
+        android:scaleType="fitCenter"
+        android:layout_width="32dip"
+        android:layout_height="32dip"
+        android:layout_marginRight="8dip"
+        android:visibility="gone"/>
+    
+    <LinearLayout 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center_vertical">
+        <TextView 
+            android:id="@+id/amigo_action_bar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="@dimen/amigo_action_bar_title_text_size"/>
+        
+        <TextView 
+            android:id="@+id/amigo_action_bar_subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:visibility="gone"/>
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <TextView
+        android:id="@+id/config_item"
+        android:layout_centerVertical="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textSize="13.3sp"
+        android:textColor="#545c67"
+        android:letterSpacing="0.03"
+        android:text="全部类型"
+        android:singleLine="true"
+        android:ellipsize="end"
+        />
+</LinearLayout>

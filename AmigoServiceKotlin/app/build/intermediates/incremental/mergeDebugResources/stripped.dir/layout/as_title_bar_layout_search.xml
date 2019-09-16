@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/as_title_bar_height"
+    android:paddingLeft="@dimen/as_title_bar_horizontal_padding"
+    android:paddingRight="@dimen/as_title_bar_horizontal_padding"
+    >
+    <ImageView 
+        android:id="@+id/as_title_bar_back_btn"
+        android:layout_width="@dimen/as_title_bar_height"
+        android:layout_height="@dimen/as_title_bar_height"
+        android:layout_alignParentLeft="true"
+        android:visibility="gone"
+        android:layout_centerVertical="true"
+        android:src="@drawable/as_top_backpress_selector"
+        />
+    <ImageView
+        android:id="@+id/as_title_bar_close_btn"
+        android:layout_width="@dimen/as_title_bar_height"
+        android:layout_height="@dimen/as_title_bar_height"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@id/as_title_bar_back_btn"
+        android:src="@drawable/as_btn_actionbar_close"
+        android:visibility="gone"/>
+    
+    <LinearLayout 
+        android:id="@+id/as_title_bar_menu_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:orientation="horizontal"
+        >
+    </LinearLayout>
+    
+    <TextView
+        android:id="@+id/as_title_bar_title_textview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:paddingLeft="8dp"
+        android:layout_toRightOf="@id/as_title_bar_close_btn"
+        android:layout_toLeftOf="@id/as_title_bar_menu_container"
+        android:textSize="@dimen/as_title_bar_title_text_size"
+        android:textColor="@color/as_title_bar_title_text_color"
+        android:visibility="gone"
+        android:gravity="left|center_vertical"
+        android:enabled="false"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/zkas_search_area_height"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/zkas_list_item_horizontal_padding"
+        android:paddingRight="@dimen/zkas_main_download_btn_right_padding">
+
+        <LinearLayout
+            android:id="@+id/jar_search"
+            android:layout_width="0dip"
+            android:layout_height="@dimen/zkas_search_view_height"
+            android:layout_weight="1"
+            android:background="@drawable/as_shape_search_lay"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:src="@drawable/zkas_search_btn_bg_2" />
+
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

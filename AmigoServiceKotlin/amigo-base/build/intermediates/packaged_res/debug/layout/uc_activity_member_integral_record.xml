@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/flayout_electronic_warranty"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/uc_default_activity_background_color"
+              android:orientation="vertical">
+
+    <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/layout_member_integral_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/uc_default_activity_content_background_color">
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="14dp">
+
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:textSize="12dp"
+                    android:textColor="#cc000000"
+                    android:text="@string/uc_txt_member_integral_record_last_three_month"/>
+            <TextView
+                    android:layout_marginLeft="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12dp"
+                    android:textColor="#cc000000"
+                    android:text="@string/uc_txt_member_integral_record_unuse"/>
+            <TextView
+                    android:id="@+id/txt_member_integral_record_unuse"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12dp"
+                    android:textColor="#d1773b"/>
+        </LinearLayout>
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="0.67dp"
+                android:background="@color/uc_default_line_color"/>
+    </LinearLayout>
+
+    <RelativeLayout
+            android:id="@+id/layout_member_integral_record"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+        <View
+                android:id="@+id/line_member_integral_record_top"
+                android:layout_width="match_parent"
+                android:layout_height="0.67dp"
+                android:background="@color/uc_default_line_color"
+                android:layout_alignParentTop="true"/>
+        <com.gionee.gnservice.widget.fresh.TwinklingRefreshLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/swipe_layout_member_integral_record"
+                android:layout_below="@id/line_member_integral_record_top">
+            <ListView
+                    android:id="@+id/recyleview_member_integral_record"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/uc_default_activity_content_background_color"/>
+
+        </com.gionee.gnservice.widget.fresh.TwinklingRefreshLayout>
+
+        <ProgressBar
+                android:id="@+id/progress_member_integral_record"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"/>
+
+        <View android:id="@+id/line_member_integral_record_bottom"
+              android:layout_width="match_parent"
+              android:layout_height="0.67dp"
+              android:background="@color/uc_default_line_color"
+              android:layout_below="@id/swipe_layout_member_integral_record"/>
+    </RelativeLayout>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/layout_member_integral_record_empty"
+            android:visibility="gone">
+        <ImageView
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                android:src="@drawable/uc_ic_member_integral_record_empty"
+                android:scaleType="center"
+                android:layout_marginTop="100dp"
+                android:layout_gravity="center_horizontal"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16dp"
+                android:textColor="#33000000"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/uc_txt_member_integral_record_empty"/>
+    </LinearLayout>
+
+</LinearLayout>

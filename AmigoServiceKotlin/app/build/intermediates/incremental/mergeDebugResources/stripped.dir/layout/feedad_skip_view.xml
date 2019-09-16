@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="top|end"
+    android:layout_marginRight="11dp"
+    android:layout_marginTop="15dp"
+    android:gravity="center">
+
+    <TextView
+        android:id="@+id/id_skip_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minHeight="24dp"
+        android:minWidth="68dp"
+        android:background="@drawable/bcad_skip"
+        android:gravity="center"
+        android:textSize="12dp"
+        android:padding="4dp"
+        android:text="@string/bcad_skip_ad_text"
+        android:textColor="#FFFFFF"
+        android:visibility="gone"/>
+
+</LinearLayout>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/view_bg"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/bcad_top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/bcad_btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:padding="12dp"
+            android:src="@drawable/bcad_back" />
+
+        <TextView
+            android:id="@+id/bcad_title_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:singleLine="true"
+            android:textColor="?attr/text_title"
+            android:textSize="16sp" />
+    </LinearLayout>
+    <ProgressBar
+        android:id="@+id/bcad_id_progress_bar"
+        style="@style/StyleProgressBarMini"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_below="@+id/bcad_top_bar"
+        android:background="@drawable/feed_shape_progressbar_bg" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/bcad_id_progress_bar"
+        android:layout_above="@id/fl_bottom"
+        android:orientation="vertical">
+
+        <com.feedad.webview.CloverWeakWebView
+            android:id="@+id/bcad_web_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <com.feedad.webview.ErrorView
+            android:id="@+id/bcad_error_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/fl_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bcad_layout_bottom_height"
+        android:layout_alignParentBottom="true">
+
+        <com.feedad.activities.details.widget.progressButton.ProgressButton
+            android:id="@+id/details_app_download_progress"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/bcad_details_progress_margin_top_bottom"
+            android:layout_marginLeft="@dimen/bcad_details_progress_margin_left_right"
+            android:layout_marginRight="@dimen/bcad_details_progress_margin_left_right"
+            android:layout_marginTop="@dimen/bcad_details_progress_margin_top_bottom"
+            android:text="@string/bcad_install"
+            android:textSize="@dimen/bcad_text_search"
+            app:bcad_downloadedColor="@color/bcad_progress_downloaded"
+            app:bcad_normalColor="@color/bcad_progress_downloaded"
+            app:bcad_pbRadius="6"
+            app:bcad_textColor="@color/bcad_progress_text_white"
+            app:bcad_unDownloadColor="@color/bcad_progress_un_download" />
+    </FrameLayout>
+</RelativeLayout>

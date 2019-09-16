@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <FrameLayout
+        android:id="@+id/id_video_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone">
+
+        <VideoView
+            android:id="@+id/id_video_player"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            />
+        <ImageView
+            android:id="@+id/id_image_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:scaleType="fitXY"
+            android:visibility="gone"
+            />
+        <ImageView
+            android:layout_marginLeft="5dp"
+            android:layout_marginBottom="5dp"
+            android:id="@+id/id_mute_btn"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="start|bottom"
+            android:src="@drawable/bcad_ic_qs_mute_mode"
+            android:visibility="gone" />
+    </FrameLayout>
+
+    <include layout="@layout/feedad_skip_view" />
+
+    <include layout="@layout/feedad_ad_flag_view" />
+
+</FrameLayout>

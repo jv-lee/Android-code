@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/search_back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:paddingLeft="16dp"
+            android:layout_gravity="center_vertical"
+            android:paddingRight="6dp"
+            android:src="@drawable/toolbar_back"/>
+
+        <EditText
+            android:id="@+id/search_edittext"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@drawable/search_box_bg"
+            android:hint="@string/hot_search_hint_text"
+            android:textColor="#acacb9"
+
+            android:gravity="center_vertical"
+            android:textSize="15sp"/>
+
+        <TextView
+            android:id="@+id/search_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:letterSpacing="0.08"
+            android:padding="2dp"
+            android:text="@string/hot_search_text"
+            android:textColor="#2a90ef"
+            android:textSize="16sp"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/search_no_msg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:text="@string/search_no_result_msg"
+        android:visibility="gone"
+        android:textColor="#ACACB9"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/search_recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:visibility="gone"/>
+    <RelativeLayout
+        android:id="@+id/search_no_data_relative"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:layout_gravity="center_vertical">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/search_no_data"
+            android:layout_above="@+id/search_no_data_textview"
+            android:layout_centerHorizontal="true"/>
+        <TextView
+            android:id="@+id/search_no_data_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16dp"
+            android:text="@string/search_no_data_text"
+            android:layout_marginTop="8dp"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            />
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/hot_relative"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="15dp">
+
+        <TextView
+            android:id="@+id/hot_search_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:letterSpacing="0.03"
+            android:text="@string/hot_search_title_text"
+            android:textColor="#acacb9"
+            android:textSize="13.3sp"/>
+
+        <TextView
+            android:id="@+id/hot_search_change_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="16dp"
+            android:letterSpacing="0.03"
+            android:text="@string/hot_search_change_text"
+            android:visibility="gone"
+            android:textColor="#2a90ef"
+            android:textSize="13.3sp"/>
+    </RelativeLayout>
+
+    <com.android.droi.books.ui.view.MyRecyclerView
+        android:id="@+id/hot_search_recyc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="7dp"
+        android:layout_marginLeft="7dp"/>
+</LinearLayout>

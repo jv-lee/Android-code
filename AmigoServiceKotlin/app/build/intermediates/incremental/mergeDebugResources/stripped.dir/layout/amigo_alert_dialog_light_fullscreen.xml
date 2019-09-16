@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/*
+** Copyright 2010, The Android Open Source Project
+**
+** Licensed under the Apache License, Version 2.0 (the "License");
+** you may not use this file except in compliance with the License.
+** You may obtain a copy of the License at
+**
+**     http://www.apache.org/licenses/LICENSE-2.0
+**
+** Unless required by applicable law or agreed to in writing, software
+** distributed under the License is distributed on an "AS IS" BASIS,
+** WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+** See the License for the specific language governing permissions and
+** limitations under the License.
+*/
+-->
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/amigo_parentPanel"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="7dip"
+    android:layout_marginRight="7dip"
+    android:orientation="vertical">
+
+    <LinearLayout android:id="@+id/amigo_topPanel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <View android:id="@+id/amigo_titleDividerTop"
+            android:layout_width="match_parent"
+            android:layout_height="2dip"
+            android:visibility="gone"
+            android:background="@color/amigo_alert_dialog_title_divider" />
+        <LinearLayout android:id="@+id/amigo_title_template"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical|left"
+            android:minHeight="@dimen/amigo_alert_dialog_title_height">
+            <ImageView android:id="@+id/amigo_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="8dip"
+                android:src="@null" />
+            <!-- Gionee <lihq> <2013-12-24> modify for CR00873172 begin -->
+            <!-- change com.android.internal.widget.DialogTitle to TextView -->
+            <TextView android:id="@+id/amigo_alertTitle"
+                style="?android:attr/windowTitleStyle"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+            <!-- Gionee <lihq> <2013-12-24> modify for CR00873172 end -->
+            <ImageButton 
+                android:id="@+id/amigo_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/amigo_cancel"
+                android:background="@null"
+                android:visibility="gone" />
+        </LinearLayout>
+        <View android:id="@+id/amigo_titleDivider"
+            android:layout_width="match_parent"
+            android:layout_height="2dip"
+            android:visibility="gone"
+            android:background="@color/amigo_alert_dialog_title_divider" />
+        <!-- If the client uses a customTitle, it will be added here. -->
+    </LinearLayout>
+
+    <LinearLayout android:id="@+id/amigo_contentPanel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+        <ScrollView android:id="@+id/amigo_scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipToPadding="false">
+            <TextView android:id="@+id/amigo_message"
+                style="?android:attr/textAppearanceMedium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="16dip"
+                android:paddingRight="16dip"
+                android:paddingTop="14dip"
+                android:paddingBottom="18dip"/>
+        </ScrollView>
+    </LinearLayout>
+
+    <FrameLayout android:id="@+id/amigo_customPanel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+        <FrameLayout android:id="@+id/amigo_custom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </FrameLayout>
+
+    <!-- android:divider="?android:attr/dividerHorizontal" -->
+    <LinearLayout android:id="@+id/amigo_buttonPanel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="@dimen/amigo_alert_dialog_button_bar_height"
+        android:orientation="vertical"
+        android:showDividers="beginning"
+        android:dividerPadding="0dip">
+        <!-- zhangxx remove for test
+        android:layoutDirection="locale" -->
+        <LinearLayout
+            style="?android:attr/buttonBarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:measureWithLargestChild="true">
+            <amigoui.widget.AmigoButton android:id="@+id/amigo_button2"
+                android:layout_width="0dip"
+                android:layout_gravity="left"
+                android:layout_weight="1"
+                android:layout_marginRight="6dip"
+                android:maxLines="2"
+                style="?android:attr/buttonBarButtonStyle"
+                android:stateListAnimator="@anim/amigo_disabled_anim_material"
+                android:textColor="@android:color/primary_text_light"
+                android:minHeight="@dimen/amigo_alert_dialog_button_bar_height"
+                android:layout_height="match_parent" />
+            <amigoui.widget.AmigoButton android:id="@+id/amigo_button3"
+                android:layout_width="0dip"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
+                android:layout_marginRight="6dip"
+                android:maxLines="2"
+                style="?android:attr/buttonBarButtonStyle"
+                android:stateListAnimator="@anim/amigo_disabled_anim_material"
+                android:textColor="@android:color/primary_text_light"
+                android:minHeight="@dimen/amigo_alert_dialog_button_bar_height"
+                android:layout_height="match_parent" />
+            <amigoui.widget.AmigoButton android:id="@+id/amigo_button1"
+                android:layout_width="0dip"
+                android:layout_gravity="right"
+                android:layout_weight="1"
+                android:maxLines="2"
+                android:minHeight="@dimen/amigo_alert_dialog_button_bar_height"
+                style="?android:attr/buttonBarButtonStyle"
+                android:stateListAnimator="@anim/amigo_disabled_anim_material"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+     </LinearLayout>
+</LinearLayout>

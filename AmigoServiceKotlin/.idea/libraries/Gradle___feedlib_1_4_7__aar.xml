@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Gradle: :feedlib_1.4.7:@aar">
+    <ANNOTATIONS>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/feedlib_1.4.7.aar/69965da2dcd5004de5e6101713ae6f7c/annotations.zip!/" />
+    </ANNOTATIONS>
+    <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/feedlib_1.4.7.aar/69965da2dcd5004de5e6101713ae6f7c/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/feedlib_1.4.7.aar/69965da2dcd5004de5e6101713ae6f7c/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

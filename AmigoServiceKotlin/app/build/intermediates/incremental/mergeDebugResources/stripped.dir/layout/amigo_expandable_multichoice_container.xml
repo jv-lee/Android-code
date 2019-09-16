@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <View android:id="@+id/amigo_expandable_divider"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/amigo_divider_height"
+        android:background="@color/amigo_divider_line_color" />
+    <LinearLayout
+        android:id="@+id/amigo_expandable_content_frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerVertical="true"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <FrameLayout
+            android:id="@+id/amigo_customView"
+            android:layout_width="0dp"
+            android:paddingEnd="@dimen/amigo_expandable_list_item_content_margin_right"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <amigoui.widget.AmigoCheckBox
+            android:id="@android:id/checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:clickable="false"
+            android:focusable="false"
+            android:paddingRight="@dimen/amigo_list_item_tailicon_margin_right"
+            android:visibility="gone" />
+    </LinearLayout>
+
+</RelativeLayout>

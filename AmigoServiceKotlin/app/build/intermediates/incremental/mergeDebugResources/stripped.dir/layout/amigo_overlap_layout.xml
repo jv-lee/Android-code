@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/amigo_overlap"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/amigo_magicbar_icon_bg_height"
+    android:layout_gravity="bottom"
+    android:layout_marginBottom="@dimen/amigo_magicbar_bottom_padding"
+    android:layout_marginEnd="@dimen/amigo_magicbar_start_end_padding"
+    android:layout_marginStart="@dimen/amigo_magicbar_start_end_padding"
+    android:background="@drawable/amigo_optionsmenu_transparaent"
+    android:orientation="horizontal"
+    android:visibility="gone" />

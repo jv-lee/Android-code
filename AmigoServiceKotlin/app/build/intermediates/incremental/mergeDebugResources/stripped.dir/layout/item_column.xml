@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_marginBottom="10dp"
+    android:layout_height="110dp">
+
+    <com.android.droi.books.ui.view.MyGridView
+        android:id="@+id/gv_type"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:stretchMode="columnWidth"
+        android:listSelector="@android:color/transparent"/>
+    <View
+        android:layout_alignParentBottom="true"
+        android:id="@+id/type_line"
+        android:layout_width="match_parent"
+        android:layout_height="6dp"
+        android:background="#f8f8fb"
+        />
+
+</RelativeLayout>

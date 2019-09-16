@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<view xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    class="com.amigoui.internal.widget.AmigoActionBarView$HomeView"
+    android:animateLayoutChanges="true"
+    android:background="?android:attr/actionBarItemBackground" >
+
+    <!-- Gionee <lihq> <2014-03-24> modify modify for CR00873172 begin -->
+    <!-- delete android:background="?android:attr/actionBarItemBackground" -->
+    <ImageView
+        android:id="@+id/amigo_up"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|start"
+        android:src="?android:attr/homeAsUpIndicator"
+        android:visibility="gone" />
+
+    <!-- Gionee <lihq> <2014-03-24> modify modify for CR00873172 end -->
+    
+    <!-- 
+    	gionee maxw modify : remove the margin of amigo_home
+        android:layout_marginBottom="@dimen/amigo_action_bar_icon_vertical_padding"
+        android:layout_marginRight="8dip"
+        android:layout_marginTop="@dimen/amigo_action_bar_icon_vertical_padding"
+     -->
+    <ImageView
+        android:id="@+id/amigo_home"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter" />
+
+</view>

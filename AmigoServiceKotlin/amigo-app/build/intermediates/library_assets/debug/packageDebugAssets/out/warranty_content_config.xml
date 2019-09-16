@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<contents>
+    <content>
+        <order>0</order>
+        <key>gender</key>
+        <title>uc_profile_edit_gender_title</title>
+        <customize>false</customize>
+        <multichoice>false</multichoice>
+        <item>男</item>
+        <item>女</item>
+    </content>
+    
+   <content>
+       <order>1</order>
+       <key>birthday</key>
+       <title>uc_profile_edit_birthdate_title</title>
+       <subtitle>uc_profile_edit_birthdate_subtitle</subtitle>
+       <customize>false</customize>
+       <multichoice>true</multichoice>
+    </content>
+    
+    <content>
+        <order>2</order>
+        <key>degree</key>
+        <title>uc_profile_edit_degree_title</title>
+        <customize>false</customize>
+        <multichoice>false</multichoice>
+        <item>小学</item>
+        <item>初中</item>
+        <item>高中</item>
+        <item>专科</item>
+        <item>本科</item>
+        <item>硕士</item>
+        <item>博士</item>
+    </content>
+       
+    <content>
+        <order>3</order>
+        <key>job</key>
+        <title>uc_profile_edit_job_title</title>
+        <customize>false</customize>
+        <multichoice>false</multichoice>
+        <item>学生</item>
+        <item>IT/电信</item>
+        <item>营销/公关</item>
+        <item>餐饮/零售</item>
+        <item>服务</item>
+        <item>金融/房产</item>
+        <item>交通/物流</item>
+        <item>机械/制造</item>
+        <item>传媒/娱乐</item>
+        <item>法律/教育</item>
+        <item>医疗/保健</item>
+        <item>农林牧渔</item>
+        <item>能源/采矿</item>
+        <item>政府机关</item>       
+    </content>
+    
+    <content>
+        <order>4</order>
+        <key>interest</key>
+        <title>uc_profile_edit_interest_title</title>
+        <subtitle>uc_profile_edit_interest_subtitle</subtitle>
+        <customize>true</customize>
+        <multichoice>true</multichoice>
+        <item>旅游</item>
+        <item>运动</item>
+        <item>阅读</item>
+        <item>数码</item>
+        <item>游戏</item>
+        <item>美食</item>      
+        <item>音乐</item>
+        <item>动漫</item>
+    </content>
+    
+    <content>
+        <order>5</order>
+        <key>label</key>
+        <title>uc_profile_edit_personality_title</title>
+        <subtitle>uc_profile_edit_personality_subtitle</subtitle>
+        <customize>true</customize>
+        <multichoice>true</multichoice>
+        <item>职场精英</item>
+        <item>知识分子</item>
+        <item>有志青年</item>
+        <item>小资</item>
+        <item>学霸</item>
+        <item>高富帅</item>
+        <item>白富美</item>     
+        <item>宅男</item>
+        <item>宅女</item>
+        <item>模范父亲</item>
+        <item>贤妻良母</item>
+    </content>
+
+</contents>

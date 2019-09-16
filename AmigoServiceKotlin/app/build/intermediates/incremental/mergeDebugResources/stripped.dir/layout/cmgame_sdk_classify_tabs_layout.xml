@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <com.cmcm.cmgame.view.tablayout.CmSlidingTabLayout
+        android:id="@+id/gameClassifyTabLayoutTitle"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        app:cmgame_indicator_style="1"
+        app:cmgame_indicator_width_equal_title="true"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp" />
+
+    <com.cmcm.cmgame.view.CmAutofitViewPager
+        android:id="@+id/gameClassifyViewPager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

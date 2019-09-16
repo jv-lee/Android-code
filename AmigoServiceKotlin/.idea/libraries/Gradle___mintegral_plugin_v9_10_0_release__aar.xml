@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: :mintegral-plugin-v9.10.0-release:@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/mintegral-plugin-v9.10.0-release.aar/7838cd5db1c81ff8bcd354d85a84b887/jars/libs/mintegral-plugin-v9.10.0-release.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/mintegral-plugin-v9.10.0-release.aar/7838cd5db1c81ff8bcd354d85a84b887/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/mintegral-plugin-v9.10.0-release.aar/7838cd5db1c81ff8bcd354d85a84b887/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <SearchView
+        android:id="@+id/mts_service_outlets_city_layout_city"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/gn_account_mts_service_outlets_city_searchview_margin_tb"
+        android:layout_marginLeft="@dimen/gn_account_mts_service_outlets_city_padding_lr"
+        android:layout_marginRight="@dimen/gn_account_mts_service_outlets_city_padding_lr"
+        android:layout_marginTop="@dimen/gn_account_mts_service_outlets_city_searchview_margin_tb"
+        android:minHeight="@dimen/gn_account_mts_service_outlets_city_layout_city_height"
+        android:queryHint="@string/gn_account_mts_string_serviceoutlets_autosearch_hint" 
+        android:visibility="gone"/>
+
+    <!-- android:queryHint="@string/gn_mts_string_serviceoutlets_autosearch_hint" -->
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" >
+
+        <RelativeLayout
+            android:id="@+id/mts_service_outlets_search_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <ListView
+                android:id="@+id/mts_service_outlets_city_layout_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="5dp"
+                android:cacheColorHint="@android:color/transparent"
+                android:listSelector="@android:color/transparent" />
+<!-- 
+            <AlphabetIndexView
+                android:id="@+id/mts_service_outlets_city_layout_alphabet"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginRight="@dimen/gn_account_mts_service_outlets_city_layout_alphabet_margin_r"
+                android:paddingTop="@dimen/gn_account_mts_service_outlets_city_layout_alphabet_padding_t" /> -->
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/mts_service_outlets_search_layout_empty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/gn_account_mts_service_outlets_search_layout_empty_margin_t"
+            android:drawablePadding="@dimen/gn_account_mts_service_outlets_search_layout_empty_margin_draw_padding"
+            android:gravity="center_horizontal"
+            android:textSize="@dimen/gn_account_gn_mts_service_outlets_search_layout_empty_size"
+            android:visibility="gone" />
+    </FrameLayout>
+    <!-- android:drawableTop="@drawable/gn_amigo_empty_img" -->
+
+</LinearLayout>

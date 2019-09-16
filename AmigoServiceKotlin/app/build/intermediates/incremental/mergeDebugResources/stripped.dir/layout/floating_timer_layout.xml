@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:padding="20dp"
+    android:layout_height="wrap_content">
+
+
+    <com.dl.infostream.view.FloatingTimerButton
+        android:id="@+id/button"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="bottom|end"
+        android:clickable="false"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_floating_money"
+        app:backgroundTint="#f7e9db"
+        app:progressWidth="3dp"
+        app:drawableWidh="16dp"
+        app:facingDuration="600"
+        app:facingPadding="6dp"
+        app:drawableHeight="16dp"
+        app:progressColor="#ef4e1d"
+        app:borderWidth="1dp"
+        app:progressPadding="3dp"
+        app:progressSecondColor="#fbd3bc"
+        app:periodSecond="20"
+        app:elevation="0dp"/>
+
+</RelativeLayout>

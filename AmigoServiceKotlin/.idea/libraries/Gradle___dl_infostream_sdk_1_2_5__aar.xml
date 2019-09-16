@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: :dl_infostream_sdk_1.2.5:@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/dl_infostream_sdk_1.2.5.aar/f419c735260c973d703c701e747e68a3/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/dl_infostream_sdk_1.2.5.aar/f419c735260c973d703c701e747e68a3/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/dl_infostream_sdk_1.2.5.aar/f419c735260c973d703c701e747e68a3/jars/libs/volley.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

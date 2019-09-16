@@ -1,0 +1,43 @@
+{
+    "logs": [
+        {
+            "outputFile": "/Users/jv.lee/workspaces/netease_android/AmigoServiceKotlin/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-en/values-en.xml",
+            "map": [
+                {
+                    "source": "/Users/jv.lee/.gradle/caches/transforms-1/files-1.1/amigolib-RA_V7.3.0.20.aar/6dcf446217bf5bcabe265ce501843294/res/values-en/amigo_integers.xml",
+                    "from": {
+                        "startLines": "19",
+                        "startColumns": "4",
+                        "startOffsets": "679",
+                        "endColumns": "73",
+                        "endOffsets": "748"
+                    },
+                    "to": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "73",
+                        "endOffsets": "124"
+                    }
+                },
+                {
+                    "source": "/Users/jv.lee/workspaces/netease_android/AmigoServiceKotlin/base/build/intermediates/packaged_res/debug/values-en/values-en.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,155,204,271,322,383,431,476,540,602,672,723,782,853,902,974",
+                        "endColumns": "99,48,66,50,60,47,44,63,61,69,50,58,70,48,71,45",
+                        "endOffsets": "150,199,266,317,378,426,471,535,597,667,718,777,848,897,969,1015"
+                    },
+                    "to": {
+                        "startLines": "3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "129,229,278,345,396,457,505,550,614,676,746,797,856,927,976,1048",
+                        "endColumns": "99,48,66,50,60,47,44,63,61,69,50,58,70,48,71,45",
+                        "endOffsets": "224,273,340,391,452,500,545,609,671,741,792,851,922,971,1043,1089"
+                    }
+                }
+            ]
+        }
+    ]
+}

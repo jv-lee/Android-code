@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/layout_member_privilege"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+    <!--会员等级-->
+    <LinearLayout
+            android:id="@+id/llayout_member_privilege_user"
+            android:layout_width="match_parent"
+            android:layout_height="204dp"
+            android:paddingTop="74dp"
+            android:layout_gravity="center_vertical"
+            android:orientation="horizontal">
+
+        <RelativeLayout
+                android:id="@+id/rlayout_member_card_user_photo"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center_vertical"
+                android:gravity="center"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/uc_bg_member_card_user_photo">
+
+            <com.gionee.gnservice.widget.RoundImageView
+                    android:id="@+id/img_member_privilege_user_photo"
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    android:layout_centerInParent="true"
+                    android:scaleType="fitXY"/>
+        </RelativeLayout>
+
+        <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="14dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+            <RelativeLayout
+                    android:id="@+id/rlayout_member_privilege_user_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp">
+
+                <TextView
+                        android:id="@+id/txt_member_privilege_user_level"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentTop="true"
+                        android:textColor="#fafafa"
+                        android:textSize="18dp"/>
+
+                <LinearLayout
+                        android:id="@+id/txt_member_privilege_user_experience"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:layout_alignParentLeft="true"
+                        android:layout_below="@id/txt_member_privilege_user_level">
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/uc_txt_member_privilege_experience"
+                            android:textColor="#cfae61"
+                            android:textSize="12dp"/>
+
+                    <RelativeLayout
+                            android:layout_width="80dp"
+                            android:layout_height="12dp"
+                            android:layout_marginLeft="6dp"
+                            android:layout_gravity="center_vertical">
+                        <ProgressBar
+                                android:id="@+id/progress_member_privilege_user_experience"
+                                style="?android:attr/progressBarStyleHorizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:progressDrawable="@drawable/uc_member_privilege_progressbar_layer"
+                                android:layout_centerInParent="true"/>
+                        <TextView
+                                android:id="@+id/txt_member_privilege_progress_user_experience"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:textColor="#fafafa"
+                                android:textSize="10dp"
+                                android:gravity="center"
+                                android:layout_centerInParent="true"/>
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                <TextView
+                        android:id="@+id/btn_member_privilege_acoin"
+                        android:layout_width="70dp"
+                        android:layout_height="30dp"
+                        android:background="@drawable/uc_member_privilege_btn_acoin_ripper"
+                        android:gravity="center"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:text="@string/uc_txt_member_privilege_acoin"
+                        android:textColor="#fafafa"
+                        android:textSize="14dp"/>
+            </RelativeLayout>
+
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.67dp"
+                    android:background="#33ffffff"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"/>
+
+            <TextView
+                    android:layout_marginTop="5dp"
+                    android:id="@+id/txt_member_privilege_desciption"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/uc_txt_member_privilege_description"
+                    android:textColor="#80ffffff"
+                    android:textSize="12dp"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+    <com.gionee.gnservice.widget.fresh.TwinklingRefreshLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:id="@+id/refresh_member_privilege">
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+            <!--会员等级进度-->
+
+            <com.gionee.gnservice.widget.UserLevelView
+                    android:id="@+id/userlevel_member_privilege"
+                    android:layout_width="match_parent"
+                    android:layout_height="106dp"
+                    android:background="#3a3a42"/>
+
+            <!--会员特权列表-->
+            <RelativeLayout
+                    android:id="@+id/layout_member_privilege_privileges"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:background="@color/uc_default_activity_content_background_color"
+                    android:minHeight="188dp">
+
+                <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recycler_member_privilege_privileges"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scrollbars="vertical"/>
+
+                <ProgressBar
+                        android:id="@+id/progress_member_privilege_loading"
+                        android:layout_width="42dp"
+                        android:layout_height="42dp"
+                        android:layout_centerInParent="true"
+                        android:visibility="gone"/>
+            </RelativeLayout>
+
+        </LinearLayout>
+    </com.gionee.gnservice.widget.fresh.TwinklingRefreshLayout>
+</LinearLayout>

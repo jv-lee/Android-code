@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent">
+
+    <LinearLayout
+        android:layout_width="268dp"
+        android:layout_height="300dp"
+        android:layout_gravity="center"
+        android:background="@drawable/shape_bg_white"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_bg_reward"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
+                android:text="@string/red_dialog_title"
+                android:textColor="#ffffffff"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_next_time"
+                android:layout_marginTop="6dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/red_dialog_nexttime"
+                android:textColor="#fffffc26"
+                android:textSize="14sp"/>
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp">
+
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:src="@mipmap/ic_red_reward_icon" />
+
+                <TextView
+                    android:id="@+id/tv_yudan_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center"
+                    android:text="+5000"
+                    android:textColor="#ffcb1300"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:text="@string/red_dialog_red_yd"
+                    android:textColor="#ffcb1300"
+                    android:textSize="16sp" />
+
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/tv_money_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/red_dialog_red_money"
+                android:textColor="#fffffc26"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_button"
+            android:layout_width="match_parent"
+            android:layout_height="33dp"
+            android:layout_marginTop="26dp"
+            android:layout_marginLeft="31dp"
+            android:layout_marginRight="31dp"
+            android:background="@drawable/shape_bg_btn"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:text="@string/red_dialog_red_btn"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+</FrameLayout>

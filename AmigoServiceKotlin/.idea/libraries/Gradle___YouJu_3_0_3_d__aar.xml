@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: :YouJu-3.0.3.d:@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/YouJu-3.0.3.d.aar/e68b2a0f84141045ff6c543ad261fda2/jars/libs/TencentLocationSDK_v4.5.8_r160216_1427.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/YouJu-3.0.3.d.aar/e68b2a0f84141045ff6c543ad261fda2/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/YouJu-3.0.3.d.aar/e68b2a0f84141045ff6c543ad261fda2/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

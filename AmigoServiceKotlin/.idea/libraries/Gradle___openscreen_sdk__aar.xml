@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="Gradle: :openscreen_sdk:@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/openscreen_sdk.aar/c46c865ead0412ee4c02cd1b9758d032/jars/libs/common.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/openscreen_sdk.aar/c46c865ead0412ee4c02cd1b9758d032/jars/libs/adapi.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/openscreen_sdk.aar/c46c865ead0412ee4c02cd1b9758d032/jars/classes.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/openscreen_sdk.aar/c46c865ead0412ee4c02cd1b9758d032/jars/libs/adsdkv2.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/openscreen_sdk.aar/c46c865ead0412ee4c02cd1b9758d032/jars/libs/engine.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/openscreen_sdk.aar/c46c865ead0412ee4c02cd1b9758d032/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

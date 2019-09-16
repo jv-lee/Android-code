@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="abc_action_bar_default_height_material">48dp</dimen>
+    <dimen name="abc_text_size_subtitle_material_toolbar">12dp</dimen>
+    <dimen name="abc_text_size_title_material_toolbar">14dp</dimen>
+    <dimen name="amigo_action_bar_icon_vertical_padding">4dip</dimen>
+    <dimen name="amigo_action_bar_subtitle_bottom_margin">4dp</dimen>
+    <dimen name="amigo_action_bar_subtitle_top_margin">-2dp</dimen>
+    <dimen name="amigo_action_bar_title_text_size">16dp</dimen>
+    <dimen name="amigo_alert_dialog_list_maxheight">199dp</dimen>
+    <dimen name="amigo_context_menu_list_maxheight">229dp</dimen>
+    <dimen name="amigo_magicbar_item_padding">70dp</dimen>
+    <dimen name="amigo_magicbar_max_listview_height">125dp</dimen>
+    <dimen name="amigo_menu_margin_left">85dp</dimen>
+    <dimen name="amigo_menu_more_margin_left">113dp</dimen>
+    <dimen name="amigo_menu_title_margin_right">179dp</dimen>
+    <dimen name="amigo_single_alert_dialog_list_maxheight">229dp</dimen>
+    <integer name="amigo_disabled_alpha_animation_duration">100</integer>
+    <integer name="amigo_toolbar_item_padding_left_and_right">12</integer>
+    <integer name="amigomostDisplayItemCount">4</integer>
+    <style name="Amigo.ActionBar.MagicBar.Item.Button" parent="Widget.Amigo.Light.Button">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:minWidth">@dimen/amigo_magicbar_button_min_width</item>
+        <item name="android:layout_height">@dimen/amigo_magicbar_icon_btn_height</item>
+        <item name="android:textAppearance">?android:attr/actionMenuTextAppearance</item>
+        <item name="android:textSize">10dp</item>
+        <item name="android:paddingTop">6dp</item>
+        <item name="android:paddingLeft">1dp</item>
+        <item name="android:paddingRight">1dp</item>
+        <item name="android:background">?android:attr/selectableItemBackgroundBorderless</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">marquee</item>
+        <item name="android:visibility">gone</item>
+        <item name="android:textColor">?android:attr/actionMenuTextColor</item>
+    </style>
+    <style name="AmigoActionModeStyle" parent="@android:style/Widget.Material.ActionMode">
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+    <style name="AmigoAlertDialog">
+        <item name="amigofullDark">?attr/amigoDialogBackground</item>
+        <item name="amigotopDark">?attr/amigoDialogBackground</item>
+        <item name="amigocenterDark">?attr/amigoDialogBackground</item>
+        <item name="amigobottomDark">?attr/amigoDialogBackground</item>
+        <item name="amigofullBright">?attr/amigoDialogBackground</item>
+        <item name="amigotopBright">?attr/amigoDialogBackground</item>
+        <item name="amigocenterBright">?attr/amigoDialogBackground</item>
+        <item name="amigobottomBright">?attr/amigoDialogBackground</item>
+        <item name="amigobottomMedium">?attr/amigoDialogBackground</item>
+        <item name="amigocenterMedium">?attr/amigoDialogBackground</item>        
+        <item name="amigolayout">@layout/amigo_alert_dialog_light</item>
+        <item name="android:layout_width">360dp</item>
+        <item name="amigolistLayout">@layout/amigo_select_dialog</item>
+        <item name="amigoprogressLayout">@layout/amigo_progress_dialog</item>
+        <item name="amigohorizontalProgressLayout">@layout/amigo_alert_dialog_progress</item>
+        <item name="amigolistItemLayout">@layout/amigo_select_dialog_item</item>
+        <!-- <item name="amigomultiChoiceItemLayout">@layout/amigo_select_dialog_multichoice</item>
+        <item name="amigosingleChoiceItemLayout">@layout/amigo_select_dialog_singlechoice</item> -->
+        <item name="amigoDialogPostiveBtnColor">?android:attr/colorAccent</item>
+        <item name="amigoStrongHintDialogLayout">@layout/amigo_strong_hint_dialog</item>
+    </style>
+    <style name="AmigoAlertDialog.M2017">
+        <item name="amigofullDark">@android:color/transparent</item>
+        <item name="amigotopDark">@android:color/transparent</item>
+        <item name="amigocenterDark">@android:color/transparent</item>
+        <item name="amigobottomDark">@android:color/transparent</item>
+        <item name="amigofullBright">@android:color/transparent</item>
+        <item name="amigotopBright">@android:color/transparent</item>
+        <item name="amigocenterBright">@android:color/transparent</item>
+        <item name="amigobottomBright">@android:color/transparent</item>
+        <item name="amigobottomMedium">@android:color/transparent</item>
+        <item name="amigocenterMedium">@android:color/transparent</item>
+    </style>
+    <style name="AmigoDatePickerDialog">
+        <item name="amigolayout">@layout/amigo_datepicker_dialog_light</item>
+        <item name="amigofullDark">?attr/amigoDialogBackground</item>
+        <item name="amigotopDark">?attr/amigoDialogBackground</item>
+        <item name="amigocenterDark">?attr/amigoDialogBackground</item>
+        <item name="amigobottomDark">?attr/amigoDialogBackground</item>
+        <item name="amigofullBright">?attr/amigoDialogBackground</item>
+        <item name="amigotopBright">?attr/amigoDialogBackground</item>
+        <item name="amigocenterBright">?attr/amigoDialogBackground</item>
+        <item name="amigobottomBright">?attr/amigoDialogBackground</item>
+        <item name="amigobottomMedium">?attr/amigoDialogBackground</item>
+        <item name="amigocenterMedium">?attr/amigoDialogBackground</item>
+        <item name="amigoDialogPostiveBtnColor">?android:attr/colorAccent</item>
+        <item name="android:layout_width">360dp</item>
+    </style>
+    <style name="AmigoEditModeStyle">
+        <item name="android:textSize">@dimen/amigo_edit_mode_text_size</item>
+        <item name="android:background">?android:attr/selectableItemBackgroundBorderless</item>
+    </style>
+    <style name="AmigoListItemLevel1">
+        <item name="android:textColor">@color/amigo_bright_foreground_primary_dark</item>
+        <item name="android:textSize">@dimen/amigo_list_item_level1_text_size</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+    <style name="AmigoListItemLevel2">
+        <item name="android:textColor">@color/amigo_bright_foreground_secondary_dark</item>
+        <item name="android:textSize">@dimen/amigo_list_item_level2_text_size</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+    <style name="AmigoM2017ButoonStyle" parent="@style/Widget.Amigo.Light.Button">
+        <item name="android:background">@drawable/amigo_global_theme_button_bg_selector</item>
+        <item name="android:textColor">@color/amigo_global_theme_button_text_color_selector</item>
+    </style>
+    <style name="AmigoNumberPickerTextStyle">
+        <item name="android:textColor">@drawable/amigo_number_picker_text_color</item>
+        <item name="android:textSize">30dp</item>
+    </style>
+    <style name="AmigoSearchViewRightBtnStyle">
+        <item name="android:textColor">@color/amigo_searchview_right_btn_text_color</item>
+        <item name="android:textSize">@dimen/amigo_searchview_text_size</item>
+    </style>
+    <style name="AmigoTimeDayPickerStyle">
+        <item name="amigoTimeDayPickerLayout">@layout/amigo_timeday_picker</item>
+    </style>
+    <style name="AmigoWidgetDatePickerStyle" parent="@android:style/Widget.Material.Light.DatePicker">
+        <item name="android:datePickerMode">spinner</item>
+    </style>
+    <style name="AmigoWidgetNumberPicker">
+        <item name="amigosolidColor">@android:color/transparent</item>
+        <item name="amigointernalLayout">@layout/amigo_number_picker</item>
+        <item name="amigobackground">@drawable/amigo_numberpicker</item><!-- 此值暂时没人使用 -->
+        <item name="amigoselectionSrc">@drawable/amigo_numberpicker_selection</item>
+        <!-- gionee <maxw> modify begin -->
+        <!-- <item name="amigoselectionDivider">@null</item> -->
+        <item name="amigoselectiontopDivider">@drawable/amigo_numberpicker_divider_top</item>
+        <item name="amigoselectionbottomDivider">@drawable/amigo_numberpicker_divider_down</item>
+        <item name="amigoselectionDividerHeight">4dip</item>
+        <!-- gionee <maxw> modify end -->
+        <item name="amigointernalMinWidth">64dip</item>
+        <item name="amigointernalMaxHeight">180dip</item>
+        <item name="amigoUnselectedTextSize">16dp</item>
+    </style>
+    <style name="AmigoWidgetSearchView">
+        <item name="amigoTextColor">#cc000000</item>
+        <item name="amigoBackground">@drawable/amigo_searchview_edittext_bg</item>
+        <item name="amigoHintColor">#66000000</item>
+        <item name="amigoDarkTheme">false</item>
+        <item name="amigoMarginEnd">@dimen/amigo_searchview_edittext_margin_end</item>
+    </style>
+    <style name="TextAppearance.Amigo.Light.DialogWindowTitle" parent="@android:style/TextAppearance.Holo.DialogWindowTitle">
+        <item name="android:textSize">@dimen/amigo_dialogwindow_title_text_size</item>
+        <!-- weidong begin -->
+        <item name="android:textColor">?android:attr/colorAccent</item>
+        <!-- weidong end -->
+    </style>
+    <style name="TextAppearance.Amigo.Light.DialogWindowTitle.M2017" parent="@android:style/TextAppearance.Holo.DialogWindowTitle">
+        <item name="android:textSize">@dimen/amigo_dialogwindow_title_text_size</item>
+        <item name="android:textColor">@color/amigo_global_theme_dialog_title_color</item>
+        <!-- weidong end -->
+    </style>
+    <style name="TextAppearance.Amigo.Light.Widget.ActionBar.Subtitle" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Subtitle">
+        <item name="android:textColor">@color/amigo_actionbar_sub_title_color_dark</item>
+        <item name="android:textSize">@dimen/amigo_actionbar_sub_title_text_size</item>
+        <!--weidong <item name="android:textColor">@color/amigo_dim_foreground_primary_light</item> -->
+    </style>
+    <style name="TextAppearance.Amigo.Light.Widget.ActionBar.Title" parent="@style/TextAppearance.Amigo.Medium">
+        <item name="android:textSize">@dimen/amigo_action_bar_title_text_size</item>
+        <item name="android:textColor">@color/amigo_actionbar_title_color_dark</item>
+        <!-- <item name="android:textColor">@android:color/white</item> -->
+    </style>
+    <style name="TextAppearance.Amigo.Widget.ActionBar.Menu" parent="@android:style/TextAppearance.Material.Widget.ActionBar.Menu">
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">10dp</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+    <style name="Theme.Amigo.Light.Dialog.Alert.M2017">
+        <!-- <item name="android:windowBackground">@drawable/amigo_global_theme_dialog_bg</item> -->
+        <item name="amigo_dialog_content_text_color">@color/amigo_global_theme_dialog_title_color</item>
+    </style>
+    <style name="Theme.Amigo.Light.Dialog.M2017">
+        <item name="amigofullDark">@android:color/transparent</item>
+        <item name="amigotopDark">@android:color/transparent</item>
+        <item name="amigocenterDark">@android:color/transparent</item>
+        <item name="amigobottomDark">@android:color/transparent</item>
+        <item name="amigofullBright">@android:color/transparent</item>
+        <item name="amigotopBright">@android:color/transparent</item>
+        <item name="amigocenterBright">@android:color/transparent</item>
+        <item name="amigobottomBright">@android:color/transparent</item>
+        <item name="amigobottomMedium">@android:color/transparent</item>
+        <item name="amigocenterMedium">@android:color/transparent</item>
+        <item name="android:textAppearanceMedium">@style/TextAppearance.Amigo.Light.Medium.M2017</item>
+        <item name="amigoDialogBackground">@android:color/transparent</item>
+        <item name="android:windowTitleStyle">@style/DialogWindowTitle.Amigo.Light.M2017</item>
+        <!-- <item name="android:windowBackground">@drawable/amigo_global_theme_dialog_bg</item> -->
+        <item name="amigoalertDialogStyle">@style/AmigoAlertDialog.M2017</item>
+        <item name="amigo_dialog_content_text_color">@color/amigo_global_theme_dialog_message_color</item>
+        <item name="android:colorAccent">@color/amigo_global_theme_dialog_title_color</item>
+        <item name="amigoDialogOtherBtnTxtColor">@color/amigo_global_theme_dialog_message_color</item>
+    </style>
+    <style name="Widget.Amigo.ActionBar.TabBar" parent="@android:style/Widget.Material.ActionBar.TabBar">
+        <!-- shaozj begin -->
+        <!--shaozj <item name="android:divider">@drawable/amigo_tabbar_divider</item> -->
+        <item name="android:showDividers">middle</item>
+        <item name="android:dividerPadding">0dip</item>
+        <item name="android:divider">@null</item>
+        <!-- <item name="android:background">@color/amigo_actionbar_background_color_light_normal</item> -->
+        <!-- <item name="amigobackground">@color/amigo_actionbar_background_color_light_normal</item> -->
+        <item name="android:paddingLeft">@dimen/amigo_actionbar_tabbar_padding</item>
+        <item name="android:paddingRight">@dimen/amigo_actionbar_tabbar_padding</item>
+        <!-- shaozj end -->
+    </style>
+    <style name="Widget.Amigo.ActionButton.CloseMode" parent="@android:style/Widget.Holo.ActionButton.CloseMode">
+        <item name="android:minWidth">?android:attr/actionBarSize</item>
+        <item name="android:paddingStart">0dip</item>
+        <item name="android:paddingEnd">0dip</item>
+        <item name="android:paddingLeft">0dp</item>
+        <item name="android:paddingRight">0dp</item>
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+    <style name="Widget.Amigo.AutoCompleteTextView" parent="Widget.Amigo.EditText">
+        <item name="amigocompletionHintView">@layout/amigo_simple_dropdown_hint</item>
+        <item name="amigocompletionThreshold">@integer/amigo_completion_Threshold</item>
+        <!-- <item name="amigodropDownSelector">@drawable/amigo_list_selector_light</item> -->
+	    <item name="amigodropDownSelector">?android:attr/listChoiceBackgroundIndicator</item>
+        <item name="android:popupBackground">@drawable/amigo_menu_dropdown_panel_light</item>
+        <item name="amigodropDownVerticalOffset">@dimen/amigo_dropDown_Vertical_Offset</item>
+        <item name="amigodropDownHorizontalOffset">@dimen/no_space</item>
+       <item name="amigodropDownWidth">match_parent</item>
+        <item name="android:textSize">@dimen/amigo_searchview_text_size</item>
+    </style>
+    <style name="Widget.Amigo.EditText" parent="@android:style/Widget.EditText">
+        <item name="android:textSize">@dimen/amigo_edit_text_size</item>
+        <item name="android:paddingLeft">@dimen/amigo_edittext_padding_lr</item>
+        <item name="android:paddingRight">@dimen/amigo_edittext_padding_lr</item>
+        <item name="android:paddingTop">@dimen/amigo_edittext_padding_tb</item>
+        <item name="android:paddingBottom">@dimen/amigo_edittext_padding_tb</item>
+        <item name="android:minHeight">@dimen/amigo_searchview_edittext_height</item>
+    </style>
+    <style name="Widget.Amigo.Holo.ActionBar.TabView" parent="@android:style/Widget.Material.Light.ActionBar.TabView">
+        <!--shaozj <item name="android:background">@drawable/amigo_tab_indicator_material</item> -->
+        <item name="android:background">@null</item>
+        <item name="android:paddingStart">1dp</item>
+        <item name="android:paddingEnd">1dp</item>
+    </style>
+    <style name="Widget.Amigo.Light.ActionBar.Solid">
+        <item name="amigodivider">?android:attr/dividerVertical</item>
+        <item name="amigoprogressBarPadding">@dimen/amigo_progressBar_Padding</item>
+        <item name="amigoitemPadding">@dimen/amigo_item_Padding</item>
+        <!-- shaozj begin-->
+        <item name="amigobackground">@color/amigo_actionbar_background_color_light_normal</item>
+        <item name="amigobackgroundStacked">@color/amigo_actionbar_background_color_light_normal</item>
+        <!-- shaozj end-->
+    </style>
+    <style name="Widget.Amigo.Light.ActionBar.TabText" parent="@android:style/Widget.Holo.Light.ActionBar.TabText">
+        <item name="android:textColor">@color/amigo_actionbar_tab_text_color_light</item>
+        <item name="android:textSize">@dimen/amigo_actionbar_tabtext_text_size</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+    <style name="Widget.Amigo.Light.AutoCompleteTextView" parent="@style/Widget.Amigo.AutoCompleteTextView">
+    </style>
+    <style name="Widget.Amigo.Light.Button" parent="@android:style/Widget.Material.Light.Button">
+        <!-- weidong begin -->
+        <item name="android:stateListAnimator">@null</item>
+        <item name="android:background">@drawable/amigo_btn_default_bg_ripple</item>
+        <item name="android:minHeight">@dimen/amigo_button_height</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+        <item name="android:textColor">@color/amigo_primary_text_material_light</item>
+        <item name="android:textSize">@dimen/amigo_edit_text_size</item>
+        <item name="amigoButtonHeight">@dimen/amigo_button_height</item>
+        <!-- weidong end -->
+        <!-- shaozj begin -->
+        <!-- <item name="android:elevation">2dip</item> -->
+        <!-- shaozj end -->
+    </style>
+    <style name="Widget.Amigo.Light.ListView" parent="@android:style/Widget.Holo.ListView">
+        <!-- shaozj begin -->
+        <!--shaozj <item name="android:divider">?android:attr/listDivider</item> -->
+        <item name="android:divider">@null</item>
+        <!-- shaozj begin -->
+        <item name="android:listSelector">?android:attr/listChoiceBackgroundIndicator</item>        
+    </style>
+    <style name="Widget.Amigo.Light.Spinner" parent="@android:style/Widget.Material.Light.Spinner"/>
+    <style name="Widget.Amigo.TextView.ListSeparator" parent="@android:style/Widget.TextView">
+        <item name="android:background">@null</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textStyle">normal</item>
+        <!-- weidong begin -->
+        <!-- <item name="android:textColor">?android:attr/textColorSecondary</item> -->
+        <item name="android:textColor">?android:attr/colorAccent</item>
+        <!-- weidong end -->
+        <item name="android:textSize">@dimen/amigo_textview_listseparator_text_size</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingStart">@dimen/amigo_preference_item_padding_side</item>
+        <item name="android:paddingEnd">@dimen/amigo_preference_item_padding_side</item>
+        <item name="android:paddingTop">@dimen/amigo_preference_title_padding</item>
+        <item name="android:paddingBottom">@dimen/amigo_preference_title_padding</item>   
+    </style>
+    <style name="Widget.Design.TabLayout" parent="Base.Widget.Design.TabLayout">
+    <item name="tabGravity">center</item>
+    <item name="tabMode">fixed</item>
+  </style>
+    <style name="amigoAutoMaticGridViewDefaultStyle">
+        <item name="amigoAutoLine">2</item>
+        <item name="amigoAutoColumn">3</item>
+        <item name="amigoAutoButton">@drawable/amigo_radio_btn_auto_paged_gridview</item>
+    </style>
+</resources>

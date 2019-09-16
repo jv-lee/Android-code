@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:gravity="center"
+    android:layoutDirection="ltr"
+    android:orientation="vertical" >
+
+    <amigoui.widget.AmigoTextView
+        android:id="@+id/title_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        android:textColor="@color/amigo_content_color_primary_on_backgroud_c1"
+        android:textSize="18sp" />
+
+    <amigoui.widget.AmigoTimeDayPicker
+        android:layout_marginTop="10dp"
+        android:id="@+id/amigo_time_day_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal" />
+
+</LinearLayout>

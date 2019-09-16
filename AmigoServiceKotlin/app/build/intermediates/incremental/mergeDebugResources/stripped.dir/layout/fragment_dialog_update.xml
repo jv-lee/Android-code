@@ -1,0 +1,62 @@
+
+                                                       
+
+    
+
+           
+
+    <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context="gionee.gnservice.app.view.fragment.DialogUpdateFragment" android:tag="layout/fragment_dialog_update_0" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
+
+        <RelativeLayout
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                android:layout_gravity="center"
+                android:background="@mipmap/ic_update_bg">
+
+
+            <TextView
+                    android:id="@+id/tv_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="50dp"
+                    android:textColor="@color/whites"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+
+            <TextView
+                    android:id="@+id/tv_content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="36dp"
+                    android:layout_marginTop="130dp"
+                    android:ellipsize="end"
+                    android:lineHeight="26sp"
+                    android:maxLines="6"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp" />
+
+
+            <TextView
+                    android:id="@+id/btn_back"
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="36dp"
+                    android:layout_marginRight="36dp"
+                    android:layout_marginBottom="16dp"
+                    android:background="@drawable/shape_btn_update"
+                    android:gravity="center"
+                    android:text="确定"
+                    android:textColor="@color/whites"
+                    android:textSize="18sp" />
+
+        </RelativeLayout>
+
+    </FrameLayout>
+         

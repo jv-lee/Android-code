@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/AmigoServiceKotlin.iml" filepath="$PROJECT_DIR$/.idea/AmigoServiceKotlin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/amigo-account/amigo-account.iml" filepath="$PROJECT_DIR$/amigo-account/amigo-account.iml" />
+      <module fileurl="file://$PROJECT_DIR$/amigo-app/amigo-app.iml" filepath="$PROJECT_DIR$/amigo-app/amigo-app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/amigo-base/amigo-base.iml" filepath="$PROJECT_DIR$/amigo-base/amigo-base.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/base/base.iml" filepath="$PROJECT_DIR$/base/base.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sdk-adlibs/sdk-adlibs.iml" filepath="$PROJECT_DIR$/sdk-adlibs/sdk-adlibs.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sdk-book/sdk-book.iml" filepath="$PROJECT_DIR$/sdk-book/sdk-book.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sdk-game/sdk-game.iml" filepath="$PROJECT_DIR$/sdk-game/sdk-game.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sdk-news/sdk-news.iml" filepath="$PROJECT_DIR$/sdk-news/sdk-news.iml" />
+    </modules>
+  </component>
+</project>

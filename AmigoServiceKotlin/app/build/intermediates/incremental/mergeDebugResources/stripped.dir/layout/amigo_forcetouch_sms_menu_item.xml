@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/amigo_magicbar_list_item_height"
+    android:background="@drawable/amigo_forcetouch_menu_item_bg"
+    android:clickable="true"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingEnd="24dip"
+    android:paddingStart="24dip" >
+
+    <amigoui.widget.AmigoTextView
+        android:id="@+id/amigo_menuTitle"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:singleLine="true"
+        android:minHeight="?android:attr/listPreferredItemHeightSmall"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="?android:attr/actionMenuTextColor" />
+
+</LinearLayout>

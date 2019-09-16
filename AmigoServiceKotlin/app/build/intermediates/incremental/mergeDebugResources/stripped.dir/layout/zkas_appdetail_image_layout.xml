@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+   <!--  <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@color/main_list_item_default_bg_color" 
+        android:gravity="center" >
+
+        <ImageView
+            android:id="@+id/imageItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="center"
+            android:focusable="false" />
+    </RelativeLayout> -->
+	<ImageView
+            android:id="@+id/imageItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@color/zkas_appdetail_default_bg_color" 
+            android:scaleType="center"
+            android:focusable="false" />
+    <!-- <TextView
+        android:id="@+id/set_prompt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:textSize="13dip" /> -->
+
+</RelativeLayout>

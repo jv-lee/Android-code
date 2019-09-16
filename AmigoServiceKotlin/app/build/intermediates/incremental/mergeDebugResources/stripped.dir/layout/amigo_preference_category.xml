@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- weidong begin -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:baselineAligned="false"
+    android:orientation="vertical" >
+
+    <View
+        android:id="@+id/amigo_category_divider"
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:background="@color/amigo_color_category_divider"
+        android:orientation="horizontal" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <View
+            android:id="@+id/amigo_category_top_line"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/amigo_divider_height"
+            android:layout_gravity="top"
+            android:background="@color/amigo_list_divider_color" />
+
+        <LinearLayout
+            android:id="@+id/amigo_category_title_layout"
+            android:layout_width="match_parent"
+            android:minHeight="@dimen/amigo_preference_category_height"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <amigoui.widget.AmigoTextView
+                android:id="@android:id/title"
+                style="?android:attr/listSeparatorTextViewStyle"
+                android:layout_width="0dp"
+                android:textAlignment="viewStart"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:paddingStart="@dimen/amigo_list_item_margin_left" />
+
+            <LinearLayout
+                android:id="@android:id/widget_frame"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="end"
+                android:layout_marginEnd="@dimen/amigo_preference_margin_right"
+                android:layout_marginStart="@dimen/amigo_preference_text_margin_right"
+                android:gravity="end|center_vertical"
+                android:orientation="vertical" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/amigo_category_bottom_line"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/amigo_divider_height"
+            android:layout_gravity="bottom"
+            android:paddingStart="@dimen/amigo_list_item_margin_left"
+            android:src="@color/amigo_list_divider_color" />
+    </LinearLayout>
+
+</LinearLayout> <!-- weidong end -->

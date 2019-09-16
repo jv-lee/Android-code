@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: :oneway-plugin-v2.1.3-release:@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/oneway-plugin-v2.1.3-release.aar/73e8f384a5138be8f5fae729a8612678/jars/classes.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/oneway-plugin-v2.1.3-release.aar/73e8f384a5138be8f5fae729a8612678/jars/libs/Oneway-plugin-v2.1.3-release.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/oneway-plugin-v2.1.3-release.aar/73e8f384a5138be8f5fae729a8612678/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

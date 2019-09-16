@@ -1,0 +1,16 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_below="@+id/type_line"
+    android:id="@+id/reco_title_layout"
+    android:layout_width="match_parent"
+    android:layout_height="180dp"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp">
+    <TextView
+        android:id="@+id/book_self_null"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:gravity="center"
+        android:textSize="13sp"
+        android:textColor="#acacb9"
+        android:text="@string/book_self_null"/>
+</RelativeLayout>

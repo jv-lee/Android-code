@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/llayout_user_center_integral"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@color/uc_default_activity_content_background_color"
+              android:orientation="vertical"
+              android:layout_marginTop="8dp">
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/uc_user_center_member_integral"
+            android:textColor="#cc000000"
+            android:textSize="16dp"
+            android:layout_marginTop="14dp"
+            android:layout_marginBottom="14dp"/>
+
+    <LinearLayout
+            android:id="@+id/layout_user_center_integral_prize"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:visibility="gone"
+            android:orientation="vertical">
+        <View android:layout_width="match_parent"
+              android:layout_height="0.67dp"
+              android:background="@color/uc_default_line_color"/>
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="14dp">
+            <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleType="center"
+                    android:src="@drawable/uc_ic_member_integral_speaker"
+                    android:layout_gravity="center_vertical"/>
+
+            <com.gionee.gnservice.widget.AutoVerticalScrollTextView
+                    android:id="@+id/txt_user_center_integral_prize"
+                    android:layout_marginLeft="12dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:textSize="12dp"
+                    android:textColor="#cc000000"/>
+
+        </LinearLayout>
+        <View android:layout_width="match_parent"
+              android:layout_height="0.67dp"
+              android:background="@color/uc_default_line_color"/>
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="14dp">
+
+        <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+            <RelativeLayout
+                    android:id="@+id/llayout_user_center_integral_lottery"
+                    android:layout_width="match_parent"
+                    android:layout_height="98dp"
+                    android:paddingLeft="16dp"
+                    android:orientation="vertical"
+                    android:background="#e1e7eb">
+
+                <TextView
+                        android:id="@+id/txt_user_center_integral_lottery_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/uc_user_center_member_integral_lottery"
+                        android:layout_alignParentTop="true"
+                        android:textColor="#cc000000"
+                        android:textSize="14dp"
+                        android:layout_marginTop="12dp"/>
+
+                <TextView
+                        android:id="@+id/txt_user_center_integral_lottery_content"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#66000000"
+                        android:textSize="12dp"
+                        android:layout_below="@id/txt_user_center_integral_lottery_title"/>
+                <ImageView
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/uc_bg_user_center_lottery"
+                        android:scaleType="center"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                    android:id="@+id/llayout_user_center_integral_make"
+                    android:layout_width="match_parent"
+                    android:layout_height="98dp"
+                    android:layout_marginTop="4dp"
+                    android:paddingLeft="16dp"
+                    android:orientation="vertical"
+                    android:background="#ebe4dd">
+
+                <TextView
+                        android:id="@+id/txt_user_center_integral_make_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/uc_user_center_member_integral_make"
+                        android:textColor="#cc000000"
+                        android:layout_alignParentTop="true"
+                        android:textSize="14dp"
+                        android:layout_marginTop="12dp"/>
+
+                <TextView
+                        android:id="@+id/txt_user_center_integral_make_content"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#66000000"
+                        android:textSize="12dp"
+                        android:layout_below="@id/txt_user_center_integral_make_title"/>
+                <ImageView
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/uc_bg_user_center_integral_make"
+                        android:scaleType="center"/>
+            </RelativeLayout>
+        </LinearLayout>
+
+        <RelativeLayout
+                android:id="@+id/llayout_user_center_integral_mall"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="200dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:paddingLeft="16dp"
+                android:layout_marginLeft="4dp"
+                android:orientation="vertical"
+                android:background="#f0ede6"
+                android:clickable="true">
+
+            <TextView
+                    android:id="@+id/txt_user_center_integral_mall_title"
+                    android:layout_alignParentTop="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/uc_user_center_member_integral_mall"
+                    android:textColor="#cc000000"
+                    android:textSize="16dp"
+                    android:layout_marginTop="12dp"/>
+
+            <TextView
+                    android:id="@+id/txt_user_center_integral_mall_content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#66000000"
+                    android:textSize="12dp"
+                    android:layout_below="@id/txt_user_center_integral_mall_title"/>
+            <ImageView
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/uc_bg_user_center_mall"
+                    android:scaleType="center"/>
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>

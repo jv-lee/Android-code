@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PressureSensorConfig version="1.6" >
+    <!-- uniqueKey: The unique difference identifies each record -->
+    <!-- titleName: the name config in String.xml or the real title context -->
+    <!-- titleNameType 1:from String.xml 2:the real title context -->
+    <!-- iconName: the name config in drawable folder or the icon path in sd card or the path in provider-->
+    <!-- iconNameType 1:from drawable 2:sd card 3:provider -->
+    <!-- intentType 1:activity 2:broadcast 3:start service 4: stop service -->
+    <!-- intent value is the string if Intent Object Uri ( intent.toURI() ) -->
+    <menu
+        iconName="ic_press_feedback"
+        iconNameType="1"
+        intent="#Intent;action=com.gionee.telepath.action.SEND_FEEDBACK;package=com.gionee.telepath;end"
+        intentType="1"
+        position="1"
+        titleName="user_feedback"
+        titleNameType="1"
+        uniqueKey="com.gionee.telepath" />
+    <menu
+        iconName="ic_press_repair"
+        iconNameType="1"
+        intent="#Intent;component=com.gionee.customerhelper/.mts.ServiceOutletsActivity;end"
+        intentType="1"
+        position="2"
+        titleName="repair_service"
+        titleNameType="1"
+        uniqueKey="com.gionee.customerhelper" />
+    <menu
+        iconName="ic_press_bbs"
+        iconNameType="1"
+        intent="#Intent;component=com.gionee.gnservice/com.gionee.gnservice.webview.AmigoBBSActivity;end"
+        intentType="1"
+        position="4"
+        titleName="amigo_bbs"
+        titleNameType="1"
+        uniqueKey="com.gionee.gnservice.bbs" />
+    <menu
+        iconName="ic_press_cloud"
+        iconNameType="1"
+        intent="#Intent;component=gn.com.android.synchronizer/.WelcomeActivity;end"
+        intentType="1"
+        position="5"
+        titleName="cloud_backup"
+        titleNameType="1"
+        uniqueKey="gn.com.android.synchronizer" />
+</PressureSensorConfig>

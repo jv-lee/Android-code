@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:gravity="center"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/amigo_pickers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <!-- Gionee <zhangxx><2013-04-10> modify for CR00795646 begin -->
+
+        <LinearLayout
+            android:id="@+id/amigo_month_day_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal" >
+
+            <!-- Month -->
+
+            <com.gionee.account.sdk.core.view.GnAccountNumberPicker
+                android:id="@+id/amigo_month"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:minHeight="120dp" />
+
+            <!-- Day -->
+
+            <com.gionee.account.sdk.core.view.GnAccountNumberPicker
+                android:id="@+id/amigo_day"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:minHeight="120dp" />
+        </LinearLayout>
+
+        <!-- Year -->
+
+        <com.gionee.account.sdk.core.view.GnAccountNumberPicker
+            android:id="@+id/amigo_year"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:minHeight="120dp" />
+        <!-- Gionee <zhangxx><2013-04-10> modify for CR00795646 end -->
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/amigo_lunar_mode_rl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="-10dp" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:textSize="16sp" />
+
+        <CheckBox
+            android:id="@+id/amigo_lunar_mode_cb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true" />
+    </RelativeLayout>
+    <!-- calendar view -->
+
+    <CalendarView
+        android:id="@+id/amigo_calendar_view"
+        android:layout_width="245dip"
+        android:layout_height="280dip"
+        android:layout_weight="1"
+        android:focusable="true"
+        android:focusableInTouchMode="true" />
+
+</LinearLayout>

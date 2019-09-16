@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/* //device/apps/common/res/any/layout/resolve_list_item.xml
+**
+** Copyright 2006, The Android Open Source Project
+**
+** Licensed under the Apache License, Version 2.0 (the "License");
+** you may not use this file except in compliance with the License.
+** You may obtain a copy of the License at
+**
+**     http://www.apache.org/licenses/LICENSE-2.0
+**
+** Unless required by applicable law or agreed to in writing, software
+** distributed under the License is distributed on an "AS IS" BASIS,
+** WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+** See the License for the specific language governing permissions and
+** limitations under the License.
+*/
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:gravity="center"
+              android:orientation="vertical"
+              android:layout_height="match_parent"
+              android:layout_width="match_parent"
+              android:background="@drawable/amigo_activity_picker_bg_light" >
+
+    <!-- Extended activity info to distinguish between duplicate activity names -->
+    <amigo.widget.AmigoTextView android:id="@android:id/text2"
+              android:textAppearance="?android:attr/textAppearance"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:gravity="center"
+              android:minLines="2"
+              android:maxLines="2"
+              android:paddingLeft="4dip"
+              android:paddingRight="4dip" />
+
+    <!-- Activity icon when presenting dialog
+         Size will be filled in by ResolverActivity -->
+    <!-- Gionee <zhangxx> <2013-11-01> modify for CR00932900 begin -->
+    <!-- android:scaleType="centerInside" -->
+    <ImageView android:id="@android:id/icon"
+               android:layout_marginTop="12dp"
+               android:layout_width="48dp"
+               android:layout_height="48dp" />
+    <!-- Gionee <zhangxx> <2013-11-01> modify for CR00932900 end -->
+
+    <!-- Activity name -->
+    <amigo.widget.AmigoTextView android:id="@android:id/text1"
+              android:textSize="12sp"
+              android:layout_marginTop="7dp"
+              android:layout_width="60dp"
+              android:layout_height="wrap_content"
+              android:gravity="center_horizontal"
+              android:ellipsize="end"
+              android:lines="2" />
+</LinearLayout>
+

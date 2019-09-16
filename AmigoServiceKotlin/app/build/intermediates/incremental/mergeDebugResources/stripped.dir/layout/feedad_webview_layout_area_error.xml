@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bcad_dialog_translucent_background"
+    android:duplicateParentState="true"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/imgIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/bcad_webview_icon_bad_net"/>
+
+    <TextView
+        android:id="@+id/txtReason"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/bcad_webview_error_left_right_padding"
+        android:paddingEnd="@dimen/bcad_webview_error_left_right_padding"
+        android:gravity="center_horizontal"
+        android:text="@string/bcad_tips_error_bad_net"
+        android:textColor="#34000000"
+        android:textSize="@dimen/bcad_webview_error_txt_size"/>
+
+    <TextView
+        style="@style/bcad_NewsItemCommonBtn"
+        android:layout_width="96dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:paddingBottom="9dp"
+        android:paddingTop="9dp"
+        android:text="@string/bcad_tips_reload"/>
+</LinearLayout>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.gionee.sadsdk.detail.view.widget.StretchyTextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/zkas_appdetail_intr_content"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="16dip"
+    android:paddingRight="16dip"
+    android:orientation="vertical" >
+     <TextView 
+        android:id="@+id/content_textview"  
+        android:layout_width="match_parent"  
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:lineSpacingMultiplier="1.5"  
+        android:textColor="@color/zkas_font_color_assistant"  
+        android:textSize="12dip"
+        /> 
+	<ImageView 
+	    android:id="@+id/stretchy_button"
+	    android:layout_width="24dip"
+	    android:layout_height="24dip"
+	    android:layout_gravity="right"
+	    android:background="@drawable/zkas_expand_bg"
+	    android:visibility="gone"
+	    /> 
+</com.gionee.sadsdk.detail.view.widget.StretchyTextView>

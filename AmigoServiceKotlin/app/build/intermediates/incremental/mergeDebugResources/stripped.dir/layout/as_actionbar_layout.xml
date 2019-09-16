@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.gionee.sadsdk.detail.view.ActionBarView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/as_action_bar_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/as_window_bg_color"
+    android:orientation="vertical">
+
+    <include layout="@layout/as_title_bar_layout" />
+    <!-- 这里加一个用来放list的 容器，动态的加进去 -->
+    <LinearLayout
+        android:id="@+id/zkas_action_bar_list_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" />
+
+    <include
+        layout="@layout/as_tab_bar_layout"
+        android:visibility="gone" />
+</com.gionee.sadsdk.detail.view.ActionBarView>

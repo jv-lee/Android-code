@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.gionee.sadsdk.detail.view.widget.FitSystemWindowFrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+    <!-- detail scroll view -->
+	<com.gionee.sadsdk.detail.view.widget.DetailScrollView
+	    android:id="@+id/zkas_id_detail_container"
+	    android:layout_height="wrap_content"
+	    android:layout_width="match_parent"
+	    android:visibility="gone"
+	    >
+		<LinearLayout 
+		    android:layout_height="wrap_content"
+		    android:layout_width="match_parent"
+		    android:orientation="vertical"
+		    >
+		    <!-- 详情模块 -->
+		    <com.gionee.sadsdk.detail.view.widget.ScrollEnableViewPager
+		        android:id="@+id/zkas_appdetail_preview_image_viewpager"
+		        android:layout_height="wrap_content"
+		        android:layout_width="match_parent"
+		        android:layout_marginTop="14dip"
+		        android:layout_gravity="center_vertical"
+		        />
+		    <TextView
+	            android:id="@+id/zkas_appdetail_intr_title"
+	            style="@style/zkas_app_title"
+	            android:layout_marginTop="14dip"
+	            android:layout_width="wrap_content"
+	            android:layout_height="48dp"
+	            android:gravity="center_vertical"
+	            android:visibility="gone"
+	            android:text="@string/as_detail_appcontent_introduct"
+	            />
+	         <include 
+	            layout="@layout/zkas_stretchy_text_layout"
+	            /> 
+	         <TextView 
+	             android:layout_width="match_parent"
+	             android:layout_height="10dp"
+	             />
+	          <!-- 相关应用模块 -->
+	          <LinearLayout
+	              android:id="@+id/zkas_appdetail_related_app_container" 
+	              android:layout_width="match_parent"
+	              android:layout_height="wrap_content"
+	              android:orientation="vertical"
+	              android:visibility="gone"
+	              >
+				  <include layout="@layout/zkas_list_item_interval"/>
+	          </LinearLayout>
+	          <!-- 大家喜欢模块 -->
+	          <LinearLayout
+	              android:id="@+id/zkas_appdetail_popular_app_container"
+	              android:layout_width="match_parent"
+	              android:layout_height="wrap_content"
+	              android:orientation="vertical"
+	              android:paddingBottom="14dp"
+	              android:visibility="gone"
+	              >
+				  <include layout="@layout/zkas_list_item_interval"/>
+	              <FrameLayout 
+	                  android:layout_width="match_parent"
+	                  android:layout_height="wrap_content"
+	                  android:paddingBottom="14dp"
+	                  android:paddingLeft="16dp"
+	                  android:paddingRight="16dp"
+	                  android:orientation="horizontal"
+	                  >
+	                  <TextView
+                          android:layout_width="wrap_content"
+				          android:layout_height="@dimen/zkas_list_item_title_hight"
+				          android:gravity="center_vertical|left"
+				          android:textSize="@dimen/zkas_list_item_title_text_size"
+				          android:textColor="@color/zkas_list_item_title_text_color"
+				          android:text="@string/as_listitem_popular_title"
+	                  />
+	                  <TextView
+					      android:id="@+id/zkas_appdetail_popular_click_view"
+					      android:layout_width="wrap_content"
+					      android:layout_height="@dimen/zkas_list_item_title_hight"
+					      android:gravity="center_vertical"
+					      android:textColor="@color/zkas_menu_item_text_color"
+					      android:textSize="@dimen/zkas_list_item_title_text_size"
+					      android:layout_gravity="right|center_vertical"
+					      android:text="@string/as_listitem_popular_clickview_title"
+	    			  />
+	              </FrameLayout>
+	              <FrameLayout 
+	                  android:id="@+id/zkas_appdetail_popular_items_container"
+	                  android:layout_width="match_parent"
+	                  android:layout_height="wrap_content"
+	                  android:paddingLeft="16dp"
+	                  android:paddingRight="16dp"
+	                  >
+	              </FrameLayout>
+	          </LinearLayout>
+	          <LinearLayout 
+	              android:id="@+id/zkas_appdetail_banner_container"
+	              android:layout_width="match_parent"
+	              android:layout_height="wrap_content"
+	              android:orientation="vertical"
+	              android:visibility="gone"
+	              >
+				  <include layout="@layout/zkas_list_item_interval"/>
+	              <TextView 
+	                  android:id="@+id/zkas_appdetail_banner_name"
+	                  style="@style/zkas_app_title"
+	                  android:layout_height="@dimen/zkas_main_tabbar_height"
+	                  android:layout_width="wrap_content"
+	                  />
+	              <ImageView 
+	                  android:id="@+id/zkas_appdetail_banner_img"
+	                  android:layout_width="match_parent"
+	                  android:layout_height="@dimen/zkas_banner_larger_image_height"
+	                  android:background="@color/zkas_larger_banner_default_background"
+	                  android:scaleType="centerCrop"
+					  android:layout_marginBottom="12dp"
+	                  />
+	              <TextView 
+	                  android:id="@+id/zkas_appdetail_banner_intr"
+	                  android:layout_width="wrap_content"
+	                  android:layout_height="wrap_content"
+					  android:layout_marginBottom="12dp"
+					  android:maxLines="1"
+					  android:ellipsize="end"
+	                  style="@style/zkas_banner_desc"
+	                  />
+	          </LinearLayout>	
+		</LinearLayout>	    
+	</com.gionee.sadsdk.detail.view.widget.DetailScrollView>
+	
+	<!-- wait loading view -->
+    <include 
+        layout="@layout/as_waiting_layout"
+        />
+
+
+	<include layout="@layout/line"/>
+	<!--<ImageView-->
+        <!--android:id="@+id/zkas_item_top_shade" -->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:background="@drawable/zkas_top_shade"-->
+        <!--/>-->
+</com.gionee.sadsdk.detail.view.widget.FitSystemWindowFrameLayout>

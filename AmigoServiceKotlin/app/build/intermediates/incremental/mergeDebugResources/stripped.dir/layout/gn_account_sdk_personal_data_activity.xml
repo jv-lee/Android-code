@@ -1,0 +1,33 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:amigo="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <ListView
+        android:id="@+id/lv"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true" />
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/lv"
+        android:background="@color/gn_account_divider_color" />
+
+    <Button
+        android:id="@+id/logout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/gn_account_logout"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="@dimen/gn_account_login_activity_button_margin_left_right"
+        android:layout_marginRight="@dimen/gn_account_login_activity_button_margin_left_right"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/gn_account_account_white_button_bg_selector"
+        android:textColor="@color/gn_account_account_black_tv_selector"
+        android:textSize="16sp" />
+
+</RelativeLayout>

@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="Gradle: :bookslib:@aar">
+    <ANNOTATIONS>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/bookslib.aar/57c5dfcb569d9bb43b0fe27730811e1b/annotations.zip!/" />
+    </ANNOTATIONS>
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/bookslib.aar/57c5dfcb569d9bb43b0fe27730811e1b/jars/classes.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/bookslib.aar/57c5dfcb569d9bb43b0fe27730811e1b/jars/libs/book_se.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/bookslib.aar/57c5dfcb569d9bb43b0fe27730811e1b/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

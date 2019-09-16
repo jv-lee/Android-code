@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:ns1="urn:oasis:names:tc:xliff:document:1.2">
+    <string-array name="dislike_reason">
+        <item>低俗色情</item>
+        <item>标题党</item>
+        <item>内容不实</item>
+        <item>旧闻重复</item>
+        <item>垃圾内容</item>
+    </string-array>
+    <string msgid="4600421777120114993" name="abc_action_bar_home_description">"瀏覽首頁"</string>
+    <string msgid="1594238315039666878" name="abc_action_bar_up_description">"向上瀏覽"</string>
+    <string msgid="3588849162933574182" name="abc_action_menu_overflow_description">"更多選項"</string>
+    <string msgid="4076576682505996667" name="abc_action_mode_done">"完成"</string>
+    <string msgid="7468859129482906941" name="abc_activity_chooser_view_see_all">"查看全部"</string>
+    <string msgid="2031811694353399454" name="abc_activitychooserview_choose_application">"選擇應用程式"</string>
+    <string msgid="121134116657445385" name="abc_capital_off">"關閉"</string>
+    <string msgid="3405795526292276155" name="abc_capital_on">"開啟"</string>
+    <string msgid="1302280443949172191" name="abc_menu_alt_shortcut_label">"Alt +"</string>
+    <string msgid="1324831542140195728" name="abc_menu_ctrl_shortcut_label">"Ctrl +"</string>
+    <string msgid="8362206064229013510" name="abc_menu_delete_shortcut_label">"Delete 鍵"</string>
+    <string msgid="8341180395196749340" name="abc_menu_enter_shortcut_label">"Enter 鍵"</string>
+    <string msgid="4792426091847145555" name="abc_menu_function_shortcut_label">"Fn +"</string>
+    <string msgid="7643535737296831317" name="abc_menu_meta_shortcut_label">"Meta +"</string>
+    <string msgid="8126296154200614004" name="abc_menu_shift_shortcut_label">"Shift +"</string>
+    <string msgid="2378550843553983978" name="abc_menu_space_shortcut_label">"空格鍵"</string>
+    <string msgid="9002602288060866689" name="abc_menu_sym_shortcut_label">"Sym +"</string>
+    <string msgid="1351762916121158029" name="abc_prepend_shortcut_label">"Menu +"</string>
+    <string msgid="7723749260725869598" name="abc_search_hint">"搜尋…"</string>
+    <string msgid="3691816814315814921" name="abc_searchview_description_clear">"清除查詢"</string>
+    <string msgid="2550479030709304392" name="abc_searchview_description_query">"搜尋查詢"</string>
+    <string msgid="8264924765203268293" name="abc_searchview_description_search">"搜尋"</string>
+    <string msgid="8928215447528550784" name="abc_searchview_description_submit">"提交查詢"</string>
+    <string msgid="893419373245838918" name="abc_searchview_description_voice">"語音搜尋"</string>
+    <string msgid="3421042268587513524" name="abc_shareactionprovider_share_with">"選擇分享對象"</string>
+    <string msgid="3300176832234831527" name="abc_shareactionprovider_share_with_application">"與「<ns1:g id="APPLICATION_NAME">%s</ns1:g>」分享"</string>
+    <string msgid="1603543279005712093" name="abc_toolbar_collapse_description">"收合"</string>
+    <string name="ad">广告</string>
+    <string name="all">推荐</string>
+    <string name="amigo_action_bar_home_description">導航首頁</string>
+    <string name="amigo_action_bar_up_description">向上導航</string>
+    <string name="amigo_action_mode_done">完成</string>
+    <string name="amigo_actionbar_magic_item_close">關閉</string>
+    <string name="amigo_actionbar_magic_item_more">更多</string>
+    <string name="amigo_activity_resolver_use_always">始終</string>
+    <string name="amigo_activity_resolver_use_once">僅此一次</string>
+    <string name="amigo_app_name">AmigoUI</string>
+    <string name="amigo_back_button_label">上一步</string>
+    <string name="amigo_cancel">取消</string>
+    <string name="amigo_capital_off">關</string>
+    <string name="amigo_capital_on">開</string>
+    <string name="amigo_chooseActivity">分享到</string>
+    <string name="amigo_copy">複製</string>
+    <string name="amigo_cut">剪切</string>
+    <string name="amigo_date_picker_dialog_title">設置日期</string>
+    <string name="amigo_date_time_done">完成</string>
+    <string name="amigo_edit_mode_leftbtn_txt">取消</string>
+    <string name="amigo_edit_mode_rightbtn_txt">完成</string>
+    <string name="amigo_inputMethod">輸入法</string>
+    <string name="amigo_multichoice_cancel_select_all">取消全選</string>
+    <string name="amigo_multichoice_select_all">全選</string>
+    <string name="amigo_multichoice_select_text">已選擇%1$s個</string>
+    <string name="amigo_next_button_label">下一步</string>
+    <string name="amigo_no">取消</string>
+    <string name="amigo_noApplications">沒有應用可執行此操作。</string>
+    <string name="amigo_ok">確定</string>
+    <string name="amigo_paste">粘貼</string>
+    <string name="amigo_select">選擇</string>
+    <string name="amigo_selectAll">全選</string>
+    <string name="amigo_skip_button_label">跳過</string>
+    <string name="amigo_smart_full_btn_label">確定</string>
+    <string name="amigo_strong_warning">強警告</string>
+    <string name="amigo_system_label">Android 系統</string>
+    <string name="amigo_time_picker_dialog_title">設置時間</string>
+    <string name="amigo_today">今天</string>
+    <string name="amigo_whichApplication">選擇要使用的應用</string>
+    <string name="amigo_yes">確定</string>
+    <string name="as_title_party">如标题党等</string>
+    <string name="astrology">星座</string>
+    <string name="baby">育儿</string>
+    <string name="blackauthor">拉黑作者</string>
+    <string name="brvah_load_failed">加载失败，请点击重试</string>
+    <string name="brvah_loading">正在努力加载</string>
+    <string name="car">汽车</string>
+    <string name="career">职场</string>
+    <string name="channel_manager">频道管理</string>
+    <string name="click_retry">点击重试</string>
+    <string name="comment">评论</string>
+    <string msgid="2518680582564677258" name="common_google_play_services_unknown_issue">"「<ns1:g id="APP_NAME">%1$s</ns1:g>」無法存取 Google Play 服務，請再試一次。"</string>
+    <string name="content_duplicate">旧闻重复</string>
+    <string name="content_error">内容不实</string>
+    <string name="content_spam">垃圾内容</string>
+    <string name="detail_write_comment">写评论…</string>
+    <string name="dislike_tip">将减少类似内容</string>
+    <string name="edu">教育</string>
+    <string name="entertainment">娱乐</string>
+    <string name="fashion">时尚</string>
+    <string name="feed_back">返回</string>
+    <string name="feed_click_add_channel">点击添加频道</string>
+    <string name="feed_complete">完成</string>
+    <string name="feed_download_success">下载成功</string>
+    <string name="feed_downloading">正在下载,请稍等</string>
+    <string name="feed_edit">编辑</string>
+    <string name="feed_hour_ago">小时前</string>
+    <string name="feed_minitue_ago">分钟前</string>
+    <string name="feed_moment">刚刚</string>
+    <string name="feed_my_channel">我的频道</string>
+    <string name="feed_save">保存</string>
+    <string name="feed_select">选择</string>
+    <string name="feed_sexy">低俗色情</string>
+    <string name="feed_yeasterday">天前</string>
+    <string name="feedback_content_spam">反馈垃圾内容</string>
+    <string name="file_exist">文件已存在</string>
+    <string name="file_path">文件路径：</string>
+    <string name="finance">财经</string>
+    <string name="focus">关注</string>
+    <string name="game">游戏</string>
+    <string name="guonei">国内</string>
+    <string name="health">健康</string>
+    <string name="history">历史</string>
+    <string name="hot">热</string>
+    <string name="house">房产</string>
+    <string name="img_unit">图</string>
+    <string name="last_refresh">上次浏览到这里，点击刷新</string>
+    <string name="loading">推荐中......</string>
+    <string name="local">本地</string>
+    <string name="military">军事</string>
+    <string name="net_get_data_error">加载失败，请下拉重试</string>
+    <string name="net_unavailable_detail">网络异常，请检查网络情况</string>
+    <string name="no_comment">暂无评论，点击抢沙发</string>
+    <string name="no_news_now">没有最新内容啦，看看其他频道吧</string>
+    <string name="not_instrest">不感兴趣</string>
+    <string name="rec_tips">成功为您推荐%s条新内容</string>
+    <string name="refresh_ing_text">正在努力加载</string>
+    <string name="refresh_pull_down_text">下拉推荐</string>
+    <string name="refresh_release_text">松开推荐</string>
+    <string name="regimen">养生</string>
+    <string msgid="368094699078615544" name="s1">"儲存圖片"</string>
+    <string msgid="4550830452390689489" name="s2">"要允許廣告將圖片儲存在相片庫中嗎？"</string>
+    <string msgid="2435407834265420668" name="s3">"接受"</string>
+    <string msgid="9167523597401839819" name="s4">"拒絕"</string>
+    <string msgid="1566682516266724847" name="s5">"建立日曆活動"</string>
+    <string msgid="5996672174517137271" name="s6">"要允許廣告建立日曆活動嗎？"</string>
+    <string msgid="7163549807207034258" name="s7">"測試廣告"</string>
+    <string msgid="146198913615257606" name="search_menu_title">"搜尋"</string>
+    <string name="select_reason">请选择理由</string>
+    <string name="share_to">分享</string>
+    <string name="shield_relevant_content">屏蔽相关内容</string>
+    <string name="society">社会</string>
+    <string name="sports">体育</string>
+    <string name="start_download">开始下载</string>
+    <string msgid="7988687684186075107" name="status_bar_notification_info_overflow">"999+"</string>
+    <string name="tab_home">刷新</string>
+    <string name="tab_interest">兴趣</string>
+    <string name="tab_me">我的</string>
+    <string name="tab_mode">环境</string>
+    <string name="tag_movie">视频</string>
+    <string name="tech">科技</string>
+    <string name="title_party">标题党</string>
+    <string name="to_top">置顶</string>
+    <string name="travel">旅游</string>
+    <string name="world">国际</string>
+    <string name="write_storage_permission_deny">保存失败，没有SD卡读写权限</string>
+    <string name="xiaohua">笑话</string>
+</resources>

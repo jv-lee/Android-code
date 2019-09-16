@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/amigo_buttonPanel"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:divider="?android:attr/dividerHorizontal"
+    android:dividerPadding="0dip"
+    android:minHeight="@dimen/amigo_alert_dialog_button_bar_height"
+    android:orientation="vertical"
+    android:showDividers="beginning" >
+
+    <LinearLayout
+        style="@style/Amgio.Holo.ButtonBar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/amigo_AlertDialogButtonHeight"
+        android:layoutDirection="locale"
+        android:measureWithLargestChild="true"
+        android:orientation="horizontal" >
+
+        <LinearLayout
+            android:id="@+id/amigo_dialog_button2"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:layout_weight="1"
+            android:minHeight="@dimen/amigo_alert_dialog_button_bar_height"
+            android:orientation="vertical" >
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/amigo_divider_height"
+                android:background="@color/amigo_list_divider_color" />
+
+            <amigoui.widget.AmigoButton
+                android:id="@+id/amigo_button2"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/amigo_dialog_btn_default_bg_ripple"
+                android:ellipsize="marquee"
+                android:maxLines="1"
+                android:minHeight="@dimen/amigo_alert_dialog_button_bar_height"
+                android:stateListAnimator="@anim/amigo_disabled_anim_material"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="?attr/amigoDialogOtherBtnTxtColor"
+                android:textSize="@dimen/amigo_textSizeAlertDialogBtn" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/amigo_btn2_divider"
+            android:layout_width="@dimen/amigo_divider_height"
+            android:layout_height="match_parent"
+            android:background="@color/amigo_list_divider_color"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/amigo_dialog_button3"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:layout_weight="1"
+            android:minHeight="@dimen/amigo_alert_dialog_button_bar_height"
+            android:orientation="vertical" >
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/amigo_divider_height"
+                android:background="@color/amigo_list_divider_color" />
+
+            <amigoui.widget.AmigoButton
+                android:id="@+id/amigo_button3"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
+                android:background="@drawable/amigo_dialog_btn_default_bg_ripple"
+                android:ellipsize="marquee"
+                android:maxLines="1"
+                android:minHeight="@dimen/amigo_alert_dialog_button_bar_height"
+                android:stateListAnimator="@anim/amigo_disabled_anim_material"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="?attr/amigoDialogOtherBtnTxtColor"
+                android:textSize="@dimen/amigo_textSizeAlertDialogBtn" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/amigo_btn3_divider"
+            android:layout_width="@dimen/amigo_divider_height"
+            android:layout_height="match_parent"
+            android:background="@color/amigo_list_divider_color"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/amigo_dialog_button1"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:layout_weight="1"
+            android:minHeight="@dimen/amigo_alert_dialog_button_bar_height"
+            android:orientation="vertical" >
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/amigo_divider_height"
+                android:background="@color/amigo_list_divider_color" />
+
+            <amigoui.widget.AmigoButton
+                android:id="@+id/amigo_button1"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_gravity="right"
+                android:layout_weight="1"
+                android:background="@drawable/amigo_dialog_btn_default_bg_ripple"
+                android:ellipsize="marquee"
+                android:maxLines="1"
+                android:minHeight="@dimen/amigo_alert_dialog_button_bar_height"
+                android:stateListAnimator="@anim/amigo_disabled_anim_material"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textSize="@dimen/amigo_textSizeAlertDialogBtn" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

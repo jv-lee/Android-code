@@ -1,0 +1,627 @@
+{
+    "game_lists": [{
+        "game_icon_url": "https://superman.cmcm.com/gamemoney/icon/huanlexiaonongchang.png",
+        "game_icon_url_square": "https://superman.cmcm.com/gamemoney/squaticon/huanlenongcun.png",
+        "game_name": "开心小农场",
+        "slogan": "打造属于你的赚钱农场",
+        "type_tag": ["休闲",
+            "女生"],
+        "game_id": "kaixinxiaonongchang",
+        "h5Game": {
+            "h5_game_url": "https://superman.cmcm.com/h5game/farm/v2019060301/index.html",
+            "gameLoadingImg": "https://superman.cmcm.com/gamemoney/loadpic/huanlexiaonongchang.png"
+        }
+    },
+        {
+            "game_icon_url": "https://superman.cmcm.com/gamemoney/icon/diaodiaole.png",
+            "game_icon_url_square": "https://superman.cmcm.com/gamemoney/squaticon/kaixindiaodiaole.png",
+            "game_name": "开心钓钓乐",
+            "slogan": "一键钓鱼享受休闲时光",
+            "type_tag": ["休闲"],
+            "game_id": "KaiXinDiaoDiaoLe",
+            "h5Game": {
+                "h5_game_url": "https://superman.cmcm.com/h5game/deepseafishing/v2019070301/index.html",
+                "gameLoadingImg": "https://superman.cmcm.com/gamemoney/loadpic/kaixindiaodiaole.png"
+            }
+        },
+        {
+            "game_icon_url": "https://superman.cmcm.com/gamemoney/icon/niangniangyangchengji.png",
+            "game_icon_url_square": "https://superman.cmcm.com/gamemoney/squaticon/niangniangyangchengji.png",
+            "game_name": "娘娘养成记",
+            "slogan": "众妃赚大钱",
+            "game_id": "niangniangyangchengji",
+            "type_tag": ["休闲"],
+            "h5Game": {
+                "h5_game_url": "https://superman.cmcm.com/h5game/queen/v2019070101/index.html",
+                "gameLoadingImg": "https://superman.cmcm.com/gamemoney/loadpic/niangniangyangchengji.png"
+            }
+        },
+        {
+            "game_icon_url": "https://superman.cmcm.com/gamemoney/icon/quanminxingzuqiu.png",
+            "game_icon_url_square": "https://superman.cmcm.com/gamemoney/squaticon/quanmingxingzhuqiu.png",
+            "game_name": "全明星足球",
+            "slogan": "一脚踢出小宇宙",
+            "game_id": "quanmingxingzuqiu",
+            "type_tag": ["休闲"],
+            "h5Game": {
+                "h5_game_url": "https://superman.cmcm.com/h5game/football/v2019051001/index.html",
+                "gameLoadingImg": "https://superman.cmcm.com/gamemoney/loadpic/quanmingxingzuqiu.png"
+            }
+        },
+        {
+            "game_icon_url": "https://superman.cmcm.com/gamemoney/icon/liujiaoxiaochu.png",
+            "game_icon_url_square": "https://superman.cmcm.com/gamemoney/squaticon/kaixinliujiaoxiao.png",
+            "game_name": "开心六角消除",
+            "slogan": "数学解谜消除益智",
+            "type_tag": ["消除",
+                "女生"],
+            "game_id": "KaiXinLiuJiaoXiaoChu",
+            "h5Game": {
+                "h5_game_url": "https://superman.cmcm.com/h5game/game_2048/v2019062601/index.html",
+                "gameLoadingImg": "https://superman.cmcm.com/gamemoney/loadpic/kaixinliujiaoxiaochu.png"
+            }
+        },
+        {
+            "game_icon_url": "https://superman.cmcm.com/gamemoney/icon/zhuankuai.png",
+            "game_icon_url_square": "https://superman.cmcm.com/gamemoney/squaticon/zhuankuaixiaoxiaoxiao.png",
+            "game_name": "砖块消消消",
+            "slogan": "百球齐消 道具更多更刺激",
+            "type_tag": ["消除"],
+            "game_id": "ZhuanKuaiXiaoXiaoXiao",
+            "h5Game": {
+                "h5_game_url": "https://superman.cmcm.com/h5game/brickesnballs/v2019051003/index.html",
+                "gameLoadingImg": "https://superman.cmcm.com/gamemoney/loadpic/zhuankuaixiaoxiaoxiao.png"
+            }
+        },
+        {
+            "game_icon_url": "https://superman.cmcm.com/gamemoney/icon/hanghai.png",
+            "game_icon_url_square": "https://superman.cmcm.com/gamemoney/squaticon/hanghaichuanqi.png",
+            "game_name": "航海传奇",
+            "slogan": "开启你的大航海时代",
+            "type_tag": ["休闲"],
+            "game_id": "hanghai",
+            "h5Game": {
+                "h5_game_url": "https://superman.cmcm.com/h5game/sailinglegend/v2019052801/index.html",
+                "gameLoadingImg": "https://superman.cmcm.com/gamemoney/loadpic/hanghaichuanqi.png"
+            }
+        },
+        {
+            "game_icon_url": "https://superman.cmcm.com/gamemoney/icon/chijipengpengpeng.png",
+            "game_icon_url_square": "https://superman.cmcm.com/gamemoney/squaticon/chijipengpengpeng.png",
+            "game_name": "吃鸡碰碰碰",
+            "slogan": "爽快碰撞 击退对手",
+            "game_id": "HuanLePengPengQiu",
+            "type_tag": ["休闲"],
+            "h5Game": {
+                "h5_game_url": "https://superman.cmcm.com/h5game/bumper/v2019050901/index.html",
+                "gameLoadingImg": "https://superman.cmcm.com/gamemoney/loadpic/chijipengpengpeng.png"
+            }
+        },
+        {
+            "game_icon_url": "https://superman.cmcm.com/gamemoney/icon/gundongtiankong.png",
+            "game_icon_url_square": "https://superman.cmcm.com/gamemoney/squaticon/gundongdetiankong.png",
+            "game_name": "滚动的天空",
+            "slogan": "小滚球的天空大冒险",
+            "game_id": "GunDongDeTianKong",
+            "type_tag": ["音乐"],
+            "h5Game": {
+                "h5_game_url": "https://superman.cmcm.com/h5game/rollingsky/v2019070501/index.html",
+                "gameLoadingImg": "https://superman.cmcm.com/gamemoney/loadpic/gundongdetiankong.png"
+            }
+        },
+        {
+            "game_icon_url": "https://superman.cmcm.com/gamemoney/icon/xiaoxingxing.png",
+            "game_icon_url_square": "https://superman.cmcm.com/gamemoney/squaticon/fengkuangxiaoxingxing.png",
+            "game_name": "疯狂消星星",
+            "slogan": "连环消除击碎你的小星星",
+            "type_tag": ["消除"],
+            "game_id": "fengkuangxiaoxingxing",
+            "h5Game": {
+                "h5_game_url": "https://superman.cmcm.com/h5game/eliminatestars/v2019070301/index.html",
+                "gameLoadingImg": "https://superman.cmcm.com/gamemoney/loadpic/fengkuangxiaoxingxing.png"
+            }
+        },
+        {
+            "game_icon_url": "https://superman.cmcm.com/gamemoney/icon/gangqinkuai2.png",
+            "game_icon_url_square": "https://superman.cmcm.com/gamemoney/squaticon/gangqingkuai2.png",
+            "game_name": "钢琴块2",
+            "slogan": "火爆全球 人人都是钢琴大师",
+            "game_id": "GangQinKuai2",
+            "type_tag": ["音乐",
+                "女生"],
+            "h5Game": {
+                "h5_game_url": "https://superman.cmcm.com/h5game/pianotiles2/v2019062701/index.html",
+                "gameLoadingImg": "https://superman.cmcm.com/gamemoney/loadpic/gangqinkuai2.png"
+            }
+        },
+        {
+            "game_icon_url": "https://superman.cmcm.com/gamemoney/icon/tiaowudexian.png",
+            "game_icon_url_square": "https://superman.cmcm.com/gamemoney/squaticon/tiaowudexian.png",
+            "game_name": "跳舞的线",
+            "slogan": "跟着音乐节奏摇起来!",
+            "game_id": "TiaoWuDeXian",
+            "type_tag": ["音乐"],
+            "h5Game": {
+                "h5_game_url": "https://superman.cmcm.com/h5game/dancingline/v2019062701/index.html",
+                "gameLoadingImg": "https://superman.cmcm.com/gamemoney/loadpic/tiaowudexian.png"
+            }
+        },
+        {
+            "game_icon_url": "https://superman.cmcm.com/gamemoney/icon/huanlecaizi.png",
+            "game_icon_url_square": "https://superman.cmcm.com/gamemoney/squaticon/huanlecaizi.png",
+            "game_name": "欢乐猜字",
+            "slogan": "四字成语大挑战",
+            "game_id": "huanlecaizi",
+            "type_tag": ["益智",
+                "女生"],
+            "h5Game": {
+                "h5_game_url": "https://superman.cmcm.com/h5game/idiom/v2019071201/index.html",
+                "gameLoadingImg": "https://superman.cmcm.com/gamemoney/loadpic/huanlecaizi.png"
+            }
+        },
+        {
+            "game_icon_url": "https://superman.cmcm.com/gamemoney/icon/zhuankuaixiaoxiaole.png",
+            "game_icon_url_square": "https://superman.cmcm.com/gamemoney/squaticon/jingdiandazhuankuai.png",
+            "game_name": "经典打砖块",
+            "slogan": "经典新玩法 百球齐发!",
+            "game_id": "JINGDIANDAZHUANKUAI",
+            "type_tag": ["消除"],
+            "h5Game": {
+                "h5_game_url": "https://superman.cmcm.com/h5game/brickesnballs_old/v2019070301/index.html",
+                "gameLoadingImg": "https://superman.cmcm.com/gamemoney/loadpic/jingdiandazhuankuai.png"
+            }
+        },
+        {
+            "game_icon_url": "https://superman.cmcm.com/gamemoney/icon/woshishenqiangshou.png",
+            "game_icon_url_square": "https://superman.cmcm.com/gamemoney/squaticon/woshishenqiangshou.png",
+            "game_name": "我是神枪手",
+            "slogan": "biubiubiu~开始射击吧！",
+            "game_id": "woshishenqiangshou",
+            "type_tag": ["休闲"],
+            "h5Game": {
+                "h5_game_url": "https://superman.cmcm.com/h5game/shootman/v2019070102/index.html",
+                "gameLoadingImg": "https://superman.cmcm.com/gamemoney/loadpic/woshishenqiangshou.png"
+            }
+        },
+        {
+            "game_icon_url": "https://superman.cmcm.com/gamemoney/icon/kuailepinpin.png",
+            "game_icon_url_square": "https://superman.cmcm.com/gamemoney/squaticon/kuailepinpinpin.png",
+            "game_name": "快乐拼拼",
+            "slogan": "益智七巧板等你来拼接",
+            "game_id": "kuailepinpin",
+            "type_tag": ["益智"],
+            "h5Game": {
+                "h5_game_url": "https://superman.cmcm.com/h5game/brickspuzzle/v2019050601/index.html",
+                "gameLoadingImg": "https://superman.cmcm.com/gamemoney/loadpic/kuailepinpin.png"
+            },
+            "h5GameADConfig": {
+                "firstinteractiondelay": 5,
+                "dailydelay": 3
+            }
+        },
+        {
+            "game_icon_url": "https://superman.cmcm.com/gamemoney/icon/eluosifkuai.png",
+            "game_icon_url_square": "https://superman.cmcm.com/gamemoney/squaticon/eluosifangkuai.png",
+            "game_name": "俄罗斯方块",
+            "slogan": "致敬经典 实力挑战",
+            "game_id": "ELuoSiFangKuai",
+            "type_tag": ["益智",
+                "女生"],
+            "h5Game": {
+                "h5_game_url": "https://superman.cmcm.com/h5game/tetris/v2019052702/index.html",
+                "gameLoadingImg": "https://superman.cmcm.com/gamemoney/loadpic/eluosifangkuai.png"
+            }
+        },
+        {
+            "game_icon_url": "https://superman.cmcm.com/gamemoney/icon/quweixiaoxiaole.png",
+            "game_icon_url_square": "https://superman.cmcm.com/gamemoney/squaticon/quweixiaoxiaole.png",
+            "game_name": "趣味消消乐",
+            "slogan": "跳跃消除新玩法",
+            "game_id": "QuWeiXiaoXiaoLe",
+            "type_tag": ["消除"],
+            "h5Game": {
+                "h5_game_url": "https://superman.cmcm.com/h5game/funxiao/v2019050901/index.html",
+                "gameLoadingImg": "https://superman.cmcm.com/gamemoney/loadpic/quweixiaoxiaole.png"
+            }
+        },
+        {
+            "game_icon_url": "https://superman.cmcm.com/gamemoney/icon/guanlangaoshou1.png",
+            "game_icon_url_square": "https://superman.cmcm.com/gamemoney/squaticon/guanlangaoshou.png",
+            "game_name": "灌篮高手",
+            "slogan": "点一点跳跳球 做灌篮高手",
+            "game_id": "guanlangaoshou",
+            "type_tag": ["休闲"],
+            "h5Game": {
+                "h5_game_url": "https://superman.cmcm.com/h5game/basketball/v2019070603/index.html",
+                "gameLoadingImg": "https://superman.cmcm.com/gamemoney/loadpic/guanlangaoshou.png"
+            }
+        },
+        {
+            "game_icon_url": "https://superman.cmcm.com/gamemoney/icon/huanle1010.png",
+            "game_icon_url_square": "https://superman.cmcm.com/gamemoney/squaticon/huanle1010.png",
+            "game_name": "欢乐1010",
+            "slogan": "俄罗斯方块加消除",
+            "game_id": "HuanLe1010",
+            "type_tag": ["益智",
+                "消除"],
+            "h5Game": {
+                "h5_game_url": "https://superman.cmcm.com/h5game/game_1010/v2019050901/index.html",
+                "gameLoadingImg": "https://superman.cmcm.com/gamemoney/loadpic/huanle1010.png"
+            }
+        },
+        {
+            "game_icon_url": "https://superman.cmcm.com/gamemoney/icon/jiemichaoren.png",
+            "game_icon_url_square": "https://superman.cmcm.com/gamemoney/squaticon/jiemichaoren.png",
+            "game_name": "解密超人",
+            "slogan": "挑战超强魔方思维",
+            "game_id": "jiemichaoren",
+            "type_tag": ["益智"],
+            "h5Game": {
+                "h5_game_url": "https://superman.cmcm.com/h5game/decipher/v2019050701/index.html",
+                "gameLoadingImg": "https://superman.cmcm.com/gamemoney/loadpic/jiemichaoren.png"
+            }
+        },
+        {
+            "game_icon_url": "https://superman.cmcm.com/gamemoney/icon/shuiguorenzhe.png",
+            "game_icon_url_square": "https://superman.cmcm.com/gamemoney/squaticon/shuiguorenzhe.png",
+            "game_name": "水果忍者",
+            "slogan": "开局一把刀，装备全靠镖！",
+            "game_id": "shuiguorenzhe",
+            "type_tag": ["休闲",
+                "女生"],
+            "h5Game": {
+                "h5_game_url": "https://superman.cmcm.com/h5game/fruitninja/v2019062801/index.html",
+                "gameLoadingImg": "https://superman.cmcm.com/gamemoney/loadpic/shuiguorenzhe.png"
+            }
+        },
+        {
+            "game_icon_url": "https://superman.cmcm.com/gamemoney/icon/alikuaipao.png",
+            "game_icon_url_square": "https://superman.cmcm.com/gamemoney/squaticon/alikuaipao.png",
+            "game_name": "阿狸快跑",
+            "slogan": "奔跑吧！阿狸",
+            "game_id": "alikuaipao",
+            "type_tag": ["益智"],
+            "h5Game": {
+                "h5_game_url": "https://superman.cmcm.com/h5game/runfast/v2019070301/index.html",
+                "gameLoadingImg": "https://superman.cmcm.com/gamemoney/loadpic/alikuaipao.png"
+            }
+        },
+        {
+            "game_icon_url": "https://superman.cmcm.com/gamemoney/icon/xiaomiexijun.png",
+            "game_icon_url_square": "https://superman.cmcm.com/gamemoney/squaticon/xiaomiexijun.png",
+            "game_name": "消灭细菌",
+            "slogan": "使用最强武器消灭敌军",
+            "game_id": "xiaomiexijun",
+            "type_tag": ["休闲"],
+            "h5Game": {
+                "h5_game_url": "https://superman.cmcm.com/h5game/brickBall/v2019062803/index.html",
+                "gameLoadingImg": "https://superman.cmcm.com/gamemoney/loadpic/xiaomiexijun.png"
+            }
+        },
+        {
+            "game_icon_url": "https://superman.cmcm.com/gamemoney/icon/wujinpiaoyi.png",
+            "game_icon_url_square": "https://superman.cmcm.com/gamemoney/squaticon/wujinpiaoyi.png",
+            "game_name": "无尽漂移",
+            "slogan": "连环漂移大考验",
+            "game_id": "WuJinPiaoYi",
+            "type_tag": ["休闲"],
+            "h5Game": {
+                "h5_game_url": "https://superman.cmcm.com/h5game/slingshot/v2019052401/index.html",
+                "gameLoadingImg": "https://superman.cmcm.com/gamemoney/loadpic/wujingpiaoyi.png"
+            }
+        },
+        {
+            "game_icon_url": "https://superman.cmcm.com/gamemoney/icon/liujiaoxiaochu1.png",
+            "game_icon_url_square": "https://superman.cmcm.com/gamemoney/squaticon/liujiaoxiaochu1.png",
+            "game_name": "六角消除",
+            "slogan": "超火爆的六边形消除小游戏",
+            "game_id": "liujiaoxiaochunew",
+            "type_tag": ["消除",
+                "女生",
+                "益智"],
+            "h5Game": {
+                "h5_game_url": "https://superman.cmcm.com/h5game/hexfunxiao/v2019070401/index.html",
+                "gameLoadingImg": "https://superman.cmcm.com/gamemoney/loadpic/liujiaoxiaochu1.png"
+            }
+        },
+        {
+            "game_icon_url": "https://superman.cmcm.com/gamemoney/icon/zumalaile.png",
+            "game_icon_url_square": "https://superman.cmcm.com/gamemoney/squaticon/zumalaile.png",
+            "game_name": "祖玛来了",
+            "slogan": "经典祖玛，创意再现",
+            "game_id": "zumalaile",
+            "type_tag": ["消除",
+                "女生"],
+            "h5Game": {
+                "h5_game_url": "https://superman.cmcm.com/h5game/zuma/v2019070401/index.html",
+                "gameLoadingImg": "https://superman.cmcm.com/gamemoney/loadpic/zumalaile.png"
+            }
+        },
+        {
+            "game_icon_url": "https://superman.cmcm.com/gamemoney/icon/chongzhuangmizhen.png",
+            "game_icon_url_square": "https://superman.cmcm.com/gamemoney/squaticon/chongzhuangmizhen.png",
+            "game_name": "冲撞迷阵",
+            "slogan": "谜题路径 冲出迷宫",
+            "game_id": "chongzhuangmizhen",
+            "type_tag": ["益智"],
+            "h5Game": {
+                "h5_game_url": "https://superman.cmcm.com/h5game/mazedash/v2019050902/index.html",
+                "gameLoadingImg": "https://superman.cmcm.com/gamemoney/loadpic/chongzhuangmizhen.png"
+            },
+            "h5GameADConfig": {
+                "firstinteractiondelay": 2,
+                "dailydelay": 1
+            }
+        },
+        {
+            "game_icon_url": "https://superman.cmcm.com/gamemoney/icon/zuiqiangdataowang.png",
+            "game_icon_url_square": "https://superman.cmcm.com/gamemoney/squaticon/zuiqiangdataomang.png",
+            "game_name": "最强大逃亡",
+            "slogan": "翱翔天际躲避飞弹",
+            "game_id": "zuiqiangdataowang",
+            "type_tag": ["休闲"],
+            "h5Game": {
+                "h5_game_url": "https://superman.cmcm.com/h5game/planego/v2019050901/index.html",
+                "gameLoadingImg": "https://superman.cmcm.com/gamemoney/loadpic/zuiqiangdataowang.png"
+            }
+        },
+        {
+            "game_icon_url": "https://superman.cmcm.com/gamemoney/icon/tanchisheduiduipeng.png",
+            "game_icon_url_square": "https://superman.cmcm.com/gamemoney/squaticon/tanchishe.png",
+            "game_name": "贪吃蛇",
+            "slogan": "多吃果果走得更远",
+            "game_id": "tanchisheduiduipeng",
+            "type_tag": ["休闲",
+                "女生"],
+            "h5Game": {
+                "h5_game_url": "https://superman.cmcm.com/h5game/snakeblock/v2019051401/index.html",
+                "gameLoadingImg": "https://superman.cmcm.com/gamemoney/loadpic/tanchishe.png"
+            }
+        },
+        {
+            "game_icon_url": "https://superman.cmcm.com/gamemoney/icon/shaoleidazuozhan.png",
+            "game_icon_url_square": "https://superman.cmcm.com/gamemoney/squaticon/saoleidazuozhan.png",
+            "game_name": "扫雷大作战",
+            "slogan": "延续经典全新挑战",
+            "game_id": "saoleidazuozhan",
+            "type_tag": ["休闲"],
+            "h5Game": {
+                "h5_game_url": "https://superman.cmcm.com/h5game/minesweeper/v2019040403/index.html",
+                "gameLoadingImg": "https://superman.cmcm.com/gamemoney/loadpic/saoleidazuozhan.png"
+            }
+        },
+        {
+            "game_icon_url": "https://superman.cmcm.com/gamemoney/icon/kaixinduiduilenew.png",
+            "game_icon_url_square": "https://superman.cmcm.com/gamemoney/squaticon/kaixinduiduile.png",
+            "game_name": "开心堆堆乐",
+            "slogan": "建造你的摩天大楼",
+            "game_id": "kaixinduiduile",
+            "type_tag": ["休闲"],
+            "h5Game": {
+                "h5_game_url": "https://superman.cmcm.com/h5game/fundui/v2019050901/index.html",
+                "gameLoadingImg": "https://superman.cmcm.com/gamemoney/loadpic/kaixinduiduile.png"
+            }
+        },
+        {
+            "game_icon_url": "https://superman.cmcm.com/gamemoney/icon/xunmifeixiang.png",
+            "game_icon_url_square": "https://superman.cmcm.com/gamemoney/squaticon/xunmiyufeixiang.png",
+            "game_name": "寻觅与飞翔",
+            "slogan": "穿越黑暗空间飞行冒险",
+            "game_id": "xunmiyufeixiang",
+            "type_tag": ["休闲"],
+            "h5Game": {
+                "h5_game_url": "https://superman.cmcm.com/h5game/flyme/v2019051001/index.html",
+                "gameLoadingImg": "https://superman.cmcm.com/gamemoney/loadpic/xunmiyufeixiang.png"
+            }
+        },
+        {
+            "game_icon_url": "https://superman.cmcm.com/gamemoney/icon/xingxingwangzhe.png",
+            "game_icon_url_square": "https://superman.cmcm.com/gamemoney/squaticon/xingxingxiaochuwangzhe.png",
+            "game_name": "星星消除王者",
+            "slogan": "精美消除酷炫特效",
+            "game_id": "xingxingxiaochuwangzhe",
+            "type_tag": ["消除"],
+            "h5Game": {
+                "h5_game_url": "https://superman.cmcm.com/h5game/eliminatestars2/v2019052702/index.html",
+                "gameLoadingImg": "https://superman.cmcm.com/gamemoney/loadpic/xingxingxiaochuwangzhe.png"
+            }
+        },
+        {
+            "game_icon_url": "https://superman.cmcm.com/gamemoney/icon/huanleqiuqiu.png",
+            "game_icon_url_square": "https://superman.cmcm.com/gamemoney/squaticon/kaixinqiuqiu.png",
+            "game_name": "欢乐球球",
+            "slogan": "感受地心引力",
+            "game_id": "huanleqiuqiu",
+            "type_tag": ["休闲"],
+            "h5Game": {
+                "h5_game_url": "https://superman.cmcm.com/h5game/3dball/v2019070303/index.html",
+                "gameLoadingImg": "https://superman.cmcm.com/gamemoney/loadpic/huanleqiuqiu.png"
+            }
+        },
+        {
+            "game_icon_url": "https://superman.cmcm.com/gamemoney/icon/onestoke.png",
+            "game_icon_url_square": "https://superman.cmcm.com/gamemoney/squaticon/kuailailianfangkuai.png",
+            "game_name": "快来连方块",
+            "slogan": "动动手指一笔连画",
+            "game_id": "kuailailianfangkuai",
+            "type_tag": ["益智"],
+            "h5Game": {
+                "h5_game_url": "https://superman.cmcm.com/h5game/onestroke/v2019070501/index.html",
+                "gameLoadingImg": "https://superman.cmcm.com/gamemoney/loadpic/kuailailianfangkuai.png"
+            }
+        },
+        {
+            "game_icon_url": "https://superman.cmcm.com/gamemoney/icon/taochushengtian.png",
+            "game_icon_url_square": "https://superman.cmcm.com/gamemoney/squaticon/taochushengtian.png",
+            "game_name": "逃出升天",
+            "slogan": "躲避潜行勇往直前",
+            "game_id": "tanchushengtian",
+            "type_tag": ["休闲"],
+            "h5Game": {
+                "h5_game_url": "https://instantgames.ijinshan.com/publish_zhuhai/yueyu/index.html",
+                "gameLoadingImg": "https://superman.cmcm.com/gamemoney/loadpic/taochushengtian.png"
+            }
+        },
+        {
+            "game_icon_url": "https://superman.cmcm.com/gamemoney/icon/kaixinduoduoshou.png",
+            "game_icon_url_square": "https://superman.cmcm.com/gamemoney/squaticon/kaixinduoduoshou.png",
+            "game_name": "开心剁剁手",
+            "slogan": "明眼手快连环切切切",
+            "game_id": "kaixinduoduoshou",
+            "type_tag": ["休闲",
+                "女生"],
+            "h5Game": {
+                "h5_game_url": "https://instantgames.ijinshan.com/publish_zhuhai/crazychef/index.html",
+                "gameLoadingImg": "https://superman.cmcm.com/gamemoney/loadpic/kaixinduoduoshou.png"
+            }
+        },
+        {
+            "game_icon_url": "https://superman.cmcm.com/gamemoney/icon/tanchilong.png",
+            "game_icon_url_square": "https://superman.cmcm.com/gamemoney/squaticon/tanchilong.png",
+            "game_name": "贪吃龙",
+            "slogan": "物理画线 技巧喂龙",
+            "game_id": "tanchilong",
+            "type_tag": ["休闲"],
+            "h5Game": {
+                "h5_game_url": "https://instantgames.ijinshan.com/publish_zhuhai/monster/index.html",
+                "gameLoadingImg": "https://superman.cmcm.com/gamemoney/loadpic/tanchilong.png"
+            }
+        },
+        {
+            "game_icon_url": "https://superman.cmcm.com/gamemoney/icon/ronghesekuai.png",
+            "game_icon_url_square": "https://superman.cmcm.com/gamemoney/squaticon/ronghesekuai.png",
+            "game_name": "融合色块",
+            "slogan": "烧脑的颜色，燃烧你的智商",
+            "game_id": "ronghesekuai",
+            "type_tag": ["益智"],
+            "h5Game": {
+                "h5_game_url": "https://superman.cmcm.com/h5game/funnycolor/v2019051703/index.html",
+                "gameLoadingImg": "https://superman.cmcm.com/gamemoney/loadpic/ronghesekuai.png"
+            }
+        },
+        {
+            "game_icon_url": "https://superman.cmcm.com/gamemoney/icon/dianyinzhanche.png",
+            "game_icon_url_square": "https://superman.cmcm.com/gamemoney/squaticon/dianyinzhanche.png",
+            "game_name": "电音战车",
+            "slogan": "开火！消灭炸弹",
+            "game_id": "dianyinzhanche",
+            "type_tag": ["休闲"],
+            "h5Game": {
+                "h5_game_url": "https://instantgames.ijinshan.com/publish_zhuhai/beatsshooter/index.html",
+                "gameLoadingImg": "https://superman.cmcm.com/gamemoney/loadpic/dianyinzhanche.png"
+            }
+        },
+        {
+            "game_icon_url": "https://superman.cmcm.com/gamemoney/icon/xuanyadataowang.png",
+            "game_icon_url_square": "https://superman.cmcm.com/gamemoney/squaticon/xuanyadataowang.png",
+            "game_name": "悬崖大逃亡",
+            "slogan": "边走边搭桥，不止步向前",
+            "game_id": "xuanyadataowang",
+            "type_tag": ["休闲"],
+            "h5Game": {
+                "h5_game_url": "https://superman.cmcm.com/h5game/crossinggaps/v2019051604/index.html",
+                "gameLoadingImg": "https://superman.cmcm.com/gamemoney/loadpic/xuanyadataowang.png"
+            }
+        },
+        {
+            "game_icon_url": "https://superman.cmcm.com/gamemoney/icon/kuailaidangdaozhu.png",
+            "game_icon_url_square": "https://superman.cmcm.com/gamemoney/squaticon/kuailaidangdaozhu.png",
+            "game_name": "快来当岛主",
+            "slogan": "合成属于你自己的小岛",
+            "game_id": "kuailaidangdaozhu",
+            "type_tag": ["益智"],
+            "h5Game": {
+                "h5_game_url": "https://superman.cmcm.com/h5game/myisland/v2019070301/index.html",
+                "gameLoadingImg": "https://superman.cmcm.com/gamemoney/loadpic/kuailaidangdaozhu.png"
+            }
+        },
+        {
+            "game_icon_url": "https://superman.cmcm.com/gamemoney/icon/zuoyouhuaxiao.png",
+            "game_icon_url_square": "https://superman.cmcm.com/gamemoney/squaticon/zuoyouhuaxiao.png",
+            "game_name": "左右滑消",
+            "slogan": "小小指尖挑战大智慧",
+            "game_id": "zuoyouhuaxiao",
+            "type_tag": ["益智",
+                "消除"],
+            "h5Game": {
+                "h5_game_url": "https://superman.cmcm.com/h5game/horizontalMove/v2019062501/index.html",
+                "gameLoadingImg": "https://superman.cmcm.com/gamemoney/loadpic/zuoyouhuaxiao.png"
+            }
+        },
+        {
+            "game_icon_url": "https://superman.cmcm.com/gamemoney/icon/guodongxiaochu.png",
+            "game_icon_url_square": "https://superman.cmcm.com/gamemoney/squaticon/guodongxiaochu.png",
+            "game_name": "果冻消除",
+            "slogan": "满屏果冻，爽口诱人",
+            "game_id": "guodongxiaochu",
+            "type_tag": ["消除",
+                "女生"],
+            "h5Game": {
+                "h5_game_url": "https://superman.cmcm.com/h5game/funnyjelly/v2019070401/index.html",
+                "gameLoadingImg": "https://superman.cmcm.com/gamemoney/loadpic/guodongxiaoxiao.png"
+            }
+        },
+        {
+            "game_icon_url": "https://superman.cmcm.com/gamemoney/icon/huanlelianxian.png",
+            "game_icon_url_square": "https://superman.cmcm.com/gamemoney/squaticon/huanlelianxian.png",
+            "game_name": "欢乐连线",
+            "slogan": "精准而优雅的连线游戏",
+            "game_id": "huanlelianxian",
+            "type_tag": ["益智"],
+            "h5Game": {
+                "h5_game_url": "https://superman.cmcm.com/h5game/funnyconnect/v2019062501/index.html",
+                "gameLoadingImg": "https://superman.cmcm.com/gamemoney/loadpic/huanlelianxian.png"
+            }
+        },
+        {
+            "game_icon_url": "https://superman.cmcm.com/gamemoney/icon/fangunbaliubianxing.png",
+            "game_icon_url_square": "https://superman.cmcm.com/gamemoney/squaticon/fangunbaliubianxing.png",
+            "game_name": "翻滚吧六边形",
+            "slogan": "拯救六边形萌宠大作战",
+            "game_id": "fangunbaliubianxing",
+            "type_tag": ["休闲",
+                "益智"],
+            "h5Game": {
+                "h5_game_url": "https://superman.cmcm.com/h5game/rollinghex/v2019060602/index.html",
+                "gameLoadingImg": "https://superman.cmcm.com/gamemoney/loadpic/fangunbaliubianxing.png"
+            }
+        },
+        {
+            "game_icon_url": "https://superman.cmcm.com/gamemoney/icon/rexuelanqiu.png",
+            "game_icon_url_square": "https://superman.cmcm.com/gamemoney/squaticon/rexuelanqiu.png",
+            "game_name": "热血篮球",
+            "slogan": "轻触指尖,让篮球飞一会儿",
+            "game_id": "rexuelanqiu",
+            "type_tag": ["休闲"],
+            "h5Game": {
+                "h5_game_url": "https://superman.cmcm.com/h5game/basketballbaster/v2019060605/index.html",
+                "gameLoadingImg": "https://superman.cmcm.com/gamemoney/loadpic/rexuelanqiu.png"
+            }
+        },
+        {
+            "game_icon_url": "https://superman.cmcm.com/gamemoney/icon/kaixintiaoyitiao.png",
+            "game_icon_url_square": "https://superman.cmcm.com/gamemoney/squaticon/kaixintiaoyitiao.png",
+            "game_name": "开心跳一跳",
+            "slogan": "让小鸡跳到外太空",
+            "game_id": "kaixintiaoyitiao",
+            "type_tag": ["益智",
+                "休闲",
+                "女生"],
+            "h5Game": {
+                "h5_game_url": "https://superman.cmcm.com/h5game/funnyjump/v2019062401/index.html",
+                "gameLoadingImg": "https://superman.cmcm.com/gamemoney/loadpic/kaixintiaoyitiao.png"
+            }
+        },
+        {
+            "game_icon_url": "https://superman.cmcm.com/gamemoney/icon/jisutanqiu.png",
+            "game_icon_url_square": "https://superman.cmcm.com/gamemoney/squaticon/jisutanqiu.png",
+            "game_name": "极速弹球",
+            "slogan": "挑战极限反应",
+            "game_id": "jisutanqiu",
+            "type_tag": ["休闲"],
+            "h5Game": {
+                "h5_game_url": "https://superman.cmcm.com/h5game/splashy/v2019070101/index.html",
+                "gameLoadingImg": "https://superman.cmcm.com/gamemoney/loadpic/jisutanqiu.png"
+            }
+        }]
+}

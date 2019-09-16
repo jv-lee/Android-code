@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="260dp"
+        android:layout_height="230dp"
+        android:layout_gravity="center"
+        android:background="@drawable/shape_bg_white"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="90dp"
+            android:layout_height="85dp"
+            android:src="@mipmap/ic_red_out_icon" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:includeFontPadding="false"
+            android:text="亲，来晚了"
+            android:textColor="#fffe6c62"
+            android:textSize="27sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:includeFontPadding="false"
+            android:text="红包奖励已过期"
+            android:textColor="#ff3b3b3b"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/tv_button"
+            android:layout_width="match_parent"
+            android:layout_height="33dp"
+            android:layout_marginLeft="31dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="31dp"
+            android:background="@drawable/shape_bg_btn"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:text="我知道了"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+</FrameLayout>

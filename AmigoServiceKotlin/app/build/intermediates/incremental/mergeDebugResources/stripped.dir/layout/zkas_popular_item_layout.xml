@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.gionee.sadsdk.detail.view.PopularItemView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" 
+    android:gravity="center"
+    >
+    <ImageView 
+        android:id="@+id/zkas_popular_item_icon"
+        android:layout_height="70dp"
+        android:layout_width="70dp"
+		android:src="@drawable/zkas_app_icon_mask_large"
+        android:background="@drawable/zkas_app_default_icon_large"
+        />
+
+	<TextView 
+	    android:id="@+id/zkas_popular_item_name"
+	    android:layout_width="70dp"
+	    android:layout_height="wrap_content"
+	    android:layout_marginTop="4dip"
+	    android:textSize="@dimen/zkas_list_item_app_name_text_size"
+        android:textColor="@color/zkas_list_item_app_name_text_color"
+        android:maxLines="1"
+        android:ellipsize="end"
+	    android:gravity="center"
+	    />
+	<TextView 
+	    android:id="@+id/zkas_popular_item_size"
+	    android:layout_width="70dp"
+	    android:layout_height="wrap_content"
+	    android:textSize="@dimen/zkas_list_item_app_used_info_text_size"
+        android:textColor="@color/zkas_list_item_app_descrip_text_color"
+	    android:gravity="center"
+	    />
+	<com.gionee.sadsdk.detail.view.ProgressButton
+        android:id="@+id/zkas_popular_progress_btn"
+        android:layout_width="70dp"
+        android:layout_height="26dp"
+        android:layout_marginTop="8dip"
+        android:textSize="@dimen/zkas_list_item_app_btn_text_size"
+        android:textColor="@color/zkas_list_item_app_btn_text_color"
+        />
+</com.gionee.sadsdk.detail.view.PopularItemView>

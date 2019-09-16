@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="64dp"
+    android:clickable="true"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:splitMotionEvents="false" >
+
+    <LinearLayout
+        android:id="@+id/amigo_menuIconContainer"
+        android:layout_width="56dp"
+        android:layout_height="64dp" >
+
+        <ImageView
+            android:id="@+id/amigo_menuIcon"
+            android:layout_marginStart="8dp"
+            android:layout_gravity="start|center_vertical"
+            android:layout_width="32dp"
+            android:layout_height="32dp" />
+    </LinearLayout>
+
+    <amigoui.widget.AmigoTextView
+        android:id="@+id/amigo_menuTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@id/amigo_menuIconContainer"
+        android:layout_toStartOf="@id/amigo_submenuIcon_layout"
+        android:singleLine="true"
+        android:textColor="@color/amigo_bright_foreground_primary_dark"
+        android:textSize="18sp" />
+
+    <LinearLayout
+        android:id="@+id/amigo_submenuIcon_layout"
+        android:layout_width="56dp"
+        android:layout_height="64dp"
+        android:layout_alignParentEnd="true">
+
+        <ImageView
+            android:id="@+id/amigo_submenuIcon"
+            android:layout_marginStart="16dp"
+            android:layout_gravity="end|center_vertical"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/amigo_forcetouch_submenu_close" />
+
+    </LinearLayout>
+
+</RelativeLayout>

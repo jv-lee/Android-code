@@ -1,0 +1,38 @@
+[
+    {
+        "merged": "/Users/jv.lee/workspaces/netease_android/AmigoServiceKotlin/base/build/intermediates/res/merged/debug/animator/mtrl_fab_transformation_sheet_expand_spec.xml",
+        "source": "/Users/jv.lee/.gradle/caches/transforms-1/files-1.1/design-28.0.0.aar/08dc00a185ea37a3786087726cd69219/res/animator/mtrl_fab_transformation_sheet_expand_spec.xml"
+    },
+    {
+        "merged": "/Users/jv.lee/workspaces/netease_android/AmigoServiceKotlin/base/build/intermediates/res/merged/debug/animator/mtrl_fab_hide_motion_spec.xml",
+        "source": "/Users/jv.lee/.gradle/caches/transforms-1/files-1.1/design-28.0.0.aar/08dc00a185ea37a3786087726cd69219/res/animator/mtrl_fab_hide_motion_spec.xml"
+    },
+    {
+        "merged": "/Users/jv.lee/workspaces/netease_android/AmigoServiceKotlin/base/build/intermediates/res/merged/debug/animator/mtrl_fab_transformation_sheet_collapse_spec.xml",
+        "source": "/Users/jv.lee/.gradle/caches/transforms-1/files-1.1/design-28.0.0.aar/08dc00a185ea37a3786087726cd69219/res/animator/mtrl_fab_transformation_sheet_collapse_spec.xml"
+    },
+    {
+        "merged": "/Users/jv.lee/workspaces/netease_android/AmigoServiceKotlin/base/build/intermediates/res/merged/debug/animator/design_fab_hide_motion_spec.xml",
+        "source": "/Users/jv.lee/.gradle/caches/transforms-1/files-1.1/design-28.0.0.aar/08dc00a185ea37a3786087726cd69219/res/animator/design_fab_hide_motion_spec.xml"
+    },
+    {
+        "merged": "/Users/jv.lee/workspaces/netease_android/AmigoServiceKotlin/base/build/intermediates/res/merged/debug/animator/design_fab_show_motion_spec.xml",
+        "source": "/Users/jv.lee/.gradle/caches/transforms-1/files-1.1/design-28.0.0.aar/08dc00a185ea37a3786087726cd69219/res/animator/design_fab_show_motion_spec.xml"
+    },
+    {
+        "merged": "/Users/jv.lee/workspaces/netease_android/AmigoServiceKotlin/base/build/intermediates/res/merged/debug/animator/mtrl_btn_state_list_anim.xml",
+        "source": "/Users/jv.lee/.gradle/caches/transforms-1/files-1.1/design-28.0.0.aar/08dc00a185ea37a3786087726cd69219/res/animator/mtrl_btn_state_list_anim.xml"
+    },
+    {
+        "merged": "/Users/jv.lee/workspaces/netease_android/AmigoServiceKotlin/base/build/intermediates/res/merged/debug/animator/mtrl_chip_state_list_anim.xml",
+        "source": "/Users/jv.lee/.gradle/caches/transforms-1/files-1.1/design-28.0.0.aar/08dc00a185ea37a3786087726cd69219/res/animator/mtrl_chip_state_list_anim.xml"
+    },
+    {
+        "merged": "/Users/jv.lee/workspaces/netease_android/AmigoServiceKotlin/base/build/intermediates/res/merged/debug/animator/mtrl_fab_show_motion_spec.xml",
+        "source": "/Users/jv.lee/.gradle/caches/transforms-1/files-1.1/design-28.0.0.aar/08dc00a185ea37a3786087726cd69219/res/animator/mtrl_fab_show_motion_spec.xml"
+    },
+    {
+        "merged": "/Users/jv.lee/workspaces/netease_android/AmigoServiceKotlin/base/build/intermediates/res/merged/debug/animator/mtrl_btn_unelevated_state_list_anim.xml",
+        "source": "/Users/jv.lee/.gradle/caches/transforms-1/files-1.1/design-28.0.0.aar/08dc00a185ea37a3786087726cd69219/res/animator/mtrl_btn_unelevated_state_list_anim.xml"
+    }
+]

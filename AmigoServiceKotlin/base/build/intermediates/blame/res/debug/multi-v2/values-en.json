@@ -1,0 +1,48 @@
+{
+    "logs": [
+        {
+            "outputFile": "/Users/jv.lee/workspaces/netease_android/AmigoServiceKotlin/base/build/intermediates/res/merged/debug/values-en/values-en.xml",
+            "map": [
+                {
+                    "source": "/Users/jv.lee/workspaces/netease_android/AmigoServiceKotlin/base/src/main/res/values-en/strings.xml",
+                    "from": {
+                        "startLines": "1,16,15,17,9,7,8,5,2,3,4,18,11,10,13,12",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "16,824,757,873,457,364,412,299,116,178,248,924,567,518,684,638",
+                        "endColumns": "99,48,66,50,60,47,44,63,61,69,50,58,70,48,71,45",
+                        "endOffsets": "111,868,819,919,513,407,452,358,173,243,294,978,633,562,751,679"
+                    },
+                    "to": {
+                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,155,204,271,322,383,431,476,540,602,672,723,782,853,902,974",
+                        "endColumns": "99,48,66,50,60,47,44,63,61,69,50,58,70,48,71,45",
+                        "endOffsets": "150,199,266,317,378,426,471,535,597,667,718,777,848,897,969,1015"
+                    }
+                }
+            ]
+        },
+        {
+            "outputFile": "/Users/jv.lee/workspaces/netease_android/AmigoServiceKotlin/base/build/intermediates/incremental/mergeDebugResources/merged.dir/values-en/values-en.xml",
+            "map": [
+                {
+                    "source": "/Users/jv.lee/workspaces/netease_android/AmigoServiceKotlin/base/src/main/res/values-en/strings.xml",
+                    "from": {
+                        "startLines": "1,16,15,17,9,7,8,5,2,3,4,18,11,10,13,12",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "16,824,757,873,457,364,412,299,116,178,248,924,567,518,684,638",
+                        "endColumns": "99,48,66,50,60,47,44,63,61,69,50,58,70,48,71,45",
+                        "endOffsets": "111,868,819,919,513,407,452,358,173,243,294,978,633,562,751,679"
+                    },
+                    "to": {
+                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,155,204,271,322,383,431,476,540,602,672,723,782,853,902,974",
+                        "endColumns": "99,48,66,50,60,47,44,63,61,69,50,58,70,48,71,45",
+                        "endOffsets": "150,199,266,317,378,426,471,535,597,667,718,777,848,897,969,1015"
+                    }
+                }
+            ]
+        }
+    ]
+}

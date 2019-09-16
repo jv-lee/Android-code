@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/*
+* Copyright 2012, The Android Open Source Project
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:dividerPadding="0dip"
+    android:orientation="vertical" >
+
+    <amigoui.widget.AmigoTextView
+        android:id="@+id/amigo_profile_button"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_gravity="end"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:visibility="gone"
+        style="?android:attr/borderlessButtonStyle"
+        android:textAppearance="?android:attr/textAppearanceButton"
+        android:textColor="@color/amigo_accent_color_g1"
+        android:gravity="center_vertical"
+        android:singleLine="true" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" >
+
+        <amigo.widget.AmigoAutoMaticPageGridView
+            android:id="@+id/amigo_auto_matic"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="8dp"
+            style="?attr/amigoAutoMaticGridViewStyle" />
+    </FrameLayout>
+
+    <!-- Gionee <hanbj> <20110406> modify for CR00986146 begin -->
+
+    <LinearLayout
+        android:id="@+id/amigo_buttonPanel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="?android:attr/dividerHorizontal"
+        android:dividerPadding="0dip"
+        android:minHeight="@dimen/amigo_alert_dialog_button_bar_height"
+        android:orientation="vertical"
+        android:showDividers="beginning"
+        android:visibility="gone" >
+
+        <LinearLayout
+            android:id="@+id/amigo_button_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone" >
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/amigo_divider_height"
+                android:background="@color/amigo_list_divider_color" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <amigo.widget.AmigoButton
+                    android:id="@+id/amigo_button_always"
+                    style="?android:attr/buttonBarButtonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/amigo_AlertDialogButtonHeight"
+                    android:layout_gravity="right"
+                    android:layout_marginRight="0dp"
+                    android:layout_weight="1"
+                    android:enabled="false"
+                    android:maxLines="2"
+                    android:minHeight="@dimen/amigo_alert_dialog_button_bar_height"
+                    android:onClick="onButtonClick"
+                    android:background="@drawable/amigo_resolver_dialog_left_btn_default_bg_ripple"
+                    android:stateListAnimator="@anim/amigo_disabled_anim_material"
+                    android:text="@string/amigo_activity_resolver_use_always"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/amigo_bright_foreground_primary_dark" />
+                <View
+                    android:layout_width="@dimen/amigo_divider_height"
+                    android:layout_height="@dimen/amigo_AlertDialogButtonHeight"
+                    android:background="@color/amigo_list_divider_color" />
+                <amigo.widget.AmigoButton
+                    android:id="@+id/amigo_button_once"
+                    style="?android:attr/buttonBarButtonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/amigo_AlertDialogButtonHeight"
+                    android:layout_gravity="left"
+                    android:layout_marginLeft="0dp"
+                    android:layout_weight="1"
+                    android:enabled="false"
+                    android:maxLines="2"
+                    android:background="@drawable/amigo_resolver_dialog_right_btn_default_bg_ripple"
+                    android:minHeight="@dimen/amigo_alert_dialog_button_bar_height"
+                    android:onClick="onButtonClick"
+                    android:stateListAnimator="@anim/amigo_disabled_anim_material"
+                    android:text="@string/amigo_activity_resolver_use_once"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/amigo_bright_foreground_primary_dark" />
+            </LinearLayout>
+        </LinearLayout>
+        <!-- Gionee <hanbj> <20110406> modify for CR00986146 end -->
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/txvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        tools:text="在线玩小游戏"
+        android:textSize="15sp"
+        android:textColor="@color/cmgame_sdk_game_category_normal"/>
+
+    <View
+        android:id="@+id/selectedHint"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="@drawable/cmgame_sdk_bg_game_selected"/>
+
+</LinearLayout>
