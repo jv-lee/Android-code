@@ -7,11 +7,11 @@ import android.support.annotation.NonNull;
  * @date 2019-09-16
  * @description
  */
-public class ObservableMap<T> implements ObservableOnSubscribe<T> {
+public class ObservableMap<T,R> implements ObservableOnSubscribe<R> {
 
     private ObservableOnSubscribe<T> source;
     private Function<T, R> function;
-    private Observer observer;
+    private Observer<R> observer;
 
     ObservableMap(ObservableOnSubscribe<T> source, Function<T, R> function) {
         this.source = source;
@@ -19,10 +19,10 @@ public class ObservableMap<T> implements ObservableOnSubscribe<T> {
     }
 
     @Override
-    public void subscribe(@NonNull Observer emitter) throws Exception {
+    public void subscribe(@NonNull Observer<R> emitter) throws Exception {
         this.observer = emitter;
 
-        MapObserver<T> mapObserver = new MapObserver<>(emitter, source, function);
+        MapObserver<T> mapObserver = new MapObserver(emitter, source, function);
 
         source.subscribe(mapObserver);
     }
@@ -31,9 +31,9 @@ public class ObservableMap<T> implements ObservableOnSubscribe<T> {
 
         private ObservableOnSubscribe<T> source;
         private Function<T, R> function;
-        private Observer emitter;
+        private Observer<R> emitter;
 
-        MapObserver(Observer emitter, ObservableOnSubscribe<T> source, Function<T, R> function) {
+        MapObserver(Observer<R> emitter, ObservableOnSubscribe<T> source, Function<T, R> function) {
             this.emitter = emitter;
             this.source = source;
             this.function = function;
@@ -41,22 +41,28 @@ public class ObservableMap<T> implements ObservableOnSubscribe<T> {
 
         @Override
         public void onSubscribe() {
-
+            emitter.onSubscribe();
         }
 
         @Override
         public void onNext(T item) {
-
+            try {
+                R nextMapResult = function.apply(item);
+                emitter.onNext(nextMapResult);
+            } catch (Exception e) {
+                e.printStackTrace();
+                emitter.onError(e);
+            }
         }
 
         @Override
         public void onError(Throwable throwable) {
-
+            emitter.onError(throwable);
         }
 
         @Override
         public void onComplete() {
-
+            emitter.onComplete();
         }
     }
 }

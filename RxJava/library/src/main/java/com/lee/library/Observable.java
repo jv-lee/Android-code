@@ -15,7 +15,7 @@ public class Observable<T> {
         this.source = source;
     }
 
-    public static <T> Observable<T> craete(ObservableOnSubscribe<T> source) {
+    public static <T> Observable<T> create(ObservableOnSubscribe<T> source) {
         return new Observable<T>(source);
     }
 
@@ -66,7 +66,7 @@ public class Observable<T> {
     }
 
     public <R> Observable<R> map(Function<T, R> function) {
-        ObservableMap observableMap = new ObservableMap(source,function);
+        ObservableMap<T,R> observableMap = new ObservableMap(source,function);
         return new Observable<R>(observableMap);
     }
 
