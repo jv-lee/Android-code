@@ -1,5 +1,8 @@
 package com.lee.library.adapter;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -260,7 +263,16 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
         if (current == loadMoreNum) {
             updateStatus(STATUS_MORE);
             hasLoadMore = false;
-            mAutoLoadMoreListener.autoLoadMore();
+            //防止更新过快导致 RecyclerView 还处于锁定状态 就直接更新数据
+            ValueAnimator value = ValueAnimator.ofInt(0, 1);
+            value.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    mAutoLoadMoreListener.autoLoadMore();
+                }
+            });
+            value.setDuration(50);
+            value.start();
         }
     }
 
