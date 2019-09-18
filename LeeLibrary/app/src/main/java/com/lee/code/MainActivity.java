@@ -27,7 +27,8 @@ import com.lee.library.ioc.annotation.OnItemLongClick;
 import com.lee.library.ioc.annotation.OnRefresh;
 import com.lee.library.livedatabus.InjectBus;
 import com.lee.library.livedatabus.LiveDataBus;
-import com.lee.library.tool.ThreadTool;
+import com.lee.library.utils.ThreadUtil;
+import com.lee.library.widget.refresh.RefreshCallBack;
 import com.lee.library.widget.refresh.RefreshLayout;
 import com.lee.library.widget.refresh.header.DefaultHeader;
 
@@ -78,6 +79,15 @@ public class MainActivity extends BaseActivity {
         rvContainer.setLayoutManager(new LinearLayoutManager(this));
         rvContainer.setAdapter(mAdapter.getProxy());
         refresh.setBootView(container, rvContainer, new DefaultHeader(this), null);
+
+        refresh.setRefreshCallBack(() -> {
+            refresh.postDelayed(() -> {
+                data.clear();
+                initData();
+                mAdapter.notifyDataSetChanged();
+                refresh.setRefreshCompleted();
+            }, 500);
+        });
     }
 
     int i = 0;
@@ -130,27 +140,27 @@ public class MainActivity extends BaseActivity {
             Toast.makeText(this, "child Title -> position:" + viewHolder.getLayoutPosition(), Toast.LENGTH_SHORT).show();
         });
     }
-//
-//    @OnRefresh(values = {R.id.refresh})
-//    public void onRefresh() {
-//        new Thread() {
-//            @Override
-//            public void run() {
-//                super.run();
-//                data.clear();
-//                initData();
-//                runOnUiThread(() -> {
-//                    mAdapter.notifyDataSetChanged();
-//                    refresh.setRefreshCompleted();
-//                });
-//            }
-//        }.start();
-//    }
+
+    @OnRefresh(value = "refresh")
+    public void onRefresh() {
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                data.clear();
+                initData();
+                runOnUiThread(() -> {
+                    mAdapter.notifyDataSetChanged();
+                    refresh.setRefreshCompleted();
+                });
+            }
+        }.start();
+    }
 
     @AutoLoadMore(value = "mAdapter")
     public void autoLoadMore() {
         Log.i(">>>", "auto load more");
-        ThreadTool.getInstance().addTask(() -> {
+        ThreadUtil.getInstance().addTask(() -> {
             i++;
             try {
                 Thread.sleep(1000);

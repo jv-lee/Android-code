@@ -92,23 +92,7 @@ public class ItemNotificationView extends FrameLayout {
         addView(tvContent);
     }
 
-    @SuppressLint("WrongConstant")
-    public void update(String text) {
-        tvContent.setText(text);
-
-        setVisibility(VISIBLE);
-        ObjectAnimator objAnim = ObjectAnimator.ofFloat(tvBackground, ViewGroup.SCALE_X, 0.5F, 1F).setDuration(500);
-        objAnim.setRepeatMode(ValueAnimator.INFINITE);
-        objAnim.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                anim();
-            }
-        });
-        objAnim.start();
-    }
-
-    public void anim() {
+    private void anim() {
         ObjectAnimator animator = ObjectAnimator.ofFloat(this, ViewGroup.TRANSLATION_Y, 0, -100).setDuration(500);
         animator.setStartDelay(1000);
         animator.addListener(new AnimatorListenerAdapter() {
@@ -119,6 +103,24 @@ public class ItemNotificationView extends FrameLayout {
             }
         });
         animator.start();
+    }
+
+    @SuppressLint("WrongConstant")
+    public void update(String text) {
+        post(() -> {
+            tvContent.setText(text);
+
+            setVisibility(VISIBLE);
+            ObjectAnimator objAnim = ObjectAnimator.ofFloat(tvBackground, ViewGroup.SCALE_X, 0.5F, 1F).setDuration(500);
+            objAnim.setRepeatMode(ValueAnimator.INFINITE);
+            objAnim.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    anim();
+                }
+            });
+            objAnim.start();
+        });
     }
 
 }

@@ -23,6 +23,11 @@ public class BItem implements LeeViewItem<UserInfo> {
     }
 
     @Override
+    public boolean openShake() {
+        return false;
+    }
+
+    @Override
     public boolean isItemView(UserInfo entity, int position) {
         return entity.getType() == 2;
     }

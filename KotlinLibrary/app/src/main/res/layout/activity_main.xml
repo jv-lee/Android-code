@@ -1,13 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <data>
-        <variable name="click" type="android.view.View.OnClickListener"/>
-        <variable name="viewModel" type="com.lee.app.viewmodel.MainViewModel"/>
+
+        <variable
+                name="click"
+                type="android.view.View.OnClickListener"/>
+
+        <variable
+                name="viewModel"
+                type="com.lee.app.viewmodel.MainViewModel"/>
     </data>
+
     <android.support.constraint.ConstraintLayout
-            android:padding="16dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
+        <FrameLayout
+                android:id="@+id/container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            <com.lee.library.widget.refresh.RefreshLayout
+                    android:id="@+id/refresh"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                <android.support.v7.widget.RecyclerView
+                        android:id="@+id/rv_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"/>
+
+            </com.lee.library.widget.refresh.RefreshLayout>
+
+        </FrameLayout>
 
         <TextView
                 android:id="@+id/tv_id"
@@ -37,7 +64,6 @@
         <Button
                 android:id="@+id/button"
                 android:text="Click"
-                app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:onClick="@{click}"
@@ -49,7 +75,6 @@
                 android:text="click"
                 android:onClick="@{click}"
                 app:layout_constraintTop_toBottomOf="@id/button"
-                app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>

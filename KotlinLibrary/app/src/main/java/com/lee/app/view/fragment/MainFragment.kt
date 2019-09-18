@@ -31,6 +31,7 @@ class MainFragment : BaseFragment<FragmentMainBinding, MainFragmentViewModel>(
 
         viewModel.data.observe(this, Observer {
             if (it?.get(0) == 0) {
+                binding.itemNotification.update("更了${it.size}条内容")
                 adapter?.updateData(it)
             } else {
                 adapter?.addData(it)
@@ -40,7 +41,11 @@ class MainFragment : BaseFragment<FragmentMainBinding, MainFragmentViewModel>(
                 binding.refresh.isRefreshing = false
             }
 
-            adapter?.loadMoreCompleted()
+            if (it?.get(0) == 50) {
+                adapter?.loadMoreEnd()
+            } else {
+                adapter?.loadMoreCompleted()
+            }
         })
     }
 

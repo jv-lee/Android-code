@@ -1,6 +1,5 @@
 package com.lee.code.adapter.item;
 
-import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -23,6 +22,11 @@ public class AItem implements LeeViewItem<UserInfo> {
     @Override
     public boolean openClick() {
         return true;
+    }
+
+    @Override
+    public boolean openShake() {
+        return false;
     }
 
     @Override

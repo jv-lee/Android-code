@@ -8,9 +8,9 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.lee.library.tool.ThreadTool;
 
-import java.util.ArrayList;
+import com.lee.library.utils.ThreadUtil;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -30,7 +30,7 @@ abstract class PersonDatabase extends RoomDatabase {
                         @Override
                         public void onCreate(@NonNull SupportSQLiteDatabase db) {
                             Log.i(">>>", "database onCreate()");
-                            ThreadTool.getInstance().addTask(() -> {
+                            ThreadUtil.getInstance().addTask(() -> {
                                 for (int i = 0; i < getData().size(); i++) {
                                     Person person = new Person();
                                     person.name = getData().get(i);

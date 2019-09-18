@@ -13,13 +13,8 @@ import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.lee.library.R;
-import com.lee.library.utils.LogUtil;
-import com.lee.library.utils.SizeUtil;
-
-import static android.animation.ValueAnimator.INFINITE;
 
 /**
  * @author jv.lee
@@ -81,7 +76,7 @@ public class ItemNotificationView extends FrameLayout {
         tvBackground.setBackgroundColor(backgroundColor);
 
         tvContent = new TextView(getContext());
-        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);
+        LayoutParams layoutParams = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         layoutParams.gravity = Gravity.CENTER;
         tvContent.setLayoutParams(layoutParams);
         tvContent.setTextSize(notificationTextSize);
@@ -92,23 +87,7 @@ public class ItemNotificationView extends FrameLayout {
         addView(tvContent);
     }
 
-    @SuppressLint("WrongConstant")
-    public void update(String text) {
-        tvContent.setText(text);
-
-        setVisibility(VISIBLE);
-        ObjectAnimator objAnim = ObjectAnimator.ofFloat(tvBackground, ViewGroup.SCALE_X, 0.5F, 1F).setDuration(500);
-        objAnim.setRepeatMode(ValueAnimator.INFINITE);
-        objAnim.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                anim();
-            }
-        });
-        objAnim.start();
-    }
-
-    public void anim() {
+    private void anim() {
         ObjectAnimator animator = ObjectAnimator.ofFloat(this, ViewGroup.TRANSLATION_Y, 0, -100).setDuration(500);
         animator.setStartDelay(1000);
         animator.addListener(new AnimatorListenerAdapter() {
@@ -119,6 +98,24 @@ public class ItemNotificationView extends FrameLayout {
             }
         });
         animator.start();
+    }
+
+    @SuppressLint("WrongConstant")
+    public void update(String text) {
+        post(() -> {
+            tvContent.setText(text);
+
+            setVisibility(VISIBLE);
+            ObjectAnimator objAnim = ObjectAnimator.ofFloat(tvBackground, ViewGroup.SCALE_X, 0.5F, 1F).setDuration(500);
+            objAnim.setRepeatMode(ValueAnimator.INFINITE);
+            objAnim.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    anim();
+                }
+            });
+            objAnim.start();
+        });
     }
 
 }

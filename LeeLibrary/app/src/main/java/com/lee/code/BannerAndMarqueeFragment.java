@@ -3,17 +3,12 @@ package com.lee.code;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
 
 import com.lee.library.base.BaseFragment;
 import com.lee.library.ioc.annotation.ContentView;
 import com.lee.library.ioc.annotation.InjectView;
 import com.lee.library.widget.MarqueeView;
 import com.lee.library.widget.banner.MZBannerView;
-import com.lee.library.widget.banner.holder.ContentBannerViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +53,7 @@ public class BannerAndMarqueeFragment extends BaseFragment {
 
     @Override
     protected void bindView() {
-        banner.setPages(data, ContentBannerViewHolder::new);
+//        banner.setPages(data, ContentBannerViewHolder::new);
         marquee.bindData(marqueeData);
     }
 
