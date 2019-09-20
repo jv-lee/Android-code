@@ -1,21 +1,23 @@
 package com.lee.app.view.header;
 
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
-import android.view.animation.RotateAnimation;
-import android.widget.ImageView;
+import android.view.animation.LinearInterpolator;
 import android.widget.ProgressBar;
-import android.widget.TextView;
-import com.lee.library.R;
+import com.lee.app.R;
+import com.lee.library.widget.ItemNotificationView;
 import com.lee.library.widget.refresh.header.BaseHeaderView;
 
 /**
- * 默认刷新头，可以直接复制更改头中视图类容
+ * 自定义刷新头
+ * @author jv.lee
  */
 public class SimpleHeader extends BaseHeaderView {
     private static final String TAG = "SimpleHeader";
@@ -31,14 +33,18 @@ public class SimpleHeader extends BaseHeaderView {
      * 布局偏移量
      */
     private float totalOffset;
+    /**
+     * 更新提示数据
+     */
+    private String updateText;
 
-    private Context mContext;
     /**
      * 刷新头布局视图内容
      */
-    private TextView tvText;
-    private ImageView ivHeaderTip;
-    private ProgressBar pbRefreshing;
+    private ProgressBar progress;
+    private ItemNotificationView notificationView;
+
+    private ObjectAnimator progressAnimator;
 
     public SimpleHeader(Context context) {
         this(context, null);
@@ -54,16 +60,23 @@ public class SimpleHeader extends BaseHeaderView {
     }
 
     protected void init(Context context, AttributeSet attrs, int defStyleAttr) {
-        mContext = context;
         status = HEADER_DRAG;
-        childHeight = mContext.getResources().getDimensionPixelSize(R.dimen.default_height);
+        childHeight = context.getResources().getDimensionPixelSize(R.dimen.default_height);
+
         //添加头内容
-        View view = LayoutInflater.from(context).inflate(R.layout.header_default, this, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.header_simple, this, false);
         LayoutParams lp = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, childHeight);
         addView(view, lp);
-        pbRefreshing = view.findViewById(R.id.pb_refreshing);
-        ivHeaderTip = view.findViewById(R.id.iv_tip);
-        tvText = view.findViewById(R.id.tv_text);
+
+        progress = view.findViewById(R.id.progress);
+        notificationView = view.findViewById(R.id.item_notification);
+        notificationView.setHideEnable(false);
+
+        //添加头部动画
+        progressAnimator = ObjectAnimator.ofFloat(progress, View.ROTATION, 0, 359);
+        progressAnimator.setInterpolator(new LinearInterpolator());
+        progressAnimator.setDuration(1000);
+        progressAnimator.setRepeatCount(Animation.INFINITE);
     }
 
     /**
@@ -79,42 +92,34 @@ public class SimpleHeader extends BaseHeaderView {
         if (status == HEADER_REFRESHING) {
             return;
         }
-        //回到初始位置
+        //TODO 回到初始位置 下拉刷新
         if (dragY <= 0) {
-            tvText.setText(R.string.refresh_drag);
             status = HEADER_DRAG;
-            ivHeaderTip.setBackgroundResource(R.drawable.down);
-            ivHeaderTip.setVisibility(VISIBLE);
-            pbRefreshing.setVisibility(GONE);
+            enableProgress(true);
         }
         //开始拖动
         if (status == HEADER_DRAG) {
-            //一旦超过刷新头高度
+            progress.setRotation(dragY);
+            //TODO 一旦超过刷新头高度  释放更新
             if (dragY >= childHeight) {
-                tvText.setText(R.string.refresh_release);
                 status = HEADER_RELEASE;
-                ivHeaderTip.setVisibility(VISIBLE);
-                startRotateAnimDown();
-                pbRefreshing.setVisibility(GONE);
             }
         }
         //还未释放拖拉回去
         if (status == HEADER_RELEASE) {
-            //一旦低于刷新头高度
+            progress.setRotation(dragY);
+            //TODO  一旦低于刷新头高度 下拉刷新
             if (dragY <= childHeight) {
-                tvText.setText(R.string.refresh_drag);
                 status = HEADER_DRAG;
-                ivHeaderTip.setVisibility(VISIBLE);
-                startRotateAnimUp();
-                pbRefreshing.setVisibility(GONE);
             }
         }
     }
 
     @Override
     public boolean doRefresh() {
-        //正在刷新，并且偏移量==刷新头高度才认为刷新
+        //TODO 正在刷新，并且偏移量==刷新头高度才认为刷新
         if (status == HEADER_REFRESHING && totalOffset == childHeight) {
+            startProgress();
             return true;
         }
         return false;
@@ -130,11 +135,8 @@ public class SimpleHeader extends BaseHeaderView {
     @Override
     public boolean checkRefresh() {
         if ((status == HEADER_RELEASE || status == HEADER_REFRESHING) && totalOffset >= childHeight) {
+            //TODO 加载中
             status = HEADER_REFRESHING;
-            tvText.setText(R.string.refreshing);
-            ivHeaderTip.clearAnimation();
-            ivHeaderTip.setVisibility(GONE);
-            pbRefreshing.setVisibility(VISIBLE);
             return true;
         } else {
             return false;
@@ -143,12 +145,12 @@ public class SimpleHeader extends BaseHeaderView {
 
     @Override
     public void refreshCompleted() {
+        Log.i(TAG, "refreshCompleted: ");
         status = HEADER_COMPLETED;
-        tvText.setText(R.string.refresh_completed);
-        ivHeaderTip.clearAnimation();
-        ivHeaderTip.setBackgroundResource(R.drawable.completed);
-        ivHeaderTip.setVisibility(VISIBLE);
-        pbRefreshing.setVisibility(GONE);
+        //TODO 刷新完毕
+        stopProgress();
+        enableProgress(false);
+        notificationView.update(updateText);
     }
 
     @Override
@@ -159,40 +161,37 @@ public class SimpleHeader extends BaseHeaderView {
     @Override
     public void autoRefresh() {
         status = HEADER_REFRESHING;
-        ivHeaderTip.clearAnimation();
-        ivHeaderTip.setVisibility(GONE);
-        pbRefreshing.setVisibility(VISIBLE);
+        startProgress();
     }
 
-    /**
-     * 从0度旋转到180度的动画
-     */
-    private void startRotateAnimDown() {
-        RotateAnimation animation = new RotateAnimation(0
-                , 180
-                , Animation.RELATIVE_TO_SELF
-                , 0.5f
-                , Animation.RELATIVE_TO_SELF
-                , 0.5f);
-        animation.setDuration(120);
-        //保持最后的状态
-        animation.setFillAfter(true);
-        ivHeaderTip.startAnimation(animation);
+    private void enableProgress(boolean enable) {
+        if (enable) {
+            progress.setVisibility(VISIBLE);
+            notificationView.setVisibility(GONE);
+        }else{
+            progress.setVisibility(GONE);
+            notificationView.setVisibility(VISIBLE);
+        }
     }
 
-    /**
-     * 从180度旋转到0度的动画
-     */
-    private void startRotateAnimUp() {
-        RotateAnimation animation = new RotateAnimation(180
-                , 0
-                , Animation.RELATIVE_TO_SELF
-                , 0.5f
-                , Animation.RELATIVE_TO_SELF
-                , 0.5f);
-        animation.setDuration(120);
-        //保持最后的状态
-        animation.setFillAfter(true);
-        ivHeaderTip.startAnimation(animation);
+    private void startProgress() {
+        if (progressAnimator != null && !progressAnimator.isRunning()) {
+            progressAnimator.start();
+        }
+    }
+
+    private void stopProgress() {
+        if (progressAnimator != null && progressAnimator.isRunning()) {
+            progressAnimator.cancel();
+        }
+    }
+
+
+    public String getUpdateText() {
+        return updateText;
+    }
+
+    public void setUpdateText(String updateText) {
+        this.updateText = updateText;
     }
 }

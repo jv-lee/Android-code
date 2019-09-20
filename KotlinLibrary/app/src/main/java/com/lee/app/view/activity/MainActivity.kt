@@ -3,14 +3,14 @@ package com.lee.app.view.activity
 import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import com.lee.app.R
-import com.lee.library.base.BaseActivity
 import com.lee.app.databinding.ActivityMainBinding
 import com.lee.app.view.adapter.SimpleAdapter
 import com.lee.app.view.fragment.MainFragment
-import com.lee.app.view.fragment.MyBottomSheetFragment
+import com.lee.app.view.header.SimpleHeader
 import com.lee.app.viewmodel.MainViewModel
-import com.lee.library.widget.refresh.header.DefaultHeader
+import com.lee.library.base.BaseActivity
 import java.util.*
 
 
@@ -21,6 +21,7 @@ class MainActivity :
 
     private var adapter: SimpleAdapter? = null
     private var page = 0
+    private var header: SimpleHeader? = null
 
     override fun bindData(savedInstanceState: Bundle?) {
         binding.viewModel = viewModel
@@ -54,15 +55,17 @@ class MainActivity :
 
         }
 
-        binding.refresh.setBootView(binding.container, binding.rvContainer, DefaultHeader(this), null)
+        header = SimpleHeader(this)
+        binding.refresh.setBootView(binding.container, binding.rvContainer, header, null)
         binding.refresh.setRefreshCallBack {
+            Log.i("SimpleHeader", "refreshCallBack")
             binding.refresh.postDelayed({
                 adapter?.updateData(initData())
                 adapter?.notifyDataSetChanged()
+                header?.updateText = "更新了10条数据"
                 binding.refresh.setRefreshCompleted()
             }, 500)
         }
-
     }
 
     fun initData(): List<Int> {
