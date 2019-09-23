@@ -59,16 +59,22 @@ class MainActivity :
         binding.refresh.setBootView(binding.container, binding.rvContainer, header, null)
         binding.refresh.setRefreshCallBack {
             Log.i("SimpleHeader", "refreshCallBack")
-            binding.refresh.postDelayed({
-                adapter?.updateData(initData())
-                adapter?.notifyDataSetChanged()
-                header?.updateText = "更新了10条数据"
-                binding.refresh.setRefreshCompleted()
-            }, 500)
+            refresh()
         }
+
+        binding.refresh.autoRefresh()
     }
 
-    fun initData(): List<Int> {
+    private fun refresh() {
+        binding.refresh.postDelayed({
+            adapter?.updateData(initData())
+            adapter?.notifyDataSetChanged()
+            header?.updateText = "更新了10条数据"
+            binding.refresh.setRefreshCompleted()
+        }, 500)
+    }
+
+    private fun initData(): List<Int> {
         val asList = Arrays.asList(1, 2, 3, 4, 5)
         return asList
     }

@@ -33,6 +33,8 @@ public class ItemNotificationView extends FrameLayout {
     private int notificationTextColor;
     private float notificationTextSize;
 
+    private boolean hideEnable = true;
+
     public ItemNotificationView(Context context) {
         this(context, null);
     }
@@ -106,16 +108,21 @@ public class ItemNotificationView extends FrameLayout {
             tvContent.setText(text);
 
             setVisibility(VISIBLE);
-            ObjectAnimator objAnim = ObjectAnimator.ofFloat(tvBackground, ViewGroup.SCALE_X, 0.5F, 1F).setDuration(500);
+            ObjectAnimator objAnim = ObjectAnimator.ofFloat(tvBackground, ViewGroup.SCALE_X, 0.3F, 1F).setDuration(500);
             objAnim.setRepeatMode(ValueAnimator.INFINITE);
             objAnim.addListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
-                    anim();
+                    if (hideEnable) {
+                        anim();
+                    }
                 }
             });
             objAnim.start();
         });
     }
 
+    public void setHideEnable(boolean hideEnable) {
+        this.hideEnable = hideEnable;
+    }
 }

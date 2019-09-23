@@ -26,11 +26,13 @@ public class WebViewEx extends WebView {
     private boolean isPause = false;
 
     public WebViewEx(Context context) {
-        this(context, null);
+        super(context);
+        init();
     }
 
     public WebViewEx(Context context, AttributeSet attrs) {
-        this(context, attrs, 0);
+        super(context, attrs);
+        init();
     }
 
     public WebViewEx(Context context, AttributeSet attrs, int defStyleAttr) {

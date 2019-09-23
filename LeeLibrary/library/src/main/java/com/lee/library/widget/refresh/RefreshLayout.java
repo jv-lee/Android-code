@@ -20,6 +20,7 @@ import com.lee.library.widget.refresh.header.DefaultHeader;
 /**
  * 继承于帧布局，下拉刷新、上拉加载更多的容器；
  * 功能：
+ * 0、父容器只能是FrameLayout
  * 1、使布局上拉下拉具有回弹效果；
  * 2、可以只有上拉刷新；
  * 3、能够auto刷新（界面进入就刷新）；
@@ -34,10 +35,9 @@ import com.lee.library.widget.refresh.header.DefaultHeader;
  *
  * @author tangxianqiang
  */
-
 public class RefreshLayout extends FrameLayout {
 
-    private static final String TAG = "BounceLayout";
+    private static final String TAG = "RefreshLayout";
     /*滚动实例*/
     private Scroller mScroller;
     /*设备滚动间隙最小值*/
@@ -81,6 +81,7 @@ public class RefreshLayout extends FrameLayout {
     /*是否固定回弹布局*/
     private boolean disallowBounce;
     private boolean dispathAble = true;
+    private long completedTime = 1500;
 
 
     public RefreshLayout(@NonNull Context context) {
@@ -445,7 +446,7 @@ public class RefreshLayout extends FrameLayout {
                     mScroller.startScroll(0, getScrollY(), 0, -getScrollY(), 300);
                     invalidate();
                 }
-            }, 800);
+            }, completedTime);
         }
         ;
     }
@@ -468,7 +469,7 @@ public class RefreshLayout extends FrameLayout {
                     mScroller.startScroll(0, getScrollY(), 0, -getScrollY(), 300);
                     invalidate();
                 }
-            }, 800);
+            }, completedTime);
         }
 
     }
@@ -504,5 +505,9 @@ public class RefreshLayout extends FrameLayout {
 
     public void serDispatchAble(boolean able) {
         this.dispathAble = able;
+    }
+
+    public void setCompletedTime(long completedTime) {
+        this.completedTime = completedTime;
     }
 }

@@ -81,6 +81,7 @@ public class RefreshLayout extends FrameLayout {
     /*是否固定回弹布局*/
     private boolean disallowBounce;
     private boolean dispathAble = true;
+    private long completedTime = 1500;
 
 
     public RefreshLayout(@NonNull Context context) {
@@ -445,7 +446,7 @@ public class RefreshLayout extends FrameLayout {
                     mScroller.startScroll(0, getScrollY(), 0, -getScrollY(), 300);
                     invalidate();
                 }
-            }, 800);
+            }, completedTime);
         }
         ;
     }
@@ -468,7 +469,7 @@ public class RefreshLayout extends FrameLayout {
                     mScroller.startScroll(0, getScrollY(), 0, -getScrollY(), 300);
                     invalidate();
                 }
-            }, 800);
+            }, completedTime);
         }
 
     }
@@ -504,5 +505,9 @@ public class RefreshLayout extends FrameLayout {
 
     public void serDispatchAble(boolean able) {
         this.dispathAble = able;
+    }
+
+    public void setCompletedTime(long completedTime) {
+        this.completedTime = completedTime;
     }
 }
