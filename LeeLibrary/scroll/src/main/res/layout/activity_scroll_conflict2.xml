@@ -5,10 +5,9 @@
     android:layout_height="match_parent"
     tools:context=".activity.ScrollConflict2Activity">
 
-
-    <android.support.v4.view.ViewPager
-        android:id="@+id/container"
+    <jv.lee.scroll.widget.RecyclerViewSuperEx
+        android:id="@+id/rv_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content"/>
 
 </FrameLayout>

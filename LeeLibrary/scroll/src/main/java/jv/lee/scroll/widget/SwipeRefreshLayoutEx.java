@@ -30,7 +30,6 @@ public class SwipeRefreshLayoutEx extends SwipeRefreshLayout {
     }
 
     @Override
-
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         int action = ev.getAction();
         switch (action) {
