@@ -1,4 +1,4 @@
-package jv.lee.scroll;
+package jv.lee.scroll.widget;
 
 import android.content.Context;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -9,7 +9,7 @@ import android.view.ViewConfiguration;
 /**
  * @author jv.lee
  * @date 2019/9/23.
- * @description
+ * @description 解决子容器横向滑动 与 上下拉动 滑动冲突事件
  */
 public class SwipeRefreshLayoutEx extends SwipeRefreshLayout {
 
@@ -59,7 +59,7 @@ public class SwipeRefreshLayoutEx extends SwipeRefreshLayout {
                 break;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
-            // 初始化标记
+                // 初始化标记
                 isHorizontalTag = false;
                 break;
             default:

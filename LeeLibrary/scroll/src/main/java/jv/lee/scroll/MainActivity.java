@@ -5,6 +5,10 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import jv.lee.scroll.R;
+import jv.lee.scroll.activity.ScrollConflict1Activity;
+import jv.lee.scroll.activity.ScrollConflict2Activity;
+
 /**
  * @author jv.lee
  */
@@ -23,5 +27,9 @@ public class MainActivity extends AppCompatActivity {
      */
     public void startScroll1(View view) {
         startActivity(new Intent(this, ScrollConflict1Activity.class));
+    }
+
+    public void startScroll2(View view) {
+        startActivity(new Intent(this, ScrollConflict2Activity.class));
     }
 }

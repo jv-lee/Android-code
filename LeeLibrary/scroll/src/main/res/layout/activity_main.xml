@@ -14,4 +14,10 @@
         android:onClick="startScroll1"
         android:text="刷新控件+banner（横向滑动子view） 冲突" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="startScroll2"
+        android:text="viewPager+banner（横向滑动子view） 冲突" />
+
 </LinearLayout>
