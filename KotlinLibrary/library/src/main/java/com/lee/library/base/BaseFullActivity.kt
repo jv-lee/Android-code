@@ -12,13 +12,18 @@ import android.view.KeyEvent
 import android.widget.Toast
 import com.lee.library.mvvm.BaseViewModel
 import com.lee.library.utils.StatusUtil
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.cancel
 
 /**
  * @author jv.lee
  * @date 2019-08-15
  * @description
  */
-abstract class BaseFullActivity<V : ViewDataBinding, VM : ViewModel>(var layoutId: Int, var vm: Class<VM>?) : AppCompatActivity() {
+abstract class BaseFullActivity<V : ViewDataBinding, VM : ViewModel>(var layoutId: Int, var vm: Class<VM>?) : AppCompatActivity()
+    , CoroutineScope by CoroutineScope(Dispatchers.Main) {
 
     protected lateinit var binding: V
     protected lateinit var viewModel: VM
@@ -42,6 +47,12 @@ abstract class BaseFullActivity<V : ViewDataBinding, VM : ViewModel>(var layoutI
         //设置view and data
         bindData(savedInstanceState)
         bindView()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        //防止横竖屏切换影响全屏状态
+        StatusUtil.fullWindow(this)
     }
 
     protected abstract fun bindData(savedInstanceState: Bundle?)
@@ -73,6 +84,12 @@ abstract class BaseFullActivity<V : ViewDataBinding, VM : ViewModel>(var layoutI
             }
         }
         return super.onKeyUp(keyCode, event)
+    }
+
+    @ExperimentalCoroutinesApi
+    override fun onDestroy() {
+        super.onDestroy()
+        cancel()
     }
 
     fun Activity.toast(message: CharSequence, duration: Int = Toast.LENGTH_SHORT) {

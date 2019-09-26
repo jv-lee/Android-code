@@ -1,6 +1,5 @@
 package com.lee.library.base
 
-import android.app.Activity
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProviders
 import android.databinding.DataBindingUtil
@@ -11,13 +10,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.cancel
 
 /**
  * @author jv.lee
  * @date 2019/8/16.
  * @description
  */
-abstract class BaseFragment<V : ViewDataBinding, VM : ViewModel>(var layoutId: Int, var vm: Class<VM>?) : Fragment() {
+abstract class BaseFragment<V : ViewDataBinding, VM : ViewModel>(var layoutId: Int, var vm: Class<VM>?) : Fragment()
+    , CoroutineScope by CoroutineScope(Dispatchers.Main) {
 
     protected lateinit var binding: V
     protected lateinit var viewModel: VM
@@ -59,6 +63,12 @@ abstract class BaseFragment<V : ViewDataBinding, VM : ViewModel>(var layoutId: I
             isVisibleUser = false
             onFragmentPause()
         }
+    }
+
+    @ExperimentalCoroutinesApi
+    override fun onDetach() {
+        super.onDetach()
+        cancel()
     }
 
     open fun onFragmentResume() {}

@@ -13,6 +13,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.lee.library.R
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.cancel
 
 /**
  * @author jv.lee
@@ -20,7 +24,7 @@ import com.lee.library.R
 abstract class BaseSheetFragment<V : ViewDataBinding, VM : ViewModel>(
     var layoutId: Int,
     var vm: Class<VM>?
-) : BottomSheetDialogFragment() {
+) : BottomSheetDialogFragment() , CoroutineScope by CoroutineScope(Dispatchers.Main) {
 
     protected lateinit var binding: V
     protected lateinit var viewModel: VM
@@ -82,6 +86,12 @@ abstract class BaseSheetFragment<V : ViewDataBinding, VM : ViewModel>(
             isVisibleUser = false
             onFragmentPause()
         }
+    }
+
+    @ExperimentalCoroutinesApi
+    override fun onDetach() {
+        super.onDetach()
+        cancel()
     }
 
     open fun onFragmentResume() {}

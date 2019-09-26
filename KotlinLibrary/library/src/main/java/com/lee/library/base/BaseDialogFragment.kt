@@ -12,6 +12,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.cancel
 import java.util.*
 
 /**
@@ -20,7 +24,7 @@ import java.util.*
  * @description
  */
 abstract class BaseDialogFragment<V : ViewDataBinding, VM : ViewModel>(var layoutId: Int, var vm: Class<VM>?) :
-    DialogFragment() {
+    DialogFragment() , CoroutineScope by CoroutineScope(Dispatchers.Main) {
 
     protected lateinit var binding: V
     protected lateinit var viewModel: VM
@@ -66,6 +70,12 @@ abstract class BaseDialogFragment<V : ViewDataBinding, VM : ViewModel>(var layou
             isVisibleUser = false
             onFragmentPause()
         }
+    }
+
+    @ExperimentalCoroutinesApi
+    override fun onDetach() {
+        super.onDetach()
+        cancel()
     }
 
     open fun onFragmentResume() {}

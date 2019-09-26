@@ -12,6 +12,10 @@ import android.view.KeyEvent
 import android.widget.Toast
 import com.lee.library.mvvm.BaseViewModel
 import com.lee.library.utils.StatusUtil
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.cancel
 
 /**
  * @author jv.lee
@@ -19,7 +23,7 @@ import com.lee.library.utils.StatusUtil
  * @description
  */
 abstract class BaseActivity<V : ViewDataBinding, VM : ViewModel>(var layoutId: Int, var vm: Class<VM>?) :
-    AppCompatActivity() {
+    AppCompatActivity(), CoroutineScope by CoroutineScope(Dispatchers.Main) {
 
     protected lateinit var binding: V
     protected lateinit var viewModel: VM
@@ -76,6 +80,12 @@ abstract class BaseActivity<V : ViewDataBinding, VM : ViewModel>(var layoutId: I
             }
         }
         return super.onKeyUp(keyCode, event)
+    }
+
+    @ExperimentalCoroutinesApi
+    override fun onDestroy() {
+        super.onDestroy()
+        cancel()
     }
 
     fun Activity.toast(message: CharSequence, duration: Int = Toast.LENGTH_SHORT) {
