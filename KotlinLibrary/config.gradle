@@ -17,6 +17,7 @@ ext {
 
     //第三方依赖版本号
     kotlin = '1.3.21'
+    kotlin_coroutines = "1.1.1"
     lifecycle = "1.1.1"
     support = "28.0.0"
     constraint = "1.1.3"
@@ -36,6 +37,8 @@ ext {
     support = [
             //语言版本
             "kotlin"          : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin",
+            "coroutines-core" :"org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlin_coroutines",
+            "coroutines-android" :"org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlin_coroutines",
 
             "lifecycle"       : "android.arch.lifecycle:extensions:$lifecycle",
 
