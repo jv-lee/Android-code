@@ -65,9 +65,28 @@ public class Observable<T> {
         });
     }
 
+    public static <T> Observable<T> fromArray(final T[]... ts) {
+        return new Observable<>(new ObservableOnSubscribe<T>() {
+            @Override
+            public void subscribe(@NonNull Observer<T> emitter) throws Exception {
+                for (T[] t : ts) {
+                    for (T t1 : t) {
+                        emitter.onNext(t1);
+                    }
+                }
+                emitter.onComplete();
+            }
+        });
+    }
+
     public <R> Observable<R> map(Function<T, R> function) {
-        ObservableMap<T,R> observableMap = new ObservableMap(source,function);
+        ObservableMap<T, R> observableMap = new ObservableMap<>(source, function);
         return new Observable<R>(observableMap);
+    }
+
+    public <R> Observable<R> flatMap(Function<T,R> function){
+        ObservableFlatMap<T, R> observableMap = new ObservableFlatMap<>(source, function);
+        return new Observable<>(observableMap);
     }
 
     public void subscribe(Observer<T> observer) {
@@ -79,6 +98,25 @@ public class Observable<T> {
             e.printStackTrace();
             observer.onError(e);
         }
+    }
+
+    /**
+     * 给上游分配子线程线程
+     *
+     * @return
+     */
+    public Observable<T> subscribeOn() {
+        return create(new ObservableOnIo<T>(source));
+    }
+
+    /**
+     * 给下游分配主线程
+     *
+     * @return
+     */
+    public Observable<T> observeOnAndroidMain() {
+        ObserverOnAndroidMain<T> observerOnAndroidMain = new ObserverOnAndroidMain<>(source);
+        return create(observerOnAndroidMain);
     }
 
 }
