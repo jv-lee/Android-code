@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.lee.code.uidraw.canvas.CanvasTestView;
 import com.lee.code.uidraw.widget.InputPasswordView;
+import com.lee.code.uidraw.widget.SplashView;
 import com.lee.code.uidraw.widget.tree.TreeView;
 
 /**
@@ -23,7 +25,9 @@ public class MainActivity extends Activity {
 //        setContentView(new MapView(this));
 //        setContentView(new SplitView(this));
 //        setContentView(new ColorFilterView(this));
-        setContentView(new TreeView(this));
+//        setContentView(new TreeView(this));
+//        setContentView(new CanvasTestView(this));
+        setContentView(new SplashView(this));
 //        TouchMoveView view = findViewById(R.id.move);
 //        view.setOnClickListener(new View.OnClickListener() {
 //            @Override
