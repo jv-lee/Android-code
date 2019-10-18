@@ -10,7 +10,8 @@ import java.lang.annotation.Target;
  * @date 2019/10/18.
  * @description
  */
-@Target({ElementType.CONSTRUCTOR, ElementType.FIELD})
+@Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Inject {
+public @interface Component {
+    Class<?>[] modules()default {};
 }
