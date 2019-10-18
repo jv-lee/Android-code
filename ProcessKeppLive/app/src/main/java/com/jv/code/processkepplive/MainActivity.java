@@ -17,10 +17,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //通过一像素activity 进行提权 adj等级变小   保活技术
-        KeepManager.getInstance().registerKeep(this);
+//        KeepManager.getInstance().registerKeep(this);
 
         //前台服务 保活技术
-        startService(new Intent(this, ForegroundService.class));
+//        startService(new Intent(this, ForegroundService.class));
 
         //启动双进程守护
         startService(new Intent(this, LocalService.class));
@@ -30,6 +30,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        KeepManager.getInstance().unRegisterKeep(this);
+//        KeepManager.getInstance().unRegisterKeep(this);
     }
 }

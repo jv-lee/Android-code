@@ -6,6 +6,8 @@ import android.view.Gravity;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.jv.code.processkepplive.KeepTest;
+
 public class KeepActivity extends Activity {
 
     @Override
@@ -23,5 +25,7 @@ public class KeepActivity extends Activity {
 
         window.setAttributes(attr);
         KeepManager.getInstance().setKeep(this);
+
+        KeepTest.keepTest();
     }
 }

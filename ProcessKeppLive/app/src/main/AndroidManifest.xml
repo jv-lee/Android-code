@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.jv.code.processkepplive">
 
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -26,6 +28,10 @@
 
         <service android:name=".service.ForegroundService"></service>
         <service android:name=".service.ForegroundService$InnerService"></service>
+
+        <service android:name=".service.LocalService"/>
+        <service android:name=".service.RemoteService"
+            android:process=":remote"/>
     </application>
 
 </manifest>

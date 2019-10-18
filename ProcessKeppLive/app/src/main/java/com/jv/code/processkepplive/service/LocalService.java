@@ -6,10 +6,13 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
 
+import com.jv.code.processkepplive.KeepTest;
+
 public class LocalService extends ForegroundService {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        KeepTest.keepTest();
         bindService(new Intent(LocalService.this, RemoteService.class), mConnection, Service.BIND_IMPORTANT);
         return super.onStartCommand(intent, flags, startId);
     }
