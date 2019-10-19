@@ -17,12 +17,15 @@ public class MainActivity extends AppCompatActivity {
     @Inject
     public Student student;
 
+    @Inject
+    public Student student2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         DaggerStudentComponent.create().inject(this);
-        Log.i(TAG, "onCreate: " + student.hashCode());
+        Log.i(TAG, "onCreate: " + student.hashCode() + " - " + student2.hashCode());
     }
 }

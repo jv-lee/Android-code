@@ -31,5 +31,6 @@ public class MainActivity_MembersInjector implements MembersInjector<MainActivit
             throw new NullPointerException("inject target instance is null");
         }
         instance.student = studentProvider.get();
+        instance.student2 = studentProvider.get();
     }
 }

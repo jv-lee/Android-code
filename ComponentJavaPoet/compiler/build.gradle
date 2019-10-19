@@ -9,6 +9,7 @@ dependencies {
     //AS 3.4.2 + Gradle 5.1.1 + auto-service:1.0-rc4
     compileOnly 'com.google.auto.service:auto-service:1.0-rc4'
     annotationProcessor 'com.google.auto.service:auto-service:1.0-rc4'
+    //AS 3.4.1 + Gradle 5.4.1 + auto-service:1.0-rc6
 
     //帮助我们通过类调用的形式来生成Java代码
     implementation 'com.squareup:javapoet:1.9.0'

@@ -1,5 +1,6 @@
 package com.lee.dagger.apt_create_code;
 
+import com.dagger.library.DoubleCheck;
 import com.dagger.library.MembersInjector;
 import com.dagger.library.Provider;
 import com.lee.dagger.MainActivity;
@@ -22,7 +23,8 @@ public class DaggerStudentComponent implements StudentComponent {
     private MembersInjector<MainActivity> mainActivityMembersInjector;
 
     private void initialize(Builder builder) {
-        studentProvider = StudentModule_ProviderStudentFactory.create(builder.studentModule);
+        //单例包裹
+        studentProvider = DoubleCheck.provider(StudentModule_ProviderStudentFactory.create(builder.studentModule));
         mainActivityMembersInjector = MainActivity_MembersInjector.create(studentProvider);
     }
 
