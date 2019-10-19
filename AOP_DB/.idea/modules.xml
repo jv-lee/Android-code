@@ -3,8 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/AOP_DB.iml" filepath="$PROJECT_DIR$/AOP_DB.iml" />
-      <module fileurl="file://$PROJECT_DIR$/aoplogin/aoplogin.iml" filepath="$PROJECT_DIR$/aoplogin/aoplogin.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
 </project>

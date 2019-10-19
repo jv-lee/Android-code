@@ -8,9 +8,10 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.4.0'
-
-        classpath 'org.aspectj:aspectjtools:1.8.9'
-        classpath 'org.aspectj:aspectjweaver:1.8.9'
+        //使用android版支持kotlin 封装aspectj 步骤1
+        classpath 'com.hujiang.aspectjx:gradle-android-plugin-aspectjx:2.0.6'
+//        classpath 'org.aspectj:aspectjtools:1.8.9'
+//        classpath 'org.aspectj:aspectjweaver:1.8.9'
     }
 }
 
