@@ -53,6 +53,6 @@ public class GirlAdapter extends BaseAdapter {
         tvLink.setText(girl.getLike());
         TextView tvStyle = view.findViewById(R.id.tv_style);
         tvStyle.setText(girl.getStyle());
-        return null;
+        return view;
     }
 }

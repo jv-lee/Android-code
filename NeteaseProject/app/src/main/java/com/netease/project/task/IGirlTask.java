@@ -6,5 +6,5 @@ package com.netease.project.task;
  * @description
  */
 public interface IGirlTask {
-    void loadGrilData();
+    void loadGirlData();
 }
