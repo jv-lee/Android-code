@@ -2,6 +2,8 @@ package com.lee.permissions;
 
 import android.Manifest;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
@@ -12,7 +14,6 @@ import com.lee.library.annotation.PermissionDenied;
 
 /**
  * @author jv.lee
- *
  */
 public class MainActivity extends AppCompatActivity {
 
@@ -26,22 +27,28 @@ public class MainActivity extends AppCompatActivity {
                 testRequest();
             }
         });
+        int i = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
+
+        if (i == 1) {
+            ActivityCompat.requestPermissions(this, new String[]{""}, 311);
+        }
+
+
     }
 
 
-
-    @Permission(value = Manifest.permission.READ_EXTERNAL_STORAGE,requestCode = 200)
-    public void testRequest(){
+    @Permission(value = Manifest.permission.READ_EXTERNAL_STORAGE, requestCode = 200)
+    public void testRequest() {
         Toast.makeText(this, "权限申请成功...", Toast.LENGTH_SHORT).show();
     }
 
     @PermissionCancel
-    public void testCancel(){
+    public void testCancel() {
         Toast.makeText(this, "权限被拒绝", Toast.LENGTH_SHORT).show();
     }
 
     @PermissionDenied
-    public void testDenied(){
+    public void testDenied() {
         Toast.makeText(this, "权限被拒绝（用户勾选了，不再提醒）", Toast.LENGTH_SHORT).show();
     }
 
