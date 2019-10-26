@@ -1,2 +1,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.lee.library.hermeslib" />
+    package="com.lee.library.hermeslib" >
+
+
+    <application>
+        <!--运行在主进程的Service-->
+        <service android:name="com.lee.library.hermeslib.ProcessService">
+            <intent-filter>
+                <action android:name="com.lee.library.hermeslib.ProcessService"/>
+            </intent-filter>
+        </service>
+    </application>
+</manifest>

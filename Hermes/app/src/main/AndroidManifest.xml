@@ -17,13 +17,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".SecondActivity" android:process=":g"></activity>
-
-        <!--运行在主进程的Service-->
-        <service android:name="com.lee.library.hermeslib.ProcessService">
-            <intent-filter>
-                <action android:name="com.lee.library.hermeslib.ProcessService"/>
-            </intent-filter>
-        </service>
     </application>
 
 </manifest>
