@@ -10,6 +10,7 @@ import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
+import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.widget.Scroller;
 
@@ -21,7 +22,7 @@ import java.io.InputStream;
  * @date 2019/9/28.
  * @description 大图加载View
  */
-public class BigPictureView extends View implements GestureDetector.OnGestureListener, View.OnTouchListener {
+public class BigPictureView extends View implements GestureDetector.OnGestureListener, View.OnTouchListener, GestureDetector.OnDoubleTapListener {
 
     /**
      * 图形绘制区域
@@ -42,6 +43,11 @@ public class BigPictureView extends View implements GestureDetector.OnGestureLis
      * 滚动类成员变量
      */
     private final Scroller mScroller;
+
+    /**
+     * 缩放手势识别
+     */
+    private final ScaleGestureDetector mScaleGestureDetector;
 
     /**
      * 图片的高
@@ -77,6 +83,10 @@ public class BigPictureView extends View implements GestureDetector.OnGestureLis
      * 图像缩放比例
      */
     private float mScale;
+    /**
+     * 缩放因子
+     */
+    private float originalScale;
 
     public BigPictureView(Context context) {
         this(context, null);
@@ -90,9 +100,14 @@ public class BigPictureView extends View implements GestureDetector.OnGestureLis
         super(context, attrs, defStyleAttr);
         //TODO {1.进行初始化操作}
         mRect = new Rect();
+        //内存复用
         mOptions = new BitmapFactory.Options();
+        //手势识别
         mGestureDetector = new GestureDetector(context, this);
+        //滚动类
         mScroller = new Scroller(context);
+        //缩放手势识别
+        mScaleGestureDetector = new ScaleGestureDetector(context, new ScaleGesture());
         setOnTouchListener(this);
     }
 
@@ -136,10 +151,14 @@ public class BigPictureView extends View implements GestureDetector.OnGestureLis
         //确定加载图片的区域
         mRect.left = 0;
         mRect.top = 0;
-        mRect.right = mImageWidth;
+        mRect.right = Math.min(mImageWidth, mWidth);
+        mRect.bottom = Math.min(mImageHeight, mHeight);
+
         //计算缩放因子
-        mScale = mWidth / (float) mImageWidth;
-        mRect.bottom = (int) (mHeight / mScale);
+        originalScale = mWidth / (float) mImageWidth;
+        mScale = originalScale;
+//        mScale = mWidth / (float) mImageWidth;
+//        mRect.bottom = (int) (mHeight / mScale);
     }
 
     /**
@@ -157,7 +176,7 @@ public class BigPictureView extends View implements GestureDetector.OnGestureLis
         //指定解码区域
         mBitmap = mDecoder.decodeRegion(mRect, mOptions);
         Matrix matrix = new Matrix();
-        matrix.setScale(mScale, mScale);
+        matrix.setScale(mWidth / (float) mRect.width(), mWidth / (float) mRect.width());
         canvas.drawBitmap(mBitmap, matrix, null);
     }
 
@@ -170,7 +189,9 @@ public class BigPictureView extends View implements GestureDetector.OnGestureLis
      */
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        return mGestureDetector.onTouchEvent(event);
+        mGestureDetector.onTouchEvent(event);
+        mScaleGestureDetector.onTouchEvent(event);
+        return true;
     }
 
     /**
@@ -201,16 +222,9 @@ public class BigPictureView extends View implements GestureDetector.OnGestureLis
     @Override
     public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
         //上下移动的时候,mRect需要改变显示的区域
-        mRect.offset(0, (int) distanceY);
+        mRect.offset((int)distanceX, (int) distanceY);
         //移动时，处理到达顶部和底部的情况
-        if (mRect.bottom > mImageHeight) {
-            mRect.bottom = mImageHeight;
-            mRect.top = (int) (mImageHeight - (mHeight / mScale));
-        }
-        if (mRect.top < 0) {
-            mRect.top = 0;
-            mRect.bottom = (int) (mHeight / mScale);
-        }
+        setViewRectSize();
         invalidate();
         return false;
     }
@@ -227,7 +241,7 @@ public class BigPictureView extends View implements GestureDetector.OnGestureLis
     @Override
     public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
         //使用负数设置惯性滑动距离，国外与我们的滑动理解相反 向上滑动向上移动
-        mScroller.fling(0, mRect.top, 0, (int) -velocityY, 0, 0, 0, (mImageHeight - (int) (mHeight / mScale)));
+        mScroller.fling(mRect.left, mRect.top, (int) -velocityX, (int) -velocityY, 0, (mImageWidth - (int) (mWidth / mScale)), 0, (mImageHeight - (int) (mHeight / mScale)));
         return false;
     }
 
@@ -259,6 +273,76 @@ public class BigPictureView extends View implements GestureDetector.OnGestureLis
     @Override
     public void onLongPress(MotionEvent e) {
 
+    }
+
+    @Override
+    public boolean onSingleTapConfirmed(MotionEvent e) {
+        return false;
+    }
+
+    @Override
+    public boolean onDoubleTap(MotionEvent e) {
+        // 双击事件
+        if (mScale < originalScale * 1.5) {
+            mScale = originalScale * 3;
+        } else {
+            mScale = originalScale;
+        }
+        setViewRectMinSize();
+        setViewRectSize();
+        invalidate();
+        return true;
+    }
+
+    @Override
+    public boolean onDoubleTapEvent(MotionEvent e) {
+        return false;
+    }
+
+    /**
+     * 处理缩放回调事件 , 动态设置缩放因子
+     */
+    class ScaleGesture extends ScaleGestureDetector.SimpleOnScaleGestureListener {
+        @Override
+        public boolean onScale(ScaleGestureDetector detector) {
+            float scale = mScale;
+            //获取上一次事件比例因子
+            scale += detector.getScaleFactor() - 1;
+            if (scale <= originalScale) {
+                scale = originalScale;
+            } else if (scale > originalScale * 5) {
+                scale = originalScale * 5;
+            }
+            setViewRectMinSize();
+            mScale = scale;
+            invalidate();
+            return true;
+        }
+    }
+
+    private void setViewRectSize() {
+        if (mRect.bottom > mImageHeight) {
+            mRect.bottom = mImageHeight;
+            mRect.top = (int) (mImageHeight - (mHeight / mScale));
+        }
+        if (mRect.top < 0) {
+            mRect.top = 0;
+            mRect.bottom = (int) (mHeight / mScale);
+        }
+        if (mRect.right > mWidth) {
+            mRect.right = mImageWidth;
+            mRect.left = mImageWidth - (int) (mWidth / mScale);
+        }
+        if (mRect.left < 0) {
+            mRect.left = 0;
+            mRect.right = (int) (mWidth / mScale);
+        }
+
+    }
+
+    private void setViewRectMinSize() {
+        mRect.right = mRect.left + (int) (mWidth / mScale);
+        mRect.bottom = mRect.top + (int) (mWidth / mScale);
     }
 
 }
