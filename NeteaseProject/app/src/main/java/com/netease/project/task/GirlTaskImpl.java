@@ -1,13 +1,19 @@
 package com.netease.project.task;
 
+import android.app.Activity;
+
+import com.google.gson.Gson;
+import com.netease.core.network.RetrofitCreator;
 import com.netease.core.network.rx.databus.RxBus;
 import com.netease.project.R;
 import com.netease.project.bean.Girl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import io.reactivex.functions.Function;
+import retrofit2.Response;
 
 /**
  * @author jv.lee
@@ -20,6 +26,9 @@ public class GirlTaskImpl implements IGirlTask {
         RxBus.getInstance().doProcessInvoke(new Function() {
             @Override
             public Object apply(Object o) throws Exception {
+//                Response<String> http = RetrofitCreator.getRetrofitService().get("http", new HashMap<String, Object>())
+//                        .execute();
+//                return new Gson().fromJson(http.body(),Girl.class);
                 List<Girl> list = new ArrayList<>();
                 list.add(new Girl(R.drawable.ic_launcher_background, "数据一号", "1111111111111"));
                 list.add(new Girl(R.drawable.ic_launcher_background, "数据二号", "2222222222222"));
