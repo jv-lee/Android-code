@@ -1,4 +1,4 @@
-package com.jv.qrcode.utils;
+package com.jv.library.utils;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -7,9 +7,9 @@ import android.os.Handler;
 import android.os.Message;
 
 import com.google.zxing.Result;
-import com.jv.qrcode.CaptureCallback;
-import com.jv.qrcode.camera.CameraManager;
-import com.jv.qrcode.decode.DecodeThread;
+import com.jv.library.CaptureCallback;
+import com.jv.library.camera.CameraManager;
+import com.jv.library.decode.DecodeThread;
 
 /**
  * This class handles all the messaging which comprises the state machine for

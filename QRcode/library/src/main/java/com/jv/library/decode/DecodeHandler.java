@@ -1,4 +1,4 @@
-package com.jv.qrcode.decode;
+package com.jv.library.decode;
 
 import android.graphics.Bitmap;
 import android.graphics.Rect;
@@ -15,8 +15,8 @@ import com.google.zxing.PlanarYUVLuminanceSource;
 import com.google.zxing.ReaderException;
 import com.google.zxing.Result;
 import com.google.zxing.common.HybridBinarizer;
-import com.jv.qrcode.CaptureCallback;
-import com.jv.qrcode.utils.Constants;
+import com.jv.library.CaptureCallback;
+import com.jv.library.utils.Constants;
 
 import java.io.ByteArrayOutputStream;
 import java.util.Map;

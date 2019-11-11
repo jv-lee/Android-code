@@ -1,4 +1,4 @@
-package com.jv.qrcode.utils;
+package com.jv.library.utils;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;

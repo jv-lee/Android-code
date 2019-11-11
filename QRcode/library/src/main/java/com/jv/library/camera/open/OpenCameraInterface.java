@@ -1,4 +1,4 @@
-package com.jv.qrcode.camera.open;
+package com.jv.library.camera.open;
 
 import android.hardware.Camera;
 import android.util.Log;

@@ -1,4 +1,4 @@
-package com.jv.qrcode.decode;
+package com.jv.library.decode;
 
 import com.google.zxing.BarcodeFormat;
 

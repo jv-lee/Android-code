@@ -1,4 +1,4 @@
-package com.jv.qrcode.camera;
+package com.jv.library.camera;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -10,7 +10,7 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 
 
-import com.jv.qrcode.camera.open.OpenCameraInterface;
+import com.jv.library.camera.open.OpenCameraInterface;
 
 import java.io.IOException;
 

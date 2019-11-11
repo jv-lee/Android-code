@@ -26,11 +26,12 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.google.zxing.Result;
-import com.jv.qrcode.camera.CameraManager;
-import com.jv.qrcode.decode.DecodeThread;
+import com.jv.library.CaptureCallback;
+import com.jv.library.camera.CameraManager;
+import com.jv.library.decode.DecodeThread;
 import com.jv.qrcode.utils.BeepManager;
-import com.jv.qrcode.utils.CaptureActivityHandler;
-import com.jv.qrcode.utils.InactivityTimer;
+import com.jv.library.utils.CaptureActivityHandler;
+import com.jv.library.utils.InactivityTimer;
 import com.jv.qrcode.utils.Utils;
 
 import java.io.IOException;

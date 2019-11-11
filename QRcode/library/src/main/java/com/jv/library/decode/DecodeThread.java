@@ -1,11 +1,11 @@
-package com.jv.qrcode.decode;
+package com.jv.library.decode;
 
 import android.os.Handler;
 import android.os.Looper;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.DecodeHintType;
-import com.jv.qrcode.CaptureCallback;
+import com.jv.library.CaptureCallback;
 
 import java.util.ArrayList;
 import java.util.Collection;

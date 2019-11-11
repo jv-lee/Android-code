@@ -1,4 +1,4 @@
-package com.jv.qrcode.camera;
+package com.jv.library.camera;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
