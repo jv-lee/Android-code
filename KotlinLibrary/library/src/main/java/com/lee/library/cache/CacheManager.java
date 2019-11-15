@@ -8,6 +8,7 @@ import com.lee.library.cache.impl.DiskCache;
 import com.lee.library.cache.impl.MemoryCache;
 
 import java.io.File;
+import java.lang.reflect.Type;
 
 /**
  * @author jv.lee
@@ -93,6 +94,29 @@ public class CacheManager {
 
     /**
      * @param key   [a-z0-9_-]{1,120} 无法使用大写
+     * @param type 具体类型
+     * @param <T>   泛型
+     * @return 具体类型数据实体
+     */
+    public <T> T get(String key, Type type) {
+        String data = memoryCache.get(key);
+        if (null != data) {
+            Log.i(TAG, "get: 从内存中获取缓存数据 memory:" + data);
+            return readJsonToObject(data, type);
+        }
+
+        data = diskCache.get(key);
+        if (null != data) {
+            memoryCache.put(key, data);
+            Log.i(TAG, "get: 从磁盘中获取缓存数据 disk:" + data);
+            return readJsonToObject(data, type);
+        }
+        Log.i(TAG, "get: 本地无数据缓存 请求网络数据");
+        return null;
+    }
+
+    /**
+     * @param key   [a-z0-9_-]{1,120} 无法使用大写
      * @param value 具体对象数据
      * @param <T>   泛型
      */
@@ -106,6 +130,10 @@ public class CacheManager {
 
     private <T> T readJsonToObject(String value, Class<T> clazz) {
         return gson.fromJson(value, clazz);
+    }
+
+    private <T> T readJsonToObject(String value, Type type) {
+        return gson.fromJson(value, type);
     }
 
 }
