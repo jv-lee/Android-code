@@ -310,6 +310,14 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
     }
 
     /**
+     * 加载完成
+     */
+    public void loadMoreCompleted(int count) {
+        hasLoadMore = true;
+        notifyItemRangeChanged(mData.size() + proxyAdapter.getHeaderCount(), count + proxyAdapter.getItemCount());
+    }
+
+    /**
      * 没有更多了
      */
     public void loadMoreEnd() {
@@ -320,6 +328,19 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
         updateStatus(STATUS_END);
         hasLoadMore = false;
         notifyDataSetChanged();
+    }
+
+    /**
+     * 没有更多了
+     */
+    public void loadMoreEnd(int count) {
+        //添加底部布局
+        if (proxyAdapter == null) {
+            getProxy();
+        }
+        updateStatus(STATUS_END);
+        hasLoadMore = false;
+        notifyItemRangeChanged(mData.size() + proxyAdapter.getHeaderCount(), count + proxyAdapter.getItemCount());
     }
 
     /**

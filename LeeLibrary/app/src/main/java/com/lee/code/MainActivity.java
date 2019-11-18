@@ -84,14 +84,14 @@ public class MainActivity extends BaseActivity {
             refresh.postDelayed(() -> {
                 data.clear();
                 initData();
-                mAdapter.notifyDataSetChanged();
+                mAdapter.loadMoreCompleted(30);
                 refresh.setRefreshCompleted();
             }, 500);
         });
     }
 
     int i = 0;
-
+    int count = 0;
     @InjectBus(value = "event")
     public void event(String data) {
         Toast.makeText(this, data, Toast.LENGTH_SHORT).show();
@@ -117,6 +117,8 @@ public class MainActivity extends BaseActivity {
                     user.setType(5);
                     user.setAccount("lee >>>>> 55555 >>>>>");
                 }
+                count++;
+                Log.i(">>>", "count:" + count);
                 data.add(user);
             }
         }
@@ -141,8 +143,12 @@ public class MainActivity extends BaseActivity {
         });
     }
 
+    /**
+     * SwipeRefreshLayout 设置
+     */
     @OnRefresh(value = "refresh")
     public void onRefresh() {
+        Log.i(">>>", "onRefresh");
         new Thread() {
             @Override
             public void run() {
@@ -163,16 +169,17 @@ public class MainActivity extends BaseActivity {
         ThreadUtil.getInstance().addTask(() -> {
             i++;
             try {
-                Thread.sleep(1000);
+                Thread.sleep(50);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            if (i == 3) {
-                runOnUiThread(() -> mAdapter.loadMoreEnd());
+            if (i == 10) {
+                initData();
+                runOnUiThread(() -> mAdapter.loadMoreEnd(30));
                 return;
             }
             initData();
-            runOnUiThread(() -> mAdapter.loadMoreCompleted());
+            runOnUiThread(() -> mAdapter.loadMoreCompleted(30));
         });
     }
 
