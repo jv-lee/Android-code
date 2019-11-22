@@ -21,19 +21,16 @@ public class LiveDataBus{
      * 消息通道
      */
     private Map<String, BusMutableLiveData<Object>> bus;
-    /**
-     * 存储黏性事件
-     */
-    private Map<String, BusMutableLiveData<Object>> viscosityBus;
+
     /**
      * 存储非激活事件的临时容器
      */
     private Map<String, Observer> tempMap = new HashMap<>();
+
     private volatile static LiveDataBus instance;
 
     private LiveDataBus() {
         bus = new HashMap<>();
-        viscosityBus = new HashMap<>();
     }
 
     public static LiveDataBus getInstance() {
