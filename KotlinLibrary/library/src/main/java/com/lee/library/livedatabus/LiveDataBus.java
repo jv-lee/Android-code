@@ -1,9 +1,6 @@
 package com.lee.library.livedatabus;
 
-import android.arch.lifecycle.LifecycleOwner;
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.*;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -18,16 +15,25 @@ import java.util.Map;
  * @date 2019/3/30
  * 事件总线
  */
-public class LiveDataBus {
+public class LiveDataBus{
 
     /**
      * 消息通道
      */
     private Map<String, BusMutableLiveData<Object>> bus;
-    private static LiveDataBus instance;
+    /**
+     * 存储黏性事件
+     */
+    private Map<String, BusMutableLiveData<Object>> viscosityBus;
+    /**
+     * 存储非激活事件的临时容器
+     */
+    private Map<String, Observer> tempMap = new HashMap<>();
+    private volatile static LiveDataBus instance;
 
     private LiveDataBus() {
         bus = new HashMap<>();
+        viscosityBus = new HashMap<>();
     }
 
     public static LiveDataBus getInstance() {
@@ -147,12 +153,8 @@ public class LiveDataBus {
     }
 
     /**
-     * 存储非激活事件的临时容器
-     */
-    private Map<String, Observer> tempMap = new HashMap<>();
-
-    /**
      * 订阅通知
+     *
      * @param lifecycleOwner
      */
     public void injectBus(LifecycleOwner lifecycleOwner) {
@@ -165,7 +167,9 @@ public class LiveDataBus {
             if (injectBus != null) {
                 String value = injectBus.value();
                 boolean isActive = injectBus.isActive();
+                boolean viscosity = injectBus.isViscosity();
 
+                //创建通知后要执行的操作 ， 调用数据方法
                 Observer<Object> observer = o -> {
                     try {
                         method.invoke(lifecycleOwner, o);
@@ -183,6 +187,27 @@ public class LiveDataBus {
                     tempMap.put(value, observer);
                     LiveDataBus.getInstance().getChannel(value).observeForever(observer);
                 }
+
+                //处理粘性事件
+                if (viscosity) {
+                    lifecycleOwner.getLifecycle().addObserver(new LifecycleObserver() {
+                        @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
+                        public void onCreate() {
+                            MutableLiveData<Object> channel = LiveDataBus.getInstance().getChannel(value);
+                            //获取最新一条消息补发
+                            Object vicValue = channel.getValue();
+                            if (vicValue != null) {
+                                channel.postValue(vicValue);
+                            }
+                        }
+
+                        @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+                        public void onDestroy() {
+                            lifecycleOwner.getLifecycle().removeObserver(this);
+                        }
+                    });
+
+                }
             }
 
         }
@@ -190,6 +215,7 @@ public class LiveDataBus {
 
     /**
      * 取消订阅通知 (仅在使用非激活状态可通知模式 需要取消订阅)
+     *
      * @param lifecycleOwner
      */
     public void unInjectBus(LifecycleOwner lifecycleOwner) {
