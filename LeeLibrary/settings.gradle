@@ -1,1 +1,1 @@
-include ':app', ':library', ':tabmenu', ':bottomnative', ':statuslayout', ':itemdecoration', ':scroll'
+include ':app', ':library', ':tabmenu', ':bottomnative', ':statuslayout', ':itemdecoration', ':scroll', ':slidinguppanellayout'
