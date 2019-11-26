@@ -121,7 +121,9 @@ public class CacheManager {
      * @param <T>   泛型
      */
     public <T> void put(String key, T value) {
-        diskCache.put(key, readObjectToJson(value));
+        String json = readObjectToJson(value);
+        memoryCache.put(key, json);
+        diskCache.put(key, json);
     }
 
     private <T> String readObjectToJson(T value) {
