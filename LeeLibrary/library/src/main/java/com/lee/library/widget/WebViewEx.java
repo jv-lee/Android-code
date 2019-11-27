@@ -1,6 +1,10 @@
 package com.lee.library.widget;
 
 import android.annotation.SuppressLint;
+import android.arch.lifecycle.Lifecycle;
+import android.arch.lifecycle.LifecycleObserver;
+import android.arch.lifecycle.LifecycleOwner;
+import android.arch.lifecycle.OnLifecycleEvent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -20,8 +24,9 @@ import android.webkit.WebViewClient;
 /**
  * @author jv.lee
  */
-public class WebViewEx extends WebView {
+public class WebViewEx extends WebView implements LifecycleObserver {
 
+    private LifecycleOwner lifecycleOwner;
     private boolean isFailed = false;
     private boolean isPause = false;
 
@@ -158,6 +163,12 @@ public class WebViewEx extends WebView {
         }
     }
 
+    public void bindLifecycle(LifecycleOwner lifecycleOwner) {
+        this.lifecycleOwner = lifecycleOwner;
+        lifecycleOwner.getLifecycle().addObserver(this);
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
     public void exResume() {
         if (isPause) {
             onResume();
@@ -165,11 +176,13 @@ public class WebViewEx extends WebView {
         isPause = false;
     }
 
+    @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
     public void exPause() {
         onPause();
         isPause = true;
     }
 
+    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     public void exDestroy() {
         setVisibility(GONE);
         clearCache(true);
@@ -177,6 +190,10 @@ public class WebViewEx extends WebView {
         removeAllViews();
         destroy();
         isPause = false;
+        //取消生命周期监听
+        if (lifecycleOwner != null) {
+            lifecycleOwner.getLifecycle().removeObserver(this);
+        }
     }
 
     private WebStatusListenerAdapter webStatusListenerAdapter;
