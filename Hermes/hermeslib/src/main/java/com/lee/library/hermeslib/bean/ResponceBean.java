@@ -1,7 +1,10 @@
 package com.lee.library.hermeslib.bean;
 
 public class ResponceBean {
-    private Object data;//UserManager
+    /**
+     * //UserManager
+     */
+    private Object data;
 
     public ResponceBean(Object data) {
         this.data = data;

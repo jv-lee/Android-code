@@ -15,17 +15,22 @@ import java.lang.reflect.Method;
 
 /**
  * 该服务为处理中心
+ * @author jv.lee
  */
 public class ProcessService extends Service {
-    // type 1 获取对象
+    /**
+     * type 1 获取对象
+     */
     public static final int GET_INSTANCE = 1;
-    //type 2 执行方法
+    /**
+     * type 2 执行方法
+     */
     public static final int GET_METHOD = 2;
     Gson gson = new Gson();
 
     @Override
     public IBinder onBind(Intent intent) {
-        return new ProcessInterface.Stub(){
+        return new ProcessInterface.Stub() {
 
             @Override
             public String send(String request) throws RemoteException {
@@ -40,14 +45,14 @@ public class ProcessService extends Service {
                         Object[] objects = makeParameterObject(requestBean);
                         try {
                             Object userManager = method.invoke(null, objects);
-                            CacheCenter.getInstance().putObject(requestBean.getClassName(),userManager);
+                            CacheCenter.getInstance().putObject(requestBean.getClassName(), userManager);
                         } catch (IllegalAccessException e) {
                             e.printStackTrace();
                         } catch (InvocationTargetException e) {
                             e.printStackTrace();
                         }
                         break;
-                        //获取UserManager对象  type 2
+                    //获取UserManager对象  type 2
                     case GET_METHOD:
                         Object userManager = CacheCenter.getInstance().getObject(requestBean.getClassName());
                         Method getPerson = CacheCenter.getInstance().getMethod(requestBean.getClassName(), requestBean.getMethodName());
@@ -55,12 +60,15 @@ public class ProcessService extends Service {
                         Object[] mParameters = makeParameterObject(requestBean);
                         try {
                             Object person = getPerson.invoke(userManager, mParameters);
-                            return gson.toJson(person); //将Object数据 序列化为 json字符串 返回
+                            //将Object数据 序列化为 json字符串 返回
+                            return gson.toJson(person);
                         } catch (IllegalAccessException e) {
                             e.printStackTrace();
                         } catch (InvocationTargetException e) {
                             e.printStackTrace();
                         }
+                        break;
+                    default:
                         break;
                 }
                 return null;
@@ -79,7 +87,7 @@ public class ProcessService extends Service {
                 Class clazz = CacheCenter.getInstance().getClassType(requestParameter.getParameterClassName());
                 mParameters[i] = gson.fromJson(requestParameter.getParameterValue(), clazz);
             }
-        }else{
+        } else {
             mParameters = new Object[0];
         }
         return mParameters;

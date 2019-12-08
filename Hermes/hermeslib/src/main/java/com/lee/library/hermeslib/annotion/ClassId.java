@@ -7,6 +7,7 @@ import java.lang.annotation.Target;
 
 /**
  * 通过该注解 使子类获取父类
+ * @author jv.lee
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)

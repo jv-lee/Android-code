@@ -1,5 +1,8 @@
 package com.lee.library.hermeslib.bean;
 
+/**
+ * @author jv.lee
+ */
 public class RequestParameter {
     private String parameterClassName;
     private String parameterValue;

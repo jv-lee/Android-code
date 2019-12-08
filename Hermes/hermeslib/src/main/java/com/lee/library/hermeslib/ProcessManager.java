@@ -21,6 +21,7 @@ import java.lang.reflect.Proxy;
 /**
  *  进程管理器
  *   主进程
+ * @author jv.lee
  */
 public class ProcessManager {
 
@@ -42,7 +43,10 @@ public class ProcessManager {
     private ProcessManager() {
     }
 
-    //注册进去缓存中心
+    /**
+     * 注册进去缓存中心
+     * @param clazz
+     */
     public void register(Class<?> clazz) {
         mCacheCenter.register(clazz);
     }
@@ -102,7 +106,8 @@ public class ProcessManager {
             //多APP通信
             intent = new Intent();
             intent.setPackage(packageName);
-            intent.setAction(serviceClass.getName()); //获取service注册时的Action  name标签
+            //获取service注册时的Action  name标签
+            intent.setAction(serviceClass.getName());
         }
 
         //绑定跨进程服务 IBinder连接通信  初始化 AIDL接口

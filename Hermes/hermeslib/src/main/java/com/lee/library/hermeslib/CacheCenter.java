@@ -12,6 +12,7 @@ import java.util.HashMap;
  * 1.缓存中心设计
  * 缓存中心
  * 缓存类文件 类方法
+ * @author jv.lee
  */
 public class CacheCenter {
     private HashMap<String, Class<?>> mClasses = new HashMap<>();

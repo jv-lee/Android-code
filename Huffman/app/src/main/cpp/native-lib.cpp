@@ -15,45 +15,45 @@ Java_com_lee_huffman_MainActivity_stringFromJNI(
 }
 
 void write_jepg_file(uint8_t *data, int w, int h, jint q, const char *path) {
-//    //创建jepg压缩对象
-//    jpeg_compress_struct jcs;
-//    //错误回调
-//    jpeg_error_mgr error;
-//    jcs.err = jpeg_std_error(&error);
-//
-//    //创建压缩对象
-//    jpeg_create_compress(&jcs);
-//    //指定存储文件 write binary
-//    FILE *f = fopen(path,"wb");
-//    jpeg_stdio_dest(&jcs,f);
-//
-//    //设置压缩参数
-//    jcs.image_width = w;
-//    jcs.image_height = h;
-//    //bgr
-//    jcs.input_components = 3;
-//    jcs.in_color_space = JCS_RGB;
-//    jpeg_set_defaults(&jcs);
-//    //开启哈夫曼算法压缩功能
-//    jcs.optimize_coding = true;
-//    jpeg_set_quality(&jcs,q,1);
-//    //开始压缩
-//    jpeg_start_compress(&jcs, true);
-//    //循环写入每一帧数据
-//    int row_stride = w * 3; // 一行的字节数
-//    JSAMPROW row[1];
-//    while (jcs.next_scanline < jcs.image_height) {
-//        //取一行数据
-//        uint8_t *pixels = data + jcs.next_scanline * row_stride;
-//        row[0] = pixels;
-//        jpeg_write_scanlines(&jcs,row,1);
-//    }
-//
-//    //压缩完成
-//    jpeg_finish_compress(&jcs);
-//    //释放文件， 释放压缩对象
-//    fclose(f);
-//    jpeg_destroy_compress(&jcs);
+    //创建jepg压缩对象
+    jpeg_compress_struct jcs;
+    //错误回调
+    jpeg_error_mgr error;
+    jcs.err = jpeg_std_error(&error);
+
+    //创建压缩对象
+    jpeg_create_compress(&jcs);
+    //指定存储文件 write binary
+    FILE *f = fopen(path,"wb");
+    jpeg_stdio_dest(&jcs,f);
+
+    //设置压缩参数
+    jcs.image_width = w;
+    jcs.image_height = h;
+    //bgr
+    jcs.input_components = 3;
+    jcs.in_color_space = JCS_RGB;
+    jpeg_set_defaults(&jcs);
+    //开启哈夫曼算法压缩功能
+    jcs.optimize_coding = true;
+    jpeg_set_quality(&jcs,q,1);
+    //开始压缩
+    jpeg_start_compress(&jcs, true);
+    //循环写入每一帧数据
+    int row_stride = w * 3; // 一行的字节数
+    JSAMPROW row[1];
+    while (jcs.next_scanline < jcs.image_height) {
+        //取一行数据
+        uint8_t *pixels = data + jcs.next_scanline * row_stride;
+        row[0] = pixels;
+        jpeg_write_scanlines(&jcs,row,1);
+    }
+
+    //压缩完成
+    jpeg_finish_compress(&jcs);
+    //释放文件， 释放压缩对象
+    fclose(f);
+    jpeg_destroy_compress(&jcs);
 }
 
 extern "C"

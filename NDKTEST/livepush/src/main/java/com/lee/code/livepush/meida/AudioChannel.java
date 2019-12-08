@@ -44,14 +44,14 @@ public class AudioChannel {
 
     public void startLive() {
         isLiveing = true;
-        executor.submit(new AudioTeask());
+        executor.submit(new AudioTask());
     }
 
     public void setChannels(int channels) {
         this.channels = channels;
     }
 
-    class AudioTeask implements Runnable {
+    class AudioTask implements Runnable {
 
         @Override
         public void run() {

@@ -10,6 +10,7 @@ import java.lang.reflect.Method;
 
 /**
  * 动态代理
+ * @author jv.lee
  */
 public class ProcessInvocationHandler implements InvocationHandler {
     private Class<?> clazz;

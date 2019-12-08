@@ -1,10 +1,15 @@
 package com.lee.library.hermeslib.bean;
 
+/**
+ * @author jv.lee
+ */
 public class RequestBean {
     private int type;
     private String className;
     private String methodName;
-    //参数
+    /**
+     * 参数
+     */
     private RequestParameter[] requestParameters;
 
     public RequestBean(){}
