@@ -31,7 +31,7 @@ public class DiskCache {
         }
     }
 
-    public void put(String key, String value) {
+    public synchronized void put(String key, String value) {
         DiskLruCache.Editor edit = null;
         OutputStream os = null;
         byte[] bytes = value.getBytes();
@@ -68,7 +68,7 @@ public class DiskCache {
 
     }
 
-    public String get(String key) {
+    public synchronized String get(String key) {
         DiskLruCache.Snapshot snapshot = null;
         InputStream is = null;
         String content = null;
