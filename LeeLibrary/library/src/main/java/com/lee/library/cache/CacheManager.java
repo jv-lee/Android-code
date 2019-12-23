@@ -75,7 +75,7 @@ public class CacheManager {
      * @param <T>   泛型
      * @return 具体类型数据实体
      */
-    public <T> T get(String key, Class<T> clazz) {
+    public synchronized <T> T get(String key, Class<T> clazz) {
         String data = memoryCache.get(key);
         if (null != data) {
             Log.i(TAG, "get: 从内存中获取缓存数据 memory:" + data);
@@ -98,7 +98,7 @@ public class CacheManager {
      * @param <T>   泛型
      * @return 具体类型数据实体
      */
-    public <T> T get(String key, Type type) {
+    public synchronized <T> T get(String key, Type type) {
         String data = memoryCache.get(key);
         if (null != data) {
             Log.i(TAG, "get: 从内存中获取缓存数据 memory:" + data);
@@ -120,7 +120,7 @@ public class CacheManager {
      * @param value 具体对象数据
      * @param <T>   泛型
      */
-    public <T> void put(String key, T value) {
+    public synchronized  <T> void put(String key, T value) {
         String json = readObjectToJson(value);
         memoryCache.put(key, json);
         diskCache.put(key, json);
