@@ -10,12 +10,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-
 import com.lee.library.R;
 import com.lee.library.adapter.listener.LeeViewItem;
 import com.lee.library.adapter.manager.LeeViewItemManager;
+import com.lee.library.utils.LogUtil;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -80,6 +81,11 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
     private List<T> mData;
 
     private int loadResId;
+
+    /**
+     * 子view点击id集合
+     */
+    private List<Integer> childClickIds = new ArrayList<>();
 
     /**
      * 单样式构造方法
@@ -230,6 +236,7 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
     @NonNull
     @Override
     public LeeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        LogUtil.i("onCreateViewHolder");
         //根据布局的类型 创建不同的ViewHolder
         LeeViewItem item = itemStyle.getLeeViewItem(viewType);
         int layoutId = item.getItemLayout();
@@ -238,18 +245,19 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
         //点击的监听
         if (item.openClick()) {
             setListener(viewHolder, item.openShake());
+            //子view监听
+            setChildListener(viewHolder, item.openShake());
         }
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull LeeViewHolder holder, int position) {
+        LogUtil.i("onBindViewHolder");
         convert(holder, mData.get(position));
         if (mAutoLoadMoreListener != null && hasLoadMore) {
             callEnd(position);
         }
-        //子view监听
-        setChildListener(holder);
     }
 
     /**
@@ -380,7 +388,7 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
     }
 
     private long lastClickTime = 0;
-    private final long QUICK_EVENT_TIME_SPAN = 2000;
+    private final long QUICK_EVENT_TIME_SPAN = 1000;
 
     /**
      * 获取当前数据下标
@@ -397,11 +405,19 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
      *
      * @param viewHolder view复用器
      */
-    private void setChildListener(LeeViewHolder viewHolder) {
+    private void setChildListener(LeeViewHolder viewHolder, boolean shake) {
         if (mOnItemChildChange != null) {
-            int index = getPosition(viewHolder);
-            if (index >= 0) {
-                mOnItemChildChange.onItemChild(viewHolder, mData.get(index), index);
+            for (Integer childClickId : childClickIds) {
+                View view = viewHolder.getConvertView().findViewById(childClickId);
+                if (view == null) {
+                    continue;
+                }
+                view.setOnClickListener(v -> {
+                    int position = getPosition(viewHolder);
+                    if (position >= 0) {
+                        mOnItemChildChange.onItemChild(view, mData.get(position), position);
+                    }
+                });
             }
         }
     }
@@ -459,6 +475,7 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
         void onItemClick(View view, T entity, int position);
     }
 
+
     /**
      * 返回所有子view
      *
@@ -468,11 +485,11 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
         /**
          * item子view点击事件
          *
-         * @param viewHolder 复用
-         * @param entity     数据
-         * @param position   下标
+         * @param view     控件
+         * @param entity   数据
+         * @param position 下标
          */
-        void onItemChild(LeeViewHolder viewHolder, T entity, int position);
+        void onItemChild(View view, T entity, int position);
     }
 
     /**
@@ -514,7 +531,8 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
         this.mOnItemLongClickListener = mOnItemLongClickListener;
     }
 
-    public void setOnItemChildClickListener(OnItemChildView<T> onItemChildView) {
+    public void setOnItemChildClickListener(OnItemChildView<T> onItemChildView, Integer... childClickIds) {
+        this.childClickIds = Arrays.asList(childClickIds);
         this.mOnItemChildChange = onItemChildView;
     }
 
