@@ -13,7 +13,6 @@ import android.widget.FrameLayout;
 import com.lee.library.R;
 import com.lee.library.adapter.listener.LeeViewItem;
 import com.lee.library.adapter.manager.LeeViewItemManager;
-import com.lee.library.utils.LogUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -80,7 +79,20 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
      */
     private List<T> mData;
 
+    /**
+     * 加载布局id
+     */
     private int loadResId;
+
+    /**
+     * 点击防抖结束时间
+     */
+    private long lastClickTime = 0;
+
+    /**
+     * 点击防抖动时间阈值
+     */
+    private final long QUICK_EVENT_TIME_SPAN = 1000;
 
     /**
      * 子view点击id集合
@@ -129,7 +141,13 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
         if (data == null) {
             return;
         }
-        this.mData = data;
+        if (data.size() != 0) {
+            //清空数据集合 通知数据源发生变更
+            this.mData.clear();
+            notifyDataSetChanged();
+        }
+        this.mData.addAll(data);
+
     }
 
     protected void addData(T data) {
@@ -236,7 +254,6 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
     @NonNull
     @Override
     public LeeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LogUtil.i("onCreateViewHolder");
         //根据布局的类型 创建不同的ViewHolder
         LeeViewItem item = itemStyle.getLeeViewItem(viewType);
         int layoutId = item.getItemLayout();
@@ -253,7 +270,6 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull LeeViewHolder holder, int position) {
-        LogUtil.i("onBindViewHolder");
         convert(holder, mData.get(position));
         if (mAutoLoadMoreListener != null && hasLoadMore) {
             callEnd(position);
@@ -347,7 +363,8 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
      */
     public void loadMoreCompleted(int count) {
         hasLoadMore = true;
-        notifyItemRangeChanged(mData.size() + proxyAdapter.getHeaderCount(), count + proxyAdapter.getItemCount());
+        int startIndex = mData.size() - count;
+        notifyItemRangeInserted(startIndex, count);
     }
 
     /**
@@ -360,7 +377,8 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
         }
         updateStatus(STATUS_END);
         hasLoadMore = false;
-        notifyItemRangeChanged(mData.size() + proxyAdapter.getHeaderCount(), count + proxyAdapter.getItemCount());
+        int startIndex = mData.size() - count;
+        notifyItemRangeInserted(startIndex, count);
     }
 
 
@@ -375,6 +393,7 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
 
     /**
      * 设置加载更多最低阈值
+     * num = 5 则为 20-5 = 滑动到15项的时候加载
      *
      * @param num
      */
@@ -386,9 +405,6 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
     public int getItemCount() {
         return mData == null ? 0 : mData.size();
     }
-
-    private long lastClickTime = 0;
-    private final long QUICK_EVENT_TIME_SPAN = 1000;
 
     /**
      * 获取当前数据下标
@@ -413,6 +429,13 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
                     continue;
                 }
                 view.setOnClickListener(v -> {
+                    if (shake) {
+                        long timeSpan = System.currentTimeMillis() - lastClickTime;
+                        if (timeSpan < QUICK_EVENT_TIME_SPAN) {
+                            return;
+                        }
+                        lastClickTime = System.currentTimeMillis();
+                    }
                     int position = getPosition(viewHolder);
                     if (position >= 0) {
                         mOnItemChildChange.onItemChild(view, mData.get(position), position);
