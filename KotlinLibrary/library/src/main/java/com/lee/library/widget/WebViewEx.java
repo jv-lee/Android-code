@@ -1,6 +1,7 @@
 package com.lee.library.widget;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleObserver;
 import android.arch.lifecycle.LifecycleOwner;
@@ -13,6 +14,7 @@ import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.view.KeyEvent;
 import android.webkit.*;
 
 /**
@@ -52,8 +54,24 @@ public class WebViewEx extends WebView implements LifecycleObserver {
         setWebViewClient(new WebViewClient() {
             @Override
             public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+                final SslErrorHandler mHandler;
+                mHandler = handler;
+                AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                builder.setMessage("ssl证书验证失败");
                 //不校验https证书
-                handler.proceed();
+                builder.setPositiveButton("继续", (dialog, which) -> mHandler.proceed());
+                //校验证书
+                builder.setNegativeButton("取消", (dialog, which) -> mHandler.cancel());
+                builder.setOnKeyListener((dialog, keyCode, event) -> {
+                    if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
+                        mHandler.cancel();
+                        dialog.dismiss();
+                        return true;
+                    }
+                    return false;
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
             }
 
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
