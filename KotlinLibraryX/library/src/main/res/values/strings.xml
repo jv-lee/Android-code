@@ -18,4 +18,6 @@
     <string name="lee_load_more">正在加载…</string>
     <string name="str_loading_empty">empty data .</string>
 
+    <string name="str_confirm">确定</string>
+    <string name="str_cancel">取消</string>
 </resources>

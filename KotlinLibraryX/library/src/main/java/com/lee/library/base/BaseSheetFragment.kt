@@ -56,7 +56,7 @@ abstract class BaseSheetFragment<V : ViewDataBinding, VM : ViewModel>(
 
     open fun getBehavior(): BottomSheetBehavior<*>? {
         if (mBehavior == null) {
-            mBehavior = BottomSheetBehavior.from(binding.root!!.parent as View)
+            mBehavior = BottomSheetBehavior.from(binding.root.parent as View)
         }
         return mBehavior
     }
