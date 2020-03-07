@@ -47,9 +47,9 @@ public class NetworkManager {
         this.application = application;
 
         //动态的广播注册(7.0+兼容)
-//        IntentFilter filter = new IntentFilter();
-//        filter.addAction(Constants.ANDROID_NET_CHANGE_ACTION);
-//        application.registerReceiver(receiver, filter);
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(Constants.ANDROID_NET_CHANGE_ACTION);
+        application.registerReceiver(receiver, filter);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             ConnectivityManager.NetworkCallback callback = new NetworkCallbackImpl();
