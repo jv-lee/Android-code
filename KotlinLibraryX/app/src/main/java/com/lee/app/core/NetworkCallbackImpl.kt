@@ -12,14 +12,21 @@ import com.lee.library.utils.LogUtil
  */
 class NetworkCallbackImpl : ConnectivityManager.NetworkCallback() {
 
+    var firstCode = 0
+    var lastCode = 0
+
     override fun onAvailable(network: Network?) {
         super.onAvailable(network)
-        LogUtil.i("网络已连接:")
+        firstCode = network.toString().toInt()
+        LogUtil.i("${network.toString()}网络：连接成功")
     }
 
     override fun onLost(network: Network?) {
         super.onLost(network)
-        LogUtil.i("网络已断开")
+        lastCode = network.toString().toInt()
+        if (lastCode >= firstCode) {
+            LogUtil.i("${network.toString()}网络：断开连接")
+        }
     }
 
     override fun onCapabilitiesChanged(
@@ -27,12 +34,14 @@ class NetworkCallbackImpl : ConnectivityManager.NetworkCallback() {
         networkCapabilities: NetworkCapabilities
     ) {
         super.onCapabilitiesChanged(network, networkCapabilities)
-        if (networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
-            LogUtil.d("onCapabilitiesChanged: 网络类型为wifi")
-        } else if (networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
-            LogUtil.d("onCapabilitiesChanged: 蜂窝网络")
-        } else {
-            LogUtil.d("onCapabilitiesChanged: 其他网络")
+        if (networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)) {
+            if (networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
+                LogUtil.d("onCapabilitiesChanged: 网络类型为wifi :" + network.toString())
+            } else if (networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
+                LogUtil.d("onCapabilitiesChanged: 蜂窝网络:" + network.toString())
+            } else {
+                LogUtil.d("onCapabilitiesChanged: 其他网络:" + network.toString())
+            }
         }
     }
 

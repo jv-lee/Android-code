@@ -8,7 +8,7 @@ import com.lee.library.widget.dialog.LoadingDialog
 import com.lee.library.widget.dialog.WarnDialog
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
+class TestActivity : AppCompatActivity() {
 
     /**
      * loading提示框

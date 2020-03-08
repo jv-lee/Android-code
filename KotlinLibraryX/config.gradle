@@ -5,7 +5,8 @@ ext {
             targetSdkVersion : 28,
             versionCode      : 1,
             versionName      : "1.0",
-            applicationId    : "com.lee.app"
+//            applicationId    : "com.lee.app"
+            applicationId    : "com.core.lee"
     ]
 
     //签名混淆压缩配置
