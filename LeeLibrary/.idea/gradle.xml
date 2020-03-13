@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="GradleMigrationSettings" migrationVersion="1" />
   <component name="GradleSettings">
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
-        <compositeConfiguration>
-          <compositeBuild compositeDefinitionSource="SCRIPT" />
-        </compositeConfiguration>
+        <option name="delegatedBuild" value="true" />
+        <option name="testRunner" value="PLATFORM" />
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="modules">
@@ -13,8 +13,11 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/bottomnative" />
+            <option value="$PROJECT_DIR$/itemdecoration" />
             <option value="$PROJECT_DIR$/library" />
-            <option value="$PROJECT_DIR$/library-androidx" />
+            <option value="$PROJECT_DIR$/scroll" />
+            <option value="$PROJECT_DIR$/slidinguppanellayout" />
+            <option value="$PROJECT_DIR$/statuslayout" />
             <option value="$PROJECT_DIR$/tabmenu" />
           </set>
         </option>

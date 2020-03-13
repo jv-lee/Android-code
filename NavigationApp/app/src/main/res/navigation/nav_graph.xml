@@ -12,13 +12,44 @@
         tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_homeFragment_to_meFragment"
-            app:destination="@id/meFragment" />
+            app:destination="@id/meFragment"
+            app:enterAnim="@anim/slide_left_in"
+            app:exitAnim="@anim/slide_right_out"
+            app:popEnterAnim="@anim/slide_right_in"
+            app:popExitAnim="@anim/slide_left_out" />
     </fragment>
 
     <fragment
         android:id="@+id/meFragment"
         android:name="com.lee.navigation.fragment.MeFragment"
         android:label="Me"
-        tools:layout="@layout/fragment_me" />
+        tools:layout="@layout/fragment_me">
+        <action
+            android:id="@+id/action_meFragment_to_meDetailsFragment"
+            app:destination="@id/meDetailsFragment"
+            app:enterAnim="@anim/slide_left_in"
+            app:exitAnim="@anim/slide_right_out"
+            app:popEnterAnim="@anim/slide_right_in"
+            app:popExitAnim="@anim/slide_left_out" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/meDetailsFragment"
+        android:name="com.lee.navigation.fragment.MeDetailsFragment"
+        android:label="MeDetails"
+        tools:layout="@layout/fragment_me_details">
+
+        <action
+            android:id="@+id/action_meDetailsFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:enterAnim="@anim/slide_left_in"
+            app:exitAnim="@anim/slide_right_out"
+            app:popEnterAnim="@anim/slide_right_in"
+            app:popExitAnim="@anim/slide_left_out" />
+
+        <!--        app:popUpTo="@id/homeFragment"
+                    app:popUpToInclusive="true"-->
+    </fragment>
+
 
 </navigation>
