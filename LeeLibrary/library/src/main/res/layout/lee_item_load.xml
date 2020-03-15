@@ -24,7 +24,7 @@
             android:layout_marginRight="10dp"
             android:layout_toLeftOf="@id/tv_more_text"
             android:layout_centerVertical="true"
-            android:src="@drawable/ratate_progress_bar" />
+            android:src="@drawable/rotate_progress_bar" />
 
     </RelativeLayout>
 
