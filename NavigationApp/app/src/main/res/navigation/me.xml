@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/me"
+    app:startDestination="@id/meFragment">
+
+    <fragment
+        android:id="@+id/meFragment"
+        android:name="com.lee.navigation.fragment.MeFragment"
+        android:label="meFragment"
+        tools:layout="@layout/fragment_me">
+
+        <action
+            android:id="@+id/action_meFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment"
+            app:enterAnim="@anim/slide_left_in"
+            app:exitAnim="@anim/slide_right_out"
+            app:popEnterAnim="@anim/slide_right_in"
+            app:popExitAnim="@anim/slide_left_out" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/detailsFragment"
+        android:name="com.lee.navigation.fragment.DetailsFragment"
+        android:label="detailsFragment"
+        tools:layout="@layout/fragment_details">
+
+        <action
+            android:id="@+id/action_detailsFragment_to_detailsChildFragment"
+            app:destination="@id/detailsChildFragment"
+            app:enterAnim="@anim/slide_left_in"
+            app:exitAnim="@anim/slide_right_out"
+            app:popEnterAnim="@anim/slide_right_in"
+            app:popExitAnim="@anim/slide_left_out" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/detailsChildFragment"
+        android:name="com.lee.navigation.fragment.DetailsChildFragment"
+        android:label="detailsChildFragment"
+        tools:layout="@layout/fragment_details_child">
+
+    </fragment>
+
+</navigation>

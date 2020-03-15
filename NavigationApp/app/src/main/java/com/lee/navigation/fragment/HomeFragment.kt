@@ -7,7 +7,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.lee.navigation.MainActivity
 import com.lee.navigation.R
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_home.*
 
 /**
@@ -27,13 +29,12 @@ class HomeFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        btn_start_me.setOnClickListener {
-            findNavController().navigate(R.id.action_homeFragment_to_meFragment)
-        }
     }
 
     override fun onResume() {
         super.onResume()
         Toast.makeText(context, "this is Number:${++currentNumber}", Toast.LENGTH_SHORT).show()
+        (activity as MainActivity).show()
     }
+
 }
