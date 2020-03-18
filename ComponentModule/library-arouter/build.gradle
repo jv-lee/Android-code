@@ -1,8 +1,5 @@
 apply plugin: 'com.android.library'
 
-def androidId = rootProject.ext.androidId
-def support = rootProject.ext.dependencies
-
 android {
     compileSdkVersion androidId.compileSdkVersion
 
@@ -11,6 +8,9 @@ android {
         targetSdkVersion androidId.targetSdkVersion
         versionCode androidId.versionCode
         versionName androidId.versionName
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
     }
 
     buildTypes {
@@ -23,9 +23,6 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-
-    support.each {k,v -> implementation v}
-    api project(':annotation')
-    api project(':arouter_api')
+    implementation support.appcompat
+    implementation project(':annotation')
 }

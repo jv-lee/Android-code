@@ -12,11 +12,11 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/annotation" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/arouter_api" />
             <option value="$PROJECT_DIR$/compiler" />
-            <option value="$PROJECT_DIR$/library" />
-            <option value="$PROJECT_DIR$/order" />
-            <option value="$PROJECT_DIR$/personal" />
+            <option value="$PROJECT_DIR$/library-arouter" />
+            <option value="$PROJECT_DIR$/library-common" />
+            <option value="$PROJECT_DIR$/module-order" />
+            <option value="$PROJECT_DIR$/module-personal" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

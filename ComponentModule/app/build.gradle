@@ -1,10 +1,7 @@
 apply plugin: 'com.android.application'
 
 //赋值引用
-def androidId = rootProject.ext.androidId
-def appId = rootProject.ext.appId
-def support = rootProject.ext.dependencies
-def url = rootProject.ext.url
+def modules = rootProject.ext.modules
 
 android {
     compileSdkVersion androidId.compileSdkVersion
@@ -43,16 +40,12 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    //引入第三方依赖
-    support.each { k, v -> implementation v }
     //引入公共基础库
-    implementation project(':library')
+    implementation project(':library-common')
     //注解处理器触发
     annotationProcessor project(':compiler')
     //组件化配置
     if (isRelease) {
-        implementation project(':order')
-        implementation project(':personal')
+        modules.each { v -> implementation project(v) }
     }
 }

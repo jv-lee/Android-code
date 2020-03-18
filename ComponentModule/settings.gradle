@@ -1,1 +1,1 @@
-include ':app', ':library', ':order', ':personal', ':annotation', ':compiler', ':arouter_api'
+include ':app', ':library-common', ':module-order', ':module-personal', ':annotation', ':compiler', ':library-arouter'

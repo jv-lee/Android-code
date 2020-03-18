@@ -4,17 +4,12 @@ if (isRelease) {
     apply plugin: 'com.android.application'
 }
 
-def androidId = rootProject.ext.androidId
-def appId = rootProject.ext.appId
-def support = rootProject.ext.dependencies
-def url = rootProject.ext.url
-
 android {
     compileSdkVersion androidId.compileSdkVersion
 
     defaultConfig {
         if (!isRelease) {
-            applicationId appId.order
+            applicationId appId.personal
         }
         minSdkVersion androidId.minSdkVersion
         targetSdkVersion androidId.targetSdkVersion
@@ -27,7 +22,7 @@ android {
         //在gradle文件中配置选项参数（用于APT传参接收） 必须在defaultConfig节点下
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments = [moduleName: project.getName(), packageNameForAPT: packageNameForAPT]
+                arguments = [moduleName: project.getName().split("-")[1], packageNameForAPT: packageNameForAPT]
             }
         }
 
@@ -58,12 +53,8 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    //引入第三方依赖
-    implementation 'com.android.support:support-v4:28.0.0'
-    support.each { k, v -> implementation v }
+    //引入公共基础库
+    implementation project(':library-common')
     //注解处理器触发
     annotationProcessor project(':compiler')
-    //引入公共基础库
-    implementation project(':library')
 }
