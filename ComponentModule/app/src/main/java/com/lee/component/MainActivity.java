@@ -1,5 +1,6 @@
 package com.lee.component;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -28,23 +29,26 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         ParameterManager.getInstance().loadParameter(this);
-        Log.e(Constants.TAG, "/app/MainActivity:"+username);
+        Log.e(Constants.TAG, "/app/MainActivity:" + username);
 
+        OrderDrawable drawable = (OrderDrawable) RouterManager.getInstance()
+                .build("/order/getDrawable")
+                .navigation(this);
         ImageView ivDrawable = findViewById(R.id.iv_drawable);
-//        ivDrawable.setImageResource(drawable.getDrawable());
+        ivDrawable.setImageResource(drawable.getDrawable());
     }
 
     public void jumpPersonal(View view) {
         RouterManager.getInstance()
                 .build("/personal/Personal_MainActivity")
-                .withString("username","jv.lee")
+                .withString("username", "jv.lee")
                 .navigation(this);
     }
 
     public void jumpOrder(View view) {
         RouterManager.getInstance()
                 .build("/order/Order_MainActivity")
-                .withString("username","jv.lee")
+                .withString("username", "jv.lee")
                 .navigation(this);
     }
 }

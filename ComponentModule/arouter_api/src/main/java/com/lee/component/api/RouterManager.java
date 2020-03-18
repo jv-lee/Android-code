@@ -174,7 +174,7 @@ public class RouterManager {
                             break;
                         case CALL:
                             //返回业务接口的实现类
-                            return routerBean.getClass().newInstance();
+                            return routerBean.getClazz().newInstance();
                         default:
                     }
                 }
