@@ -49,7 +49,7 @@ public class WebViewEx extends WebView implements LifecycleObserver {
         settings.setCacheMode(WebSettings.LOAD_DEFAULT);
         settings.setDomStorageEnabled(true);
         settings.setJavaScriptCanOpenWindowsAutomatically(true);
-
+        settings.setSavePassword(false);
         setWebContentsDebuggingEnabled(true);
 
         setWebViewClient(new WebViewClient() {
