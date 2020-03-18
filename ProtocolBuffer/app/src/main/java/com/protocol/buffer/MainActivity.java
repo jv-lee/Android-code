@@ -20,7 +20,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         //创建数据对象
         AddressProto.Person.Builder builder = AddressProto.Person.newBuilder();
         AddressProto.Person person = builder.setEmail("xxx").build();

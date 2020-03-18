@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package proto.model;
+
+enum Subject {
+    LANGUAGE = 0;
+    CALCULATION = 1;
+    ENGLISH = 2;
+}
+
+message Student {
+    string name = 1;
+    int32 age = 2;
+    bool sex = 3;
+}
+
+message Teacher {
+    string name = 1;
+    Subject subject = 2;
+}
+
