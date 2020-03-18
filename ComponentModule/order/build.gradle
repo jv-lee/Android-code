@@ -60,6 +60,7 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     //引入第三方依赖
+    implementation 'com.android.support:support-v4:28.0.0'
     support.each { k, v -> implementation v }
     //注解处理器触发
     annotationProcessor project(':compiler')
