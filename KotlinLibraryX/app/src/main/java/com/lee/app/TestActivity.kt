@@ -3,10 +3,16 @@ package com.lee.app
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.lee.app.server.ApiServiceImpl
+import com.lee.library.utils.LogUtil
 import com.lee.library.widget.dialog.ChoiceDialog
 import com.lee.library.widget.dialog.LoadingDialog
 import com.lee.library.widget.dialog.WarnDialog
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class TestActivity : AppCompatActivity() {
 
@@ -51,10 +57,35 @@ class TestActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        testDialog()
+        testNetwork()
+    }
 
+    private fun testDialog() {
         btn_show_loading.setOnClickListener { loadingDialog.show() }
         btn_show_warn.setOnClickListener { warnDialog.show() }
         btn_show_choice.setOnClickListener { choiceDialog.show() }
+    }
 
+    private fun testNetwork() {
+        GlobalScope.launch(Dispatchers.Main) {
+            val data1 = withContext(Dispatchers.IO) {
+                ApiServiceImpl.get()
+                    .api.getTabAsync("http://www.dell-lee.com/react/api/header.json").await()
+            }
+            LogUtil.i("time:${System.currentTimeMillis()}")
+            val data2 = withContext(Dispatchers.IO) {
+                val tabAsync = ApiServiceImpl.get()
+                    .api.getTabAsync("http://www.dell-lee.com/react/api/header.json")
+                tabAsync.await()
+            }
+            LogUtil.i("time:${System.currentTimeMillis()}")
+
+            Toast.makeText(
+                this@TestActivity,
+                "data1 = ${data1.data.size} - data2 = ${data2.data.size}",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
     }
 }
