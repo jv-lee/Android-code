@@ -3,7 +3,11 @@ package com.lee.app
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.lee.app.server.ApiService
 import com.lee.app.server.ApiServiceImpl
+import com.lee.library.net.HttpManager
+import com.lee.library.net.request.IRequest
+import com.lee.library.net.request.Request
 import com.lee.library.utils.LogUtil
 import com.lee.library.widget.dialog.ChoiceDialog
 import com.lee.library.widget.dialog.LoadingDialog
@@ -74,10 +78,10 @@ class TestActivity : AppCompatActivity() {
                     .api.getTabAsync("http://www.dell-lee.com/react/api/header.json").await()
             }
             LogUtil.i("time:${System.currentTimeMillis()}")
+
             val data2 = withContext(Dispatchers.IO) {
-                val tabAsync = ApiServiceImpl.get()
-                    .api.getTabAsync("http://www.dell-lee.com/react/api/header.json")
-                tabAsync.await()
+                ApiServiceImpl.get()
+                    .api.getTabAsync("http://www.dell-lee.com/react/api/header.json").await()
             }
             LogUtil.i("time:${System.currentTimeMillis()}")
 

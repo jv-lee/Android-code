@@ -10,6 +10,7 @@ import com.lee.library.net.adapter.LongDefaultAdapter
 import com.lee.library.net.client.OkHttpClientBuilder
 import com.lee.library.net.request.IRequest
 import com.lee.library.net.request.Request
+import com.lee.library.utils.LogUtil
 import okhttp3.Cache
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -63,7 +64,7 @@ class HttpManager private constructor() {
         if (request.isDownload) {
             return createService(serviceClass, request)
         }
-        return if (mServiceMap.containsKey(serviceClass.name)) {
+        return if (mServiceMap.containsKey(serviceClass.name + request.key)) {
             mServiceMap[serviceClass.name + request.key] as T
         } else {
             val service = createService(serviceClass, request)
