@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.lee.coroutine.test.PlanBStart
 import com.lee.coroutine.test.PlanCDispatcher
+import com.lee.coroutine.test.PlanDFlow
 
 /**
  * @author jv.lee
@@ -18,6 +19,8 @@ class MainActivity : AppCompatActivity() {
 
 //        PlanBStart().test()
 
-        PlanCDispatcher().test()
+//        PlanCDispatcher().test(
+
+        PlanDFlow().test()
     }
 }
