@@ -39,16 +39,12 @@ class HttpManager private constructor() {
                 instance ?: HttpManager().also { instance = it }
             }
 
-        fun getGson(): Gson? {
-            if (gson == null) {
-                gson = GsonBuilder()
-                    .registerTypeAdapter(Int::class.java, IntegerDefaultAdapter())
-                    .registerTypeAdapter(Double::class.java, DoubleDefaultAdapter())
-                    .registerTypeAdapter(Long::class.java, LongDefaultAdapter())
-                    .create()
-            }
-            return gson
-        }
+        fun getGson() = gson ?: GsonBuilder()
+            .registerTypeAdapter(Int::class.java, IntegerDefaultAdapter())
+            .registerTypeAdapter(Double::class.java, DoubleDefaultAdapter())
+            .registerTypeAdapter(Long::class.java, LongDefaultAdapter())
+            .create().also { gson = it }
+
     }
 
     private val mServiceMap by lazy { HashMap<String, Any>() }
