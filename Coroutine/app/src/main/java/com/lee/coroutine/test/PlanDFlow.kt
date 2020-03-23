@@ -133,10 +133,29 @@ class PlanDFlow {
     }
 
     /**
-     * select 选择
+     * 接口请求获取参数后 再次请求
      */
-    suspend fun testConcat() {
+    suspend fun request() {
+        flow {
+            emit(getToken().await())
+        }.map {
+            getUserInfo(it).await()
+        }.flowOn(Dispatchers.IO).catch {
+            println("error:${it.message}")
+        }.onCompletion {
+            println("completion")
+        }.collect {
+            println("username:$it")
+        }
 
+    }
+
+    fun getToken(): Deferred<String> {
+        return CompletableDeferred("accbcd")
+    }
+
+    fun getUserInfo(token: String): Deferred<String> {
+        return CompletableDeferred("jv.lee")
     }
 
 }

@@ -15,6 +15,7 @@ import com.lee.library.widget.dialog.WarnDialog
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -91,5 +92,7 @@ class TestActivity : AppCompatActivity() {
                 Toast.LENGTH_SHORT
             ).show()
         }
+
     }
+
 }
