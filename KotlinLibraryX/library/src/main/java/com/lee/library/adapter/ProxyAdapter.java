@@ -30,6 +30,8 @@ public class ProxyAdapter extends RecyclerView.Adapter {
             throw new IllegalArgumentException();
         }
         mAdapter = adapter;
+        //设置图片闪烁，给所有item view添加tag
+        mAdapter.setHasStableIds(mAdapter.hasStableIds());
         setHasStableIds(adapter.hasStableIds());
     }
 

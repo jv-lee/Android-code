@@ -1,6 +1,7 @@
 package com.lee.library.base
 
 import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.KeyEvent
 import android.widget.Toast
@@ -20,7 +21,10 @@ import kotlinx.coroutines.cancel
  * @date 2019-08-15
  * @description
  */
-abstract class BaseActivity<V : ViewDataBinding, VM : ViewModel>(var layoutId: Int, var vm: Class<VM>?) :
+abstract class BaseActivity<V : ViewDataBinding, VM : ViewModel>(
+    var layoutId: Int,
+    var vm: Class<VM>?
+) :
     AppCompatActivity(), CoroutineScope by CoroutineScope(Dispatchers.Main) {
 
     protected lateinit var binding: V
@@ -43,14 +47,20 @@ abstract class BaseActivity<V : ViewDataBinding, VM : ViewModel>(var layoutId: I
         //设置viewModel
         if (vm != null) viewModel = ViewModelProviders.of(this).get<VM>(vm!!)
 
-        //设置view and data
-        bindData(savedInstanceState)
+        intentParams(intent, savedInstanceState)
 
         bindView()
+
+        bindData()
     }
 
-    protected abstract fun bindData(savedInstanceState: Bundle?)
+    open fun intentParams(intent: Intent, savedInstanceState: Bundle?) {
+
+    }
+
     protected abstract fun bindView()
+
+    protected abstract fun bindData()
 
 
     /**

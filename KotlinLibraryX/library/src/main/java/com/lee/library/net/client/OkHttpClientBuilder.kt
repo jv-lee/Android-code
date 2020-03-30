@@ -61,8 +61,8 @@ class OkHttpClientBuilder {
         return unSafeClient
     }
 
-    private fun getUnsafeHostNameVerifier(): HostnameVerifier? {
-        return HostnameVerifier { hostname, session -> true }
+    private fun getUnsafeHostNameVerifier(): HostnameVerifier {
+        return HostnameVerifier { _, _ -> true }
     }
 
     private fun getUnsafeSocketFactory(): SSLSocketFactory? {

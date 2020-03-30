@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.lee.library.R;
 import com.lee.library.adapter.listener.LeeViewItem;
 import com.lee.library.adapter.manager.LeeViewItemManager;
+import com.lee.library.utils.LogUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -128,7 +130,7 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
     }
 
     /**
-     * 添加数据
+     * 添加数据源（分页操作）
      *
      * @param data 数据源
      */
@@ -139,6 +141,11 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
         this.mData.addAll(data);
     }
 
+    /**
+     * 刷新数据源 (初始页操作)
+     *
+     * @param data 数据源
+     */
     public void updateData(List<T> data) {
         if (data == null) {
             return;
@@ -159,7 +166,7 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
         this.mData.add(data);
     }
 
-    public void clertData() {
+    public void clearData() {
         if (mData == null) {
             return;
         }
@@ -253,6 +260,8 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
         proxyAdapter.removeFooterView(view);
     }
 
+    private SparseArray<LeeViewHolder> viewHolders = new SparseArray<>();
+
     @NonNull
     @Override
     public LeeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -333,10 +342,6 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
             addFooter(loadMoreLayout);
         }
         updateStatus(STATUS_INIT);
-        //设置图片闪烁，给所有item view添加tag
-        if (!hasStableIds()) {
-            setHasStableIds(true);
-        }
     }
 
     /**

@@ -24,21 +24,22 @@ import kotlinx.coroutines.cancel
 abstract class BaseSheetFragment<V : ViewDataBinding, VM : ViewModel>(
     var layoutId: Int,
     var vm: Class<VM>?
-) : BottomSheetDialogFragment() , CoroutineScope by CoroutineScope(Dispatchers.Main) {
+) : BottomSheetDialogFragment(), CoroutineScope by CoroutineScope(Dispatchers.Main) {
 
     protected lateinit var binding: V
     protected lateinit var viewModel: VM
 
     private var mBehavior: BottomSheetBehavior<*>? = null
-    private var isVisibleUser = false
-    private var isVisibleView = false
-    private var fistVisible = true
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return super.onCreateDialog(savedInstanceState) as BottomSheetDialog
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         //设置viewBinding
         binding = DataBindingUtil.inflate(layoutInflater, layoutId, container, false)
         return binding.root
@@ -65,28 +66,12 @@ abstract class BaseSheetFragment<V : ViewDataBinding, VM : ViewModel>(
         super.onActivityCreated(savedInstanceState)
         //设置viewModel
         if (vm != null) viewModel = ViewModelProviders.of(this).get<VM>(vm!!)
-        bindData(savedInstanceState)
+        intentParams(arguments, savedInstanceState)
         bindView()
-        isVisibleView = true
-        if (isVisibleUser && fistVisible) {
-            fistVisible = false
-        }
+        bindData()
     }
 
-    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
-        super.setUserVisibleHint(isVisibleToUser)
-        if (isVisibleToUser) {
-            isVisibleUser = true
-            onFragmentResume()
-            //首次用户可见 开始加载数据
-            if (isVisibleView && isVisibleUser && fistVisible) {
-                fistVisible = false
-            }
-        } else {
-            isVisibleUser = false
-            onFragmentPause()
-        }
-    }
+    open fun intentParams(arguments: Bundle?, savedInstanceState: Bundle?) {}
 
     @ExperimentalCoroutinesApi
     override fun onDetach() {
@@ -94,20 +79,17 @@ abstract class BaseSheetFragment<V : ViewDataBinding, VM : ViewModel>(
         cancel()
     }
 
-    open fun onFragmentResume() {}
-
-    open fun onFragmentPause() {}
+    /**
+     * 设置view基础配置
+     */
+    protected abstract fun bindView()
 
     /**
      * 设置加载数据等业务操作
      *
      * @param savedInstanceState 重置回调参数
      */
-    protected abstract fun bindData(savedInstanceState: Bundle?)
+    protected abstract fun bindData()
 
-    /**
-     * 设置view基础配置
-     */
-    protected abstract fun bindView()
 
 }

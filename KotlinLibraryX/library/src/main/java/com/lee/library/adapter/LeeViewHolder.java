@@ -25,7 +25,7 @@ public class LeeViewHolder extends RecyclerView.ViewHolder {
      */
     private View mConvertView;
 
-    private LeeViewHolder(@NonNull View itemView) {
+    public LeeViewHolder(@NonNull View itemView) {
         super(itemView);
         mConvertView = itemView;
         mViews = new SparseArray<>();

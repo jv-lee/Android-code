@@ -1,6 +1,7 @@
 package com.lee.library.base
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,48 +21,41 @@ import kotlinx.coroutines.cancel
  * @date 2019/8/16.
  * @description
  */
-abstract class BaseFragment<V : ViewDataBinding, VM : ViewModel>(var layoutId: Int, var vm: Class<VM>?) : Fragment()
+open abstract class BaseFragment<V : ViewDataBinding, VM : ViewModel>(
+    var layoutId: Int,
+    var vm: Class<VM>?
+) : Fragment()
     , CoroutineScope by CoroutineScope(Dispatchers.Main) {
 
     protected lateinit var binding: V
     protected lateinit var viewModel: VM
 
-    private var isVisibleUser = false
-    private var isVisibleView = false
     private var fistVisible = true
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         //设置viewBinding
         binding = DataBindingUtil.inflate(inflater, layoutId, container, false)
         return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         //设置viewModel
         if (vm != null) viewModel = ViewModelProviders.of(this).get<VM>(vm!!)
-        bindData(savedInstanceState)
+        intentParams(arguments,savedInstanceState)
         bindView()
-        isVisibleView = true
-        if (isVisibleUser && fistVisible) {
-            fistVisible = false
-            lazyLoad()
-        }
+        bindData()
     }
 
-    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
-        super.setUserVisibleHint(isVisibleToUser)
-        if (isVisibleToUser) {
-            isVisibleUser = true
-            onFragmentResume()
-            //首次用户可见 开始加载数据
-            if (isVisibleView && isVisibleUser && fistVisible) {
-                fistVisible = false
-                lazyLoad()
-            }
-        } else {
-            isVisibleUser = false
-            onFragmentPause()
+    override fun onResume() {
+        super.onResume()
+        if (fistVisible) {
+            fistVisible = false
+            lazyLoad()
         }
     }
 
@@ -71,22 +65,26 @@ abstract class BaseFragment<V : ViewDataBinding, VM : ViewModel>(var layoutId: I
         cancel()
     }
 
-    open fun onFragmentResume() {}
-
-    open fun onFragmentPause() {}
-
+    override fun onDestroyView() {
+        super.onDestroyView()
+    }
 
     /**
-     * 设置加载数据等业务操作
-     *
-     * @param savedInstanceState 重置回调参数
+     * 初始化参数传递
      */
-    protected abstract fun bindData(savedInstanceState: Bundle?)
+    open fun intentParams(arguments: Bundle?,savedInstanceState: Bundle?) {}
 
     /**
      * 设置view基础配置
      */
     protected abstract fun bindView()
+
+    /**
+     * 设置加载数据等业务操作
+     *
+     */
+    protected abstract fun bindData()
+
 
     /**
      * 使用page 多fragment时 懒加载
@@ -96,4 +94,9 @@ abstract class BaseFragment<V : ViewDataBinding, VM : ViewModel>(var layoutId: I
     fun Fragment.toast(message: CharSequence, duration: Int = Toast.LENGTH_SHORT) {
         Toast.makeText(activity, message, duration).show()
     }
+
+    private fun getChildClassName(): String {
+        return javaClass.simpleName
+    }
+
 }

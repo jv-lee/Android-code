@@ -1,7 +1,6 @@
 package com.lee.library.adapter;
 
 
-
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
@@ -19,24 +18,24 @@ public class UiPagerAdapter extends FragmentStatePagerAdapter {
     private String[] titles;
 
     public UiPagerAdapter(FragmentManager fm, Fragment[] fragments) {
-        super(fm);
+        super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         this.fragments = fragments;
     }
 
     public UiPagerAdapter(FragmentManager fm, List<Fragment> fragmentList, List<String> tabList) {
-        super(fm);
+        super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         this.fragmentList = fragmentList;
         this.tabList = tabList;
     }
 
     public UiPagerAdapter(FragmentManager fm, List<Fragment> fragmentList, String[] titles) {
-        super(fm);
+        super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         this.fragmentList = fragmentList;
         this.titles = titles;
     }
 
     public UiPagerAdapter(FragmentManager fm, Fragment[] fragments, String[] titles) {
-        super(fm);
+        super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         this.fragments = fragments;
         this.titles = titles;
     }

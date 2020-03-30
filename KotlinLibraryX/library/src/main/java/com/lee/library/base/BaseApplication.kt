@@ -1,14 +1,14 @@
 package com.lee.library.base
 
-import android.app.Application
 import android.content.Context
+import androidx.multidex.MultiDexApplication
 
 /**
  * @author jv.lee
  * @date 2020/3/20
  * @description
  */
-abstract class BaseApplication : Application() {
+abstract class BaseApplication : MultiDexApplication() {
 
     companion object {
         private lateinit var sContext: Context

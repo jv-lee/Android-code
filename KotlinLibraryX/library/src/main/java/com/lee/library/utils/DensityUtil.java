@@ -15,7 +15,7 @@ public class DensityUtil {
     /**
      * 参考设备的宽，单位：dp
      */
-    private static final float WIDTH = 375;
+    private static final float WIDTH = 360;
 
     /**
      * 表示屏幕密度
