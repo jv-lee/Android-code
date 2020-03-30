@@ -3,21 +3,16 @@ package com.lee.app
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.lee.app.server.ApiService
 import com.lee.app.server.ApiServiceImpl
-import com.lee.library.net.HttpManager
-import com.lee.library.net.request.IRequest
-import com.lee.library.net.request.Request
 import com.lee.library.utils.LogUtil
 import com.lee.library.widget.StatusLayout
-import com.lee.library.widget.StatusType.STATUS_LOADING
+import com.lee.library.widget.StatusLayout.STATUS_LOADING
 import com.lee.library.widget.dialog.ChoiceDialog
 import com.lee.library.widget.dialog.LoadingDialog
 import com.lee.library.widget.dialog.WarnDialog
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
