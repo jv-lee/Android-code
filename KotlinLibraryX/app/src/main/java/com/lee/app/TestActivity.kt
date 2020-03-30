@@ -9,6 +9,8 @@ import com.lee.library.net.HttpManager
 import com.lee.library.net.request.IRequest
 import com.lee.library.net.request.Request
 import com.lee.library.utils.LogUtil
+import com.lee.library.widget.StatusLayout
+import com.lee.library.widget.StatusType.STATUS_LOADING
 import com.lee.library.widget.dialog.ChoiceDialog
 import com.lee.library.widget.dialog.LoadingDialog
 import com.lee.library.widget.dialog.WarnDialog
@@ -64,6 +66,7 @@ class TestActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         testDialog()
         testNetwork()
+        findViewById<StatusLayout>(R.id.status).setStatus(STATUS_LOADING)
     }
 
     private fun testDialog() {

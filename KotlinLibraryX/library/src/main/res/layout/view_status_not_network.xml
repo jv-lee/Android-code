@@ -4,17 +4,17 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:text="@string/str_not_network"
-        android:gravity="center"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="@string/str_not_network" />
 
     <Button
         android:id="@+id/btn_restart"
-        android:text="@string/str_restart"
-        android:layout_marginTop="36dp"
-        android:layout_gravity="center"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="36dp"
+        android:text="@string/str_restart" />
 
 </FrameLayout>
