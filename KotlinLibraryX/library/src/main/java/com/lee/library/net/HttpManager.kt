@@ -34,6 +34,7 @@ class HttpManager private constructor() {
         private var instance: HttpManager? = null
         private var gson: Gson? = null
 
+        @JvmStatic
         fun getInstance() =
             instance ?: synchronized(this) {
                 instance ?: HttpManager().also { instance = it }

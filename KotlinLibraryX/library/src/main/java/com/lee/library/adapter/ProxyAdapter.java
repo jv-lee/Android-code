@@ -170,7 +170,7 @@ public class ProxyAdapter extends RecyclerView.Adapter {
 
     public void addFooterView(View view) {
         if (!mFooterViews.contains(view)) {
-            mFooterViews.add(view);
+            mFooterViews.add(0,view);
         }
     }
 

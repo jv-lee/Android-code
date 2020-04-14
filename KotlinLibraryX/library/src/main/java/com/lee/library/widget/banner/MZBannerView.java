@@ -253,6 +253,10 @@ public class MZBannerView<T> extends RelativeLayout {
         }
     }
 
+    public List<T> getData() {
+        return mDatas;
+    }
+
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         if (!mIsCanLoop) {

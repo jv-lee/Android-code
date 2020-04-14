@@ -19,7 +19,7 @@ abstract class BaseNavigationActivity<V : ViewDataBinding, VM : ViewModel>(
 ) :
     BaseActivity<V, VM>(layoutId, vm), CoroutineScope by CoroutineScope(Dispatchers.Main) {
 
-    private var navVisible = false
+    private  var navVisible = false
 
     private var bottomNavigationView: BottomNavigationView? = null
     private var fragmentContainerView: FragmentContainerView? = null

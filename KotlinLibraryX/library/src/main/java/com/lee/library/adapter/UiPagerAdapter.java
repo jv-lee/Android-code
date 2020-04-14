@@ -79,4 +79,36 @@ public class UiPagerAdapter extends FragmentStatePagerAdapter {
         }
         return "";
     }
+
+    public List<Fragment> getFragmentList() {
+        return fragmentList;
+    }
+
+    public void setFragmentList(List<Fragment> fragmentList) {
+        this.fragmentList = fragmentList;
+    }
+
+    public List<String> getTabList() {
+        return tabList;
+    }
+
+    public void setTabList(List<String> tabList) {
+        this.tabList = tabList;
+    }
+
+    public Fragment[] getFragments() {
+        return fragments;
+    }
+
+    public void setFragments(Fragment[] fragments) {
+        this.fragments = fragments;
+    }
+
+    public String[] getTitles() {
+        return titles;
+    }
+
+    public void setTitles(String[] titles) {
+        this.titles = titles;
+    }
 }
