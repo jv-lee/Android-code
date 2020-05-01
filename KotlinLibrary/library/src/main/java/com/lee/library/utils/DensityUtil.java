@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.ComponentCallbacks;
 import android.content.res.Configuration;
+import android.os.Build;
 import android.util.DisplayMetrics;
 
 /**
@@ -14,7 +15,7 @@ public class DensityUtil {
     /**
      * 参考设备的宽，单位：dp
      */
-    private static final float WIDTH = 375;
+    private static final float WIDTH = 360;
 
     /**
      * 表示屏幕密度
@@ -39,20 +40,22 @@ public class DensityUtil {
             appScaleDensity = displayMetrics.scaledDensity;
 
             //添加字体变化监听回调
-            application.registerComponentCallbacks(new ComponentCallbacks() {
-                @Override
-                public void onConfigurationChanged(Configuration newConfig) {
-                    //表示字体发生更改，重新对scaleDensity进行赋值
-                    if (newConfig != null && newConfig.fontScale > 0) {
-                        appScaleDensity = application.getResources().getDisplayMetrics().scaledDensity;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+                application.registerComponentCallbacks(new ComponentCallbacks() {
+                    @Override
+                    public void onConfigurationChanged(Configuration newConfig) {
+                        //表示字体发生更改，重新对scaleDensity进行赋值
+                        if (newConfig != null && newConfig.fontScale > 0) {
+                            appScaleDensity = application.getResources().getDisplayMetrics().scaledDensity;
+                        }
                     }
-                }
 
-                @Override
-                public void onLowMemory() {
+                    @Override
+                    public void onLowMemory() {
 
-                }
-            });
+                    }
+                });
+            }
         }
         //计算目标值 density,scaledDensity,densityDpi
         float targetDensity = displayMetrics.widthPixels / WIDTH;
@@ -64,7 +67,9 @@ public class DensityUtil {
         DisplayMetrics dm = activity.getResources().getDisplayMetrics();
         dm.density = targetDensity;
         dm.scaledDensity = targetScaleDensity;
-        dm.densityDpi = targetDensityDpi;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.DONUT) {
+            dm.densityDpi = targetDensityDpi;
+        }
 
     }
 
@@ -76,7 +81,9 @@ public class DensityUtil {
         DisplayMetrics dm = activity.getResources().getDisplayMetrics();
         dm.density = appDensity;
         dm.scaledDensity = appScaleDensity;
-        dm.densityDpi = (int)(appDensity * 160);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.DONUT) {
+            dm.densityDpi = (int)(appDensity * 160);
+        }
     }
 
 }

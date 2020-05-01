@@ -3,6 +3,7 @@ package com.lee.library.utils;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
+import android.os.Build;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 
@@ -11,6 +12,7 @@ import android.view.animation.LinearInterpolator;
  * @date 2019/9/16.
  * @description ValueAnimation 时间统计工具类
  */
+@androidx.annotation.RequiresApi(api = Build.VERSION_CODES.KITKAT)
 public class ValueTimerEx {
 
     public static ValueAnimator changeRepeat(int time, TimeCallback callback) {

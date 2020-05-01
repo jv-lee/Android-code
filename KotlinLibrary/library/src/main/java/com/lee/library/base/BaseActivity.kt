@@ -1,16 +1,15 @@
 package com.lee.library.base
 
 import android.app.Activity
-import android.arch.lifecycle.ViewModel
-import android.arch.lifecycle.ViewModelProviders
-import android.databinding.DataBindingUtil
-import android.databinding.ViewDataBinding
+import android.content.Intent
 import android.os.Bundle
-import android.support.v4.app.FragmentManager
-import android.support.v7.app.AppCompatActivity
 import android.view.KeyEvent
 import android.widget.Toast
-import com.lee.library.mvvm.BaseViewModel
+import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProviders
 import com.lee.library.utils.StatusUtil
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -22,7 +21,10 @@ import kotlinx.coroutines.cancel
  * @date 2019-08-15
  * @description
  */
-abstract class BaseActivity<V : ViewDataBinding, VM : ViewModel>(var layoutId: Int, var vm: Class<VM>?) :
+abstract class BaseActivity<V : ViewDataBinding, VM : ViewModel>(
+    var layoutId: Int,
+    var vm: Class<VM>?
+) :
     AppCompatActivity(), CoroutineScope by CoroutineScope(Dispatchers.Main) {
 
     protected lateinit var binding: V
@@ -32,6 +34,7 @@ abstract class BaseActivity<V : ViewDataBinding, VM : ViewModel>(var layoutId: I
 
     private var firstTime: Long = 0
     private var hasBackExit = false
+    private var hasBanBack = false
     private var hasBackExitTimer = 2000
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,27 +48,44 @@ abstract class BaseActivity<V : ViewDataBinding, VM : ViewModel>(var layoutId: I
         //设置viewModel
         if (vm != null) viewModel = ViewModelProviders.of(this).get<VM>(vm!!)
 
-        //设置view and data
-        bindData(savedInstanceState)
+        intentParams(intent, savedInstanceState)
 
         bindView()
+
+        bindData()
     }
 
-    protected abstract fun bindData(savedInstanceState: Bundle?)
+    open fun intentParams(intent: Intent, savedInstanceState: Bundle?) {
+
+    }
+
     protected abstract fun bindView()
+
+    protected abstract fun bindData()
 
 
     /**
      * 设置back键位 连按两次才可退出activity
      *
-     * @param enable 设置back双击开关
+     * @param enable 设置back双击开关 true打开设置 false关闭设置
      */
     protected fun backExitEnable(enable: Boolean) {
         hasBackExit = enable
     }
 
+    /**
+     * 设置back键位 禁用开关
+     * @param enable true打开禁用 false关闭禁用
+     */
+    protected fun banBackEnable(enable: Boolean) {
+        hasBanBack = enable
+    }
+
     override fun onKeyUp(keyCode: Int, event: KeyEvent): Boolean {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (hasBanBack) {
+                return true
+            }
             if (hasBackExit) {
                 val secondTime = System.currentTimeMillis()
                 //如果两次按键时间间隔大于2秒，则不退出

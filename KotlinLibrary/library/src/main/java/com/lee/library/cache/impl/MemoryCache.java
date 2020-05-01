@@ -1,6 +1,7 @@
 package com.lee.library.cache.impl;
 
-import android.support.v4.util.LruCache;
+
+import androidx.collection.LruCache;
 
 /**
  * @author jv.lee

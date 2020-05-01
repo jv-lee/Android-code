@@ -3,17 +3,15 @@ package com.lee.library.widget;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.support.v4.widget.ContentLoadingProgressBar;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.FrameLayout;
 
+import androidx.core.widget.ContentLoadingProgressBar;
+
 import com.lee.library.R;
-import com.lee.library.utils.SizeUtil;
 
 /**
  * @author jv.lee
@@ -61,7 +59,7 @@ public class StatusLayout extends FrameLayout {
 
     /**
      * 重新加载回调接口
-     * {@link StatusLayout.OnReloadListener}
+     * {@link OnReloadListener}
      */
     private OnReloadListener onReloadListener;
 

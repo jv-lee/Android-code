@@ -9,6 +9,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
@@ -39,7 +40,10 @@ public class ImageViewRound extends ImageView {
     private int mWidth;
     private int mRadius;
     private float mRoundRadius;
-    private int mPadding;
+    private float mTopLeftRoundRadius;
+    private float mTopRightRoundRadius;
+    private float mBottomLeftRoundRadius;
+    private float mBottomRightRoundRadius;
     private int mType;
     private Paint mPaint;
     private RectF mRect;
@@ -53,7 +57,7 @@ public class ImageViewRound extends ImageView {
     private static final int TYPE_CIRCLE = 0;
     public static final int TYPE_ROUND = 1;
     public static final int TYPE_OVAL = 2;
-    public static final int DEFAULT_ROUND_RADIUS = 10;
+    public static final int DEFAULT_ROUND_RADIUS = 0;
 
     public ImageViewRound(Context context) {
         this(context, null);
@@ -72,7 +76,11 @@ public class ImageViewRound extends ImageView {
     private void initAttr(AttributeSet attrs) {
         TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.ImageViewRound);
         mType = typedArray.getInt(R.styleable.ImageViewRound_layout_mode, TYPE_CIRCLE);
-        mRoundRadius = typedArray.getFloat(R.styleable.ImageViewRound_radius, DEFAULT_ROUND_RADIUS);
+        mRoundRadius = typedArray.getDimension(R.styleable.ImageViewRound_radius, DEFAULT_ROUND_RADIUS);
+        mTopLeftRoundRadius = typedArray.getDimension(R.styleable.ImageViewRound_topLeftRadius, mRoundRadius);
+        mTopRightRoundRadius = typedArray.getDimension(R.styleable.ImageViewRound_topRightRadius, mRoundRadius);
+        mBottomLeftRoundRadius = typedArray.getDimension(R.styleable.ImageViewRound_bottomLeftRadius, mRoundRadius);
+        mBottomRightRoundRadius = typedArray.getDimension(R.styleable.ImageViewRound_bottomRightRadius, mRoundRadius);
         typedArray.recycle();
     }
 
@@ -101,15 +109,30 @@ public class ImageViewRound extends ImageView {
         if (getDrawable() == null) {
             return;
         }
-        setBitmapShader();
+        try {
+            setBitmapShader();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         if (mType == TYPE_CIRCLE) {
             canvas.drawCircle(mRadius, mRadius, mRadius - (getPaddingTop() / 2), mPaint);
         } else if (mType == TYPE_ROUND) {
             mPaint.setColor(Color.RED);
-            canvas.drawRoundRect(mRect, mRoundRadius, mRoundRadius, mPaint);
+            drawRound(canvas);
         } else if (mType == TYPE_OVAL) {
             canvas.drawOval(mRect, mPaint);
         }
+    }
+
+    private void drawRound(Canvas canvas) {
+        Path path = new Path();
+        path.addRoundRect(mRect, new float[]{
+                        mTopLeftRoundRadius, mTopLeftRoundRadius,
+                        mTopRightRoundRadius, mTopRightRoundRadius,
+                        mBottomLeftRoundRadius, mBottomLeftRoundRadius,
+                        mBottomRightRoundRadius, mBottomRightRoundRadius},
+                Path.Direction.CW);
+        canvas.drawPath(path, mPaint);
     }
 
     @Override
@@ -188,6 +211,10 @@ public class ImageViewRound extends ImageView {
     public void setRoundRadius(int mRoundRadius) {
         if (this.mRoundRadius != mRoundRadius) {
             this.mRoundRadius = mRoundRadius;
+            this.mTopLeftRoundRadius = mRoundRadius;
+            this.mTopRightRoundRadius = mRoundRadius;
+            this.mBottomLeftRoundRadius = mRoundRadius;
+            this.mBottomRightRoundRadius = mRoundRadius;
             invalidate();
         }
     }

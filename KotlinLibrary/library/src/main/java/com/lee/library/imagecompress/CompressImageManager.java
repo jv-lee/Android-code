@@ -31,7 +31,7 @@ public class CompressImageManager implements CompressImage {
     /**
      * 压缩监听 告知调用 Activity
      */
-    private CompressImage.CompressListener listener;
+    private CompressListener listener;
     /**
      * 压缩配置
      */

@@ -2,10 +2,12 @@ package com.lee.library.intent;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 /**
  * @author jv.lee
@@ -49,7 +51,9 @@ public class IntentManager {
 
     public void startAct(Activity activity, Class<?> clazz, Bundle bundle, int enterAnim, int exitAnim) {
         startAct(activity, clazz, bundle);
-        activity.overridePendingTransition(enterAnim, exitAnim);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ECLAIR) {
+            activity.overridePendingTransition(enterAnim, exitAnim);
+        }
     }
 
 

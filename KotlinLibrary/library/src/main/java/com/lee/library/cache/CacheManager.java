@@ -19,7 +19,7 @@ public class CacheManager {
 
     private static final String TAG = "CacheManager";
 
-    private static CacheManager instance;
+    private volatile static CacheManager instance;
 
     private static Context mContext;
 
@@ -78,17 +78,17 @@ public class CacheManager {
     public synchronized <T> T get(String key, Class<T> clazz) {
         String data = memoryCache.get(key);
         if (null != data) {
-            Log.i(TAG, "get: 从内存中获取缓存数据 memory:" + data);
+            Log.i(TAG, "get: from memory cacheData" );
             return readJsonToObject(data, clazz);
         }
 
         data = diskCache.get(key);
         if (null != data) {
             memoryCache.put(key, data);
-            Log.i(TAG, "get: 从磁盘中获取缓存数据 disk:" + data);
+            Log.i(TAG, "get: from disk cacheData");
             return readJsonToObject(data, clazz);
         }
-        Log.i(TAG, "get: 本地无数据缓存 请求网络数据");
+        Log.i(TAG, "get: local not cache, request network data.");
         return null;
     }
 
@@ -101,17 +101,17 @@ public class CacheManager {
     public synchronized <T> T get(String key, Type type) {
         String data = memoryCache.get(key);
         if (null != data) {
-            Log.i(TAG, "get: 从内存中获取缓存数据 memory:" + data);
+            Log.i(TAG, "get: from memory cacheData");
             return readJsonToObject(data, type);
         }
 
         data = diskCache.get(key);
         if (null != data) {
             memoryCache.put(key, data);
-            Log.i(TAG, "get: 从磁盘中获取缓存数据 disk:" + data);
+            Log.i(TAG, "get: from disk cacheData");
             return readJsonToObject(data, type);
         }
-        Log.i(TAG, "get: 本地无数据缓存 请求网络数据");
+        Log.i(TAG, "get: local not cache, request network data.");
         return null;
     }
 

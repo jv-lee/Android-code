@@ -7,9 +7,11 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PaintFlagsDrawFilter;
 import android.graphics.drawable.Drawable;
-import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.View;
+
+import androidx.core.content.ContextCompat;
+
 import com.lee.library.R;
 
 /**
@@ -63,7 +65,7 @@ public class DotView extends View {
     }
 
     private void drawBackground(Canvas canvas) {
-        Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.dot_shape);
+        Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.shape_indicator_dot);
         if (drawable != null) {
             setBackground(drawable);
         } else {

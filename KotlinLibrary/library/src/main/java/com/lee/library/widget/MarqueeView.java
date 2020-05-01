@@ -8,14 +8,12 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.lee.library.R;
 import com.lee.library.utils.SizeUtil;
@@ -67,16 +65,16 @@ public class MarqueeView extends FrameLayout {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        width = View.MeasureSpec.makeMeasureSpec(widthMeasureSpec,
-                View.MeasureSpec.UNSPECIFIED);
-        height = View.MeasureSpec.makeMeasureSpec(heightMeasureSpec,
-                View.MeasureSpec.UNSPECIFIED);
+        width = MeasureSpec.makeMeasureSpec(widthMeasureSpec,
+                MeasureSpec.UNSPECIFIED);
+        height = MeasureSpec.makeMeasureSpec(heightMeasureSpec,
+                MeasureSpec.UNSPECIFIED);
         initAnim();
     }
 
     private void initView() {
         tvContent = new TextView(getContext());
-        tvContent.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        tvContent.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         tvContent.setGravity(Gravity.CENTER_VERTICAL);
         tvContent.setTextSize(SizeUtil.px2sp(getContext(), fontSize));
         tvContent.setTextColor(fontColor);

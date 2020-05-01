@@ -3,6 +3,7 @@ package com.lee.library.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.os.Build;
 
 /**
  * @author jv.lee
@@ -59,7 +60,11 @@ public class SPUtil {
         } else if (values instanceof Float) {
             editor.putFloat(key, (Float) values);
         }
-        editor.apply();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
+            editor.apply();
+        }else{
+            editor.commit();
+        }
     }
 
     /**
@@ -91,7 +96,11 @@ public class SPUtil {
      */
     public static void delete() {
         Editor editor = mSharedPreferences.edit();
-        editor.clear().apply();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
+            editor.clear().apply();
+        }else{
+            editor.clear().commit();
+        }
     }
     /**
      * 根据key删除value
@@ -99,7 +108,11 @@ public class SPUtil {
      */
     public static void deleteBykey(String key){
         Editor editor=mSharedPreferences.edit();
-        editor.remove(key).apply();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
+            editor.remove(key).apply();
+        }else{
+            editor.remove(key).commit();
+        }
     }
 
 }

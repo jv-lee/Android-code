@@ -1,10 +1,11 @@
 package com.lee.library.widget.refresh.header;
 
 import android.content.Context;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+
+import androidx.annotation.Nullable;
 
 /**
  * 下拉刷新的基类，继承该类可以实现不同样式的刷新头，但是基本的刷新过程不变，都是：

@@ -1,13 +1,13 @@
 package com.lee.library.adapter;
 
 import android.annotation.SuppressLint;
-import android.support.annotation.IntDef;
-import android.support.annotation.IntRange;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.IntDef;
+import androidx.annotation.IntRange;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -30,6 +30,8 @@ public class ProxyAdapter extends RecyclerView.Adapter {
             throw new IllegalArgumentException();
         }
         mAdapter = adapter;
+        //设置图片闪烁，给所有item view添加tag
+        mAdapter.setHasStableIds(mAdapter.hasStableIds());
         setHasStableIds(adapter.hasStableIds());
     }
 
@@ -168,7 +170,7 @@ public class ProxyAdapter extends RecyclerView.Adapter {
 
     public void addFooterView(View view) {
         if (!mFooterViews.contains(view)) {
-            mFooterViews.add(view);
+            mFooterViews.add(0,view);
         }
     }
 
@@ -215,5 +217,9 @@ public class ProxyAdapter extends RecyclerView.Adapter {
         void onBind() {
 
         }
+    }
+
+    public RecyclerView.Adapter getChildAdapter() {
+        return mAdapter;
     }
 }

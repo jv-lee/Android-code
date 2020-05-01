@@ -5,11 +5,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toolbar;
 
 /**
  * 状态栏工具
@@ -92,11 +92,11 @@ public class StatusUtil {
      *
      * @param activity
      */
-    public static void claerStatusFontLight2(Activity activity) {
+    public static void clearStatusFontLight2(Activity activity) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             int originFlag = activity.getWindow().getDecorView().getSystemUiVisibility();
             //使用异或清除SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-            activity.getWindow().getDecorView().setSystemUiVisibility(originFlag ^ View
+            activity.getWindow().getDecorView().setSystemUiVisibility(originFlag & ~View
                     .SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
     }
@@ -109,7 +109,7 @@ public class StatusUtil {
     public static void fullWindow(Activity activity) {
         //1.设置全屏幕
         int flags;
-        int curApiVersion = android.os.Build.VERSION.SDK_INT;
+        int curApiVersion = Build.VERSION.SDK_INT;
         if (curApiVersion >= Build.VERSION_CODES.KITKAT) {
             flags = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                     | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
@@ -121,7 +121,9 @@ public class StatusUtil {
             // touch the screen, the navigation bar will show
             flags = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
         }
-        activity.getWindow().getDecorView().setSystemUiVisibility(flags);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            activity.getWindow().getDecorView().setSystemUiVisibility(flags);
+        }
     }
 
     /**

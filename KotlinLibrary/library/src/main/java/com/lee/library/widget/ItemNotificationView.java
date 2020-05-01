@@ -83,7 +83,7 @@ public class ItemNotificationView extends FrameLayout {
         tvBackground.setBackgroundColor(backgroundColor);
 
         tvContent = new TextView(getContext());
-        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);
+        LayoutParams layoutParams = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         layoutParams.gravity = Gravity.CENTER;
         tvContent.setLayoutParams(layoutParams);
         tvContent.setTextSize(notificationTextSize);

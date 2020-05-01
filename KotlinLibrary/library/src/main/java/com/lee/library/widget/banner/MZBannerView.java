@@ -5,14 +5,6 @@ import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.os.Build;
 import android.os.Handler;
-import android.support.annotation.AttrRes;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
-import android.support.annotation.StyleRes;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
@@ -25,6 +17,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Scroller;
+
+import androidx.annotation.AttrRes;
+import androidx.annotation.DrawableRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.annotation.StyleRes;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 import com.lee.library.R;
 import com.lee.library.widget.banner.holder.MZHolderCreator;
@@ -40,7 +41,7 @@ import java.util.List;
  * @author Administrator
  * @date 2017/8/15
  */
-
+@androidx.annotation.RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
 public class MZBannerView<T> extends RelativeLayout {
     private static final String TAG = "MZBannerView";
     private ViewPager mViewPager;
@@ -79,7 +80,7 @@ public class MZBannerView<T> extends RelativeLayout {
     /**
      * mIndicatorRes[0] 为为选中，mIndicatorRes[1]为选中
      */
-    private int[] mIndicatorRes = new int[]{R.drawable.indicator_normal, R.drawable.indicator_selected};
+    private int[] mIndicatorRes = new int[]{R.drawable.shape_indicator_normal, R.drawable.shape_indicator_selected};
     private int mIndicatorPaddingLeft = 0;
     private int mIndicatorPaddingRight = 0;
     /**
@@ -250,6 +251,10 @@ public class MZBannerView<T> extends RelativeLayout {
             mIndicators.add(imageView);
             mIndicatorContainer.addView(imageView);
         }
+    }
+
+    public List<T> getData() {
+        return mDatas;
     }
 
     @Override

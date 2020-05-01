@@ -4,30 +4,53 @@
     <!--全局动画-->
     <style name="AppTheme.Animation" parent="@android:style/Animation.Activity">
         <!--A->B  B-in(animation)-->
-        <item name="android:activityOpenEnterAnimation">@anim/left_in</item>
+        <item name="android:activityOpenEnterAnimation">@anim/slide_right_in</item>
         <!--A->B  A-out(animation)-->
-        <item name="android:activityOpenExitAnimation">@anim/right_out</item>
+        <item name="android:activityOpenExitAnimation">@anim/slide_left_out</item>
         <!--A<-B  A-in(animation)-->
-        <item name="android:activityCloseEnterAnimation">@anim/right_in</item>
+        <item name="android:activityCloseEnterAnimation">@anim/slide_left_in</item>
         <!--A<-B  B-out(animation)-->
-        <item name="android:activityCloseExitAnimation">@anim/left_out</item>
+        <item name="android:activityCloseExitAnimation">@anim/slide_right_out</item>
     </style>
 
     <!--Main页面动画-->
     <style name="MainTheme.Animation" parent="@android:style/Animation.Activity">
         <item name="android:activityOpenEnterAnimation">@anim/alpha_in</item>
-        <item name="android:activityOpenExitAnimation">@anim/right_out</item>
-        <item name="android:activityCloseEnterAnimation">@anim/right_in</item>
-        <item name="android:activityCloseExitAnimation">@anim/left_out</item>
+        <item name="android:activityOpenExitAnimation">@anim/slide_left_out</item>
+        <item name="android:activityCloseEnterAnimation">@anim/slide_left_in</item>
+        <item name="android:activityCloseExitAnimation">@anim/slide_right_out</item>
     </style>
 
     <!--自定义圆形进度-->
     <style name="Progress_circle_acting">
-        <item name="android:indeterminateDrawable">@drawable/ratate_progress_bar</item>
+        <item name="android:indeterminateDrawable">@drawable/rotate_progress_bar</item>
         <item name="android:minWidth">20dp</item>
         <item name="android:minHeight">20dp</item>
         <item name="android:maxWidth">60dp</item>
         <item name="android:maxHeight">60dp</item>
+    </style>
+
+    <!--自定义dialog样式-->
+    <style name="BaseDialog" parent="android:Theme.Holo.Dialog">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <!--自定义dialog无阴影样式-->
+    <style name="BaseTranslucentDialog" parent="android:Theme.Holo.Light.Dialog">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:backgroundDimEnabled">true</item>
+         <item name="android:backgroundDimAmount">0.0</item>
+        <item name="android:windowFrame">@null</item>
+         <item name="android:windowIsFloating">true</item>
+    </style>
+
+    <style name="Line">
+        <item name="android:background">#C2C2C2</item>
     </style>
 
 </resources>

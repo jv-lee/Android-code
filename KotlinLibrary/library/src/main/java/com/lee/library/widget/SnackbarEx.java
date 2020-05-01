@@ -1,9 +1,11 @@
 package com.lee.library.widget;
 
-import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.TextView;
+
+import androidx.core.content.ContextCompat;
+
+import com.google.android.material.snackbar.Snackbar;
 
 /**
  * @author jv.lee
@@ -51,8 +53,9 @@ public class SnackbarEx {
         snackbar.setAction(actionText, onClickListener);
     }
 
+    @Deprecated
     private void setSnackbarMessageColor(int messageColor) {
-        ((TextView) snackbar.getView().findViewById(android.support.design.R.id.snackbar_text)).setTextColor(messageColor);
+//        ((TextView) snackbar.getView().findViewById(androidx.support.design.R.id.snackbar_text)).setTextColor(messageColor);
     }
 
     public static class Builder {

@@ -2,16 +2,19 @@ package com.lee.library.widget.nav;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.support.annotation.NonNull;
-import android.support.design.bottomnavigation.LabelVisibilityMode;
-import android.support.design.internal.BottomNavigationItemView;
-import android.support.design.internal.BottomNavigationMenuView;
-import android.support.design.widget.BottomNavigationView;
-import android.support.v4.view.ViewPager;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.viewpager.widget.ViewPager;
+
+import com.google.android.material.bottomnavigation.BottomNavigationItemView;
+import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.bottomnavigation.LabelVisibilityMode;
 import com.lee.library.utils.SizeUtil;
 
 import java.util.ArrayList;
@@ -21,6 +24,7 @@ import java.util.List;
  * @author jv.lee
  * @date 2019/5/7
  */
+@androidx.annotation.RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
 public class BottomNavView extends BottomNavigationView implements BottomNavigationView.OnNavigationItemSelectedListener {
 
     private ViewPager mViewPager;

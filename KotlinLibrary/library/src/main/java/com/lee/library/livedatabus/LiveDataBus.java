@@ -1,9 +1,15 @@
 package com.lee.library.livedatabus;
 
-import android.arch.lifecycle.*;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleObserver;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.OnLifecycleEvent;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -91,8 +97,9 @@ public class LiveDataBus{
 
         private Map<Observer, Observer> observerMap = new HashMap<>();
 
+
         @Override
-        public void observe(@NonNull LifecycleOwner owner, @NonNull Observer<T> observer) {
+        public void observe(@NonNull LifecycleOwner owner, @NonNull Observer<? super T> observer) {
             super.observe(owner, observer);
             try {
                 hook(observer);
@@ -102,7 +109,7 @@ public class LiveDataBus{
         }
 
         @Override
-        public void observeForever(@NonNull Observer<T> observer) {
+        public void observeForever(@NonNull Observer<? super T> observer) {
             if (!observerMap.containsKey(observer)) {
                 observerMap.put(observer, new ObserverWrapper(observer));
             }
@@ -110,7 +117,7 @@ public class LiveDataBus{
         }
 
         @Override
-        public void removeObserver(@NonNull Observer<T> observer) {
+        public void removeObserver(@NonNull Observer<? super T> observer) {
             Observer realObserver = null;
             if (observerMap.containsKey(observer)) {
                 realObserver = observerMap.remove(observer);
@@ -120,7 +127,7 @@ public class LiveDataBus{
             super.removeObserver(realObserver);
         }
 
-        private void hook(@NonNull Observer<T> observer) throws Exception {
+        private void hook(@NonNull Observer<? super T> observer) throws Exception {
             //get wrapper's version
             Class<LiveData> classLiveData = LiveData.class;
             Field fieldObservers = classLiveData.getDeclaredField("mObservers");

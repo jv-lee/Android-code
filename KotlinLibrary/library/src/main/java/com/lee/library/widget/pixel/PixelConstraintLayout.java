@@ -1,10 +1,11 @@
 package com.lee.library.widget.pixel;
 
 import android.content.Context;
-import android.support.constraint.ConstraintLayout;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.lee.library.utils.PixelUtil;
 
