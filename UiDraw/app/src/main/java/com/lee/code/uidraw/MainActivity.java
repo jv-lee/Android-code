@@ -2,12 +2,9 @@ package com.lee.code.uidraw;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.widget.Toast;
+import android.view.View;
 
-import com.lee.code.uidraw.canvas.CanvasTestView;
-import com.lee.code.uidraw.widget.InputPasswordView;
-import com.lee.code.uidraw.widget.SplashView;
-import com.lee.code.uidraw.widget.tree.TreeView;
+import com.lee.code.uidraw.view.FloatMoveImageView;
 
 /**
  * @author jv.lee
@@ -19,7 +16,28 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
 //        setContentView(R.layout.view_input_password);
 
-//        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main);
+        final FloatMoveImageView moveView = findViewById(R.id.move);
+        findViewById(R.id.btn_mode_reindex).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                moveView.setOverMode(FloatMoveImageView.OVER_MODE_REINDEX);
+            }
+        });
+        findViewById(R.id.btn_mode_pullover).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                moveView.setOverMode(FloatMoveImageView.OVER_MODE_PULLOVER);
+            }
+        });
+        findViewById(R.id.btn_mode_hover).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                moveView.setOverMode(FloatMoveImageView.OVER_MODE_HOVER);
+            }
+        });
+
+
 //        setContentView(new PathView(this));
 //        setContentView(new CarView(this));
 //        setContentView(new MapView(this));
@@ -27,7 +45,7 @@ public class MainActivity extends Activity {
 //        setContentView(new ColorFilterView(this));
 //        setContentView(new TreeView(this));
 //        setContentView(new CanvasTestView(this));
-        setContentView(new SplashView(this));
+//        setContentView(new SplashView(this));
 //        TouchMoveView view = findViewById(R.id.move);
 //        view.setOnClickListener(new View.OnClickListener() {
 //            @Override
