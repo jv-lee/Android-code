@@ -2,6 +2,7 @@ package com.lee.code.uidraw.view;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.support.constraint.ConstraintLayout;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -38,8 +39,14 @@ public class FloatMoveImageView extends ImageView {
     private int mOverWidth;
     private int mOverHeight;
     private int mParentWidthClip;
+    private int mParentHeightClip;
     private int mEndX;
     private int mEndY;
+
+    private float leftDimen;
+    private float rightDimen;
+    private float topDimen;
+    private float bottomDimen;
 
     public FloatMoveImageView(Context context) {
         super(context);
@@ -61,9 +68,43 @@ public class FloatMoveImageView extends ImageView {
             int mParentWidth = mViewGroup.getWidth();
             int mParentHeight = mViewGroup.getHeight();
             mParentWidthClip = mParentWidth / 2;
+            mParentHeightClip = mParentHeight / 2;
             mOverWidth = mParentWidth - getWidth();
             mOverHeight = mParentHeight - getHeight();
+            updateDimen();
         }
+    }
+
+    private void updateDimen() {
+        float x = this.getX();
+        float y = this.getY();
+        ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams) getLayoutParams();
+        if (x < mParentWidthClip && y < mParentHeightClip) {
+            //左上
+            leftDimen = 0;
+            rightDimen = mOverWidth - lp.leftMargin * 2;
+            topDimen = 0;
+            bottomDimen = mOverHeight - lp.topMargin * 2;
+        } else if (x < mParentWidthClip && y > mParentHeightClip) {
+            //左下
+            leftDimen = 0;
+            rightDimen = mOverWidth - lp.leftMargin * 2;
+            topDimen = -mOverHeight + lp.bottomMargin * 2;
+            bottomDimen = 0;
+        } else if (x > mParentWidthClip && y < mParentHeightClip) {
+            //右上
+            leftDimen = -mOverWidth + lp.rightMargin * 2;
+            rightDimen = 0;
+            topDimen = 0;
+            bottomDimen = mOverHeight - lp.topMargin * 2;
+        } else if (x > mParentWidthClip && y > mParentHeightClip) {
+            //右下
+            leftDimen = -mOverWidth + lp.rightMargin * 2;
+            rightDimen = 0;
+            topDimen = -mOverHeight + lp.bottomMargin * 2;
+            bottomDimen = 0;
+        }
+
     }
 
     @Override
@@ -114,20 +155,22 @@ public class FloatMoveImageView extends ImageView {
      * @param hover 是否支持悬停
      */
     private void onPullOver(boolean hover) {
-        if (this.getX() < 0) {
-            this.setTranslationX(0);
-        } else if (this.getX() > mOverWidth) {
-            this.setTranslationX(mOverWidth);
-        } else if (!hover && this.getX() < mParentWidthClip) {
-            this.setTranslationX(0);
-        } else if (!hover && this.getX() > mParentWidthClip) {
-            this.setTranslationX(mOverWidth);
+        float x = this.getX();
+        float y = this.getY();
+        if (x < 0) {
+            this.setTranslationX(leftDimen);
+        } else if (x > mOverWidth) {
+            this.setTranslationX(rightDimen);
+        } else if (!hover && x < mParentWidthClip) {
+            this.setTranslationX(leftDimen);
+        } else if (!hover && x > mParentWidthClip) {
+            this.setTranslationX(rightDimen);
         }
 
-        if (this.getY() < 0) {
-            this.setTranslationY(0);
-        } else if (this.getY() > mOverHeight) {
-            this.setTranslationY(mOverHeight);
+        if (y < 0) {
+            this.setTranslationY(topDimen);
+        } else if (y > mOverHeight) {
+            this.setTranslationY(bottomDimen);
         }
     }
 
