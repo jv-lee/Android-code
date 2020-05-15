@@ -2,7 +2,6 @@ package com.lee.code.uidraw.view;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.support.constraint.ConstraintLayout;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -48,6 +47,8 @@ public class FloatMoveImageView extends ImageView {
     private float topDimen;
     private float bottomDimen;
 
+    private boolean onMeasureEnable;
+
     public FloatMoveImageView(Context context) {
         super(context);
     }
@@ -64,9 +65,12 @@ public class FloatMoveImageView extends ImageView {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         ViewGroup mViewGroup = (ViewGroup) getParent();
-        if (mViewGroup != null) {
+        if (mViewGroup != null && !onMeasureEnable) {
             int mParentWidth = mViewGroup.getWidth();
             int mParentHeight = mViewGroup.getHeight();
+            if (mParentWidth != 0 && mParentHeight != 0) {
+                onMeasureEnable = true;
+            }
             mParentWidthClip = mParentWidth / 2;
             mParentHeightClip = mParentHeight / 2;
             mOverWidth = mParentWidth - getWidth();
@@ -126,6 +130,7 @@ public class FloatMoveImageView extends ImageView {
                 this.setTranslationY(this.getTranslationY() + currY);
                 break;
             case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_CANCEL:
                 setClickable(true);
                 switchMode();
                 break;
