@@ -121,13 +121,15 @@ public class FloatMoveImageView extends ImageView {
                 Log.i(TAG, "TouchMoveDown");
                 break;
             case MotionEvent.ACTION_MOVE:
-                setClickable(false);
                 //计算距离上次移动了多远
                 int currX = x - mEndX;
                 int currY = y - mEndY;
                 //设置当前偏移量实现拖动
                 this.setTranslationX(this.getTranslationX() + currX);
                 this.setTranslationY(this.getTranslationY() + currY);
+                if (currX != 0 && currY != 0) {
+                    setClickable(false);
+                }
                 break;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
