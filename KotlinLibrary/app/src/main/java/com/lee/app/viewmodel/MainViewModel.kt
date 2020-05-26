@@ -8,7 +8,7 @@ import com.lee.app.App
 import com.lee.app.R
 import com.lee.app.model.entity.User
 import com.lee.app.model.repository.MainRepository
-import com.lee.library.mvvm.BaseViewModel
+import com.lee.library.mvvm.base.BaseViewModel
 
 /**
  * @author jv.lee

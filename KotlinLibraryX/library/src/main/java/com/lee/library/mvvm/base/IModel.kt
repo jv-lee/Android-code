@@ -1,4 +1,4 @@
-package com.lee.library.mvvm
+package com.lee.library.mvvm.base
 
 /**
  * @author jv.lee

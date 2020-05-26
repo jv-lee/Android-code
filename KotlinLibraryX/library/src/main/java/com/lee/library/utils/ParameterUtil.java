@@ -104,7 +104,7 @@ public class ParameterUtil {
             date = dff.parse(dff.format(new Date()));
             time = date.getTime();
         } catch (ParseException e) {
-            // TODO Auto-generated catch block
+            //  Auto-generated catch block
             e.printStackTrace();
         }
         return String.valueOf(time);

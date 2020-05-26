@@ -1,18 +1,18 @@
 package com.lee.library.widget.toolbar
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.graphics.drawable.Drawable
+import android.support.constraint.ConstraintLayout
+import android.support.constraint.ConstraintSet
+import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
-import androidx.core.view.updateLayoutParams
-import androidx.navigation.findNavController
 import com.lee.library.R
 import com.lee.library.extensions.setImageTintCompat
 import com.lee.library.utils.SizeUtil
@@ -97,39 +97,49 @@ open class TitleToolbar : CustomToolbarLayout {
     private fun buildBackImage() {
         ivBack = ImageView(context)
         ivBack?.run {
+            id = R.id.toolbar_back
             layoutParams =
                 LayoutParams(
                     resources.getDimension(R.dimen.toolbar_button_width).toInt(),
                     MATCH_PARENT
                 )
-            updateLayoutParams<ConstraintLayout.LayoutParams> { startToStart = 0 }
             scaleType = ImageView.ScaleType.CENTER
             backIcon?.let { setImageTintCompat(it, backIconTint!!) }
             backEnable?.let { visibility = it }
             setOnClickListener {
-                findNavController().popBackStack()
+                (context as Activity).finish()
                 clickListener?.backClick()
             }
             addView(this)
+            val set = ConstraintSet()
+            set.connect(id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START)
+            set.connect(id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP)
+            set.connect(id, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM)
+            set.constrainWidth(id, resources.getDimension(R.dimen.toolbar_button_width).toInt())
+            set.constrainHeight(id, ConstraintSet.WRAP_CONTENT)
+            set.applyTo(this@TitleToolbar)
         }
     }
 
     private fun buildTitleText() {
         tvTitle = TextView(context)
         tvTitle?.run {
-            layoutParams = LayoutParams(WRAP_CONTENT, WRAP_CONTENT)
-            updateLayoutParams<ConstraintLayout.LayoutParams> {
-                startToStart = 0
-                endToEnd = 0
-                topToTop = 0
-                bottomToBottom = 0
-            }
+            id = R.id.toolbar_title
             setTextColor(ContextCompat.getColor(context, R.color.colorAccent))
             titleText?.let { text = it }
             titleEnable?.let { visibility = it }
             textSize =
                 SizeUtil.px2sp(context, resources.getDimension(R.dimen.font_size_medium)).toFloat()
             addView(this)
+            val set = ConstraintSet()
+            set.connect(id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START)
+            set.connect(id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END)
+            set.connect(id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP)
+            set.connect(id, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM)
+            set.constrainHeight(id, ConstraintSet.WRAP_CONTENT)
+            set.constrainWidth(id, ConstraintSet.WRAP_CONTENT)
+
+            set.applyTo(this@TitleToolbar)
         }
     }
 
@@ -137,12 +147,7 @@ open class TitleToolbar : CustomToolbarLayout {
     private fun buildMenuImage() {
         ivMenu = ImageView(context)
         ivMenu?.run {
-            layoutParams =
-                LayoutParams(
-                    resources.getDimension(R.dimen.toolbar_button_width).toInt(),
-                    MATCH_PARENT
-                )
-            updateLayoutParams<ConstraintLayout.LayoutParams> { endToEnd = 0 }
+            id = R.id.toolbar_menu
             scaleType = ImageView.ScaleType.CENTER
             menuIcon?.let { setImageTintCompat(it, menuIconTint!!) }
             menuEnable?.let { visibility = it }
@@ -150,6 +155,13 @@ open class TitleToolbar : CustomToolbarLayout {
                 clickListener?.menuClick()
             }
             addView(this)
+            val set = ConstraintSet()
+            set.connect(id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END)
+            set.connect(id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP)
+            set.connect(id, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM)
+            set.constrainWidth(id, resources.getDimension(R.dimen.toolbar_button_width).toInt())
+            set.constrainHeight(id, ConstraintSet.WRAP_CONTENT)
+            set.applyTo(this@TitleToolbar)
         }
     }
 

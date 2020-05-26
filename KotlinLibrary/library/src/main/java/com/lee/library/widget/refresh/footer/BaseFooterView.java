@@ -1,12 +1,12 @@
 package com.lee.library.widget.refresh.footer;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 /**
  * 加载更多的基类，继承该类可以实现不同样式的加载头，但是基本的加载过程不变，都是：

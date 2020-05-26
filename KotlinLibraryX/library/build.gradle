@@ -11,6 +11,7 @@ android {
         targetSdkVersion androidId.targetSdkVersion
         versionCode androidId.versionCode
         versionName androidId.versionName
+
     }
 
     buildTypes {
@@ -31,6 +32,13 @@ android {
 
     dataBinding{
         enabled true
+    }
+    sourceSets {
+        main {
+            assets {
+                srcDirs 'src/main/assets', 'src/main/assets/'
+            }
+        }
     }
 
 }

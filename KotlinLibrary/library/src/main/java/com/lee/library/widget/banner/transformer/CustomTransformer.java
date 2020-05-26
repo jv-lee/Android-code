@@ -1,16 +1,17 @@
 package com.lee.library.widget.banner.transformer;
 
 import android.os.Build;
+import android.support.annotation.RequiresApi;
+import android.support.v4.view.ViewPager;
 import android.view.View;
 
-import androidx.viewpager.widget.ViewPager;
 
 /**
  *
  * @author Administrator
  * @date 2017/8/15
  */
-@androidx.annotation.RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
+@RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
 public class CustomTransformer implements ViewPager.PageTransformer {
     private static final float MIN_SCALE = 0.9F;
     @Override

@@ -1,9 +1,8 @@
 package com.lee.library.widget.toolbar
 
 import android.content.Context
+import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
-import androidx.core.content.ContextCompat
-import com.lee.library.widget.toolbar.TitleToolbar
 
 /**
  * @author jv.lee

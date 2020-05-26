@@ -32,7 +32,8 @@ class SimpleItem : LeeViewItem<Int> {
     }
 
     override fun convert(holder: LeeViewHolder?, entity: Int?, position: Int) {
-        (holder?.getView<View>(R.id.tv_text) as TextView).text = "this is item text position $entity"
+        (holder?.getView<View>(R.id.tv_text) as TextView).text =
+            "this is item text position $entity"
         if (position % 2 == 0) {
             holder.convertView.setBackgroundColor(
                 ContextCompat.getColor(
@@ -48,6 +49,13 @@ class SimpleItem : LeeViewItem<Int> {
                 )
             )
         }
+    }
+
+    override fun openRecycler(): Boolean {
+        return false
+    }
+
+    override fun viewRecycled(holder: LeeViewHolder?, entity: Int?, position: Int) {
     }
 
 

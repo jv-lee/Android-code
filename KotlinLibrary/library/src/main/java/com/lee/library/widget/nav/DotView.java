@@ -7,10 +7,9 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PaintFlagsDrawFilter;
 import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.View;
-
-import androidx.core.content.ContextCompat;
 
 import com.lee.library.R;
 

@@ -66,6 +66,9 @@ ext {
             "conver-scalars"  : "com.squareup.retrofit2:converter-scalars:${retrofit}",
             "conver-protobuf" : "com.squareup.retrofit2:converter-protobuf:${retrofit}",
             "call-coroutine"  : "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2",
+
+            //第三方
+            "permission"      : "com.github.jv-lee:permission:lite-2.0.0",
     ]
 
 }

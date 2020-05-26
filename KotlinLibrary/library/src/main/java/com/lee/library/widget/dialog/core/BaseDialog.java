@@ -3,9 +3,9 @@ package com.lee.library.widget.dialog.core;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.View;
 
-import androidx.annotation.NonNull;
 
 import com.lee.library.R;
 

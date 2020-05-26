@@ -11,8 +11,8 @@ import android.provider.Settings;
 import androidx.fragment.app.FragmentActivity;
 
 import com.lee.library.intent.IntentManager;
-import com.lee.library.permission.PermissionManager;
-import com.lee.library.permission.PermissionRequest;
+import com.lee.permission.PermissionManager;
+import com.lee.permission.core.IPermission;
 
 /**
  * @author jv.lee
@@ -29,17 +29,22 @@ public class FloatWindowManager {
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             PermissionManager.getInstance()
                     .request(Manifest.permission.SYSTEM_ALERT_WINDOW)
-                    .listener(new PermissionRequest() {
+                    .listener(new IPermission() {
                         @Override
-                        public void onPermissionSuccess() {
+                        public void granted() {
                             windowCallback.success();
+
                         }
 
                         @Override
-                        public void onPermissionFiled(String permission) {
+                        public void cancel() {
                             windowCallback.filed();
                         }
 
+                        @Override
+                        public void denied() {
+                            windowCallback.filed();
+                        }
                     });
         }
     }

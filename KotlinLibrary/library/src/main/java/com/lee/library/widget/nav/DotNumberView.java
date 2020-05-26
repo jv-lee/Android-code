@@ -4,11 +4,10 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.*;
 import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.View;
-
-import androidx.core.content.ContextCompat;
 
 import com.lee.library.R;
 

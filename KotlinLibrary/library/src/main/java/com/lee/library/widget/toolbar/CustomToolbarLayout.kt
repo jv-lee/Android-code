@@ -1,12 +1,12 @@
 package com.lee.library.widget.toolbar
 
 import android.content.Context
+import android.support.constraint.ConstraintLayout
+import android.support.constraint.ConstraintSet
+import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
-import androidx.core.view.updateLayoutParams
 import com.lee.library.R
 import com.lee.library.utils.SizeUtil
 import com.lee.library.utils.StatusUtil
@@ -61,24 +61,32 @@ open class CustomToolbarLayout : ConstraintLayout {
      */
     open fun initStatusBarPadding() {
         val statusHeight = StatusUtil.getStatusBarHeight(context)
-        setPadding(SizeUtil.dp2px(context,16f), statusHeight, SizeUtil.dp2px(context,16f), 0)
+        setPadding(SizeUtil.dp2px(context, 16f), statusHeight, SizeUtil.dp2px(context, 16f), 0)
     }
 
     private fun initBottomLine() {
         val lineView = View(context)
         lineView.run {
-            layoutParams = LayoutParams(MATCH_PARENT, SizeUtil.px2dp(context, 1f))
+            id = R.id.toolbar_line
+//            layoutParams = LayoutParams(MATCH_PARENT, SizeUtil.px2dp(context, 1f))
             lineView.setBackgroundColor(
                 ContextCompat.getColor(
                     context,
                     R.color.colorThemeBackground
                 )
             )
-            updateLayoutParams<ConstraintLayout.LayoutParams> {
-                bottomToBottom = 0
-            }
+            addView(this)
+            val set = ConstraintSet()
+            set.connect(
+                id,
+                ConstraintSet.BOTTOM,
+                ConstraintSet.PARENT_ID,
+                ConstraintSet.BOTTOM
+            )
+            set.constrainWidth(id, ConstraintSet.MATCH_CONSTRAINT)
+            set.constrainHeight(id, SizeUtil.px2dp(context, 1f))
+            set.applyTo(this@CustomToolbarLayout)
         }
-        addView(lineView)
     }
 
     /**

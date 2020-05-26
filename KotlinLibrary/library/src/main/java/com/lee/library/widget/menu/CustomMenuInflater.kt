@@ -4,14 +4,14 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.TypedArray
 import android.content.res.XmlResourceParser
+import android.support.annotation.MenuRes
+import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.util.Xml
 import android.view.InflateException
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import androidx.annotation.MenuRes
-import androidx.core.content.ContextCompat
 import com.lee.library.R
 import com.lee.library.extensions.setImageTintCompat
 import com.lee.library.utils.SizeUtil

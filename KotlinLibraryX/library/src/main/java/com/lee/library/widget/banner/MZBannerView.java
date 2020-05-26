@@ -80,7 +80,7 @@ public class MZBannerView<T> extends RelativeLayout {
     /**
      * mIndicatorRes[0] 为为选中，mIndicatorRes[1]为选中
      */
-    private int[] mIndicatorRes = new int[]{R.drawable.indicator_normal, R.drawable.indicator_selected};
+    private int[] mIndicatorRes = new int[]{R.drawable.shape_indicator_normal, R.drawable.shape_indicator_selected};
     private int mIndicatorPaddingLeft = 0;
     private int mIndicatorPaddingRight = 0;
     /**

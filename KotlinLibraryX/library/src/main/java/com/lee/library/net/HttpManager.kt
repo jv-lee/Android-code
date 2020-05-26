@@ -57,6 +57,10 @@ class HttpManager private constructor() {
         mInterceptors.add(interceptor)
     }
 
+    fun getClient(): OkHttpClient? {
+        return getOkHttpClient(Request("https://android.cn", IRequest.ConverterType.JSON))
+    }
+
     fun <T> getService(serviceClass: Class<T>, request: Request): T {
         if (request.isDownload) {
             return createService(serviceClass, request)

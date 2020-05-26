@@ -1,4 +1,4 @@
-package com.lee.library.mvvm
+package com.lee.library.mvvm.base
 
 import com.lee.library.utils.LogUtil
 import retrofit2.Response

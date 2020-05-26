@@ -66,8 +66,13 @@ ext {
 
             //网络加载
             "retrofit"        : "com.squareup.retrofit2:retrofit:${retrofit}",
-            "retrofitrxjava2" : "com.squareup.retrofit2:adapter-rxjava2:${retrofit}",
-            "retrofitgson"    : "com.squareup.retrofit2:converter-gson:${retrofit}",
+            "conver-gson"     : "com.squareup.retrofit2:converter-gson:${retrofit}",
+            "conver-scalars"  : "com.squareup.retrofit2:converter-scalars:${retrofit}",
+            "conver-protobuf" : "com.squareup.retrofit2:converter-protobuf:${retrofit}",
+            "call-coroutine"  : "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2",
+
+            //第三方
+            "permission"      : "com.github.jv-lee:permission:lite-1.0.0",
     ]
 
 }

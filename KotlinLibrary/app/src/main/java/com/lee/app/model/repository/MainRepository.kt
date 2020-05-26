@@ -2,8 +2,8 @@ package com.lee.app.model.repository
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
-import com.lee.library.mvvm.IModel
 import com.lee.app.model.entity.User
+import com.lee.library.mvvm.base.IModel
 
 /**
  * @author jv.lee

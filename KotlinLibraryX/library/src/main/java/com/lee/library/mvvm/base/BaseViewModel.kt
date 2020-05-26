@@ -1,8 +1,9 @@
-package com.lee.library.mvvm
+package com.lee.library.mvvm.base
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import com.lee.library.mvvm.CustomException
 import kotlinx.coroutines.*
 import java.util.concurrent.CancellationException
 
@@ -64,8 +65,10 @@ open class BaseViewModel(application: Application) : AndroidViewModel(applicatio
             try {
                 tryBlock()
             } catch (e: Throwable) {
+                e.printStackTrace()
                 if (e !is CancellationException || handleCancellationExceptionManually) {
-                    failedEvent.value = CustomException(failedCode,e)
+                    failedEvent.value =
+                        CustomException(failedCode, e)
                     catchBlock(e)
                 } else {
                     throw e

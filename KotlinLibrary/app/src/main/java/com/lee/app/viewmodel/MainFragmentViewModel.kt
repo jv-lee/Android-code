@@ -3,7 +3,7 @@ package com.lee.app.viewmodel
 import android.app.Application
 import android.arch.lifecycle.MutableLiveData
 import com.lee.app.model.repository.MainFragmentRepository
-import com.lee.library.mvvm.BaseViewModel
+import com.lee.library.mvvm.base.BaseViewModel
 
 /**
  * @author jv.lee

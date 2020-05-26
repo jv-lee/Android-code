@@ -1,8 +1,8 @@
 package com.lee.library.widget.dialog;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
-import androidx.annotation.NonNull;
 
 import com.lee.library.R;
 import com.lee.library.widget.dialog.core.BaseTranslucentDialog;

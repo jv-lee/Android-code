@@ -6,11 +6,11 @@
 
         <variable
                 name="click"
-                type="android.view.View.OnClickListener"/>
+                type="android.view.View.OnClickListener" />
 
         <variable
                 name="viewModel"
-                type="com.lee.app.viewmodel.MainViewModel"/>
+                type="com.lee.app.viewmodel.MainViewModel" />
     </data>
 
     <android.support.constraint.ConstraintLayout
@@ -30,7 +30,7 @@
                 <android.support.v7.widget.RecyclerView
                         android:id="@+id/rv_container"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"/>
+                        android:layout_height="match_parent" />
 
             </com.lee.library.widget.refresh.RefreshLayout>
 
@@ -38,52 +38,61 @@
 
         <TextView
                 android:id="@+id/tv_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="@{viewModel.user == null ? @string/user_id :String.valueOf(viewModel.user.get().id)}"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
                 android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="@{viewModel.user == null ? @string/user_name:viewModel.user.get().name}"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_id"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                app:layout_constraintTop_toBottomOf="@+id/tv_id" />
 
 
         <TextView
                 android:id="@+id/tv_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="@{viewModel.user == null ? @string/user_description:viewModel.user.get().description}"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                app:layout_constraintTop_toBottomOf="@+id/tv_name" />
 
         <Button
                 android:id="@+id/button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{click}"
                 android:text="Click"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:onClick="@{click}"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
         <Button
                 android:id="@+id/button2"
-                android:text="click"
-                android:onClick="@{click}"
-                app:layout_constraintTop_toBottomOf="@id/button"
-                app:layout_constraintRight_toRightOf="parent"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:onClick="@{click}"
+                android:text="click"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/button" />
 
         <FrameLayout
                 android:id="@+id/frame_container"
-                android:layout_marginTop="56dp"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent"
+                android:layout_marginTop="56dp" />
+
+        <com.lee.library.widget.toolbar.TitleToolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:titleText="TitleToolbar"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
     </android.support.constraint.ConstraintLayout>
 </layout>

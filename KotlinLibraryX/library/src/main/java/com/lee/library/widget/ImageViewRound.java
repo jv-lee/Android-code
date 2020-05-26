@@ -109,7 +109,11 @@ public class ImageViewRound extends ImageView {
         if (getDrawable() == null) {
             return;
         }
-        setBitmapShader();
+        try {
+            setBitmapShader();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         if (mType == TYPE_CIRCLE) {
             canvas.drawCircle(mRadius, mRadius, mRadius - (getPaddingTop() / 2), mPaint);
         } else if (mType == TYPE_ROUND) {

@@ -13,9 +13,9 @@ import android.widget.FrameLayout;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.lee.library.R;
 import com.lee.library.adapter.listener.DefaultLoadResource;
 import com.lee.library.adapter.listener.LeeViewItem;
+import com.lee.library.adapter.listener.LoadErrorListener;
 import com.lee.library.adapter.listener.LoadResource;
 import com.lee.library.adapter.manager.LeeViewItemManager;
 
@@ -101,14 +101,14 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
      */
     private LoadResource mLoadResource;
     /**
+     * 错误状态重试接口
+     */
+    private LoadErrorListener mLoadErrorListener;
+
+    /**
      * 数据源
      */
     private List<T> mData;
-
-    /**
-     * 加载布局id
-     */
-    private int loadResId;
 
     /**
      * 点击防抖结束时间
@@ -175,10 +175,8 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
         if (data.size() != 0) {
             //清空数据集合 通知数据源发生变更
             this.mData.clear();
-            notifyDataSetChanged();
         }
         this.mData.addAll(data);
-
     }
 
     protected void addData(T data) {
@@ -309,6 +307,12 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
         }
     }
 
+    @Override
+    public void onViewRecycled(@NonNull LeeViewHolder holder) {
+        super.onViewRecycled(holder);
+        viewRecycled(holder);
+    }
+
     /**
      * 自动加载数据
      *
@@ -345,13 +349,19 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
         }
         switch (status) {
             case STATUS_PAGE_LOADING:
+                clearData();
                 pageLoadingView.setVisibility(View.VISIBLE);
+                notifyDataSetChanged();
                 break;
             case STATUS_PAGE_EMPTY:
+                clearData();
                 pageEmptyView.setVisibility(View.VISIBLE);
+                notifyDataSetChanged();
                 break;
             case STATUS_PAGE_ERROR:
+                clearData();
                 pageErrorView.setVisibility(View.VISIBLE);
+                notifyDataSetChanged();
                 break;
             case STATUS_PAGE_COMPLETED:
                 isPageCompleted = true;
@@ -370,9 +380,7 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
         }
     }
 
-    public void openStatusView() {
-        clearData();
-        notifyDataSetChanged();
+    public void initStatusView() {
         //将加载成功设置为false  可以再次初始列表加载
         isPageCompleted = false;
         //开启loadMore模式
@@ -394,6 +402,14 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
             loadErrorView = itemLayout.findViewById(mLoadResource.itemLoadErrorId());
         }
         addFooter(itemLayout);
+        updateStatus(STATUS_INIT);
+    }
+
+    /**
+     * 开启加载更多状态
+     */
+    public void openLoadMore() {
+        hasLoadMore = true;
         updateStatus(STATUS_INIT);
     }
 
@@ -459,16 +475,6 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
 
     public void loadFailed() {
         updateStatus(STATUS_ITEM_ERROR);
-    }
-
-
-    /**
-     * 设置加载更多view 布局id
-     *
-     * @param resId
-     */
-    public void setLoadResId(int resId) {
-        this.loadResId = resId;
     }
 
     /**
@@ -556,7 +562,7 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
             viewHolder.getConvertView().setOnLongClickListener(v -> {
                 int position = getPosition(viewHolder);
                 if (position >= 0) {
-                    mOnItemLongClickListener.onItemLongClick(v, mData.get(position), position);
+                    return mOnItemLongClickListener.onItemLongClick(v, mData.get(position), position);
                 }
                 return true;
             });
@@ -565,6 +571,36 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
 
     private void convert(LeeViewHolder holder, T entity) {
         itemStyle.convert(holder, entity, holder.getLayoutPosition());
+    }
+
+    private void viewRecycled(LeeViewHolder holder) {
+        int position;
+        if (proxyAdapter != null) {
+            position = holder.getLayoutPosition() - proxyAdapter.getHeaderCount();
+        } else {
+            position = holder.getLayoutPosition();
+        }
+        if (position < getItemCount()) {
+            T entity = getData().get(position);
+            itemStyle.viewRecycled(holder, entity, position);
+        }
+    }
+
+    /**
+     * 设置错误回调逻辑
+     */
+    private void bindLoadErrorListener() {
+        if (mLoadResource != null && pageLayout != null) {
+            pageLayout.findViewById(mLoadResource.pageReloadId()).setOnClickListener(v -> {
+                mLoadErrorListener.pageReload();
+            });
+        }
+        if (mLoadResource != null && itemLayout != null) {
+            itemLayout.findViewById(mLoadResource.itemReloadId()).setOnClickListener(v -> {
+                updateStatus(STATUS_ITEM_MORE);
+                mLoadErrorListener.itemReload();
+            });
+        }
     }
 
     /**
@@ -634,20 +670,52 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
         this.mOnItemClickListener = mOnItemClickListener;
     }
 
-    public void setOnItemLongClickListener(OnItemLongClickListener<T> mOnItemLongClickListener) {
-        this.mOnItemLongClickListener = mOnItemLongClickListener;
+    /**
+     * 设置item长按点击事件
+     *
+     * @param onItemLongClickListener
+     */
+    public void setOnItemLongClickListener(OnItemLongClickListener<T> onItemLongClickListener) {
+        this.mOnItemLongClickListener = onItemLongClickListener;
     }
 
+    /**
+     * 设置item子view点击事件
+     *
+     * @param onItemChildView
+     * @param childClickIds
+     */
     public void setOnItemChildClickListener(OnItemChildView<T> onItemChildView, Integer... childClickIds) {
         this.childClickIds = Arrays.asList(childClickIds);
         this.mOnItemChildChange = onItemChildView;
     }
 
+    /**
+     * 设置自动加载更多监听
+     *
+     * @param autoLoadMoreListener
+     */
     public void setAutoLoadMoreListener(AutoLoadMoreListener autoLoadMoreListener) {
         this.mAutoLoadMoreListener = autoLoadMoreListener;
     }
 
+    /**
+     * 设置自定义 page状态资源布局接口
+     *
+     * @param loadResource
+     */
     public void setLoadResource(LoadResource loadResource) {
         this.mLoadResource = loadResource;
     }
+
+    /**
+     * 设置错误重试接口
+     *
+     * @param loadErrorListener
+     */
+    public void setLoadErrorListener(LoadErrorListener loadErrorListener) {
+        mLoadErrorListener = loadErrorListener;
+        bindLoadErrorListener();
+    }
+
 }

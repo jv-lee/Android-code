@@ -28,6 +28,7 @@ class OkHttpClientBuilder {
                 .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
                 .writeTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
                 .readTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
+                .sslSocketFactory(SSLSocketFactoryCompat())
                 .build()
 
         }

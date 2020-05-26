@@ -34,6 +34,7 @@ abstract class BaseActivity<V : ViewDataBinding, VM : ViewModel>(
 
     private var firstTime: Long = 0
     private var hasBackExit = false
+    private var hasBanBack = false
     private var hasBackExitTimer = 2000
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,14 +67,25 @@ abstract class BaseActivity<V : ViewDataBinding, VM : ViewModel>(
     /**
      * 设置back键位 连按两次才可退出activity
      *
-     * @param enable 设置back双击开关
+     * @param enable 设置back双击开关 true打开设置 false关闭设置
      */
     protected fun backExitEnable(enable: Boolean) {
         hasBackExit = enable
     }
 
+    /**
+     * 设置back键位 禁用开关
+     * @param enable true打开禁用 false关闭禁用
+     */
+    protected fun banBackEnable(enable: Boolean) {
+        hasBanBack = enable
+    }
+
     override fun onKeyUp(keyCode: Int, event: KeyEvent): Boolean {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (hasBanBack) {
+                return true
+            }
             if (hasBackExit) {
                 val secondTime = System.currentTimeMillis()
                 //如果两次按键时间间隔大于2秒，则不退出

@@ -218,4 +218,8 @@ public class ProxyAdapter extends RecyclerView.Adapter {
 
         }
     }
+
+    public RecyclerView.Adapter getChildAdapter() {
+        return mAdapter;
+    }
 }
