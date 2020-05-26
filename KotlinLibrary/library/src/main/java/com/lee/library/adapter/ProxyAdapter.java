@@ -1,13 +1,12 @@
 package com.lee.library.adapter;
 
 import android.annotation.SuppressLint;
+import android.support.annotation.IntDef;
+import android.support.annotation.IntRange;
+import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
-
-import androidx.annotation.IntDef;
-import androidx.annotation.IntRange;
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

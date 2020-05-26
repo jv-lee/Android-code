@@ -1,6 +1,7 @@
 package com.lee.library.net.request
 
-import androidx.annotation.NonNull
+import android.support.annotation.NonNull;
+
 
 /**
  * @author jv.lee

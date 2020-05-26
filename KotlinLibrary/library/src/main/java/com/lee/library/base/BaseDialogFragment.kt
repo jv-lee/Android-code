@@ -1,17 +1,17 @@
 package com.lee.library.base
 
+import android.arch.lifecycle.ViewModel
+import android.arch.lifecycle.ViewModelProviders
+import android.databinding.DataBindingUtil
+import android.databinding.ViewDataBinding
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.support.v4.app.DialogFragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
-import androidx.fragment.app.DialogFragment
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProviders
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -23,26 +23,21 @@ import java.util.*
  * @date 2019/8/16.
  * @description
  */
-abstract class BaseDialogFragment<V : ViewDataBinding, VM : ViewModel>(
-    var layoutId: Int,
-    var vm: Class<VM>?
-) :
-    DialogFragment(), CoroutineScope by CoroutineScope(Dispatchers.Main) {
+abstract class BaseDialogFragment<V : ViewDataBinding, VM : ViewModel>(var layoutId: Int, var vm: Class<VM>?) :
+    DialogFragment() , CoroutineScope by CoroutineScope(Dispatchers.Main) {
 
     protected lateinit var binding: V
     protected lateinit var viewModel: VM
 
+    private var isVisibleUser = false
+    private var isVisibleView = false
     private var fistVisible = true
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        Objects.requireNonNull<Window>(dialog?.window)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        Objects.requireNonNull<Window>(dialog.window)
             .setBackgroundDrawable(ColorDrawable(Color.parseColor("#00000000")))
-        this.dialog?.setCancelable(false)
-        this.dialog?.setCanceledOnTouchOutside(false)
+        this.dialog.setCancelable(false)
+        this.dialog.setCanceledOnTouchOutside(false)
         //设置viewBinding
         binding = DataBindingUtil.inflate(inflater, layoutId, container, false)
         return binding.root
@@ -52,18 +47,28 @@ abstract class BaseDialogFragment<V : ViewDataBinding, VM : ViewModel>(
         super.onActivityCreated(savedInstanceState)
         //设置viewModel
         if (vm != null) viewModel = ViewModelProviders.of(this).get<VM>(vm!!)
-
-        intentParams(arguments,savedInstanceState)
+        bindData(savedInstanceState)
         bindView()
-        bindData()
-
-    }
-
-    override fun onResume() {
-        super.onResume()
-        if (fistVisible) {
+        isVisibleView = true
+        if (isVisibleUser && fistVisible) {
             fistVisible = false
             lazyLoad()
+        }
+    }
+
+    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
+        super.setUserVisibleHint(isVisibleToUser)
+        if (isVisibleToUser) {
+            isVisibleUser = true
+            onFragmentResume()
+            //首次用户可见 开始加载数据
+            if (isVisibleView && isVisibleUser && fistVisible) {
+                fistVisible = false
+                lazyLoad()
+            }
+        } else {
+            isVisibleUser = false
+            onFragmentPause()
         }
     }
 
@@ -73,24 +78,21 @@ abstract class BaseDialogFragment<V : ViewDataBinding, VM : ViewModel>(
         cancel()
     }
 
-    /**
-     * 初始化参数配置
-     */
-    open fun intentParams(arguments: Bundle?,savedInstanceState: Bundle?) {
+    open fun onFragmentResume() {}
 
-    }
+    open fun onFragmentPause() {}
+
+    /**
+     * 设置加载数据等业务操作
+     *
+     * @param savedInstanceState 重置回调参数
+     */
+    protected abstract fun bindData(savedInstanceState: Bundle?)
 
     /**
      * 设置view基础配置
      */
     protected abstract fun bindView()
-
-    /**
-     * 设置加载数据等业务操作
-     *
-     */
-    protected abstract fun bindData()
-
 
     /**
      * 使用page 多fragment时 懒加载

@@ -1,9 +1,9 @@
 package com.lee.library.adapter;
 
 
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentStatePagerAdapter;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
 import java.util.List;
 
@@ -18,24 +18,24 @@ public class UiPagerAdapter extends FragmentStatePagerAdapter {
     private String[] titles;
 
     public UiPagerAdapter(FragmentManager fm, Fragment[] fragments) {
-        super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+        super(fm);
         this.fragments = fragments;
     }
 
     public UiPagerAdapter(FragmentManager fm, List<Fragment> fragmentList, List<String> tabList) {
-        super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+        super(fm);
         this.fragmentList = fragmentList;
         this.tabList = tabList;
     }
 
     public UiPagerAdapter(FragmentManager fm, List<Fragment> fragmentList, String[] titles) {
-        super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+        super(fm);
         this.fragmentList = fragmentList;
         this.titles = titles;
     }
 
     public UiPagerAdapter(FragmentManager fm, Fragment[] fragments, String[] titles) {
-        super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+        super(fm);
         this.fragments = fragments;
         this.titles = titles;
     }
@@ -78,37 +78,5 @@ public class UiPagerAdapter extends FragmentStatePagerAdapter {
             return tabList.get(position);
         }
         return "";
-    }
-
-    public List<Fragment> getFragmentList() {
-        return fragmentList;
-    }
-
-    public void setFragmentList(List<Fragment> fragmentList) {
-        this.fragmentList = fragmentList;
-    }
-
-    public List<String> getTabList() {
-        return tabList;
-    }
-
-    public void setTabList(List<String> tabList) {
-        this.tabList = tabList;
-    }
-
-    public Fragment[] getFragments() {
-        return fragments;
-    }
-
-    public void setFragments(Fragment[] fragments) {
-        this.fragments = fragments;
-    }
-
-    public String[] getTitles() {
-        return titles;
-    }
-
-    public void setTitles(String[] titles) {
-        this.titles = titles;
     }
 }

@@ -1,7 +1,7 @@
 package com.lee.library.base
 
 import android.content.Context
-import androidx.multidex.MultiDexApplication
+import android.support.multidex.MultiDexApplication
 
 /**
  * @author jv.lee

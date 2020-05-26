@@ -1,6 +1,7 @@
 package com.lee.library.net.request
 
-import androidx.annotation.IntDef
+
+import android.support.annotation.IntDef
 import com.lee.library.net.request.IRequest.CallType.Companion.COROUTINE
 import com.lee.library.net.request.IRequest.CallType.Companion.NO
 import com.lee.library.net.request.IRequest.CallType.Companion.OBSERVABLE

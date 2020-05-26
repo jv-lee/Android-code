@@ -2,13 +2,13 @@ package com.lee.library.extensions
 
 import android.content.res.ColorStateList
 import android.graphics.drawable.StateListDrawable
+import android.support.v4.content.ContextCompat
+import android.support.v4.graphics.drawable.DrawableCompat
+import android.support.v4.view.ViewCompat
+import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.ImageView
 import android.widget.RadioButton
-import androidx.core.content.ContextCompat
-import androidx.core.graphics.drawable.DrawableCompat
-import androidx.core.view.ViewCompat
-import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 
 /**
@@ -53,7 +53,7 @@ fun RecyclerView.glideEnable() {
  * 向下兼容设置View背景着色器选择器
  */
 fun View.setBackgroundSelectorTintCompat(selectorId: Int) {
-    ViewCompat.setBackgroundTintList(
+    val backgroundTintList: Any = ViewCompat.setBackgroundTintList(
         this,
         ColorStateList.createFromXml(
             this.resources,

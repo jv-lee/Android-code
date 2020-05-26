@@ -1,11 +1,10 @@
 package com.lee.library.ioc;
 
 import android.app.Activity;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
-
-import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
 
 import com.lee.library.ioc.annotation.ContentView;
 import com.lee.library.ioc.annotation.EventBase;

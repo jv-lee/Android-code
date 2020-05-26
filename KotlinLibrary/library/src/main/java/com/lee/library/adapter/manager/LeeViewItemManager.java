@@ -1,7 +1,8 @@
 package com.lee.library.adapter.manager;
 
 
-import androidx.collection.SparseArrayCompat;
+
+import android.support.v4.util.SparseArrayCompat;
 
 import com.lee.library.adapter.LeeViewHolder;
 import com.lee.library.adapter.listener.LeeViewItem;

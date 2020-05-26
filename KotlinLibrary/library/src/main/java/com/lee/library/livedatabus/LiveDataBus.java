@@ -1,15 +1,16 @@
 package com.lee.library.livedatabus;
 
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.lifecycle.Lifecycle;
-import androidx.lifecycle.LifecycleObserver;
-import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.OnLifecycleEvent;
+import android.arch.lifecycle.Lifecycle;
+import android.arch.lifecycle.LifecycleObserver;
+import android.arch.lifecycle.LifecycleOwner;
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.OnLifecycleEvent;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -21,7 +22,7 @@ import java.util.Map;
  * @date 2019/3/30
  * 事件总线
  */
-public class LiveDataBus{
+public class LiveDataBus {
 
     /**
      * 消息通道
@@ -97,9 +98,8 @@ public class LiveDataBus{
 
         private Map<Observer, Observer> observerMap = new HashMap<>();
 
-
         @Override
-        public void observe(@NonNull LifecycleOwner owner, @NonNull Observer<? super T> observer) {
+        public void observe(@NonNull LifecycleOwner owner, @NonNull Observer<T> observer) {
             super.observe(owner, observer);
             try {
                 hook(observer);
@@ -109,7 +109,7 @@ public class LiveDataBus{
         }
 
         @Override
-        public void observeForever(@NonNull Observer<? super T> observer) {
+        public void observeForever(@NonNull Observer<T> observer) {
             if (!observerMap.containsKey(observer)) {
                 observerMap.put(observer, new ObserverWrapper(observer));
             }
@@ -117,7 +117,7 @@ public class LiveDataBus{
         }
 
         @Override
-        public void removeObserver(@NonNull Observer<? super T> observer) {
+        public void removeObserver(@NonNull Observer<T> observer) {
             Observer realObserver = null;
             if (observerMap.containsKey(observer)) {
                 realObserver = observerMap.remove(observer);

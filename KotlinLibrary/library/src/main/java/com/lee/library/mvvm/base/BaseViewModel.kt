@@ -1,8 +1,8 @@
 package com.lee.library.mvvm.base
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.MutableLiveData
+import android.arch.lifecycle.AndroidViewModel
+import android.arch.lifecycle.MutableLiveData
 import com.lee.library.mvvm.CustomException
 import kotlinx.coroutines.*
 import java.util.concurrent.CancellationException

@@ -1,12 +1,13 @@
 package com.lee.library.net.interceptor
 
-import androidx.annotation.NonNull
 import com.lee.library.base.BaseApplication
 import com.lee.library.utils.NetworkUtil
 import okhttp3.CacheControl
 import okhttp3.Interceptor
 import okhttp3.Response
 import java.io.IOException
+
+import android.support.annotation.NonNull;
 
 /**
  * @author jv.lee

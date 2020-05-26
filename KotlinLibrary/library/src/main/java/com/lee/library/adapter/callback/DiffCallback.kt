@@ -1,6 +1,7 @@
 package com.lee.library.adapter.callback
 
-import androidx.recyclerview.widget.DiffUtil
+import android.support.v7.util.DiffUtil
+
 
 /**
  * @author jv.lee
