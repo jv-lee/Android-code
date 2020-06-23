@@ -1,8 +1,10 @@
 package com.examples.live;
 
 import android.hardware.Camera;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatDelegate;
 import android.view.SurfaceView;
 import android.view.View;
 
@@ -20,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         SurfaceView surfaceView = findViewById(R.id.surface_view);
         mCamera2Helper = new Camera2Helper(this,0,800,480);
         mCamera2Helper.setPreviewDisplay(surfaceView.getHolder());
