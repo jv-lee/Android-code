@@ -1,0 +1,23 @@
+<resources>
+    <string name="bottom_sheet_behavior">android.support.design.widget.BottomSheetBehavior</string>
+    <string name="refresh_drag">Pull down to refresh</string>
+    <string name="refresh_release">Release immediate refresh</string>
+    <string name="refreshing">Refreshing…</string>
+    <string name="refresh_completed">Refresh completed</string>
+
+    <string name="load_more">load more</string>
+    <string name="loading">loading…</string>
+    <string name="load_completed">Loading completed</string>
+    <string name="str_not_more">No more</string>
+    <string name="str_loading_error">Load failed click retry…</string>
+    <string name="str_restart">Retry</string>
+    <string name="str_not_network">No network clicks to retry…</string>
+
+    <string name="lee_load_error">Load failed click retry</string>
+    <string name="lee_load_end">No more</string>
+    <string name="lee_load_more">loading…</string>
+    <string name="str_loading_empty">empty data .</string>
+
+    <string name="str_confirm">Confirm</string>
+    <string name="str_cancel">Cancel</string>
+</resources>
