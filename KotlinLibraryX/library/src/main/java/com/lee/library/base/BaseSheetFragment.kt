@@ -8,11 +8,12 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.lee.library.R
+import com.lee.library.extensions.getVmClass
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -22,8 +23,7 @@ import kotlinx.coroutines.cancel
  * @author jv.lee
  */
 abstract class BaseSheetFragment<V : ViewDataBinding, VM : ViewModel>(
-    var layoutId: Int,
-    var vm: Class<VM>?
+    var layoutId: Int
 ) : BottomSheetDialogFragment(), CoroutineScope by CoroutineScope(Dispatchers.Main) {
 
     protected lateinit var binding: V
@@ -65,7 +65,10 @@ abstract class BaseSheetFragment<V : ViewDataBinding, VM : ViewModel>(
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         //设置viewModel
-        if (vm != null) viewModel = ViewModelProviders.of(this).get<VM>(vm!!)
+        try {
+            viewModel = ViewModelProvider(this).get(getVmClass(this))
+        } catch (e: Exception) {
+        }
         intentParams(arguments, savedInstanceState)
         bindView()
         bindData()

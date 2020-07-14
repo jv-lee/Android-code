@@ -9,7 +9,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
+import com.lee.library.extensions.getVmClass
 import com.lee.library.utils.StatusUtil
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -22,15 +23,11 @@ import kotlinx.coroutines.cancel
  * @description
  */
 abstract class BaseActivity<V : ViewDataBinding, VM : ViewModel>(
-    var layoutId: Int,
-    var vm: Class<VM>?
-) :
+    var layoutId: Int) :
     AppCompatActivity(), CoroutineScope by CoroutineScope(Dispatchers.Main) {
 
     protected lateinit var binding: V
     protected lateinit var viewModel: VM
-
-    protected lateinit var mActivity: AppCompatActivity
 
     private var firstTime: Long = 0
     private var hasBackExit = false
@@ -40,13 +37,15 @@ abstract class BaseActivity<V : ViewDataBinding, VM : ViewModel>(
     override fun onCreate(savedInstanceState: Bundle?) {
         StatusUtil.statusBar(this, false)
         super.onCreate(savedInstanceState)
-        mActivity = this
 
         //设置viewBinding
         binding = DataBindingUtil.setContentView(this, layoutId)
 
         //设置viewModel
-        if (vm != null) viewModel = ViewModelProviders.of(this).get<VM>(vm!!)
+        try {
+            viewModel = ViewModelProvider(this).get(getVmClass(this))
+        } catch (e: Exception) {
+        }
 
         intentParams(intent, savedInstanceState)
 
@@ -109,7 +108,7 @@ abstract class BaseActivity<V : ViewDataBinding, VM : ViewModel>(
     }
 
     fun Activity.toast(message: CharSequence, duration: Int = Toast.LENGTH_SHORT) {
-        Toast.makeText(mActivity, message, duration).show()
+        Toast.makeText(this, message, duration).show()
     }
 
 }

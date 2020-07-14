@@ -11,7 +11,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
+import com.lee.library.extensions.getVmClass
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -24,8 +25,7 @@ import java.util.*
  * @description
  */
 abstract class BaseDialogFragment<V : ViewDataBinding, VM : ViewModel>(
-    var layoutId: Int,
-    var vm: Class<VM>?
+    var layoutId: Int
 ) :
     DialogFragment(), CoroutineScope by CoroutineScope(Dispatchers.Main) {
 
@@ -51,12 +51,13 @@ abstract class BaseDialogFragment<V : ViewDataBinding, VM : ViewModel>(
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         //设置viewModel
-        if (vm != null) viewModel = ViewModelProviders.of(this).get<VM>(vm!!)
-
+        try {
+            viewModel = ViewModelProvider(this).get(getVmClass(this))
+        } catch (e: Exception) {
+        }
         intentParams(arguments,savedInstanceState)
         bindView()
         bindData()
-
     }
 
     override fun onResume() {

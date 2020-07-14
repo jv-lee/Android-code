@@ -5,6 +5,7 @@ import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.FragmentContainerView
 import androidx.lifecycle.ViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.lee.library.mvvm.base.BaseViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 
@@ -14,10 +15,8 @@ import kotlinx.coroutines.Dispatchers
  * @description
  */
 abstract class BaseNavigationActivity<V : ViewDataBinding, VM : ViewModel>(
-    layoutId: Int,
-    vm: Class<VM>?
-) :
-    BaseActivity<V, VM>(layoutId, vm), CoroutineScope by CoroutineScope(Dispatchers.Main) {
+    layoutId: Int) :
+    BaseActivity<V, VM>(layoutId), CoroutineScope by CoroutineScope(Dispatchers.Main) {
 
     private  var navVisible = false
 

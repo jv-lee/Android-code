@@ -10,7 +10,8 @@ import android.webkit.WebView
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
+import com.lee.library.extensions.getVmClass
 
 /**
  * @author jv.lee
@@ -18,9 +19,8 @@ import androidx.lifecycle.ViewModelProviders
  * @description
  */
 open abstract class BaseNavigationFragment<V : ViewDataBinding, VM : ViewModel>(
-    layoutId: Int,
-    vm: Class<VM>?
-) : BaseFragment<V, VM>(layoutId, vm) {
+    layoutId: Int
+) : BaseFragment<V, VM>(layoutId) {
 
     private var isNavigationViewInit = false // 记录是否初始化view
 
@@ -41,7 +41,10 @@ open abstract class BaseNavigationFragment<V : ViewDataBinding, VM : ViewModel>(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         if (!isNavigationViewInit) {
             //设置viewModel
-            if (vm != null) viewModel = ViewModelProviders.of(this).get<VM>(vm!!)
+            try {
+                viewModel = ViewModelProvider(this).get(getVmClass(this))
+            } catch (e: Exception) {
+            }
             intentParams(arguments, savedInstanceState)
             bindView()
             bindData()
