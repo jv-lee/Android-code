@@ -54,7 +54,7 @@ public class DefaultFooter extends BaseFooterView {
         childHeight = mContext.getResources().getDimensionPixelSize(R.dimen.default_footer);
         status = FOOTER_PULL;
         //添加底部内容
-        View view = LayoutInflater.from(context).inflate(R.layout.footer_default,this,false);
+        View view = LayoutInflater.from(context).inflate(R.layout.layout_footer_default,this,false);
         FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT
                 ,childHeight);
         addView(view,lp);

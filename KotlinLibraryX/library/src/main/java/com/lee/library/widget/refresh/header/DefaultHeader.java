@@ -61,7 +61,7 @@ public class DefaultHeader extends BaseHeaderView {
         status = HEADER_DRAG;
         childHeight = mContext.getResources().getDimensionPixelSize(R.dimen.default_height);
         //添加头内容
-        View view = LayoutInflater.from(context).inflate(R.layout.header_default, this, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.layout_header_default, this, false);
         LayoutParams lp = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, childHeight);
         addView(view, lp);
         pbRefreshing = view.findViewById(R.id.pb_refreshing);

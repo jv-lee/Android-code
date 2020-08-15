@@ -10,7 +10,7 @@ import com.lee.library.R;
 public class DefaultLoadResource implements LoadResource {
     @Override
     public int pageLayoutId() {
-        return R.layout.lee_page_load;
+        return R.layout.layout_page_load;
     }
 
     @Override
@@ -35,7 +35,7 @@ public class DefaultLoadResource implements LoadResource {
 
     @Override
     public int itemLayoutId() {
-        return R.layout.lee_item_load;
+        return R.layout.layout_item_load;
     }
 
     @Override

@@ -138,9 +138,9 @@ public class MZBannerView<T> extends RelativeLayout {
     private void init() {
         View view = null;
         if (mIsOpenMZEffect) {
-            view = LayoutInflater.from(getContext()).inflate(R.layout.mz_banner_effect_layout, this, true);
+            view = LayoutInflater.from(getContext()).inflate(R.layout.layout_banner_effect, this, true);
         } else {
-            view = LayoutInflater.from(getContext()).inflate(R.layout.mz_banner_normal_layout, this, true);
+            view = LayoutInflater.from(getContext()).inflate(R.layout.layout_banner_normal, this, true);
         }
         mIndicatorContainer = view.findViewById(R.id.banner_indicator_container);
         mViewPager = view.findViewById(R.id.mzbanner_vp);

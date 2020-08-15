@@ -1,8 +1,9 @@
 package com.lee.library.mvvm.base
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import com.lee.library.base.BaseApplication
 import com.lee.library.mvvm.CustomException
 import kotlinx.coroutines.*
 import java.util.concurrent.CancellationException
@@ -12,12 +13,16 @@ import java.util.concurrent.CancellationException
  * @date 2019-08-15
  * @description
  */
-open class BaseViewModel(application: Application) : AndroidViewModel(application) {
+open class BaseViewModel : ViewModel(), CoroutineScope by CoroutineScope(Dispatchers.Main) {
 
     val failedEvent: MutableLiveData<CustomException> = MutableLiveData()
 
+    open fun <T : Application?> getApplication(): T {
+        return BaseApplication.getContext() as T
+    }
+
     private fun launchOnUI(block: suspend CoroutineScope.() -> Unit) {
-        GlobalScope.launch(Dispatchers.Main) {
+        launch {
             block()
         }
     }
@@ -28,7 +33,7 @@ open class BaseViewModel(application: Application) : AndroidViewModel(applicatio
         }
     }
 
-    fun launch(failedCode: Int = -1, tryBlock: suspend CoroutineScope.() -> Unit) {
+    fun launchMain(failedCode: Int = -1, tryBlock: suspend CoroutineScope.() -> Unit) {
         launchOnUI {
             tryCatch(tryBlock, {}, {}, true, failedCode)
         }
@@ -77,6 +82,11 @@ open class BaseViewModel(application: Application) : AndroidViewModel(applicatio
                 finallyBlock()
             }
         }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        cancel()
     }
 
 }

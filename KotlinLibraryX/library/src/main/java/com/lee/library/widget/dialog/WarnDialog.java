@@ -29,7 +29,7 @@ public class WarnDialog extends BaseDialog {
 
     @Override
     public int buildViewId() {
-        return R.layout.dialog_warm;
+        return R.layout.layout_dialog_warm;
     }
 
     @Override

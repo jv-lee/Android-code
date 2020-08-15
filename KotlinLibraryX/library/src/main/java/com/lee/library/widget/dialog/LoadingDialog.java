@@ -20,7 +20,7 @@ public class LoadingDialog extends BaseTranslucentDialog {
 
     @Override
     protected int buildViewId() {
-        return R.layout.dialog_loading;
+        return R.layout.layout_dialog_loading;
     }
 
     @Override

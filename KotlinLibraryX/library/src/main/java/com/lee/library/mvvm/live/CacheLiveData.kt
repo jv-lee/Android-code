@@ -17,7 +17,7 @@ class CacheLiveData<T> : BaseLiveData<T>() {
         resumeBlock: suspend CoroutineScope.() -> T? = { null },
         completedBlock: suspend CoroutineScope.(T) -> Unit = {}
     ) {
-        launch {
+        launchMain {
             //首次加载缓存数据
             if (firstCache) {
                 firstCache = false

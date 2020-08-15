@@ -61,7 +61,7 @@ open class CustomToolbarLayout : ConstraintLayout {
      */
     open fun initStatusBarPadding() {
         val statusHeight = StatusUtil.getStatusBarHeight(context)
-        setPadding(SizeUtil.dp2px(context, 16f), statusHeight, SizeUtil.dp2px(context, 16f), 0)
+        setPadding(SizeUtil.dp2px(context,16f), statusHeight, SizeUtil.dp2px(context,16f), 0)
     }
 
     private fun initBottomLine() {

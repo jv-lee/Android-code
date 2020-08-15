@@ -81,10 +81,10 @@ public class StatusLayout extends FrameLayout {
 
     private void readAttrs(Context context, AttributeSet attrs) {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.StatusLayout);
-        loadingId = typedArray.getResourceId(R.styleable.StatusLayout_layout_loading, R.layout.view_status_loading);
-        errorId = typedArray.getResourceId(R.styleable.StatusLayout_layout_error, R.layout.view_status_error);
-        networkId = typedArray.getResourceId(R.styleable.StatusLayout_layout_network, R.layout.view_status_not_network);
-        emptyId = typedArray.getResourceId(R.styleable.StatusLayout_layout_empty, R.layout.view_status_empty);
+        loadingId = typedArray.getResourceId(R.styleable.StatusLayout_layout_loading, R.layout.layout_status_loading);
+        errorId = typedArray.getResourceId(R.styleable.StatusLayout_layout_error, R.layout.layout_status_error);
+        networkId = typedArray.getResourceId(R.styleable.StatusLayout_layout_network, R.layout.layout_status_not_network);
+        emptyId = typedArray.getResourceId(R.styleable.StatusLayout_layout_empty, R.layout.layout_status_empty);
         typedArray.recycle();
     }
 

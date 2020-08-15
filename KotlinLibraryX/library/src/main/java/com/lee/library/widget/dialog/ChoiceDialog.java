@@ -29,7 +29,7 @@ public class ChoiceDialog extends BaseDialog {
 
     @Override
     public int buildViewId() {
-        return R.layout.dialog_choice;
+        return R.layout.layout_dialog_choice;
     }
 
     @Override

@@ -4,8 +4,8 @@
     <item name="rl_login_proving" type="id"/>
     <item name="rl_login_password" type="id"/>
 
-    <item name="toolbar_line" type="id">toolbar_line</item>
-    <item name="toolbar_back" type="id">toolbar_back</item>
-    <item name="toolbar_title" type="id">toolbar_title</item>
-    <item name="toolbar_menu" type="id">toolbar_menu</item>
+    <item name="toolbar_line" type="id"/>
+    <item name="toolbar_back" type="id"/>
+    <item name="toolbar_title" type="id"/>
+    <item name="toolbar_menu" type="id"/>
 </resources>

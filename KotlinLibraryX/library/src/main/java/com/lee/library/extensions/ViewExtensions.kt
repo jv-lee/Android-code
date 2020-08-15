@@ -8,6 +8,7 @@ import android.widget.RadioButton
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.view.ViewCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 
@@ -26,6 +27,7 @@ fun RecyclerView.glideEnable() {
     }
     addOnScrollListener(object : RecyclerView.OnScrollListener() {
         var isDown = false
+        var lastPosition = 0
         override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
             super.onScrollStateChanged(recyclerView, newState)
             if (!isDown) return
@@ -40,11 +42,23 @@ fun RecyclerView.glideEnable() {
                 RecyclerView.SCROLL_STATE_SETTLING ->
                     context?.let { Glide.with(it).pauseRequests() }
             }
-    }
+        }
 
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
             super.onScrolled(recyclerView, dx, dy)
-            isDown = dy >= 0
+            val currentPosition =
+                (recyclerView.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
+            if (currentPosition == lastPosition) {
+                isDown = true
+                return
+            }
+            isDown = false
+            if (dy >= 0) {
+                if (currentPosition > lastPosition) {
+                    isDown = true
+                    lastPosition = currentPosition
+                }
+            }
         }
     })
 }

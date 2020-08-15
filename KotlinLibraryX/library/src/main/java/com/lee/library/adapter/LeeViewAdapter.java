@@ -13,10 +13,11 @@ import android.widget.FrameLayout;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.lee.library.adapter.listener.DefaultLoadResource;
+import com.lee.library.adapter.core.ProxyAdapter;
 import com.lee.library.adapter.listener.LeeViewItem;
 import com.lee.library.adapter.listener.LoadErrorListener;
 import com.lee.library.adapter.listener.LoadResource;
+import com.lee.library.adapter.manager.LeeViewAdapterManager;
 import com.lee.library.adapter.manager.LeeViewItemManager;
 
 import java.util.ArrayList;
@@ -372,6 +373,9 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
                 break;
             case STATUS_ITEM_END:
                 loadEndView.setVisibility(View.VISIBLE);
+                if (!isPageCompleted) {
+                    removeFooter(pageLayout);
+                }
                 break;
             case STATUS_ITEM_ERROR:
                 loadErrorView.setVisibility(View.VISIBLE);
@@ -386,7 +390,7 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
         //开启loadMore模式
         hasLoadMore = true;
         if (mLoadResource == null) {
-            mLoadResource = new DefaultLoadResource();
+            mLoadResource = LeeViewAdapterManager.getInstance().getLoadResource();
         }
         if (pageLayout == null) {
             pageLayout = LayoutInflater.from(context).inflate(mLoadResource.pageLayoutId(), new FrameLayout(context), false);
