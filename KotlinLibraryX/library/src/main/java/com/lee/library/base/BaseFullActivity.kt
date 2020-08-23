@@ -18,14 +18,14 @@ abstract class BaseFullActivity<V : ViewDataBinding, VM : ViewModel>(
     , CoroutineScope by CoroutineScope(Dispatchers.Main) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        StatusUtil.fullWindow(this)
+        StatusUtil.fullWindow(this,true)
         super.onCreate(savedInstanceState)
     }
 
     override fun onResume() {
         super.onResume()
         //防止横竖屏切换影响全屏状态
-        StatusUtil.fullWindow(this)
+        StatusUtil.fullWindow(this,true)
     }
 
 }

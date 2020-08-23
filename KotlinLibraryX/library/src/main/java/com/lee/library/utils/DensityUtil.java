@@ -15,6 +15,8 @@ import com.lee.library.base.BaseApplication;
  */
 public class DensityUtil {
 
+    private static boolean singleMode = false;
+
     /**
      * 参考设备的宽，单位：dp
      */
@@ -35,6 +37,10 @@ public class DensityUtil {
      * @param resources
      */
     public static Resources setDensity(Resources resources) {
+        //单Activity架构 设置SingleMode后 不在重复设置适配
+        if (singleMode) {
+            return resources;
+        }
         //获取当前app的屏幕显示信息
         DisplayMetrics displayMetrics = resources.getDisplayMetrics();
         if (appDensity == 0) {
@@ -83,6 +89,10 @@ public class DensityUtil {
      * @param activity
      */
     public static void setDensity(final Application application, Activity activity) {
+        //单Activity架构 设置SingleMode后 不在重复设置适配
+        if (singleMode) {
+            return;
+        }
         //获取当前app的屏幕显示信息
         DisplayMetrics displayMetrics = application.getResources().getDisplayMetrics();
         if (appDensity == 0) {
@@ -136,6 +146,15 @@ public class DensityUtil {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.DONUT) {
             dm.densityDpi = (int) (appDensity * 160);
         }
+    }
+
+    /**
+     * 为单Activity架构设置 单次调整防止失效
+     *
+     * @param mode true 为已经设置后 关闭重复设置 / false 为可重复设置
+     */
+    public static void singleActivityMode(Boolean mode) {
+        singleMode = mode;
     }
 
 }

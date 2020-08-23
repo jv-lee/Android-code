@@ -11,6 +11,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toolbar;
 
+import androidx.annotation.RequiresApi;
+
 /**
  * 状态栏工具
  *
@@ -106,7 +108,7 @@ public class StatusUtil {
      *
      * @param activity
      */
-    public static void fullWindow(Activity activity) {
+    public static void fullWindow(Activity activity, boolean isFull) {
         //1.设置全屏幕
         int flags;
         int curApiVersion = Build.VERSION.SDK_INT;
@@ -121,8 +123,26 @@ public class StatusUtil {
             // touch the screen, the navigation bar will show
             flags = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+        if (isFull) {
             activity.getWindow().getDecorView().setSystemUiVisibility(flags);
+            setBangsFull(activity);
+        } else {
+            activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
+            statusBar(activity, false);
+        }
+    }
+
+    /**
+     * 设置刘海屏内容扩充至状态栏
+     * API >= 28
+     *
+     * @param activity
+     */
+    private static void setBangsFull(Activity activity) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            WindowManager.LayoutParams attributes = activity.getWindow().getAttributes();
+            attributes.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
+            activity.getWindow().setAttributes(attributes);
         }
     }
 

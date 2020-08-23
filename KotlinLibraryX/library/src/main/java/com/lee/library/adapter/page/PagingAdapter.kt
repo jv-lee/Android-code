@@ -35,6 +35,10 @@ open class PagingAdapter<T>(context: Context, data: ArrayList<T>) : LeeViewAdapt
             pageCompleted()
             refreshBlock()
         } else {
+            //防止view重构后在分页加载时 pageCompleted状态重置
+            if (!isPageCompleted) {
+                pageCompleted()
+            }
             if (diff) {
                 //防止activity重建在viewModel中填充历史数据 做差分填充
                 val oldData = data
