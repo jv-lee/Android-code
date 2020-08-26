@@ -12,7 +12,7 @@ import java.lang.reflect.Proxy;
 /**
  * @author jv.lee
  * @date 2019/6/24.
- * @description
+ * @description 动态代理测试案例
  */
 public class ProxyTest {
 

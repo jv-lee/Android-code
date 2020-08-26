@@ -10,7 +10,7 @@ import org.junit.Test;
 /**
  * @author jv.lee
  * @date 2019/6/24.
- * @description
+ * @description 方法工厂测试案例
  */
 public class FactoryMethodTest {
 
