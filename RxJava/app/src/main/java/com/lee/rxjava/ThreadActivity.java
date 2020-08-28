@@ -73,6 +73,7 @@ public class ThreadActivity extends AppCompatActivity {
                         Log.i(TAG, "accept:下游 ThreadName:" + Thread.currentThread().getName());
                     }
                 });
+        subscribe.dispose();
     }
 
     /**
