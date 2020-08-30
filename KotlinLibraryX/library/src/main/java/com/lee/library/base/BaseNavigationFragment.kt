@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebView
+import androidx.activity.OnBackPressedCallback
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.ViewModel
@@ -23,6 +24,7 @@ open abstract class BaseNavigationFragment<V : ViewDataBinding, VM : ViewModel>(
 ) : BaseFragment<V, VM>(layoutId) {
 
     private var isNavigationViewInit = false // 记录是否初始化view
+    private var firstTime: Long = 0
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -84,6 +86,26 @@ open abstract class BaseNavigationFragment<V : ViewDataBinding, VM : ViewModel>(
             }
 
         })
+    }
+
+    /**
+     * 设置back键位 连按两次才可退出activity
+     */
+    fun backDoubleClick() {
+        requireActivity().onBackPressedDispatcher.addCallback(this,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    val secondTime = System.currentTimeMillis()
+                    //如果两次按键时间间隔大于2秒，则不退出
+                    if (secondTime - firstTime > 2000) {
+                        toast("再次按下退出")
+                        //更新firstTime
+                        firstTime = secondTime
+                    } else {//两次按键小于2秒时，退出应用
+                        requireActivity().finish()
+                    }
+                }
+            })
     }
 
 }
