@@ -1,7 +1,9 @@
 package com.lee.code;
 
-import com.lee.code.behavioral.tm.AbstractClass;
-import com.lee.code.behavioral.tm.ConcreteClass;
+import com.lee.code.behavioral.tm.core.AbstractClass;
+import com.lee.code.behavioral.tm.core.ConcreteClass;
+import com.lee.code.behavioral.tm.part1.StudyAbroad;
+import com.lee.code.behavioral.tm.part1.StudyInAmerica;
 
 import org.junit.Test;
 
@@ -16,5 +18,9 @@ public class TemplateMethod {
         //基础示范
         AbstractClass abstractClass = new ConcreteClass();
         abstractClass.templateMethod();
+
+        //基础案例1
+        StudyAbroad studyAbroad = new StudyInAmerica();
+        studyAbroad.templateMethod();
     }
 }
