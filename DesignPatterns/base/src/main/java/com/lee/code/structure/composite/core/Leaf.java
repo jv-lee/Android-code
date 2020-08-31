@@ -1,4 +1,4 @@
-package com.lee.code.structure.composite;
+package com.lee.code.structure.composite.core;
 
 /**
  * @author jv.lee
