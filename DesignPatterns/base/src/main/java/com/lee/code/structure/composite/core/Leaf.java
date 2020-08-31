@@ -3,7 +3,7 @@ package com.lee.code.structure.composite.core;
 /**
  * @author jv.lee
  * @date 2020/8/31
- * @description 树叶构件
+ * @description 组合模式：树叶构件
  */
 public class Leaf implements Component {
 

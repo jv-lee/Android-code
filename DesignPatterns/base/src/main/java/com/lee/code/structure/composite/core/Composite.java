@@ -5,7 +5,7 @@ import java.util.ArrayList;
 /**
  * @author jv.lee
  * @date 2020/8/31
- * @description 树枝构件
+ * @description 组合模式：树枝构件
  */
 public class Composite implements Component {
 

@@ -1,4 +1,4 @@
-package com.lee.code.behavioral.command;
+package com.lee.code.behavioral.command.core;
 
 /**
  * @author jv.lee
