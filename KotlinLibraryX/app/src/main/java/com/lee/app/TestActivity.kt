@@ -1,6 +1,8 @@
 package com.lee.app
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.lee.app.server.ApiServiceImpl
@@ -61,9 +63,16 @@ class TestActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         StatusUtil.statusBar(this, false)
+        StatusUtil.setStatusFontLight2(this)
         testDialog()
         testNetwork()
         findViewById<StatusLayout>(R.id.status).setStatus(STATUS_LOADING)
+        findViewById<Button>(R.id.btn_chat).setOnClickListener {
+            startActivity(Intent(this, ChatListActivity::class.java))
+        }
+        findViewById<Button>(R.id.btn_form).setOnClickListener {
+            startActivity(Intent(this, FormTableActivity::class.java))
+        }
     }
 
     private fun testDialog() {

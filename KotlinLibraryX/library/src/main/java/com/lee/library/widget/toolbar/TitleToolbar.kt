@@ -18,6 +18,7 @@ import com.lee.library.extensions.setImageTintCompat
 import com.lee.library.utils.SizeUtil
 import com.lee.library.utils.StatusUtil
 import com.lee.library.widget.menu.CustomPopupMenuHelper
+import java.lang.Exception
 
 /**
  * @author jv.lee
@@ -108,7 +109,10 @@ open class TitleToolbar : CustomToolbarLayout {
             backIcon?.let { setImageTintCompat(it, backIconTint!!) }
             backEnable?.let { visibility = it }
             setOnClickListener {
-                findNavController().popBackStack()
+                try {
+                    findNavController().popBackStack()
+                } catch (e: Exception) {
+                }
                 clickListener?.backClick()
             }
             addView(this)

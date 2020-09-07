@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/const_root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.lee.app.ChatListActivity">
+
+        <com.lee.library.widget.toolbar.TitleToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:titleText="聊天室" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_container"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/et_input"
+            app:layout_constraintTop_toBottomOf="@id/toolbar" />
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_input"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:elevation="1dp"
+            android:hint="input content ..."
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

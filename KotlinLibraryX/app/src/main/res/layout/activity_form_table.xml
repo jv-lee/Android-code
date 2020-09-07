@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.lee.app.FormTableActivity">
+
+        <com.lee.library.widget.toolbar.TitleToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:titleText="表单信息" />
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_container"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toTopOf="@id/btn_commit"
+                app:layout_constraintTop_toBottomOf="@id/toolbar"/>
+
+
+        <Button
+            android:id="@+id/btn_commit"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:elevation="1dp"
+            android:text="Commit"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
