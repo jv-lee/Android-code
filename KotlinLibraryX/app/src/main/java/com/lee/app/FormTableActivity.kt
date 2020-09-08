@@ -9,6 +9,11 @@ import com.lee.library.utils.KeyboardHelper
 import com.lee.library.utils.StatusUtil
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+/**
+ * @author jv.lee
+ * @date 2020/9/7
+ * @description 表单样式 沉浸式状态栏 输入法适配
+ */
 class FormTableActivity :
     BaseActivity<ActivityFormTableBinding, ViewModel>(R.layout.activity_form_table) {
     private val adapter by lazy {
