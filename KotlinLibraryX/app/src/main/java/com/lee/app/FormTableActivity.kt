@@ -7,6 +7,7 @@ import com.lee.app.databinding.ActivityFormTableBinding
 import com.lee.library.base.BaseActivity
 import com.lee.library.utils.KeyboardHelper
 import com.lee.library.utils.StatusUtil
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 class FormTableActivity :
     BaseActivity<ActivityFormTableBinding, ViewModel>(R.layout.activity_form_table) {
@@ -18,9 +19,11 @@ class FormTableActivity :
         })
     }
 
+    private val keyboardHelper by lazy { KeyboardHelper(window.decorView, binding.root) }
+
     override fun bindView() {
         StatusUtil.setStatusFontLight2(this)
-        KeyboardHelper(window.decorView, binding.root).enable()
+        keyboardHelper.enable()
 
         binding.rvContainer.layoutManager = LinearLayoutManager(this)
         binding.rvContainer.adapter = adapter
@@ -29,4 +32,11 @@ class FormTableActivity :
     override fun bindData() {
 
     }
+
+    @ExperimentalCoroutinesApi
+    override fun onDestroy() {
+        keyboardHelper.disable()
+        super.onDestroy()
+    }
+
 }

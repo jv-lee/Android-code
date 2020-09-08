@@ -65,7 +65,7 @@ class TestActivity : AppCompatActivity() {
         StatusUtil.statusBar(this, false)
         StatusUtil.setStatusFontLight2(this)
         testDialog()
-        testNetwork()
+//        testNetwork()
         findViewById<StatusLayout>(R.id.status).setStatus(STATUS_LOADING)
         findViewById<Button>(R.id.btn_chat).setOnClickListener {
             startActivity(Intent(this, ChatListActivity::class.java))

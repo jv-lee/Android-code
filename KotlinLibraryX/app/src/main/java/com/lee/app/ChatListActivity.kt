@@ -7,6 +7,7 @@ import com.lee.app.databinding.ActivityChatListBinding
 import com.lee.library.base.BaseActivity
 import com.lee.library.utils.KeyboardHelper
 import com.lee.library.utils.StatusUtil
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 class ChatListActivity :
     BaseActivity<ActivityChatListBinding, ViewModel>(R.layout.activity_chat_list) {
@@ -19,18 +20,27 @@ class ChatListActivity :
         })
     }
 
+    private val keyboardHelper by lazy { KeyboardHelper(window.decorView, binding.root) }
+
     override fun bindView() {
         StatusUtil.setStatusFontLight2(this)
-        KeyboardHelper(window.decorView, binding.root).enable(true)
 
-        binding.rvContainer.layoutManager = LinearLayoutManager(this).also {
-            it.reverseLayout = true
-        }
         binding.rvContainer.adapter = adapter
+        binding.rvContainer.layoutManager = LinearLayoutManager(this)
 
+        //先绑定recyclerView
+        keyboardHelper.bindRecyclerView(binding.rvContainer, true)
+        //后开启输入法弹起布局自适应
+        keyboardHelper.enable()
     }
 
     override fun bindData() {
 
+    }
+
+    @ExperimentalCoroutinesApi
+    override fun onDestroy() {
+        keyboardHelper.disable()
+        super.onDestroy()
     }
 }
