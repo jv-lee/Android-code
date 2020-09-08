@@ -5,7 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.lee.app.adapter.FormAdapter
 import com.lee.app.databinding.ActivityFormTableBinding
 import com.lee.library.base.BaseActivity
-import com.lee.library.utils.KeyboardMoveHelper
+import com.lee.library.utils.KeyboardHelper
 import com.lee.library.utils.StatusUtil
 
 class FormTableActivity :
@@ -20,7 +20,7 @@ class FormTableActivity :
 
     override fun bindView() {
         StatusUtil.setStatusFontLight2(this)
-        KeyboardMoveHelper(this, binding.root)
+        KeyboardHelper(window.decorView, binding.root).enable()
 
         binding.rvContainer.layoutManager = LinearLayoutManager(this)
         binding.rvContainer.adapter = adapter

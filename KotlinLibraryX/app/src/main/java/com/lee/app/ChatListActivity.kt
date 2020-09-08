@@ -5,8 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.lee.app.adapter.ChatAdapter
 import com.lee.app.databinding.ActivityChatListBinding
 import com.lee.library.base.BaseActivity
-import com.lee.library.utils.KeyboardMoveHelper
-import com.lee.library.utils.SizeUtil
+import com.lee.library.utils.KeyboardHelper
 import com.lee.library.utils.StatusUtil
 
 class ChatListActivity :
@@ -22,14 +21,12 @@ class ChatListActivity :
 
     override fun bindView() {
         StatusUtil.setStatusFontLight2(this)
-        KeyboardMoveHelper(this, binding.root)
+        KeyboardHelper(window.decorView, binding.root).enable(true)
 
-        binding.rvContainer.layoutManager = LinearLayoutManager(this)
+        binding.rvContainer.layoutManager = LinearLayoutManager(this).also {
+            it.reverseLayout = true
+        }
         binding.rvContainer.adapter = adapter
-//        KeyboardUtil.keyboardOpenMoveView(window, binding.constRoot)
-        binding.rvContainer.postDelayed({
-            binding.rvContainer.smoothScrollBy(0,SizeUtil.dp2px(this,100f))
-        }, 3000)
 
     }
 
