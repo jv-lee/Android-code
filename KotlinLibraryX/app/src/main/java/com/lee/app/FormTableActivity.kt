@@ -40,6 +40,7 @@ class FormTableActivity :
 
     @ExperimentalCoroutinesApi
     override fun onDestroy() {
+        FormAdapter.dialogMap.clear()
         keyboardHelper.disable()
         super.onDestroy()
     }
