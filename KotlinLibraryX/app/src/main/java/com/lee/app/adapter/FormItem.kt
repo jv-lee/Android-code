@@ -40,15 +40,13 @@ class FormItem : LeeViewItem<String> {
         holder ?: return
         entity ?: return
 
-//        initDialog(holder.convertView.context, entity, position)
-        val dialog = getDialog(holder, entity, position)
+        val dialog = getDialog2(holder, entity, position)
 
         val editText = holder.getView<EditText>(R.id.et_input)
         editText?.setText("this is content position $position")
 
         val btnShow = holder.getView<Button>(R.id.btn_show)
         btnShow.setOnClickListener {
-//            FormAdapter.dialogMap[position]?.show()
             dialog.show()
         }
 
@@ -60,20 +58,19 @@ class FormItem : LeeViewItem<String> {
     /**
      * 解决方式一
      */
-    private fun initDialog(context: Context, entity: String, position: Int) {
+    private fun getDialog1(context: Context, entity: String, position: Int): Dialog {
         var dialog = FormAdapter.dialogMap[position]
         if (dialog == null) {
             dialog = BottomTitleDialog(context)
             dialog.setContentTitle("title - > $position")
-            FormAdapter.dialogMap[position] = dialog
         }
-
+        return dialog
     }
 
     /**
      * 建议解决方式二 更加优雅
      */
-    private fun getDialog(holder: LeeViewHolder, entity: String, position: Int): Dialog {
+    private fun getDialog2(holder: LeeViewHolder, entity: String, position: Int): Dialog {
         var dialog = holder.convertView.getTag(entity.hashCode())
         if (dialog == null) {
             dialog = BottomTitleDialog(holder.convertView.context)
