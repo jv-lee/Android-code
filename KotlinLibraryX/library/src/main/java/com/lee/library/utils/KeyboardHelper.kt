@@ -137,13 +137,14 @@ class KeyboardHelper(
     private fun recyclerViewMoveReverse(diff: Int, open: Boolean = true) {
         recyclerView?.let {
             if (open) {
-                it.postDelayed({ it.smoothScrollBy(0, diff) }, 100)
-            }
-            if (!open && !isStart) {
-                it.smoothScrollBy(0, -tempDiff)
+                if (it.adapter?.itemCount!! > 5) {
+                    it.scrollToPosition(5)
+                }
+                it.postDelayed({
+                    it.smoothScrollToPosition(0)
+                }, 100)
             }
         }
-
     }
 
 }
