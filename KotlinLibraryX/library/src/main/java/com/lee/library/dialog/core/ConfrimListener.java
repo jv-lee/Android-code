@@ -1,4 +1,4 @@
-package com.lee.library.widget.dialog.core;
+package com.lee.library.dialog.core;
 
 /**
  * @author jv.lee

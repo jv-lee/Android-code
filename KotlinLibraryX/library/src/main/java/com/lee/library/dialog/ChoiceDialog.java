@@ -1,4 +1,4 @@
-package com.lee.library.widget.dialog;
+package com.lee.library.dialog;
 
 import android.content.Context;
 import android.widget.TextView;
@@ -6,14 +6,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import com.lee.library.R;
-import com.lee.library.widget.dialog.core.BaseDialog;
+import com.lee.library.dialog.core.BaseAlertDialog;
 
 /**
  * @author jv.lee
  * @date 2020-03-07
  * @description 取消确认选择框
  */
-public class ChoiceDialog extends BaseDialog {
+public class ChoiceDialog extends BaseAlertDialog {
 
     private String text;
 
@@ -37,8 +37,8 @@ public class ChoiceDialog extends BaseDialog {
         ((TextView) findViewById(R.id.tv_title)).setText(text == null ? "构建WarnDialog text参数不能为空" : text);
 
         findViewById(R.id.tv_confirm).setOnClickListener(v -> {
-            if (confrimListener != null) {
-                confrimListener.onConfirm();
+            if (confirmListener != null) {
+                confirmListener.onConfirm();
             } else {
                 dismiss();
             }

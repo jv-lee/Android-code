@@ -6,13 +6,15 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.lee.app.server.ApiServiceImpl
+import com.lee.library.dialog.ChoiceDialog
+import com.lee.library.dialog.LoadingDialog
+import com.lee.library.dialog.WarnDialog
+import com.lee.library.dialog.core.CancelListener
+import com.lee.library.dialog.core.ConfrimListener
 import com.lee.library.utils.LogUtil
 import com.lee.library.utils.StatusUtil
 import com.lee.library.widget.StatusLayout
 import com.lee.library.widget.StatusLayout.STATUS_LOADING
-import com.lee.library.widget.dialog.ChoiceDialog
-import com.lee.library.widget.dialog.LoadingDialog
-import com.lee.library.widget.dialog.WarnDialog
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -37,9 +39,9 @@ class TestActivity : AppCompatActivity() {
     private val warnDialog: WarnDialog by lazy {
         WarnDialog.build(this, "您输入的密码有误，请重新输入")
             .apply {
-                setConfirmListener {
+                setConfirmListener(ConfrimListener {
                     dismiss()
-                }
+                })
             }
     }
 
@@ -49,13 +51,13 @@ class TestActivity : AppCompatActivity() {
     private val choiceDialog: ChoiceDialog by lazy {
         ChoiceDialog.build(this, "是否打开通讯设备？")
             .apply {
-                setConfirmListener {
+                setConfirmListener(ConfrimListener {
                     dismiss()
                     Toast.makeText(context, "已开启通讯设备", Toast.LENGTH_SHORT).show()
-                }
-                setCancelListener {
+                })
+                setCancelListener(CancelListener {
                     dismiss()
-                }
+                })
             }
     }
 
