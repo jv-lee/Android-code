@@ -3,10 +3,8 @@ package com.lee.library.dialog.core
 import android.app.Activity
 import android.app.Dialog
 import android.content.Context
-import android.os.Bundle
 import android.util.DisplayMetrics
 import android.view.Gravity
-import android.view.View
 import android.view.ViewGroup
 import com.lee.library.utils.SizeUtil
 
@@ -18,8 +16,7 @@ import com.lee.library.utils.SizeUtil
  */
 abstract class BaseDialog constructor(context: Context, theme: Int) : Dialog(context, theme) {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    init {
         setContentView(buildViewId())
         bindView()
     }

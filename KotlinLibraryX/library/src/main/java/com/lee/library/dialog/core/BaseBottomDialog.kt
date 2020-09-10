@@ -8,11 +8,7 @@ import com.lee.library.dialog.core.setBottomDialog
 /**
  * @author jv.lee
  * @date 2020/9/10
- * @description
+ * @description 使用 setBottomDialog(260) 限制子类最大高度
  */
 abstract class BaseBottomDialog constructor(context: Context) :
-    BaseDialog(context, R.style.BottomDialogTheme) {
-    init {
-        setBottomDialog(500)
-    }
-}
+    BaseDialog(context, R.style.BottomDialogTheme)
