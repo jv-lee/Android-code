@@ -21,7 +21,7 @@ import kotlinx.coroutines.cancel
  * @date 2019/8/16.
  * @description
  */
-open abstract class BaseFragment<V : ViewDataBinding, VM : ViewModel>(
+abstract class BaseFragment<V : ViewDataBinding, VM : ViewModel>(
     var layoutId: Int
 ) : Fragment()
     , CoroutineScope by CoroutineScope(Dispatchers.Main) {
@@ -69,6 +69,19 @@ open abstract class BaseFragment<V : ViewDataBinding, VM : ViewModel>(
 
     override fun onDestroyView() {
         super.onDestroyView()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        if (requireActivity().isFinishing) {
+            dispose()
+        }
+    }
+
+    /**
+     * 解决fragment中 onDestroy等函数回调过慢时 使用该方法解除引用
+     */
+    open fun dispose() {
     }
 
     /**

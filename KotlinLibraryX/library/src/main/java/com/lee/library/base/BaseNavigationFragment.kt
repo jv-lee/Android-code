@@ -19,7 +19,7 @@ import com.lee.library.extensions.getVmClass
  * @date 2020/3/30
  * @description
  */
-open abstract class BaseNavigationFragment<V : ViewDataBinding, VM : ViewModel>(
+abstract class BaseNavigationFragment<V : ViewDataBinding, VM : ViewModel>(
     layoutId: Int
 ) : BaseFragment<V, VM>(layoutId) {
 
