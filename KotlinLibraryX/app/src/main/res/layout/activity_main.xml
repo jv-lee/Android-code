@@ -41,30 +41,40 @@
         android:layout_width="200dp"
         android:layout_height="46dp"
         android:text="show Loading Dialog"
+        app:layout_constraintBottom_toTopOf="@id/btn_show_warn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:buttonRadius="23dp"
         app:disableBackgroundColor="@android:color/black"
         app:buttonDisable="true"
         app:strokeWidth="2dp"
         app:disableStrokeColor="@android:color/holo_red_dark"
         app:disableTextColor="@android:color/white"
-        app:layout_constraintBottom_toTopOf="@id/btn_show_warn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:normalBackgroundColor="@android:color/holo_green_dark"
         app:normalTextColor="@android:color/black"
         app:pressedBackgroundColor="@android:color/holo_blue_bright"
         app:pressedTextColor="@android:color/white" />
 
 
-    <Button
+    <com.lee.library.widget.SelectorTextView
         android:id="@+id/btn_show_warn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="200dp"
+        android:layout_height="46dp"
         android:text="show Warn Dialog"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintBottom_toTopOf="@id/btn_show_choice"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:buttonRadius="23dp"
+        app:disableBackgroundColor="@android:color/black"
+        app:buttonDisable="false"
+        app:strokeWidth="2dp"
+        app:disableStrokeColor="@android:color/holo_red_dark"
+        app:disableTextColor="@android:color/white"
+        app:normalBackgroundColor="@android:color/holo_green_dark"
+        app:normalTextColor="@android:color/black"
+        app:pressedBackgroundColor="@android:color/holo_blue_bright"
+        app:pressedTextColor="@android:color/white"/>
 
     <Button
         android:id="@+id/btn_show_choice"
