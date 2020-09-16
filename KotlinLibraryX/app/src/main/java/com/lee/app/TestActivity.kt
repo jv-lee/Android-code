@@ -79,6 +79,8 @@ class TestActivity : AppCompatActivity() {
 
     private fun testDialog() {
         btn_show_loading.setOnClickListener { loadingDialog.show() }
+        btn_show_loading.setButtonDisable(false)
+
         btn_show_warn.setOnClickListener { warnDialog.show() }
         btn_show_choice.setOnClickListener { choiceDialog.show() }
     }
