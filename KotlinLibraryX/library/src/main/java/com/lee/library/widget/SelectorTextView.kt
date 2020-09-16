@@ -8,7 +8,6 @@ import android.util.AttributeSet
 import android.view.Gravity
 import android.view.View
 import android.widget.TextView
-import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import com.lee.library.R
@@ -19,8 +18,8 @@ import com.lee.library.utils.SizeUtil
  * @date 2020/9/16
  * @description 状态按钮 可设置点击状态不同颜色 及锁定点击状态颜色
  */
-class SelectorButton constructor(context: Context, attributeSet: AttributeSet) :
-    AppCompatButton(context, attributeSet) {
+class SelectorTextView constructor(context: Context, attributeSet: AttributeSet) :
+    AppCompatTextView(context, attributeSet) {
 
     private var pressedBackgroundColor: Int
     private var normalBackgroundColor: Int
@@ -39,49 +38,49 @@ class SelectorButton constructor(context: Context, attributeSet: AttributeSet) :
     private var stateTextColorDrawable: ColorStateList? = null
 
     init {
-        context.obtainStyledAttributes(attributeSet, R.styleable.SelectorButton).run {
+        context.obtainStyledAttributes(attributeSet, R.styleable.SelectorTextView).run {
             pressedBackgroundColor = getColor(
-                R.styleable.SelectorButton_pressedBackgroundColor,
+                R.styleable.SelectorTextView_pressedBackgroundColor,
                 ContextCompat.getColor(context, android.R.color.black)
             )
             normalBackgroundColor = getColor(
-                R.styleable.SelectorButton_normalBackgroundColor,
+                R.styleable.SelectorTextView_normalBackgroundColor,
                 ContextCompat.getColor(context, android.R.color.black)
             )
             pressedTextColor = getColor(
-                R.styleable.SelectorButton_pressedTextColor,
+                R.styleable.SelectorTextView_pressedTextColor,
                 ContextCompat.getColor(context, android.R.color.white)
             )
             normalTextColor = getColor(
-                R.styleable.SelectorButton_normalTextColor,
+                R.styleable.SelectorTextView_normalTextColor,
                 ContextCompat.getColor(context, android.R.color.white)
             )
             disableBackgroundColor = getColor(
-                R.styleable.SelectorButton_disableBackgroundColor,
+                R.styleable.SelectorTextView_disableBackgroundColor,
                 ContextCompat.getColor(context, android.R.color.black)
             )
             disableTextColor = getColor(
-                R.styleable.SelectorButton_disableTextColor,
+                R.styleable.SelectorTextView_disableTextColor,
                 ContextCompat.getColor(context, android.R.color.white)
             )
             pressedStrokeColor = getColor(
-                R.styleable.SelectorButton_pressedStrokeColor,
+                R.styleable.SelectorTextView_pressedStrokeColor,
                 ContextCompat.getColor(context, android.R.color.transparent)
             )
             normalStrokeColor = getColor(
-                R.styleable.SelectorButton_normalStrokeColor,
+                R.styleable.SelectorTextView_normalStrokeColor,
                 ContextCompat.getColor(context, android.R.color.transparent)
             )
             disableStrokeColor = getColor(
-                R.styleable.SelectorButton_disableStrokeColor,
+                R.styleable.SelectorTextView_disableStrokeColor,
                 ContextCompat.getColor(context, android.R.color.transparent)
             )
-            strokeWidth = getDimension(R.styleable.SelectorButton_strokeWidth, 0f)
+            strokeWidth = getDimension(R.styleable.SelectorTextView_strokeWidth, 0f)
             buttonRadius = getDimension(
-                R.styleable.SelectorButton_buttonRadius,
+                R.styleable.SelectorTextView_buttonRadius,
                 SizeUtil.dp2px(context, 10F).toFloat()
             )
-            buttonDisable = getBoolean(R.styleable.SelectorButton_buttonDisable, false)
+            buttonDisable = getBoolean(R.styleable.SelectorTextView_buttonDisable, false)
             recycle()
         }
         initBackground()
@@ -112,6 +111,8 @@ class SelectorButton constructor(context: Context, attributeSet: AttributeSet) :
         states[1] = intArrayOf()
         stateTextColorDrawable =
             ColorStateList(states, intArrayOf(pressedTextColor, normalTextColor))
+
+        gravity = Gravity.CENTER
 
         setButtonDisable(buttonDisable)
     }
