@@ -36,7 +36,7 @@
         <attr name="layout_network" format="reference" />
     </declare-styleable>
 
-    <declare-styleable name="ImageViewRound">
+    <declare-styleable name="RoundImageView">
         <attr name="layout_mode">
             <enum name="circle" value="0" />
             <enum name="round" value="1" />

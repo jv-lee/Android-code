@@ -28,7 +28,7 @@ import com.lee.library.R;
  * 圆角矩形、椭圆形还未做处理，如需使用 请在onDraw 自行计算修改
  */
 @SuppressLint("AppCompatCustomView")
-public class ImageViewRound extends ImageView {
+public class RoundImageView extends ImageView {
 
     /**
      * mWidth:图形宽度
@@ -59,28 +59,28 @@ public class ImageViewRound extends ImageView {
     public static final int TYPE_OVAL = 2;
     public static final int DEFAULT_ROUND_RADIUS = 0;
 
-    public ImageViewRound(Context context) {
+    public RoundImageView(Context context) {
         this(context, null);
     }
 
-    public ImageViewRound(Context context, AttributeSet attrs) {
+    public RoundImageView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public ImageViewRound(Context context, AttributeSet attrs, int defStyleAttr) {
+    public RoundImageView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initAttr(attrs);
         initView();
     }
 
     private void initAttr(AttributeSet attrs) {
-        TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.ImageViewRound);
-        mType = typedArray.getInt(R.styleable.ImageViewRound_layout_mode, TYPE_CIRCLE);
-        mRoundRadius = typedArray.getDimension(R.styleable.ImageViewRound_radius, DEFAULT_ROUND_RADIUS);
-        mTopLeftRoundRadius = typedArray.getDimension(R.styleable.ImageViewRound_topLeftRadius, mRoundRadius);
-        mTopRightRoundRadius = typedArray.getDimension(R.styleable.ImageViewRound_topRightRadius, mRoundRadius);
-        mBottomLeftRoundRadius = typedArray.getDimension(R.styleable.ImageViewRound_bottomLeftRadius, mRoundRadius);
-        mBottomRightRoundRadius = typedArray.getDimension(R.styleable.ImageViewRound_bottomRightRadius, mRoundRadius);
+        TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.RoundImageView);
+        mType = typedArray.getInt(R.styleable.RoundImageView_layout_mode, TYPE_CIRCLE);
+        mRoundRadius = typedArray.getDimension(R.styleable.RoundImageView_radius, DEFAULT_ROUND_RADIUS);
+        mTopLeftRoundRadius = typedArray.getDimension(R.styleable.RoundImageView_topLeftRadius, mRoundRadius);
+        mTopRightRoundRadius = typedArray.getDimension(R.styleable.RoundImageView_topRightRadius, mRoundRadius);
+        mBottomLeftRoundRadius = typedArray.getDimension(R.styleable.RoundImageView_bottomLeftRadius, mRoundRadius);
+        mBottomRightRoundRadius = typedArray.getDimension(R.styleable.RoundImageView_bottomRightRadius, mRoundRadius);
         typedArray.recycle();
     }
 
