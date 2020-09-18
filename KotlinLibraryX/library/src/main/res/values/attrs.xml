@@ -100,4 +100,13 @@
         <attr name="buttonDisable" format="boolean" />
     </declare-styleable>
 
+    <declare-styleable name="ShadowLayout">
+        <attr name="shadowRound" format="dimension" />
+        <attr name="shadowBlur" format="dimension" />
+        <attr name="shadowColor" format="color" />
+        <attr name="shadowFillColor" format="color" />
+        <attr name="shadowOffsetX" format="dimension" />
+        <attr name="shadowOffsetY" format="dimension" />
+    </declare-styleable>
+
 </resources>
