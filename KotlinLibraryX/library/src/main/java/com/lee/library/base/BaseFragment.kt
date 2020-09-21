@@ -10,6 +10,7 @@ import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import com.lee.library.extensions.getVmClass
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -112,6 +113,13 @@ abstract class BaseFragment<V : ViewDataBinding, VM : ViewModel>(
 
     private fun getChildClassName(): String {
         return javaClass.simpleName
+    }
+
+    /**
+     * 创建ViewModel
+     */
+    protected fun <T : ViewModel> createViewModel(cls: Class<T>): T {
+        return ViewModelProviders.of(this).get(cls)
     }
 
 }

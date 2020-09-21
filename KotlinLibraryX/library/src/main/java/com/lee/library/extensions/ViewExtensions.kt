@@ -3,6 +3,7 @@ package com.lee.library.extensions
 import android.content.res.ColorStateList
 import android.graphics.drawable.StateListDrawable
 import android.text.Editable
+import android.text.InputType
 import android.text.TextUtils
 import android.text.TextWatcher
 import android.view.View
@@ -212,6 +213,7 @@ fun RecyclerView.callScrollHeight(callScroll: (Int) -> Unit) {
  * @param lengthLimit 最大卡号长度
  */
 fun EditText.setBankCodeTextWatcher(lengthLimit: Int = 16) {
+    inputType = InputType.TYPE_CLASS_NUMBER
     addTextChangedListener(object : TextWatcher {
         //上次输入框中的内容
         private var lastString: String? = null

@@ -10,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import com.lee.library.extensions.getVmClass
 import com.lee.library.utils.StatusUtil
 import kotlinx.coroutines.CoroutineScope
@@ -109,6 +110,13 @@ abstract class BaseActivity<V : ViewDataBinding, VM : ViewModel>(
 
     fun Activity.toast(message: CharSequence, duration: Int = Toast.LENGTH_SHORT) {
         Toast.makeText(this, message, duration).show()
+    }
+
+    /**
+     * 创建ViewModel
+     */
+    protected fun <T : ViewModel> createViewModel(cls: Class<T>): T {
+        return ViewModelProviders.of(this).get(cls)
     }
 
 }
