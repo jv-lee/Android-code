@@ -20,7 +20,7 @@ class ExactTextView(context: Context, attributeSet: AttributeSet) :
     private val mBounds: Rect = Rect()
 
     override fun onDraw(canvas: Canvas) {
-        val text = calculateTextParams()
+        val text = measureTextReactSize()
         val left = mBounds.left
         val bottom = mBounds.bottom
         mBounds.offset(-mBounds.left, -mBounds.top)
@@ -31,11 +31,11 @@ class ExactTextView(context: Context, attributeSet: AttributeSet) :
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-        calculateTextParams()
+        measureTextReactSize()
         setMeasuredDimension(mBounds.right - mBounds.left, -mBounds.top + mBounds.bottom)
     }
 
-    private fun calculateTextParams(): String {
+    private fun measureTextReactSize(): String {
         val text = text.toString()
         val textLength = text.length
         mPaint.textSize = textSize
