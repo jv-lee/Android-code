@@ -1,5 +1,5 @@
 <resources>
-    <string name="bottom_sheet_behavior">android.support.design.widget.BottomSheetBehavior</string>
+    <string name="bottom_sheet_behavior">com.google.android.material.bottomsheet.BottomSheetBehavior</string>
     <string name="refresh_drag">下拉刷新</string>
     <string name="refresh_release">释放更新</string>
     <string name="refreshing">加载中…</string>

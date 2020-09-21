@@ -14,6 +14,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.lee.library.R
 import com.lee.library.extensions.getVmClass
+import com.lee.library.utils.SizeUtil
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -23,7 +24,10 @@ import kotlinx.coroutines.cancel
  * @author jv.lee
  */
 abstract class BaseSheetFragment<V : ViewDataBinding, VM : ViewModel>(
-    var layoutId: Int
+    var layoutId: Int,
+    var isFullWindow: Boolean = false,
+    var behaviorState: Int = BottomSheetBehavior.STATE_EXPANDED,
+    var peekHeight: Int = -1
 ) : BottomSheetDialogFragment(), CoroutineScope by CoroutineScope(Dispatchers.Main) {
 
     protected lateinit var binding: V
@@ -47,12 +51,12 @@ abstract class BaseSheetFragment<V : ViewDataBinding, VM : ViewModel>(
 
     override fun onStart() {
         super.onStart()
-        val dialog = dialog
-        if (dialog != null) {
-            val bottomSheet = dialog.findViewById<View>(R.id.design_bottom_sheet)
-            bottomSheet.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
+        if (isFullWindow) {
+            val bottomSheet = dialog?.findViewById<View>(R.id.design_bottom_sheet)
+            bottomSheet?.layoutParams?.height = ViewGroup.LayoutParams.MATCH_PARENT
         }
-        getBehavior()!!.state = BottomSheetBehavior.STATE_EXPANDED
+        getBehavior()?.peekHeight = SizeUtil.dp2px(context, peekHeight.toFloat())
+        getBehavior()?.state = behaviorState
     }
 
     open fun getBehavior(): BottomSheetBehavior<*>? {

@@ -9,7 +9,7 @@ import com.lee.library.R
  * @date 2020/9/21
  * @description
  */
-abstract class BaseAlertDialogFragment<V : ViewDataBinding, VM : ViewModel>(var resId: Int) :
+abstract class BaseAlertDialogFragment<V : ViewDataBinding, VM : ViewModel>(resId: Int) :
     BaseDialogFragment<V, VM>(layoutId = resId) {
     init {
         setStyle(STYLE_NO_TITLE, R.style.BaseAlertDialog)

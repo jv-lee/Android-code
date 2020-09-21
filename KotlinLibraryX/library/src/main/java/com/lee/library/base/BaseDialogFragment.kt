@@ -1,12 +1,9 @@
 package com.lee.library.base
 
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.Window
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.DialogFragment
@@ -18,7 +15,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.cancel
-import java.util.*
 
 /**
  * @author jv.lee
@@ -40,8 +36,6 @@ abstract class BaseDialogFragment<V : ViewDataBinding, VM : ViewModel>(
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        Objects.requireNonNull<Window>(dialog?.window)
-            .setBackgroundDrawable(ColorDrawable(Color.parseColor("#00000000")))
         this.dialog?.setCancelable(false)
         this.dialog?.setCanceledOnTouchOutside(false)
         //设置viewBinding

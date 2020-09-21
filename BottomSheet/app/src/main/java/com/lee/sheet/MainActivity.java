@@ -10,6 +10,8 @@ import android.view.View;
  */
 public class MainActivity extends AppCompatActivity {
 
+    private SheetDialogFragment sheetDialogFragment = new SheetDialogFragment();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void sheetFragment(View view) {
-        new SheetDialogFragment().show(getSupportFragmentManager(), "dialog");
+        sheetDialogFragment.show(getSupportFragmentManager(), "dialog");
     }
 
 }

@@ -1,5 +1,5 @@
 <resources>
-    <string name="bottom_sheet_behavior">android.support.design.widget.BottomSheetBehavior</string>
+    <string name="bottom_sheet_behavior">com.google.android.material.bottomsheet.BottomSheetBehavior</string>
     <string name="refresh_drag">Pull down to refresh</string>
     <string name="refresh_release">Release immediate refresh</string>
     <string name="refreshing">Refreshing…</string>
