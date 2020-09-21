@@ -33,8 +33,6 @@ abstract class BaseSheetFragment<V : ViewDataBinding, VM : ViewModel>(
     protected lateinit var binding: V
     protected lateinit var viewModel: VM
 
-    private var mBehavior: BottomSheetBehavior<*>? = null
-
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return super.onCreateDialog(savedInstanceState) as BottomSheetDialog
     }
@@ -60,10 +58,7 @@ abstract class BaseSheetFragment<V : ViewDataBinding, VM : ViewModel>(
     }
 
     open fun getBehavior(): BottomSheetBehavior<*>? {
-        if (mBehavior == null) {
-            mBehavior = BottomSheetBehavior.from(binding.root.parent as View)
-        }
-        return mBehavior
+        return BottomSheetBehavior.from(binding.root.parent as View)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
