@@ -1,3 +1,2 @@
-include ':basedialog'
-include ':app', ':library'
+include ':app',':basedialog', ':library'
 rootProject.name='KotlinLibraryX'

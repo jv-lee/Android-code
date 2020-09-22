@@ -11,13 +11,12 @@ import com.lee.library.base.BaseSheetFragment
  * @date 2020/9/21
  * @description Activity根部局必须添加 app:layout_behavior="@string/bottom_sheet_behavior"
  */
-class BaseSheetDialogFragmentImpl :
-    BaseSheetFragment<FragmentSheetDialogBinding, ViewModel>(
-        R.layout.fragment_sheet_dialog,
-        isFullWindow = true,
-        behaviorState = BottomSheetBehavior.STATE_EXPANDED,
-        peekHeight = 130
-    ) {
+class BaseSheetDialogFragmentImpl : BaseSheetFragment<FragmentSheetDialogBinding, ViewModel>(
+    R.layout.fragment_sheet_dialog,
+    true,
+    BottomSheetBehavior.STATE_EXPANDED,
+    130
+) {
     override fun bindView() {
 
     }
