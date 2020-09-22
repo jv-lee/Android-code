@@ -3,18 +3,13 @@ package com.lee.app
 import android.content.Context
 import android.widget.TextView
 import com.lee.library.dialog.core.BaseBottomDialog
-import com.lee.library.dialog.core.setBottomDialog
 
 /**
  * @author jv.lee
  * @date 2020/9/10
  * @description
  */
-class BottomTitleDialog(context: Context) : BaseBottomDialog(context) {
-
-    init {
-        setBottomDialog(260)
-    }
+class BottomTitleDialog(context: Context) : BaseBottomDialog(context,260) {
 
     private var tvTitle: TextView? = null
 

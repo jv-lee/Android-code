@@ -25,9 +25,9 @@ import kotlinx.coroutines.cancel
  */
 abstract class BaseSheetFragment<V : ViewDataBinding, VM : ViewModel>(
     var layoutId: Int,
-    var isFullWindow: Boolean = false,
-    var behaviorState: Int = BottomSheetBehavior.STATE_EXPANDED,
-    var peekHeight: Int = -1
+    private var isFullWindow: Boolean = false,
+    private var behaviorState: Int = BottomSheetBehavior.STATE_EXPANDED,
+    private var peekHeight: Int = -1
 ) : BottomSheetDialogFragment(), CoroutineScope by CoroutineScope(Dispatchers.Main) {
 
     protected lateinit var binding: V
