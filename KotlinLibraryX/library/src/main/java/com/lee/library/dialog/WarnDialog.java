@@ -24,7 +24,7 @@ public class WarnDialog extends BaseAlertDialog {
     }
 
     private WarnDialog(@NonNull Context context) {
-        super(context);
+        super(context,false);
     }
 
     @Override

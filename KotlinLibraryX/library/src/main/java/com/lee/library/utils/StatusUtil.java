@@ -161,6 +161,20 @@ public class StatusUtil {
     }
 
     /**
+     * 获取导航栏高度
+     *
+     * @param context
+     * @return
+     */
+    public static int getNavigationBarHeight(Context context) {
+        int resId = context.getResources().getIdentifier("navigation_bar_height", "dimen", "android");
+        if (resId > 0) {
+            return context.getResources().getDimensionPixelSize(resId);
+        }
+        return 0;
+    }
+
+    /**
      * 设置自定义toolbar高度
      *
      * @param context

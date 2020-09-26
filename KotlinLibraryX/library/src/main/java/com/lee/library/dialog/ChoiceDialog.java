@@ -24,7 +24,7 @@ public class ChoiceDialog extends BaseAlertDialog {
     }
 
     private ChoiceDialog(@NonNull Context context) {
-        super(context);
+        super(context, false);
     }
 
     @Override

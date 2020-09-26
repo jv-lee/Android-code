@@ -15,7 +15,7 @@ import com.lee.library.dialog.core.BaseTranslucentDialog;
 public class LoadingDialog extends BaseTranslucentDialog {
 
     public LoadingDialog(@NonNull Context context) {
-        super(context);
+        super(context,false);
     }
 
     @Override

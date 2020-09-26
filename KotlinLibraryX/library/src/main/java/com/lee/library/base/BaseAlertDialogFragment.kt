@@ -7,7 +7,7 @@ import com.lee.library.R
 /**
  * @author jv.lee
  * @date 2020/9/21
- * @description
+ * @description 通用AlertDialogFragment 基础类 带Alert缩放动画
  */
 abstract class BaseAlertDialogFragment<V : ViewDataBinding, VM : ViewModel>(resId: Int) :
     BaseDialogFragment<V, VM>(layoutId = resId) {
