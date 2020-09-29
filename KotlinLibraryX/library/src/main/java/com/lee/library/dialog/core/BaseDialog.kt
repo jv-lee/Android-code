@@ -3,10 +3,10 @@ package com.lee.library.dialog.core
 import android.app.Activity
 import android.app.Dialog
 import android.content.Context
-import android.os.Bundle
 import android.util.DisplayMetrics
 import android.view.*
 import com.lee.library.utils.SizeUtil
+import com.lee.library.utils.StatusUtil
 
 
 /**
@@ -18,7 +18,7 @@ abstract class BaseDialog constructor(context: Context, theme: Int, cancel: Bool
     Dialog(context, theme) {
 
     init {
-        setCancelable(cancel)
+        if(!cancel)setBackDismiss()
         setContentView(buildViewId())
         bindView()
     }
@@ -95,4 +95,13 @@ fun Dialog.setFullWindow(layoutId: Int) {
     lp.height = display.height //设置宽度
     lp.width = display.width //设置宽度
     window.attributes = lp
+    window.decorView.setPadding(0, 0, 0, StatusUtil.getNavigationBarHeight(context))
+}
+
+/**
+ * dialog禁止取消
+ */
+fun Dialog.setBackDismiss() {
+    setCancelable(false)
+    setOnKeyListener { _, keyCode, _ -> keyCode == KeyEvent.KEYCODE_BACK }
 }
