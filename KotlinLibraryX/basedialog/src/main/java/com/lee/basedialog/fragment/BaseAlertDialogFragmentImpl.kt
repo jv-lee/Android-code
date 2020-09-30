@@ -11,7 +11,10 @@ import com.lee.library.base.BaseAlertDialogFragment
  * @description
  */
 class BaseAlertDialogFragmentImpl :
-    BaseAlertDialogFragment<FragmentAlertDialogBinding, ViewModel>(R.layout.fragment_alert_dialog) {
+    BaseAlertDialogFragment<FragmentAlertDialogBinding, ViewModel>(
+        R.layout.fragment_alert_dialog,
+        true
+    ) {
     override fun bindView() {
 
     }
