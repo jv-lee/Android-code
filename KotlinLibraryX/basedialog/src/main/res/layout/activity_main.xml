@@ -39,6 +39,24 @@
                 android:layout_height="wrap_content"
                 android:text="Sheet Dialog Fragment" />
 
+            <Button
+                android:id="@+id/btn_bottom_dialog"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bottom Dialog" />
+
+            <Button
+                android:id="@+id/btn_alert_dialog"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Alert Dialog" />
+
+            <Button
+                android:id="@+id/btn_translucent_dialog"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Translucent Dialog" />
+
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

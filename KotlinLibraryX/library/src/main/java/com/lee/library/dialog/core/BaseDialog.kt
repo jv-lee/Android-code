@@ -14,7 +14,7 @@ import com.lee.library.utils.StatusUtil
  * @date 2020/9/10
  * @description
  */
-abstract class BaseDialog constructor(context: Context, theme: Int, cancel: Boolean = false) :
+abstract class BaseDialog constructor(context: Context, theme: Int, cancel: Boolean = true) :
     Dialog(context, theme) {
 
     init {
