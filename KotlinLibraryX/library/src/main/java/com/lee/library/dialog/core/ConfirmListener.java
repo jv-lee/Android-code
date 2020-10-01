@@ -5,7 +5,7 @@ package com.lee.library.dialog.core;
  * @date 2020-03-07
  * @description
  */
-public interface ConfrimListener {
+public interface ConfirmListener {
     /**
      * 确认回调
      */

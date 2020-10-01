@@ -10,7 +10,7 @@ import com.lee.library.dialog.ChoiceDialog
 import com.lee.library.dialog.LoadingDialog
 import com.lee.library.dialog.WarnDialog
 import com.lee.library.dialog.core.CancelListener
-import com.lee.library.dialog.core.ConfrimListener
+import com.lee.library.dialog.core.ConfirmListener
 import com.lee.library.utils.LogUtil
 import com.lee.library.utils.StatusUtil
 import com.lee.library.widget.StatusLayout
@@ -36,29 +36,22 @@ class TestActivity : AppCompatActivity() {
     /**
      * 普通提示框 单确认按钮
      */
-    private val warnDialog: WarnDialog by lazy {
-        WarnDialog.build(this, "您输入的密码有误，请重新输入")
-            .apply {
-                setConfirmListener(ConfrimListener {
-                    dismiss()
-                })
-            }
+    private val warnDialog by lazy {
+        WarnDialog(this, "您输入的密码有误，请重新输入").apply {
+            confirmListener = ConfirmListener { dismiss() }
+        }
     }
 
     /**
      * 普通选择框 确认/取消操作
      */
-    private val choiceDialog: ChoiceDialog by lazy {
-        ChoiceDialog.build(this, "是否打开通讯设备？")
-            .apply {
-                setConfirmListener(ConfrimListener {
-                    dismiss()
-                    Toast.makeText(context, "已开启通讯设备", Toast.LENGTH_SHORT).show()
-                })
-                setCancelListener(CancelListener {
-                    dismiss()
-                })
+    private val choiceDialog by lazy {
+        ChoiceDialog(this, "是否打开通讯设备？").apply {
+            confirmListener = ConfirmListener {
+                dismiss()
+                Toast.makeText(context, "已开启通讯设备", Toast.LENGTH_SHORT).show()
             }
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
