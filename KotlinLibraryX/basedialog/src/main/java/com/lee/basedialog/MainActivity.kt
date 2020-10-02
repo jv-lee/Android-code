@@ -3,6 +3,7 @@ package com.lee.basedialog
 import android.widget.Button
 import androidx.lifecycle.ViewModel
 import com.lee.basedialog.databinding.ActivityMainBinding
+import com.lee.basedialog.dialog.BaseAlertDialogImpl
 import com.lee.basedialog.dialog.BaseBottomDialogImpl
 import com.lee.basedialog.fragment.BaseAlertDialogFragmentImpl
 import com.lee.basedialog.fragment.BaseDialogFragmentImpl
@@ -18,6 +19,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, ViewModel>(R.layout.activ
 
     //dialog
     private val baseBottomDialogImpl by lazy { BaseBottomDialogImpl(this) }
+    private val baseAlertDialogImpl by lazy { BaseAlertDialogImpl(this) }
 
     override fun bindView() {
         //普通dialogFragment
@@ -45,6 +47,11 @@ class MainActivity : BaseActivity<ActivityMainBinding, ViewModel>(R.layout.activ
         //底部弹出bottomDialog
         findViewById<Button>(R.id.btn_bottom_dialog).setOnClickListener {
             baseBottomDialogImpl.show()
+        }
+
+        //alert动画 dialog
+        findViewById<Button>(R.id.btn_alert_dialog).setOnClickListener {
+            baseAlertDialogImpl.show()
         }
     }
 
