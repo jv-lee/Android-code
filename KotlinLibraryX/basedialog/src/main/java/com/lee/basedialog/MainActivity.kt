@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import com.lee.basedialog.databinding.ActivityMainBinding
 import com.lee.basedialog.dialog.BaseAlertDialogImpl
 import com.lee.basedialog.dialog.BaseBottomDialogImpl
+import com.lee.basedialog.dialog.BaseTranslucentDialogImpl
 import com.lee.basedialog.fragment.BaseAlertDialogFragmentImpl
 import com.lee.basedialog.fragment.BaseDialogFragmentImpl
 import com.lee.basedialog.fragment.BaseSheetDialogFragmentImpl
@@ -20,6 +21,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, ViewModel>(R.layout.activ
     //dialog
     private val baseBottomDialogImpl by lazy { BaseBottomDialogImpl(this) }
     private val baseAlertDialogImpl by lazy { BaseAlertDialogImpl(this) }
+    private val baseTranslucentDialogImpl by lazy { BaseTranslucentDialogImpl(this) }
 
     override fun bindView() {
         //普通dialogFragment
@@ -52,6 +54,11 @@ class MainActivity : BaseActivity<ActivityMainBinding, ViewModel>(R.layout.activ
         //alert动画 dialog
         findViewById<Button>(R.id.btn_alert_dialog).setOnClickListener {
             baseAlertDialogImpl.show()
+        }
+
+        //translucent Dialog
+        findViewById<Button>(R.id.btn_translucent_dialog).setOnClickListener {
+            baseTranslucentDialogImpl.show()
         }
     }
 
