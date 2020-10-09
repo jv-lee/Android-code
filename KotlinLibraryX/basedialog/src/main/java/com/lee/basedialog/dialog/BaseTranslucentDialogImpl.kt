@@ -7,7 +7,7 @@ import com.lee.library.dialog.core.BaseTranslucentDialog
 /**
  * @author jv.lee
  * @date 2020/9/30
- * @description
+ * @description translucent样式Dialog
  */
 class BaseTranslucentDialogImpl(context: Context) : BaseTranslucentDialog(context) {
     override fun buildViewId(): Int {

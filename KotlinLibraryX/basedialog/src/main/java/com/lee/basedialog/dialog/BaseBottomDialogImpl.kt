@@ -7,7 +7,7 @@ import com.lee.library.dialog.core.BaseBottomDialog
 /**
  * @author jv.lee
  * @date 2020/9/30
- * @description
+ * @description bottom样式 Dialog
  */
 class BaseBottomDialogImpl(context: Context) : BaseBottomDialog(context, 256) {
     override fun buildViewId(): Int {

@@ -8,7 +8,7 @@ import com.lee.library.base.BaseAlertDialogFragment
 /**
  * @author jv.lee
  * @date 2020/9/21
- * @description
+ * @description Alert样式 DialogFragment
  */
 class BaseAlertDialogFragmentImpl :
     BaseAlertDialogFragment<FragmentAlertDialogBinding, ViewModel>(

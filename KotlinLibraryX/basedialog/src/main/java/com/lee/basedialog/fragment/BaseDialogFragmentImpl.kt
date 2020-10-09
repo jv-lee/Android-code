@@ -8,7 +8,7 @@ import com.lee.library.base.BaseDialogFragment
 /**
  * @author jv.lee
  * @date 2020/9/21
- * @description
+ * @description BaseDialog样式 DialogFragment
  */
 class BaseDialogFragmentImpl :
     BaseDialogFragment<FragmentBaseDialogBinding, ViewModel>(R.layout.fragment_base_dialog, false) {
