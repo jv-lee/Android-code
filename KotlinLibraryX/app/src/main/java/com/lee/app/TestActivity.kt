@@ -9,7 +9,6 @@ import com.lee.app.server.ApiServiceImpl
 import com.lee.library.dialog.ChoiceDialog
 import com.lee.library.dialog.LoadingDialog
 import com.lee.library.dialog.WarnDialog
-import com.lee.library.dialog.core.CancelListener
 import com.lee.library.dialog.core.ConfirmListener
 import com.lee.library.utils.LogUtil
 import com.lee.library.utils.StatusUtil
@@ -37,7 +36,8 @@ class TestActivity : AppCompatActivity() {
      * 普通提示框 单确认按钮
      */
     private val warnDialog by lazy {
-        WarnDialog(this, "您输入的密码有误，请重新输入").apply {
+        WarnDialog(this).apply {
+            setTitle("您输入的密码有误，请重新输入")
             confirmListener = ConfirmListener { dismiss() }
         }
     }
@@ -46,7 +46,8 @@ class TestActivity : AppCompatActivity() {
      * 普通选择框 确认/取消操作
      */
     private val choiceDialog by lazy {
-        ChoiceDialog(this, "是否打开通讯设备？").apply {
+        ChoiceDialog(this).apply {
+            setTitle("是否打开通讯设备?")
             confirmListener = ConfirmListener {
                 dismiss()
                 Toast.makeText(context, "已开启通讯设备", Toast.LENGTH_SHORT).show()

@@ -1,6 +1,7 @@
 package com.lee.library.widget.toolbar
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
@@ -112,6 +113,7 @@ open class TitleToolbar : CustomToolbarLayout {
                 try {
                     findNavController().popBackStack()
                 } catch (e: Exception) {
+                    (context as Activity).finish()
                 }
                 clickListener?.backClick()
             }
