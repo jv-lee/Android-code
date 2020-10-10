@@ -30,8 +30,8 @@ class FormTableActivity :
         StatusUtil.setStatusFontLight2(this)
         keyboardHelper.enable()
 
-        binding.rvContainer.layoutManager = LinearLayoutManager(this)
-        binding.rvContainer.adapter = adapter
+//        binding.rvContainer.layoutManager = LinearLayoutManager(this)
+//        binding.rvContainer.adapter = adapter
     }
 
     override fun bindData() {
