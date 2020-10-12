@@ -12,7 +12,7 @@ import android.view.ViewGroup
 import android.view.Window
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
-import android.widget.FrameLayout
+import kotlin.math.abs
 
 /**
  * 避免输入法面板遮挡
@@ -104,42 +104,42 @@ object KeyboardUtil {
      */
     fun keyboardOpenMoveView(window: Window, rootView: ViewGroup) {
         val decorView = window.decorView
-        //这个可以获取键盘的高度
+        val statusBarHeight = StatusUtil.getStatusBarHeight(decorView.context)
+        var isStatusDiff = false
+        var statusDiff = 0
         decorView.viewTreeObserver.addOnGlobalLayoutListener {
-            val rect = Rect()
-            decorView.getWindowVisibleDisplayFrame(rect);
-            //计算出可见屏幕的高度
-            val displayHeight = rect.bottom - rect.top
-            //获取屏幕整体高度
-            val height = decorView.height
-            //判断键盘是否显示和消失
-            val visible = displayHeight / height < 0.8
-            val statusBarHeight = StatusUtil.getStatusBarHeight(rootView.context)
-            val keyboardHeight = height - displayHeight - statusBarHeight
-            onSoftKeyBoardVisible(visible, keyboardHeight, rootView)
+            val r = Rect()
+            //r will be populated with the coordinates of your view that area still visible.
+            decorView.getWindowVisibleDisplayFrame(r)
+
+            //get screen height and calculate the difference with the useable area from the r
+            val height: Int = decorView.context.resources.displayMetrics.heightPixels
+            var diff = (height - r.bottom)
+
+            //部分机型 statusBar 的高度不会计算在屏幕显示高度内 所以做初始化判断 diff值是否等于statusBar高度 做处理
+            if (abs(diff) == abs(statusBarHeight) && !isStatusDiff) {
+                statusDiff = statusBarHeight
+                isStatusDiff = true
+            }
+            diff += statusDiff
+
+            //if it could be a keyboard add the padding to the view
+            if (diff != 0) {
+                // if the use-able screen height differs from the total screen height we assume that it shows a keyboard now
+                //check if the padding is 0 (if yes set the padding for the keyboard)
+                if (rootView.paddingBottom != diff) {
+                    //set the padding of the contentView for the keyboard
+                    rootView.setPadding(0, 0, 0, diff)
+                }
+            } else {
+                //check if the padding is != 0 (if yes reset the padding)
+                if (rootView.paddingBottom != 0) {
+                    //reset the padding of the contentView
+                    rootView.setPadding(0, 0, 0, 0)
+                }
+            }
         }
     }
-
-    private fun onSoftKeyBoardVisible(visible: Boolean, keyboardHeight: Int, rootView: ViewGroup) {
-        //如果键盘显示那么获取到他的高度设置rootView的marginBottom 这里rootView就是包裹EditText的那个view
-        if (visible) {
-            val lp = FrameLayout.LayoutParams(
-                FrameLayout.LayoutParams.MATCH_PARENT,
-                FrameLayout.LayoutParams.MATCH_PARENT
-            )
-            lp.setMargins(0, 0, 0, keyboardHeight)
-            rootView.layoutParams = lp
-        } else {
-            //消失直接设置lyoContent的marginBottom 为0让其恢复到原来的布局
-            val lp = FrameLayout.LayoutParams(
-                FrameLayout.LayoutParams.MATCH_PARENT,
-                FrameLayout.LayoutParams.MATCH_PARENT
-            )
-            lp.setMargins(0, 0, 0, 0)
-            rootView.layoutParams = lp
-        }
-    }
-
 
     /**
      * 点击屏幕空白区域隐藏软键盘（方法2）

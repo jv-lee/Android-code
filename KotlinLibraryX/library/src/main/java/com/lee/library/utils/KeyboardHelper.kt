@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlin.math.abs
 
 /**
  * @author jv.lee
@@ -24,13 +25,21 @@ class KeyboardHelper(
 ) {
 
     private var tempDiff = 0
+
     private var isEnd = false
     private var isStart = false
     private var reverse = false
+
+    private var isStatusDiff = false
+    private var statusDiff = 0
+    private var statusBarHeight = 0
+
     private var recyclerView: RecyclerView? = null
+
 
     @TargetApi(Build.VERSION_CODES.KITKAT)
     fun enable() {
+        statusBarHeight = StatusUtil.getStatusBarHeight(decorView.context)
         decorView.viewTreeObserver.addOnGlobalLayoutListener(onGlobalLayoutListener)
         recyclerView?.addOnScrollListener(onScrollListener)
     }
@@ -85,7 +94,14 @@ class KeyboardHelper(
 
         //get screen height and calculate the difference with the useable area from the r
         val height: Int = decorView.context.resources.displayMetrics.heightPixels
-        val diff = height - r.bottom
+        var diff = (height - r.bottom)
+
+        //部分机型 statusBar 的高度不会计算在屏幕显示高度内 所以做初始化判断 diff值是否等于statusBar高度 做处理
+        if (abs(diff) == abs(statusBarHeight) && !isStatusDiff) {
+            statusDiff = statusBarHeight
+            isStatusDiff = true
+        }
+        diff += statusDiff
 
         //if it could be a keyboard add the padding to the view
         if (diff != 0) {

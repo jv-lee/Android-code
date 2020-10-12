@@ -1,11 +1,13 @@
 package com.lee.app
 
+import android.view.ViewGroup
 import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lee.app.adapter.FormAdapter
 import com.lee.app.databinding.ActivityFormTableBinding
 import com.lee.library.base.BaseActivity
 import com.lee.library.utils.KeyboardHelper
+import com.lee.library.utils.KeyboardUtil
 import com.lee.library.utils.StatusUtil
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
@@ -28,7 +30,8 @@ class FormTableActivity :
 
     override fun bindView() {
         StatusUtil.setStatusFontLight2(this)
-        keyboardHelper.enable()
+//        keyboardHelper.enable()
+        KeyboardUtil.keyboardOpenMoveView(window, binding.constRoot)
 
 //        binding.rvContainer.layoutManager = LinearLayoutManager(this)
 //        binding.rvContainer.adapter = adapter
@@ -41,7 +44,7 @@ class FormTableActivity :
     @ExperimentalCoroutinesApi
     override fun onDestroy() {
         FormAdapter.dialogMap.clear()
-        keyboardHelper.disable()
+//        keyboardHelper.disable()
         super.onDestroy()
     }
 
