@@ -12,14 +12,16 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.lee.library.R
 import com.lee.library.extensions.getVmClass
+import com.lee.library.mvvm.base.BaseViewModel
 
 /**
  * @author jv.lee
  * @date 2020/3/30
  * @description
  */
-abstract class BaseNavigationFragment<V : ViewDataBinding, VM : ViewModel>(
+abstract class BaseNavigationFragment<V : ViewDataBinding, VM : BaseViewModel>(
     layoutId: Int
 ) : BaseFragment<V, VM>(layoutId) {
 
@@ -50,6 +52,7 @@ abstract class BaseNavigationFragment<V : ViewDataBinding, VM : ViewModel>(
             intentParams(arguments, savedInstanceState)
             bindView()
             bindData()
+            initFailedViewModel()
             isNavigationViewInit = true
         }
     }
@@ -98,7 +101,7 @@ abstract class BaseNavigationFragment<V : ViewDataBinding, VM : ViewModel>(
                     val secondTime = System.currentTimeMillis()
                     //如果两次按键时间间隔大于2秒，则不退出
                     if (secondTime - firstTime > 2000) {
-                        toast("再次按下退出")
+                        getString(R.string.double_click_back)
                         //更新firstTime
                         firstTime = secondTime
                     } else {//两次按键小于2秒时，退出应用

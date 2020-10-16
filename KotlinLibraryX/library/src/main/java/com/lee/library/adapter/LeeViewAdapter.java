@@ -596,6 +596,7 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
     private void bindLoadErrorListener() {
         if (mLoadResource != null && pageLayout != null) {
             pageLayout.findViewById(mLoadResource.pageReloadId()).setOnClickListener(v -> {
+                updateStatus(STATUS_PAGE_LOADING);
                 mLoadErrorListener.pageReload();
             });
         }

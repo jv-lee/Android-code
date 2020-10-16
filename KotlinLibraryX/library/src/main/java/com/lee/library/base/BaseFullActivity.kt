@@ -13,7 +13,7 @@ import kotlinx.coroutines.Dispatchers
  * @date 2019-08-15
  * @description
  */
-abstract class BaseFullActivity<V : ViewDataBinding, VM : ViewModel>(
+abstract class BaseFullActivity<V : ViewDataBinding, VM : BaseViewModel>(
     layoutId: Int) : BaseActivity<V,VM>(layoutId)
     , CoroutineScope by CoroutineScope(Dispatchers.Main) {
 

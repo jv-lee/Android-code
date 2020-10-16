@@ -28,12 +28,12 @@ class ChoiceDialog(context: Context) : BaseAlertDialog(context, false) {
         }
     }
 
-    override fun setTitle(title: CharSequence?) {
-        findViewById<TextView>(R.id.tv_title).text = title
-    }
-
     override fun setTitle(titleId: Int) {
         findViewById<TextView>(R.id.tv_title).setText(titleId)
+    }
+
+    override fun setTitle(title: CharSequence?) {
+        findViewById<TextView>(R.id.tv_title).text = title
     }
 
 }

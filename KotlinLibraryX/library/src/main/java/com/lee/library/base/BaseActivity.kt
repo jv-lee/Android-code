@@ -8,10 +8,13 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import com.lee.library.R
 import com.lee.library.extensions.getVmClass
+import com.lee.library.mvvm.base.BaseViewModel
 import com.lee.library.utils.StatusUtil
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -23,8 +26,9 @@ import kotlinx.coroutines.cancel
  * @date 2019-08-15
  * @description
  */
-abstract class BaseActivity<V : ViewDataBinding, VM : ViewModel>(
-    var layoutId: Int) :
+abstract class BaseActivity<V : ViewDataBinding, VM : BaseViewModel>(
+    var layoutId: Int
+) :
     AppCompatActivity(), CoroutineScope by CoroutineScope(Dispatchers.Main) {
 
     protected lateinit var binding: V
@@ -53,6 +57,14 @@ abstract class BaseActivity<V : ViewDataBinding, VM : ViewModel>(
         bindView()
 
         bindData()
+
+        initFailedViewModel()
+    }
+
+    private fun initFailedViewModel() {
+        viewModel.failedEvent.observe(this, Observer {
+            toast(it.message)
+        })
     }
 
     open fun intentParams(intent: Intent, savedInstanceState: Bundle?) {
@@ -90,7 +102,8 @@ abstract class BaseActivity<V : ViewDataBinding, VM : ViewModel>(
                 val secondTime = System.currentTimeMillis()
                 //如果两次按键时间间隔大于2秒，则不退出
                 if (secondTime - firstTime > hasBackExitTimer) {
-                    Toast.makeText(this, "再次按下退出", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, getString(R.string.double_click_back), Toast.LENGTH_SHORT)
+                        .show()
                     //更新firstTime
                     firstTime = secondTime
                     return true
@@ -108,7 +121,8 @@ abstract class BaseActivity<V : ViewDataBinding, VM : ViewModel>(
         cancel()
     }
 
-    fun Activity.toast(message: CharSequence, duration: Int = Toast.LENGTH_SHORT) {
+    fun Activity.toast(message: CharSequence?, duration: Int = Toast.LENGTH_SHORT) {
+        message ?: return
         Toast.makeText(this, message, duration).show()
     }
 

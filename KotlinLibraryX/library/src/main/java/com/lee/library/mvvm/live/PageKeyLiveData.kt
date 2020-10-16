@@ -2,6 +2,8 @@ package com.lee.library.mvvm.live
 
 import com.lee.library.mvvm.base.BaseLiveData
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 /**
  * @author jv.lee
@@ -40,22 +42,26 @@ class PageKeyLiveData<T, K>(val initKey: K? = null) : BaseLiveData<T>() {
             //首次加载缓存数据
             if (firstCache) {
                 firstCache = false
-                response = startBlock()?.also {
-                    value = it
-                }
+                response = withContext(Dispatchers.IO) { startBlock() }
+                response?.also { value = it }
             }
 
             //网络数据设置
-            response = resumeBlock(key).also {
-                if (response != it) {
-                    value = it
+            response = withContext(Dispatchers.IO) {
+                resumeBlock(key).also { resumeData ->
+                    withContext(Dispatchers.Main) {
+                        if (response != resumeData) {
+                            value = resumeData
+                        }
+                    }
                 }
             }
 
             //首页将网络数据设置缓存
             if (key == initKey) {
-                response?.run {
-                    completedBlock(this)
+                //存储缓存数据
+                response?.let {
+                    withContext(Dispatchers.IO) { completedBlock(it) }
                 }
             }
         }

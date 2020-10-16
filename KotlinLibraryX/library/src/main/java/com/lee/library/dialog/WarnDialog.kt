@@ -11,7 +11,7 @@ import com.lee.library.dialog.core.BaseAlertDialog
  * @date 2020-03-07
  * @description 警告提示dialog
  */
-open class WarnDialog(context: Context) : BaseAlertDialog(context, false) {
+class WarnDialog(context: Context) : BaseAlertDialog(context, false) {
 
     public override fun buildViewId(): Int {
         return R.layout.layout_dialog_warm
@@ -27,11 +27,11 @@ open class WarnDialog(context: Context) : BaseAlertDialog(context, false) {
         }
     }
 
-    override fun setTitle(title: CharSequence?) {
-        findViewById<TextView>(R.id.tv_title).text = title
-    }
-
     override fun setTitle(titleId: Int) {
         findViewById<TextView>(R.id.tv_title).setText(titleId)
+    }
+
+    override fun setTitle(title: CharSequence?) {
+        findViewById<TextView>(R.id.tv_title).text = title
     }
 }

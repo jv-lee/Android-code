@@ -8,10 +8,12 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.lee.library.extensions.getVmClass
+import com.lee.library.mvvm.base.BaseViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -22,7 +24,7 @@ import kotlinx.coroutines.cancel
  * @date 2019/8/16.
  * @description
  */
-abstract class BaseFragment<V : ViewDataBinding, VM : ViewModel>(
+abstract class BaseFragment<V : ViewDataBinding, VM : BaseViewModel>(
     var layoutId: Int
 ) : Fragment()
     , CoroutineScope by CoroutineScope(Dispatchers.Main) {
@@ -52,6 +54,13 @@ abstract class BaseFragment<V : ViewDataBinding, VM : ViewModel>(
         intentParams(arguments, savedInstanceState)
         bindView()
         bindData()
+        initFailedViewModel()
+    }
+
+    protected fun initFailedViewModel() {
+        viewModel.failedEvent.observe(viewLifecycleOwner, Observer {
+            toast(it.message)
+        })
     }
 
     override fun onResume() {
@@ -107,7 +116,8 @@ abstract class BaseFragment<V : ViewDataBinding, VM : ViewModel>(
      */
     open fun lazyLoad() {}
 
-    fun Fragment.toast(message: CharSequence, duration: Int = Toast.LENGTH_SHORT) {
+    fun Fragment.toast(message: CharSequence?, duration: Int = Toast.LENGTH_SHORT) {
+        message ?: return
         Toast.makeText(activity, message, duration).show()
     }
 

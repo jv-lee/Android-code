@@ -1,5 +1,6 @@
 package com.lee.library.base
 
+import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -23,7 +24,7 @@ import kotlinx.coroutines.cancel
  */
 abstract class BaseDialogFragment<V : ViewDataBinding, VM : ViewModel>(
     private val layoutId: Int,
-    private val isCancel: Boolean = true
+    private val isCancel:Boolean = false
 ) :
     DialogFragment(), CoroutineScope by CoroutineScope(Dispatchers.Main) {
 
@@ -42,6 +43,15 @@ abstract class BaseDialogFragment<V : ViewDataBinding, VM : ViewModel>(
         return binding.root
     }
 
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val dialog = super.onCreateDialog(savedInstanceState)
+        //该类型拦截屏幕/back 事件
+        dialog.setCancelable(isCancel)
+        //该类型只拦截屏幕触摸dismiss事件
+//        dialog.setCanceledOnTouchOutside(false)
+        return dialog
+    }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         //设置viewModel
@@ -52,7 +62,6 @@ abstract class BaseDialogFragment<V : ViewDataBinding, VM : ViewModel>(
         intentParams(arguments, savedInstanceState)
         bindView()
         bindData()
-        dialog?.setCancelable(isCancel)
     }
 
     override fun onResume() {

@@ -2,6 +2,8 @@ package com.lee.library.mvvm.live
 
 import com.lee.library.mvvm.base.BaseLiveData
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 /**
  * @author jv.lee
@@ -21,19 +23,23 @@ class CacheLiveData<T> : BaseLiveData<T>() {
             //首次加载缓存数据
             if (firstCache) {
                 firstCache = false
-                startBlock()?.run { value = this }
+                value = withContext(Dispatchers.IO) { startBlock() }
             }
 
             //网络数据设置
-            val response = resumeBlock().also {
-                //缓存数据与本地数据不一致 设置网络数据
-                if (value != it) {
-                    value = it
-                }
+            val response = withContext(Dispatchers.IO) {
+                resumeBlock()
+            }
+
+            //缓存数据与本地数据不一致 设置网络数据
+            if (value != response) {
+                value = response
             }
 
             //存储缓存数据
-            response?.run { completedBlock(this) }
+            response?.let {
+                withContext(Dispatchers.IO) { completedBlock(it) }
+            }
         }
     }
 
