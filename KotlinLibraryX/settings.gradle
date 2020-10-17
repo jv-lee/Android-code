@@ -1,2 +1,3 @@
+include ':pdfjs'
 include ':app',':basedialog', ':library'
 rootProject.name='KotlinLibraryX'
