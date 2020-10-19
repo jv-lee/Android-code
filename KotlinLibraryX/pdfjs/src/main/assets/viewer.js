@@ -1,42 +1,48 @@
-var url = location.search.substring(1);
+            var url = location.search.substring(1);
 
-PDFJS.cMapUrl = 'https://unpkg.com/pdfjs-dist@1.9.426/cmaps/';
-PDFJS.cMapPacked = true;
+            PDFJS.cMapUrl = 'https://unpkg.com/pdfjs-dist@1.9.426/cmaps/';
+            PDFJS.cMapPacked = true;
 
-var pdfDoc = null;
+			function createPage(viewport) {
+				var container = document.createElement("div");
+				container.className = "container";
+				container.width = viewport.width;
+				container.height = viewport.height;
 
-function hiddenLoading(){
-    var loading = document.getElementById('loading');
-    document.body.removeChild(loading);
-}
+				var loading = document.createElement("div");
+				loading.className = "loading";
 
-function createPage() {
-  var div = document.createElement("canvas");
-  document.body.appendChild(div);
-  return div;
-}
+			    var canvas = document.createElement("canvas");
+			    canvas.width = viewport.width;
+			    canvas.height = viewport.height;
 
-function renderPage(num) {
-  pdfDoc.getPage(num).then(function (page) {
-    var viewport = page.getViewport(2.0);
-    var canvas = createPage();
-    var ctx = canvas.getContext('2d');
+			    container.appendChild(canvas);
+			    container.appendChild(loading);
 
-    canvas.height = viewport.height;
-    canvas.width = viewport.width;
+			    document.body.appendChild(container);
+			    return canvas;
+			}
 
-    page.render({
-      canvasContext: ctx,
-      viewport: viewport
-    });
-  });
-}
+			function buildPage(page,index){
+				page.then(function(page){
+					var viewport = page.getViewport(2.0);
+			        var canvas = createPage(viewport);
+			        var ctx = canvas.getContext('2d');
 
-PDFJS.getDocument(url).then(function (pdf) {
-  window.control.end();
-//  hiddenLoading();
-  pdfDoc = pdf;
-  for (var i = 1; i <= pdfDoc.numPages; i++) {
-    renderPage(i)
-  }
-});
+			        page.render({
+			            canvasContext: ctx,
+			            viewport: viewport
+			        }).then(function(){
+			        	var loadings = document.body.getElementsByClassName('loading');
+			        	var loading = loadings[index];
+			        	loading.style.display = "none";
+			        });
+				});
+			}
+
+            PDFJS.getDocument(url).then(function (pdf) {
+              window.control.end();
+              for (var i = 1; i <= pdf.numPages; i++) {
+                buildPage(pdf.getPage(i),i-1);
+              }
+            });

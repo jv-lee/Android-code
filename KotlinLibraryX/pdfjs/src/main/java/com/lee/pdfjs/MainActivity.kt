@@ -35,7 +35,8 @@ class MainActivity : AppCompatActivity() {
         web.addJavascriptInterface(this, "control")
 
         //"file:///android_asset/viewer.html?${Uri.fromFile(File(""))}"
-        web.loadUrl("file:///android_asset/viewer.html?" + "file:///android_asset/book.pdf")
+//        web.loadUrl("file:///android_asset/viewer.html?" + "file:///android_asset/book.pdf")
+        web.loadUrl("file:///android_asset/viewer.html?" + Uri.fromFile(File(filesDir.absolutePath + File.separator + "book.pdf")))
     }
 
     @JavascriptInterface
