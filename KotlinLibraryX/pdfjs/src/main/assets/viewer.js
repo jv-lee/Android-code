@@ -41,7 +41,9 @@ function buildPage(page, index) {
 }
 
 PDFJS.getDocument(url).then(function(pdf) {
-    window.control.end();
+    if (typeof window.control.end != 'undefined') {
+        window.control.end();
+    }
     for (var i = 1; i <= pdf.numPages; i++) {
         buildPage(pdf.getPage(i), i - 1);
     }
