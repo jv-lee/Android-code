@@ -57,7 +57,6 @@ public class Density {
         dm.density = targetDensity;
         dm.scaledDensity = targetScaleDensity;
         dm.densityDpi = targetDensityDpi;
-
     }
 
 }
