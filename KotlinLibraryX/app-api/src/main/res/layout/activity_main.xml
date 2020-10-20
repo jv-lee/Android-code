@@ -14,15 +14,16 @@
         tools:context=".MainActivity">
 
         <Button
+            android:id="@+id/btn_fragment_result"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fragment Start Result API" />
+
+        <Button
             android:id="@+id/btn_activity_result"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ActivityResult API" />
-
-        <FrameLayout
-            android:id="@+id/frame_container"
-            android:layout_width="match_parent"
-            android:layout_height="100dp" />
+            android:text="Activity Start Result API" />
 
     </LinearLayout>
 </layout>

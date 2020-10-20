@@ -1,23 +1,20 @@
 package com.lee.api
 
 import android.content.Intent
-import androidx.activity.result.contract.ActivityResultContracts
+import com.lee.api.activity.StartResultActivity
 import com.lee.api.databinding.ActivityMainBinding
+import com.lee.api.fragment.StartFragmentActivity
 import com.lee.library.base.BaseActivity
 import com.lee.library.mvvm.base.BaseViewModel
 
 class MainActivity : BaseActivity<ActivityMainBinding, BaseViewModel>(R.layout.activity_main) {
 
-    private val activityForResult = prepareCall(ActivityResultContracts.StartActivityForResult()) {
-        toast(it?.data?.getStringExtra("value") ?: "")
-    }
-
     override fun bindView() {
-        supportFragmentManager.beginTransaction().replace(R.id.frame_container, MainFragment())
-            .commit()
-
+        binding.btnFragmentResult.setOnClickListener {
+            startActivity(Intent(this,StartFragmentActivity::class.java))
+        }
         binding.btnActivityResult.setOnClickListener {
-            activityForResult.launch(Intent(this, ResultActivity::class.java))
+            startActivity(Intent(this, StartResultActivity::class.java))
         }
     }
 
