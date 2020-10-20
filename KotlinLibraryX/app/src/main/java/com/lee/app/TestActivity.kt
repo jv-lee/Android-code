@@ -1,6 +1,8 @@
 package com.lee.app
 
 import android.content.Intent
+import android.content.res.Resources
+import android.net.Uri
 import android.os.Bundle
 import android.widget.Button
 import android.widget.Toast
@@ -10,6 +12,7 @@ import com.lee.library.dialog.ChoiceDialog
 import com.lee.library.dialog.LoadingDialog
 import com.lee.library.dialog.WarnDialog
 import com.lee.library.dialog.core.ConfirmListener
+import com.lee.library.utils.DensityUtil
 import com.lee.library.utils.LogUtil
 import com.lee.library.utils.StatusUtil
 import com.lee.library.widget.StatusLayout
@@ -56,6 +59,7 @@ class TestActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        DensityUtil.setDensity(resources)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         StatusUtil.statusBar(this, false)
