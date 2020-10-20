@@ -23,7 +23,7 @@ import java.util.List;
 /**
  * @author jv.lee
  * @date 2019/5/7
- * @deprecated 使用png 等多色彩图片时 需要动态设置 itemIconTintList = null
+ * @description  使用png 等多色彩图片时 需要动态设置 itemIconTintList = null
  */
 @androidx.annotation.RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
 public class BottomNavView extends BottomNavigationView implements BottomNavigationView.OnNavigationItemSelectedListener {

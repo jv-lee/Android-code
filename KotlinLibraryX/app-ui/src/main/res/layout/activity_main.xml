@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <com.lee.library.widget.RoundImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="10dp"
+        android:src="@mipmap/ic_launcher"
+        app:layout_mode="round"
+        app:topLeftRadius="10dp" />
+
+    <com.lee.library.widget.SelectorTextView
+        android:id="@+id/btn_show_loading"
+        android:layout_width="200dp"
+        android:layout_height="46dp"
+        android:layout_marginTop="10dp"
+        android:text="show Loading Dialog"
+        app:buttonDisable="true"
+        app:buttonRadius="23dp"
+        app:disableBackgroundColor="@android:color/black"
+        app:disableStrokeColor="@android:color/holo_red_dark"
+        app:disableTextColor="@android:color/white"
+        app:normalBackgroundColor="@android:color/holo_green_dark"
+        app:normalTextColor="@android:color/black"
+        app:pressedBackgroundColor="@android:color/holo_blue_bright"
+        app:pressedTextColor="@android:color/white"
+        app:strokeWidth="2dp" />
+
+    <com.lee.library.widget.SelectorTextView
+        android:id="@+id/btn_show_warn"
+        android:layout_width="200dp"
+        android:layout_height="46dp"
+        android:layout_marginTop="10dp"
+        android:text="show Warn Dialog"
+        app:buttonDisable="false"
+        app:buttonRadius="23dp"
+        app:disableBackgroundColor="@android:color/black"
+        app:disableStrokeColor="@android:color/holo_red_dark"
+        app:disableTextColor="@android:color/white"
+        app:normalBackgroundColor="@android:color/holo_green_dark"
+        app:normalTextColor="@android:color/black"
+        app:pressedBackgroundColor="@android:color/holo_blue_bright"
+        app:pressedTextColor="@android:color/white"
+        app:strokeWidth="2dp" />
+
+    <com.lee.library.widget.ShadowLayout
+        android:id="@+id/shadow"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="16dp"
+        app:shadowBlur="6dp"
+        app:shadowColor="#ababab"
+        app:shadowFillColor="@color/colorAccent"
+        app:shadowOffsetX="0dp"
+        app:shadowOffsetY="0dp"
+        app:shadowRound="10dp">
+
+        <TextView
+            android:text="content"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </com.lee.library.widget.ShadowLayout>
+
+</LinearLayout>

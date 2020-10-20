@@ -1,2 +1,3 @@
+include ':app-ui'
 include ':app',':app-dialog',':app-pdfjs', ':library'
 rootProject.name='KotlinLibraryX'
