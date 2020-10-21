@@ -14,7 +14,7 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/app-api" />
             <option value="$PROJECT_DIR$/app-dialog" />
-            <option value="$PROJECT_DIR$/app-pdf" />
+            <option value="$PROJECT_DIR$/app-pdfjs" />
             <option value="$PROJECT_DIR$/app-ui" />
             <option value="$PROJECT_DIR$/library" />
           </set>

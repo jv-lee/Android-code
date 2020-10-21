@@ -2,6 +2,7 @@ package com.lee.pdfjs
 
 import android.annotation.SuppressLint
 import android.net.Uri
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -9,6 +10,7 @@ import android.view.View
 import android.webkit.JavascriptInterface
 import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.core.content.FileProvider
 import com.lee.library.widget.WebViewEx
 import java.io.File
 
@@ -36,7 +38,13 @@ class MainActivity : AppCompatActivity() {
 
         //"file:///android_asset/viewer.html?${Uri.fromFile(File(""))}"
 //        web.loadUrl("file:///android_asset/viewer.html?" + "file:///android_asset/book.pdf")
-        web.loadUrl("file:///android_asset/viewer.html?" + Uri.fromFile(File(filesDir.absolutePath + File.separator + "book.pdf")))
+        val file = File(filesDir.absolutePath + File.separator + "book.pdf")
+        val uri = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            FileProvider.getUriForFile(this, "$packageName.fileprovider", file)
+        } else {
+            Uri.fromFile(file)
+        }
+        web.loadUrl("file:///android_asset/viewer.html?$uri")
     }
 
     @JavascriptInterface
