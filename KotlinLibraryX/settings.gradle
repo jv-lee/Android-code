@@ -1,4 +1,6 @@
 include ':app-api'
 include ':app-ui'
-include ':app',':app-dialog',':app-pdfjs', ':library'
-rootProject.name='KotlinLibraryX'
+include ':app-pdf'
+include ':app-dialog'
+include ':app', ':library'
+rootProject.name = 'KotlinLibraryX'

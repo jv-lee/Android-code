@@ -7,12 +7,8 @@
 
     <!--  主题颜色  -->
     <color name="colorThemePrimary">#9B9B9B</color>
-    <color name="colorThemePrimaryDark">#414141</color>
     <color name="colorThemeAccent">#191919</color>
-    <color name="colorThemeWindow">#FFFFFF</color>
     <color name="colorThemeBackground">#F6F6F6</color>
     <color name="colorThemeItem">#FFFFFF</color>
-    <color name="colorThemeSearch">#F0F0F0</color>
-    <color name="colorThemePlaceholder">#F9F9F9</color>
 
 </resources>
