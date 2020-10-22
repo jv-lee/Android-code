@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
+import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
@@ -103,9 +104,8 @@ open class TitleToolbar : CustomToolbarLayout {
             layoutParams =
                 LayoutParams(
                     resources.getDimension(R.dimen.toolbar_button_width).toInt(),
-                    MATCH_PARENT
-                )
-            updateLayoutParams<ConstraintLayout.LayoutParams> { startToStart = 0 }
+                    resources.getDimension(R.dimen.toolbar_button_width).toInt()
+                ).apply { gravity = Gravity.START }
             scaleType = ImageView.ScaleType.CENTER
             backIcon?.let { setImageTintCompat(it, backIconTint!!) }
             backEnable?.let { visibility = it }
@@ -125,13 +125,7 @@ open class TitleToolbar : CustomToolbarLayout {
         tvTitle = TextView(context)
         tvTitle?.run {
             id = R.id.toolbar_title
-            layoutParams = LayoutParams(WRAP_CONTENT, WRAP_CONTENT)
-            updateLayoutParams<ConstraintLayout.LayoutParams> {
-                startToStart = 0
-                endToEnd = 0
-                topToTop = 0
-                bottomToBottom = 0
-            }
+            layoutParams = LayoutParams(WRAP_CONTENT, WRAP_CONTENT).apply { gravity = Gravity.CENTER }
             setTextColor(ContextCompat.getColor(context, R.color.colorAccent))
             titleText?.let { text = it }
             titleEnable?.let { visibility = it }
@@ -149,9 +143,8 @@ open class TitleToolbar : CustomToolbarLayout {
             layoutParams =
                 LayoutParams(
                     resources.getDimension(R.dimen.toolbar_button_width).toInt(),
-                    MATCH_PARENT
-                )
-            updateLayoutParams<ConstraintLayout.LayoutParams> { endToEnd = 0 }
+                    resources.getDimension(R.dimen.toolbar_button_width).toInt()
+                ).apply { gravity = Gravity.END }
             scaleType = ImageView.ScaleType.CENTER
             menuIcon?.let { setImageTintCompat(it, menuIconTint!!) }
             menuEnable?.let { visibility = it }
