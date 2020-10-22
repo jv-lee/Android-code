@@ -69,7 +69,7 @@ class StartResultActivity :
 //            intent.putExtra(MediaStore.EXTRA_OUTPUT, uri)
 //            intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
 //            startActivityForResult(intent, 1)
-            pictureResult.launch(uri)
+            pictureResult.launch(null)
         }
     }
 
