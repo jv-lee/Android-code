@@ -17,10 +17,36 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="ActivityResult API"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/btn_permissions_result"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="PermissionsResult API"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_activity_result" />
+
+
+        <Button
+            android:id="@+id/btn_picture_result"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="PictureResult API"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_permissions_result" />
+
+        <ImageView
+            android:id="@+id/iv_picture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_picture_result" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
