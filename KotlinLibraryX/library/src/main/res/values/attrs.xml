@@ -90,14 +90,19 @@
         <attr name="normalBackgroundColor" format="color" />
         <attr name="pressedTextColor" format="color" />
         <attr name="normalTextColor" format="color" />
-        <attr name="pressedStrokeColor" format="color"/>
-        <attr name="normalStrokeColor" format="color"/>
-        <attr name="disableStrokeColor" format="color"/>
-        <attr name="strokeWidth" format="dimension"/>
+        <attr name="pressedStrokeColor" format="color" />
+        <attr name="normalStrokeColor" format="color" />
+        <attr name="disableStrokeColor" format="color" />
+        <attr name="strokeWidth" format="dimension" />
         <attr name="disableBackgroundColor" format="color" />
         <attr name="disableTextColor" format="color" />
         <attr name="buttonRadius" format="dimension" />
         <attr name="buttonDisable" format="boolean" />
+        <attr name="rippleMode">
+            <enum name="noneMode" value="0" />
+            <enum name="stateMode" value="1" />
+            <enum name="defaultMode" value="2" />
+        </attr>
     </declare-styleable>
 
     <declare-styleable name="ShadowLayout">

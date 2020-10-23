@@ -2,12 +2,13 @@ package com.lee.library.widget
 
 import android.content.Context
 import android.content.res.ColorStateList
-import android.graphics.drawable.GradientDrawable
-import android.graphics.drawable.StateListDrawable
+import android.graphics.Canvas
+import android.graphics.Paint
+import android.graphics.drawable.*
+import android.graphics.drawable.shapes.RectShape
+import android.os.Build
 import android.util.AttributeSet
 import android.view.Gravity
-import android.view.View
-import android.widget.TextView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import com.lee.library.R
@@ -30,11 +31,13 @@ class SelectorTextView constructor(context: Context, attributeSet: AttributeSet)
     private var pressedStrokeColor: Int
     private var normalStrokeColor: Int
     private var disableStrokeColor: Int
+    private var rippleMode: Int
     private var strokeWidth: Float
     private var buttonRadius: Float
     private var buttonDisable: Boolean
     private var disableBackgroundDrawable: GradientDrawable? = null
     private var stateBackgroundDrawable: StateListDrawable? = null
+    private var rippleBackgroundDrawable: RippleDrawable? = null
     private var stateTextColorDrawable: ColorStateList? = null
 
     init {
@@ -81,6 +84,7 @@ class SelectorTextView constructor(context: Context, attributeSet: AttributeSet)
                 SizeUtil.dp2px(context, 10F).toFloat()
             )
             buttonDisable = getBoolean(R.styleable.SelectorTextView_buttonDisable, false)
+            rippleMode = getInt(R.styleable.SelectorTextView_rippleMode, 0)
             recycle()
         }
         initBackground()
@@ -106,6 +110,8 @@ class SelectorTextView constructor(context: Context, attributeSet: AttributeSet)
         stateBackgroundDrawable?.addState(intArrayOf(android.R.attr.state_pressed), pressedDrawable)
         stateBackgroundDrawable?.addState(intArrayOf(), normalDrawable)
 
+        createRippleBackgroundDrawable()
+
         val states = arrayOfNulls<IntArray>(2)
         states[0] = intArrayOf(android.R.attr.state_pressed)
         states[1] = intArrayOf()
@@ -126,7 +132,12 @@ class SelectorTextView constructor(context: Context, attributeSet: AttributeSet)
             background = disableBackgroundDrawable
             setTextColor(disableTextColor)
         } else {
-            background = stateBackgroundDrawable
+            background =
+                if (rippleMode != 0 && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    rippleBackgroundDrawable
+                } else {
+                    stateBackgroundDrawable
+                }
             setTextColor(stateTextColorDrawable)
         }
     }
@@ -134,6 +145,43 @@ class SelectorTextView constructor(context: Context, attributeSet: AttributeSet)
     override fun setOnClickListener(l: OnClickListener?) {
         super.setOnClickListener(l)
         isClickable = !buttonDisable
+    }
+
+    private fun createRippleBackgroundDrawable() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            when (rippleMode) {
+                1 -> {
+                    rippleBackgroundDrawable = RippleDrawable(
+                        ColorStateList.valueOf(pressedBackgroundColor),
+                        stateBackgroundDrawable,
+                        getShape()
+                    )
+                }
+                2 -> {
+                    rippleBackgroundDrawable = RippleDrawable(
+                        ColorStateList.valueOf(pressedBackgroundColor),
+                        createRippleContentDrawable(),
+                        getShape()
+                    )
+                }
+            }
+        }
+    }
+
+    private fun createRippleContentDrawable(): Drawable {
+        val drawable = GradientDrawable()
+        drawable.setColor(normalBackgroundColor)
+        drawable.cornerRadius = buttonRadius
+        drawable.setStroke(strokeWidth.toInt(), normalStrokeColor)
+        return drawable
+    }
+
+    private fun getShape(): Drawable {
+        return ShapeDrawable(object : RectShape() {
+            override fun draw(canvas: Canvas, paint: Paint) {
+                canvas.drawRoundRect(0f, 0f, width, height, buttonRadius, buttonRadius, paint)
+            }
+        })
     }
 
 }
