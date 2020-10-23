@@ -129,6 +129,7 @@ class ShadowLayout(context: Context, attributeSet: AttributeSet) :
         mPaint.color = shadowFillColor
         mPaint.style = Paint.Style.FILL
         mPaint.setShadowLayer(shadowBlur, shadowOffsetX, shadowOffsetY, shadowColor)
+        setLayerType(LAYER_TYPE_SOFTWARE, mPaint)
     }
 
     /**
