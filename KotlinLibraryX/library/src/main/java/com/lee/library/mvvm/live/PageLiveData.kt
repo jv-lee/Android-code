@@ -2,12 +2,11 @@ package com.lee.library.mvvm.live
 
 import androidx.annotation.IntDef
 import com.lee.library.mvvm.base.BaseLiveData
+import com.lee.library.mvvm.live.LoadStatus.Companion.INIT
 import com.lee.library.mvvm.live.LoadStatus.Companion.LOAD_MORE
 import com.lee.library.mvvm.live.LoadStatus.Companion.REFRESH
 import com.lee.library.mvvm.live.LoadStatus.Companion.RELOAD
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 /**
  * @author jv.lee
@@ -21,6 +20,7 @@ import kotlinx.coroutines.withContext
 annotation class LoadStatus {
 
     companion object {
+        const val INIT: Int = 0x0000
         const val REFRESH: Int = 0x001
         const val LOAD_MORE: Int = 0x002
         const val RELOAD: Int = 0x003
@@ -41,9 +41,13 @@ class PageLiveData<T>(val limit: Int = 0) : BaseLiveData<T>() {
         launchMain {
             var response: T? = null
 
+
             //根据加载状态设置页码
-            //刷新状态 重置页码
-            if (status == REFRESH) {
+            if (status == INIT) {
+                //Activity重启 直接使用原有数据渲染
+                value?.let { return@launchMain }
+                //刷新状态 重置页码
+            } else if (status == REFRESH) {
                 page = limit
                 //加载更多状态 增加页码
             } else if (status == LOAD_MORE) {
@@ -56,30 +60,31 @@ class PageLiveData<T>(val limit: Int = 0) : BaseLiveData<T>() {
             //首次加载缓存数据
             if (firstCache) {
                 firstCache = false
-                response = withContext(Dispatchers.IO) { cacheBlock() }
-                response?.let { value = it }
+                response = cacheBlock()?.also {
+                    value = it
+                }
             }
 
             //网络数据设置
-            response = withContext(Dispatchers.IO) {
-                networkBlock(page).also {
-                    withContext(Dispatchers.Main) {
-                        if (response != it) {
-                            value = it
-                        }
-                    }
+            response = networkBlock(page).also {
+                if (response != it) {
+                    value = it
                 }
             }
 
             //首页将网络数据设置缓存
             if (page == limit) {
-                response?.let {
-                    withContext(Dispatchers.IO) {
-                        cacheSaveBlock(it)
-                    }
+                response?.run {
+                    cacheSaveBlock(this)
                 }
             }
         }
     }
 
+}
+
+//分页数据合并
+fun <T> PageLiveData<*>.applyData(page: Int, limit: Int, oldData: ArrayList<T>?, newData: ArrayList<T>) {
+    oldData ?: return
+    if (page != limit) newData.addAll(0,oldData)
 }

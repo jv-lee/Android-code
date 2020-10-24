@@ -115,6 +115,10 @@ public class ConstUtil {
 
     /************** 以下摘自http://tool.oschina.net/regex **************/
     /**
+     * 数字
+     */
+    public static final String REGEX_NUMBER = "^-?[0-9]+";
+    /**
      * 正则：中国邮政编码
      */
     public static final String REGEX_ZIP_CODE             = "[1-9]\\d{5}(?!\\d)";

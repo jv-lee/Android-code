@@ -6,9 +6,14 @@
     <dimen name="design_bottom_navigation_active_text_size" tools:override="true">12sp</dimen>
 
     <!--    全局通用字体size值-->
+    <dimen name="font_size_large_xx">22sp</dimen>
+    <dimen name="font_size_large_x">20sp</dimen>
+    <dimen name="font_size_large">18sp</dimen>
     <dimen name="font_size_medium">16sp</dimen>
     <dimen name="font_size_small">14sp</dimen>
+    <dimen name="font_size_small_x">12sp</dimen>
     <!--    系统控件高度值使用dp原始适配高度-->
+    <dimen name="navigation_bar_height">56dp</dimen>
     <dimen name="toolbar_height">56dp</dimen>
     <dimen name="toolbar_button_width">56dp</dimen>
 

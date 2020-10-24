@@ -12,6 +12,7 @@ import static com.lee.library.utils.ConstUtil.REGEX_ID_CARD18;
 import static com.lee.library.utils.ConstUtil.REGEX_IP;
 import static com.lee.library.utils.ConstUtil.REGEX_MOBILE_EXACT;
 import static com.lee.library.utils.ConstUtil.REGEX_MOBILE_SIMPLE;
+import static com.lee.library.utils.ConstUtil.REGEX_NUMBER;
 import static com.lee.library.utils.ConstUtil.REGEX_TEL;
 import static com.lee.library.utils.ConstUtil.REGEX_URL;
 import static com.lee.library.utils.ConstUtil.REGEX_USERNAME;
@@ -51,6 +52,16 @@ public class RegexUtil {
      */
     public static boolean isMobileExact(CharSequence input) {
         return isMatch(REGEX_MOBILE_EXACT, input);
+    }
+
+    /**
+     * 验证数字
+     *
+     * @param input 待验证文本
+     * @return {@code true}: 匹配<br>{@code false}: 不匹配
+     */
+    public static boolean isNumber(CharSequence input) {
+        return isMatch(REGEX_NUMBER, input);
     }
 
     /**

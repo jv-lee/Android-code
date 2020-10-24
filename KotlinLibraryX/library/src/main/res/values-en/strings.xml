@@ -5,6 +5,10 @@
     <string name="refreshing">Refreshing…</string>
     <string name="refresh_completed">Refresh completed</string>
 
+    <string name="load_more">load more</string>
+    <string name="loading">loading…</string>
+    <string name="load_completed">Loading completed</string>
+    <string name="str_not_more">No more</string>
     <string name="str_not_network">No network clicks to retry…</string>
 
     <string name="item_load_error">Load failed click retry</string>
