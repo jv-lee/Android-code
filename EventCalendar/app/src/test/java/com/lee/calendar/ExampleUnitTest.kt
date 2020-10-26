@@ -2,8 +2,6 @@ package com.lee.calendar
 
 import org.junit.Test
 
-import org.junit.Assert.*
-
 /**
  * Example local unit test, which will execute on the development machine (host).
  *
@@ -12,6 +10,29 @@ import org.junit.Assert.*
 class ExampleUnitTest {
     @Test
     fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
+        val monthList = CalendarManager.getInstance().getInitMonthData()
+        for (monthEntity in monthList) {
+            println(monthEntity.toString())
+        }
+
+        println("------------------------添加上下页数据后--------------------------------")
+
+        val prevMonthData = CalendarManager.getInstance().getPrevMonthData()
+        val nextMonthData = CalendarManager.getInstance().getNextMonthData()
+        monthList.addAll(0, prevMonthData)
+        monthList.addAll(nextMonthData)
+        for (monthEntity in monthList) {
+            println(monthEntity.toString())
+        }
+
+        println("------------------------添加上下页数据后--------------------------------")
+
+        val prevMonthData2 = CalendarManager.getInstance().getPrevMonthData()
+        val nextMonthData2 = CalendarManager.getInstance().getNextMonthData()
+        monthList.addAll(0, prevMonthData2)
+        monthList.addAll(nextMonthData2)
+        for (monthEntity in monthList) {
+            println(monthEntity.toString())
+        }
     }
 }
