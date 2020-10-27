@@ -3,6 +3,8 @@ package com.lee.library.dialog.core
 import android.app.Activity
 import android.app.Dialog
 import android.content.Context
+import android.graphics.Color
+import android.os.Build
 import android.util.DisplayMetrics
 import android.view.*
 import com.lee.library.utils.SizeUtil
@@ -18,8 +20,8 @@ abstract class BaseDialog constructor(context: Context, theme: Int, cancel: Bool
     Dialog(context, theme) {
 
     init {
-        if(!cancel)setBackDismiss()
-        setFullWindow(buildViewId())
+        if (!cancel) setBackDismiss()
+        setContentFullView(buildViewId())
         bindView()
     }
 
@@ -83,18 +85,31 @@ fun Dialog.setBottomDialog(height: Int) {
 /**
  * dialog设置全屏
  */
-fun Dialog.setFullWindow(layoutId: Int) {
+fun Dialog.setContentFullView(layoutId: Int) {
     val window = window
     window ?: return
-    window.setContentView(layoutId)
     //设置全屏
-    val windowManager: WindowManager = window.windowManager
-    val display: Display = windowManager.defaultDisplay
-    val lp: WindowManager.LayoutParams = window.attributes
-    lp.height = display.height //设置宽度
-    lp.width = display.width //设置宽度
-    window.attributes = lp
-    window.decorView.setPadding(0, 0, 0, StatusUtil.getStatusBarHeight(window.context))
+    window.setContentView(layoutId)
+
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+        // 延伸显示区域到刘海
+        val lp: WindowManager.LayoutParams = window.attributes
+        lp.layoutInDisplayCutoutMode =
+            WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
+        window.attributes = lp
+        // 设置页面全屏显示
+        window.decorView.systemUiVisibility =
+            View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+    }
+
+    val dm = DisplayMetrics()
+    window.windowManager.defaultDisplay.getRealMetrics(dm)
+    window.setLayout(
+        dm.widthPixels,
+        dm.heightPixels - StatusUtil.getNavigationBarHeight(window.context)
+    )
+    window.setGravity(Gravity.TOP)
+    window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN or WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN)
 }
 
 /**
