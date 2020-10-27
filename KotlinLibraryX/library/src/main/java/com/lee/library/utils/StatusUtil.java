@@ -24,12 +24,11 @@ public class StatusUtil {
     /**
      * 设置沉浸式状态栏
      *
-     * @param activity                 引用
+     * @param window                 引用
      * @param navigationBarTranslucent 导航栏是否设置为透明
      */
-    public static void statusBar(Activity activity, boolean navigationBarTranslucent) {
-        Window window = activity.getWindow();
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+    public static void statusBar(Window window, boolean navigationBarTranslucent) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT && window == null) {
             return;
         }
         //5.0以设置沉浸式
@@ -128,7 +127,7 @@ public class StatusUtil {
             setBangsFull(activity);
         } else {
             activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
-            statusBar(activity, false);
+            statusBar(activity.getWindow(), false);
         }
     }
 

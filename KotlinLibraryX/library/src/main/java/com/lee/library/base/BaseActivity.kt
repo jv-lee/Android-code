@@ -40,7 +40,7 @@ abstract class BaseActivity<V : ViewDataBinding, VM : BaseViewModel>(
     private var hasBackExitTimer = 2000
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        StatusUtil.statusBar(this, false)
+        StatusUtil.statusBar(window, false)
         super.onCreate(savedInstanceState)
 
         //设置viewBinding

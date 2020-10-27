@@ -59,10 +59,10 @@ class TestActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        DensityUtil.setDensity(resources)
+        DensityUtil.setDensity(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        StatusUtil.statusBar(this, false)
+        StatusUtil.statusBar(window, false)
         StatusUtil.setStatusFontLight2(this)
         testDialog()
 //        testNetwork()
