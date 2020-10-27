@@ -11,6 +11,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import com.lee.library.dialog.core.setBackDismiss
 import com.lee.library.extensions.getVmClass
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -24,7 +25,7 @@ import kotlinx.coroutines.cancel
  */
 abstract class BaseDialogFragment<V : ViewDataBinding, VM : ViewModel>(
     private val layoutId: Int,
-    private val isCancel:Boolean = false
+    private val isCancel:Boolean = true
 ) :
     DialogFragment(), CoroutineScope by CoroutineScope(Dispatchers.Main) {
 
@@ -45,10 +46,7 @@ abstract class BaseDialogFragment<V : ViewDataBinding, VM : ViewModel>(
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState)
-        //该类型拦截屏幕/back 事件
-        dialog.setCancelable(isCancel)
-        //该类型只拦截屏幕触摸dismiss事件
-//        dialog.setCanceledOnTouchOutside(false)
+        if(!isCancel)dialog.setBackDismiss()
         return dialog
     }
 

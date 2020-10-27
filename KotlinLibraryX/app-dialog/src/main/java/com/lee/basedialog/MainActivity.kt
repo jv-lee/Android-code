@@ -10,8 +10,9 @@ import com.lee.basedialog.fragment.BaseAlertDialogFragmentImpl
 import com.lee.basedialog.fragment.BaseDialogFragmentImpl
 import com.lee.basedialog.fragment.BaseSheetDialogFragmentImpl
 import com.lee.library.base.BaseActivity
+import com.lee.library.mvvm.base.BaseViewModel
 
-class MainActivity : BaseActivity<ActivityMainBinding, ViewModel>(R.layout.activity_main) {
+class MainActivity : BaseActivity<ActivityMainBinding, BaseViewModel>(R.layout.activity_main) {
 
     //dialogFragment
     private val baseDialogFragmentImpl by lazy { BaseDialogFragmentImpl() }

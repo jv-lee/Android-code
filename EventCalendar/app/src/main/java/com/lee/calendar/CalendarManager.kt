@@ -1,6 +1,8 @@
 package com.lee.calendar
 
+import com.lee.calendar.entity.DayEntity
 import com.lee.calendar.entity.MonthEntity
+import com.lee.calendar.utils.CalendarUtils
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -27,9 +29,12 @@ class CalendarManager {
     private var prevMonthPosition: Int = 1
     private var nextMonthPosition: Int = 1
 
+    /**
+     * 初始化首页数据
+     */
     fun getInitMonthData(): ArrayList<MonthEntity> {
         val monthArray = arrayListOf<MonthEntity>()
-        monthArray.add(MonthEntity(currentYear, currentMonth))
+        monthArray.add(MonthEntity.parseMonthEntity(currentYear, currentMonth))
         for (index in 1..6) {
             //修改本地月份下标起始位置
             prevMonthPosition = index
@@ -39,8 +44,8 @@ class CalendarManager {
             //获取向下$index月时间对象
             val nextCalendar = getMoveMonthData(index)
             //添加数据
-            monthArray.add(0, MonthEntity(prevCalendar.get(Calendar.YEAR),prevCalendar.get(Calendar.MONTH)))
-            monthArray.add(MonthEntity(nextCalendar.get(Calendar.YEAR),nextCalendar.get(Calendar.MONTH)))
+            monthArray.add(0, MonthEntity.parseMonthEntity(prevCalendar.get(Calendar.YEAR),prevCalendar.get(Calendar.MONTH)))
+            monthArray.add(MonthEntity.parseMonthEntity(nextCalendar.get(Calendar.YEAR),nextCalendar.get(Calendar.MONTH)))
         }
         return monthArray
     }
@@ -57,7 +62,7 @@ class CalendarManager {
             //获取向上$index月时间对象
             val prevCalendar = getMoveMonthData(-index)
             //添加数据
-            monthArray.add(0, MonthEntity(prevCalendar.get(Calendar.YEAR),prevCalendar.get(Calendar.MONTH)))
+            monthArray.add(0, MonthEntity.parseMonthEntity(prevCalendar.get(Calendar.YEAR),prevCalendar.get(Calendar.MONTH)))
         }
         return monthArray
     }
@@ -74,11 +79,15 @@ class CalendarManager {
             //获取向下$index月时间对象
             val nextCalendar = getMoveMonthData(index)
             //添加数据
-            monthArray.add(MonthEntity(nextCalendar.get(Calendar.YEAR),nextCalendar.get(Calendar.MONTH)))
+            monthArray.add(MonthEntity.parseMonthEntity(nextCalendar.get(Calendar.YEAR),nextCalendar.get(Calendar.MONTH)))
         }
         return monthArray
     }
 
+    /**
+     * 移动基础下标 从移动后的基础下标开始获取日历对象
+     * @param movePosition 日期偏移量
+     */
     private fun getMoveMonthData(movePosition: Int): Calendar {
         val calendar = Calendar.getInstance()
         calendar.set(Calendar.YEAR, currentYear)

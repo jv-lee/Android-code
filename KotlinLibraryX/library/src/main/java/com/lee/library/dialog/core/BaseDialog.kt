@@ -19,7 +19,7 @@ abstract class BaseDialog constructor(context: Context, theme: Int, cancel: Bool
 
     init {
         if(!cancel)setBackDismiss()
-        setContentView(buildViewId())
+        setFullWindow(buildViewId())
         bindView()
     }
 
@@ -48,7 +48,6 @@ abstract class BaseDialog constructor(context: Context, theme: Int, cancel: Bool
         }
         super.onBackPressed()
     }
-
 
     /**
      * dialog的view
@@ -95,13 +94,13 @@ fun Dialog.setFullWindow(layoutId: Int) {
     lp.height = display.height //设置宽度
     lp.width = display.width //设置宽度
     window.attributes = lp
-    window.decorView.setPadding(0, 0, 0, StatusUtil.getNavigationBarHeight(context))
+    window.decorView.setPadding(0, 0, 0, StatusUtil.getStatusBarHeight(window.context))
 }
 
 /**
  * dialog禁止取消
  */
 fun Dialog.setBackDismiss() {
-    setCancelable(false)
+    setCanceledOnTouchOutside(false)
     setOnKeyListener { _, keyCode, _ -> keyCode == KeyEvent.KEYCODE_BACK }
 }

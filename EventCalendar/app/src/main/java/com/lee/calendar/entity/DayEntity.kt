@@ -8,9 +8,9 @@ import androidx.annotation.IntDef
  * @description
  */
 data class DayEntity(
-    val isToMonth: Boolean = true,
-    val isSelected: Boolean = false,
-    @DayStatus val dayStatus: Int = DayStatus.DEFAULT_STATUS,
+    val isToMonth: Boolean = true, //是否为当月数据
+    var isSelected: Boolean = false, //是否为选中状态
+    @DayStatus var dayStatus: Int = DayStatus.DEFAULT_STATUS,
     val year: Int,
     val month: Int,
     val day: Int
@@ -21,8 +21,9 @@ data class DayEntity(
 @Retention(AnnotationRetention.SOURCE)
 annotation class DayStatus {
     companion object {
-        const val DEFAULT_STATUS = 0x000
-        const val UPDATE_STATUS = 0x001
-        const val OVER_UPDATE_STATUS = 0x002
+        const val DEFAULT_STATUS = 0x000 //默认状态
+        const val UPDATE_STATUS = 0x001 //已更新状态
+        const val OVER_UPDATE_STATUS = 0x002 //断更状态
+        const val TIMING_UPDATE_STATUS = 0x002 //定时更新状态
     }
 }

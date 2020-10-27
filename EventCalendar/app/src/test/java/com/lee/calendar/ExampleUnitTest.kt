@@ -21,9 +21,9 @@ class ExampleUnitTest {
         val nextMonthData = CalendarManager.getInstance().getNextMonthData()
         monthList.addAll(0, prevMonthData)
         monthList.addAll(nextMonthData)
-        for (monthEntity in monthList) {
-            println(monthEntity.toString())
-        }
+//        for (monthEntity in monthList) {
+//            println(monthEntity.toString())
+//        }
 
         println("------------------------添加上下页数据后--------------------------------")
 
@@ -31,8 +31,8 @@ class ExampleUnitTest {
         val nextMonthData2 = CalendarManager.getInstance().getNextMonthData()
         monthList.addAll(0, prevMonthData2)
         monthList.addAll(nextMonthData2)
-        for (monthEntity in monthList) {
-            println(monthEntity.toString())
-        }
+//        for (monthEntity in monthList) {
+//            println(monthEntity.toString())
+//        }
     }
 }
