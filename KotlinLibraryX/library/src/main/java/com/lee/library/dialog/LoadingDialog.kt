@@ -9,10 +9,7 @@ import com.lee.library.dialog.core.BaseTranslucentDialog
  * @date 2020-03-07
  * @description
  */
-class LoadingDialog(context: Context) : BaseTranslucentDialog(context, false) {
-    override fun buildViewId(): Int {
-        return R.layout.layout_dialog_loading
-    }
+class LoadingDialog(context: Context) : BaseTranslucentDialog(context, R.layout.layout_dialog_loading,false) {
 
     override fun bindView() {}
 }

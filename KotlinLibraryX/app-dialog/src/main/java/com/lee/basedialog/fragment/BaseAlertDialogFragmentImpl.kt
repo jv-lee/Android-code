@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import com.lee.basedialog.R
 import com.lee.basedialog.databinding.FragmentAlertDialogBinding
 import com.lee.library.base.BaseAlertDialogFragment
-import com.lee.library.utils.StatusUtil
 
 /**
  * @author jv.lee
@@ -12,12 +11,8 @@ import com.lee.library.utils.StatusUtil
  * @description Alert样式 DialogFragment
  */
 class BaseAlertDialogFragmentImpl :
-    BaseAlertDialogFragment<FragmentAlertDialogBinding, ViewModel>(
-        R.layout.fragment_alert_dialog,
-        true
-    ) {
+    BaseAlertDialogFragment<FragmentAlertDialogBinding, ViewModel>(R.layout.fragment_alert_dialog) {
     override fun bindView() {
-        StatusUtil.statusBar(dialog?.window!!,false)
     }
 
     override fun bindData() {

@@ -11,7 +11,7 @@ import com.lee.library.base.BaseDialogFragment
  * @description BaseDialog样式 DialogFragment
  */
 class BaseDialogFragmentImpl :
-    BaseDialogFragment<FragmentBaseDialogBinding, ViewModel>(R.layout.fragment_base_dialog, true) {
+    BaseDialogFragment<FragmentBaseDialogBinding, ViewModel>(R.layout.fragment_base_dialog) {
     override fun bindView() {
 
     }

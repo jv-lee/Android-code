@@ -13,6 +13,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.lee.library.R
+import com.lee.library.dialog.core.setFullWindow
 import com.lee.library.extensions.getVmClass
 import com.lee.library.utils.SizeUtil
 import kotlinx.coroutines.CoroutineScope
@@ -50,6 +51,7 @@ abstract class BaseSheetFragment<V : ViewDataBinding, VM : ViewModel>(
     override fun onStart() {
         super.onStart()
         if (isFullWindow) {
+            dialog?.setFullWindow()
             val bottomSheet = dialog?.findViewById<View>(R.id.design_bottom_sheet)
             bottomSheet?.layoutParams?.height = ViewGroup.LayoutParams.MATCH_PARENT
         }

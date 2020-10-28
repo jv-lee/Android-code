@@ -9,15 +9,13 @@ import com.lee.library.dialog.core.BaseAlertDialog
  * @date 2020/9/30
  * @description alert样式Dialog
  */
-class BaseAlertDialogImpl(context: Context) : BaseAlertDialog(context) {
-
-    private val TAG = "viewParent"
-
-    override fun buildViewId(): Int {
-        return R.layout.dialog_alert
-    }
+class BaseAlertDialogImpl(context: Context) : BaseAlertDialog(context,R.layout.dialog_alert) {
 
     override fun bindView() {
+
+    }
+
+    override fun bindData() {
 
     }
 

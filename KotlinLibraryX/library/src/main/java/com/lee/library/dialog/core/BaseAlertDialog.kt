@@ -10,9 +10,10 @@ import com.lee.library.R
  */
 abstract class BaseAlertDialog(
     context: Context,
-    cancel: Boolean = true
+    layoutId: Int,
+    isCancel: Boolean = true
 ) :
-    BaseDialog(context, R.style.BaseAlertDialog, cancel) {
+    BaseDialog(context, R.style.BaseAlertDialog, layoutId, isCancel) {
 
     @JvmField
     var confirmListener: ConfirmListener? = null

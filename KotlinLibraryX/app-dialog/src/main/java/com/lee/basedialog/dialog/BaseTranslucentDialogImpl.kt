@@ -9,12 +9,14 @@ import com.lee.library.dialog.core.BaseTranslucentDialog
  * @date 2020/9/30
  * @description translucent样式Dialog
  */
-class BaseTranslucentDialogImpl(context: Context) : BaseTranslucentDialog(context) {
-    override fun buildViewId(): Int {
-        return R.layout.dialog_translucent
-    }
+class BaseTranslucentDialogImpl(context: Context) :
+    BaseTranslucentDialog(context, R.layout.dialog_translucent) {
 
     override fun bindView() {
+
+    }
+
+    override fun bindData() {
 
     }
 

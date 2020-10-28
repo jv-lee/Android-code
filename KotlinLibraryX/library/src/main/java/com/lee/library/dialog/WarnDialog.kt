@@ -11,11 +11,7 @@ import com.lee.library.dialog.core.BaseAlertDialog
  * @date 2020-03-07
  * @description 警告提示dialog
  */
-class WarnDialog(context: Context) : BaseAlertDialog(context, false) {
-
-    public override fun buildViewId(): Int {
-        return R.layout.layout_dialog_warm
-    }
+class WarnDialog(context: Context) : BaseAlertDialog(context, R.layout.layout_dialog_warm, false) {
 
     public override fun bindView() {
         findViewById<View>(R.id.tv_confirm).setOnClickListener { v: View? ->

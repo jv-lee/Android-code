@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.lee.library.dialog.core.setBackDismiss
+import com.lee.library.dialog.core.setFullWindow
 import com.lee.library.extensions.getVmClass
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -25,7 +26,7 @@ import kotlinx.coroutines.cancel
  */
 abstract class BaseDialogFragment<V : ViewDataBinding, VM : ViewModel>(
     private val layoutId: Int,
-    private val isCancel:Boolean = true
+    private val isCancel: Boolean = true
 ) :
     DialogFragment(), CoroutineScope by CoroutineScope(Dispatchers.Main) {
 
@@ -46,12 +47,14 @@ abstract class BaseDialogFragment<V : ViewDataBinding, VM : ViewModel>(
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState)
-        if(!isCancel)dialog.setBackDismiss()
+        dialog.setBackDismiss(isCancel)
         return dialog
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        //全屏显示
+        dialog?.setFullWindow()
         //设置viewModel
         try {
             viewModel = ViewModelProvider(this).get(getVmClass(this))

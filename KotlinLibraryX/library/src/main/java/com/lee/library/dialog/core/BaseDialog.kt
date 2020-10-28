@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.util.DisplayMetrics
 import android.view.*
@@ -16,13 +17,20 @@ import com.lee.library.utils.StatusUtil
  * @date 2020/9/10
  * @description
  */
-abstract class BaseDialog constructor(context: Context, theme: Int, cancel: Boolean = true) :
+abstract class BaseDialog constructor(
+    context: Context,
+    theme: Int,
+    layoutId: Int,
+    isCancel: Boolean = true
+) :
     Dialog(context, theme) {
 
     init {
-        if (!cancel) setBackDismiss()
-        setContentFullView(buildViewId())
+        setContentView(layoutId)
+        setFullWindow()
+        setBackDismiss(isCancel)
         bindView()
+        bindData()
     }
 
     override fun show() {
@@ -52,20 +60,19 @@ abstract class BaseDialog constructor(context: Context, theme: Int, cancel: Bool
     }
 
     /**
-     * dialog的view
-     *
-     * @return 返回view的 layout 资源ID
-     */
-    protected abstract fun buildViewId(): Int
-
-    /**
      * 绑定view
      */
     protected abstract fun bindView()
 
+    /**
+     * 绑定数据
+     */
+    protected open fun bindData() {}
+
 }
 
 fun Dialog.setBottomDialog(height: Int) {
+    if (height == 0) return
     val window = window
     window?.run {
         decorView.setPadding(0, 0, 0, 0)
@@ -83,13 +90,12 @@ fun Dialog.setBottomDialog(height: Int) {
 }
 
 /**
- * dialog设置全屏
+ * dialog设置全屏 兼容高版本刘海屏
+ * 必须在setContentView之后
  */
-fun Dialog.setContentFullView(layoutId: Int) {
+fun Dialog.setFullWindow() {
     val window = window
     window ?: return
-    //设置全屏
-    window.setContentView(layoutId)
 
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
         // 延伸显示区域到刘海
@@ -103,19 +109,24 @@ fun Dialog.setContentFullView(layoutId: Int) {
     }
 
     val dm = DisplayMetrics()
+    //获取包含状态栏及导航栏的屏幕size
     window.windowManager.defaultDisplay.getRealMetrics(dm)
     window.setLayout(
         dm.widthPixels,
-        dm.heightPixels - StatusUtil.getNavigationBarHeight(window.context)
+        dm.heightPixels - StatusUtil.getNavigationBarHeight(window.context)//设置window内容区域高度 减去 导航栏高度
     )
     window.setGravity(Gravity.TOP)
     window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN or WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN)
+    window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+    window.decorView.setPadding(0, 0, 0, 0)
 }
 
 /**
  * dialog禁止取消
  */
-fun Dialog.setBackDismiss() {
-    setCanceledOnTouchOutside(false)
-    setOnKeyListener { _, keyCode, _ -> keyCode == KeyEvent.KEYCODE_BACK }
+fun Dialog.setBackDismiss(isCancel: Boolean) {
+    setCanceledOnTouchOutside(isCancel)
+    if (!isCancel) {
+        setOnKeyListener { _, keyCode, _ -> keyCode == KeyEvent.KEYCODE_BACK }
+    }
 }

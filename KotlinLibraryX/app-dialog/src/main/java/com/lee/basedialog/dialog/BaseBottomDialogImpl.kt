@@ -9,12 +9,14 @@ import com.lee.library.dialog.core.BaseBottomDialog
  * @date 2020/9/30
  * @description bottom样式 Dialog
  */
-class BaseBottomDialogImpl(context: Context) : BaseBottomDialog(context, 256) {
-    override fun buildViewId(): Int {
-        return R.layout.dialog_bottom
-    }
+class BaseBottomDialogImpl(context: Context) :
+    BaseBottomDialog(context, R.layout.dialog_bottom, limitHeight = 256) {
 
     override fun bindView() {
+
+    }
+
+    override fun bindData() {
 
     }
 

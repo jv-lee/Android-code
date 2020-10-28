@@ -11,11 +11,7 @@ import com.lee.library.dialog.core.BaseAlertDialog
  * @date 2020-03-07
  * @description 取消确认选择框
  */
-class ChoiceDialog(context: Context) : BaseAlertDialog(context, false) {
-
-    public override fun buildViewId(): Int {
-        return R.layout.layout_dialog_choice
-    }
+class ChoiceDialog(context: Context) : BaseAlertDialog(context, R.layout.layout_dialog_choice,false) {
 
     public override fun bindView() {
         findViewById<View>(R.id.tv_confirm).setOnClickListener { v: View? ->

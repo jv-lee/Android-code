@@ -10,13 +10,12 @@ import com.lee.library.R
  */
 abstract class BaseBottomDialog constructor(
     context: Context,
-    limitHeight: Int = 0,
-    cancel: Boolean = true
+    layoutId: Int,
+    isCancel: Boolean = true,
+    limitHeight: Int = 0
 ) :
-    BaseDialog(context, R.style.BottomDialogTheme, cancel) {
+    BaseDialog(context, R.style.BottomDialogTheme, layoutId, isCancel) {
     init {
-        if (limitHeight != 0) {
-            setBottomDialog(limitHeight)
-        }
+        setBottomDialog(limitHeight)
     }
 }
