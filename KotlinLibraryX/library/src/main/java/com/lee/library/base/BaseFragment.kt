@@ -1,12 +1,15 @@
 package com.lee.library.base
 
+import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
@@ -14,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.lee.library.extensions.getVmClass
 import com.lee.library.mvvm.base.BaseViewModel
+import com.lee.library.utils.ActivityUtil
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -116,11 +120,6 @@ abstract class BaseFragment<V : ViewDataBinding, VM : BaseViewModel>(
      */
     open fun lazyLoad() {}
 
-    fun Fragment.toast(message: CharSequence?, duration: Int = Toast.LENGTH_SHORT) {
-        message ?: return
-        Toast.makeText(activity, message, duration).show()
-    }
-
     private fun getChildClassName(): String {
         return javaClass.simpleName
     }
@@ -130,6 +129,43 @@ abstract class BaseFragment<V : ViewDataBinding, VM : BaseViewModel>(
      */
     protected fun <T : ViewModel> createViewModel(cls: Class<T>): T {
         return ViewModelProviders.of(this).get(cls)
+    }
+
+    fun Fragment.toast(message: CharSequence?, duration: Int = Toast.LENGTH_SHORT) {
+        message ?: return
+        Toast.makeText(activity, message, duration).show()
+    }
+
+    fun Fragment.show(dialog: Dialog) {
+        if (ActivityUtil.assertActivityDestroyed(requireActivity())) return
+        try {
+            dialog.show()
+        } catch (e: Exception) {
+        }
+    }
+
+    fun Fragment.dismiss(dialog: Dialog) {
+        if (ActivityUtil.assertActivityDestroyed(requireActivity())) return
+        try {
+            dialog.dismiss()
+        } catch (e: Exception) {
+        }
+    }
+
+    fun Fragment.show(dialog: DialogFragment) {
+        if (ActivityUtil.assertActivityDestroyed(requireActivity())) return
+        try {
+            dialog.show(childFragmentManager, dialog::class.java.simpleName)
+        } catch (e: Exception) {
+        }
+    }
+
+    fun Fragment.dismiss(dialog: DialogFragment) {
+        if (ActivityUtil.assertActivityDestroyed(requireActivity())) return
+        try {
+            dialog.dismiss()
+        } catch (e: Exception) {
+        }
     }
 
 }
