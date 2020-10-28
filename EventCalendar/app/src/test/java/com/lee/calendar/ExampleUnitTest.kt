@@ -10,27 +10,35 @@ import org.junit.Test
 class ExampleUnitTest {
     @Test
     fun addition_isCorrect() {
-        val monthList = CalendarManager.getInstance().getInitMonthData()
+        val calendarManager = CalendarManager()
+        val monthList = calendarManager.getInitMonthData()
+
+
+        monthList.addAll(calendarManager.getNextMonthData())
+        monthList.addAll(calendarManager.getNextMonthData())
+        monthList.addAll(calendarManager.getNextMonthData())
+        monthList.addAll(calendarManager.getNextMonthData())
+        monthList.addAll(calendarManager.getNextMonthData())
         for (monthEntity in monthList) {
             println(monthEntity.toString())
         }
 
-        println("------------------------添加上下页数据后--------------------------------")
-
-        val prevMonthData = CalendarManager.getInstance().getPrevMonthData()
-        val nextMonthData = CalendarManager.getInstance().getNextMonthData()
-        monthList.addAll(0, prevMonthData)
-        monthList.addAll(nextMonthData)
+//        println("------------------------添加上下页数据后--------------------------------")
+//
+//        val prevMonthData = calendarManager.getPrevMonthData()
+//        val nextMonthData = calendarManager.getNextMonthData()
+//        monthList.addAll(0, prevMonthData)
+//        monthList.addAll(nextMonthData)
 //        for (monthEntity in monthList) {
 //            println(monthEntity.toString())
 //        }
-
-        println("------------------------添加上下页数据后--------------------------------")
-
-        val prevMonthData2 = CalendarManager.getInstance().getPrevMonthData()
-        val nextMonthData2 = CalendarManager.getInstance().getNextMonthData()
-        monthList.addAll(0, prevMonthData2)
-        monthList.addAll(nextMonthData2)
+//
+//        println("------------------------添加上下页数据后--------------------------------")
+//
+//        val prevMonthData2 = calendarManager.getPrevMonthData()
+//        val nextMonthData2 = calendarManager.getNextMonthData()
+//        monthList.addAll(0, prevMonthData2)
+//        monthList.addAll(nextMonthData2)
 //        for (monthEntity in monthList) {
 //            println(monthEntity.toString())
 //        }
