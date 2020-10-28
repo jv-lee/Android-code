@@ -1,7 +1,6 @@
 package com.lee.basedialog
 
 import android.widget.Button
-import androidx.lifecycle.ViewModel
 import com.lee.basedialog.databinding.ActivityMainBinding
 import com.lee.basedialog.dialog.BaseAlertDialogImpl
 import com.lee.basedialog.dialog.BaseBottomDialogImpl
@@ -27,39 +26,30 @@ class MainActivity : BaseActivity<ActivityMainBinding, BaseViewModel>(R.layout.a
     override fun bindView() {
         //普通dialogFragment
         findViewById<Button>(R.id.btn_base_dialog_fragment).setOnClickListener {
-            baseDialogFragmentImpl.show(
-                supportFragmentManager,
-                BaseDialogFragmentImpl::class.java.simpleName
-            )
+            show(baseDialogFragmentImpl)
         }
         //alert动画的 dialogFragment
         findViewById<Button>(R.id.btn_alert_dialog_fragment).setOnClickListener {
-            baseAlertDialogFragmentImpl.show(
-                supportFragmentManager,
-                BaseAlertDialogFragmentImpl::class.java.simpleName
-            )
+            show(baseAlertDialogFragmentImpl)
         }
         //底部弹出sheetDialogFragment Activity根部局必须添加behavior app:layout_behavior="@string/bottom_sheet_behavior"
         findViewById<Button>(R.id.btn_sheet_dialog_fragment).setOnClickListener {
-            baseSheetDialogFragmentImpl.show(
-                supportFragmentManager,
-                BaseSheetDialogFragmentImpl::class.java.simpleName
-            )
+            show(baseSheetDialogFragmentImpl)
         }
 
         //底部弹出bottomDialog
         findViewById<Button>(R.id.btn_bottom_dialog).setOnClickListener {
-            baseBottomDialogImpl.show()
+            show(baseBottomDialogImpl)
         }
 
         //alert动画 dialog
         findViewById<Button>(R.id.btn_alert_dialog).setOnClickListener {
-            baseAlertDialogImpl.show()
+            show(baseAlertDialogImpl)
         }
 
         //translucent Dialog
         findViewById<Button>(R.id.btn_translucent_dialog).setOnClickListener {
-            baseTranslucentDialogImpl.show()
+            show(baseTranslucentDialogImpl)
         }
     }
 

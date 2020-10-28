@@ -51,7 +51,6 @@ abstract class BaseSheetFragment<V : ViewDataBinding, VM : ViewModel>(
     override fun onStart() {
         super.onStart()
         if (isFullWindow) {
-            dialog?.setFullWindow()
             val bottomSheet = dialog?.findViewById<View>(R.id.design_bottom_sheet)
             bottomSheet?.layoutParams?.height = ViewGroup.LayoutParams.MATCH_PARENT
         }

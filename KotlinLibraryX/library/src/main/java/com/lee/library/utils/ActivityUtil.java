@@ -1,11 +1,12 @@
 package com.lee.library.utils;
 
 import android.app.Activity;
+import android.content.Context;
+import android.os.Build;
 
 import java.util.ArrayList;
 
 /**
- *
  * @author jv.lee
  * @date 2017/10/13
  */
@@ -13,8 +14,10 @@ import java.util.ArrayList;
 public class ActivityUtil {
     private static ActivityUtil instance;
 
-    private ActivityUtil(){}
-    public static ActivityUtil getInstance(){
+    private ActivityUtil() {
+    }
+
+    public static ActivityUtil getInstance() {
         if (instance == null) {
             synchronized (ActivityUtil.class) {
                 if (instance == null) {
@@ -32,6 +35,7 @@ public class ActivityUtil {
 
     /**
      * 加入活动对象--------->onCreate
+     *
      * @param activity
      */
     public void add(Activity activity) {
@@ -40,6 +44,7 @@ public class ActivityUtil {
 
     /**
      * 移除活动对象--------->onDestroy
+     *
      * @param activity
      */
     public void remove(Activity activity) {
@@ -55,5 +60,17 @@ public class ActivityUtil {
                 activity.finish();
             }
         }
+    }
+
+    public static boolean assertActivityDestroyed(Context context) {
+        if (context instanceof Activity) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 && ((Activity) context).isDestroyed()) {
+                return true;
+            }
+            if (((Activity) context).isFinishing()) {
+                return true;
+            }
+        }
+        return false;
     }
 }

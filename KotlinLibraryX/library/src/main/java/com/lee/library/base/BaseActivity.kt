@@ -1,6 +1,7 @@
 package com.lee.library.base
 
 import android.app.Activity
+import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.KeyEvent
@@ -8,6 +9,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -15,6 +17,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.lee.library.R
 import com.lee.library.extensions.getVmClass
 import com.lee.library.mvvm.base.BaseViewModel
+import com.lee.library.utils.ActivityUtil
 import com.lee.library.utils.StatusUtil
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -121,16 +124,48 @@ abstract class BaseActivity<V : ViewDataBinding, VM : BaseViewModel>(
         cancel()
     }
 
-    fun Activity.toast(message: CharSequence?, duration: Int = Toast.LENGTH_SHORT) {
-        message ?: return
-        Toast.makeText(this, message, duration).show()
-    }
-
     /**
      * 创建ViewModel
      */
     protected fun <T : ViewModel> createViewModel(cls: Class<T>): T {
         return ViewModelProviders.of(this).get(cls)
+    }
+
+    fun Activity.toast(message: CharSequence?, duration: Int = Toast.LENGTH_SHORT) {
+        message ?: return
+        Toast.makeText(this, message, duration).show()
+    }
+
+    fun AppCompatActivity.show(dialog: Dialog) {
+        if (ActivityUtil.assertActivityDestroyed(this@BaseActivity)) return
+        try {
+            dialog.show()
+        } catch (e: Exception) {
+        }
+    }
+
+    fun AppCompatActivity.dismiss(dialog: Dialog) {
+        if (ActivityUtil.assertActivityDestroyed(this@BaseActivity)) return
+        try {
+            dialog.dismiss()
+        } catch (e: Exception) {
+        }
+    }
+
+    fun AppCompatActivity.show(dialog: DialogFragment) {
+        if (ActivityUtil.assertActivityDestroyed(this@BaseActivity)) return
+        try {
+            dialog.show(supportFragmentManager, dialog::class.java.simpleName)
+        } catch (e: Exception) {
+        }
+    }
+
+    fun AppCompatActivity.dismiss(dialog: DialogFragment) {
+        if (ActivityUtil.assertActivityDestroyed(this@BaseActivity)) return
+        try {
+            dialog.dismiss()
+        } catch (e: Exception) {
+        }
     }
 
 }
