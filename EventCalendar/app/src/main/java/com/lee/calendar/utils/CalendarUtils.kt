@@ -2,7 +2,6 @@ package com.lee.calendar.utils
 
 import com.lee.calendar.entity.DayEntity
 import java.util.*
-import kotlin.collections.ArrayList
 
 /**
  * @author jv.lee
@@ -42,22 +41,39 @@ object CalendarUtils {
         return calendar.get(Calendar.DAY_OF_WEEK)
     }
 
-    fun getDayList(year: Int, month: Int): ArrayList<DayEntity> {
+    fun getDayList(year: Int, month: Int, startIndex: Int): ArrayList<DayEntity> {
         val dayArray = arrayListOf<DayEntity>()
         val dayCount = getMonthMaxDay(year, month)
         for (index in 1..dayCount) {
-            dayArray.add(DayEntity(year = year, month = month, day = index))
+            dayArray.add(
+                DayEntity(
+                    year = year,
+                    month = month,
+                    day = index,
+                    startIndex = startIndex
+                )
+            )
         }
-        return getAttachDayList(dayArray, year, month)
+        return getAttachDayList(dayArray, year, month, startIndex)
     }
 
-    private fun getAttachDayList(data:ArrayList<DayEntity>, year: Int, month: Int): ArrayList<DayEntity> {
-        getAttachPrevDay(data, year, month)
-        getAttachNextDay(data,year,month)
+    private fun getAttachDayList(
+        data: ArrayList<DayEntity>,
+        year: Int,
+        month: Int,
+        startIndex: Int
+    ): ArrayList<DayEntity> {
+        getAttachPrevDay(data, year, month, startIndex)
+//        getAttachNextDay(data, year, month,startIndex)
         return data
     }
 
-    private fun getAttachPrevDay(data:ArrayList<DayEntity>,year: Int,month: Int):ArrayList<DayEntity>{
+    private fun getAttachPrevDay(
+        data: ArrayList<DayEntity>,
+        year: Int,
+        month: Int,
+        startIndex: Int
+    ): ArrayList<DayEntity> {
         val calendar = Calendar.getInstance()
         //设置时间为当月1号
         calendar.set(Calendar.YEAR, year)
@@ -65,27 +81,40 @@ object CalendarUtils {
         calendar.set(Calendar.DATE, 1)
 
         //获取当月1号遍历数量
-        val count = calendar.get(Calendar.DAY_OF_WEEK) -2
+        val count = calendar.get(Calendar.DAY_OF_WEEK) - 2
 
         //向上调整一个月的时间
         if (month == 0) {
             calendar.set(Calendar.YEAR, year - 1)
             calendar.set(Calendar.MONTH, 11)
-        }else{
+        } else {
             calendar.set(Calendar.YEAR, year)
-            calendar.set(Calendar.MONTH, month-1)
+            calendar.set(Calendar.MONTH, month - 1)
         }
 
         //设置为最后一天
         calendar.roll(Calendar.DATE, -1)
 
         for (index in 0..count) {
-            data.add(0, DayEntity(year = year, month = calendar.get(Calendar.MONTH), day = calendar.get(Calendar.DAY_OF_MONTH) - index))
+            data.add(
+                0,
+                DayEntity(
+                    year = year,
+                    month = calendar.get(Calendar.MONTH),
+                    day = calendar.get(Calendar.DAY_OF_MONTH) - index,
+                    startIndex = startIndex
+                )
+            )
         }
         return data
     }
 
-    private fun getAttachNextDay(data:ArrayList<DayEntity>,year: Int,month: Int):ArrayList<DayEntity>{
+    private fun getAttachNextDay(
+        data: ArrayList<DayEntity>,
+        year: Int,
+        month: Int,
+        startIndex: Int
+    ): ArrayList<DayEntity> {
         val calendar = Calendar.getInstance()
         //设置时间为当月最后一天
         calendar.set(Calendar.YEAR, year)
@@ -98,17 +127,28 @@ object CalendarUtils {
         if (month == 11) {
             calendar.set(Calendar.YEAR, year + 1)
             calendar.set(Calendar.MONTH, 0)
-        }else{
+        } else {
             calendar.set(Calendar.YEAR, year)
-            calendar.set(Calendar.MONTH, month+1)
+            calendar.set(Calendar.MONTH, month + 1)
         }
 
         calendar.set(Calendar.DATE, 1)
 
         for (index in 0..count) {
-            data.add(DayEntity(year = year, month = calendar.get(Calendar.MONTH), day = calendar.get(Calendar.DAY_OF_MONTH) + index))
+            data.add(
+                DayEntity(
+                    year = year,
+                    month = calendar.get(Calendar.MONTH),
+                    day = calendar.get(Calendar.DAY_OF_MONTH) + index,
+                    startIndex = startIndex
+                )
+            )
         }
         return data
+    }
+
+    fun getMonthNumber(month: Int): String {
+        return (month + 1).toString()
     }
 
 }

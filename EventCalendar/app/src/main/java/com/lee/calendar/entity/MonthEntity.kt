@@ -25,7 +25,11 @@ data class MonthEntity(
 
             //获取当月1号遍历数量
             val startIndex = calendar.get(Calendar.DAY_OF_WEEK) - 1
-            return MonthEntity(year, month, CalendarUtils.getDayList(year, month), startIndex)
+            return MonthEntity(year, month, CalendarUtils.getDayList(year, month,startIndex), startIndex)
         }
+    }
+
+    override fun toString(): String {
+        return "{${year}-${month}}"
     }
 }

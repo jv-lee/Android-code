@@ -13,7 +13,8 @@ data class DayEntity(
     @DayStatus var dayStatus: Int = DayStatus.DEFAULT_STATUS,
     val year: Int,
     val month: Int,
-    val day: Int
+    val day: Int,
+    val startIndex:Int
 )
 
 @IntDef(DayStatus.DEFAULT_STATUS, DayStatus.UPDATE_STATUS, DayStatus.OVER_UPDATE_STATUS)

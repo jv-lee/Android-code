@@ -13,15 +13,23 @@ class ExampleUnitTest {
         val calendarManager = CalendarManager()
         val monthList = calendarManager.getInitMonthData()
 
-
-        monthList.addAll(calendarManager.getNextMonthData())
-        monthList.addAll(calendarManager.getNextMonthData())
-        monthList.addAll(calendarManager.getNextMonthData())
-        monthList.addAll(calendarManager.getNextMonthData())
-        monthList.addAll(calendarManager.getNextMonthData())
+        monthList.addAll(0,calendarManager.getPrevMonthData())
+        monthList.addAll(0,calendarManager.getPrevMonthData())
+        monthList.addAll(0,calendarManager.getPrevMonthData())
+        monthList.addAll(0,calendarManager.getPrevMonthData())
+        monthList.addAll(0,calendarManager.getPrevMonthData())
         for (monthEntity in monthList) {
             println(monthEntity.toString())
         }
+
+//        monthList.addAll(calendarManager.getNextMonthData())
+//        monthList.addAll(calendarManager.getNextMonthData())
+//        monthList.addAll(calendarManager.getNextMonthData())
+//        monthList.addAll(calendarManager.getNextMonthData())
+//        monthList.addAll(calendarManager.getNextMonthData())
+//        for (monthEntity in monthList) {
+//            println(monthEntity.toString())
+//        }
 
 //        println("------------------------添加上下页数据后--------------------------------")
 //
