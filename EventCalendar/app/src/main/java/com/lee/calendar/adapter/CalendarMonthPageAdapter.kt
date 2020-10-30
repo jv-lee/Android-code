@@ -4,14 +4,14 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.PagerSnapHelper
-import androidx.recyclerview.widget.RecyclerView
+import androidx.core.view.updateLayoutParams
+import androidx.recyclerview.widget.*
 import com.lee.calendar.CalendarManager
 import com.lee.calendar.R
 import com.lee.calendar.entity.DayEntity
 import com.lee.calendar.entity.MonthEntity
+import com.lee.calendar.utils.CalendarUtils
+
 
 /**
  * @author jv.lee
@@ -33,7 +33,6 @@ abstract class CalendarMonthPageAdapter(private val context: Context) :
     private fun loadPrevData() {
         val prevMonthData = calendarManager.getPrevMonthData()
         data.addAll(0, prevMonthData)
-        loadIndex = prevMonthData.size
         notifyItemRangeInserted(0, prevMonthData.size)
         hasLoadMore = true
     }
@@ -41,12 +40,25 @@ abstract class CalendarMonthPageAdapter(private val context: Context) :
     private fun loadNextData() {
         val nextMonthData = calendarManager.getNextMonthData()
         data.addAll(nextMonthData)
-        notifyDataSetChanged()
+        notifyItemRangeInserted(data.size,6)
         hasLoadMore = true
     }
 
     fun getData(): ArrayList<MonthEntity> {
         return data
+    }
+
+    private fun loadDayList(position: Int, entity: MonthEntity) {
+        if (entity.dayList.isEmpty()) {
+            entity.dayList.addAll(
+                CalendarUtils.getDayList(
+                    entity.year,
+                    entity.month,
+                    entity.startIndex
+                )
+            )
+            notifyItemChanged(position)
+        }
     }
 
     fun bindRecyclerView(recyclerView: RecyclerView) {
@@ -61,27 +73,32 @@ abstract class CalendarMonthPageAdapter(private val context: Context) :
                 if (newState == RecyclerView.SCROLL_STATE_IDLE && recyclerView.layoutManager is LinearLayoutManager) {
                     val linearLayoutManager = recyclerView.layoutManager as LinearLayoutManager
                     val position = linearLayoutManager.findFirstVisibleItemPosition()
-                    val index = position + loadIndex
-                    val entity = data[index]
-                    onChangeDataListener?.onChangeDate(index, entity)
-                    loadIndex = 0
+                    val childAt = linearLayoutManager.getChildAt(position)
+                    if (childAt != null) {
+                        val layoutParams = recyclerView.layoutParams
+                        layoutParams.height = childAt.height
+                        recyclerView.layoutParams = layoutParams
+                    }
+                    val entity = data[position]
+                    onChangeDataListener?.onChangeDate(position, entity)
+
+                    if (!recyclerView.canScrollVertically(-1) && hasLoadMore) {
+                        hasLoadMore = false
+                        loadPrevData()
+                    }
+                    if (!recyclerView.canScrollVertically(1) && hasLoadMore) {
+                        hasLoadMore = false
+                        loadNextData()
+                    }
                 }
             }
 
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-                if (!recyclerView.canScrollVertically(-1) && hasLoadMore) {
-                    hasLoadMore = false
-                    loadPrevData()
-                }
-                if (!recyclerView.canScrollVertically(1) && hasLoadMore) {
-                    hasLoadMore = false
-                    loadNextData()
-                }
-            }
         })
+
         recyclerView.scrollToPosition(6)
         onChangeDataListener?.onChangeDate(6, data[6])
+//        recyclerView.scrollToPosition(6)
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CalendarMonthPageViewHolder {
@@ -101,12 +118,16 @@ abstract class CalendarMonthPageAdapter(private val context: Context) :
 
     inner class CalendarMonthPageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        private val rvContainer by lazy { itemView.findViewById<RecyclerView>(R.id.rv_month_container) }
+        private val rvContainer by lazy { itemView.findViewById<RecyclerView>(R.id.rv_container) }
 
         fun bindView(entity: MonthEntity) {
             rvContainer.run {
                 layoutManager =
-                    GridLayoutManager(itemView.context, 7).apply { isAutoMeasureEnabled = true }
+                    object : StaggeredGridLayoutManager(7,StaggeredGridLayoutManager.VERTICAL) {
+                        override fun canScrollVertically(): Boolean {
+                            return false
+                        }
+                    }.apply { isAutoMeasureEnabled = true }
                 adapter = CalendarDayListAdapter(entity.dayList)
             }
         }

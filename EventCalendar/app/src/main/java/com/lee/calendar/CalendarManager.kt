@@ -8,15 +8,14 @@ import java.util.*
  * @date 2020/10/26
  * @description
  */
-class CalendarManager {
+class CalendarManager(val prevCount: Int = 6, val nextCount: Int = 6) {
 
     private var currentYear: Int = Calendar.getInstance().get(Calendar.YEAR)
     private var currentMonth: Int = Calendar.getInstance().get(Calendar.MONTH)
     private var currentDay: Int = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
     private var prevMonthPosition: Int = 0
     private var nextMonthPosition: Int = 0
-    val startIndex = 1
-    val endCount = 6
+    private val startIndex = 1
 
     /**
      * 移动基础下标 从移动后的基础下标开始获取日历对象
@@ -46,7 +45,7 @@ class CalendarManager {
      */
     fun getPrevMonthData(): ArrayList<MonthEntity> {
         val monthArray = arrayListOf<MonthEntity>()
-        for (index in startIndex..endCount) {
+        for (index in startIndex..prevCount) {
             //获取向上$index月时间对象
             val prevCalendar = getMoveMonthData(-(++prevMonthPosition))
             //添加数据
@@ -66,7 +65,7 @@ class CalendarManager {
      */
     fun getNextMonthData(): ArrayList<MonthEntity> {
         val monthArray = arrayListOf<MonthEntity>()
-        for (index in startIndex..endCount) {
+        for (index in startIndex..nextCount) {
             //获取向下$index月时间对象
             val nextCalendar = getMoveMonthData(++nextMonthPosition)
             //添加数据

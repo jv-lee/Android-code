@@ -12,7 +12,7 @@ import com.lee.calendar.widget.DayBackground
  * @date 2020/10/29
  * @description
  */
-class CalendarAdapter : MonthPageAdapter() {
+class CalendarAdapter2(context: Context) : CalendarMonthPageAdapter(context) {
 
     override fun getItemLayout(): Int {
         return R.layout.item_day
@@ -25,13 +25,13 @@ class CalendarAdapter : MonthPageAdapter() {
 
         if (position == 0) {
             dayBackground.updateStatus(DayBackground.DayBackgroundStatus.STATUS_SINGLE)
-        } else if (position == 1) {
+        }else if (position == 1) {
             dayBackground.updateStatus(DayBackground.DayBackgroundStatus.STATUS_START)
-        } else if (position == 2) {
+        }else if(position == 2){
             dayBackground.updateStatus(DayBackground.DayBackgroundStatus.STATUS_CENTER)
-        } else if (position == 3) {
+        }else if (position == 3) {
             dayBackground.updateStatus(DayBackground.DayBackgroundStatus.STATUS_END)
-        } else {
+        }else{
             dayBackground.updateStatus(DayBackground.DayBackgroundStatus.STATUS_SINGLE)
         }
     }

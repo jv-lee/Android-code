@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="DayBackground">
+
+        <attr name="day_status" format="enum">
+            <enum name="single" value="1" />
+            <enum name="start" value="2" />
+            <enum name="center" value="3" />
+            <enum name="end" value="4" />
+        </attr>
+
+    </declare-styleable>
+</resources>

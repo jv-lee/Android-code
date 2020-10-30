@@ -99,6 +99,7 @@ object CalendarUtils {
             data.add(
                 0,
                 DayEntity(
+                    isToMonth = false,
                     year = year,
                     month = calendar.get(Calendar.MONTH),
                     day = calendar.get(Calendar.DAY_OF_MONTH) - index,

@@ -17,7 +17,7 @@ data class DayEntity(
     val startIndex:Int
 )
 
-@IntDef(DayStatus.DEFAULT_STATUS, DayStatus.UPDATE_STATUS, DayStatus.OVER_UPDATE_STATUS)
+@IntDef(DayStatus.DEFAULT_STATUS, DayStatus.UPDATE_STATUS, DayStatus.OVER_UPDATE_STATUS,DayStatus.TIMING_UPDATE_STATUS)
 @Target(AnnotationTarget.FIELD, AnnotationTarget.VALUE_PARAMETER, AnnotationTarget.FUNCTION)
 @Retention(AnnotationRetention.SOURCE)
 annotation class DayStatus {
@@ -25,6 +25,6 @@ annotation class DayStatus {
         const val DEFAULT_STATUS = 0x000 //默认状态
         const val UPDATE_STATUS = 0x001 //已更新状态
         const val OVER_UPDATE_STATUS = 0x002 //断更状态
-        const val TIMING_UPDATE_STATUS = 0x002 //定时更新状态
+        const val TIMING_UPDATE_STATUS = 0x003 //定时更新状态
     }
 }
