@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <declare-styleable name="DayBackground">
+    <declare-styleable name="DayView">
 
         <attr name="day_status" format="enum">
             <enum name="single" value="1" />

@@ -2,10 +2,9 @@ package com.lee.calendar.adapter
 
 import android.content.Context
 import android.view.View
-import android.widget.TextView
 import com.lee.calendar.R
 import com.lee.calendar.entity.DayEntity
-import com.lee.calendar.widget.DayBackground
+import com.lee.calendar.widget.DayView
 
 /**
  * @author jv.lee
@@ -19,20 +18,18 @@ class CalendarAdapter : MonthPageAdapter() {
     }
 
     override fun convert(context: Context, itemView: View, position: Int, entity: DayEntity) {
-        val tvDayText = itemView.findViewById<TextView>(R.id.tv_day_text)
-        val dayBackground = itemView.findViewById<DayBackground>(R.id.day_background)
-        tvDayText?.text = entity.day.toString()
+        val dayView = itemView.findViewById<DayView>(R.id.day_view)
 
         if (position == 0) {
-            dayBackground.updateStatus(DayBackground.DayBackgroundStatus.STATUS_SINGLE)
+            dayView.updateStatus(DayView.DayBackgroundStatus.STATUS_SINGLE)
         } else if (position == 1) {
-            dayBackground.updateStatus(DayBackground.DayBackgroundStatus.STATUS_START)
+            dayView.updateStatus(DayView.DayBackgroundStatus.STATUS_START)
         } else if (position == 2) {
-            dayBackground.updateStatus(DayBackground.DayBackgroundStatus.STATUS_CENTER)
+            dayView.updateStatus(DayView.DayBackgroundStatus.STATUS_CENTER)
         } else if (position == 3) {
-            dayBackground.updateStatus(DayBackground.DayBackgroundStatus.STATUS_END)
+            dayView.updateStatus(DayView.DayBackgroundStatus.STATUS_END)
         } else {
-            dayBackground.updateStatus(DayBackground.DayBackgroundStatus.STATUS_SINGLE)
+            dayView.updateStatus(DayView.DayBackgroundStatus.STATUS_SINGLE)
         }
     }
 

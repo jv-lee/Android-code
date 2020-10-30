@@ -46,23 +46,23 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/rv_container">
 
-        <com.lee.calendar.widget.DayBackground
+        <com.lee.calendar.widget.DayView
             android:id="@+id/day"
             android:layout_width="50dp"
             android:layout_height="50dp"
             app:day_status="single" />
 
-        <com.lee.calendar.widget.DayBackground
+        <com.lee.calendar.widget.DayView
             android:layout_width="50dp"
             android:layout_height="50dp"
             app:day_status="start" />
 
-        <com.lee.calendar.widget.DayBackground
+        <com.lee.calendar.widget.DayView
             android:layout_width="50dp"
             android:layout_height="50dp"
             app:day_status="center" />
 
-        <com.lee.calendar.widget.DayBackground
+        <com.lee.calendar.widget.DayView
             android:layout_width="50dp"
             android:layout_height="50dp"
             app:day_status="end" />

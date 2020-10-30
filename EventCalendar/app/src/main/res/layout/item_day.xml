@@ -4,20 +4,23 @@
     android:layout_width="match_parent"
     android:layout_height="52dp">
 
-    <TextView
-        android:id="@+id/tv_day_text"
-        android:layout_width="34dp"
-        android:layout_height="34dp"
-        android:gravity="center"
-        android:text="1"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+<!--    <TextView-->
+<!--        android:id="@+id/tv_day_text"-->
+<!--        android:layout_width="34dp"-->
+<!--        android:layout_height="34dp"-->
+<!--        android:gravity="center"-->
+<!--        android:text="1"-->
+<!--        android:textColor="@android:color/black"-->
+<!--        android:textSize="15sp"-->
+<!--        android:textStyle="bold"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
 
-    <com.lee.calendar.widget.DayBackground
-        android:id="@+id/day_background"
+    <com.lee.calendar.widget.DayView
+        android:id="@+id/day_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
