@@ -6,19 +6,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.lee.calendar.CalendarManager
 import com.lee.calendar.R
 import com.lee.calendar.entity.DayEntity
 import com.lee.calendar.entity.MonthEntity
+import com.lee.calendar.widget.WrappingPagerAdapter
 
 /**
  * @author jv.lee
  * @date 2020/10/30
  * @description
  */
-abstract class MonthPageAdapter : PagerAdapter() {
+abstract class MonthPageAdapter : WrappingPagerAdapter() {
 
     private val TAG: String = "Pager"
     private val calendarManager by lazy { CalendarManager(prevCount = 12) }
