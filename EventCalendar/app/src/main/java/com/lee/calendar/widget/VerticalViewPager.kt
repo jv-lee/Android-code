@@ -47,6 +47,17 @@ class VerticalViewPager : WrappingViewPager {
         }
     }
 
+    override fun onInterceptTouchEvent(ev: MotionEvent): Boolean {
+        val intercepted = super.onInterceptTouchEvent(swapXY(ev))
+        swapXY(ev)
+        return intercepted //为所有子视图返回触摸的原始坐标
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    override fun onTouchEvent(ev: MotionEvent): Boolean {
+        return super.onTouchEvent(swapXY(ev))
+    }
+
     /**
      * 交换触摸事件的X和Y坐标
      */
@@ -57,17 +68,6 @@ class VerticalViewPager : WrappingViewPager {
         val newY = ev.x / width * height
         ev.setLocation(newX, newY)
         return ev
-    }
-
-    override fun onInterceptTouchEvent(ev: MotionEvent): Boolean {
-        val intercepted = super.onInterceptTouchEvent(swapXY(ev))
-        swapXY(ev)
-        return intercepted //为所有子视图返回触摸的原始坐标
-    }
-
-    @SuppressLint("ClickableViewAccessibility")
-    override fun onTouchEvent(ev: MotionEvent): Boolean {
-        return super.onTouchEvent(swapXY(ev))
     }
 
 }

@@ -2,13 +2,36 @@
 <resources>
 
     <declare-styleable name="DayView">
-
         <attr name="day_status" format="enum">
+            <enum name="gone" value="0"/>
             <enum name="single" value="1" />
             <enum name="start" value="2" />
             <enum name="center" value="3" />
             <enum name="end" value="4" />
         </attr>
+        <attr name="day_isUpdate" format="boolean" />
+        <attr name="day_isSelect" format="boolean" />
+        <attr name="day_isToday" format="boolean" />
+        <attr name="day_isDelayUpdate" format="boolean" />
+        <attr name="day_isGone" format="boolean" />
+
+        <attr name="day_updateBackgroundColor" format="color" />
+        <attr name="day_updateStrokeColor" format="color" />
+        <attr name="day_updateSelectedColor" format="color" />
+        <attr name="day_overBackgroundColor" format="color" />
+        <attr name="day_overStrokeColor" format="color" />
+        <attr name="day_overSelectedColor" format="color" />
+        <attr name="day_todayBackgroundColor" format="color" />
+        <attr name="day_dotColor" format="color" />
+        <attr name="day_goneTextColor" format="color" />
+        <attr name="day_defaultTextColor" format="color" />
+        <attr name="day_todayTextColor" format="color" />
+
+        <attr name="day_text" format="string" />
+        <attr name="day_textSize" format="dimension" />
+        <attr name="day_dotSize" format="dimension" />
+        <attr name="day_paddingSize" format="dimension" />
+        <attr name="day_strokeWidth" format="dimension" />
 
     </declare-styleable>
 </resources>

@@ -14,7 +14,8 @@ data class DayEntity(
     val year: Int,
     val month: Int,
     val day: Int,
-    val startIndex:Int
+    val startIndex:Int,
+    val isToDay:Boolean = false
 )
 
 @IntDef(DayStatus.DEFAULT_STATUS, DayStatus.UPDATE_STATUS, DayStatus.OVER_UPDATE_STATUS,DayStatus.TIMING_UPDATE_STATUS)

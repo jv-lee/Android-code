@@ -48,19 +48,6 @@ abstract class CalendarMonthPageAdapter(private val context: Context) :
         return data
     }
 
-    private fun loadDayList(position: Int, entity: MonthEntity) {
-        if (entity.dayList.isEmpty()) {
-            entity.dayList.addAll(
-                CalendarUtils.getDayList(
-                    entity.year,
-                    entity.month,
-                    entity.startIndex
-                )
-            )
-            notifyItemChanged(position)
-        }
-    }
-
     fun bindRecyclerView(recyclerView: RecyclerView) {
         this.recyclerView = recyclerView
         recyclerView.layoutManager = LinearLayoutManager(context)
@@ -97,8 +84,6 @@ abstract class CalendarMonthPageAdapter(private val context: Context) :
 
         recyclerView.scrollToPosition(6)
         onChangeDataListener?.onChangeDate(6, data[6])
-//        recyclerView.scrollToPosition(6)
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CalendarMonthPageViewHolder {

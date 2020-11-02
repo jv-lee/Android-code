@@ -20,6 +20,7 @@
 
     <com.lee.calendar.widget.DayView
         android:id="@+id/day_view"
+        style="@style/Calendar_Day"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

@@ -22,7 +22,7 @@ abstract class MonthPageAdapter : WrappingPagerAdapter() {
 
     private val TAG: String = "Pager"
     private val calendarManager by lazy { CalendarManager(prevCount = 12) }
-    private val data: ArrayList<MonthEntity> = calendarManager.getInitMonthData()
+    protected val data: ArrayList<MonthEntity> = calendarManager.getInitMonthData()
     private var viewPager: ViewPager? = null
     private var hasLoadMore = true
 
@@ -46,7 +46,8 @@ abstract class MonthPageAdapter : WrappingPagerAdapter() {
                 //当前页面监听回调 ， 重复回弹不回调
                 if (lastPosition != position) {
                     lastPosition = position
-                    onChangeDataListener?.onChangeDate(position, data[position])
+                    onChangeDataListener?.onPageChangeDate(position, data[position])
+                    initDaySelectChange(data[position])
                 }
             }
         })
@@ -54,7 +55,14 @@ abstract class MonthPageAdapter : WrappingPagerAdapter() {
 
     private fun initStartPage(position: Int) {
         this.viewPager?.setCurrentItem(position, false)
-        this.onChangeDataListener?.onChangeDate(position, data[position])
+        this.onChangeDataListener?.onPageChangeDate(position, data[position])
+        initDaySelectChange(data[position])
+    }
+
+    private fun initDaySelectChange(monthEntity: MonthEntity){
+        for ((index, item) in monthEntity.dayList.withIndex()) {
+            if(item.isSelected)onChangeDataListener?.onDayChangeDate(index,item)
+        }
     }
 
     private fun loadPrevData() {
@@ -111,7 +119,8 @@ abstract class MonthPageAdapter : WrappingPagerAdapter() {
     }
 
     interface OnChangeDataListener {
-        fun onChangeDate(position: Int, entity: MonthEntity)
+        fun onPageChangeDate(position: Int, entity: MonthEntity)
+        fun onDayChangeDate(position: Int, entity: DayEntity)
     }
 
     /**
@@ -119,6 +128,8 @@ abstract class MonthPageAdapter : WrappingPagerAdapter() {
      */
     inner class DayListAdapter(private val data: ArrayList<DayEntity>) :
         RecyclerView.Adapter<DayListAdapter.DayListViewHolder>() {
+
+        private var selectPosition = 0
 
         override fun onCreateViewHolder(
             parent: ViewGroup,
@@ -137,7 +148,25 @@ abstract class MonthPageAdapter : WrappingPagerAdapter() {
 
         inner class DayListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             fun bindView(position: Int, entity: DayEntity) {
+                initSelectPosition(position,entity)
                 convert(itemView.context, itemView, position, entity)
+
+                itemView.setOnClickListener {
+                    if(!entity.isToMonth)return@setOnClickListener
+                    updateSelectStatus(position,entity)
+                    onChangeDataListener?.onDayChangeDate(position,entity)
+                }
+            }
+
+            private fun initSelectPosition(position: Int,entity: DayEntity) {
+                if(entity.isSelected) selectPosition = position
+            }
+
+            private fun updateSelectStatus(position: Int, entity: DayEntity){
+                data[selectPosition].isSelected = false
+                data[position].isSelected = true
+                notifyItemChanged(selectPosition)
+                notifyItemChanged(position)
             }
         }
 

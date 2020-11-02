@@ -41,16 +41,19 @@ object CalendarUtils {
         return calendar.get(Calendar.DAY_OF_WEEK)
     }
 
-    fun getDayList(year: Int, month: Int, startIndex: Int): ArrayList<DayEntity> {
+    fun getDayList(year: Int, month: Int, startIndex: Int,isToMonth:Boolean): ArrayList<DayEntity> {
+        val today = if(isToMonth) Calendar.getInstance().get(Calendar.DAY_OF_MONTH) else -1
         val dayArray = arrayListOf<DayEntity>()
         val dayCount = getMonthMaxDay(year, month)
         for (index in 1..dayCount) {
             dayArray.add(
                 DayEntity(
+                    isSelected = index == 1,
                     year = year,
                     month = month,
                     day = index,
-                    startIndex = startIndex
+                    startIndex = startIndex,
+                    isToDay = today == index
                 )
             )
         }
