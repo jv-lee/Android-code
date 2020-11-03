@@ -5,6 +5,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
+import com.lee.calendar.R
 
 /**
  * @author jv.lee
@@ -13,11 +14,20 @@ import android.view.View
  */
 class VerticalViewPager(context: Context,attrs: AttributeSet?) : WrappingViewPager(context,attrs,true) {
 
+    private val isVertical:Boolean
+
     init {
-        //将viewpager翻转
-        setPageTransformer(true, VerticalPageTransformer())
-        // 设置去掉滑到最左或最右时的滑动效果
-        overScrollMode = View.OVER_SCROLL_NEVER
+        context.obtainStyledAttributes(attrs, R.styleable.VerticalViewPager).run {
+            isVertical = getBoolean(R.styleable.VerticalViewPager_isVertical,true)
+            recycle()
+        }
+        if (isVertical) {
+            //将viewpager翻转
+            setPageTransformer(true, VerticalPageTransformer())
+            // 设置去掉滑到最左或最右时的滑动效果
+            overScrollMode = View.OVER_SCROLL_NEVER
+            setVerticalEnable(isVertical)
+        }
     }
 
     private inner class VerticalPageTransformer : PageTransformer {
@@ -40,14 +50,20 @@ class VerticalViewPager(context: Context,attrs: AttributeSet?) : WrappingViewPag
     }
 
     override fun onInterceptTouchEvent(ev: MotionEvent): Boolean {
-        val intercepted = super.onInterceptTouchEvent(swapXY(ev))
-        swapXY(ev)
-        return intercepted //为所有子视图返回触摸的原始坐标
+        if (isVertical) {
+            val intercepted = super.onInterceptTouchEvent(swapXY(ev))
+            swapXY(ev)
+            return intercepted //为所有子视图返回触摸的原始坐标
+        }
+        return super.onInterceptTouchEvent(ev)
     }
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(ev: MotionEvent): Boolean {
-        return super.onTouchEvent(swapXY(ev))
+        if (isVertical) {
+            return super.onTouchEvent(swapXY(ev))
+        }
+        return super.onTouchEvent(ev)
     }
 
     /**

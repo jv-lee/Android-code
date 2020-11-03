@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.viewpager.widget.ViewPager
 import com.lee.calendar.adapter.CalendarAdapter
 import com.lee.calendar.adapter.MonthPageAdapter
 import com.lee.calendar.entity.DayEntity
@@ -18,7 +19,7 @@ class SplashActivity : AppCompatActivity() {
 
     private val viewModel by lazy { ViewModelProviders.of(this).get(TestViewModel::class.java) }
     private val tvDateDescription by lazy { findViewById<TextView>(R.id.tv_date_description) }
-    private val vpContainer by lazy { findViewById<VerticalViewPager>(R.id.vp_container) }
+    private val vpContainer by lazy { findViewById<ViewPager>(R.id.vp_container) }
     private val monthPagerAdapter by lazy { CalendarAdapter() }
 
     override fun onCreate(savedInstanceState: Bundle?) {

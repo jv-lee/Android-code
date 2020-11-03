@@ -27,7 +27,7 @@ import androidx.viewpager.widget.ViewPager
  * @author Vihaan Verma (http://stackoverflow.com/a/32488566)
  * @since 14-06-2016
  */
-open class WrappingViewPager(context:Context,attrs: AttributeSet?,private val isVertical:Boolean =false) : ViewPager(context,attrs), AnimationListener {
+open class WrappingViewPager(context:Context,attrs: AttributeSet?,private var isVertical:Boolean =false) : ViewPager(context,attrs), AnimationListener {
     private var mLastPosition = 0
     private var mCurrentPosition = 0
     private val diffPadding = 126
@@ -40,6 +40,10 @@ open class WrappingViewPager(context:Context,attrs: AttributeSet?,private val is
 
     init {
         mAnimation.setAnimationListener(this)
+    }
+
+    protected fun setVerticalEnable(enable: Boolean) {
+        this.isVertical = enable
     }
 
     public override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
