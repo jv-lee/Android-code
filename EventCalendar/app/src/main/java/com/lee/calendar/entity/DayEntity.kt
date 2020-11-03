@@ -1,6 +1,7 @@
 package com.lee.calendar.entity
 
 import androidx.annotation.IntDef
+import com.lee.calendar.widget.DayView
 
 /**
  * @author jv.lee
@@ -10,7 +11,8 @@ import androidx.annotation.IntDef
 data class DayEntity(
     val isToMonth: Boolean = true, //是否为当月数据
     var isSelected: Boolean = false, //是否为选中状态
-    @DayStatus var dayStatus: Int = DayStatus.DEFAULT_STATUS,
+    @DayStatus var dayStatus: Int = DayStatus.EMPTY_STATUS,
+    @DayView.DayBackgroundStatus var backgroundStatus:Int = DayView.DayBackgroundStatus.STATUS_GONE,
     val year: Int,
     val month: Int,
     val day: Int,
@@ -18,14 +20,14 @@ data class DayEntity(
     val isToDay:Boolean = false
 )
 
-@IntDef(DayStatus.DEFAULT_STATUS, DayStatus.UPDATE_STATUS, DayStatus.OVER_UPDATE_STATUS,DayStatus.TIMING_UPDATE_STATUS)
+@IntDef(DayStatus.EMPTY_STATUS, DayStatus.UPDATE_STATUS, DayStatus.OVER_UPDATE_STATUS,DayStatus.DELAY_UPDATE_STATUS)
 @Target(AnnotationTarget.FIELD, AnnotationTarget.VALUE_PARAMETER, AnnotationTarget.FUNCTION)
 @Retention(AnnotationRetention.SOURCE)
 annotation class DayStatus {
     companion object {
-        const val DEFAULT_STATUS = 0x000 //默认状态
-        const val UPDATE_STATUS = 0x001 //已更新状态
-        const val OVER_UPDATE_STATUS = 0x002 //断更状态
-        const val TIMING_UPDATE_STATUS = 0x003 //定时更新状态
+        const val UPDATE_STATUS = 0 //0已更新
+        const val OVER_UPDATE_STATUS = 1 //1断更
+        const val EMPTY_STATUS = 2 //2无数据
+        const val DELAY_UPDATE_STATUS = 3 //3定时更新
     }
 }

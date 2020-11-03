@@ -16,16 +16,14 @@ abstract class WrappingPagerAdapter : PagerAdapter() {
     override fun setPrimaryItem(container: ViewGroup, position: Int, `object`: Any) {
         super.setPrimaryItem(container, position, `object`)
 
-        if (container !is WrappingViewPager) {
-            throw UnsupportedOperationException("ViewPager is not a WrappingViewPager")
-        }
-
-        if (`object` is View) {
-            val view: View = `object`
-            if (position != mCurrentPosition) {
-                mCurrentPosition = position
+        if (container is WrappingViewPager) {
+            if (`object` is View) {
+                val view: View = `object`
+                if (position != mCurrentPosition) {
+                    mCurrentPosition = position
+                }
+                container.onPageChanged(view)
             }
-            container.onPageChanged(view)
         }
 
     }

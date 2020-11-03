@@ -23,6 +23,7 @@ abstract class MonthPageAdapter : WrappingPagerAdapter() {
     private val TAG: String = "Pager"
     private val calendarManager by lazy { CalendarManager(prevCount = 12) }
     protected val data: ArrayList<MonthEntity> = calendarManager.getInitMonthData()
+    protected val dayListAdapterMap = HashMap<Int,DayListAdapter>()
     private var viewPager: ViewPager? = null
     private var hasLoadMore = true
 
@@ -110,7 +111,9 @@ abstract class MonthPageAdapter : WrappingPagerAdapter() {
                         return false
                     }
                 }.apply { isAutoMeasureEnabled = true }
-            adapter = DayListAdapter(entity.dayList)
+            adapter = dayListAdapterMap[position]?: DayListAdapter(entity.dayList).also {
+                dayListAdapterMap[position] = it
+            }
         }
     }
 

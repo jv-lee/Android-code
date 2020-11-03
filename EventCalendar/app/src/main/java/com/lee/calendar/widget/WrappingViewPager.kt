@@ -2,6 +2,7 @@ package com.lee.calendar.widget
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.MotionEvent
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.Animation.AnimationListener
@@ -26,26 +27,23 @@ import androidx.viewpager.widget.ViewPager
  * @author Vihaan Verma (http://stackoverflow.com/a/32488566)
  * @since 14-06-2016
  */
-open class WrappingViewPager : ViewPager, AnimationListener {
+open class WrappingViewPager(context:Context,attrs: AttributeSet?,private val isVertical:Boolean =false) : ViewPager(context,attrs), AnimationListener {
+    private var mLastPosition = 0
+    private var mCurrentPosition = 0
+    private val diffPadding = 126
+
     private var mCurrentView: View? = null
     private val mAnimation = PagerAnimation()
     private var mAnimStarted = false
-    private var mAnimDuration: Long = 100
+    private var mAnimDuration: Long = 300
+    private var isUpdatePadding = false
 
-    constructor(context: Context) : super(context) {
-        mAnimation.setAnimationListener(this)
-    }
-
-    constructor(context: Context, attrs: AttributeSet) : super(
-        context,
-        attrs
-    ) {
+    init {
         mAnimation.setAnimationListener(this)
     }
 
     public override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         var heightMeasureSpec = heightMeasureSpec
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
         if (!mAnimStarted && mCurrentView != null) {
             var height: Int
             mCurrentView!!.measure(
@@ -53,6 +51,10 @@ open class WrappingViewPager : ViewPager, AnimationListener {
                 MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED)
             )
             height = mCurrentView!!.measuredHeight
+            //垂直viewpager 翻页填充问题修复 添加tag
+            if (layoutParams.height < height && mLastPosition > mCurrentPosition) {
+                isUpdatePadding = true
+            }
             if (height < minimumHeight) {
                 height = minimumHeight
             }
@@ -77,7 +79,45 @@ open class WrappingViewPager : ViewPager, AnimationListener {
      */
     fun onPageChanged(currentView: View?) {
         mCurrentView = currentView
+        mLastPosition = mCurrentPosition
+        mCurrentPosition = currentItem
         requestLayout()
+    }
+
+    /**
+     * 清除垂直viewPager itemView 留白padding
+     */
+    private fun clearVerticalViewEmptyPadding(){
+        if (!isVertical)return
+        val view = findViewById<View>(currentItem + 1)
+        view?.let {view->
+            val paddingTop = view.paddingTop
+            if (paddingTop >= diffPadding) {
+                view.setPadding(
+                    view.paddingLeft,
+                    paddingTop - diffPadding,
+                    view.paddingRight,
+                    view.paddingBottom
+                )
+            }
+        }
+    }
+
+    /**
+     * 添加垂直itemView留白padding
+     */
+    private fun setVerticalViewEmptyPadding(){
+        if (isUpdatePadding && isVertical) {
+            //TODO instantiateItem itemView.id = position
+            val view = findViewById<View>(currentItem + 1)
+            view.setPadding(
+                view.paddingLeft,
+                view.paddingTop + diffPadding,
+                view.paddingRight,
+                view.paddingBottom
+            )
+            isUpdatePadding = false
+        }
     }
 
     /**
@@ -138,10 +178,17 @@ open class WrappingViewPager : ViewPager, AnimationListener {
 
     override fun onAnimationStart(animation: Animation) {
         mAnimStarted = true
+        setVerticalViewEmptyPadding()
+    }
+
+    override fun onTouchEvent(ev: MotionEvent): Boolean {
+        clearVerticalViewEmptyPadding()
+        return super.onTouchEvent(ev)
     }
 
     override fun onAnimationEnd(animation: Animation) {
         mAnimStarted = false
+
     }
 
     override fun onAnimationRepeat(animation: Animation) {}

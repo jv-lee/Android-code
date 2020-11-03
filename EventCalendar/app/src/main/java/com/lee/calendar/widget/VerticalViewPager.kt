@@ -11,17 +11,9 @@ import android.view.View
  * @date 2020/11/2
  * @description
  */
-class VerticalViewPager : WrappingViewPager {
+class VerticalViewPager(context: Context,attrs: AttributeSet?) : WrappingViewPager(context,attrs,true) {
 
-    constructor(context: Context) : super(context) {
-        init()
-    }
-
-    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
-        init()
-    }
-
-    private fun init() {
+    init {
         //将viewpager翻转
         setPageTransformer(true, VerticalPageTransformer())
         // 设置去掉滑到最左或最右时的滑动效果

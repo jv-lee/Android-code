@@ -29,7 +29,7 @@
 
         <item name="day_textSize">15sp</item>
         <item name="day_dotSize">5dp</item>
-        <item name="day_paddingSize">6dp</item>
+        <item name="day_paddingSize">3dp</item>
         <item name="day_strokeWidth">1dp</item>
     </style>
 

@@ -3,7 +3,6 @@ package com.lee.calendar.widget
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
-import android.util.Log
 import android.view.View
 import androidx.annotation.IntDef
 import androidx.core.content.ContextCompat
@@ -103,8 +102,6 @@ class DayView constructor(context: Context, attributeSet: AttributeSet) :
         mRight = mWidth - strokeWidth
         mBottom = mHeight - strokeWidth
         absSize = Math.min(mWidth, mHeight).toFloat()
-
-        Log.i("DayView", "onMeasure: $mWidth - $mHeight")
     }
 
     override fun onDraw(canvas: Canvas?) {
@@ -223,7 +220,7 @@ class DayView constructor(context: Context, attributeSet: AttributeSet) :
 
         val path1 = Path().apply {
             val dimen = (mHeight - (((absSize / 2) - ( paddingSize)) * 2)) / 2
-            val rectF = RectF(0f, dimen + strokeWidth, width.toFloat(), mBottom - paddingSize)
+            val rectF = RectF(0f, dimen + strokeWidth, width.toFloat(), mBottom - dimen)
             addRect(rectF, Path.Direction.CCW)
         }
         canvas.drawPath(path1, mPaint)
@@ -268,7 +265,18 @@ class DayView constructor(context: Context, attributeSet: AttributeSet) :
         canvas.drawPath(path2, mPaint)
     }
 
-    fun updateStatus(@DayBackgroundStatus status: Int) {
+    fun updateDataStatus(@DayBackgroundStatus backgroundStatus: Int?,isSelect:Boolean?,isToday:Boolean?,isDelayUpdate:Boolean?,isUpdate:Boolean?,isGone:Boolean?,text:String?) {
+        backgroundStatus?.let { this.dayStatus = it }
+        isSelect?.let { this.isSelect = it }
+        isToday?.let { this.isToday = it }
+        isDelayUpdate?.let { this.isDelayUpdate = it }
+        isUpdate?.let { this.isUpdate = it }
+        isGone?.let { this.isGone = it }
+        text?.let { this.text = it }
+        postInvalidate()
+    }
+
+    fun updateBackgroundStatus(@DayBackgroundStatus status: Int) {
         this.dayStatus = status
         postInvalidate()
     }
