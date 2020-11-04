@@ -111,7 +111,7 @@ class PageMonthActivity : AppCompatActivity() {
         linearContainer.setOnTouchListener { v, event ->
             if (event.action == MotionEvent.ACTION_UP) {
                 mAnimation.setDimensions(if(isOpen)maxHeight else minHeight,vpContainer.height)
-                mAnimation.duration = 300
+                mAnimation.duration = 200
                 vpContainer.startAnimation(mAnimation)
                 return@setOnTouchListener false
             }
