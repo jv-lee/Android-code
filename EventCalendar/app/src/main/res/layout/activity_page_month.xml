@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linear_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingStart="18dp"
+    android:paddingTop="14dp"
+    android:paddingEnd="18dp"
+    tools:context=".PageMonthActivity">
+
+    <TextView
+        android:id="@+id/tv_date_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#FF222222"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <View
+        android:id="@+id/view_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        android:background="#FFF1F1F1" />
+
+    <include layout="@layout/layout_week" />
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/vp_container"
+        android:layout_width="match_parent"
+        android:layout_height="312dp"
+        android:layout_marginTop="8dp"
+        app:isVertical="false"
+        app:layout_behavior=".widget.SampleHeaderBehavior" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="this is content" />
+
+
+</LinearLayout>

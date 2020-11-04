@@ -67,7 +67,7 @@ object CalendarUtils {
         startIndex: Int
     ): ArrayList<DayEntity> {
         getAttachPrevDay(data, year, month, startIndex)
-//        getAttachNextDay(data, year, month,startIndex)
+        getAttachNextDay(data, year, month,startIndex)
         return data
     }
 
@@ -117,7 +117,8 @@ object CalendarUtils {
         data: ArrayList<DayEntity>,
         year: Int,
         month: Int,
-        startIndex: Int
+        startIndex: Int,
+        isFull:Boolean = true
     ): ArrayList<DayEntity> {
         val calendar = Calendar.getInstance()
         //设置时间为当月最后一天
@@ -126,7 +127,7 @@ object CalendarUtils {
         calendar.set(Calendar.DATE, 1)
         calendar.roll(Calendar.DATE, -1)
 
-        val count = 6 - calendar.get(Calendar.DAY_OF_WEEK)
+        val count = if(isFull) 42 - data.size else 6 - calendar.get(Calendar.DAY_OF_WEEK)
 
         if (month == 11) {
             calendar.set(Calendar.YEAR, year + 1)
@@ -141,6 +142,7 @@ object CalendarUtils {
         for (index in 0..count) {
             data.add(
                 DayEntity(
+                    isToMonth = false,
                     year = year,
                     month = calendar.get(Calendar.MONTH),
                     day = calendar.get(Calendar.DAY_OF_MONTH) + index,

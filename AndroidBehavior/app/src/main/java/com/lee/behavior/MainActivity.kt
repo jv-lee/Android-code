@@ -22,5 +22,9 @@ class MainActivity : AppCompatActivity() {
                 ContainerActivity.BUILD_SCROLL_HEADER
             )
         }
+
+        findViewById<Button>(R.id.btn_anim).setOnClickListener {
+            ContainerActivity.start(this,ContainerActivity.BUILD_ANIM)
+        }
     }
 }

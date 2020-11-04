@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
+import com.lee.behavior.fragment.AnimFragment
 import com.lee.behavior.fragment.ScrollHeaderBehaviorFragment
 import com.lee.behavior.fragment.ViewBottomBehaviorFragment
 
@@ -14,6 +15,7 @@ class ContainerActivity : AppCompatActivity() {
         const val BUILD_TAG = "build_tag"
         const val BUILD_VIEW_BOTTOM = 1
         const val BUILD_SCROLL_HEADER = 2
+        const val BUILD_ANIM = 3
 
         fun start(context: Context, tag: Int) {
             context.startActivity(
@@ -39,6 +41,7 @@ class ContainerActivity : AppCompatActivity() {
         return when (tag) {
             BUILD_VIEW_BOTTOM -> ViewBottomBehaviorFragment()
             BUILD_SCROLL_HEADER-> ScrollHeaderBehaviorFragment()
+            BUILD_ANIM -> AnimFragment()
             else -> ViewBottomBehaviorFragment()
         }
     }

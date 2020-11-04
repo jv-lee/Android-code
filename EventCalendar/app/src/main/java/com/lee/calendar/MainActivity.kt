@@ -2,6 +2,7 @@ package com.lee.calendar
 
 import android.os.Bundle
 import android.util.Log
+import android.view.GestureDetector
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
