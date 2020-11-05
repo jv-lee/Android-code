@@ -8,7 +8,7 @@ import java.util.*
  * @date 2020/10/26
  * @description
  */
-class CalendarManager(val prevCount: Int = 6, val nextCount: Int = 6) {
+class CalendarManager(val prevMonthCount: Int = 6,val nextMonthCount: Int = 6) {
 
     private var currentYear: Int = Calendar.getInstance().get(Calendar.YEAR)
     private var currentMonth: Int = Calendar.getInstance().get(Calendar.MONTH)
@@ -45,7 +45,7 @@ class CalendarManager(val prevCount: Int = 6, val nextCount: Int = 6) {
      */
     fun getPrevMonthData(): ArrayList<MonthEntity> {
         val monthArray = arrayListOf<MonthEntity>()
-        for (index in startIndex..prevCount) {
+        for (index in startIndex..prevMonthCount) {
             //获取向上$index月时间对象
             val prevCalendar = getMoveMonthData(-(++prevMonthPosition))
             //添加数据
@@ -65,7 +65,7 @@ class CalendarManager(val prevCount: Int = 6, val nextCount: Int = 6) {
      */
     fun getNextMonthData(): ArrayList<MonthEntity> {
         val monthArray = arrayListOf<MonthEntity>()
-        for (index in startIndex..nextCount) {
+        for (index in startIndex..nextMonthCount) {
             //获取向下$index月时间对象
             val nextCalendar = getMoveMonthData(++nextMonthPosition)
             //添加数据

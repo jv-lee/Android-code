@@ -28,13 +28,23 @@
 
     <include layout="@layout/layout_week" />
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/vp_container"
-        android:layout_width="match_parent"
-        android:layout_height="312dp"
-        android:layout_marginTop="8dp"
-        app:isVertical="false"
-        app:layout_behavior=".widget.SampleHeaderBehavior" />
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/vp_week_container"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginTop="8dp" />
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/vp_month_container"
+            android:layout_width="match_parent"
+            android:layout_height="312dp"
+            android:layout_marginTop="8dp" />
+
+    </FrameLayout>
 
     <TextView
         android:layout_width="wrap_content"

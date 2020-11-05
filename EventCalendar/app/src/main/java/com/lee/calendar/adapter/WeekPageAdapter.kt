@@ -15,11 +15,11 @@ import com.lee.calendar.entity.MonthEntity
 
 /**
  * @author jv.lee
- * @date 2020/10/30
+ * @date 2020/11/5
  * @description
  */
-abstract class MonthPageAdapter : PagerAdapter() {
 
+abstract class WeekPageAdapter :PagerAdapter(){
     private val TAG: String = "Pager"
     private val calendarManager by lazy { CalendarManager(prevMonthCount = 12) }
     protected val data: ArrayList<MonthEntity> = calendarManager.getInitMonthData()
@@ -165,7 +165,7 @@ abstract class MonthPageAdapter : PagerAdapter() {
 
             private fun initSelectRowIndex(position: Int,entity: DayEntity){
                 if (entity.isSelected) {
-                    this@MonthPageAdapter.selectRowIndex = position / 7
+//                    this@MonthPageAdapter.selectRowIndex = position / 7
                 }
             }
 
@@ -186,5 +186,4 @@ abstract class MonthPageAdapter : PagerAdapter() {
     abstract fun getItemLayout(): Int
 
     abstract fun convert(context: Context, itemView: View, position: Int, entity: DayEntity)
-
 }
