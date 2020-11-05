@@ -4,13 +4,11 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.*
 import com.lee.calendar.CalendarManager
 import com.lee.calendar.R
 import com.lee.calendar.entity.DayEntity
-import com.lee.calendar.entity.MonthEntity
-import com.lee.calendar.utils.CalendarUtils
+import com.lee.calendar.entity.DataEntity
 
 
 /**
@@ -22,7 +20,7 @@ abstract class CalendarMonthPageAdapter(private val context: Context) :
     RecyclerView.Adapter<CalendarMonthPageAdapter.CalendarMonthPageViewHolder>() {
 
     private val calendarManager by lazy { CalendarManager() }
-    private val data: ArrayList<MonthEntity> = calendarManager.getInitMonthData()
+    private val data: ArrayList<DataEntity> = calendarManager.getInitMonthData()
     private val pagerSnapHelper by lazy { PagerSnapHelper() }
     private var recyclerView: RecyclerView? = null
     private var loadIndex = 0
@@ -44,7 +42,7 @@ abstract class CalendarMonthPageAdapter(private val context: Context) :
         hasLoadMore = true
     }
 
-    fun getData(): ArrayList<MonthEntity> {
+    fun getData(): ArrayList<DataEntity> {
         return data
     }
 
@@ -105,7 +103,7 @@ abstract class CalendarMonthPageAdapter(private val context: Context) :
 
         private val rvContainer by lazy { itemView.findViewById<RecyclerView>(R.id.rv_container) }
 
-        fun bindView(entity: MonthEntity) {
+        fun bindView(entity: DataEntity) {
             rvContainer.run {
                 layoutManager =
                     object : StaggeredGridLayoutManager(7,StaggeredGridLayoutManager.VERTICAL) {
@@ -123,7 +121,7 @@ abstract class CalendarMonthPageAdapter(private val context: Context) :
     }
 
     interface OnChangeDataListener {
-        fun onChangeDate(position: Int, entity: MonthEntity)
+        fun onChangeDate(position: Int, entity: DataEntity)
     }
 
     /**

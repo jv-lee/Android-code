@@ -18,7 +18,12 @@ data class DayEntity(
     val day: Int,
     val startIndex:Int,
     val isToDay:Boolean = false
-)
+){
+
+    override fun toString(): String {
+        return "{${year}-${month}-${day}}"
+    }
+}
 
 @IntDef(DayStatus.EMPTY_STATUS, DayStatus.UPDATE_STATUS, DayStatus.OVER_UPDATE_STATUS,DayStatus.DELAY_UPDATE_STATUS)
 @Target(AnnotationTarget.FIELD, AnnotationTarget.VALUE_PARAMETER, AnnotationTarget.FUNCTION)

@@ -184,6 +184,7 @@ class DayView constructor(context: Context, attributeSet: AttributeSet) :
     }
 
     private fun drawStart(canvas: Canvas) {
+        canvas.save()
         canvas.translate(strokeWidth, 0f)
 
         mPaint.color = if(isUpdate)updateBackgroundColor else overBackgroundColor
@@ -211,6 +212,7 @@ class DayView constructor(context: Context, attributeSet: AttributeSet) :
             addRoundRect(rectF, radiusArray, Path.Direction.CCW)
         }
         canvas.drawPath(path2, mPaint)
+        canvas.restore()
     }
 
     private fun drawCenter(canvas: Canvas) {
@@ -234,6 +236,7 @@ class DayView constructor(context: Context, attributeSet: AttributeSet) :
     }
 
     private fun drawEnd(canvas: Canvas) {
+        canvas.save()
         canvas.translate(-strokeWidth, 0f)
 
         mPaint.color = if(isUpdate)updateBackgroundColor else overBackgroundColor
@@ -263,6 +266,7 @@ class DayView constructor(context: Context, attributeSet: AttributeSet) :
             addRoundRect(rectF, radiusArray, Path.Direction.CCW)
         }
         canvas.drawPath(path2, mPaint)
+        canvas.restore()
     }
 
     fun updateDataStatus(@DayBackgroundStatus backgroundStatus: Int?,isSelect:Boolean?,isToday:Boolean?,isDelayUpdate:Boolean?,isUpdate:Boolean?,isGone:Boolean?,text:String?) {

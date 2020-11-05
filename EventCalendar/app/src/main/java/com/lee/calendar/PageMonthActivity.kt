@@ -16,8 +16,9 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager.widget.ViewPager
 import com.lee.calendar.adapter.MonthAdapter
 import com.lee.calendar.adapter.MonthPageAdapter
+import com.lee.calendar.adapter.WeekAdapter
 import com.lee.calendar.entity.DayEntity
-import com.lee.calendar.entity.MonthEntity
+import com.lee.calendar.entity.DataEntity
 import com.lee.calendar.utils.CalendarUtils
 import com.lee.calendar.utils.SizeUtil
 import com.lee.calendar.viewmodel.TestViewModel
@@ -30,10 +31,12 @@ class PageMonthActivity : AppCompatActivity() {
     private val viewModel by lazy { ViewModelProviders.of(this).get(TestViewModel::class.java) }
 
     private val linearContainer by lazy { findViewById<LinearLayout>(R.id.linear_container) }
-    private val vpContainer by lazy { findViewById<ViewPager>(R.id.vp_month_container) }
+    private val vpMonthContainer by lazy { findViewById<ViewPager>(R.id.vp_month_container) }
+    private val vpWeekContainer by lazy { findViewById<ViewPager>(R.id.vp_week_container) }
     private val tvDateDescription by lazy { findViewById<TextView>(R.id.tv_date_description) }
 
     private val monthPagerAdapter by lazy { MonthAdapter() }
+    private val weekPagerAdapter by lazy { WeekAdapter() }
     private val mAnimation = PagerAnimation()
 
     @SuppressLint("ClickableViewAccessibility")
@@ -42,7 +45,7 @@ class PageMonthActivity : AppCompatActivity() {
         setContentView(R.layout.activity_page_month)
 
         monthPagerAdapter.setOnChangeDataListener(object : MonthPageAdapter.OnChangeDataListener {
-            override fun onPageChangeDate(position: Int, entity: MonthEntity) {
+            override fun onPageChangeDate(position: Int, entity: DataEntity) {
                 tvDateDescription.text = "${entity.year}-${CalendarUtils.getMonthNumber(entity.month)}"
                 viewModel.getMonthData(position, entity.year, entity.month)
             }
@@ -55,7 +58,8 @@ class PageMonthActivity : AppCompatActivity() {
                 ).show()
             }
         })
-        monthPagerAdapter.bindViewPager(vpContainer)
+        monthPagerAdapter.bindViewPager(vpMonthContainer)
+        weekPagerAdapter.bindViewPager(vpWeekContainer)
 
         viewModel.monthLiveData.observe(this, Observer {
             monthPagerAdapter.updateDayStatus(it.position, it.data)
@@ -69,8 +73,8 @@ class PageMonthActivity : AppCompatActivity() {
     private fun addTouch() {
         val minHeight = SizeUtil.dp2px(this, 52f)
         val maxHeight = SizeUtil.dp2px(this, 312f)
-        vpContainer.run { setPadding(paddingLeft,paddingTop,paddingRight,paddingBottom + -maxHeight) }
-        var viewHeight = vpContainer.bottom - vpContainer.top
+        vpMonthContainer.run { setPadding(paddingLeft,paddingTop,paddingRight,paddingBottom + -maxHeight) }
+        var viewHeight = vpMonthContainer.bottom - vpMonthContainer.top
         var isOpen = true
         var tempTranslate = 0F
         var isScrollTouch = false
@@ -78,7 +82,7 @@ class PageMonthActivity : AppCompatActivity() {
         val gestureDetectorListener = object : GestureDetector.SimpleOnGestureListener() {
 
             override fun onDown(e: MotionEvent?): Boolean {
-                viewHeight = vpContainer.bottom - vpContainer.top
+                viewHeight = vpMonthContainer.bottom - vpMonthContainer.top
                 return true
             }
 
@@ -88,27 +92,29 @@ class PageMonthActivity : AppCompatActivity() {
                 distanceX: Float,
                 distanceY: Float
             ): Boolean {
+                vpMonthContainer.visibility = View.VISIBLE
+                vpWeekContainer.visibility = View.INVISIBLE
                 isScrollTouch = true
                 isOpen = e2.rawY > e1.rawY
                 val newHeight = (viewHeight + (e2.rawY - e1.rawY)).toInt()
 
                 val rowIndex = monthPagerAdapter.selectRowIndex
-                val itemView = vpContainer.findViewById<View>(vpContainer.currentItem)
+                val itemView = vpMonthContainer.findViewById<View>(vpMonthContainer.currentItem)
                 val itemTranslationY = -(((maxHeight - newHeight) / 5) * rowIndex).toFloat()
 
                 if (newHeight in minHeight..maxHeight) {
                     tempTranslate = itemTranslationY
                     itemView.translationY = itemTranslationY
-                    vpContainer.layoutParams.height = newHeight
-                    vpContainer.requestLayout()
+                    vpMonthContainer.layoutParams.height = newHeight
+                    vpMonthContainer.requestLayout()
                 } else if (newHeight < minHeight) {
                     itemView.translationY = -(minHeight.toFloat() * rowIndex)
-                    vpContainer.layoutParams.height = minHeight
-                    vpContainer.requestLayout()
+                    vpMonthContainer.layoutParams.height = minHeight
+                    vpMonthContainer.requestLayout()
                 } else if (newHeight > maxHeight) {
                     itemView.translationY = 0f
-                    vpContainer.layoutParams.height = maxHeight
-                    vpContainer.requestLayout()
+                    vpMonthContainer.layoutParams.height = maxHeight
+                    vpMonthContainer.requestLayout()
                 }
                 return super.onScroll(e1, e2, distanceX, distanceY)
             }
@@ -119,10 +125,10 @@ class PageMonthActivity : AppCompatActivity() {
             if (event.action == MotionEvent.ACTION_UP && isScrollTouch) {
                 isScrollTouch = false
                 val rowIndex = monthPagerAdapter.selectRowIndex
-                mAnimation.setDimensions(if(isOpen)maxHeight else minHeight,vpContainer.height)
+                mAnimation.setDimensions(if(isOpen)maxHeight else minHeight,vpMonthContainer.height)
                 mAnimation.setTranslationDimensions(if(isOpen)0F else -(minHeight.toFloat() * rowIndex),tempTranslate,isOpen)
                 mAnimation.duration = 200
-                vpContainer.startAnimation(mAnimation)
+                vpMonthContainer.startAnimation(mAnimation)
                 return@setOnTouchListener false
             }
             return@setOnTouchListener gestureDetector.onTouchEvent(event)
@@ -157,18 +163,23 @@ class PageMonthActivity : AppCompatActivity() {
             t: Transformation
         ) {
             if (interpolatedTime >= 1) {
-                vpContainer.layoutParams.height = targetHeight
+                vpMonthContainer.layoutParams.height = targetHeight
 
-                vpContainer.findViewById<View>(vpContainer.currentItem).translationY = targetTranslationY
+                vpMonthContainer.findViewById<View>(vpMonthContainer.currentItem).translationY = targetTranslationY
+
+                if(!isOpen){
+                    vpMonthContainer.visibility = View.INVISIBLE
+                    vpWeekContainer.visibility = View.VISIBLE
+                }
             } else {
                 val stepHeight = (heightChange * interpolatedTime).toInt()
-                vpContainer.layoutParams.height = currentHeight + stepHeight
+                vpMonthContainer.layoutParams.height = currentHeight + stepHeight
 
                 val stepTranslation = (Math.abs(translationYChange) * interpolatedTime)
                 val endTranslation = if(isOpen) -(Math.abs(currentTranslationY) - stepTranslation) else -(Math.abs(currentTranslationY) + stepTranslation)
-                vpContainer.findViewById<View>(vpContainer.currentItem).translationY = endTranslation
+                vpMonthContainer.findViewById<View>(vpMonthContainer.currentItem).translationY = endTranslation
             }
-            vpContainer.requestLayout()
+            vpMonthContainer.requestLayout()
         }
 
         override fun willChangeBounds(): Boolean {

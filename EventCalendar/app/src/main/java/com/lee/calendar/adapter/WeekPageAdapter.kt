@@ -11,7 +11,7 @@ import androidx.viewpager.widget.ViewPager
 import com.lee.calendar.CalendarManager
 import com.lee.calendar.R
 import com.lee.calendar.entity.DayEntity
-import com.lee.calendar.entity.MonthEntity
+import com.lee.calendar.entity.DataEntity
 
 /**
  * @author jv.lee
@@ -22,7 +22,7 @@ import com.lee.calendar.entity.MonthEntity
 abstract class WeekPageAdapter :PagerAdapter(){
     private val TAG: String = "Pager"
     private val calendarManager by lazy { CalendarManager(prevMonthCount = 12) }
-    protected val data: ArrayList<MonthEntity> = calendarManager.getInitMonthData()
+    protected val data: ArrayList<DataEntity> = calendarManager.getInitWeekData()
     protected val dayListAdapterMap = HashMap<Int,DayListAdapter>()
     private var viewPager: ViewPager? = null
     private var hasLoadMore = true
@@ -33,7 +33,7 @@ abstract class WeekPageAdapter :PagerAdapter(){
     fun bindViewPager(viewPager: ViewPager) {
         this.viewPager = viewPager
         this.viewPager?.adapter = this
-        initStartPage(calendarManager.prevMonthCount)
+        initStartPage(calendarManager.prevMonthCount * 4)
 
         viewPager.addOnPageChangeListener(object : ViewPager.SimpleOnPageChangeListener() {
             var lastPosition = 0
@@ -61,7 +61,7 @@ abstract class WeekPageAdapter :PagerAdapter(){
         initDaySelectChange(data[position])
     }
 
-    private fun initDaySelectChange(monthEntity: MonthEntity){
+    private fun initDaySelectChange(monthEntity: DataEntity){
         for ((index, item) in monthEntity.dayList.withIndex()) {
             if(item.isSelected)onChangeDataListener?.onDayChangeDate(index,item)
         }
@@ -69,7 +69,7 @@ abstract class WeekPageAdapter :PagerAdapter(){
 
     private fun loadPrevData() {
         hasLoadMore = false
-        val prevMonthData = calendarManager.getPrevMonthData()
+        val prevMonthData = calendarManager.getPrevWeekData()
         data.addAll(0, prevMonthData)
         notifyDataSetChanged()
         hasLoadMore = true
@@ -77,7 +77,7 @@ abstract class WeekPageAdapter :PagerAdapter(){
 
     private fun loadNextData() {
         hasLoadMore = false
-        val nextMonthData = calendarManager.getNextMonthData()
+        val nextMonthData = calendarManager.getNextWeekData()
         data.addAll(nextMonthData)
         notifyDataSetChanged()
         hasLoadMore = true
@@ -103,7 +103,7 @@ abstract class WeekPageAdapter :PagerAdapter(){
         container.removeView(`object` as View)
     }
 
-    private fun convertItemView(itemView: View, entity: MonthEntity, position: Int) {
+    private fun convertItemView(itemView: View, entity: DataEntity, position: Int) {
         val rvContainer = itemView.findViewById<RecyclerView>(R.id.rv_container)
         rvContainer.run {
             layoutManager =
@@ -123,7 +123,7 @@ abstract class WeekPageAdapter :PagerAdapter(){
     }
 
     interface OnChangeDataListener {
-        fun onPageChangeDate(position: Int, entity: MonthEntity)
+        fun onPageChangeDate(position: Int, entity: DataEntity)
         fun onDayChangeDate(position: Int, entity: DayEntity)
     }
 

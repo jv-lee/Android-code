@@ -2,14 +2,13 @@ package com.lee.calendar
 
 import android.os.Bundle
 import android.util.Log
-import android.view.GestureDetector
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.lee.calendar.adapter.CalendarAdapter2
 import com.lee.calendar.adapter.CalendarMonthPageAdapter
-import com.lee.calendar.entity.MonthEntity
+import com.lee.calendar.entity.DataEntity
 import com.lee.calendar.utils.CalendarUtils
 import com.lee.calendar.utils.DensityUtil
 
@@ -28,7 +27,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         mAdapter.setOnChangeDataListener(object : CalendarMonthPageAdapter.OnChangeDataListener {
-            override fun onChangeDate(position:Int,entity:MonthEntity) {
+            override fun onChangeDate(position:Int,entity:DataEntity) {
 //                progressBar.visibility = View.GONE
 //                rvContainer.visibility = View.VISIBLE
                 tvDateDescription.text =  "${entity.year}-${CalendarUtils.getMonthNumber(entity.month)}"
