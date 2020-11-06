@@ -2,7 +2,6 @@ package com.lee.calendar.utils
 
 import com.lee.calendar.entity.DayEntity
 import java.util.*
-import kotlin.collections.ArrayList
 
 /**
  * @author jv.lee
@@ -19,26 +18,34 @@ object CalendarUtils {
     }
 
     /**
-     * 获取当月总天数
+     * 获取当月最大天数
+     * @param year 年 1995
+     * @param month 0-11
      */
-    fun getCurrentMonthMaxDay(calendar: Calendar = Calendar.getInstance()): Int {
-        //日期设置为当月第一天
-        calendar.set(Calendar.DATE, 1)
+    fun getMaxDayCountByMonth(year: Int, month: Int): Int {
+        val calendar = Calendar.getInstance()
+        calendar.set(year,month,1)
+//        calendar.set(Calendar.YEAR, year)
+//        calendar.set(Calendar.MONTH, month)
+//        //日期设置为当月第一天
+//        calendar.set(Calendar.DATE, 1)
         //日期回滚一天，为当月最后一天
         calendar.roll(Calendar.DATE, -1)
         return calendar.get(Calendar.DATE)
     }
 
     /**
-     * 获取指定年月 当月总天数
+     * 获取当年最大周数
      * @param year 年 1995
      * @param month 0-11
+     * @param day 1- 28..29..30..31
      */
-    fun getMonthMaxDay(year: Int, month: Int): Int {
+    fun getMaxWeekCountByYear(year:Int, month: Int, day:Int):Int{
         val calendar = Calendar.getInstance()
-        calendar.set(Calendar.YEAR, year)
-        calendar.set(Calendar.MONTH, month)
-        return getCurrentMonthMaxDay(calendar)
+        calendar.set(year,month,day)
+        calendar.set(Calendar.WEEK_OF_YEAR,1)
+        calendar.roll(Calendar.WEEK_OF_YEAR,-1)
+        return calendar.get(Calendar.WEEK_OF_YEAR)
     }
 
     /**
@@ -50,6 +57,15 @@ object CalendarUtils {
         calendar.set(Calendar.MONTH, month)
         calendar.set(Calendar.DAY_OF_MONTH, day)
         return calendar.get(Calendar.DAY_OF_WEEK)
+    }
+
+    /**
+     * 将当前日期设置为这周第一天 (周日)
+     */
+    fun setWeekOfOneDay(calendar: Calendar):Calendar{
+        val week = calendar.get(Calendar.DAY_OF_WEEK)
+        calendar.add(Calendar.DAY_OF_YEAR,1-week)
+        return calendar
     }
 
     /**
@@ -81,20 +97,16 @@ object CalendarUtils {
         val today = isToday(year, month)
         val dayArray = arrayListOf<DayEntity>()
         val calendar = getFirstWeekDay(year, month, day)
-        val weekFirstDay = calendar.get(Calendar.DAY_OF_MONTH)
-        val monthMaxDay = getMonthMaxDay(year, month)
-        var nextMonthDay = 0
         for (index in 0..6) {
-            var day = weekFirstDay + index
-            day = if(day <= monthMaxDay) day else ++nextMonthDay
+            calendar.add(Calendar.DAY_OF_MONTH, if(index == 0) 0 else 1)
             dayArray.add(
                 DayEntity(
                     isSelected = index == 0,
-                    year = year,
-                    month = month,
-                    day = day,
+                    year = calendar.get(Calendar.YEAR),
+                    month = calendar.get(Calendar.MONTH),
+                    day = calendar.get(Calendar.DAY_OF_MONTH),
                     startIndex = index,
-                    isToDay = day == today
+                    isToDay = calendar.get(Calendar.DAY_OF_MONTH) == today
                 )
             )
         }
@@ -107,7 +119,7 @@ object CalendarUtils {
     fun getMonthDayList(year: Int, month: Int, startIndex: Int): ArrayList<DayEntity> {
         val today = isToday(year, month)
         val dayArray = arrayListOf<DayEntity>()
-        val dayCount = getMonthMaxDay(year, month)
+        val dayCount = getMaxDayCountByMonth(year, month)
         for (index in 1..dayCount) {
             dayArray.add(
                 DayEntity(
@@ -126,7 +138,7 @@ object CalendarUtils {
     /**
      * 获取默认填充数据， 补充一月中的月头 和 月尾数据
      */
-    private fun getAttachDayList(
+    fun getAttachDayList(
         data: ArrayList<DayEntity>,
         year: Int,
         month: Int,
@@ -205,7 +217,7 @@ object CalendarUtils {
 
         calendar.set(Calendar.DATE, 1)
 
-        for (index in 0..count) {
+        for (index in 0 until count) {
             data.add(
                 DayEntity(
                     isToMonth = false,

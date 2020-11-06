@@ -1,5 +1,6 @@
 package com.lee.calendar
 
+import com.lee.calendar.manager.CalendarManager
 import org.junit.Test
 
 /**

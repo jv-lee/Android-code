@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.lee.calendar.adapter.CalendarAdapter2
 import com.lee.calendar.adapter.CalendarMonthPageAdapter
-import com.lee.calendar.entity.DataEntity
+import com.lee.calendar.entity.DateEntity
 import com.lee.calendar.utils.CalendarUtils
 import com.lee.calendar.utils.DensityUtil
 
@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         mAdapter.setOnChangeDataListener(object : CalendarMonthPageAdapter.OnChangeDataListener {
-            override fun onChangeDate(position:Int,entity:DataEntity) {
+            override fun onChangeDate(position:Int,entity:DateEntity) {
 //                progressBar.visibility = View.GONE
 //                rvContainer.visibility = View.VISIBLE
                 tvDateDescription.text =  "${entity.year}-${CalendarUtils.getMonthNumber(entity.month)}"

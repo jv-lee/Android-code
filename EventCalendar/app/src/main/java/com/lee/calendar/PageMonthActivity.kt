@@ -2,7 +2,6 @@ package com.lee.calendar
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
@@ -19,7 +18,7 @@ import com.lee.calendar.adapter.MonthAdapter
 import com.lee.calendar.adapter.MonthPageAdapter
 import com.lee.calendar.adapter.WeekAdapter
 import com.lee.calendar.entity.DayEntity
-import com.lee.calendar.entity.DataEntity
+import com.lee.calendar.entity.DateEntity
 import com.lee.calendar.utils.CalendarUtils
 import com.lee.calendar.utils.SizeUtil
 import com.lee.calendar.viewmodel.TestViewModel
@@ -46,12 +45,13 @@ class PageMonthActivity : AppCompatActivity() {
         setContentView(R.layout.activity_page_month)
 
         monthPagerAdapter.setOnChangeDataListener(object : MonthPageAdapter.OnChangeDataListener {
-            override fun onPageChangeDate(position: Int, entity: DataEntity) {
+            override fun onPageChangeDate(position: Int, entity: DateEntity) {
                 tvDateDescription.text = "${entity.year}-${CalendarUtils.getMonthNumber(entity.month)}"
                 viewModel.getMonthData(position, entity.year, entity.month)
             }
 
             override fun onDayChangeDate(position: Int, entity: DayEntity) {
+                weekPagerAdapter.selectItem(entity,vpWeekContainer.currentItem + 1)
                 Toast.makeText(
                     this@PageMonthActivity,
                     "position:$position , ${entity.year}-${entity.month}-${entity.day}",

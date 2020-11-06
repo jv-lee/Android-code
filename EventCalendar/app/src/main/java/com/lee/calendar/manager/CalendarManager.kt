@@ -1,6 +1,6 @@
-package com.lee.calendar
+package com.lee.calendar.manager
 
-import com.lee.calendar.entity.DataEntity
+import com.lee.calendar.entity.DateEntity
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -44,23 +44,23 @@ class CalendarManager(val prevMonthCount: Int = 6,val nextMonthCount: Int = 6) {
         return calendar
     }
 
-    fun getInitWeekData():ArrayList<DataEntity>{
-        val weekArray = arrayListOf<DataEntity>()
-        weekArray.add(DataEntity.parseWeekEntity(currentYear,currentMonth,currentDay))
+    fun getInitWeekData():ArrayList<DateEntity>{
+        val weekArray = arrayListOf<DateEntity>()
+        weekArray.add(DateEntity.parseWeekEntity(currentYear,currentMonth,currentDay))
         weekArray.addAll(0,getPrevWeekData())
         weekArray.addAll(getNextWeekData())
         return weekArray
     }
 
-    fun getPrevWeekData():ArrayList<DataEntity>{
-        val dataArray = arrayListOf<DataEntity>()
+    fun getPrevWeekData():ArrayList<DateEntity>{
+        val dataArray = arrayListOf<DateEntity>()
         for (index in startIndex..prevMonthCount * 4) {
             //获取向上$index周时间对象
             val prevCalendar = getMoveWeekData(-(++prevWeekPosition))
             //添加数据
             dataArray.add(
                 0,
-                DataEntity.parseWeekEntity(
+                DateEntity.parseWeekEntity(
                     prevCalendar.get(Calendar.YEAR),
                     prevCalendar.get(Calendar.MONTH),
                     prevCalendar.get(Calendar.DAY_OF_MONTH)
@@ -70,14 +70,14 @@ class CalendarManager(val prevMonthCount: Int = 6,val nextMonthCount: Int = 6) {
         return dataArray
     }
 
-    fun getNextWeekData():ArrayList<DataEntity>{
-        val dataArray = arrayListOf<DataEntity>()
+    fun getNextWeekData():ArrayList<DateEntity>{
+        val dataArray = arrayListOf<DateEntity>()
         for (index in startIndex..nextMonthCount * 4) {
             //获取向上$index周时间对象
             val nextCalendar = getMoveWeekData((++nextWeekPosition))
             //添加数据
             dataArray.add(
-                DataEntity.parseWeekEntity(
+                DateEntity.parseWeekEntity(
                     nextCalendar.get(Calendar.YEAR),
                     nextCalendar.get(Calendar.MONTH),
                     nextCalendar.get(Calendar.DAY_OF_MONTH)
@@ -90,9 +90,9 @@ class CalendarManager(val prevMonthCount: Int = 6,val nextMonthCount: Int = 6) {
     /**
      * 初始化首页数据
      */
-    fun getInitMonthData(): ArrayList<DataEntity> {
-        val monthArray = arrayListOf<DataEntity>()
-        monthArray.add(DataEntity.parseMonthEntity(currentYear, currentMonth))
+    fun getInitMonthData(): ArrayList<DateEntity> {
+        val monthArray = arrayListOf<DateEntity>()
+        monthArray.add(DateEntity.parseMonthEntity(currentYear, currentMonth))
         monthArray.addAll(0, getPrevMonthData())
         monthArray.addAll(getNextMonthData())
         return monthArray
@@ -101,15 +101,15 @@ class CalendarManager(val prevMonthCount: Int = 6,val nextMonthCount: Int = 6) {
     /**
      * 向前填充月份数据
      */
-    fun getPrevMonthData(): ArrayList<DataEntity> {
-        val monthArray = arrayListOf<DataEntity>()
+    fun getPrevMonthData(): ArrayList<DateEntity> {
+        val monthArray = arrayListOf<DateEntity>()
         for (index in startIndex..prevMonthCount) {
             //获取向上$index月时间对象
             val prevCalendar = getMoveMonthData(-(++prevMonthPosition))
             //添加数据
             monthArray.add(
                 0,
-                DataEntity.parseMonthEntity(
+                DateEntity.parseMonthEntity(
                     prevCalendar.get(Calendar.YEAR),
                     prevCalendar.get(Calendar.MONTH)
                 )
@@ -121,14 +121,14 @@ class CalendarManager(val prevMonthCount: Int = 6,val nextMonthCount: Int = 6) {
     /**
      * 向后填充月份数据
      */
-    fun getNextMonthData(): ArrayList<DataEntity> {
-        val monthArray = arrayListOf<DataEntity>()
+    fun getNextMonthData(): ArrayList<DateEntity> {
+        val monthArray = arrayListOf<DateEntity>()
         for (index in startIndex..nextMonthCount) {
             //获取向下$index月时间对象
             val nextCalendar = getMoveMonthData(++nextMonthPosition)
             //添加数据
             monthArray.add(
-                DataEntity.parseMonthEntity(
+                DateEntity.parseMonthEntity(
                     nextCalendar.get(Calendar.YEAR),
                     nextCalendar.get(Calendar.MONTH)
                 )

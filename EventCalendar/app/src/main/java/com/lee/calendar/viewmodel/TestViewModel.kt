@@ -18,7 +18,7 @@ class TestViewModel : ViewModel() {
     fun getMonthData(position:Int,year: Int, month: Int) {
         Thread(Runnable {
             Thread.sleep(1000)
-            val monthMaxDay = CalendarUtils.getMonthMaxDay(year, month)
+            val monthMaxDay = CalendarUtils.getMaxDayCountByMonth(year, month)
             val monthArray = arrayListOf<MonthData>()
             for (index in 1..monthMaxDay) {
                 when (index) {
