@@ -2,6 +2,7 @@ package com.lee.calendar.adapter
 
 import android.content.Context
 import android.view.View
+import androidx.viewpager.widget.ViewPager
 import com.lee.calendar.R
 import com.lee.calendar.entity.DayEntity
 import com.lee.calendar.entity.DayStatus
@@ -71,16 +72,19 @@ class MonthAdapter : MonthPageAdapter() {
         }
     }
 
-    fun updateDayStatus(position: Int, arrayList: ArrayList<MonthData>) {
-        val monthEntity = data[position]
-        for ((index, item) in arrayList.withIndex()) {
-            if (monthEntity.dayList.size >= index + monthEntity.startIndex) {
-                val dayEntity = monthEntity.dayList[index + monthEntity.startIndex]
-                dayEntity.dayStatus = item.status
-                paresBackgroundStatus(index,dayEntity,arrayList)
+    fun updateDayStatus(view:ViewPager,position: Int, arrayList: ArrayList<MonthData>) {
+        Thread {
+            val monthEntity = data[position]
+            for ((index, item) in arrayList.withIndex()) {
+                if (monthEntity.dayList.size >= index + monthEntity.startIndex) {
+                    val dayEntity = monthEntity.dayList[index + monthEntity.startIndex]
+                    dayEntity.dayStatus = item.status
+                    paresBackgroundStatus(index,dayEntity,arrayList)
+                }
             }
-        }
-        dayListAdapterMap[position]?.notifyItemRangeChanged(0, monthEntity.dayList.size)
+            view.post { dayListAdapterMap[position]?.notifyItemRangeChanged(0, monthEntity.dayList.size) }
+        }.start()
+
     }
 
     private fun paresBackgroundStatus(position:Int,dayEntity: DayEntity, arrayList: ArrayList<MonthData>) {

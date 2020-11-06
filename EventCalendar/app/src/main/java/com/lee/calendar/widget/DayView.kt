@@ -151,7 +151,7 @@ class DayView constructor(context: Context, attributeSet: AttributeSet) :
         mPaint.color = todayBackgroundColor
         mPaint.style = Paint.Style.FILL
         mPaint.strokeWidth = strokeWidth
-        canvas.drawCircle((mWidth / 2).toFloat(), (mHeight / 2).toFloat(), (absSize / 2) - (strokeWidth + paddingSize),mPaint)
+        canvas.drawCircle((mWidth / 2).toFloat(), (mHeight / 2).toFloat(), (absSize / 2) - ((strokeWidth + (strokeWidth / 2)) + paddingSize),mPaint)
     }
 
     private fun drawSelectedBackground(canvas: Canvas) {
@@ -159,7 +159,7 @@ class DayView constructor(context: Context, attributeSet: AttributeSet) :
         mPaint.color = if(isUpdate) updateSelectedColor else overSelectedColor
         mPaint.style = Paint.Style.FILL
         mPaint.strokeWidth = strokeWidth
-        canvas.drawCircle((mWidth / 2).toFloat(), (mHeight / 2).toFloat(), (absSize / 2) - ((strokeWidth + (strokeWidth /2)) + paddingSize),mPaint)
+        canvas.drawCircle((mWidth / 2).toFloat(), (mHeight / 2).toFloat(), (absSize / 2) - ((strokeWidth + (strokeWidth / 2)) + paddingSize),mPaint)
     }
 
     private fun drawBackgroundMode(canvas: Canvas) {
@@ -192,7 +192,7 @@ class DayView constructor(context: Context, attributeSet: AttributeSet) :
         mPaint.strokeWidth = strokeWidth
         val path1 = Path().apply {
             val dimen = (mHeight - (((absSize / 2) - ( paddingSize)) * 2)) / 2
-            val startDimen = (mWidth / 2) - ((absSize / 2) - (strokeWidth + paddingSize))
+            val startDimen = (mWidth / 2) - ((absSize / 2) - (paddingSize))
             val rectF = RectF(startDimen, dimen + strokeWidth, width.toFloat(), mBottom - dimen)
             val radius = (mWidth / 2).toFloat()
             val radiusArray = floatArrayOf(radius, radius, 0f, 0f, 0f, 0f, radius, radius)
@@ -205,7 +205,7 @@ class DayView constructor(context: Context, attributeSet: AttributeSet) :
         mPaint.strokeWidth = strokeWidth
         val path2 = Path().apply {
             val dimen = (mHeight - (((absSize / 2) - ( paddingSize)) * 2)) / 2
-            val startDimen = (mWidth / 2) - ((absSize / 2) - (strokeWidth + paddingSize))
+            val startDimen = (mWidth / 2) - ((absSize / 2) - (paddingSize))
             val rectF = RectF(startDimen, dimen + strokeWidth, width.toFloat(), mBottom - dimen)
             val radius = (mWidth / 2).toFloat()
             val radiusArray = floatArrayOf(radius, radius, 0f, 0f, 0f, 0f, radius, radius)
@@ -245,7 +245,7 @@ class DayView constructor(context: Context, attributeSet: AttributeSet) :
 
         val path1 = Path().apply {
             val dimen = (mHeight - (((absSize / 2) - ( paddingSize)) * 2)) / 2
-            val endDimen = (mWidth /2 ) + ((absSize / 2) - (strokeWidth + paddingSize))
+            val endDimen = (mWidth /2 ) + ((absSize / 2) - paddingSize)
             val rectF = RectF(0f, dimen + strokeWidth, endDimen, mBottom - dimen)
             val radius = (mWidth / 2).toFloat()
             val radiusArray = floatArrayOf(0f, 0f, radius, radius, radius, radius, 0f, 0f)
@@ -259,7 +259,7 @@ class DayView constructor(context: Context, attributeSet: AttributeSet) :
 
         val path2 = Path().apply {
             val dimen = (mHeight - (((absSize / 2) - ( paddingSize)) * 2)) / 2
-            val endDimen = (mWidth /2 ) + ((absSize / 2) - (strokeWidth + paddingSize))
+            val endDimen = (mWidth /2 ) + ((absSize / 2) - paddingSize)
             val rectF = RectF(0f, dimen + strokeWidth, endDimen, mBottom - dimen)
             val radius = (mWidth / 2).toFloat()
             val radiusArray = floatArrayOf(0f, 0f, radius, radius, radius, radius, 0f, 0f)
