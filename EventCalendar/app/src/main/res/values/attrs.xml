@@ -5,6 +5,11 @@
         <attr name="isVertical" format="boolean"/>
     </declare-styleable>
 
+    <declare-styleable name="CalendarView">
+        <attr name="week_layout" format="reference"/>
+        <attr name="itemHeight" format="dimension"/>
+    </declare-styleable>
+
     <declare-styleable name="DayView">
         <attr name="day_status" format="enum">
             <enum name="gone" value="0"/>
