@@ -19,7 +19,6 @@ class WeekDayListTest {
         val dayArray = arrayListOf<DayEntity>()
         val calendar = CalendarUtils.getFirstWeekDay(2020, 9, 2)
         val day = calendar.get(Calendar.DAY_OF_MONTH)
-
         for (index in 0..6) {
             calendar.add(Calendar.DAY_OF_MONTH, if(index == 0) 0 else 1)
             println("${calendar.get(Calendar.YEAR)} - ${calendar.get(Calendar.MONTH)} - ${calendar.get(Calendar.DAY_OF_MONTH)}")

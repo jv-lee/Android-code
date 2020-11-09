@@ -2,6 +2,7 @@ package com.lee.calendar
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
@@ -17,6 +18,7 @@ import androidx.viewpager.widget.ViewPager
 import com.lee.calendar.adapter.MonthAdapter
 import com.lee.calendar.adapter.MonthPageAdapter
 import com.lee.calendar.adapter.WeekAdapter
+import com.lee.calendar.adapter.WeekPageAdapter
 import com.lee.calendar.entity.DayEntity
 import com.lee.calendar.entity.DateEntity
 import com.lee.calendar.utils.CalendarUtils
@@ -46,21 +48,37 @@ class PageMonthActivity : AppCompatActivity() {
 
         monthPagerAdapter.setOnChangeDataListener(object : MonthPageAdapter.OnChangeDataListener {
             override fun onPageChangeDate(position: Int, entity: DateEntity) {
-                tvDateDescription.text = "${entity.year}-${CalendarUtils.getMonthNumber(entity.month)}"
-                viewModel.getMonthData(position, entity.year, entity.month)
+                if (vpMonthContainer.visibility == View.VISIBLE) {
+                    tvDateDescription.text = "${entity.year}-${CalendarUtils.getMonthNumber(entity.month)}"
+                    Log.i(TAG, "onPageChangeDate: month $position ${entity.year}-${entity.month}")
+                }
+//                viewModel.getMonthData(position, entity.year, entity.month)
             }
 
             override fun onDayChangeDate(position: Int, entity: DayEntity) {
-                weekPagerAdapter.selectItem(entity,vpWeekContainer.currentItem + 1)
-                Toast.makeText(
-                    this@PageMonthActivity,
-                    "position:$position , ${entity.year}-${entity.month}-${entity.day}",
-                    Toast.LENGTH_SHORT
-                ).show()
+                if (vpMonthContainer.visibility == View.VISIBLE) {
+                    weekPagerAdapter.selectItem(entity)
+                    Log.i(TAG, "onDayChangeDate: month $position $entity")
+                }
             }
         })
-        monthPagerAdapter.bindViewPager(vpMonthContainer)
+        weekPagerAdapter.setOnChangeDataListener(object:WeekPageAdapter.OnChangeDataListener{
+            override fun onPageChangeDate(position: Int, entity: DateEntity) {
+                if (vpWeekContainer.visibility == View.VISIBLE) {
+                    Log.i(TAG, "onPageChangeDate: week $position ${entity.year}-${entity.month}")
+                }
+            }
+
+            override fun onDayChangeDate(position: Int, entity: DayEntity) {
+                if (vpWeekContainer.visibility == View.VISIBLE) {
+                    monthPagerAdapter.selectItem(entity)
+                    Log.i(TAG, "onDayChangeDate: week $position $entity")
+                }
+            }
+
+        })
         weekPagerAdapter.bindViewPager(vpWeekContainer)
+        monthPagerAdapter.bindViewPager(vpMonthContainer)
 
         viewModel.monthLiveData.observe(this, Observer {
             monthPagerAdapter.updateDayStatus(vpMonthContainer,it.position, it.data)
@@ -100,7 +118,7 @@ class PageMonthActivity : AppCompatActivity() {
 
                 val newHeight = (viewHeight + (e2.rawY - e1.rawY)).toInt()
 
-                val rowIndex = monthPagerAdapter.selectRowIndex
+                val rowIndex = monthPagerAdapter.getRowIndex()
                 val itemView = vpMonthContainer.findViewById<View>(vpMonthContainer.currentItem)
                 val itemTranslationY = -(((maxHeight - newHeight) / 5) * rowIndex).toFloat()
 
@@ -127,7 +145,7 @@ class PageMonthActivity : AppCompatActivity() {
         linearContainer.setOnTouchListener { v, event ->
             if (event.action == MotionEvent.ACTION_UP && isScrollTouch && vpMonthContainer.height != minHeight && vpMonthContainer.height != maxHeight) {
                 isScrollTouch = false
-                val rowIndex = monthPagerAdapter.selectRowIndex
+                val rowIndex = monthPagerAdapter.getRowIndex()
                 mAnimation.setDimensions(if(isOpen)maxHeight else minHeight,vpMonthContainer.height)
                 mAnimation.setTranslationDimensions(if(isOpen)0F else -(minHeight.toFloat() * rowIndex),tempTranslate,isOpen)
                 mAnimation.duration = 200

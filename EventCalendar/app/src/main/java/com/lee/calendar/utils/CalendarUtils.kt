@@ -1,6 +1,7 @@
 package com.lee.calendar.utils
 
 import com.lee.calendar.entity.DayEntity
+import java.time.Year
 import java.util.*
 
 /**
@@ -18,17 +19,26 @@ object CalendarUtils {
     }
 
     /**
+     * 计算两个时间内相隔月数
+     * @param targetCalendar 目标时间
+     * @param currentCalendar 当前时间
+     * @return 相隔月数  负数向前？月  正数向后？月
+     */
+    fun getIntervalMonthCount(targetCalendar: Calendar, currentCalendar:Calendar): Int {
+        val num = targetCalendar.get(Calendar.MONTH) - currentCalendar.get(Calendar.MONTH)
+        val yearNum = (targetCalendar.get(Calendar.YEAR) - currentCalendar.get(Calendar.YEAR)) * 12
+        return num + yearNum
+    }
+
+    /**
      * 获取当月最大天数
      * @param year 年 1995
      * @param month 0-11
      */
     fun getMaxDayCountByMonth(year: Int, month: Int): Int {
         val calendar = Calendar.getInstance()
+        //日期设置为当月第一天
         calendar.set(year,month,1)
-//        calendar.set(Calendar.YEAR, year)
-//        calendar.set(Calendar.MONTH, month)
-//        //日期设置为当月第一天
-//        calendar.set(Calendar.DATE, 1)
         //日期回滚一天，为当月最后一天
         calendar.roll(Calendar.DATE, -1)
         return calendar.get(Calendar.DATE)
@@ -37,14 +47,15 @@ object CalendarUtils {
     /**
      * 获取当年最大周数
      * @param year 年 1995
-     * @param month 0-11
-     * @param day 1- 28..29..30..31
      */
-    fun getMaxWeekCountByYear(year:Int, month: Int, day:Int):Int{
+    fun getMaxWeekCountByYear(year:Int):Int{
         val calendar = Calendar.getInstance()
-        calendar.set(year,month,day)
-        calendar.set(Calendar.WEEK_OF_YEAR,1)
-        calendar.roll(Calendar.WEEK_OF_YEAR,-1)
+        calendar.set(year + 1, 0, 1)
+        calendar.add(Calendar.DAY_OF_YEAR,-1)
+        val weekNumber = calendar.get(Calendar.WEEK_OF_YEAR)
+        if (weekNumber == 1) {
+            calendar.add(Calendar.WEEK_OF_YEAR,-1)
+        }
         return calendar.get(Calendar.WEEK_OF_YEAR)
     }
 

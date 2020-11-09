@@ -15,7 +15,7 @@ class MaxWeekTest {
 
 
         println(CalendarUtils.getMaxDayCountByMonth(2020,11))
-        println(CalendarUtils.getMaxWeekCountByYear(2020,11,30))
+        println(CalendarUtils.getMaxWeekCountByYear(2023))
 
 
     }
