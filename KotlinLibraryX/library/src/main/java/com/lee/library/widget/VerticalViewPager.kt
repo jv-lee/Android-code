@@ -1,11 +1,12 @@
-package com.lee.calendar.widget
+package com.lee.library.widget
 
 import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
-import com.lee.calendar.R
+import com.lee.calendar.widget.WrappingViewPager
+import com.lee.library.R
 
 /**
  * @author jv.lee

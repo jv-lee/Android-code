@@ -114,4 +114,8 @@
         <attr name="shadowOffsetY" format="dimension" />
     </declare-styleable>
 
+    <declare-styleable name="VerticalViewPager">
+        <attr name="isVertical" format="boolean"/>
+    </declare-styleable>
+
 </resources>
