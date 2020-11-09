@@ -1,4 +1,4 @@
-package com.lee.library.widget
+package com.lee.library.widget.viewpager
 
 import android.annotation.SuppressLint
 import android.content.Context

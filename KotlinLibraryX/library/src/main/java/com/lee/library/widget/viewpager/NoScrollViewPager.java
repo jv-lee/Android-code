@@ -1,4 +1,4 @@
-package com.lee.library.widget;
+package com.lee.library.widget.viewpager;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -54,10 +54,10 @@ public class NoScrollViewPager extends ViewPager {
 
     @Override
     public void setCurrentItem(int item, boolean smoothScroll) {
-        if (noSmoothScroll == false) {
+        if (!noSmoothScroll) {
             super.setCurrentItem(item, smoothScroll);
         }else{
-            super.setCurrentItem(item,noSmoothScroll);
+            super.setCurrentItem(item, true);
         }
 
     }
