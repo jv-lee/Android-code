@@ -142,9 +142,7 @@ class CalendarView(context: Context, attributeSet: AttributeSet) :
     private fun initPager(){
         mMonthPagerAdapter?.setOnChangeDataListener(object : MonthPageAdapter.OnChangeDataListener {
             override fun onPageChangeDate(position: Int, entity: DateEntity) {
-                if (mMonthViewPager.visibility == View.VISIBLE) {
-                    mChangePager?.onMonthPageChange(position, entity)
-                }
+                mChangePager?.onMonthPageChange(position, entity,mMonthViewPager.visibility)
             }
 
             override fun onDayChangeDate(position: Int, entity: DayEntity) {
@@ -156,9 +154,7 @@ class CalendarView(context: Context, attributeSet: AttributeSet) :
         })
         mWeekPagerAdapter?.setOnChangeDataListener(object: WeekPageAdapter.OnChangeDataListener{
             override fun onPageChangeDate(position: Int, entity: DateEntity) {
-                if (mWeekViewPager.visibility == View.VISIBLE) {
-                    mChangePager?.onWeekPageChange(position, entity)
-                }
+                mChangePager?.onWeekPageChange(position, entity,mWeekViewPager.visibility)
             }
 
             override fun onDayChangeDate(position: Int, entity: DayEntity) {
@@ -189,8 +185,8 @@ class CalendarView(context: Context, attributeSet: AttributeSet) :
     }
 
     interface OnChangePager {
-        fun onMonthPageChange(position: Int,entity: DateEntity)
-        fun onWeekPageChange(position: Int,entity: DateEntity)
+        fun onMonthPageChange(position: Int,entity: DateEntity,viewVisibility:Int)
+        fun onWeekPageChange(position: Int,entity: DateEntity,viewVisibility:Int)
         fun onDayChange(position:Int,entity:DayEntity)
     }
 

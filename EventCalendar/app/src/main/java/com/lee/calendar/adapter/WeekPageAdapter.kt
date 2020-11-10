@@ -9,12 +9,11 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.lee.calendar.R
-import com.lee.calendar.entity.DayEntity
 import com.lee.calendar.entity.DateEntity
+import com.lee.calendar.entity.DayEntity
 import com.lee.calendar.manager.CalendarManager2
 import com.lee.calendar.utils.CalendarUtils
 import java.util.*
-import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
 /**
@@ -218,7 +217,7 @@ abstract class WeekPageAdapter :PagerAdapter(){
             tagWeek - currentWeek
         }
         val index = viewPager?.currentItem!! + week
-        viewPager?.currentItem = index
+        viewPager?.setCurrentItem(index,true)
 
         if (dayListAdapterMap[index] == null) {
             currentDay = entity

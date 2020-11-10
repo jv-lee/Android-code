@@ -81,7 +81,7 @@ class PageMonthActivity : AppCompatActivity() {
         monthPagerAdapter.bindViewPager(vpMonthContainer)
 
         viewModel.monthLiveData.observe(this, Observer {
-            monthPagerAdapter.updateDayStatus(vpMonthContainer,it.position, it.data)
+            monthPagerAdapter.updateDayStatus(it.position, it.data)
         })
 
         addTouch()

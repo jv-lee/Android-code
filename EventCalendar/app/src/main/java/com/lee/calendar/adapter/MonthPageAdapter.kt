@@ -215,7 +215,7 @@ abstract class MonthPageAdapter : PagerAdapter() {
         val intervalMonthCount = CalendarUtils.getIntervalMonthCount(calendar, currentCalendar)
 
         val currentItemIndex = viewPager?.currentItem!! + intervalMonthCount
-        viewPager?.setCurrentItem(currentItemIndex,false)
+        viewPager?.setCurrentItem(currentItemIndex,true)
 
         dayListAdapterMap[currentItemIndex]?.let {
             for ((index,day) in it.data.withIndex()) {

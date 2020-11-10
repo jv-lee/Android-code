@@ -39,5 +39,4 @@
         android:layout_gravity="center_horizontal"
         android:text="this is content" />
 
-
 </LinearLayout>

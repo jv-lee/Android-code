@@ -1,6 +1,7 @@
 package com.lee.calendar.entity
 
 import androidx.annotation.IntDef
+import com.lee.calendar.widget.DayView
 
 /**
  * @author jv.lee
@@ -9,13 +10,14 @@ import androidx.annotation.IntDef
  */
 data class CalendarData(
     val months: ArrayList<MonthData>, //月列表
-    val full_attendance:FullAttendance, //全勤相关信息
+    val full_attendance: FullAttendance, //全勤相关信息
     val reward_issue: Int //全勤奖励发放，非0时进行弹窗提醒(单位：分)
 )
 
 data class MonthData(
     val day: Int,
-    @DayStatus val status: Int //0已更新/1断更/2无数据/3定时更新
+    @DayStatus val status: Int, //0已更新/1断更/2无数据/3定时更新
+    @DayView.DayBackgroundStatus var backgroundStatus: Int = DayView.DayBackgroundStatus.STATUS_GONE
 )
 
 data class FullAttendance(
