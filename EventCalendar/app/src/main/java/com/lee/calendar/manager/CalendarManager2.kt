@@ -16,9 +16,14 @@ class CalendarManager2(
     private val startMonth: Int,
     private val startDay: Int,
     private val loadMoreMonthCount:Int = 6
-) {
+):ICalendarData {
+    private var monthCalendar = Calendar.getInstance()
 
-    fun initMonthList(): ArrayList<DateEntity> {
+    private var weekCalendar = Calendar.getInstance()
+
+    private var first = true
+
+    override fun initMonthList(): ArrayList<DateEntity> {
         val startCalendar = Calendar.getInstance()
         startCalendar.set(startYear, startMonth, startDay)
         startCalendar.add(Calendar.MONTH, -1)
@@ -63,7 +68,7 @@ class CalendarManager2(
         return dateList
     }
 
-    fun initWeekList(): ArrayList<DateEntity> {
+    override fun initWeekList(): ArrayList<DateEntity> {
         val startCalendar = Calendar.getInstance()
         startCalendar.set(startYear, startMonth, startDay)
 
@@ -103,13 +108,10 @@ class CalendarManager2(
         return dateList
     }
 
-    private var nextMonthPosition: Int = 0
-    private var monthCalendar = Calendar.getInstance()
-
     /**
      * 向后填充月份数据
      */
-    fun loadMoreMonthList(): ArrayList<DateEntity> {
+    override fun loadMoreMonthList(): ArrayList<DateEntity> {
         val startCalendar = monthCalendar
 
         val endCalendar = Calendar.getInstance()
@@ -155,10 +157,8 @@ class CalendarManager2(
         return dateList
     }
 
-    private var weekCalendar = Calendar.getInstance()
 
-    private var first = true
-    fun loadMoreWeekList():ArrayList<DateEntity>{
+    override fun loadMoreWeekList():ArrayList<DateEntity>{
         val startCalendar = weekCalendar
         if (first) {
             first =false
