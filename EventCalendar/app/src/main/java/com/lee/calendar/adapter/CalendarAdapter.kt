@@ -11,7 +11,7 @@ import com.lee.calendar.widget.DayView
  * @date 2020/10/29
  * @description
  */
-class CalendarAdapter2(context: Context) : CalendarMonthPageAdapter(context) {
+class CalendarAdapter(context: Context) : CalendarMonthPageAdapter(context) {
 
     override fun getItemLayout(): Int {
         return R.layout.item_day

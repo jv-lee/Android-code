@@ -12,10 +12,6 @@ import com.lee.calendar.R
 import com.lee.calendar.entity.DateEntity
 import com.lee.calendar.entity.DayEntity
 import com.lee.calendar.manager.ICalendarData
-import com.lee.calendar.utils.CalendarUtils
-import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
 
 /**
  * @author jv.lee
@@ -25,11 +21,11 @@ import kotlin.collections.HashMap
 abstract class BaseCalendarPageAdapter : PagerAdapter() {
     private val TAG: String = "Pager"
 
-    private val calendarManager by lazy { createCalendarManager() }
+    protected val calendarManager by lazy { createCalendarManager() }
     protected val data: ArrayList<DateEntity> by lazy { initListData() }
 
     protected val dayListAdapterMap = HashMap<Int, DayListAdapter>()
-    private var viewPager: ViewPager? = null
+    protected var viewPager: ViewPager? = null
     private var hasLoadMore = true
     private val rowIndexMap = HashMap<Int, Int>()
 

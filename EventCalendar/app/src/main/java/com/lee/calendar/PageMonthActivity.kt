@@ -15,10 +15,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager.widget.ViewPager
-import com.lee.calendar.adapter.MonthAdapter
-import com.lee.calendar.adapter.MonthPageAdapter
-import com.lee.calendar.adapter.WeekAdapter
-import com.lee.calendar.adapter.WeekPageAdapter
+import com.lee.calendar.adapter.*
 import com.lee.calendar.entity.DayEntity
 import com.lee.calendar.entity.DateEntity
 import com.lee.calendar.utils.CalendarUtils
@@ -46,7 +43,7 @@ class PageMonthActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_page_month)
 
-        monthPagerAdapter.setOnChangeDataListener(object : MonthPageAdapter.OnChangeDataListener {
+        monthPagerAdapter.setOnChangeDataListener(object : BaseCalendarPageAdapter.OnChangeDataListener {
             override fun onPageChangeDate(position: Int, entity: DateEntity) {
                 if (vpMonthContainer.visibility == View.VISIBLE) {
                     tvDateDescription.text = "${entity.year}-${CalendarUtils.getMonthNumber(entity.month)}"
@@ -62,7 +59,7 @@ class PageMonthActivity : AppCompatActivity() {
                 }
             }
         })
-        weekPagerAdapter.setOnChangeDataListener(object:WeekPageAdapter.OnChangeDataListener{
+        weekPagerAdapter.setOnChangeDataListener(object:BaseCalendarPageAdapter.OnChangeDataListener{
             override fun onPageChangeDate(position: Int, entity: DateEntity) {
                 if (vpWeekContainer.visibility == View.VISIBLE) {
                     Log.i(TAG, "onPageChangeDate: week $position ${entity.year}-${entity.month}")

@@ -3,7 +3,6 @@ package com.lee.calendar.widget
 import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
-import android.util.Log
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
@@ -14,8 +13,7 @@ import android.widget.FrameLayout
 import android.widget.LinearLayout
 import androidx.viewpager.widget.ViewPager
 import com.lee.calendar.R
-import com.lee.calendar.adapter.MonthPageAdapter
-import com.lee.calendar.adapter.WeekPageAdapter
+import com.lee.calendar.adapter.BaseCalendarPageAdapter
 import com.lee.calendar.entity.DateEntity
 import com.lee.calendar.entity.DayEntity
 import com.lee.calendar.utils.SizeUtil
@@ -33,8 +31,8 @@ class CalendarView(context: Context, attributeSet: AttributeSet) :
     private lateinit var mWeekViewPager:ViewPager
     private lateinit var mMonthViewPager:ViewPager
 
-    private var mMonthPagerAdapter:MonthPageAdapter? = null
-    private var mWeekPagerAdapter:WeekPageAdapter?= null
+    private var mMonthPagerAdapter:BaseCalendarPageAdapter? = null
+    private var mWeekPagerAdapter:BaseCalendarPageAdapter?= null
 
     private val mAnimation = PagerAnimation()
     private val minHeight:Int
@@ -67,7 +65,7 @@ class CalendarView(context: Context, attributeSet: AttributeSet) :
         mMonthViewPager.requestLayout()
     }
 
-    fun bindAdapter(weekPageAdapter: WeekPageAdapter, monthPageAdapter: MonthPageAdapter) {
+    fun bindAdapter(weekPageAdapter: BaseCalendarPageAdapter, monthPageAdapter: BaseCalendarPageAdapter) {
         this.mWeekPagerAdapter = weekPageAdapter
         this.mMonthPagerAdapter = monthPageAdapter
         initPager()
@@ -140,7 +138,7 @@ class CalendarView(context: Context, attributeSet: AttributeSet) :
     }
 
     private fun initPager(){
-        mMonthPagerAdapter?.setOnChangeDataListener(object : MonthPageAdapter.OnChangeDataListener {
+        mMonthPagerAdapter?.setOnChangeDataListener(object : BaseCalendarPageAdapter.OnChangeDataListener {
             override fun onPageChangeDate(position: Int, entity: DateEntity) {
                 mChangePager?.onMonthPageChange(position, entity,mMonthViewPager.visibility)
             }
@@ -152,7 +150,7 @@ class CalendarView(context: Context, attributeSet: AttributeSet) :
                 }
             }
         })
-        mWeekPagerAdapter?.setOnChangeDataListener(object: WeekPageAdapter.OnChangeDataListener{
+        mWeekPagerAdapter?.setOnChangeDataListener(object: BaseCalendarPageAdapter.OnChangeDataListener{
             override fun onPageChangeDate(position: Int, entity: DateEntity) {
                 mChangePager?.onWeekPageChange(position, entity,mWeekViewPager.visibility)
             }

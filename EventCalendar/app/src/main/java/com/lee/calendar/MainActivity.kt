@@ -6,7 +6,7 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
-import com.lee.calendar.adapter.CalendarAdapter2
+import com.lee.calendar.adapter.CalendarAdapter
 import com.lee.calendar.adapter.CalendarMonthPageAdapter
 import com.lee.calendar.entity.DateEntity
 import com.lee.calendar.utils.CalendarUtils
@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
     private val tvDateDescription by lazy { findViewById<TextView>(R.id.tv_date_description) }
     private val rvContainer by lazy { findViewById<RecyclerView>(R.id.rv_container) }
     private val mAdapter by lazy {
-        CalendarAdapter2(this)
+        CalendarAdapter(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
