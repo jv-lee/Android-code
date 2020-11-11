@@ -57,6 +57,8 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="86dp"
             android:background="@drawable/event_bg"
+            android:fadingEdge="none"
+            android:overScrollMode="never"
             android:minHeight="290dp"
             android:padding="10dp" />
 

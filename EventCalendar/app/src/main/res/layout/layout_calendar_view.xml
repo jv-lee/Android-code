@@ -7,11 +7,15 @@
         android:id="@+id/vp_week_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:fadingEdge="none"
+        android:overScrollMode="never"
         android:visibility="invisible" />
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/vp_month_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:fadingEdge="none"
+        android:overScrollMode="never" />
 
 </FrameLayout>
