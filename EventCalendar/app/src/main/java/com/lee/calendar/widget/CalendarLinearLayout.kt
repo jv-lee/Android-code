@@ -65,8 +65,9 @@ class CalendarLinearLayout(context: Context, attributeSet: AttributeSet) :
 
             val scrollTop = startY > e.y
 
+            Log.i(TAG, "onInterceptTouchEvent: touchSlop:$mTouchSlop distanceX:$distanceX - distanceY:$distanceY")
             //横向滚动 交给子view处理
-            if (distanceX > mTouchSlop && distanceX > distanceY) {
+            if (distanceX > distanceY) {
                 //当前横向滑动点击在事件列表中 不交给recyclerView处理.
                 if (isTouchPointInView(mRecyclerView, startRawX.toInt(), startRawY.toInt())) {
                     return true
