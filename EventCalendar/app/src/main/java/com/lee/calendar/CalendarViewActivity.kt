@@ -2,18 +2,21 @@ package com.lee.calendar
 
 import android.os.Bundle
 import android.util.Log
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.lee.calendar.adapter.MonthAdapter
+import com.lee.calendar.adapter.TestDataAdapter
 import com.lee.calendar.adapter.WeekAdapter
 import com.lee.calendar.entity.DateEntity
 import com.lee.calendar.entity.DayEntity
 import com.lee.calendar.utils.CalendarUtils
 import com.lee.calendar.viewmodel.TestViewModel
 import com.lee.calendar.widget.CalendarView
+import com.lee.calendar.widget.CalendarLinearLayout
 
 /**
  * @author jv.lee
@@ -27,7 +30,7 @@ class CalendarViewActivity : AppCompatActivity(R.layout.activity_calendar_view) 
     private val viewModel by lazy { ViewModelProviders.of(this).get(TestViewModel::class.java) }
 
     private val tvDateDescription by lazy { findViewById<TextView>(R.id.tv_date_description) }
-    private val linearContainer by lazy { findViewById<LinearLayout>(R.id.linear_container) }
+    private val linearContainer by lazy { findViewById<CalendarLinearLayout>(R.id.linear_container) }
     private val calendarView by lazy { findViewById<CalendarView>(R.id.calendar_view) }
 
     private val monthPagerAdapter by lazy { MonthAdapter() }
@@ -53,11 +56,25 @@ class CalendarViewActivity : AppCompatActivity(R.layout.activity_calendar_view) 
 
         })
         calendarView.bindAdapter(weekPagerAdapter,monthPagerAdapter)
-        calendarView.addContainerTouch(linearContainer)
+        linearContainer.bindEventView(calendarView,rvContainer)
 
         viewModel.monthLiveData.observe(this, Observer {
             monthPagerAdapter.updateDayStatus(it.position, it.data)
         })
 
+        initRecyclerViewData()
     }
+
+    private val rvContainer by lazy { findViewById<RecyclerView>(R.id.rv_container) }
+    private val recyclerAdapter by lazy { TestDataAdapter(arrayListOf<String>().also {
+        for (index in 0..30) {
+            it.add("this is content - position($index)")
+        }
+    }) }
+
+    private fun initRecyclerViewData(){
+        rvContainer.layoutManager = LinearLayoutManager(this)
+        rvContainer.adapter = recyclerAdapter
+    }
+
 }

@@ -3,13 +3,13 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
-    <androidx.viewpager.widget.ViewPager
+    <com.lee.calendar.widget.DispatchViewPager
         android:id="@+id/vp_week_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="invisible" />
 
-    <androidx.viewpager.widget.ViewPager
+    <com.lee.calendar.widget.DispatchViewPager
         android:id="@+id/vp_month_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

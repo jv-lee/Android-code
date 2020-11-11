@@ -157,7 +157,6 @@ abstract class BaseCalendarPageAdapter : PagerAdapter() {
         }
 
         fun initSelectRowIndex(position: Int, entity: DayEntity) {
-            if (viewPager?.visibility != View.VISIBLE) return
             if (entity.isSelected) {
                 this@BaseCalendarPageAdapter.rowIndexMap[parentPosition] = position / 7
             }

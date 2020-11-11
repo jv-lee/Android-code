@@ -6,6 +6,7 @@
     </declare-styleable>
 
     <declare-styleable name="CalendarView">
+        <attr name="week_layout_height" format="dimension"/>
         <attr name="week_layout" format="reference"/>
         <attr name="itemHeight" format="dimension"/>
     </declare-styleable>
