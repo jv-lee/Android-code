@@ -10,6 +10,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -165,6 +167,30 @@ abstract class BaseActivity<V : ViewDataBinding, VM : BaseViewModel>(
         try {
             dialog.dismiss()
         } catch (e: Exception) {
+        }
+    }
+
+    /**
+     * fragment 控制扩展函数
+     */
+    fun FragmentActivity.fragmentTransaction(containerId:Int,fragment: Fragment?) {
+        fragment ?: return
+        val transaction = supportFragmentManager.beginTransaction().setCustomAnimations(R.anim.slide_right_in, R.anim.default_in_out)
+        for (tag in supportFragmentManager.fragments) {
+            transaction.hide(tag)
+        }
+        if (supportFragmentManager.fragments.contains(fragment)) {
+            transaction.show(fragment)
+        } else {
+            //防止fragment重复添加
+            if (!fragment.isAdded && supportFragmentManager.findFragmentByTag(fragment::class.java.simpleName) == null) {
+                transaction.add(containerId, fragment,fragment::class.java.simpleName)
+            }
+        }
+        if (!isDestroyed) {
+            transaction.commit()
+            //事务通知所有事件执行 防止 isAdded / getTag失效 引发异常
+            supportFragmentManager.executePendingTransactions()
         }
     }
 
