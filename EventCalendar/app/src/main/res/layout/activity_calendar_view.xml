@@ -17,10 +17,10 @@
             android:id="@+id/tv_date_description"
             android:layout_width="match_parent"
             android:layout_height="56dp"
+            android:background="#FFFFFF"
+            android:gravity="center_vertical"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
-            android:gravity="center_vertical"
-            android:background="#FFFFFF"
             android:textColor="#FF222222"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -37,30 +37,35 @@
             android:id="@+id/calendar_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="#FFFFFF"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
-            android:background="#FFFFFF"
-            app:week_layout_height="32dp"
             app:itemHeight="52dp"
-            app:week_layout="@layout/layout_week" />
+            app:week_layout="@layout/layout_week"
+            app:week_layout_height="32dp" />
 
         <View
-            android:background="@drawable/calendar_bottom_bg"
             android:layout_width="match_parent"
-            android:layout_height="26dp"/>
+            android:layout_height="26dp"
+            android:background="@drawable/calendar_bottom_bg" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="86dp"
             android:background="@drawable/event_bg"
             android:minHeight="290dp"
-            android:layout_marginTop="10dp"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
-            android:text="this is content" />
+            android:padding="10dp" />
 
     </com.lee.calendar.widget.CalendarLinearLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="103dp"
+        android:layout_gravity="bottom"
+        android:background="@drawable/calendar_bottom_progress_bg" />
 
 </FrameLayout>

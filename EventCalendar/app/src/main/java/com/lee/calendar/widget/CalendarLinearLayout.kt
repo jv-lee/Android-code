@@ -76,7 +76,7 @@ class CalendarLinearLayout(context: Context, attributeSet: AttributeSet) :
                 Log.i(TAG, "onInterceptTouchEvent: scroll-Horizontal")
                 return false
                 //垂直滚动 处理滑动
-            } else if (distanceY > mTouchSlop && distanceY > distanceX) {
+            } else if (distanceY > distanceX) {
                 //事件列表在顶部 日历为展开状态 向上滑动 return true->交给父容器处理
                 if (isEventListTop() && expansionEnable && scrollTop) {
                     Log.i(TAG, "onInterceptTouchEvent: //eventList-top calendar-expansion-true scroll-top return true-> parent")
@@ -92,6 +92,9 @@ class CalendarLinearLayout(context: Context, attributeSet: AttributeSet) :
                     //事件列表在底部 日历为非展开状态 向下滑动 return false->交给子View处理
                 } else if (isEventListBottom() && !expansionEnable && !scrollTop) {
                     Log.i(TAG, "onInterceptTouchEvent: //eventList-bottom calendar-expansion-false scroll-bottom return false-> child")
+                    return false
+                }else if (!isEventListBottom() && !isEventListTop()) {
+                    Log.i(TAG, "onInterceptTouchEvent: //eventList-bottom-top-false return false-> child")
                     return false
                 }
                 Log.i(TAG, "onInterceptTouchEvent: no-if-else")
