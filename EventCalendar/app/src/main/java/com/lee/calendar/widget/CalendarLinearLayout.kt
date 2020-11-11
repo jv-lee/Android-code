@@ -5,6 +5,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.util.Log
 import android.view.MotionEvent
+import android.view.View
 import android.view.ViewConfiguration
 import android.view.animation.Animation
 import android.view.animation.Transformation
@@ -30,6 +31,7 @@ class CalendarLinearLayout(context: Context, attributeSet: AttributeSet) :
     private var isScrollTouch = false
     private var viewHeight: Int = 0
 
+    private var startRawX = 0F
     private var startRawY = 0F
     private var startY = 0f
     private var startX = 0f
@@ -50,6 +52,7 @@ class CalendarLinearLayout(context: Context, attributeSet: AttributeSet) :
     override fun onInterceptTouchEvent(e: MotionEvent): Boolean {
         if (e.action == MotionEvent.ACTION_DOWN) {
             startRawY = e.rawY
+            startRawX = e.rawX
             startY = e.y
             startX = e.x
             setAnimViewHeight()
@@ -64,26 +67,38 @@ class CalendarLinearLayout(context: Context, attributeSet: AttributeSet) :
 
             //横向滚动 交给子view处理
             if (distanceX > mTouchSlop && distanceX > distanceY) {
+                //当前横向滑动点击在事件列表中 不交给recyclerView处理.
+                if (isTouchPointInView(mRecyclerView, startRawX.toInt(), startRawY.toInt())) {
+                    return true
+                }
+
+                Log.i(TAG, "onInterceptTouchEvent: scroll-Horizontal")
                 return false
                 //垂直滚动 处理滑动
             } else if (distanceY > mTouchSlop && distanceY > distanceX) {
                 //事件列表在顶部 日历为展开状态 向上滑动 return true->交给父容器处理
                 if (isEventListTop() && expansionEnable && scrollTop) {
+                    Log.i(TAG, "onInterceptTouchEvent: //eventList-top calendar-expansion-true scroll-top return true-> parent")
                     return true
                     //事件列表在顶部 日历为非展开状态 向上滑动 return false->交给子View处理
                 } else if (isEventListTop() && !expansionEnable && scrollTop) {
+                    Log.i(TAG, "onInterceptTouchEvent: //eventList-top calendar-expansion-false scroll-top return false-> child")
                     return false
                     //事件列表在顶部 日历为非展开状态 向下滑动 return true->交给父容器处理
                 } else if (isEventListTop() && !expansionEnable && !scrollTop) {
+                    Log.i(TAG, "onInterceptTouchEvent: //eventList-top calendar-expansion-false scroll-bottom return true-> parent")
                     return true
                     //事件列表在底部 日历为非展开状态 向下滑动 return false->交给子View处理
                 } else if (isEventListBottom() && !expansionEnable && !scrollTop) {
+                    Log.i(TAG, "onInterceptTouchEvent: //eventList-bottom calendar-expansion-false scroll-bottom return false-> child")
                     return false
                 }
+                Log.i(TAG, "onInterceptTouchEvent: no-if-else")
                 return true
             }
 
         }
+        Log.i(TAG, "onInterceptTouchEvent: super.function()")
         return super.onInterceptTouchEvent(e)
     }
 
@@ -91,7 +106,6 @@ class CalendarLinearLayout(context: Context, attributeSet: AttributeSet) :
     override fun onTouchEvent(event: MotionEvent): Boolean {
         mCalendarView?.let {
             val rowIndex = it.getMonthAdapter()?.getRowIndex() ?: 0
-            Log.i(TAG, "onTouchEvent: $rowIndex")
 
             if (event.action == MotionEvent.ACTION_MOVE) {
                 isScrollTouch = true
@@ -188,6 +202,20 @@ class CalendarLinearLayout(context: Context, attributeSet: AttributeSet) :
                 return false
             }
             return linearLayoutManager.findLastVisibleItemPosition() == linearLayoutManager.itemCount - 1
+        }
+        return false
+    }
+
+    private fun isTouchPointInView(view: View?, x: Int, y: Int): Boolean {
+        view ?: return false
+        val location = IntArray(2)
+        view.getLocationOnScreen(location)
+        val left = location[0]
+        val top = location[1]
+        val right: Int = left + view.measuredWidth
+        val bottom: Int = top + view.measuredHeight
+        if (y in top..bottom && x >= left && x <= right) {
+            return true
         }
         return false
     }
