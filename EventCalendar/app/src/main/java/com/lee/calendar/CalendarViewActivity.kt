@@ -2,8 +2,12 @@ package com.lee.calendar
 
 import android.os.Bundle
 import android.util.Log
+import android.view.MotionEvent
+import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,8 +19,8 @@ import com.lee.calendar.entity.DateEntity
 import com.lee.calendar.entity.DayEntity
 import com.lee.calendar.utils.CalendarUtils
 import com.lee.calendar.viewmodel.TestViewModel
-import com.lee.calendar.widget.CalendarView
 import com.lee.calendar.widget.CalendarLinearLayout
+import com.lee.calendar.widget.CalendarView
 
 /**
  * @author jv.lee
@@ -32,6 +36,9 @@ class CalendarViewActivity : AppCompatActivity(R.layout.activity_calendar_view) 
     private val tvDateDescription by lazy { findViewById<TextView>(R.id.tv_date_description) }
     private val linearContainer by lazy { findViewById<CalendarLinearLayout>(R.id.linear_container) }
     private val calendarView by lazy { findViewById<CalendarView>(R.id.calendar_view) }
+    private val constAttendancePromptView by lazy { findViewById<ConstraintLayout>(R.id.const_attendance_prompt) }
+    private val ivAttendanceStatusIcon by lazy { findViewById<ImageView>(R.id.iv_attendance_status_icon) }
+    private val ivAttendanceAq by lazy { findViewById<ImageView>(R.id.iv_attendance_aq) }
 
     private val monthPagerAdapter by lazy { MonthAdapter() }
     private val weekPagerAdapter by lazy { WeekAdapter() }
@@ -70,6 +77,7 @@ class CalendarViewActivity : AppCompatActivity(R.layout.activity_calendar_view) 
         })
 
         initRecyclerViewData()
+        initAttendancePrompt()
     }
 
     private val rvContainer by lazy { findViewById<RecyclerView>(R.id.rv_container) }
@@ -82,6 +90,30 @@ class CalendarViewActivity : AppCompatActivity(R.layout.activity_calendar_view) 
     private fun initRecyclerViewData(){
         rvContainer.layoutManager = LinearLayoutManager(this)
         rvContainer.adapter = recyclerAdapter
+    }
+
+    private fun initAttendancePrompt() {
+        ivAttendanceStatusIcon.setOnClickListener {
+            constAttendancePromptView.visibility = View.VISIBLE
+        }
+        ivAttendanceAq.setOnClickListener {
+
+        }
+    }
+
+    private fun hideAttendancePrompt():Boolean{
+        if (constAttendancePromptView.visibility == View.VISIBLE) {
+            constAttendancePromptView.visibility = View.GONE
+            return true
+        }
+        return false
+    }
+
+    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
+        if (hideAttendancePrompt()) {
+            return true
+        }
+        return super.dispatchTouchEvent(ev)
     }
 
 }

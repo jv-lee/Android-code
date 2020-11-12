@@ -77,8 +77,12 @@ class CalendarLinearLayout(context: Context, attributeSet: AttributeSet) :
                 return false
                 //垂直滚动 处理滑动
             } else if (distanceY > distanceX) {
-                //事件列表在顶部 日历为展开状态 向上滑动 return true->交给父容器处理
-                if (isEventListTop() && expansionEnable && scrollTop) {
+                //事件列表为空 直接交给父容器处理
+                if(mRecyclerView == null){
+                    Log.i(TAG, "onInterceptTouchEvent: //eventList-null return true-> parent")
+                    return true
+                    //事件列表在顶部 日历为展开状态 向上滑动 return true->交给父容器处理
+                }else if (isEventListTop() && expansionEnable && scrollTop) {
                     Log.i(TAG, "onInterceptTouchEvent: //eventList-top calendar-expansion-true scroll-top return true-> parent")
                     return true
                     //事件列表在顶部 日历为非展开状态 向上滑动 return false->交给子View处理
@@ -108,6 +112,7 @@ class CalendarLinearLayout(context: Context, attributeSet: AttributeSet) :
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent): Boolean {
+        Log.i(TAG, "onTouchEvent: ")
         mCalendarView?.let {
             val rowIndex = it.getMonthAdapter()?.getRowIndex() ?: 0
 
@@ -163,10 +168,12 @@ class CalendarLinearLayout(context: Context, attributeSet: AttributeSet) :
             }
 
         }
-        return super.onTouchEvent(event)
+
+        //返回true 持续响应所有事件 - > 返回false后 只响应down事件 直接消费不继续执行后续事件
+        return true
     }
 
-    fun bindEventView(calendarView: CalendarView, recyclerView: RecyclerView?) {
+    fun bindEventView(calendarView: CalendarView, recyclerView: RecyclerView? = null) {
         this.mCalendarView = calendarView
         this.mRecyclerView = recyclerView
     }
