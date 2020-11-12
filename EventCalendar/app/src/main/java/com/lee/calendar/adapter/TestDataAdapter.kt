@@ -15,7 +15,7 @@ import com.lee.calendar.R
 class TestDataAdapter(val data:ArrayList<String>) :RecyclerView.Adapter<TestDataAdapter.TestDataViewHolder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TestDataViewHolder {
-        return TestDataViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_data,null,false))
+        return TestDataViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_data,parent,false))
     }
 
     override fun getItemCount(): Int {
@@ -28,7 +28,7 @@ class TestDataAdapter(val data:ArrayList<String>) :RecyclerView.Adapter<TestData
 
     class TestDataViewHolder(itemView:View):RecyclerView.ViewHolder(itemView){
         fun bindView(position: Int, data: String) {
-            itemView.findViewById<TextView>(R.id.tv_text).text = "this is position - $position"
+//            itemView.findViewById<TextView>(R.id.tv_text).text = "this is position - $position"
         }
     }
 
