@@ -14,7 +14,6 @@ import com.lee.calendar.entity.DayEntity
 import com.lee.calendar.manager.ICalendarData
 import com.lee.calendar.utils.CalendarUtils
 import java.util.*
-import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
 /**
@@ -48,22 +47,16 @@ abstract class BaseCalendarPageAdapter : PagerAdapter() {
         initStartPage(data.size - 1)
 
         viewPager.addOnPageChangeListener(object : ViewPager.SimpleOnPageChangeListener() {
-            var lastPosition = 0
-            override fun onPageScrollStateChanged(state: Int) {
-                super.onPageScrollStateChanged(state)
-                if (state != 2) return //只处理滑动结束状态
-                val position = viewPager.currentItem
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+
+                onChangeDataListener?.onPageChangeDate(position,data[position])
+                initDaySelectChange(data[position])
 
                 //判断当前是否为最后一条数据 加载下一页
 //                if (hasLoadMore && position == count - 1) loadMoreData()
-
-                //当前页面监听回调 ， 重复回弹不回调
-                if (lastPosition != position) {
-                    lastPosition = position
-                    onChangeDataListener?.onPageChangeDate(position, data[position])
-                    initDaySelectChange(data[position])
-                }
             }
+
         })
     }
 

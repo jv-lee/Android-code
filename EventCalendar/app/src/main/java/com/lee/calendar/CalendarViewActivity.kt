@@ -48,13 +48,14 @@ class CalendarViewActivity : AppCompatActivity(R.layout.activity_calendar_view) 
 
         calendarView.setOnChangePager(object:CalendarView.OnChangePager{
             override fun onMonthPageChange(position: Int, entity: DateEntity,viewVisibility:Int) {
-                Log.i(TAG, "onMonthPageChange: $position - ${entity.year}-${entity.month}-${entity.dayList}")
+                Log.i(TAG, "onMonthPageChange: $position - ${entity.year}-${entity.month}")
                 viewModel.getMonthData(position, entity.year, entity.month)
             }
 
             override fun onWeekPageChange(position: Int, entity: DateEntity,viewVisibility:Int) {
-                Log.i(TAG, "onWeekPageChange: $position - ${entity.year}-${entity.month}-${entity.dayList}")
+                Log.i(TAG, "onWeekPageChange: $position - ${entity.year}-${entity.month}")
                 if (entity.dayList.isNotEmpty()) {
+                    Log.i(TAG, "onWeekPageChange: getWeekData")
                     viewModel.getWeekData(position,entity.year,entity.month,entity.dayList[0].day)
                 }
             }
