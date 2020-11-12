@@ -149,34 +149,45 @@ class CalendarLinearLayout(context: Context, attributeSet: AttributeSet) :
                     it.layoutParams.height = it.getMaxHeight()
                     it.requestLayout()
                 }
-
                 return true
 
             } else if (event.action == MotionEvent.ACTION_UP) {
-                mCalendarView?.let {
-                    if (it.height != it.getMinHeight() && it.height != it.getMaxHeight() && isScrollTouch) {
-                        isScrollTouch = false
-                        mAnimation.setDimensions(
-                            if (expansionEnable) it.getMaxHeight() else it.getMinHeight(),
-                            it.height
-                        )
-                        mAnimation.setTranslationDimensions(if (expansionEnable) 0F else -((it.getMinHeight() - it.getWeekLayoutHeight()) * rowIndex).toFloat(), tempTranslate, expansionEnable)
-                        mAnimation.duration = 200
-                        it.startAnimation(mAnimation)
-                    }
-                }
+                endAnimator()
                 return true
             }
 
         }
 
         //返回true 持续响应所有事件 - > 返回false后 只响应down事件 直接消费不继续执行后续事件，所有move事件交由子view消费.
-        return false
+        if (mRecyclerView == null) {
+            return true
+            //事件列表未滚动到顶部 直接返回false 消费调事件不做传递移动
+        }else if (!isEventListTop()) {
+            return false
+        }
+        //直接继续消费事件
+        return true
     }
 
     fun bindEventView(calendarView: CalendarView, recyclerView: RecyclerView? = null) {
         this.mCalendarView = calendarView
         this.mRecyclerView = recyclerView
+    }
+
+    private fun endAnimator(){
+        mCalendarView?.let {
+            val rowIndex = it.getMonthAdapter()?.getRowIndex() ?: 0
+            if (it.height != it.getMinHeight() && it.height != it.getMaxHeight() && isScrollTouch) {
+                isScrollTouch = false
+                mAnimation.setDimensions(
+                    if (expansionEnable) it.getMaxHeight() else it.getMinHeight(),
+                    it.height
+                )
+                mAnimation.setTranslationDimensions(if (expansionEnable) 0F else -((it.getMinHeight() - it.getWeekLayoutHeight()) * rowIndex).toFloat(), tempTranslate, expansionEnable)
+                mAnimation.duration = 200
+                it.startAnimation(mAnimation)
+            }
+        }
     }
 
     /**
