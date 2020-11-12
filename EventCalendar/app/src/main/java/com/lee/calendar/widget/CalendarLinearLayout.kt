@@ -97,12 +97,14 @@ class CalendarLinearLayout(context: Context, attributeSet: AttributeSet) :
                 } else if (isEventListBottom() && !expansionEnable && !scrollTop) {
                     Log.i(TAG, "onInterceptTouchEvent: //eventList-bottom calendar-expansion-false scroll-bottom return false-> child")
                     return false
+                    //事件列表不在顶部和底部 直接交给子容器处理 完成滑动至顶/底部
                 }else if (!isEventListBottom() && !isEventListTop()) {
                     Log.i(TAG, "onInterceptTouchEvent: //eventList-bottom-top-false return false-> child")
                     return false
                 }
-                Log.i(TAG, "onInterceptTouchEvent: no-if-else")
-                return true
+                Log.i(TAG, "onInterceptTouchEvent: no-if-else return false-> child")
+                //未获得正确条件 父容器不拦截 直接交给子容器处理.
+                return false
             }
 
         }
@@ -112,7 +114,6 @@ class CalendarLinearLayout(context: Context, attributeSet: AttributeSet) :
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        Log.i(TAG, "onTouchEvent: ")
         mCalendarView?.let {
             val rowIndex = it.getMonthAdapter()?.getRowIndex() ?: 0
 
@@ -217,6 +218,9 @@ class CalendarLinearLayout(context: Context, attributeSet: AttributeSet) :
         return false
     }
 
+    /**
+     * 点击区域是否在当前view区域内
+     */
     private fun isTouchPointInView(view: View?, x: Int, y: Int): Boolean {
         view ?: return false
         val location = IntArray(2)
