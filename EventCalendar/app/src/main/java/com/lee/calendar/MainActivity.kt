@@ -2,9 +2,7 @@ package com.lee.calendar
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.LinearLayout
-import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
@@ -16,7 +14,6 @@ import com.lee.calendar.utils.DensityUtil
 
 class MainActivity : AppCompatActivity() {
 
-    private val progressBar by lazy { findViewById<ProgressBar>(R.id.progress) }
     private val tvDateDescription by lazy { findViewById<TextView>(R.id.tv_date_description) }
     private val rvContainer by lazy { findViewById<RecyclerView>(R.id.rv_container) }
     private val mAdapter by lazy {
@@ -30,15 +27,12 @@ class MainActivity : AppCompatActivity() {
 
         mAdapter.setOnChangeDataListener(object : CalendarMonthPageAdapter.OnChangeDataListener {
             override fun onChangeDate(position:Int,entity:DateEntity) {
-//                progressBar.visibility = View.GONE
-//                rvContainer.visibility = View.VISIBLE
                 tvDateDescription.text =  "${entity.year}-${CalendarUtils.getMonthNumber(entity.month)}"
-                Log.i("MonthData", "onChangeDate: $position - ${entity.year}-${entity.month}")
             }
         })
         mAdapter.bindRecyclerView(rvContainer)
 
-        findViewById<LinearLayout>(R.id.linear_container).setOnClickListener {
+        tvDateDescription.setOnClickListener {
             startActivity(Intent(this@MainActivity,CalendarViewActivity::class.java))
         }
     }

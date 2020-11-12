@@ -26,48 +26,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_date_description" />
 
-    <ProgressBar
-        android:id="@+id/progress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@id/rv_container"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/rv_container" />
+    <com.lee.calendar.widget.MonthView
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        app:layout_constraintTop_toBottomOf="@id/rv_container" />
 
-
-    <LinearLayout
-        android:id="@+id/linear_container"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/rv_container">
-
-        <com.lee.calendar.widget.DayView
-            android:id="@+id/day"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            app:day_status="single" />
-
-        <com.lee.calendar.widget.DayView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            app:day_status="start" />
-
-        <com.lee.calendar.widget.DayView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            app:day_status="center" />
-
-        <com.lee.calendar.widget.DayView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            app:day_status="end" />
-
-    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
