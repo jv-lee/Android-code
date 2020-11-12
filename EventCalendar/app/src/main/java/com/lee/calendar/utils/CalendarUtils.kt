@@ -24,7 +24,7 @@ object CalendarUtils {
      * @param currentCalendar 当前时间
      * @return 相隔月数  负数向前？月  正数向后？月
      */
-    fun getIntervalMonthCount(targetCalendar: Calendar, currentCalendar:Calendar): Int {
+    fun getDiffMonthCount(targetCalendar: Calendar, currentCalendar:Calendar): Int {
         val num = targetCalendar.get(Calendar.MONTH) - currentCalendar.get(Calendar.MONTH)
         val yearNum = (targetCalendar.get(Calendar.YEAR) - currentCalendar.get(Calendar.YEAR)) * 12
         return num + yearNum
@@ -99,6 +99,25 @@ object CalendarUtils {
         val isToMonth = Calendar.getInstance().get(Calendar.YEAR) == year && Calendar.getInstance()
             .get(Calendar.MONTH) == month
         return if (isToMonth) Calendar.getInstance().get(Calendar.DAY_OF_MONTH) else -1
+    }
+
+    /**
+     * 获取两个时间相差周
+     */
+    fun getDiffWeekCount(tagCalendar: Calendar, currentCalendar: Calendar):Int {
+        val tagWeek = tagCalendar.get(Calendar.WEEK_OF_YEAR)
+        val tagMaxWeek = getMaxWeekCountByYear(tagCalendar.get(Calendar.YEAR))
+
+        val currentWeek = currentCalendar.get(Calendar.WEEK_OF_YEAR)
+        val currentMaxWeek = getMaxWeekCountByYear(currentCalendar.get(Calendar.YEAR))
+
+        return if (tagWeek < 10 && currentWeek > 46) {
+            tagWeek + (currentMaxWeek - currentWeek)
+        } else if (tagWeek > 46 && currentWeek < 10) {
+            -(currentWeek + (tagMaxWeek - tagWeek))
+        } else {
+            tagWeek - currentWeek
+        }
     }
 
     /**

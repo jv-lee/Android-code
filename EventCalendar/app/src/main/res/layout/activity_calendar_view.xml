@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".PageMonthActivity">
 
-    <com.lee.calendar.widget.CalendarLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <com.lee.calendar.widget.CalendarLinearLayout
         android:id="@+id/linear_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         android:background="#F6F8F9"
-        tools:context=".PageMonthActivity">
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/tv_date_description"
-            android:background="#ffffff"
             android:layout_width="match_parent"
             android:layout_height="56dp"
+            android:background="#ffffff"
             android:gravity="center_vertical"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
@@ -35,9 +35,9 @@
 
         <com.lee.calendar.widget.CalendarView
             android:id="@+id/calendar_view"
-            android:background="#ffffff"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="#ffffff"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
             app:itemHeight="52dp"
@@ -58,8 +58,8 @@
             android:layout_marginBottom="86dp"
             android:background="@drawable/event_bg"
             android:fadingEdge="none"
-            android:overScrollMode="never"
             android:minHeight="290dp"
+            android:overScrollMode="never"
             android:padding="10dp" />
 
     </com.lee.calendar.widget.CalendarLinearLayout>

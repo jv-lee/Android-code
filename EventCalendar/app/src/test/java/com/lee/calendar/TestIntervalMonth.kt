@@ -17,7 +17,7 @@ class TestIntervalMonth {
         startCalendar.set(2019,5,13)
         val endCalendar = Calendar.getInstance()
         endCalendar.set(2020,10,1)
-        val count = CalendarUtils.getIntervalMonthCount(startCalendar,endCalendar)
+        val count = CalendarUtils.getDiffMonthCount(startCalendar,endCalendar)
         print(count)
     }
 }

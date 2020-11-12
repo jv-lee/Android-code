@@ -5,7 +5,9 @@ import android.view.View
 import com.lee.calendar.R
 import com.lee.calendar.entity.DayEntity
 import com.lee.calendar.entity.DayStatus
-import com.lee.calendar.entity.MonthData
+import com.lee.calendar.entity.DateData
+import com.lee.calendar.manager.CalendarManager2
+import com.lee.calendar.manager.ICalendarData
 import com.lee.calendar.widget.DayView
 
 /**
@@ -13,7 +15,17 @@ import com.lee.calendar.widget.DayView
  * @date 2020/10/29
  * @description
  */
-class MonthAdapter : MonthPageAdapter() {
+class MonthAdapter : BaseCalendarPageAdapter() {
+    override fun createCalendarManager(): ICalendarData {
+        return CalendarManager2(
+            2020, 0, 1,
+            loadMoreMonthCount = 12
+        )
+    }
+
+    override fun isMonthMode(): Boolean {
+        return true
+    }
 
     override fun getItemLayout(): Int {
         return R.layout.item_day
@@ -70,7 +82,10 @@ class MonthAdapter : MonthPageAdapter() {
         }
     }
 
-    fun updateDayStatus(position: Int, arrayList: ArrayList<MonthData>) {
+    fun updateDayStatus(position: Int, arrayList: ArrayList<DateData>) {
+        if (data.isEmpty() || data.size < position) {
+            return
+        }
         val monthEntity = data[position]
         for ((index, item) in arrayList.withIndex()) {
             if (monthEntity.dayList.size > index + monthEntity.startIndex) {

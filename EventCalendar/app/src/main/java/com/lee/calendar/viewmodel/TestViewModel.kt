@@ -3,7 +3,7 @@ package com.lee.calendar.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.lee.calendar.entity.DayStatus
-import com.lee.calendar.entity.MonthData
+import com.lee.calendar.entity.DateData
 import com.lee.calendar.utils.CalendarUtils
 import com.lee.calendar.widget.DayView
 import io.reactivex.Observable
@@ -18,17 +18,18 @@ import java.util.concurrent.TimeUnit
  */
 class TestViewModel : ViewModel() {
 
-    data class MonthObserver(val position: Int, val data: ArrayList<MonthData>)
+    data class DateObserver(val position: Int, val data: ArrayList<DateData>)
 
-    val monthLiveData by lazy { MutableLiveData<MonthObserver>() }
+    val monthLiveData by lazy { MutableLiveData<DateObserver>() }
+    val weekLiveData by lazy { MutableLiveData<DateObserver>() }
 
     fun getMonthData(position: Int, year: Int, month: Int) {
-        val disposable = Observable.create<ArrayList<MonthData>> {
+        val disposable = Observable.create<ArrayList<DateData>> {
             it.onNext(createMonthData(year, month))
         }.map {
             setBackgroundStatus(it,year,month)
         }.map {
-            MonthObserver(position, it)
+            DateObserver(position, it)
         }.delay(500,TimeUnit.MILLISECONDS)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -37,46 +38,77 @@ class TestViewModel : ViewModel() {
             }
     }
 
-    private fun createMonthData(year: Int, month: Int): ArrayList<MonthData> {
-        val monthMaxDay = CalendarUtils.getMaxDayCountByMonth(year, month)
-        val monthArray = arrayListOf<MonthData>()
-        for (index in 1..monthMaxDay) {
+    fun getWeekData(position: Int, year: Int, month: Int,day:Int) {
+        val disposable = Observable.create<ArrayList<DateData>> {
+            it.onNext(createWeekData(year, month,day))
+        }.map {
+            setBackgroundStatus(it,year,month)
+        }.map {
+            DateObserver(position, it)
+        }.delay(500,TimeUnit.MILLISECONDS)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                weekLiveData.value = it
+            }
+    }
+
+    private fun createWeekData(year:Int,month:Int,day:Int):ArrayList<DateData>{
+        val monthArray = arrayListOf<DateData>()
+        for (index in 1..7) {
             when (index) {
-                1 -> monthArray.add(MonthData(index, DayStatus.UPDATE_STATUS))
-                2 -> monthArray.add(MonthData(index, DayStatus.OVER_UPDATE_STATUS))
-                3 -> monthArray.add(MonthData(index, DayStatus.UPDATE_STATUS))
-                4 -> monthArray.add(MonthData(index, DayStatus.OVER_UPDATE_STATUS))
-                5 -> monthArray.add(MonthData(index, DayStatus.UPDATE_STATUS))
-                6 -> monthArray.add(MonthData(index, DayStatus.OVER_UPDATE_STATUS))
-                7 -> monthArray.add(MonthData(index, DayStatus.OVER_UPDATE_STATUS))
-                8 -> monthArray.add(MonthData(index, DayStatus.UPDATE_STATUS))
-                9 -> monthArray.add(MonthData(index, DayStatus.UPDATE_STATUS))
-                10 -> monthArray.add(MonthData(index, DayStatus.UPDATE_STATUS))
-                11 -> monthArray.add(MonthData(index, DayStatus.UPDATE_STATUS))
-                12 -> monthArray.add(MonthData(index, DayStatus.UPDATE_STATUS))
-                13 -> monthArray.add(MonthData(index, DayStatus.UPDATE_STATUS))
-                14 -> monthArray.add(MonthData(index, DayStatus.UPDATE_STATUS))
-                15 -> monthArray.add(MonthData(index, DayStatus.UPDATE_STATUS))
-                16 -> monthArray.add(MonthData(index, DayStatus.UPDATE_STATUS))
-                17 -> monthArray.add(MonthData(index, DayStatus.UPDATE_STATUS))
-                18 -> monthArray.add(MonthData(index, DayStatus.OVER_UPDATE_STATUS))
-                19 -> monthArray.add(MonthData(index, DayStatus.OVER_UPDATE_STATUS))
-                20 -> monthArray.add(MonthData(index, DayStatus.OVER_UPDATE_STATUS))
-                21 -> monthArray.add(MonthData(index, DayStatus.EMPTY_STATUS))
-                22 -> monthArray.add(MonthData(index, DayStatus.EMPTY_STATUS))
-                23 -> monthArray.add(MonthData(index, DayStatus.DELAY_UPDATE_STATUS))
-                24 -> monthArray.add(MonthData(index, DayStatus.EMPTY_STATUS))
-                25 -> monthArray.add(MonthData(index, DayStatus.DELAY_UPDATE_STATUS))
-                26 -> monthArray.add(MonthData(index, DayStatus.EMPTY_STATUS))
-                27 -> monthArray.add(MonthData(index, DayStatus.DELAY_UPDATE_STATUS))
-                28 -> monthArray.add(MonthData(index, DayStatus.EMPTY_STATUS))
-                else -> monthArray.add(MonthData(index, DayStatus.EMPTY_STATUS))
+                1-> monthArray.add(DateData(index,DayStatus.UPDATE_STATUS))
+                2-> monthArray.add(DateData(index,DayStatus.OVER_UPDATE_STATUS))
+                3-> monthArray.add(DateData(index,DayStatus.UPDATE_STATUS))
+                4-> monthArray.add(DateData(index,DayStatus.OVER_UPDATE_STATUS))
+                5-> monthArray.add(DateData(index,DayStatus.UPDATE_STATUS))
+                6-> monthArray.add(DateData(index,DayStatus.OVER_UPDATE_STATUS))
+                7-> monthArray.add(DateData(index,DayStatus.OVER_UPDATE_STATUS))
             }
         }
         return monthArray
     }
 
-    private fun setBackgroundStatus(monthData: ArrayList<MonthData>,year: Int,month: Int): ArrayList<MonthData> {
+    private fun createMonthData(year: Int, month: Int): ArrayList<DateData> {
+        val monthMaxDay = CalendarUtils.getMaxDayCountByMonth(year, month)
+        val monthArray = arrayListOf<DateData>()
+        for (index in 1..monthMaxDay) {
+            when (index) {
+                1 -> monthArray.add(DateData(index, DayStatus.UPDATE_STATUS))
+                2 -> monthArray.add(DateData(index, DayStatus.OVER_UPDATE_STATUS))
+                3 -> monthArray.add(DateData(index, DayStatus.UPDATE_STATUS))
+                4 -> monthArray.add(DateData(index, DayStatus.OVER_UPDATE_STATUS))
+                5 -> monthArray.add(DateData(index, DayStatus.UPDATE_STATUS))
+                6 -> monthArray.add(DateData(index, DayStatus.OVER_UPDATE_STATUS))
+                7 -> monthArray.add(DateData(index, DayStatus.OVER_UPDATE_STATUS))
+                8 -> monthArray.add(DateData(index, DayStatus.UPDATE_STATUS))
+                9 -> monthArray.add(DateData(index, DayStatus.UPDATE_STATUS))
+                10 -> monthArray.add(DateData(index, DayStatus.UPDATE_STATUS))
+                11 -> monthArray.add(DateData(index, DayStatus.UPDATE_STATUS))
+                12 -> monthArray.add(DateData(index, DayStatus.UPDATE_STATUS))
+                13 -> monthArray.add(DateData(index, DayStatus.UPDATE_STATUS))
+                14 -> monthArray.add(DateData(index, DayStatus.UPDATE_STATUS))
+                15 -> monthArray.add(DateData(index, DayStatus.UPDATE_STATUS))
+                16 -> monthArray.add(DateData(index, DayStatus.UPDATE_STATUS))
+                17 -> monthArray.add(DateData(index, DayStatus.UPDATE_STATUS))
+                18 -> monthArray.add(DateData(index, DayStatus.OVER_UPDATE_STATUS))
+                19 -> monthArray.add(DateData(index, DayStatus.OVER_UPDATE_STATUS))
+                20 -> monthArray.add(DateData(index, DayStatus.OVER_UPDATE_STATUS))
+                21 -> monthArray.add(DateData(index, DayStatus.EMPTY_STATUS))
+                22 -> monthArray.add(DateData(index, DayStatus.EMPTY_STATUS))
+                23 -> monthArray.add(DateData(index, DayStatus.DELAY_UPDATE_STATUS))
+                24 -> monthArray.add(DateData(index, DayStatus.EMPTY_STATUS))
+                25 -> monthArray.add(DateData(index, DayStatus.DELAY_UPDATE_STATUS))
+                26 -> monthArray.add(DateData(index, DayStatus.EMPTY_STATUS))
+                27 -> monthArray.add(DateData(index, DayStatus.DELAY_UPDATE_STATUS))
+                28 -> monthArray.add(DateData(index, DayStatus.EMPTY_STATUS))
+                else -> monthArray.add(DateData(index, DayStatus.EMPTY_STATUS))
+            }
+        }
+        return monthArray
+    }
+
+    private fun setBackgroundStatus(monthData: ArrayList<DateData>, year: Int, month: Int): ArrayList<DateData> {
         for ((index, item) in monthData.withIndex()) {
             paresBackgroundStatus(index,item,monthData,year,month)
         }
@@ -85,8 +117,8 @@ class TestViewModel : ViewModel() {
 
     private fun paresBackgroundStatus(
         position: Int,
-        dayEntity: MonthData,
-        arrayList: ArrayList<MonthData>,
+        dayEntity: DateData,
+        arrayList: ArrayList<DateData>,
         year:Int,
         month:Int
     ) {
@@ -105,17 +137,17 @@ class TestViewModel : ViewModel() {
         isDrawLocation(position, dayEntity, arrayList,year,month)
     }
 
-    private fun isDrawGone(entity: MonthData): Boolean {
+    private fun isDrawGone(entity: DateData): Boolean {
         return entity.status != DayStatus.UPDATE_STATUS && entity.status != DayStatus.OVER_UPDATE_STATUS
     }
 
     private fun isDrawSingle(
         position: Int,
-        entity: MonthData,
-        arrayList: ArrayList<MonthData>
+        entity: DateData,
+        arrayList: ArrayList<DateData>
     ): Boolean {
-        val prevEntity: MonthData? = if (position == 0) null else arrayList[position - 1]
-        val nextEntity: MonthData? =
+        val prevEntity: DateData? = if (position == 0) null else arrayList[position - 1]
+        val nextEntity: DateData? =
             if (position == arrayList.size - 1) null else arrayList[position + 1]
         if (prevEntity == null) {
             return entity.status != nextEntity?.status
@@ -126,9 +158,9 @@ class TestViewModel : ViewModel() {
         return entity.status != prevEntity.status && entity.status != nextEntity.status
     }
 
-    private fun isDrawLocation(position: Int, entity: MonthData, arrayList: ArrayList<MonthData>,year:Int,month: Int) {
-        val prevEntity: MonthData? = if (position == 0) null else arrayList[position - 1]
-        val nextEntity: MonthData? =
+    private fun isDrawLocation(position: Int, entity: DateData, arrayList: ArrayList<DateData>, year:Int, month: Int) {
+        val prevEntity: DateData? = if (position == 0) null else arrayList[position - 1]
+        val nextEntity: DateData? =
             if (position == arrayList.size - 1) null else arrayList[position + 1]
 
         //当月第一天

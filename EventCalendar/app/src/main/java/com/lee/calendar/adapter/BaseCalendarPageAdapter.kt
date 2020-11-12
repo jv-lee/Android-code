@@ -12,6 +12,10 @@ import com.lee.calendar.R
 import com.lee.calendar.entity.DateEntity
 import com.lee.calendar.entity.DayEntity
 import com.lee.calendar.manager.ICalendarData
+import com.lee.calendar.utils.CalendarUtils
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 /**
  * @author jv.lee
@@ -22,7 +26,7 @@ abstract class BaseCalendarPageAdapter : PagerAdapter() {
     private val TAG: String = "Pager"
 
     protected val calendarManager by lazy { createCalendarManager() }
-    protected val data: ArrayList<DateEntity> by lazy { initListData() }
+    protected val data: ArrayList<DateEntity> by lazy { if (isMonthMode()) calendarManager.initMonthList() else calendarManager.initWeekList() }
 
     protected val dayListAdapterMap = HashMap<Int, DayListAdapter>()
     protected var viewPager: ViewPager? = null
@@ -64,10 +68,26 @@ abstract class BaseCalendarPageAdapter : PagerAdapter() {
     }
 
     private fun initStartPage(position: Int) {
-        this.viewPager?.setCurrentItem(position, false)
-        this.onChangeDataListener?.onPageChangeDate(position, data[position])
-        initDaySelectChange(data[position])
+        val index = getInitPosition(position)
+        this.viewPager?.setCurrentItem(index, false)
+        this.onChangeDataListener?.onPageChangeDate(index, data[index])
+        initDaySelectChange(data[index])
         loadMoreData()
+    }
+
+    private fun getInitPosition(position: Int): Int {
+        return if (isMonthMode()) {
+            position
+        } else {
+            val dayEntity = data[position].dayList[0]
+            val weekDiffCount = CalendarUtils.getDiffWeekCount(
+                Calendar.getInstance().also {
+                    it.set(Calendar.DATE, 1)
+                }, Calendar.getInstance().also {
+                    it.set(dayEntity.year, dayEntity.month, dayEntity.day)
+                })
+            position + weekDiffCount
+        }
     }
 
     private fun initDaySelectChange(monthEntity: DateEntity) {
@@ -82,7 +102,7 @@ abstract class BaseCalendarPageAdapter : PagerAdapter() {
 
     private fun loadMoreData() {
         hasLoadMore = false
-        data.addAll(loadMoreListData())
+        data.addAll(if (isMonthMode()) calendarManager.loadMoreMonthList() else calendarManager.loadMoreWeekList())
         notifyDataSetChanged()
         hasLoadMore = true
     }
@@ -196,13 +216,67 @@ abstract class BaseCalendarPageAdapter : PagerAdapter() {
 
     }
 
+    fun selectItem(entity: DayEntity) {
+        if (isMonthMode()) selectMonthItem(entity) else selectWeekItem(entity)
+    }
+
+    private fun selectMonthItem(entity: DayEntity) {
+        currentDay ?: return
+        viewPager ?: return
+
+        val diffMonthCount = CalendarUtils.getDiffMonthCount(
+            Calendar.getInstance().also {
+                it.set(entity.year, entity.month, entity.day)
+            }, Calendar.getInstance().also {
+                it.set(currentDay?.year!!, currentDay?.month!!, currentDay?.day!!)
+            })
+
+        val currentItemIndex = viewPager?.currentItem!! + diffMonthCount
+        viewPager?.setCurrentItem(currentItemIndex, true)
+
+        dayListAdapterMap[currentItemIndex]?.let {
+            for ((index, day) in it.data.withIndex()) {
+                if (day.day == entity.day && day.isToMonth) {
+                    it.selectItemByPosition(index, it.data[index])
+                    it.initSelectRowIndex(index, day)
+                }
+            }
+        }
+    }
+
+    private fun selectWeekItem(entity: DayEntity) {
+        currentDay ?: return
+        viewPager ?: return
+
+        val diffWeekCount = CalendarUtils.getDiffWeekCount(
+            Calendar.getInstance().also {
+                it.set(entity.year, entity.month, entity.day)
+            }, Calendar.getInstance().also {
+                it.set(currentDay?.year!!, currentDay?.month!!, currentDay?.day!!)
+            })
+
+        val index = viewPager?.currentItem!! + diffWeekCount
+
+        viewPager?.setCurrentItem(index, true)
+
+        if (dayListAdapterMap[index] == null) {
+            currentDay = entity
+        }
+        dayListAdapterMap[index]?.let {
+            for ((index, day) in it.data.withIndex()) {
+                if (day.day == entity.day) {
+                    it.selectItemByPosition(index, it.data[index])
+                }
+            }
+        }
+    }
+
+    abstract fun createCalendarManager(): ICalendarData
+
+    abstract fun isMonthMode(): Boolean
 
     abstract fun getItemLayout(): Int
 
     abstract fun convert(context: Context, itemView: View, position: Int, entity: DayEntity)
 
-    abstract fun createCalendarManager(): ICalendarData
-    abstract fun initListData(): ArrayList<DateEntity>
-    abstract fun loadMoreListData():ArrayList<DateEntity>
-    abstract fun selectItem(entity: DayEntity)
 }
