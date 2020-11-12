@@ -18,7 +18,7 @@ import com.lee.calendar.widget.DayView
 class MonthAdapter : BaseCalendarPageAdapter() {
     override fun createCalendarManager(): ICalendarData {
         return CalendarManager2(
-            2020, 0, 1,
+            2018, 0, 1,
             loadMoreMonthCount = 12
         )
     }

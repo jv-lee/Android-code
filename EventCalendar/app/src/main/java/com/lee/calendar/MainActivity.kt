@@ -1,7 +1,9 @@
 package com.lee.calendar
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -35,5 +37,9 @@ class MainActivity : AppCompatActivity() {
             }
         })
         mAdapter.bindRecyclerView(rvContainer)
+
+        findViewById<LinearLayout>(R.id.linear_container).setOnClickListener {
+            startActivity(Intent(this@MainActivity,CalendarViewActivity::class.java))
+        }
     }
 }

@@ -170,8 +170,8 @@ class CalendarLinearLayout(context: Context, attributeSet: AttributeSet) :
 
         }
 
-        //返回true 持续响应所有事件 - > 返回false后 只响应down事件 直接消费不继续执行后续事件
-        return true
+        //返回true 持续响应所有事件 - > 返回false后 只响应down事件 直接消费不继续执行后续事件，所有move事件交由子view消费.
+        return false
     }
 
     fun bindEventView(calendarView: CalendarView, recyclerView: RecyclerView? = null) {
