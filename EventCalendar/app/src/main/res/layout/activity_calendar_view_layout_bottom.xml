@@ -6,7 +6,8 @@
     android:layout_gravity="bottom">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/const_attendance"
+        android:id="@+id/const_permission"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="103dp"
         android:layout_gravity="bottom"
@@ -14,6 +15,44 @@
         android:paddingStart="16dp"
         android:paddingTop="25dp"
         android:paddingEnd="16dp">
+
+        <TextView
+            android:id="@+id/tv_permission_content"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="22dp"
+            android:includeFontPadding="false"
+            android:text="Please sign the story with Dreame under an exclusive contract before joining the Daily Update!"
+            android:textColor="#FF222222"
+            android:textSize="13sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_permission_button"
+            android:layout_width="122dp"
+            android:layout_height="40dp"
+            android:background="@drawable/shape_blue_button"
+            android:gravity="center"
+            android:text="Apply for Contract"
+            android:textColor="#FFFFFFFF"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@id/tv_permission_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_permission_content" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/const_attendance"
+        android:layout_width="match_parent"
+        android:layout_height="103dp"
+        android:layout_gravity="bottom"
+        android:background="@drawable/calendar_bottom_progress_bg"
+        android:paddingStart="16dp"
+        android:paddingTop="25dp"
+        android:paddingEnd="16dp"
+        android:visibility="visible">
 
         <TextView
             android:id="@+id/tv_attendance_day_description"
