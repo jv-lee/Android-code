@@ -117,53 +117,6 @@ class DayView constructor(context: Context, attributeSet: AttributeSet) :
         drawNumberText(canvas)
     }
 
-    private fun drawNumberText(canvas: Canvas) {
-        val rect = Rect()
-        mPaint.style = Paint.Style.FILL
-        mPaint.color = if(isToday) todayTextColor else if(isGone) goneTextColor else defaultTextColor
-        mPaint.textSize = textSize
-        mPaint.getTextBounds(text, 0, text.length, rect)
-        when (text) {
-            "1" -> {
-                canvas.drawText(text, (width / 2).toFloat() - (rect.width() / 2) - (rect.width() / 2), (height / 2).toFloat() + (rect.height() / 2), mPaint)
-            }
-            "11" -> {
-                canvas.drawText(text, (width / 2).toFloat() - (rect.width() / 1.5).toInt() , (height / 2).toFloat() + (rect.height() / 2), mPaint)
-            }
-            else -> {
-                canvas.drawText(text, (width / 2).toFloat() - (rect.width() / 2), (height / 2).toFloat() + (rect.height() / 2), mPaint)
-            }
-        }
-    }
-
-    private fun drawDelayUpdateDot(canvas: Canvas) {
-        if(!isDelayUpdate)return
-        val rect = Rect()
-        mPaint.style = Paint.Style.FILL
-        mPaint.color = if(isToday) todayTextColor else if(isGone) goneTextColor else defaultTextColor
-        mPaint.getTextBounds(text, 0, text.length, rect)
-        val centerWidth = (width / 2).toFloat() + (strokeWidth / 2)
-        val dimen = (mHeight - (((absSize / 2) - ( paddingSize)) * 2)) / 2
-        val centerHeight = mHeight - dimen - dotSize
-        canvas.drawCircle(centerWidth, centerHeight, (dotSize / 2), mPaint)
-    }
-
-    private fun drawToDayBackground(canvas: Canvas) {
-        if (!isToday) return
-        mPaint.color = todayBackgroundColor
-        mPaint.style = Paint.Style.FILL
-        mPaint.strokeWidth = strokeWidth
-        canvas.drawCircle((mWidth / 2).toFloat(), (mHeight / 2).toFloat(), (absSize / 2) - ((strokeWidth + (strokeWidth / 2)) + paddingSize),mPaint)
-    }
-
-    private fun drawSelectedBackground(canvas: Canvas) {
-        if (!isSelect) return
-        mPaint.color = if(isUpdate) updateSelectedColor else overSelectedColor
-        mPaint.style = Paint.Style.FILL
-        mPaint.strokeWidth = strokeWidth
-        canvas.drawCircle((mWidth / 2).toFloat(), (mHeight / 2).toFloat(), (absSize / 2) - ((strokeWidth + (strokeWidth / 2)) + paddingSize),mPaint)
-    }
-
     private fun drawBackgroundMode(canvas: Canvas) {
         when (dayStatus) {
             DayBackgroundStatus.STATUS_SINGLE -> drawSingle(canvas)
@@ -269,6 +222,53 @@ class DayView constructor(context: Context, attributeSet: AttributeSet) :
         }
         canvas.drawPath(path2, mPaint)
         canvas.restore()
+    }
+
+    private fun drawSelectedBackground(canvas: Canvas) {
+        if (!isSelect) return
+        mPaint.color = if(isUpdate) updateSelectedColor else overSelectedColor
+        mPaint.style = Paint.Style.FILL
+        mPaint.strokeWidth = strokeWidth
+        canvas.drawCircle((mWidth / 2).toFloat(), (mHeight / 2).toFloat(), (absSize / 2) - ((strokeWidth + (strokeWidth / 2)) + paddingSize),mPaint)
+    }
+
+    private fun drawToDayBackground(canvas: Canvas) {
+        if (!isToday) return
+        mPaint.color = todayBackgroundColor
+        mPaint.style = Paint.Style.FILL
+        mPaint.strokeWidth = strokeWidth
+        canvas.drawCircle((mWidth / 2).toFloat(), (mHeight / 2).toFloat(), (absSize / 2) - ((strokeWidth + (strokeWidth / 2)) + paddingSize),mPaint)
+    }
+
+    private fun drawDelayUpdateDot(canvas: Canvas) {
+        if(!isDelayUpdate)return
+        val rect = Rect()
+        mPaint.style = Paint.Style.FILL
+        mPaint.color = if(isToday)todayDotColor else dotColor
+        mPaint.getTextBounds(text, 0, text.length, rect)
+        val centerWidth = (width / 2).toFloat() + (strokeWidth / 2)
+        val dimen = (mHeight - (((absSize / 2) - ( paddingSize)) * 2)) / 2
+        val centerHeight = mHeight - dimen - dotSize
+        canvas.drawCircle(centerWidth, centerHeight, (dotSize / 2), mPaint)
+    }
+
+    private fun drawNumberText(canvas: Canvas) {
+        val rect = Rect()
+        mPaint.style = Paint.Style.FILL
+        mPaint.color = if(isToday) todayTextColor else if(isGone) goneTextColor else defaultTextColor
+        mPaint.textSize = textSize
+        mPaint.getTextBounds(text, 0, text.length, rect)
+        when (text) {
+            "1" -> {
+                canvas.drawText(text, (width / 2).toFloat() - (rect.width() / 2) - (rect.width() / 2), (height / 2).toFloat() + (rect.height() / 2), mPaint)
+            }
+            "11" -> {
+                canvas.drawText(text, (width / 2).toFloat() - (rect.width() / 1.5).toInt() , (height / 2).toFloat() + (rect.height() / 2), mPaint)
+            }
+            else -> {
+                canvas.drawText(text, (width / 2).toFloat() - (rect.width() / 2), (height / 2).toFloat() + (rect.height() / 2), mPaint)
+            }
+        }
     }
 
     fun updateDataStatus(@DayBackgroundStatus backgroundStatus: Int?,isSelect:Boolean?,isToday:Boolean?,isDelayUpdate:Boolean?,isUpdate:Boolean?,isGone:Boolean?,text:String?) {
