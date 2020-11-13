@@ -1,7 +1,6 @@
 package com.lee.calendar.utils
 
 import com.lee.calendar.entity.DayEntity
-import java.time.Year
 import java.util.*
 
 /**
@@ -79,6 +78,7 @@ object CalendarUtils {
         return calendar
     }
 
+
     /**
      * 将日历设置为当周的第一天
      * @return 日历对象
@@ -95,7 +95,7 @@ object CalendarUtils {
     /**
      * 根据年月获取当天日期， 非当年当月返回 -1
      */
-    fun isToday(year: Int, month: Int): Int {
+    fun getTodayNumber(year: Int, month: Int): Int {
         val isToMonth = Calendar.getInstance().get(Calendar.YEAR) == year && Calendar.getInstance()
             .get(Calendar.MONTH) == month
         return if (isToMonth) Calendar.getInstance().get(Calendar.DAY_OF_MONTH) else -1
@@ -124,7 +124,7 @@ object CalendarUtils {
      * 根据年月日 获取当7天的数据
      */
     fun getWeekDayList(year: Int, month: Int, day: Int): ArrayList<DayEntity> {
-        val today = isToday(year, month)
+        val today = getTodayNumber(year, month)
         val dayArray = arrayListOf<DayEntity>()
         val calendar = getFirstWeekDay(year, month, day)
         for (index in 0..6) {
@@ -147,7 +147,7 @@ object CalendarUtils {
      * 根据年月 获取当月所有天数据
      */
     fun getMonthDayList(year: Int, month: Int, startIndex: Int): ArrayList<DayEntity> {
-        val today = isToday(year, month)
+        val today = getTodayNumber(year, month)
         val dayArray = arrayListOf<DayEntity>()
         val dayCount = getMaxDayCountByMonth(year, month)
         for (index in 1..dayCount) {

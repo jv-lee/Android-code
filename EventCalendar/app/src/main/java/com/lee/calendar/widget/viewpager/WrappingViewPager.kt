@@ -1,4 +1,4 @@
-package com.lee.calendar.widget
+package com.lee.calendar.widget.viewpager
 
 import android.content.Context
 import android.util.AttributeSet

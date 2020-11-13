@@ -6,7 +6,7 @@ import com.lee.calendar.R
 import com.lee.calendar.entity.DayEntity
 import com.lee.calendar.entity.DayStatus
 import com.lee.calendar.entity.DateData
-import com.lee.calendar.manager.CalendarManager2
+import com.lee.calendar.manager.CalendarManager
 import com.lee.calendar.manager.ICalendarData
 import com.lee.calendar.widget.DayView
 
@@ -17,9 +17,9 @@ import com.lee.calendar.widget.DayView
  */
 class WeekAdapter :BaseCalendarPageAdapter(){
     override fun createCalendarManager(): ICalendarData {
-        return CalendarManager2(
+        return CalendarManager(
             2018, 0, 1,
-            loadMoreMonthCount = 12
+            endMonth = 12
         )
     }
 

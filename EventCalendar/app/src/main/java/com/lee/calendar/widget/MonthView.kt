@@ -39,7 +39,6 @@ class MonthView(context: Context, attributeSet: AttributeSet) : View(context, at
         super.onDraw(canvas)
         for (rowIndex in 0 until totalRow) {
             for (colIndex in 0 until totalCol) {
-                Log.i("jv.lee", "onDraw: $rowIndex - $colIndex")
                 drawDayView(canvas, rowIndex, colIndex)
             }
         }

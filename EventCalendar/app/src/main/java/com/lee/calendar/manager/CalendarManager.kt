@@ -1,140 +1,107 @@
 package com.lee.calendar.manager
 
 import com.lee.calendar.entity.DateEntity
+import com.lee.calendar.entity.DayEntity
+import com.lee.calendar.utils.CalendarUtils
 import java.util.*
-import kotlin.collections.ArrayList
 
 /**
  * @author jv.lee
- * @date 2020/10/26
+ * @date 2020/11/6
  * @description
  */
-class CalendarManager(val prevMonthCount: Int = 6,val nextMonthCount: Int = 6) {
+class CalendarManager(
+    private val startYear: Int,
+    private val startMonth: Int,
+    private val startDay: Int,
+    private val endMonth:Int = 6
+): ICalendarData {
 
-    private var currentYear: Int = Calendar.getInstance().get(Calendar.YEAR)
-    private var currentMonth: Int = Calendar.getInstance().get(Calendar.MONTH)
-    private var currentDay: Int = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
+    override fun initMonthList(): ArrayList<DateEntity> {
+        val startCalendar = Calendar.getInstance()
+        startCalendar.set(startYear, startMonth, startDay)
+        startCalendar.add(Calendar.MONTH, -1)
 
-    private var prevMonthPosition: Int = 0
-    private var nextMonthPosition: Int = 0
+        val endCalendar = Calendar.getInstance()
+        endCalendar.add(Calendar.MONTH,endMonth)
 
-    private var prevWeekPosition:Int = 0
-    private var nextWeekPosition:Int = 0
+        val dateList = arrayListOf<DateEntity>()
+        while (!(startCalendar.get(Calendar.YEAR) == endCalendar.get(Calendar.YEAR) &&
+                    startCalendar.get(Calendar.MONTH) == endCalendar.get(Calendar.MONTH))
+        ) {
+            startCalendar.add(Calendar.MONTH, 1)
+            val year = startCalendar.get(Calendar.YEAR)
+            val month = startCalendar.get(Calendar.MONTH)
 
-    private val startIndex = 1
+            //获取当月1号遍历数量
+            startCalendar.set(Calendar.DATE, 1)
+            val startIndex = startCalendar.get(Calendar.DAY_OF_WEEK) - 1
 
-    private fun getMoveWeekData(movePosition:Int):Calendar{
-        val calendar = Calendar.getInstance()
-        calendar.set(Calendar.YEAR, currentYear)
-        calendar.set(Calendar.MONTH, currentMonth)
-        calendar.set(Calendar.DAY_OF_MONTH,currentDay)
-        calendar.add(Calendar.DAY_OF_MONTH, movePosition * 7)
-        return calendar
-    }
+            val today = CalendarUtils.getTodayNumber(year, month)
+            val dayArray = arrayListOf<DayEntity>()
+            val dayCount = CalendarUtils.getMaxDayCountByMonth(year, month)
+            for (index in 1..dayCount) {
+                dayArray.add(
+                    DayEntity(
+                        isSelected = index == 1,
+                        year = year,
+                        month = month,
+                        day = index,
+                        startIndex = startIndex,
+                        isToDay = today == index
+                    )
+                )
+            }
 
-    /**
-     * 移动基础下标 从移动后的基础下标开始获取日历对象
-     * @param movePosition 日期偏移量
-     */
-    private fun getMoveMonthData(movePosition: Int): Calendar {
-        val calendar = Calendar.getInstance()
-        calendar.set(Calendar.YEAR, currentYear)
-        calendar.set(Calendar.MONTH, currentMonth)
-        calendar.add(Calendar.MONTH, movePosition)
-        return calendar
-    }
-
-    fun getInitWeekData():ArrayList<DateEntity>{
-        val weekArray = arrayListOf<DateEntity>()
-        weekArray.add(DateEntity.parseWeekEntity(currentYear,currentMonth,currentDay))
-        weekArray.addAll(0,getPrevWeekData())
-        weekArray.addAll(getNextWeekData())
-        return weekArray
-    }
-
-    fun getPrevWeekData():ArrayList<DateEntity>{
-        val dataArray = arrayListOf<DateEntity>()
-        for (index in startIndex..prevMonthCount * 4) {
-            //获取向上$index周时间对象
-            val prevCalendar = getMoveWeekData(-(++prevWeekPosition))
-            //添加数据
-            dataArray.add(
-                0,
-                DateEntity.parseWeekEntity(
-                    prevCalendar.get(Calendar.YEAR),
-                    prevCalendar.get(Calendar.MONTH),
-                    prevCalendar.get(Calendar.DAY_OF_MONTH)
+            dateList.add(
+                DateEntity(
+                    year, month,
+                    CalendarUtils.getAttachDayList(dayArray, year, month, startIndex), startIndex
                 )
             )
         }
-        return dataArray
+        return dateList
     }
 
-    fun getNextWeekData():ArrayList<DateEntity>{
-        val dataArray = arrayListOf<DateEntity>()
-        for (index in startIndex..nextMonthCount * 4) {
-            //获取向上$index周时间对象
-            val nextCalendar = getMoveWeekData((++nextWeekPosition))
-            //添加数据
-            dataArray.add(
-                DateEntity.parseWeekEntity(
-                    nextCalendar.get(Calendar.YEAR),
-                    nextCalendar.get(Calendar.MONTH),
-                    nextCalendar.get(Calendar.DAY_OF_MONTH)
+    override fun initWeekList(): ArrayList<DateEntity> {
+        val startCalendar = Calendar.getInstance()
+        startCalendar.set(startYear, startMonth, startDay)
+
+        val endCalendar = Calendar.getInstance()
+        endCalendar.add(Calendar.MONTH,endMonth)
+        endCalendar.add(Calendar.MONTH,1)
+
+        val dateList = arrayListOf<DateEntity>()
+        while (!(startCalendar.get(Calendar.YEAR) == endCalendar.get(Calendar.YEAR) &&
+                    startCalendar.get(Calendar.MONTH) == endCalendar.get(Calendar.MONTH))
+        ) {
+            val year = startCalendar.get(Calendar.YEAR)
+            val month = startCalendar.get(Calendar.MONTH)
+            val day = startCalendar.get(Calendar.DATE)
+
+            val today = CalendarUtils.getTodayNumber(year, month)
+            val dayArray = arrayListOf<DayEntity>()
+            val calendar = CalendarUtils.getFirstWeekDay(year, month, day)
+            for (index in 0..6) {
+                calendar.add(Calendar.DAY_OF_MONTH, if (index == 0) 0 else 1)
+                dayArray.add(
+                    DayEntity(
+                        isSelected = index == 0,
+                        year = calendar.get(Calendar.YEAR),
+                        month = calendar.get(Calendar.MONTH),
+                        day = calendar.get(Calendar.DAY_OF_MONTH),
+                        startIndex = index,
+                        isToDay = calendar.get(Calendar.DAY_OF_MONTH) == today
+                    )
                 )
-            )
-        }
-        return dataArray
-    }
+            }
 
-    /**
-     * 初始化首页数据
-     */
-    fun getInitMonthData(): ArrayList<DateEntity> {
-        val monthArray = arrayListOf<DateEntity>()
-        monthArray.add(DateEntity.parseMonthEntity(currentYear, currentMonth))
-        monthArray.addAll(0, getPrevMonthData())
-        monthArray.addAll(getNextMonthData())
-        return monthArray
-    }
-
-    /**
-     * 向前填充月份数据
-     */
-    fun getPrevMonthData(): ArrayList<DateEntity> {
-        val monthArray = arrayListOf<DateEntity>()
-        for (index in startIndex..prevMonthCount) {
-            //获取向上$index月时间对象
-            val prevCalendar = getMoveMonthData(-(++prevMonthPosition))
-            //添加数据
-            monthArray.add(
-                0,
-                DateEntity.parseMonthEntity(
-                    prevCalendar.get(Calendar.YEAR),
-                    prevCalendar.get(Calendar.MONTH)
-                )
-            )
+            dateList.add(DateEntity(year, month, dayArray, -1))
+            startCalendar.add(Calendar.WEEK_OF_YEAR, 1)
+            //将日期定位到当周第一天
+            CalendarUtils.setWeekOfOneDay(startCalendar)
         }
-        return monthArray
-    }
-
-    /**
-     * 向后填充月份数据
-     */
-    fun getNextMonthData(): ArrayList<DateEntity> {
-        val monthArray = arrayListOf<DateEntity>()
-        for (index in startIndex..nextMonthCount) {
-            //获取向下$index月时间对象
-            val nextCalendar = getMoveMonthData(++nextMonthPosition)
-            //添加数据
-            monthArray.add(
-                DateEntity.parseMonthEntity(
-                    nextCalendar.get(Calendar.YEAR),
-                    nextCalendar.get(Calendar.MONTH)
-                )
-            )
-        }
-        return monthArray
+        return dateList
     }
 
 }

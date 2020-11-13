@@ -10,6 +10,4 @@ import com.lee.calendar.entity.DateEntity
 interface ICalendarData {
     fun initMonthList(): ArrayList<DateEntity>
     fun initWeekList(): ArrayList<DateEntity>
-    fun loadMoreMonthList(): ArrayList<DateEntity>
-    fun loadMoreWeekList():ArrayList<DateEntity>
 }

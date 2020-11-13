@@ -29,7 +29,6 @@ abstract class BaseCalendarPageAdapter : PagerAdapter() {
 
     protected val dayListAdapterMap = HashMap<Int, DayListAdapter>()
     protected var viewPager: ViewPager? = null
-    private var hasLoadMore = true
     private val rowIndexMap = HashMap<Int, Int>()
 
     var currentSelectIndex = 0
@@ -44,7 +43,7 @@ abstract class BaseCalendarPageAdapter : PagerAdapter() {
     fun bindViewPager(viewPager: ViewPager) {
         this.viewPager = viewPager
         this.viewPager?.adapter = this
-        initStartPage(data.size - 1)
+        initStartPage(data.size / 2)
 
         viewPager.addOnPageChangeListener(object : ViewPager.SimpleOnPageChangeListener() {
             override fun onPageSelected(position: Int) {
@@ -53,8 +52,6 @@ abstract class BaseCalendarPageAdapter : PagerAdapter() {
                 onChangeDataListener?.onPageChangeDate(position,data[position])
                 initDaySelectChange(data[position])
 
-                //判断当前是否为最后一条数据 加载下一页
-//                if (hasLoadMore && position == count - 1) loadMoreData()
             }
 
         })
@@ -65,7 +62,7 @@ abstract class BaseCalendarPageAdapter : PagerAdapter() {
         this.viewPager?.setCurrentItem(index, false)
         this.onChangeDataListener?.onPageChangeDate(index, data[index])
         initDaySelectChange(data[index])
-        loadMoreData()
+//        loadMoreData()
     }
 
     private fun getInitPosition(position: Int): Int {
@@ -91,13 +88,6 @@ abstract class BaseCalendarPageAdapter : PagerAdapter() {
                 currentDay = item
             }
         }
-    }
-
-    private fun loadMoreData() {
-        hasLoadMore = false
-        data.addAll(if (isMonthMode()) calendarManager.loadMoreMonthList() else calendarManager.loadMoreWeekList())
-        notifyDataSetChanged()
-        hasLoadMore = true
     }
 
     override fun isViewFromObject(view: View, `object`: Any): Boolean {

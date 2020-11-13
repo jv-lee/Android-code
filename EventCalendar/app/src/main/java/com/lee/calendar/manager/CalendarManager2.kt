@@ -8,33 +8,41 @@ import kotlin.collections.ArrayList
 
 /**
  * @author jv.lee
- * @date 2020/11/6
+ * @date 2020/11/13
  * @description
  */
-class CalendarManager2(
-    private val startYear: Int,
-    private val startMonth: Int,
-    private val startDay: Int,
-    private val loadMoreMonthCount:Int = 6
-):ICalendarData {
-    private var monthCalendar = Calendar.getInstance()
+class CalendarManager2(private val isMonth: Boolean) : ICalendarData2 {
 
-    private var weekCalendar = Calendar.getInstance()
+    //初始化向前向后月份数量
+    private val initPNCount = 1
+    //向前分页/向后分页count
+    private val loadCount = 3
 
-    private var first = true
+    private var prevCalendar = Calendar.getInstance().also { it.add(Calendar.MONTH,-(initPNCount)) }
+    private var nextCalendar = Calendar.getInstance().also { it.add(Calendar.MONTH,initPNCount) }
 
-    override fun initMonthList(): ArrayList<DateEntity> {
+    override fun initDateList(): ArrayList<DateEntity> {
+        return if (isMonth) initMonthList() else initWeekList()
+    }
+
+    override fun loadNextDateList(): ArrayList<DateEntity> {
+        return if (isMonth) loadNextMonthList() else loadNextWeekList()
+    }
+
+    override fun loadPrevDateList(): ArrayList<DateEntity> {
+        return if (isMonth) loadPrevMonthList() else loadPrevWeekList()
+    }
+
+    private fun initMonthList(): ArrayList<DateEntity> {
         val startCalendar = Calendar.getInstance()
-        startCalendar.set(startYear, startMonth, startDay)
-        startCalendar.add(Calendar.MONTH, -1)
+        startCalendar.add(Calendar.MONTH, -initPNCount)
 
         val endCalendar = Calendar.getInstance()
+        endCalendar.add(Calendar.MONTH, initPNCount)
 
         val dateList = arrayListOf<DateEntity>()
-        while (!(startCalendar.get(Calendar.YEAR) == endCalendar.get(Calendar.YEAR) &&
-                    startCalendar.get(Calendar.MONTH) == endCalendar.get(Calendar.MONTH))
-        ) {
-            startCalendar.add(Calendar.MONTH, 1)
+
+        while (true) {
             val year = startCalendar.get(Calendar.YEAR)
             val month = startCalendar.get(Calendar.MONTH)
 
@@ -42,7 +50,7 @@ class CalendarManager2(
             startCalendar.set(Calendar.DATE, 1)
             val startIndex = startCalendar.get(Calendar.DAY_OF_WEEK) - 1
 
-            val today = CalendarUtils.isToday(year, month)
+            val today = CalendarUtils.getTodayNumber(year, month)
             val dayArray = arrayListOf<DayEntity>()
             val dayCount = CalendarUtils.getMaxDayCountByMonth(year, month)
             for (index in 1..dayCount) {
@@ -64,26 +72,32 @@ class CalendarManager2(
                     CalendarUtils.getAttachDayList(dayArray, year, month, startIndex), startIndex
                 )
             )
+
+            if (startCalendar.get(Calendar.YEAR) == endCalendar.get(Calendar.YEAR) &&
+                startCalendar.get(Calendar.MONTH) == endCalendar.get(Calendar.MONTH)
+            ) break
+            startCalendar.add(Calendar.MONTH, 1)
         }
         return dateList
     }
 
-    override fun initWeekList(): ArrayList<DateEntity> {
+    private fun initWeekList(): ArrayList<DateEntity> {
         val startCalendar = Calendar.getInstance()
-        startCalendar.set(startYear, startMonth, startDay)
+        startCalendar.add(Calendar.MONTH, -initPNCount)
+        startCalendar.set(Calendar.DATE, 1)
 
         val endCalendar = Calendar.getInstance()
-        endCalendar.add(Calendar.MONTH,1)
+        endCalendar.add(Calendar.MONTH, initPNCount)
+        endCalendar.set(Calendar.DATE, 1)
+        endCalendar.roll(Calendar.DATE, -1)
 
         val dateList = arrayListOf<DateEntity>()
-        while (!(startCalendar.get(Calendar.YEAR) == endCalendar.get(Calendar.YEAR) &&
-                    startCalendar.get(Calendar.MONTH) == endCalendar.get(Calendar.MONTH))
-        ) {
+        while (true) {
             val year = startCalendar.get(Calendar.YEAR)
             val month = startCalendar.get(Calendar.MONTH)
             val day = startCalendar.get(Calendar.DATE)
 
-            val today = CalendarUtils.isToday(year, month)
+            val today = CalendarUtils.getTodayNumber(year, month)
             val dayArray = arrayListOf<DayEntity>()
             val calendar = CalendarUtils.getFirstWeekDay(year, month, day)
             for (index in 0..6) {
@@ -101,6 +115,12 @@ class CalendarManager2(
             }
 
             dateList.add(DateEntity(year, month, dayArray, -1))
+
+            if (startCalendar.get(Calendar.YEAR) == endCalendar.get(Calendar.YEAR) &&
+                startCalendar.get(Calendar.MONTH) == endCalendar.get(Calendar.MONTH) &&
+                startCalendar.get(Calendar.WEEK_OF_YEAR) == endCalendar.get(Calendar.WEEK_OF_YEAR)
+            ) break
+
             startCalendar.add(Calendar.WEEK_OF_YEAR, 1)
             //将日期定位到当周第一天
             CalendarUtils.setWeekOfOneDay(startCalendar)
@@ -108,21 +128,21 @@ class CalendarManager2(
         return dateList
     }
 
-    /**
-     * 向后填充月份数据
-     */
-    override fun loadMoreMonthList(): ArrayList<DateEntity> {
-        val startCalendar = monthCalendar
+    private fun loadPrevMonthList(): ArrayList<DateEntity> {
+        val startCalendar = prevCalendar
 
         val endCalendar = Calendar.getInstance()
-        endCalendar.set(monthCalendar.get(Calendar.YEAR),monthCalendar.get(Calendar.MONTH),monthCalendar.get(Calendar.DATE))
-        endCalendar.add(Calendar.MONTH,loadMoreMonthCount)
+        endCalendar.set(startCalendar.get(Calendar.YEAR),startCalendar.get(Calendar.MONTH),startCalendar.get(Calendar.DATE))
+        endCalendar.add(Calendar.MONTH, -loadCount)
 
         val dateList = arrayListOf<DateEntity>()
+
         while (!(startCalendar.get(Calendar.YEAR) == endCalendar.get(Calendar.YEAR) &&
-                    startCalendar.get(Calendar.MONTH) == endCalendar.get(Calendar.MONTH))
+                    startCalendar.get(Calendar.MONTH) == endCalendar.get(Calendar.MONTH)
+                    )
         ) {
-            startCalendar.add(Calendar.MONTH, 1)
+            startCalendar.add(Calendar.MONTH, -1)
+
             val year = startCalendar.get(Calendar.YEAR)
             val month = startCalendar.get(Calendar.MONTH)
 
@@ -130,7 +150,60 @@ class CalendarManager2(
             startCalendar.set(Calendar.DATE, 1)
             val startIndex = startCalendar.get(Calendar.DAY_OF_WEEK) - 1
 
-            val today = CalendarUtils.isToday(year, month)
+            val today = CalendarUtils.getTodayNumber(year, month)
+            val dayArray = arrayListOf<DayEntity>()
+            val dayCount = CalendarUtils.getMaxDayCountByMonth(year, month)
+            for (index in 1..dayCount) {
+                dayArray.add(
+                    DayEntity(
+                        isSelected = index == 1,
+                        year = year,
+                        month = month,
+                        day = index,
+                        startIndex = startIndex,
+                        isToDay = today == index
+                    )
+                )
+            }
+
+            dateList.add(0,
+                DateEntity(
+                    year, month,
+                    CalendarUtils.getAttachDayList(dayArray, year, month, startIndex), startIndex
+                )
+            )
+        }
+        prevCalendar = startCalendar
+        return dateList
+    }
+
+    private fun loadPrevWeekList(): ArrayList<DateEntity> {
+        return arrayListOf()
+    }
+
+    private fun loadNextMonthList(): ArrayList<DateEntity> {
+        val startCalendar = nextCalendar
+
+        val endCalendar = Calendar.getInstance()
+        endCalendar.set(startCalendar.get(Calendar.YEAR),startCalendar.get(Calendar.MONTH),startCalendar.get(Calendar.DATE))
+        endCalendar.add(Calendar.MONTH, loadCount)
+
+        val dateList = arrayListOf<DateEntity>()
+
+        while (!(startCalendar.get(Calendar.YEAR) == endCalendar.get(Calendar.YEAR) &&
+                    startCalendar.get(Calendar.MONTH) == endCalendar.get(Calendar.MONTH)
+                    )
+        ) {
+            startCalendar.add(Calendar.MONTH, 1)
+
+            val year = startCalendar.get(Calendar.YEAR)
+            val month = startCalendar.get(Calendar.MONTH)
+
+            //获取当月1号遍历数量
+            startCalendar.set(Calendar.DATE, 1)
+            val startIndex = startCalendar.get(Calendar.DAY_OF_WEEK) - 1
+
+            val today = CalendarUtils.getTodayNumber(year, month)
             val dayArray = arrayListOf<DayEntity>()
             val dayCount = CalendarUtils.getMaxDayCountByMonth(year, month)
             for (index in 1..dayCount) {
@@ -153,32 +226,27 @@ class CalendarManager2(
                 )
             )
         }
-        monthCalendar = endCalendar
+        nextCalendar = startCalendar
         return dateList
     }
 
-
-    override fun loadMoreWeekList():ArrayList<DateEntity>{
-        val startCalendar = weekCalendar
-        if (first) {
-            first =false
-            startCalendar.add(Calendar.MONTH,1)
-        }
+    private fun loadNextWeekList(): ArrayList<DateEntity> {
+        val startCalendar = nextCalendar
+        startCalendar.add(Calendar.MONTH,1)
 
         val endCalendar = Calendar.getInstance()
-        endCalendar.set(weekCalendar.get(Calendar.YEAR),weekCalendar.get(Calendar.MONTH),weekCalendar.get(Calendar.DATE))
-        endCalendar.add(Calendar.MONTH,loadMoreMonthCount)
-
+        endCalendar.set(nextCalendar.get(Calendar.YEAR),nextCalendar.get(Calendar.MONTH),nextCalendar.get(Calendar.DATE))
+        endCalendar.add(Calendar.MONTH,loadCount)
+        endCalendar.set(Calendar.DATE, 1)
+        endCalendar.roll(Calendar.DATE, -1)
 
         val dateList = arrayListOf<DateEntity>()
-        while (!(startCalendar.get(Calendar.YEAR) == endCalendar.get(Calendar.YEAR) &&
-                    startCalendar.get(Calendar.MONTH) == endCalendar.get(Calendar.MONTH))
-        ) {
+        while (true ) {
             val year = startCalendar.get(Calendar.YEAR)
             val month = startCalendar.get(Calendar.MONTH)
             val day = startCalendar.get(Calendar.DATE)
 
-            val today = CalendarUtils.isToday(year, month)
+            val today = CalendarUtils.getTodayNumber(year, month)
             val dayArray = arrayListOf<DayEntity>()
             val calendar = CalendarUtils.getFirstWeekDay(year, month, day)
             for (index in 0..6) {
@@ -196,10 +264,16 @@ class CalendarManager2(
             }
 
             dateList.add(DateEntity(year, month, dayArray, -1))
+
+            if (startCalendar.get(Calendar.YEAR) == endCalendar.get(Calendar.YEAR) &&
+                startCalendar.get(Calendar.MONTH) == endCalendar.get(Calendar.MONTH) &&
+                startCalendar.get(Calendar.WEEK_OF_YEAR) == endCalendar.get(Calendar.WEEK_OF_YEAR)
+            ) break
+
             startCalendar.add(Calendar.WEEK_OF_YEAR, 1)
             CalendarUtils.setWeekOfOneDay(startCalendar)
         }
-        weekCalendar = endCalendar
+        nextCalendar = endCalendar
         return dateList
     }
 

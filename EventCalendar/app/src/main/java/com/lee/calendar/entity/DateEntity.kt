@@ -38,6 +38,6 @@ data class DateEntity(
     }
 
     override fun toString(): String {
-        return "{${year}-${month}-${dayList}}"
+        return "{${year}-${month}-${dayList}}\n\n"
     }
 }

@@ -1,4 +1,4 @@
-package com.lee.calendar.widget
+package com.lee.calendar.widget.viewpager
 
 import android.annotation.SuppressLint
 import android.content.Context
