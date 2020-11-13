@@ -44,6 +44,7 @@ class DayView constructor(context: Context, attributeSet: AttributeSet) :
     private val overSelectedColor: Int
     private val todayBackgroundColor:Int
     private val dotColor: Int
+    private val todayDotColor:Int
     private val goneTextColor: Int
     private val defaultTextColor: Int
     private val todayTextColor:Int
@@ -74,6 +75,7 @@ class DayView constructor(context: Context, attributeSet: AttributeSet) :
 
             todayBackgroundColor = getColor(R.styleable.DayView_day_todayBackgroundColor,ContextCompat.getColor(context,android.R.color.holo_orange_dark))
             dotColor = getColor(R.styleable.DayView_day_dotColor,ContextCompat.getColor(context,android.R.color.holo_orange_dark))
+            todayDotColor = getColor(R.styleable.DayView_day_todayDotColor,ContextCompat.getColor(context,android.R.color.holo_orange_dark))
             goneTextColor = getColor(R.styleable.DayView_day_goneTextColor,ContextCompat.getColor(context,android.R.color.darker_gray))
             defaultTextColor = getColor(R.styleable.DayView_day_defaultTextColor,ContextCompat.getColor(context,android.R.color.black))
             todayTextColor = getColor(R.styleable.DayView_day_todayTextColor,ContextCompat.getColor(context,android.R.color.white))
@@ -138,7 +140,7 @@ class DayView constructor(context: Context, attributeSet: AttributeSet) :
         if(!isDelayUpdate)return
         val rect = Rect()
         mPaint.style = Paint.Style.FILL
-        mPaint.color = dotColor
+        mPaint.color = if(isToday) todayTextColor else if(isGone) goneTextColor else defaultTextColor
         mPaint.getTextBounds(text, 0, text.length, rect)
         val centerWidth = (width / 2).toFloat() + (strokeWidth / 2)
         val dimen = (mHeight - (((absSize / 2) - ( paddingSize)) * 2)) / 2

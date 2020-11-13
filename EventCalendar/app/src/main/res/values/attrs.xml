@@ -33,6 +33,7 @@
         <attr name="day_overSelectedColor" format="color" />
         <attr name="day_todayBackgroundColor" format="color" />
         <attr name="day_dotColor" format="color" />
+        <attr name="day_todayDotColor" format="color" />
         <attr name="day_goneTextColor" format="color" />
         <attr name="day_defaultTextColor" format="color" />
         <attr name="day_todayTextColor" format="color" />

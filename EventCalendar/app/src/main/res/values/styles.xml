@@ -23,6 +23,7 @@
 
         <item name="day_todayBackgroundColor">#FF2477FA</item>
         <item name="day_dotColor">#FF2477FA</item>
+        <item name="day_todayDotColor">#99FFFFFF</item>
         <item name="day_goneTextColor">#33222222</item>
         <item name="day_defaultTextColor">#FF222222</item>
         <item name="day_todayTextColor">#FFFFFFFF</item>
