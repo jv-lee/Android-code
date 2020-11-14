@@ -17,7 +17,7 @@ class WeekDayListTest {
     fun text(){
         val today = CalendarUtils.getTodayNumber(2020, 9)
         val dayArray = arrayListOf<DayEntity>()
-        val calendar = CalendarUtils.getFirstWeekDay(2020, 9, 2)
+        val calendar = CalendarUtils.setWeekToSunday(2020, 9, 2)
         val day = calendar.get(Calendar.DAY_OF_MONTH)
         for (index in 0..6) {
             calendar.add(Calendar.DAY_OF_MONTH, if(index == 0) 0 else 1)

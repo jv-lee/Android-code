@@ -70,26 +70,23 @@ object CalendarUtils {
     }
 
     /**
-     * 将当前日期设置为这周第一天 (周日)
+     * 将日历设置为当周的第一天 (周日)
      */
-    fun setWeekOfOneDay(calendar: Calendar):Calendar{
-        val week = calendar.get(Calendar.DAY_OF_WEEK)
-        calendar.add(Calendar.DAY_OF_YEAR,1-week)
+    fun setWeekToSunday(calendar: Calendar):Calendar{
+        calendar.set(Calendar.DAY_OF_WEEK,Calendar.SUNDAY)
         return calendar
     }
 
 
     /**
-     * 将日历设置为当周的第一天
+     * 将当前日期设置为这周第一天 (周日)
      * @return 日历对象
      */
-    fun getFirstWeekDay(year: Int, month: Int, day: Int): Calendar {
-        val calendar = Calendar.getInstance()
-        calendar.set(Calendar.YEAR, year)
-        calendar.set(Calendar.MONTH, month)
-        calendar.set(Calendar.DAY_OF_MONTH, day)
-        calendar.add(Calendar.DAY_OF_MONTH, Calendar.SUNDAY - calendar.get(Calendar.DAY_OF_WEEK))
-        return calendar
+    fun setWeekToSunday(year: Int, month: Int, day: Int): Calendar {
+        return Calendar.getInstance().also {
+            it.set(year,month,day)
+            it.add(Calendar.DAY_OF_MONTH, Calendar.SUNDAY - it.get(Calendar.DAY_OF_WEEK))
+        }
     }
 
     /**
@@ -126,7 +123,7 @@ object CalendarUtils {
     fun getWeekDayList(year: Int, month: Int, day: Int): ArrayList<DayEntity> {
         val today = getTodayNumber(year, month)
         val dayArray = arrayListOf<DayEntity>()
-        val calendar = getFirstWeekDay(year, month, day)
+        val calendar = setWeekToSunday(year, month, day)
         for (index in 0..6) {
             calendar.add(Calendar.DAY_OF_MONTH, if(index == 0) 0 else 1)
             dayArray.add(
