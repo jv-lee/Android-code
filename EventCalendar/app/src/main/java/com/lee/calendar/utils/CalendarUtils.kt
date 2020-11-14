@@ -90,6 +90,51 @@ object CalendarUtils {
     }
 
     /**
+     * 将当月第一周这职位这周第一天（周日）
+     */
+    fun setFirstWeekToSunday(year: Int, month: Int, day: Int):Calendar {
+        return Calendar.getInstance().also {
+            it.set(year,month,day)
+            it.set(Calendar.WEEK_OF_MONTH,7)
+            it.set(Calendar.DAY_OF_WEEK,Calendar.SUNDAY)
+        }
+    }
+
+    /**
+     * 当月第一天是否为周日
+     */
+    fun firstDayIsSunday(year:Int, month: Int): Boolean {
+        val calendar = Calendar.getInstance().also {
+            it.set(year,month,1)
+        }
+        return calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY
+    }
+
+    /**
+     * 最后一周是否为当前月份
+     */
+    fun lastWeekDayIsToMonth(year: Int,month: Int):Boolean{
+        val lastDayIsWeek = getMonthWeekCount(year, month)
+        val calendar = Calendar.getInstance().also {
+            it.set(year,month,1)
+            it.set(Calendar.WEEK_OF_MONTH,lastDayIsWeek)
+            it.set(Calendar.DAY_OF_WEEK,Calendar.SATURDAY)
+        }
+        return calendar.get(Calendar.MONTH) == month
+    }
+
+    /**
+     * 获取当前月总周数
+     */
+    fun getMonthWeekCount(year: Int, month: Int):Int {
+        val day = getMaxDayCountByMonth(year, month)
+        val calendar = Calendar.getInstance().also {
+            it.set(year,month,day)
+        }
+        return calendar.get(Calendar.WEEK_OF_MONTH)
+    }
+
+    /**
      * 根据年月获取当天日期， 非当年当月返回 -1
      */
     fun getTodayNumber(year: Int, month: Int): Int {
