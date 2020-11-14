@@ -95,10 +95,10 @@ class DayView constructor(context: Context, attributeSet: AttributeSet) :
         setLayerType(LAYER_TYPE_SOFTWARE, null)
     }
 
-    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-        mWidth = MeasureSpec.getSize(widthMeasureSpec)
-        mHeight = MeasureSpec.getSize(heightMeasureSpec)
+    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
+        super.onSizeChanged(w, h, oldw, oldh)
+        mWidth = w
+        mHeight = h
         mLeft = strokeWidth
         mTop = strokeWidth
         mRight = mWidth - strokeWidth
