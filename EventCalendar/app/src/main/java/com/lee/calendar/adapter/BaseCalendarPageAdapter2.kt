@@ -88,6 +88,7 @@ abstract class BaseCalendarPageAdapter2(private val data:ArrayList<DateEntity>) 
 
     //更新当权选中的下标数据 - 修改实际数据源通知更新
     private fun updateSelectPosition(entity:DayEntity,index:Int) {
+        if(index >= data.size || index < 0)return
         for ((position, day) in data[index].dayList.withIndex()) {
             day.isSelected = false
             if (day.day == entity.day && day.isToMonth) {

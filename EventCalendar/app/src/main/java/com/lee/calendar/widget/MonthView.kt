@@ -460,6 +460,7 @@ class MonthView(context: Context, attributeSet: AttributeSet) : View(context, at
     }
 
     private fun onItemClick(index: Int) {
+        if(selectedIndex == index)return //防止重复点击
         val dayEntity = dayList[index]
         if (dayEntity.isToMonth) {
             dayEntity.isSelected = true
