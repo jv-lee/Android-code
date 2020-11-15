@@ -44,6 +44,8 @@ class CalendarLinearLayout(context: Context, attributeSet: AttributeSet) :
     private var mCalendarView: CalendarView? = null
     private var mRecyclerView: RecyclerView? = null
 
+    private var switchEnable = true
+
     init {
         //初始化系统拖动阈值
         mTouchSlop = ViewConfiguration.get(context).scaledTouchSlop
@@ -64,12 +66,15 @@ class CalendarLinearLayout(context: Context, attributeSet: AttributeSet) :
             val distanceY = abs(endY - startY)
 
             val scrollTop = startY > e.y
+            switchEnable = true
 
             Log.i(TAG, "onInterceptTouchEvent: touchSlop:$mTouchSlop distanceX:$distanceX - distanceY:$distanceY")
             //横向滚动 交给子view处理
             if (distanceX > distanceY) {
                 //当前横向滑动点击在事件列表中 不交给recyclerView处理.
                 if (isTouchPointInView(mRecyclerView, startRawX.toInt(), startRawY.toInt())) {
+                    //把week/month切换开关关闭 防止滑动时错误显示monthView
+                    switchEnable = false
                     return true
                 }
 
@@ -122,7 +127,7 @@ class CalendarLinearLayout(context: Context, attributeSet: AttributeSet) :
                 expansionEnable = event.rawY > startRawY
 
                 //开始滑动即为展开状态显示 monthViewPager
-                it.switchMonthOrWeekPager(true)
+                if(switchEnable)it.switchMonthOrWeekPager(true)
 
                 val newHeight = (viewHeight + (event.rawY - startRawY)).toInt()
 
