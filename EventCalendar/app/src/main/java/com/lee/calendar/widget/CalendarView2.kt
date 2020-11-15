@@ -14,6 +14,7 @@ import com.lee.calendar.entity.DateEntity
 import com.lee.calendar.entity.DayEntity
 import com.lee.calendar.manager.CalendarManager2
 import com.lee.calendar.utils.SizeUtil
+import com.lee.calendar.utils.ViewPager2Utils
 
 /**
  * @author jv.lee
@@ -72,6 +73,8 @@ class CalendarView2(context: Context, attributeSet: AttributeSet) :
         View.inflate(context, R.layout.layout_calendar_view2, this)
         mWeekViewPager = findViewById(R.id.vp_week_container)
         mMonthViewPager = findViewById(R.id.vp_month_container)
+        ViewPager2Utils.closeItemAnim(mWeekViewPager)
+        ViewPager2Utils.closeItemAnim(mMonthViewPager)
 
         mWeekViewPager.layoutParams = FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, minHeight)
         mWeekViewPager.requestLayout()
