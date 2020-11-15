@@ -32,10 +32,18 @@ class CalendarView2(context: Context, attributeSet: AttributeSet) :
     private lateinit var mWeekViewPagerAdapter: BaseCalendarPageAdapter2
     private lateinit var mMonthViewPagerAdapter: BaseCalendarPageAdapter2
 
+    private lateinit var mMonthCalendarManager :CalendarManager2
+    private lateinit var mWeekCalendarManager :CalendarManager2
+
     private val minHeight: Int
     private val maxHeight: Int
     private val weekLayoutId: Int
     private val weekLayoutHeight: Int
+
+    private val startTime:String
+    private val initPrevMonthCount:Int
+    private val initNextMonthCount:Int
+    private val loadMonthCount:Int
 
     private var mChangePager: OnChangePager? = null
 
@@ -50,6 +58,10 @@ class CalendarView2(context: Context, attributeSet: AttributeSet) :
 
     init {
         context.obtainStyledAttributes(attributeSet, R.styleable.CalendarView2).run {
+            startTime = getString(R.styleable.CalendarView2_startTime) ?: ""
+            initPrevMonthCount = getInt(R.styleable.CalendarView2_init_prev_month_count,3)
+            initNextMonthCount = getInt(R.styleable.CalendarView2_init_next_month_count,3)
+            loadMonthCount = getInt(R.styleable.CalendarView2_load_month_count,3)
             weekLayoutId =
                 getResourceId(R.styleable.CalendarView2_week_layout2, R.layout.layout_week)
             weekLayoutHeight = getDimension(
@@ -82,11 +94,11 @@ class CalendarView2(context: Context, attributeSet: AttributeSet) :
             FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, maxHeight)
         mMonthViewPager.requestLayout()
 
-        val monthCalendarManager = CalendarManager2(true, 10, 10)
-        val monthData = monthCalendarManager.initDateList()
+        mMonthCalendarManager = CalendarManager2(true, initPrevMonthCount,initNextMonthCount, loadMonthCount)
+        val monthData = mMonthCalendarManager.initDateList()
 
-        val weekCalendarManager = CalendarManager2(false, 10, 10)
-        val weekData = weekCalendarManager.initDateList()
+        mWeekCalendarManager = CalendarManager2(false, initPrevMonthCount,initNextMonthCount, loadMonthCount)
+        val weekData = mWeekCalendarManager.initDateList()
 
         MonthAdapter2(monthData).also {
             mMonthViewPagerAdapter = it
@@ -125,8 +137,15 @@ class CalendarView2(context: Context, attributeSet: AttributeSet) :
     }
 
     fun initData() {
-        mMonthViewPagerAdapter.bindPager(mMonthViewPager)
-        mWeekViewPagerAdapter.bindPager(mWeekViewPager)
+        mMonthViewPagerAdapter.bindPager(mMonthViewPager,initPrevMonthCount)
+        mWeekViewPagerAdapter.bindPager(mWeekViewPager,initPrevMonthCount)
+
+//        val loadPrevDateList = mMonthCalendarManager.loadPrevDateList()
+//        mMonthViewPagerAdapter.getData().addAll(0,loadPrevDateList)
+//        mMonthViewPagerAdapter.notifyItemRangeInserted(0,loadPrevDateList.size)
+//        val loadPrevDateList1 = mWeekCalendarManager.loadPrevDateList()
+//        mWeekViewPagerAdapter.getData().addAll(0,loadPrevDateList1)
+//        mWeekViewPagerAdapter.notifyItemRangeInserted(0,loadPrevDateList1.size)
     }
 
     fun switchMonthOrWeekPager(expansionEnable: Boolean) {

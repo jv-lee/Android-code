@@ -17,13 +17,14 @@
 
     <TextView
         android:id="@+id/tv_content"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="1dp"
         android:text="You have set a time to publish Chapter Forty, 1340 words in total."
         android:textColor="#FF222222"
         android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/iv_status_icon"
         app:layout_constraintTop_toTopOf="parent" />
 

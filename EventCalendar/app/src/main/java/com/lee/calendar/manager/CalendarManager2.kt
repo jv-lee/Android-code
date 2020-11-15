@@ -12,14 +12,15 @@ import java.util.*
  */
 class CalendarManager2(
     private val isMonth: Boolean,
-    private val initPNMonthCount: Int = 1,    //初始化向前向后月份数量
+    private val initPrevMonthCount:Int = 1,
+    private val initNextMonthCount:Int = 1,
     private val loadPNMonthCount: Int = 1    //向前分页/向后分页count
 ) : ICalendarData2 {
 
     private var startIndexCalendar =
-        Calendar.getInstance().also { it.add(Calendar.MONTH, -(initPNMonthCount)) }
+        Calendar.getInstance().also { it.add(Calendar.MONTH, -(initPrevMonthCount)) }
     private var endIndexCalendar =
-        Calendar.getInstance().also { it.add(Calendar.MONTH, initPNMonthCount) }
+        Calendar.getInstance().also { it.add(Calendar.MONTH, initNextMonthCount) }
 
     override fun initDateList(): ArrayList<DateEntity> {
         return if (isMonth) initMonthList() else initWeekList()
@@ -35,10 +36,10 @@ class CalendarManager2(
 
     private fun initMonthList(): ArrayList<DateEntity> {
         val startCalendar = Calendar.getInstance()
-        startCalendar.add(Calendar.MONTH, -initPNMonthCount)
+        startCalendar.add(Calendar.MONTH, -initPrevMonthCount)
 
         val endCalendar = Calendar.getInstance()
-        endCalendar.add(Calendar.MONTH, initPNMonthCount)
+        endCalendar.add(Calendar.MONTH, initNextMonthCount)
 
         val dateList = arrayListOf<DateEntity>()
 
@@ -190,11 +191,11 @@ class CalendarManager2(
 
     private fun initWeekList(): ArrayList<DateEntity> {
         val startCalendar = Calendar.getInstance()
-        startCalendar.add(Calendar.MONTH, -initPNMonthCount)
+        startCalendar.add(Calendar.MONTH, -initPrevMonthCount)
         startCalendar.set(Calendar.DATE, 1)
 
         val endCalendar = Calendar.getInstance()
-        endCalendar.add(Calendar.MONTH, initPNMonthCount)
+        endCalendar.add(Calendar.MONTH, initNextMonthCount)
         endCalendar.set(Calendar.DATE, 1)
         endCalendar.roll(Calendar.DATE, -1)
 

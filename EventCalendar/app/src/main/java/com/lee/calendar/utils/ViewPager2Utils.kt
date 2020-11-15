@@ -1,5 +1,7 @@
 package com.lee.calendar.utils
 
+import android.view.View
+import android.widget.OverScroller
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import androidx.viewpager2.widget.ViewPager2
@@ -17,6 +19,7 @@ object ViewPager2Utils {
             val rvObject = mRecyclerView[viewPager]
             rvObject?.let {
                 val itemAnimator = (it as RecyclerView).itemAnimator
+                it.overScrollMode = View.OVER_SCROLL_NEVER
                 itemAnimator?.let { item->
                     item.addDuration = 0
                     item.changeDuration = 0

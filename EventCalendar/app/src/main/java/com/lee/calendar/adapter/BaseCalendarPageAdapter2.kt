@@ -1,6 +1,7 @@
 package com.lee.calendar.adapter
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,7 +32,7 @@ abstract class BaseCalendarPageAdapter2(private val data:ArrayList<DateEntity>) 
     fun getData() = data
 
     //viewPager绑定adapter 进行初始化view渲染
-    fun bindPager(pager: ViewPager2) {
+    fun bindPager(pager: ViewPager2,startPage:Int) {
         this.mPager = pager
 
         pager.adapter = this
@@ -41,7 +42,7 @@ abstract class BaseCalendarPageAdapter2(private val data:ArrayList<DateEntity>) 
                 mChangeDataListener?.onPageChangeDate(position,data[position])
             }
         })
-        initStartPage(data.size / 2)
+        initStartPage(startPage)
     }
 
     //初始化搜起始页面 - 默认为当月
@@ -55,14 +56,14 @@ abstract class BaseCalendarPageAdapter2(private val data:ArrayList<DateEntity>) 
         return if (monthMode() == MonthView.MonthMode.MODE_MONTH) {
             position
         } else {
-            val dayEntity = data[position].dayList[0]
-            val weekDiffCount = CalendarUtils.getDiffWeekCount(
+            val dayEntity = data[0].dayList[0]
+            val weekDiffCount = CalendarUtils.getDiffWeekPage(
                 Calendar.getInstance().also {
                     it.set(Calendar.DATE, 1)
                 }, Calendar.getInstance().also {
                     it.set(dayEntity.year, dayEntity.month, dayEntity.day)
                 })
-            position + weekDiffCount
+            weekDiffCount
         }
     }
 

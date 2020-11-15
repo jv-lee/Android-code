@@ -18,6 +18,10 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this@MainActivity, CalendarViewActivity::class.java))
         }
 
+        findViewById<Button>(R.id.btn_calendar_view2).setOnClickListener {
+            startActivity(Intent(this@MainActivity, CalendarView2Activity::class.java))
+        }
+
         findViewById<Button>(R.id.btn_page_month).setOnClickListener {
             startActivity(Intent(this@MainActivity, PageMonthActivity::class.java))
         }

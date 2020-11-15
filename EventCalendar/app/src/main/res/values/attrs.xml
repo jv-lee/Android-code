@@ -15,6 +15,10 @@
         <attr name="week_layout_height2" format="dimension"/>
         <attr name="week_layout2" format="reference"/>
         <attr name="itemHeight2" format="dimension"/>
+        <attr name="startTime" format="string"/>
+        <attr name="init_prev_month_count" format="integer"/>
+        <attr name="init_next_month_count" format="integer"/>
+        <attr name="load_month_count" format="integer"/>
     </declare-styleable>
 
     <declare-styleable name="DayView">

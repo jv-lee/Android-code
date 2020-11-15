@@ -12,7 +12,7 @@ class CalendarManager2Test {
 
     @Test
     fun testWeekDate() {
-        val cm = CalendarManager2(false)
+        val cm = CalendarManager2(true,24,6)
         val dateList = cm.initDateList()
 
         val prev1 = cm.loadPrevDateList()

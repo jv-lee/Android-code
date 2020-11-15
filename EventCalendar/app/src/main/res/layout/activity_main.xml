@@ -15,6 +15,12 @@
         android:text="start CalendarView" />
 
     <Button
+        android:id="@+id/btn_calendar_view2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="start CalendarView2" />
+
+    <Button
         android:id="@+id/btn_page_month"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

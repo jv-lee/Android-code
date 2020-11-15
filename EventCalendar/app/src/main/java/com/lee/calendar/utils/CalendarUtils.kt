@@ -144,7 +144,20 @@ object CalendarUtils {
     }
 
     /**
-     * 获取两个时间相差周
+     * 获取两个时间 长间距相隔多少个周  （使用限制条件：起始时间和结束时间同为周天）
+     * 适用于初始化 month/week 对比 同步page
+     */
+    fun getDiffWeekPage(tagCalendar: Calendar, currentCalendar: Calendar):Int {
+        val diff = tagCalendar.timeInMillis - currentCalendar.timeInMillis
+        val nd = 1000 * 24 * 60 * 60.toLong()
+        val day = diff / nd
+        val week = day / 7
+        return week.toInt()
+    }
+
+    /**
+     * 获取当前两个短间距时间相隔多少周 (使用限制-上下周期一年内)
+     * 适用于点击/翻页 跟随
      */
     fun getDiffWeekCount(tagCalendar: Calendar, currentCalendar: Calendar):Int {
         val tagWeek = tagCalendar.get(Calendar.WEEK_OF_YEAR)
