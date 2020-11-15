@@ -253,14 +253,16 @@ class MonthView(context: Context, attributeSet: AttributeSet) : View(context, at
         mPaint.strokeWidth = strokeWidth
         val path1 = Path().apply {
 
+            val topDimen = childSize.cy - ((absSize  / 2) - (strokeWidth + paddingSize))
+            val bottomDimen = childSize.cy + ((absSize / 2) - (strokeWidth + paddingSize))
             val startDimen = childSize.cx - ((absSize / 2) - (paddingSize)) + strokeWidth
-            val rectF = RectF(startDimen, childSize.top + paddingSize +strokeWidth, childSize.width + dayWidth, childSize.bottom - paddingSize)
+            val rectF = RectF(startDimen, topDimen, childSize.width + dayWidth,bottomDimen)
             val radius = childSize.cx
             val radiusArray = floatArrayOf(radius, radius, 0f, 0f, 0f, 0f, radius, radius)
             addRoundRect(rectF, radiusArray, Path.Direction.CCW)
 
             val dimen = (strokeWidth / 2)
-            canvas.clipRect(startDimen - dimen,childSize.top + paddingSize - dimen,childSize.width,childSize.bottom - paddingSize + dimen)
+            canvas.clipRect(startDimen - dimen,topDimen -strokeWidth,childSize.width,bottomDimen + strokeWidth)
         }
 
 
@@ -270,8 +272,11 @@ class MonthView(context: Context, attributeSet: AttributeSet) : View(context, at
         mPaint.style = Paint.Style.STROKE
         mPaint.strokeWidth = strokeWidth
         val path2 = Path().apply {
+
+            val topDimen = childSize.cy - ((absSize  / 2) - (strokeWidth + paddingSize))
+            val bottomDimen = childSize.cy + ((absSize / 2) - (strokeWidth + paddingSize))
             val startDimen = childSize.cx - ((absSize / 2) - (paddingSize)) + strokeWidth
-            val rectF = RectF(startDimen, childSize.top + paddingSize +strokeWidth, childSize.width + dayWidth, childSize.bottom - paddingSize)
+            val rectF = RectF(startDimen, topDimen, childSize.width + dayWidth,bottomDimen)
             val radius = childSize.cx
             val radiusArray = floatArrayOf(radius, radius, 0f, 0f, 0f, 0f, radius, radius)
             addRoundRect(rectF, radiusArray, Path.Direction.CCW)
@@ -287,9 +292,12 @@ class MonthView(context: Context, attributeSet: AttributeSet) : View(context, at
         mPaint.style = Paint.Style.FILL
         mPaint.strokeWidth = strokeWidth
 
+        val topDimen = childSize.cy - ((absSize  / 2) - (strokeWidth + paddingSize))
+        val bottomDimen = childSize.cy + ((absSize / 2) - (strokeWidth + paddingSize))
+
         val path1 = Path().apply {
             val rectF =
-                RectF(childSize.left - strokeWidth, childSize.top + paddingSize + strokeWidth, childSize.right + strokeWidth, childSize.bottom - paddingSize)
+                RectF(childSize.left - strokeWidth, topDimen, childSize.right + strokeWidth, bottomDimen)
             addRect(rectF, Path.Direction.CCW)
         }
         canvas.drawPath(path1, mPaint)
@@ -298,8 +306,8 @@ class MonthView(context: Context, attributeSet: AttributeSet) : View(context, at
         mPaint.style = Paint.Style.STROKE
         mPaint.strokeWidth = strokeWidth
 
-        canvas.drawLine(childSize.width - dayWidth, childSize.top + paddingSize +strokeWidth, childSize.width, childSize.top + paddingSize +strokeWidth, mPaint)
-        canvas.drawLine(childSize.width - dayWidth, childSize.bottom - paddingSize, childSize.width, childSize.bottom - paddingSize, mPaint)
+        canvas.drawLine(childSize.width - dayWidth, topDimen, childSize.width, topDimen, mPaint)
+        canvas.drawLine(childSize.width - dayWidth, bottomDimen, childSize.width, bottomDimen, mPaint)
     }
 
     private fun drawEnd(canvas: Canvas, childSize: ChildSize,index: Int) {
@@ -312,14 +320,16 @@ class MonthView(context: Context, attributeSet: AttributeSet) : View(context, at
 
         val path1 = Path().apply {
 
+            val topDimen = childSize.cy - ((absSize  / 2) - (strokeWidth + paddingSize))
+            val bottomDimen = childSize.cy + ((absSize / 2) - (strokeWidth + paddingSize))
             val endDimen = childSize.cx + ((absSize / 2) - paddingSize) - strokeWidth
-            val rectF = RectF(0f, childSize.top + paddingSize + strokeWidth, endDimen, childSize.bottom - paddingSize)
+            val rectF = RectF(0f, topDimen, endDimen, bottomDimen)
             val radius = childSize.cx
             val radiusArray = floatArrayOf(0f, 0f, radius, radius, radius, radius, 0f, 0f)
             addRoundRect(rectF, radiusArray, Path.Direction.CCW)
 
             val dimen = (strokeWidth / 2)
-            canvas.clipRect(childSize.width - dayWidth,childSize.top + paddingSize - dimen,endDimen + strokeWidth,childSize.bottom - paddingSize + dimen)
+            canvas.clipRect(childSize.width - dayWidth,topDimen - strokeWidth,endDimen + strokeWidth,bottomDimen + strokeWidth)
         }
         canvas.drawPath(path1, mPaint)
 
@@ -328,8 +338,11 @@ class MonthView(context: Context, attributeSet: AttributeSet) : View(context, at
         mPaint.strokeWidth = strokeWidth
 
         val path2 = Path().apply {
+
+            val topDimen = childSize.cy - ((absSize  / 2) - (strokeWidth + paddingSize))
+            val bottomDimen = childSize.cy + ((absSize / 2) - (strokeWidth + paddingSize))
             val endDimen = childSize.cx + ((absSize / 2) - paddingSize) - strokeWidth
-            val rectF = RectF(0f, childSize.top + paddingSize + strokeWidth, endDimen, childSize.bottom - paddingSize)
+            val rectF = RectF(0f, topDimen, endDimen, bottomDimen)
             val radius = childSize.cx
             val radiusArray = floatArrayOf(0f, 0f, radius, radius, radius, radius, 0f, 0f)
             addRoundRect(rectF, radiusArray, Path.Direction.CCW)
