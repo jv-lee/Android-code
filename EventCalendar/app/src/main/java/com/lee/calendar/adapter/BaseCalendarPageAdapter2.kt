@@ -93,6 +93,7 @@ abstract class BaseCalendarPageAdapter2(private val data:ArrayList<DateEntity>) 
                 day.isSelected = true
                 currentDay = day
                 currentSelectIndex = position
+                updateSelectRowIndex(position,day)
             }
         }
         notifyDataSetChanged()
