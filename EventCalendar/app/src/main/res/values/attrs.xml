@@ -45,4 +45,26 @@
         <attr name="day_strokeWidth" format="dimension" />
 
     </declare-styleable>
+
+    <declare-styleable name="MonthView">
+        <attr name="month_updateBackgroundColor" format="color" />
+        <attr name="month_updateStrokeColor" format="color" />
+        <attr name="month_updateSelectedColor" format="color" />
+        <attr name="month_overBackgroundColor" format="color" />
+        <attr name="month_overStrokeColor" format="color" />
+        <attr name="month_overSelectedColor" format="color" />
+        <attr name="month_todayBackgroundColor" format="color" />
+        <attr name="month_dotColor" format="color" />
+        <attr name="month_todayDotColor" format="color" />
+        <attr name="month_goneTextColor" format="color" />
+        <attr name="month_defaultTextColor" format="color" />
+        <attr name="month_todayTextColor" format="color" />
+
+        <attr name="month_text" format="string" />
+        <attr name="month_textSize" format="dimension" />
+        <attr name="month_dotSize" format="dimension" />
+        <attr name="month_paddingSize" format="dimension" />
+        <attr name="month_strokeWidth" format="dimension" />
+
+    </declare-styleable>
 </resources>
