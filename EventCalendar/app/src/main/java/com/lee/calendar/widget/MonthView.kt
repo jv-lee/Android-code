@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
-import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewConfiguration
@@ -53,10 +52,23 @@ class MonthView(context: Context, attributeSet: AttributeSet) : View(context, at
     private var startY = 0f
     private var mTouchSlop = 0
 
+    private var dayWidth = 0f
+    private var dayHeight = 0f
+
+    private var totalRow = 6
+    private val totalCol = 7
+    private var mode:Int = MonthMode.MODE_MONTH
+
+    private val dayList = ArrayList<DayEntity>()
+    private var selectedIndex = 0
+
     init {
         //初始化系统拖动阈值
         mTouchSlop = ViewConfiguration.get(context).scaledTouchSlop
         context.obtainStyledAttributes(attributeSet, R.styleable.MonthView).run {
+
+            mode = getInt(R.styleable.MonthView_month_mode,MonthMode.MODE_MONTH)
+            setMode(mode)
 
             updateBackgroundColor = getColor(
                 R.styleable.MonthView_month_updateBackgroundColor,
@@ -135,14 +147,9 @@ class MonthView(context: Context, attributeSet: AttributeSet) : View(context, at
         setLayerType(LAYER_TYPE_SOFTWARE, null)
     }
 
-    private var dayWidth = 0f
-    private var dayHeight = 0f
-
-    private val totalRow = 6
-    private val totalCol = 7
-
-    private val dayList = ArrayList<DayEntity>()
-    private var selectedIndex = 0
+    fun setMode(mode: Int) {
+        totalRow = if(mode == MonthMode.MODE_MONTH) 6 else 1
+    }
 
     fun bindData(data: ArrayList<DayEntity>) {
         dayList.clear()
@@ -392,25 +399,6 @@ class MonthView(context: Context, attributeSet: AttributeSet) : View(context, at
         }
     }
 
-    @IntDef(
-        DayBackgroundStatus.STATUS_SINGLE,
-        DayBackgroundStatus.STATUS_START,
-        DayBackgroundStatus.STATUS_CENTER,
-        DayBackgroundStatus.STATUS_END
-    )
-    @Retention(AnnotationRetention.SOURCE)
-    @MustBeDocumented
-    annotation class DayBackgroundStatus {
-        companion object {
-            const val STATUS_GONE = 0
-            const val STATUS_SINGLE = 1
-            const val STATUS_START = 2
-            const val STATUS_CENTER = 3
-            const val STATUS_END = 4
-
-        }
-    }
-
     /**
      * 通过x坐标/y坐标计算出数据下标
      */
@@ -463,7 +451,7 @@ class MonthView(context: Context, attributeSet: AttributeSet) : View(context, at
         if (dayEntity.isToMonth) {
             dayEntity.isSelected = true
             dayList[selectedIndex].isSelected = false
-            Log.i(TAG, "onTouchEvent: ${dayEntity.year} - ${dayEntity.month} - ${dayEntity.day}")
+            mOnDaySelectedListener?.onDayClick(index,dayEntity)
             invalidate()
         }
     }
@@ -493,6 +481,49 @@ class MonthView(context: Context, attributeSet: AttributeSet) : View(context, at
         val cy = height - (dayHeight / 2)
 
         return ChildSize(width, height, left, top, right, bottom, absSize, cx, cy)
+    }
+
+    private var mOnDaySelectedListener:OnDaySelectedListener ? =null
+
+    fun setOnDaySelectedListener(onDaySelectedListener: OnDaySelectedListener) {
+        this.mOnDaySelectedListener = onDaySelectedListener
+    }
+
+    interface OnDaySelectedListener{
+        fun onDayClick(position:Int,entity:DayEntity)
+    }
+
+    @IntDef(
+        DayBackgroundStatus.STATUS_SINGLE,
+        DayBackgroundStatus.STATUS_START,
+        DayBackgroundStatus.STATUS_CENTER,
+        DayBackgroundStatus.STATUS_END
+    )
+    @Retention(AnnotationRetention.SOURCE)
+    @MustBeDocumented
+    annotation class DayBackgroundStatus {
+        companion object {
+            const val STATUS_GONE = 0
+            const val STATUS_SINGLE = 1
+            const val STATUS_START = 2
+            const val STATUS_CENTER = 3
+            const val STATUS_END = 4
+
+        }
+    }
+
+    @IntDef(
+        MonthMode.MODE_MONTH,
+        MonthMode.MODE_WEEK
+    )
+    @Retention(AnnotationRetention.SOURCE)
+    @MustBeDocumented
+    annotation class MonthMode {
+        companion object {
+            const val MODE_MONTH = 0
+            const val MODE_WEEK = 1
+
+        }
     }
 }
 

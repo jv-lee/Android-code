@@ -16,6 +16,9 @@
         <activity android:name=".CalendarViewActivity" >
 
         </activity>
+        <activity android:name=".MonthViewActivity">
+
+        </activity>
         <activity android:name=".CalendarView2Activity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

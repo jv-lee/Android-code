@@ -8,7 +8,7 @@
         android:id="@+id/month_view"
         style="@style/Calendar_Month"
         android:layout_width="match_parent"
-        android:layout_height="312dp"
+        android:layout_height="match_parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

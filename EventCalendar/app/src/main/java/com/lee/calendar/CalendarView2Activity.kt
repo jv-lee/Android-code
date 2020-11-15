@@ -2,69 +2,62 @@ package com.lee.calendar
 
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.get
-import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager2.widget.ViewPager2
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import com.lee.calendar.adapter.MonthAdapter2
+import com.lee.calendar.adapter.WeekAdapter2
 import com.lee.calendar.entity.DateEntity
-import com.lee.calendar.manager.CalendarManager2
-import com.lee.calendar.widget.MonthView
-import kotlinx.android.synthetic.main.activity_calendar_view_2.*
+import com.lee.calendar.entity.DayEntity
+import com.lee.calendar.viewmodel.TestViewModel
+import com.lee.calendar.widget.CalendarLinearLayout2
+import com.lee.calendar.widget.CalendarView2
 
 /**
  * @author jv.lee
- * @date 2020/11/13
+ * @date 2020/11/15
  * @description
  */
-class CalendarView2Activity : AppCompatActivity(R.layout.activity_calendar_view_2) {
+class CalendarView2Activity : AppCompatActivity(R.layout.activity_calendar_view2) {
+
+    private val viewModel by lazy { ViewModelProviders.of(this).get(TestViewModel::class.java) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val calendarManager = CalendarManager2(true,10,10)
-        val dateList = calendarManager.initDateList()
+        val calendarLinear = findViewById<CalendarLinearLayout2>(R.id.calendar_linear)
+        val calendar = findViewById<CalendarView2>(R.id.calendar)
 
-        val viewPagerAdapter = ViewPagerAdapter(dateList)
-        vp_container.adapter = viewPagerAdapter
-
-        vp_container.registerOnPageChangeCallback(object: ViewPager2.OnPageChangeCallback() {
-            override fun onPageSelected(position: Int) {
-                Toast.makeText(this@CalendarView2Activity,"$position",Toast.LENGTH_LONG).show()
+        calendar.setOnChangePager(object: CalendarView2.OnChangePager{
+            override fun onMonthPageChange(position: Int, entity: DateEntity, viewVisibility:Int) {
+                Log.i("jv.lee", "onMonthPageChange: $position - ${entity.year}-${entity.month}")
+                viewModel.getMonthData(position, entity.year, entity.month)
             }
+
+            override fun onWeekPageChange(position: Int, entity: DateEntity, viewVisibility:Int) {
+                Log.i("jv.lee", "onWeekPageChange: $position - ${entity.year}-${entity.month}")
+                if (entity.dayList.isNotEmpty()) {
+                    Log.i("jv.lee", "onWeekPageChange: getWeekData")
+                    viewModel.getWeekData(position,entity.year,entity.month,entity.dayList[0].day)
+                }
+            }
+
+            override fun onDayChange(position: Int, entity: DayEntity) {
+//                tvDateDescription.text = "${entity.year}-${CalendarUtils.getMonthNumber(entity.month)}"
+                Log.i("jv.lee", "onDayChange: $position - $entity")
+            }
+
         })
-        vp_container.setCurrentItem(viewPagerAdapter.itemCount / 2,false)
+        calendar.initData()
+        calendarLinear.bindEventView(calendar)
+
+        viewModel.monthLiveData.observe(this, Observer {
+            (calendar.getMonthAdapter() as MonthAdapter2).updateDayStatus(it.position, it.data)
+        })
+
+        viewModel.weekLiveData.observe(this, Observer {
+            (calendar.getWeekAdapter() as WeekAdapter2).updateDayStatus(it.position,it.data)
+        })
 
     }
-
-    class ViewPagerAdapter(private val data:ArrayList<DateEntity>) :RecyclerView.Adapter<ViewPagerAdapter.ViewPagerViewHolder>(){
-
-
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewPagerViewHolder {
-            return ViewPagerViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_month_view,parent,false))
-        }
-
-        override fun getItemCount(): Int {
-            return data.size
-        }
-
-        override fun onBindViewHolder(holder: ViewPagerViewHolder, position: Int) {
-            holder.bindView(data[position])
-        }
-
-        class ViewPagerViewHolder(itemView:View):RecyclerView.ViewHolder(itemView){
-
-            fun bindView(entity: DateEntity) {
-                Log.i("jv.lee", "bindView: ${entity.dayList}")
-                itemView.findViewById<MonthView>(R.id.month_view).bindData(entity.dayList)
-            }
-        }
-
-
-
-    }
-
 }

@@ -11,6 +11,12 @@
         <attr name="itemHeight" format="dimension"/>
     </declare-styleable>
 
+    <declare-styleable name="CalendarView2">
+        <attr name="week_layout_height2" format="dimension"/>
+        <attr name="week_layout2" format="reference"/>
+        <attr name="itemHeight2" format="dimension"/>
+    </declare-styleable>
+
     <declare-styleable name="DayView">
         <attr name="day_status" format="enum">
             <enum name="gone" value="0"/>
@@ -47,6 +53,10 @@
     </declare-styleable>
 
     <declare-styleable name="MonthView">
+        <attr name="month_mode" format="enum">
+            <enum name="month" value="0"/>
+            <enum name="week" value="1" />
+        </attr>
         <attr name="month_updateBackgroundColor" format="color" />
         <attr name="month_updateStrokeColor" format="color" />
         <attr name="month_updateSelectedColor" format="color" />

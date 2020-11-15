@@ -19,7 +19,7 @@ import kotlin.math.abs
  * @date 2020/11/10
  * @description 日历容器 - 日历View的滑动交互必须在当前view中完成
  */
-class CalendarLinearLayout(context: Context, attributeSet: AttributeSet) :
+class CalendarLinearLayout2(context: Context, attributeSet: AttributeSet) :
     LinearLayout(context, attributeSet) {
 
     private val TAG = "CalendarLinearLayout"
@@ -30,6 +30,7 @@ class CalendarLinearLayout(context: Context, attributeSet: AttributeSet) :
     //当前是否为滑动状态 控制是否在滑动结束后没有到达目标高度 使用动画设置 min/max 高度
     private var isScrollTouch = false
     private var switchEnable = true
+
     private var viewHeight: Int = 0
 
     private var startRawX = 0F
@@ -42,7 +43,7 @@ class CalendarLinearLayout(context: Context, attributeSet: AttributeSet) :
     private var tempTranslate = 0F
 
     private val mAnimation = PagerAnimation()
-    private var mCalendarView: CalendarView? = null
+    private var mCalendarView: CalendarView2? = null
     private var mRecyclerView: RecyclerView? = null
 
     init {
@@ -119,7 +120,7 @@ class CalendarLinearLayout(context: Context, attributeSet: AttributeSet) :
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent): Boolean {
         mCalendarView?.let {
-            val rowIndex = it.getMonthAdapter()?.getRowIndex() ?: 0
+            val rowIndex = it.getMonthAdapter().getRowIndex()
 
             if (event.action == MotionEvent.ACTION_MOVE) {
                 isScrollTouch = true
@@ -173,7 +174,7 @@ class CalendarLinearLayout(context: Context, attributeSet: AttributeSet) :
         return true
     }
 
-    fun bindEventView(calendarView: CalendarView, recyclerView: RecyclerView? = null) {
+    fun bindEventView(calendarView: CalendarView2, recyclerView: RecyclerView? = null) {
         this.mCalendarView = calendarView
         this.mRecyclerView = recyclerView
     }
