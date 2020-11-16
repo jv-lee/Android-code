@@ -5,55 +5,15 @@
         <attr name="isVertical" format="boolean"/>
     </declare-styleable>
 
+
     <declare-styleable name="CalendarView">
         <attr name="week_layout_height" format="dimension"/>
         <attr name="week_layout" format="reference"/>
         <attr name="itemHeight" format="dimension"/>
-    </declare-styleable>
-
-    <declare-styleable name="CalendarView2">
-        <attr name="week_layout_height2" format="dimension"/>
-        <attr name="week_layout2" format="reference"/>
-        <attr name="itemHeight2" format="dimension"/>
         <attr name="startTime" format="string"/>
         <attr name="init_prev_month_count" format="integer"/>
         <attr name="init_next_month_count" format="integer"/>
         <attr name="load_month_count" format="integer"/>
-    </declare-styleable>
-
-    <declare-styleable name="DayView">
-        <attr name="day_status" format="enum">
-            <enum name="gone" value="0"/>
-            <enum name="single" value="1" />
-            <enum name="start" value="2" />
-            <enum name="center" value="3" />
-            <enum name="end" value="4" />
-        </attr>
-        <attr name="day_isUpdate" format="boolean" />
-        <attr name="day_isSelect" format="boolean" />
-        <attr name="day_isToday" format="boolean" />
-        <attr name="day_isDelayUpdate" format="boolean" />
-        <attr name="day_isGone" format="boolean" />
-
-        <attr name="day_updateBackgroundColor" format="color" />
-        <attr name="day_updateStrokeColor" format="color" />
-        <attr name="day_updateSelectedColor" format="color" />
-        <attr name="day_overBackgroundColor" format="color" />
-        <attr name="day_overStrokeColor" format="color" />
-        <attr name="day_overSelectedColor" format="color" />
-        <attr name="day_todayBackgroundColor" format="color" />
-        <attr name="day_dotColor" format="color" />
-        <attr name="day_todayDotColor" format="color" />
-        <attr name="day_goneTextColor" format="color" />
-        <attr name="day_defaultTextColor" format="color" />
-        <attr name="day_todayTextColor" format="color" />
-
-        <attr name="day_text" format="string" />
-        <attr name="day_textSize" format="dimension" />
-        <attr name="day_dotSize" format="dimension" />
-        <attr name="day_paddingSize" format="dimension" />
-        <attr name="day_strokeWidth" format="dimension" />
-
     </declare-styleable>
 
     <declare-styleable name="MonthView">

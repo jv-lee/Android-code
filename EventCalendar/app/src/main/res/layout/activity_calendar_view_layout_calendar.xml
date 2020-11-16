@@ -35,7 +35,10 @@
         android:background="#ffffff"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
+        app:init_next_month_count="3"
+        app:init_prev_month_count="6"
         app:itemHeight="52dp"
+        app:load_month_count="3"
         app:week_layout="@layout/layout_week"
         app:week_layout_height="32dp" />
 

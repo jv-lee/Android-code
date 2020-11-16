@@ -1,92 +1,29 @@
 package com.lee.calendar.adapter
 
-import android.content.Context
-import android.view.View
 import com.lee.calendar.R
-import com.lee.calendar.entity.DayEntity
-import com.lee.calendar.entity.DayStatus
 import com.lee.calendar.entity.DateData
-import com.lee.calendar.manager.CalendarManager
-import com.lee.calendar.manager.ICalendarData
-import com.lee.calendar.widget.DayView
+import com.lee.calendar.entity.DateEntity
+import com.lee.calendar.widget.MonthView
 
 /**
  * @author jv.lee
- * @date 2020/10/29
+ * @date 2020/11/15
  * @description
  */
-class MonthAdapter : BaseCalendarPageAdapter() {
-    override fun createCalendarManager(): ICalendarData {
-        return CalendarManager(
-            2018, 0, 1,
-            endMonth = 12
-        )
-    }
-
-    override fun isMonthMode(): Boolean {
-        return true
+class MonthAdapter(data:ArrayList<DateEntity>) :BaseCalendarPageAdapter(data){
+    override fun monthMode(): Int {
+        return MonthView.MonthMode.MODE_MONTH
     }
 
     override fun getItemLayout(): Int {
-        return R.layout.item_day
-    }
-
-    override fun convert(context: Context, itemView: View, position: Int, entity: DayEntity) {
-        val dayView = itemView.findViewById<DayView>(R.id.day_view)
-
-        when (entity.dayStatus) {
-            DayStatus.UPDATE_STATUS -> {
-                dayView.updateDataStatus(
-                    text = entity.day.toString(),
-                    isGone = !entity.isToMonth,
-                    isToday = entity.isToDay,
-                    isSelect = entity.isSelected,
-                    isDelayUpdate = false,
-                    isUpdate = true,
-                    backgroundStatus = entity.backgroundStatus
-                )
-            }
-            DayStatus.OVER_UPDATE_STATUS -> {
-                dayView.updateDataStatus(
-                    text = entity.day.toString(),
-                    isGone = !entity.isToMonth,
-                    isToday = entity.isToDay,
-                    isSelect = entity.isSelected,
-                    isDelayUpdate = false,
-                    isUpdate = false,
-                    backgroundStatus = entity.backgroundStatus
-                )
-            }
-            DayStatus.DELAY_UPDATE_STATUS -> {
-                dayView.updateDataStatus(
-                    text = entity.day.toString(),
-                    isGone = !entity.isToMonth,
-                    isToday = entity.isToDay,
-                    isSelect = entity.isSelected,
-                    isDelayUpdate = true,
-                    isUpdate = true,
-                    backgroundStatus = entity.backgroundStatus
-                )
-            }
-            DayStatus.EMPTY_STATUS -> {
-                dayView.updateDataStatus(
-                    text = entity.day.toString(),
-                    isGone = !entity.isToMonth,
-                    isToday = entity.isToDay,
-                    isSelect = entity.isSelected,
-                    isDelayUpdate = false,
-                    isUpdate = true,
-                    backgroundStatus = entity.backgroundStatus
-                )
-            }
-        }
+        return R.layout.item_month_view
     }
 
     fun updateDayStatus(position: Int, arrayList: ArrayList<DateData>) {
-        if (data.isEmpty() || data.size < position) {
+        if (getData().isEmpty() || getData().size < position) {
             return
         }
-        val monthEntity = data[position]
+        val monthEntity = getData()[position]
         for ((index, item) in arrayList.withIndex()) {
             if (monthEntity.dayList.size > index + monthEntity.startIndex) {
                 val dayEntity = monthEntity.dayList[index + monthEntity.startIndex]
@@ -94,7 +31,7 @@ class MonthAdapter : BaseCalendarPageAdapter() {
                 dayEntity.backgroundStatus = item.backgroundStatus
             }
         }
-        dayListAdapterMap[position]?.notifyDataSetChanged()
+        notifyItemChanged(position)
     }
 
 }

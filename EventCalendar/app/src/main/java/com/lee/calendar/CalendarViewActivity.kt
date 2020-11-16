@@ -24,12 +24,10 @@ import com.lee.calendar.widget.CalendarView
 
 /**
  * @author jv.lee
- * @date 2020/11/9
+ * @date 2020/11/15
  * @description
  */
 class CalendarViewActivity : AppCompatActivity(R.layout.activity_calendar_view) {
-
-    private val TAG = CalendarViewActivity::class.java.simpleName
 
     private val viewModel by lazy { ViewModelProviders.of(this).get(TestViewModel::class.java) }
 
@@ -40,41 +38,39 @@ class CalendarViewActivity : AppCompatActivity(R.layout.activity_calendar_view) 
     private val ivAttendanceStatusIcon by lazy { findViewById<ImageView>(R.id.iv_attendance_status_icon) }
     private val ivAttendanceAq by lazy { findViewById<ImageView>(R.id.iv_attendance_aq) }
 
-    private val monthPagerAdapter by lazy { MonthAdapter() }
-    private val weekPagerAdapter by lazy { WeekAdapter() }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        calendarView.setOnChangePager(object:CalendarView.OnChangePager{
-            override fun onMonthPageChange(position: Int, entity: DateEntity,viewVisibility:Int) {
-                Log.i(TAG, "onMonthPageChange: $position - ${entity.year}-${entity.month}")
+
+        calendarView.setOnChangePager(object: CalendarView.OnChangePager{
+            override fun onMonthPageChange(position: Int, entity: DateEntity, viewVisibility:Int) {
+                Log.i("jv.lee", "onMonthPageChange: $position - ${entity.year}-${entity.month}")
                 viewModel.getMonthData(position, entity.year, entity.month)
             }
 
-            override fun onWeekPageChange(position: Int, entity: DateEntity,viewVisibility:Int) {
-                Log.i(TAG, "onWeekPageChange: $position - ${entity.year}-${entity.month}")
+            override fun onWeekPageChange(position: Int, entity: DateEntity, viewVisibility:Int) {
+                Log.i("jv.lee", "onWeekPageChange: $position - ${entity.year}-${entity.month}")
                 if (entity.dayList.isNotEmpty()) {
-                    Log.i(TAG, "onWeekPageChange: getWeekData")
+                    Log.i("jv.lee", "onWeekPageChange: getWeekData")
                     viewModel.getWeekData(position,entity.year,entity.month,entity.dayList[0].day)
                 }
             }
 
             override fun onDayChange(position: Int, entity: DayEntity) {
                 tvDateDescription.text = "${entity.year}-${CalendarUtils.getMonthNumber(entity.month)}"
-                Log.i(TAG, "onDayChange: $position - $entity")
+                Log.i("jv.lee", "onDayChange: $position - $entity")
             }
 
         })
-        calendarView.bindAdapter(weekPagerAdapter,monthPagerAdapter)
+        calendarView.initData()
         linearContainer.bindEventView(calendarView,rvContainer)
 
         viewModel.monthLiveData.observe(this, Observer {
-            monthPagerAdapter.updateDayStatus(it.position, it.data)
+            (calendarView.getMonthAdapter() as MonthAdapter).updateDayStatus(it.position, it.data)
         })
 
         viewModel.weekLiveData.observe(this, Observer {
-            weekPagerAdapter.updateDayStatus(it.position,it.data)
+            (calendarView.getWeekAdapter() as WeekAdapter).updateDayStatus(it.position,it.data)
         })
 
         initRecyclerViewData()

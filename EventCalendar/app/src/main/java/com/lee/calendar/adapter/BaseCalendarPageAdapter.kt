@@ -1,211 +1,112 @@
 package com.lee.calendar.adapter
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import androidx.viewpager.widget.PagerAdapter
-import androidx.viewpager.widget.ViewPager
+import androidx.viewpager2.widget.ViewPager2
 import com.lee.calendar.R
 import com.lee.calendar.entity.DateEntity
 import com.lee.calendar.entity.DayEntity
-import com.lee.calendar.manager.ICalendarData
 import com.lee.calendar.utils.CalendarUtils
+import com.lee.calendar.widget.MonthView
 import java.util.*
-import kotlin.collections.HashMap
 
 /**
  * @author jv.lee
- * @date 2020/11/10
+ * @date 2020/11/15
  * @description
  */
-abstract class BaseCalendarPageAdapter : PagerAdapter() {
-    private val TAG: String = "Pager"
+abstract class BaseCalendarPageAdapter(private val data:ArrayList<DateEntity>) : RecyclerView.Adapter<BaseCalendarPageAdapter.BaseCalendar2ViewHolder>(){
 
-    protected val calendarManager by lazy { createCalendarManager() }
-    protected val data: ArrayList<DateEntity> by lazy { if (isMonthMode()) calendarManager.initMonthList() else calendarManager.initWeekList() }
+    private var mChangeDataListener:OnChangeDataListener?= null
+    private var mPager:ViewPager2? = null
 
-    protected val dayListAdapterMap = HashMap<Int, DayListAdapter>()
-    protected var viewPager: ViewPager? = null
-    private val rowIndexMap = HashMap<Int, Int>()
+    private var rowIndex = 0
+    private var currentSelectIndex = 0
+    private var currentDay: DayEntity? = null
 
-    var currentSelectIndex = 0
-    var currentDay: DayEntity? = null
+    fun getRowIndex() = rowIndex
+    fun getData() = data
 
-    private var onChangeDataListener: OnChangeDataListener? = null
+    //viewPager绑定adapter 进行初始化view渲染
+    fun bindPager(pager: ViewPager2,startPage:Int) {
+        this.mPager = pager
 
-    fun getRowIndex(): Int {
-        return rowIndexMap[viewPager?.currentItem ?: 0] ?: 0
-    }
-
-    fun bindViewPager(viewPager: ViewPager) {
-        this.viewPager = viewPager
-        this.viewPager?.adapter = this
-        initStartPage(data.size / 2)
-
-        viewPager.addOnPageChangeListener(object : ViewPager.SimpleOnPageChangeListener() {
+        pager.adapter = this
+        pager.registerOnPageChangeCallback(object :ViewPager2.OnPageChangeCallback(){
             override fun onPageSelected(position: Int) {
-                super.onPageSelected(position)
-
-                onChangeDataListener?.onPageChangeDate(position,data[position])
-                initDaySelectChange(data[position])
-
+                updateCurrentSelected(data[position])
+                mChangeDataListener?.onPageChangeDate(position,data[position])
             }
-
         })
+        initStartPage(startPage)
     }
 
+    //初始化搜起始页面 - 默认为当月
     private fun initStartPage(position: Int) {
         val index = getInitPosition(position)
-        this.viewPager?.setCurrentItem(index, false)
-        this.onChangeDataListener?.onPageChangeDate(index, data[index])
-        initDaySelectChange(data[index])
-//        loadMoreData()
+        mPager?.setCurrentItem(index, false)
     }
 
+    //初始化起始页下标 - 根据month / week 模式计算
     private fun getInitPosition(position: Int): Int {
-        return if (isMonthMode()) {
+        return if (monthMode() == MonthView.MonthMode.MODE_MONTH) {
             position
         } else {
-            val dayEntity = data[position].dayList[0]
-            val weekDiffCount = CalendarUtils.getDiffWeekCount(
+            val dayEntity = data[0].dayList[0]
+            val weekDiffCount = CalendarUtils.getDiffWeekPage(
                 Calendar.getInstance().also {
                     it.set(Calendar.DATE, 1)
                 }, Calendar.getInstance().also {
                     it.set(dayEntity.year, dayEntity.month, dayEntity.day)
                 })
-            position + weekDiffCount
+            weekDiffCount
         }
     }
 
-    private fun initDaySelectChange(monthEntity: DateEntity) {
+    //更新当前选中行坐标 外部动画需要行坐标
+    private fun updateSelectRowIndex(position: Int, entity: DayEntity) {
+        if (entity.isSelected) {
+            rowIndex = position / 7
+        }
+    }
+
+    //更新当前选中的日期数据 - 修改成员变量
+    private fun updateCurrentSelected(monthEntity: DateEntity) {
         for ((index, item) in monthEntity.dayList.withIndex()) {
             if (item.isSelected) {
                 currentSelectIndex = index
-                onChangeDataListener?.onDayChangeDate(index, item)
                 currentDay = item
+                mChangeDataListener?.onDayChangeDate(index,item)
+                updateSelectRowIndex(index,item)
             }
         }
     }
 
-    override fun isViewFromObject(view: View, `object`: Any): Boolean {
-        return view == `object`
-    }
-
-    override fun getCount(): Int {
-        return data.size
-    }
-
-    override fun instantiateItem(container: ViewGroup, position: Int): Any {
-        val itemView = View.inflate(container.context, R.layout.item_month, null)
-        itemView.id = position
-        convertItemView(itemView, data[position], position)
-        container.addView(itemView)
-        return itemView
-    }
-
-    override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
-        container.removeView(`object` as View)
-    }
-
-    private fun convertItemView(itemView: View, entity: DateEntity, position: Int) {
-        val rvContainer = itemView.findViewById<RecyclerView>(R.id.rv_container)
-        rvContainer.run {
-            layoutManager =
-                object : StaggeredGridLayoutManager(7, StaggeredGridLayoutManager.VERTICAL) {
-                    override fun canScrollVertically(): Boolean {
-                        return false
-                    }
-                }.apply { isAutoMeasureEnabled = true }
-            adapter = dayListAdapterMap[position] ?: DayListAdapter(entity.dayList, position).also {
-                dayListAdapterMap[position] = it
+    //更新当权选中的下标数据 - 修改实际数据源通知更新
+    private fun updateSelectPosition(entity:DayEntity,index:Int) {
+        if(index >= data.size || index < 0)return
+        for ((position, day) in data[index].dayList.withIndex()) {
+            day.isSelected = false
+            if (day.day == entity.day && day.isToMonth) {
+                day.isSelected = true
+                currentDay = day
+                currentSelectIndex = position
+                updateSelectRowIndex(position,day)
             }
         }
+        notifyDataSetChanged()
     }
 
-    fun setOnChangeDataListener(onChangeDataListener: OnChangeDataListener) {
-        this.onChangeDataListener = onChangeDataListener
-    }
-
-    interface OnChangeDataListener {
-        fun onPageChangeDate(position: Int, entity: DateEntity)
-        fun onDayChangeDate(position: Int, entity: DayEntity)
-    }
-
-    /**
-     * 日列表适配器
-     */
-    inner class DayListAdapter(val data: ArrayList<DayEntity>, private val parentPosition: Int) :
-        RecyclerView.Adapter<DayListAdapter.DayListViewHolder>() {
-
-        private var selectPosition = 0
-
-        override fun onCreateViewHolder(
-            parent: ViewGroup,
-            viewType: Int
-        ): DayListViewHolder {
-            return DayListViewHolder(
-                LayoutInflater.from(parent.context).inflate(getItemLayout(), parent, false)
-            )
-        }
-
-        override fun getItemCount(): Int {
-            return data.size
-        }
-
-        override fun onBindViewHolder(holder: DayListViewHolder, position: Int) {
-            holder.bindView(position, data[position])
-        }
-
-        fun initSelectRowIndex(position: Int, entity: DayEntity) {
-            if (entity.isSelected) {
-                this@BaseCalendarPageAdapter.rowIndexMap[parentPosition] = position / 7
-            }
-        }
-
-        private fun initSelectPosition(position: Int, entity: DayEntity) {
-            if (entity.isSelected) selectPosition = position
-        }
-
-        fun selectItemByPosition(position: Int, entity: DayEntity) {
-            currentDay = entity
-            currentSelectIndex = position
-            updateSelectStatus(position)
-            onChangeDataListener?.onDayChangeDate(position, entity)
-        }
-
-        private fun updateSelectStatus(position: Int) {
-            data[selectPosition].isSelected = false
-            data[position].isSelected = true
-            notifyItemChanged(selectPosition)
-            notifyItemChanged(position)
-        }
-
-        inner class DayListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-            fun bindView(position: Int, entity: DayEntity) {
-                initSelectPosition(position, entity)
-                initSelectRowIndex(position, entity)
-                convert(itemView.context, itemView, position, entity)
-
-                itemView.setOnClickListener {
-                    if (!entity.isToMonth || currentSelectIndex == position) return@setOnClickListener
-
-                    selectItemByPosition(position, entity)
-                }
-            }
-        }
-
-    }
-
-    fun selectItem(entity: DayEntity) {
-        if (isMonthMode()) selectMonthItem(entity) else selectWeekItem(entity)
+    //双列表互相通知对方同步页面跟随
+    fun synchronizeSelectItem(entity: DayEntity) {
+        if (monthMode() == MonthView.MonthMode.MODE_MONTH) selectMonthItem(entity) else selectWeekItem(entity)
     }
 
     private fun selectMonthItem(entity: DayEntity) {
         currentDay ?: return
-        viewPager ?: return
+        mPager ?: return
 
         val diffMonthCount = CalendarUtils.getDiffMonthCount(
             Calendar.getInstance().also {
@@ -214,22 +115,15 @@ abstract class BaseCalendarPageAdapter : PagerAdapter() {
                 it.set(currentDay?.year!!, currentDay?.month!!, currentDay?.day!!)
             })
 
-        val currentItemIndex = viewPager?.currentItem!! + diffMonthCount
-        viewPager?.setCurrentItem(currentItemIndex, true)
+        val index = mPager?.currentItem!! + diffMonthCount
+        mPager?.setCurrentItem(index, true)
 
-        dayListAdapterMap[currentItemIndex]?.let {
-            for ((index, day) in it.data.withIndex()) {
-                if (day.day == entity.day && day.isToMonth) {
-                    it.selectItemByPosition(index, it.data[index])
-                    it.initSelectRowIndex(index, day)
-                }
-            }
-        }
+        updateSelectPosition(entity,index)
     }
 
     private fun selectWeekItem(entity: DayEntity) {
         currentDay ?: return
-        viewPager ?: return
+        mPager ?: return
 
         val diffWeekCount = CalendarUtils.getDiffWeekCount(
             Calendar.getInstance().also {
@@ -238,28 +132,54 @@ abstract class BaseCalendarPageAdapter : PagerAdapter() {
                 it.set(currentDay?.year!!, currentDay?.month!!, currentDay?.day!!)
             })
 
-        val index = viewPager?.currentItem!! + diffWeekCount
+        val index = mPager?.currentItem!! + diffWeekCount
+        mPager?.setCurrentItem(index, true)
 
-        viewPager?.setCurrentItem(index, true)
+        updateSelectPosition(entity,index)
+    }
 
-        if (dayListAdapterMap[index] == null) {
-            currentDay = entity
-        }
-        dayListAdapterMap[index]?.let {
-            for ((index, day) in it.data.withIndex()) {
-                if (day.day == entity.day) {
-                    it.selectItemByPosition(index, it.data[index])
-                }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseCalendar2ViewHolder {
+        return BaseCalendar2ViewHolder(
+            LayoutInflater.from(parent.context).inflate(getItemLayout(), parent, false))
+    }
+
+    override fun getItemCount(): Int {
+        return data.size
+    }
+
+    override fun onBindViewHolder(holder: BaseCalendar2ViewHolder, position: Int) {
+        holder.bindView(data[position])
+    }
+
+    inner class  BaseCalendar2ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
+
+        fun bindView(entity: DateEntity) {
+            itemView.findViewById<MonthView>(R.id.month_view).also {
+                it.setOnDaySelectedListener(object:MonthView.OnDaySelectedListener{
+                    override fun onDayClick(position: Int, entity: DayEntity) {
+                        currentDay = entity
+                        mChangeDataListener?.onDayChangeDate(position,entity)
+                        updateSelectRowIndex(position,entity)
+                    }
+                })
+                it.setMode(monthMode())
+                it.bindData(entity.dayList)
             }
+
         }
     }
 
-    abstract fun createCalendarManager(): ICalendarData
+    fun setOnChangeDataListener(onChangeDataListener: OnChangeDataListener) {
+        this.mChangeDataListener = onChangeDataListener
+    }
 
-    abstract fun isMonthMode(): Boolean
+    interface OnChangeDataListener {
+        fun onPageChangeDate(position: Int, entity: DateEntity)
+        fun onDayChangeDate(position: Int, entity: DayEntity)
+    }
+
+    abstract fun monthMode():Int
 
     abstract fun getItemLayout(): Int
-
-    abstract fun convert(context: Context, itemView: View, position: Int, entity: DayEntity)
 
 }

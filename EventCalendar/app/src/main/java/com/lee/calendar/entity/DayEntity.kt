@@ -1,7 +1,7 @@
 package com.lee.calendar.entity
 
 import androidx.annotation.IntDef
-import com.lee.calendar.widget.DayView
+import com.lee.calendar.widget.MonthView
 
 /**
  * @author jv.lee
@@ -12,7 +12,7 @@ data class DayEntity(
     val isToMonth: Boolean = true, //是否为当月数据
     var isSelected: Boolean = false, //是否为选中状态
     @DayStatus var dayStatus: Int = DayStatus.EMPTY_STATUS,
-    @DayView.DayBackgroundStatus var backgroundStatus:Int = DayView.DayBackgroundStatus.STATUS_GONE,
+    @MonthView.DayBackgroundStatus var backgroundStatus:Int = MonthView.DayBackgroundStatus.STATUS_GONE,
     val year: Int,
     val month: Int,
     val day: Int,

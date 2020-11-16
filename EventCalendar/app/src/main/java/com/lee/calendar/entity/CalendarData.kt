@@ -1,7 +1,7 @@
 package com.lee.calendar.entity
 
 import androidx.annotation.IntDef
-import com.lee.calendar.widget.DayView
+import com.lee.calendar.widget.MonthView
 
 /**
  * @author jv.lee
@@ -17,7 +17,7 @@ data class CalendarData(
 data class DateData(
     val day: Int,
     @DayStatus val status: Int, //0已更新/1断更/2无数据/3定时更新
-    @DayView.DayBackgroundStatus var backgroundStatus: Int = DayView.DayBackgroundStatus.STATUS_GONE
+    @MonthView.DayBackgroundStatus var backgroundStatus: Int = MonthView.DayBackgroundStatus.STATUS_GONE
 )
 
 data class FullAttendance(

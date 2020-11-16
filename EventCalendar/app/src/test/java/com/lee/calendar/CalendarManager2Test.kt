@@ -1,6 +1,6 @@
 package com.lee.calendar
 
-import com.lee.calendar.manager.CalendarManager2
+import com.lee.calendar.manager.CalendarManager
 import org.junit.Test
 
 /**
@@ -12,7 +12,7 @@ class CalendarManager2Test {
 
     @Test
     fun testWeekDate() {
-        val cm = CalendarManager2(true,24,6)
+        val cm = CalendarManager(true,24,6)
         val dateList = cm.initDateList()
 
         val prev1 = cm.loadPrevDateList()
@@ -40,7 +40,7 @@ class CalendarManager2Test {
 
     @Test
     fun testMonthDate() {
-        val cm = CalendarManager2(true)
+        val cm = CalendarManager(true)
         val dateList = cm.initDateList()
 
         val prev1 = cm.loadPrevDateList()

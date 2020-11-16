@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.lee.calendar.entity.DateEntity
-import com.lee.calendar.manager.CalendarManager2
+import com.lee.calendar.manager.CalendarManager
 import com.lee.calendar.widget.MonthView
 import kotlinx.android.synthetic.main.activity_month_view.*
 
@@ -24,7 +24,7 @@ class MonthViewActivity : AppCompatActivity(R.layout.activity_month_view) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val calendarManager = CalendarManager2(true,10,10)
+        val calendarManager = CalendarManager(true,10,10)
         val dateList = calendarManager.initDateList()
 
         val viewPagerAdapter = ViewPagerAdapter(dateList)

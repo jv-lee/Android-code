@@ -7,34 +7,7 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="Calendar_Day">
-        <item name="day_status">gone</item>
-        <item name="day_isUpdate">true</item>
-        <item name="day_isToday">false</item>
-        <item name="day_isDelayUpdate">false</item>
-        <item name="day_isGone">false</item>
-
-        <item name="day_updateBackgroundColor">#0A2477FA</item>
-        <item name="day_updateStrokeColor">#FF2477FA</item>
-        <item name="day_updateSelectedColor">#FFCADEFE</item>
-        <item name="day_overBackgroundColor">#14FF665B</item>
-        <item name="day_overStrokeColor">#99FF665B</item>
-        <item name="day_overSelectedColor">#FFFFC5C1</item>
-
-        <item name="day_todayBackgroundColor">#FF2477FA</item>
-        <item name="day_dotColor">#FF2477FA</item>
-        <item name="day_todayDotColor">#99FFFFFF</item>
-        <item name="day_goneTextColor">#33222222</item>
-        <item name="day_defaultTextColor">#FF222222</item>
-        <item name="day_todayTextColor">#FFFFFFFF</item>
-
-        <item name="day_textSize">15sp</item>
-        <item name="day_dotSize">5dp</item>
-        <item name="day_paddingSize">3dp</item>
-        <item name="day_strokeWidth">1dp</item>
-    </style>
-
-    <style name="Calendar_Month">
+    <style name="calendar_month">
         <item name="month_updateBackgroundColor">#0A2477FA</item>
         <item name="month_updateStrokeColor">#FF2477FA</item>
         <item name="month_updateSelectedColor">#FFCADEFE</item>

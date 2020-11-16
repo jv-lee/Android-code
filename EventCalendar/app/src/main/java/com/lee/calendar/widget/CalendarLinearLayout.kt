@@ -30,6 +30,7 @@ class CalendarLinearLayout(context: Context, attributeSet: AttributeSet) :
     //当前是否为滑动状态 控制是否在滑动结束后没有到达目标高度 使用动画设置 min/max 高度
     private var isScrollTouch = false
     private var switchEnable = true
+
     private var viewHeight: Int = 0
 
     private var startRawX = 0F
@@ -119,7 +120,7 @@ class CalendarLinearLayout(context: Context, attributeSet: AttributeSet) :
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent): Boolean {
         mCalendarView?.let {
-            val rowIndex = it.getMonthAdapter()?.getRowIndex() ?: 0
+            val rowIndex = it.getMonthAdapter().getRowIndex()
 
             if (event.action == MotionEvent.ACTION_MOVE) {
                 isScrollTouch = true

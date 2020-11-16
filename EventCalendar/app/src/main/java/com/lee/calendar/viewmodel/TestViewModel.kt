@@ -2,10 +2,10 @@ package com.lee.calendar.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.lee.calendar.entity.DayStatus
 import com.lee.calendar.entity.DateData
+import com.lee.calendar.entity.DayStatus
 import com.lee.calendar.utils.CalendarUtils
-import com.lee.calendar.widget.DayView
+import com.lee.calendar.widget.MonthView
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -124,13 +124,13 @@ class TestViewModel : ViewModel() {
     ) {
         val isDrawGone = isDrawGone(dayEntity)
         if (isDrawGone) {
-            dayEntity.backgroundStatus = DayView.DayBackgroundStatus.STATUS_GONE
+            dayEntity.backgroundStatus = MonthView.DayBackgroundStatus.STATUS_GONE
             return
         }
 
         val isDrawSingle = isDrawSingle(position, dayEntity, arrayList)
         if (isDrawSingle) {
-            dayEntity.backgroundStatus = DayView.DayBackgroundStatus.STATUS_SINGLE
+            dayEntity.backgroundStatus = MonthView.DayBackgroundStatus.STATUS_SINGLE
             return
         }
 
@@ -165,41 +165,41 @@ class TestViewModel : ViewModel() {
 
         //当月第一天
         if (prevEntity == null && entity.status == nextEntity?.status) {
-            entity.backgroundStatus = DayView.DayBackgroundStatus.STATUS_START
+            entity.backgroundStatus = MonthView.DayBackgroundStatus.STATUS_START
             return
         }
 
         //当月最后一天
         if (nextEntity == null && entity.status == prevEntity?.status) {
-            entity.backgroundStatus = DayView.DayBackgroundStatus.STATUS_END
+            entity.backgroundStatus = MonthView.DayBackgroundStatus.STATUS_END
             return
         }
 
         if (entity.status != prevEntity?.status && entity.status == nextEntity?.status) {
-            entity.backgroundStatus = DayView.DayBackgroundStatus.STATUS_START
+            entity.backgroundStatus = MonthView.DayBackgroundStatus.STATUS_START
         }
 
         if (entity.status == prevEntity?.status && entity.status == nextEntity?.status) {
-            entity.backgroundStatus = DayView.DayBackgroundStatus.STATUS_CENTER
+            entity.backgroundStatus = MonthView.DayBackgroundStatus.STATUS_CENTER
         }
 
         if (entity.status == prevEntity?.status && entity.status != nextEntity?.status) {
-            entity.backgroundStatus = DayView.DayBackgroundStatus.STATUS_END
+            entity.backgroundStatus = MonthView.DayBackgroundStatus.STATUS_END
         }
 
         //周天 / 周六切割
         val week = CalendarUtils.getDayOfWeek(year, month, entity.day)
         if (week == 1 && entity.status == nextEntity?.status) {
-            entity.backgroundStatus = DayView.DayBackgroundStatus.STATUS_START
+            entity.backgroundStatus = MonthView.DayBackgroundStatus.STATUS_START
         }
         if (week == 1 && entity.status != nextEntity?.status) {
-            entity.backgroundStatus = DayView.DayBackgroundStatus.STATUS_SINGLE
+            entity.backgroundStatus = MonthView.DayBackgroundStatus.STATUS_SINGLE
         }
         if (week == 7 && entity.status == prevEntity?.status) {
-            entity.backgroundStatus = DayView.DayBackgroundStatus.STATUS_END
+            entity.backgroundStatus = MonthView.DayBackgroundStatus.STATUS_END
         }
         if (week == 7 && entity.status != prevEntity?.status) {
-            entity.backgroundStatus = DayView.DayBackgroundStatus.STATUS_SINGLE
+            entity.backgroundStatus = MonthView.DayBackgroundStatus.STATUS_SINGLE
         }
     }
 
