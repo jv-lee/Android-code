@@ -12,8 +12,8 @@ import com.lee.calendar.adapter.MonthAdapter
 import com.lee.calendar.adapter.WeekAdapter
 import com.lee.calendar.entity.DateEntity
 import com.lee.calendar.entity.DayEntity
+import com.lee.calendar.ex.dp2px
 import com.lee.calendar.manager.CalendarManager
-import com.lee.calendar.utils.SizeUtil
 import com.lee.calendar.utils.ViewPager2Utils
 
 /**
@@ -32,18 +32,18 @@ class CalendarView(context: Context, attributeSet: AttributeSet) :
     private lateinit var mWeekViewPagerAdapter: BaseCalendarPageAdapter
     private lateinit var mMonthViewPagerAdapter: BaseCalendarPageAdapter
 
-    private lateinit var mMonthCalendarManager :CalendarManager
-    private lateinit var mWeekCalendarManager :CalendarManager
+    private lateinit var mMonthCalendarManager: CalendarManager
+    private lateinit var mWeekCalendarManager: CalendarManager
 
     private val minHeight: Int
     private val maxHeight: Int
     private val weekLayoutId: Int
     private val weekLayoutHeight: Int
 
-    private val startTime:String
-    private val initPrevMonthCount:Int
-    private val initNextMonthCount:Int
-    private val loadMonthCount:Int
+    private val startTime: String
+    private val initPrevMonthCount: Int
+    private val initNextMonthCount: Int
+    private val loadMonthCount: Int
 
     private var mChangePager: OnChangePager? = null
 
@@ -59,18 +59,18 @@ class CalendarView(context: Context, attributeSet: AttributeSet) :
     init {
         context.obtainStyledAttributes(attributeSet, R.styleable.CalendarView).run {
             startTime = getString(R.styleable.CalendarView_startTime) ?: ""
-            initPrevMonthCount = getInt(R.styleable.CalendarView_init_prev_month_count,3)
-            initNextMonthCount = getInt(R.styleable.CalendarView_init_next_month_count,3)
-            loadMonthCount = getInt(R.styleable.CalendarView_load_month_count,3)
+            initPrevMonthCount = getInt(R.styleable.CalendarView_init_prev_month_count, 3)
+            initNextMonthCount = getInt(R.styleable.CalendarView_init_next_month_count, 3)
+            loadMonthCount = getInt(R.styleable.CalendarView_load_month_count, 3)
             weekLayoutId =
                 getResourceId(R.styleable.CalendarView_week_layout, R.layout.layout_week)
             weekLayoutHeight = getDimension(
                 R.styleable.CalendarView_week_layout_height,
-                SizeUtil.dp2px(context, 32F).toFloat()
+                dp2px(context, 32)
             ).toInt()
             val itemHeight = getDimension(
                 R.styleable.CalendarView_itemHeight,
-                SizeUtil.dp2px(context, 52F).toFloat()
+                dp2px(context, 52)
             )
             minHeight = itemHeight.toInt()
             maxHeight = itemHeight.toInt() * 6
@@ -94,10 +94,12 @@ class CalendarView(context: Context, attributeSet: AttributeSet) :
             FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, maxHeight)
         mMonthViewPager.requestLayout()
 
-        mMonthCalendarManager = CalendarManager(true, initPrevMonthCount,initNextMonthCount, loadMonthCount)
+        mMonthCalendarManager =
+            CalendarManager(true, initPrevMonthCount, initNextMonthCount, loadMonthCount)
         val monthData = mMonthCalendarManager.initDateList()
 
-        mWeekCalendarManager = CalendarManager(false, initPrevMonthCount,initNextMonthCount, loadMonthCount)
+        mWeekCalendarManager =
+            CalendarManager(false, initPrevMonthCount, initNextMonthCount, loadMonthCount)
         val weekData = mWeekCalendarManager.initDateList()
 
         MonthAdapter(monthData).also {
@@ -137,8 +139,8 @@ class CalendarView(context: Context, attributeSet: AttributeSet) :
     }
 
     fun initData() {
-        mMonthViewPagerAdapter.bindPager(mMonthViewPager,initPrevMonthCount)
-        mWeekViewPagerAdapter.bindPager(mWeekViewPager,initPrevMonthCount)
+        mMonthViewPagerAdapter.bindPager(mMonthViewPager, initPrevMonthCount)
+        mWeekViewPagerAdapter.bindPager(mWeekViewPager, initPrevMonthCount)
     }
 
     fun switchMonthOrWeekPager(expansionEnable: Boolean) {

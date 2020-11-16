@@ -12,9 +12,9 @@ import androidx.core.content.ContextCompat
 import com.lee.calendar.R
 import com.lee.calendar.entity.DayEntity
 import com.lee.calendar.entity.DayStatus
-import com.lee.calendar.utils.SizeUtil
+import com.lee.calendar.ex.dp2px
+import com.lee.calendar.ex.sp2px
 import kotlin.math.abs
-
 
 /**
  * @author jv.lee
@@ -57,7 +57,7 @@ class MonthView(context: Context, attributeSet: AttributeSet) : View(context, at
 
     private var totalRow = 6
     private val totalCol = 7
-    private var mode:Int = MonthMode.MODE_MONTH
+    private var mode: Int = MonthMode.MODE_MONTH
 
     private val dayList = ArrayList<DayEntity>()
     private var selectedIndex = 0
@@ -67,7 +67,7 @@ class MonthView(context: Context, attributeSet: AttributeSet) : View(context, at
         mTouchSlop = ViewConfiguration.get(context).scaledTouchSlop
         context.obtainStyledAttributes(attributeSet, R.styleable.MonthView).run {
 
-            mode = getInt(R.styleable.MonthView_month_mode,MonthMode.MODE_MONTH)
+            mode = getInt(R.styleable.MonthView_month_mode, MonthMode.MODE_MONTH)
             setMode(mode)
 
             updateBackgroundColor = getColor(
@@ -123,19 +123,19 @@ class MonthView(context: Context, attributeSet: AttributeSet) : View(context, at
 
             strokeWidth = getDimension(
                 R.styleable.MonthView_month_strokeWidth,
-                SizeUtil.dp2px(context, 1F).toFloat()
+                dp2px(context, 1)
             )
             paddingSize = getDimension(
                 R.styleable.MonthView_month_paddingSize,
-                SizeUtil.dp2px(context, 6F).toFloat()
+                dp2px(context,6)
             )
             dotSize = getDimension(
                 R.styleable.MonthView_month_dotSize,
-                SizeUtil.dp2px(context, 5F).toFloat()
+                dp2px(context,5)
             )
             textSize = getDimension(
                 R.styleable.MonthView_month_textSize,
-                SizeUtil.sp2px(context, 15F).toFloat()
+                sp2px(context,15)
             )
 
             recycle()
@@ -148,7 +148,7 @@ class MonthView(context: Context, attributeSet: AttributeSet) : View(context, at
     }
 
     fun setMode(mode: Int) {
-        totalRow = if(mode == MonthMode.MODE_MONTH) 6 else 1
+        totalRow = if (mode == MonthMode.MODE_MONTH) 6 else 1
     }
 
     fun bindData(data: ArrayList<DayEntity>) {
@@ -193,7 +193,7 @@ class MonthView(context: Context, attributeSet: AttributeSet) : View(context, at
                 if (distanceX < mTouchSlop && distanceY < mTouchSlop) {
                     val col = (startX / dayWidth).toInt()
                     val row = (startY / dayHeight).toInt()
-                    val index = positionToIndex(row,col)
+                    val index = positionToIndex(row, col)
                     onItemClick(index)
                 }
             }
@@ -205,26 +205,27 @@ class MonthView(context: Context, attributeSet: AttributeSet) : View(context, at
         val childSize = buildChildSize(row, col)
         val index = positionToIndex(row, col)
 
-        drawBackgroundMode(canvas,childSize,index)
-        drawSelectedBackground(canvas,childSize,index)
-        drawToDayBackground(canvas,childSize,index)
-        drawDelayUpdateDot(canvas,childSize,index)
+        drawBackgroundMode(canvas, childSize, index)
+        drawSelectedBackground(canvas, childSize, index)
+        drawToDayBackground(canvas, childSize, index)
+        drawDelayUpdateDot(canvas, childSize, index)
         drawNumberText(canvas, childSize, index)
     }
 
-    private fun drawBackgroundMode(canvas: Canvas, childSize: ChildSize,index: Int) {
+    private fun drawBackgroundMode(canvas: Canvas, childSize: ChildSize, index: Int) {
         val entity = indexToDayEntity(index)
         when (entity.backgroundStatus) {
-            DayBackgroundStatus.STATUS_SINGLE -> drawSingle(canvas, childSize,index)
-            DayBackgroundStatus.STATUS_START -> drawStart(canvas, childSize,index)
-            DayBackgroundStatus.STATUS_CENTER -> drawCenter(canvas, childSize,index)
-            DayBackgroundStatus.STATUS_END -> drawEnd(canvas, childSize,index)
+            DayBackgroundStatus.STATUS_SINGLE -> drawSingle(canvas, childSize, index)
+            DayBackgroundStatus.STATUS_START -> drawStart(canvas, childSize, index)
+            DayBackgroundStatus.STATUS_CENTER -> drawCenter(canvas, childSize, index)
+            DayBackgroundStatus.STATUS_END -> drawEnd(canvas, childSize, index)
         }
     }
 
-    private fun drawSingle(canvas: Canvas, childSize: ChildSize,index: Int) {
+    private fun drawSingle(canvas: Canvas, childSize: ChildSize, index: Int) {
         val entity = indexToDayEntity(index)
-        mPaint.color = if (entity.dayStatus == DayStatus.UPDATE_STATUS) updateBackgroundColor else overBackgroundColor
+        mPaint.color =
+            if (entity.dayStatus == DayStatus.UPDATE_STATUS) updateBackgroundColor else overBackgroundColor
         mPaint.style = Paint.Style.FILL
         mPaint.strokeWidth = strokeWidth
         canvas.drawCircle(
@@ -234,7 +235,8 @@ class MonthView(context: Context, attributeSet: AttributeSet) : View(context, at
             mPaint
         )
 
-        mPaint.color = if (entity.dayStatus == DayStatus.UPDATE_STATUS) updateStrokeColor else overStrokeColor
+        mPaint.color =
+            if (entity.dayStatus == DayStatus.UPDATE_STATUS) updateStrokeColor else overStrokeColor
         mPaint.style = Paint.Style.STROKE
         mPaint.strokeWidth = strokeWidth
         canvas.drawCircle(
@@ -245,38 +247,45 @@ class MonthView(context: Context, attributeSet: AttributeSet) : View(context, at
         )
     }
 
-    private fun drawStart(canvas: Canvas, childSize: ChildSize,index: Int) {
+    private fun drawStart(canvas: Canvas, childSize: ChildSize, index: Int) {
         val entity = indexToDayEntity(index)
         canvas.save()
-        mPaint.color = if(entity.dayStatus == DayStatus.UPDATE_STATUS)updateBackgroundColor else overBackgroundColor
+        mPaint.color =
+            if (entity.dayStatus == DayStatus.UPDATE_STATUS) updateBackgroundColor else overBackgroundColor
         mPaint.style = Paint.Style.FILL
         mPaint.strokeWidth = strokeWidth
         val path1 = Path().apply {
 
-            val topDimen = childSize.cy - ((absSize  / 2) - (strokeWidth + paddingSize))
+            val topDimen = childSize.cy - ((absSize / 2) - (strokeWidth + paddingSize))
             val bottomDimen = childSize.cy + ((absSize / 2) - (strokeWidth + paddingSize))
             val startDimen = childSize.cx - ((absSize / 2) - (paddingSize)) + strokeWidth
-            val rectF = RectF(startDimen, topDimen, childSize.width + dayWidth,bottomDimen)
+            val rectF = RectF(startDimen, topDimen, childSize.width + dayWidth, bottomDimen)
             val radius = childSize.cx
             val radiusArray = floatArrayOf(radius, radius, 0f, 0f, 0f, 0f, radius, radius)
             addRoundRect(rectF, radiusArray, Path.Direction.CCW)
 
             val dimen = (strokeWidth / 2)
-            canvas.clipRect(startDimen - dimen,topDimen -strokeWidth,childSize.width,bottomDimen + strokeWidth)
+            canvas.clipRect(
+                startDimen - dimen,
+                topDimen - strokeWidth,
+                childSize.width,
+                bottomDimen + strokeWidth
+            )
         }
 
 
         canvas.drawPath(path1, mPaint)
 
-        mPaint.color = if(entity.dayStatus == DayStatus.UPDATE_STATUS)updateStrokeColor else overStrokeColor
+        mPaint.color =
+            if (entity.dayStatus == DayStatus.UPDATE_STATUS) updateStrokeColor else overStrokeColor
         mPaint.style = Paint.Style.STROKE
         mPaint.strokeWidth = strokeWidth
         val path2 = Path().apply {
 
-            val topDimen = childSize.cy - ((absSize  / 2) - (strokeWidth + paddingSize))
+            val topDimen = childSize.cy - ((absSize / 2) - (strokeWidth + paddingSize))
             val bottomDimen = childSize.cy + ((absSize / 2) - (strokeWidth + paddingSize))
             val startDimen = childSize.cx - ((absSize / 2) - (paddingSize)) + strokeWidth
-            val rectF = RectF(startDimen, topDimen, childSize.width + dayWidth,bottomDimen)
+            val rectF = RectF(startDimen, topDimen, childSize.width + dayWidth, bottomDimen)
             val radius = childSize.cx
             val radiusArray = floatArrayOf(radius, radius, 0f, 0f, 0f, 0f, radius, radius)
             addRoundRect(rectF, radiusArray, Path.Direction.CCW)
@@ -286,41 +295,55 @@ class MonthView(context: Context, attributeSet: AttributeSet) : View(context, at
         canvas.restore()
     }
 
-    private fun drawCenter(canvas: Canvas, childSize: ChildSize,index: Int) {
+    private fun drawCenter(canvas: Canvas, childSize: ChildSize, index: Int) {
         val entity = indexToDayEntity(index)
-        mPaint.color = if (entity.dayStatus == DayStatus.UPDATE_STATUS) updateBackgroundColor else overBackgroundColor
+        mPaint.color =
+            if (entity.dayStatus == DayStatus.UPDATE_STATUS) updateBackgroundColor else overBackgroundColor
         mPaint.style = Paint.Style.FILL
         mPaint.strokeWidth = strokeWidth
 
-        val topDimen = childSize.cy - ((absSize  / 2) - (strokeWidth + paddingSize))
+        val topDimen = childSize.cy - ((absSize / 2) - (strokeWidth + paddingSize))
         val bottomDimen = childSize.cy + ((absSize / 2) - (strokeWidth + paddingSize))
 
         val path1 = Path().apply {
             val rectF =
-                RectF(childSize.left - strokeWidth, topDimen, childSize.right + strokeWidth, bottomDimen)
+                RectF(
+                    childSize.left - strokeWidth,
+                    topDimen,
+                    childSize.right + strokeWidth,
+                    bottomDimen
+                )
             addRect(rectF, Path.Direction.CCW)
         }
         canvas.drawPath(path1, mPaint)
 
-        mPaint.color = if (entity.dayStatus == DayStatus.UPDATE_STATUS) updateStrokeColor else overStrokeColor
+        mPaint.color =
+            if (entity.dayStatus == DayStatus.UPDATE_STATUS) updateStrokeColor else overStrokeColor
         mPaint.style = Paint.Style.STROKE
         mPaint.strokeWidth = strokeWidth
 
         canvas.drawLine(childSize.width - dayWidth, topDimen, childSize.width, topDimen, mPaint)
-        canvas.drawLine(childSize.width - dayWidth, bottomDimen, childSize.width, bottomDimen, mPaint)
+        canvas.drawLine(
+            childSize.width - dayWidth,
+            bottomDimen,
+            childSize.width,
+            bottomDimen,
+            mPaint
+        )
     }
 
-    private fun drawEnd(canvas: Canvas, childSize: ChildSize,index: Int) {
+    private fun drawEnd(canvas: Canvas, childSize: ChildSize, index: Int) {
         val entity = indexToDayEntity(index)
         canvas.save()
 
-        mPaint.color = if (entity.dayStatus == DayStatus.UPDATE_STATUS) updateBackgroundColor else overBackgroundColor
+        mPaint.color =
+            if (entity.dayStatus == DayStatus.UPDATE_STATUS) updateBackgroundColor else overBackgroundColor
         mPaint.style = Paint.Style.FILL
         mPaint.strokeWidth = strokeWidth
 
         val path1 = Path().apply {
 
-            val topDimen = childSize.cy - ((absSize  / 2) - (strokeWidth + paddingSize))
+            val topDimen = childSize.cy - ((absSize / 2) - (strokeWidth + paddingSize))
             val bottomDimen = childSize.cy + ((absSize / 2) - (strokeWidth + paddingSize))
             val endDimen = childSize.cx + ((absSize / 2) - paddingSize) - strokeWidth
             val rectF = RectF(0f, topDimen, endDimen, bottomDimen)
@@ -329,17 +352,23 @@ class MonthView(context: Context, attributeSet: AttributeSet) : View(context, at
             addRoundRect(rectF, radiusArray, Path.Direction.CCW)
 
             val dimen = (strokeWidth / 2)
-            canvas.clipRect(childSize.width - dayWidth,topDimen - strokeWidth,endDimen + strokeWidth,bottomDimen + strokeWidth)
+            canvas.clipRect(
+                childSize.width - dayWidth,
+                topDimen - strokeWidth,
+                endDimen + strokeWidth,
+                bottomDimen + strokeWidth
+            )
         }
         canvas.drawPath(path1, mPaint)
 
-        mPaint.color = if (entity.dayStatus == DayStatus.UPDATE_STATUS) updateStrokeColor else overStrokeColor
+        mPaint.color =
+            if (entity.dayStatus == DayStatus.UPDATE_STATUS) updateStrokeColor else overStrokeColor
         mPaint.style = Paint.Style.STROKE
         mPaint.strokeWidth = strokeWidth
 
         val path2 = Path().apply {
 
-            val topDimen = childSize.cy - ((absSize  / 2) - (strokeWidth + paddingSize))
+            val topDimen = childSize.cy - ((absSize / 2) - (strokeWidth + paddingSize))
             val bottomDimen = childSize.cy + ((absSize / 2) - (strokeWidth + paddingSize))
             val endDimen = childSize.cx + ((absSize / 2) - paddingSize) - strokeWidth
             val rectF = RectF(0f, topDimen, endDimen, bottomDimen)
@@ -351,11 +380,11 @@ class MonthView(context: Context, attributeSet: AttributeSet) : View(context, at
         canvas.restore()
     }
 
-    private fun drawSelectedBackground(canvas: Canvas,childSize: ChildSize, index: Int) {
+    private fun drawSelectedBackground(canvas: Canvas, childSize: ChildSize, index: Int) {
         val entity = indexToDayEntity(index)
         if (!entity.isSelected) return
 
-        selectedIndex  = index
+        selectedIndex = index
         setSelectedBackgroundStyle(entity)
         canvas.drawCircle(
             childSize.cx,
@@ -401,13 +430,13 @@ class MonthView(context: Context, attributeSet: AttributeSet) : View(context, at
 
         val y = childSize.cy + (rect.height() / 2)
 
-        if(text == "1"){
+        if (text == "1") {
             canvas.drawText(text, childSize.cx - (rect.width() / 2) - (rect.width() / 2), y, mPaint)
-        }else if(text == "11"){
-            canvas.drawText(text, childSize.cx - (rect.width() / 1.5).toInt() ,  y, mPaint)
-        }else if(text.startsWith("1")){
+        } else if (text == "11") {
+            canvas.drawText(text, childSize.cx - (rect.width() / 1.5).toInt(), y, mPaint)
+        } else if (text.startsWith("1")) {
             canvas.drawText(text, childSize.cx - (rect.width() / 1.8).toInt(), y, mPaint)
-        }else{
+        } else {
             canvas.drawText(text, childSize.cx - (rect.width() / 2), y, mPaint)
         }
     }
@@ -431,23 +460,25 @@ class MonthView(context: Context, attributeSet: AttributeSet) : View(context, at
         return ""
     }
 
-    private fun indexToDayEntity(index: Int):DayEntity{
+    private fun indexToDayEntity(index: Int): DayEntity {
         return dayList[index]
     }
 
-    private fun setSelectedBackgroundStyle(entity: DayEntity){
-        mPaint.color = if (entity.dayStatus == DayStatus.OVER_UPDATE_STATUS) overSelectedColor else updateSelectedColor
+    private fun setSelectedBackgroundStyle(entity: DayEntity) {
+        mPaint.color =
+            if (entity.dayStatus == DayStatus.OVER_UPDATE_STATUS) overSelectedColor else updateSelectedColor
         mPaint.style = Paint.Style.FILL
         mPaint.strokeWidth = strokeWidth
 
     }
-    private fun setTodayStyle(){
+
+    private fun setTodayStyle() {
         mPaint.color = todayBackgroundColor
         mPaint.style = Paint.Style.FILL
         mPaint.strokeWidth = strokeWidth
     }
 
-    private fun setDelayDotStyle(entity: DayEntity){
+    private fun setDelayDotStyle(entity: DayEntity) {
         mPaint.style = Paint.Style.FILL
         mPaint.color = if (entity.isToDay) todayDotColor else dotColor
     }
@@ -455,17 +486,18 @@ class MonthView(context: Context, attributeSet: AttributeSet) : View(context, at
 
     private fun setNumberTextStyle(entity: DayEntity) {
         mPaint.style = Paint.Style.FILL
-        mPaint.color = if (entity.isToDay) todayTextColor else if (!entity.isToMonth) goneTextColor else defaultTextColor
+        mPaint.color =
+            if (entity.isToDay) todayTextColor else if (!entity.isToMonth) goneTextColor else defaultTextColor
         mPaint.textSize = textSize
     }
 
     private fun onItemClick(index: Int) {
-        if(selectedIndex == index)return //防止重复点击
+        if (selectedIndex == index) return //防止重复点击
         val dayEntity = dayList[index]
         if (dayEntity.isToMonth) {
             dayEntity.isSelected = true
             dayList[selectedIndex].isSelected = false
-            mOnDaySelectedListener?.onDayClick(index,dayEntity)
+            mOnDaySelectedListener?.onDayClick(index, dayEntity)
             invalidate()
         }
     }
@@ -497,14 +529,14 @@ class MonthView(context: Context, attributeSet: AttributeSet) : View(context, at
         return ChildSize(width, height, left, top, right, bottom, absSize, cx, cy)
     }
 
-    private var mOnDaySelectedListener:OnDaySelectedListener ? =null
+    private var mOnDaySelectedListener: OnDaySelectedListener? = null
 
     fun setOnDaySelectedListener(onDaySelectedListener: OnDaySelectedListener) {
         this.mOnDaySelectedListener = onDaySelectedListener
     }
 
-    interface OnDaySelectedListener{
-        fun onDayClick(position:Int,entity:DayEntity)
+    interface OnDaySelectedListener {
+        fun onDayClick(position: Int, entity: DayEntity)
     }
 
     @IntDef(
