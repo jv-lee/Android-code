@@ -42,6 +42,8 @@
             <enum name="round" value="1" />
             <enum name="oval" value="2" />
         </attr>
+        <attr name="lineColor" format="color" />
+        <attr name="lineWidth" format="dimension" />
         <attr name="radius" format="dimension" />
         <attr name="topLeftRadius" format="dimension" />
         <attr name="topRightRadius" format="dimension" />

@@ -45,7 +45,10 @@ public class RoundImageView extends ImageView {
     private float mBottomLeftRoundRadius;
     private float mBottomRightRoundRadius;
     private int mType;
+    private int mLineColor;
+    private float mLineWidth;
     private Paint mPaint;
+    private Paint mStrokePaint;
     private RectF mRect;
     private Matrix mMatrix;
 
@@ -81,6 +84,8 @@ public class RoundImageView extends ImageView {
         mTopRightRoundRadius = typedArray.getDimension(R.styleable.RoundImageView_topRightRadius, mRoundRadius);
         mBottomLeftRoundRadius = typedArray.getDimension(R.styleable.RoundImageView_bottomLeftRadius, mRoundRadius);
         mBottomRightRoundRadius = typedArray.getDimension(R.styleable.RoundImageView_bottomRightRadius, mRoundRadius);
+        mLineColor = typedArray.getColor(R.styleable.RoundImageView_lineColor, Color.WHITE);
+        mLineWidth = typedArray.getDimension(R.styleable.RoundImageView_lineWidth, 0F);
         typedArray.recycle();
     }
 
@@ -90,6 +95,11 @@ public class RoundImageView extends ImageView {
     private void initView() {
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
+        mStrokePaint = new Paint();
+        mStrokePaint.setAntiAlias(true);
+        mStrokePaint.setStyle(Paint.Style.STROKE);
+        mStrokePaint.setStrokeWidth(mLineWidth);
+        mStrokePaint.setColor(mLineColor);
         mMatrix = new Matrix();
     }
 
@@ -115,9 +125,10 @@ public class RoundImageView extends ImageView {
             e.printStackTrace();
         }
         if (mType == TYPE_CIRCLE) {
-            canvas.drawCircle(mRadius, mRadius, mRadius - (getPaddingTop() / 2), mPaint);
+            canvas.drawCircle(mRadius, mRadius, mRadius, mPaint);
+            if (mLineWidth != 0F)
+                canvas.drawCircle(mRadius, mRadius, mRadius - (mLineWidth / 2), mStrokePaint);
         } else if (mType == TYPE_ROUND) {
-            mPaint.setColor(Color.RED);
             drawRound(canvas);
         } else if (mType == TYPE_OVAL) {
             canvas.drawOval(mRect, mPaint);
@@ -133,6 +144,8 @@ public class RoundImageView extends ImageView {
                         mBottomRightRoundRadius, mBottomRightRoundRadius},
                 Path.Direction.CW);
         canvas.drawPath(path, mPaint);
+        if (mLineWidth != 0F)
+            canvas.drawPath(path, mStrokePaint);
     }
 
     @Override
