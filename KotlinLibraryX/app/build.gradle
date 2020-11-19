@@ -8,7 +8,7 @@ apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion androidId.compileSdkVersion
-    buildToolsVersion "29.0.1"
+    buildToolsVersion "29.0.3"
 
     defaultConfig {
         applicationId androidId.applicationId
@@ -35,8 +35,8 @@ android {
         generateStubs = true
     }
 
-    dataBinding {
-        enabled = true
+    buildFeatures {
+        dataBinding = true
     }
 }
 

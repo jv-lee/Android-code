@@ -25,5 +25,11 @@
             android:layout_height="wrap_content"
             android:text="Activity Start Result API" />
 
+        <Button
+            android:id="@+id/btn_activity_data_store"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Start DataStoreActivity" />
+
     </LinearLayout>
 </layout>

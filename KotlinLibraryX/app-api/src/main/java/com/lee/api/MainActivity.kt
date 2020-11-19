@@ -1,6 +1,7 @@
 package com.lee.api
 
 import android.content.Intent
+import com.lee.api.activity.DataStoreActivity
 import com.lee.api.activity.StartResultActivity
 import com.lee.api.databinding.ActivityMainBinding
 import com.lee.api.fragment.StartFragmentActivity
@@ -11,10 +12,13 @@ class MainActivity : BaseActivity<ActivityMainBinding, BaseViewModel>(R.layout.a
 
     override fun bindView() {
         binding.btnFragmentResult.setOnClickListener {
-            startActivity(Intent(this,StartFragmentActivity::class.java))
+            startActivity(Intent(this, StartFragmentActivity::class.java))
         }
         binding.btnActivityResult.setOnClickListener {
             startActivity(Intent(this, StartResultActivity::class.java))
+        }
+        binding.btnActivityDataStore.setOnClickListener {
+            startActivity(Intent(this, DataStoreActivity::class.java))
         }
     }
 
