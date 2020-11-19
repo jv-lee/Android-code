@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F6F8F9"
     android:gravity="center_horizontal"
     android:orientation="vertical"
     tools:context=".MainActivity">
@@ -121,12 +122,14 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginTop="16dp"
-        app:shadowBlur="10dp"
-        app:shadowColor="#000000"
-        app:shadowFillColor="@color/colorAccent"
+        app:outLineColor="@color/colorPrimaryDark"
+        app:outLineWidth="0dp"
+        app:shadowBlur="4dp"
+        app:shadowColor="#80D1D1D1"
+        app:shadowFillColor="#FFFFFF"
         app:shadowOffsetX="0dp"
         app:shadowOffsetY="0dp"
-        app:shadowRound="10dp">
+        app:shadowRound="12dp">
 
         <TextView
             android:layout_width="wrap_content"

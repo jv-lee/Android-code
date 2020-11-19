@@ -106,6 +106,8 @@
     </declare-styleable>
 
     <declare-styleable name="ShadowLayout">
+        <attr name="outLineWidth" format="dimension" />
+        <attr name="outLineColor" format="color" />
         <attr name="shadowRound" format="dimension" />
         <attr name="shadowBlur" format="dimension" />
         <attr name="shadowColor" format="color" />
@@ -115,7 +117,7 @@
     </declare-styleable>
 
     <declare-styleable name="VerticalViewPager">
-        <attr name="isVertical" format="boolean"/>
+        <attr name="isVertical" format="boolean" />
     </declare-styleable>
 
 </resources>

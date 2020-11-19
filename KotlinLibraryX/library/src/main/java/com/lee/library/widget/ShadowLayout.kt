@@ -2,9 +2,11 @@ package com.lee.library.widget
 
 import android.content.Context
 import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.RectF
 import android.util.AttributeSet
+import android.view.animation.PathInterpolator
 import android.widget.FrameLayout
 import androidx.core.content.ContextCompat
 import com.lee.library.R
@@ -29,8 +31,11 @@ class ShadowLayout(context: Context, attributeSet: AttributeSet) :
     private var mWidth = 0F
     private var mHeight = 0F
     private val mPaint = Paint(Paint.ANTI_ALIAS_FLAG)
+    private val mStrokePaint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val mRectF = RectF()
 
+    private var outLineWidth: Float
+    private var outLineColor: Int
     private var shadowRound: Float
     private var shadowBlur: Float
     private var shadowColor: Int
@@ -45,16 +50,12 @@ class ShadowLayout(context: Context, attributeSet: AttributeSet) :
 
     init {
         context.obtainStyledAttributes(attributeSet, R.styleable.ShadowLayout).run {
+            outLineWidth = getDimension(R.styleable.ShadowLayout_outLineWidth, 0f)
+            outLineColor = getColor(R.styleable.ShadowLayout_outLineColor, Color.BLACK)
             shadowRound = getDimension(R.styleable.ShadowLayout_shadowRound, 10F)
             shadowBlur = getDimension(R.styleable.ShadowLayout_shadowBlur, 10F)
-            shadowColor = getColor(
-                R.styleable.ShadowLayout_shadowColor,
-                ContextCompat.getColor(context, android.R.color.black)
-            )
-            shadowFillColor = getColor(
-                R.styleable.ShadowLayout_shadowFillColor,
-                ContextCompat.getColor(context, android.R.color.white)
-            )
+            shadowColor = getColor(R.styleable.ShadowLayout_shadowColor, Color.BLACK)
+            shadowFillColor = getColor(R.styleable.ShadowLayout_shadowFillColor, Color.WHITE)
             shadowOffsetX = getDimension(R.styleable.ShadowLayout_shadowOffsetX, 0F)
             shadowOffsetY = getDimension(R.styleable.ShadowLayout_shadowOffsetY, 0F)
 
@@ -108,6 +109,9 @@ class ShadowLayout(context: Context, attributeSet: AttributeSet) :
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
         canvas?.drawRoundRect(mRectF, shadowRound, shadowRound, mPaint)
+        if (outLineWidth != 0F) {
+            canvas?.drawRoundRect(mRectF, shadowRound, shadowRound, mStrokePaint)
+        }
     }
 
     /**
@@ -130,6 +134,10 @@ class ShadowLayout(context: Context, attributeSet: AttributeSet) :
         mPaint.style = Paint.Style.FILL
         mPaint.setShadowLayer(shadowBlur, shadowOffsetX, shadowOffsetY, shadowColor)
         setLayerType(LAYER_TYPE_SOFTWARE, mPaint)
+
+        mStrokePaint.color = outLineColor
+        mStrokePaint.strokeWidth = outLineWidth
+        mStrokePaint.style = Paint.Style.STROKE
     }
 
     /**
