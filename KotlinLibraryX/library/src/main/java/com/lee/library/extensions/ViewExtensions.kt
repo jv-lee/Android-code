@@ -213,6 +213,16 @@ fun EditText.setMaxSize(maxSize: Int) {
 }
 
 /**
+ * 设置输入框最大size / 最大lines
+ * @param maxLines 最大行数
+ * @param maxSize 最大长度
+ */
+fun EditText.setMaxSizeOrLines(maxSize: Int = 0, maxLines: Int = 0) {
+    if (maxSize != 0) filters = arrayOf(InputFilter.LengthFilter(maxSize))
+    if (maxLines != 0) this.maxLines = maxLines
+}
+
+/**
  * 设置输入框 为银行卡号输入样式 每4个字符 空格一位
  * @param lengthLimit 最大卡号长度
  */
