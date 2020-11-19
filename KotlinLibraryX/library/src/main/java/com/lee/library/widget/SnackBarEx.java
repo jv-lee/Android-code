@@ -2,9 +2,7 @@ package com.lee.library.widget;
 
 import android.view.View;
 import android.widget.TextView;
-
 import androidx.core.content.ContextCompat;
-
 import com.google.android.material.snackbar.Snackbar;
 
 /**
@@ -12,26 +10,26 @@ import com.google.android.material.snackbar.Snackbar;
  * @date 2019/8/7.
  * @description
  */
-public class SnackbarEx {
+public class SnackBarEx {
     private Snackbar snackbar;
 
-    private SnackbarEx(Builder builder) {
+    private SnackBarEx(Builder builder) {
         snackbar = Snackbar.make(builder.view, builder.message == null ? "" : builder.message, builder.duration);
 
         if (builder.messageColor != 0) {
-            setSnackbarMessageColor(ContextCompat.getColor(builder.view.getContext(), builder.messageColor));
+            setSnackBarMessageColor(ContextCompat.getColor(builder.view.getContext(), builder.messageColor));
         }
 
         if (builder.actionText != null) {
-            setSnackbarAction(builder.actionText, builder.onClickListener);
+            setSnackBarAction(builder.actionText, builder.onClickListener);
         }
 
         if (builder.actionTextColor != 0) {
-            setSnackbarActionTextColor(ContextCompat.getColor(builder.view.getContext(), builder.actionTextColor));
+            setSnackBarActionTextColor(ContextCompat.getColor(builder.view.getContext(), builder.actionTextColor));
         }
 
         if (builder.backgroundColor != 0) {
-            setSnackbarBackgroundColor(ContextCompat.getColor(builder.view.getContext(), builder.backgroundColor));
+            setSnackBarBackgroundColor(ContextCompat.getColor(builder.view.getContext(), builder.backgroundColor));
         }
     }
 
@@ -41,21 +39,20 @@ public class SnackbarEx {
         }
     }
 
-    private void setSnackbarBackgroundColor(int backgroundColor) {
+    private void setSnackBarBackgroundColor(int backgroundColor) {
         snackbar.getView().setBackgroundColor(backgroundColor);
     }
 
-    private void setSnackbarActionTextColor(int actionTextColor) {
+    private void setSnackBarActionTextColor(int actionTextColor) {
         snackbar.setActionTextColor(actionTextColor);
     }
 
-    private void setSnackbarAction(String actionText, View.OnClickListener onClickListener) {
+    private void setSnackBarAction(String actionText, View.OnClickListener onClickListener) {
         snackbar.setAction(actionText, onClickListener);
     }
 
-    @Deprecated
-    private void setSnackbarMessageColor(int messageColor) {
-//        ((TextView) snackbar.getView().findViewById(androidx.support.design.R.id.snackbar_text)).setTextColor(messageColor);
+    private void setSnackBarMessageColor(int messageColor) {
+        ((TextView) snackbar.getView().findViewById(com.google.android.material.R.id.snackbar_text)).setTextColor(messageColor);
     }
 
     public static class Builder {
@@ -107,8 +104,8 @@ public class SnackbarEx {
             return this;
         }
 
-        public SnackbarEx build() {
-            return new SnackbarEx(this);
+        public SnackBarEx build() {
+            return new SnackBarEx(this);
         }
     }
 }
