@@ -70,9 +70,10 @@ class CalendarLinearLayout(context: Context, attributeSet: AttributeSet) :
             switchEnable = true
 
             Log.i(TAG, "onInterceptTouchEvent: touchSlop:$mTouchSlop distanceX:$distanceX - distanceY:$distanceY")
+
             //横向滚动 交给子view处理
             if (distanceX > distanceY) {
-                //当前横向滑动点击在事件列表中 不交给recyclerView处理.
+                //当前横向滑动点击在事件列表中 不交给父容器处理处理.
                 if (isTouchPointInView(mRecyclerView, startRawX.toInt(), startRawY.toInt())) {
                     Log.i(TAG, "onInterceptTouchEvent: scroll-Horizontal touchPoint-list return false-> child")
                     //把week/month切换开关关闭 防止滑动时错误显示monthView
@@ -85,8 +86,16 @@ class CalendarLinearLayout(context: Context, attributeSet: AttributeSet) :
                 //垂直滚动 处理滑动
             } else if (distanceY > distanceX) {
                 mChildTouchChange?.let {
+                    //点击区域过小 直接让子view处理
+                    if (distanceY < mTouchSlop) {
+                        Log.i(TAG, "onInterceptTouchEvent: distanceY < mTouchSlop return false-> child")
+                        return false
+                    }
                     //子view不消费事件
-                    if(!it.touchChange()) return true
+                    if (!it.touchChange()) {
+                        Log.i(TAG, "onInterceptTouchEvent: child not touch return true-> parent")
+                        return true
+                    }
                 }
                 //事件列表为空 或者外部设置子view不处理滑动事件 直接交给父容器处理
                 if (mRecyclerView == null) {
@@ -172,8 +181,8 @@ class CalendarLinearLayout(context: Context, attributeSet: AttributeSet) :
         //返回true 持续响应所有事件 - > 返回false后 只响应down事件 直接消费不继续执行后续事件，所有move事件交由子view消费.
         if (mRecyclerView == null) {
             return true
-            //事件列表未滚动到顶部 直接返回false 消费调事件不做传递移动
-        } else if (!isEventListTop()) {
+            //事件列表未滚动到顶部 且是折叠状态 直接返回false 消费调事件不做传递移动 子view自行处理
+        } else if (!isEventListTop() && !expansionEnable) {
             return false
         }
         //直接继续消费事件
@@ -315,7 +324,7 @@ class CalendarLinearLayout(context: Context, attributeSet: AttributeSet) :
     }
 
     interface ChildTouchChange {
-        fun touchChange():Boolean
+        fun touchChange(): Boolean
     }
 
 }
