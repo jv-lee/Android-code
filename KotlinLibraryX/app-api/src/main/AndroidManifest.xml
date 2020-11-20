@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.DataStoreActivity"></activity>
+        <activity android:name=".activity.DataStoreProtoActivity" />
+        <activity android:name=".activity.DataStorePreferenceActivity" />
         <activity android:name=".activity.StartResultActivity" />
         <activity android:name=".fragment.StartFragmentActivity" />
         <activity android:name=".fragment.ResultFragmentActivity" />
