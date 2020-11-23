@@ -2,6 +2,7 @@ package com.lee.api
 
 import android.content.Intent
 import com.lee.api.activity.DataStorePreferenceActivity
+import com.lee.api.activity.DataStoreProtoActivity
 import com.lee.api.activity.StartResultActivity
 import com.lee.api.databinding.ActivityMainBinding
 import com.lee.api.fragment.StartFragmentActivity
@@ -19,6 +20,9 @@ class MainActivity : BaseActivity<ActivityMainBinding, BaseViewModel>(R.layout.a
         }
         binding.btnActivityDataStore.setOnClickListener {
             startActivity(Intent(this, DataStorePreferenceActivity::class.java))
+        }
+        binding.btnActivityDataStoreProto.setOnClickListener {
+            startActivity(Intent(this, DataStoreProtoActivity::class.java))
         }
     }
 

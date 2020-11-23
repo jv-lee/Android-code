@@ -2,8 +2,7 @@ syntax = "proto3";
 
 package com.proto.model;
 
-//option java_package = "com.proto.model";
-//option java_multiple_files = true;
+option java_outer_classname = "SettingsProto";
 
 message Settings {
     int32 example_counter = 1;

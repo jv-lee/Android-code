@@ -44,17 +44,6 @@ android {
         dataBinding = true
     }
 
-//    sourceSets {
-//        main {
-//            java {
-//                srcDir 'src/main/java'
-//            }
-//            proto {
-//                srcDir 'src/main/proto'
-//            }
-//        }
-//    }
-
 }
 
 protobuf{
@@ -84,7 +73,7 @@ dependencies {
     implementation "androidx.datastore:datastore-core:1.0.0-alpha04"
 
     implementation 'com.google.protobuf:protobuf-java:3.11.0'
-//    implementation 'com.google.protobuf:protobuf-javalite:3.9.1'
+//    implementation 'com.google.protobuf:protobuf-javalite:3.11.0'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
