@@ -35,12 +35,13 @@ class MonthView(context: Context, attributeSet: AttributeSet) : View(context, at
     private val overBackgroundColor: Int
     private val overStrokeColor: Int
     private val overSelectedColor: Int
+    private val todayStrokeColor:Int
     private val todayBackgroundColor: Int
     private val dotColor: Int
-    private val todayDotColor: Int
+    private val dotPairColor: Int
     private val goneTextColor: Int
-    private val defaultTextColor: Int
-    private val todayTextColor: Int
+    private val textColor: Int
+    private val textPairColor: Int
 
     //size属性及显示字符
     private val strokeWidth: Float
@@ -96,6 +97,10 @@ class MonthView(context: Context, attributeSet: AttributeSet) : View(context, at
                 ContextCompat.getColor(context, android.R.color.holo_red_dark)
             )
 
+            todayStrokeColor = getColor(
+                R.styleable.MonthView_month_todayStrokeColor,
+                ContextCompat.getColor(context, android.R.color.holo_orange_dark)
+            )
             todayBackgroundColor = getColor(
                 R.styleable.MonthView_month_todayBackgroundColor,
                 ContextCompat.getColor(context, android.R.color.holo_orange_dark)
@@ -104,20 +109,20 @@ class MonthView(context: Context, attributeSet: AttributeSet) : View(context, at
                 R.styleable.MonthView_month_dotColor,
                 ContextCompat.getColor(context, android.R.color.holo_orange_dark)
             )
-            todayDotColor = getColor(
-                R.styleable.MonthView_month_todayDotColor,
+            dotPairColor = getColor(
+                R.styleable.MonthView_month_dotPairColor,
                 ContextCompat.getColor(context, android.R.color.holo_orange_dark)
             )
             goneTextColor = getColor(
                 R.styleable.MonthView_month_goneTextColor,
                 ContextCompat.getColor(context, android.R.color.darker_gray)
             )
-            defaultTextColor = getColor(
-                R.styleable.MonthView_month_defaultTextColor,
+            textColor = getColor(
+                R.styleable.MonthView_month_textColor,
                 ContextCompat.getColor(context, android.R.color.black)
             )
-            todayTextColor = getColor(
-                R.styleable.MonthView_month_todayTextColor,
+            textPairColor = getColor(
+                R.styleable.MonthView_month_textPairColor,
                 ContextCompat.getColor(context, android.R.color.white)
             )
 
@@ -480,14 +485,14 @@ class MonthView(context: Context, attributeSet: AttributeSet) : View(context, at
 
     private fun setDelayDotStyle(entity: DayEntity) {
         mPaint.style = Paint.Style.FILL
-        mPaint.color = if (entity.isToDay) todayDotColor else dotColor
+        mPaint.color = if (entity.isToDay) dotPairColor else dotColor
     }
 
 
     private fun setNumberTextStyle(entity: DayEntity) {
         mPaint.style = Paint.Style.FILL
         mPaint.color =
-            if (entity.isToDay) todayTextColor else if (!entity.isToMonth) goneTextColor else defaultTextColor
+            if (entity.isToDay) textPairColor else if (!entity.isToMonth) goneTextColor else textColor
         mPaint.textSize = textSize
     }
 

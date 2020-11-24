@@ -19,7 +19,7 @@ class WeekAdapter(data:ArrayList<DateEntity>) :BaseCalendarPageAdapter(data){
         return R.layout.item_month_view
     }
 
-    fun updateDayStatus(position: Int, arrayList: ArrayList<DateData>) {
+    fun updateDayStatus(position: Int, arrayList: List<DateData>) {
         if (getData().isEmpty() || getData().size < position) {
             return
         }

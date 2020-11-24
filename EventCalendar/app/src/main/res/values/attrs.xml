@@ -27,12 +27,13 @@
         <attr name="month_overBackgroundColor" format="color" />
         <attr name="month_overStrokeColor" format="color" />
         <attr name="month_overSelectedColor" format="color" />
+        <attr name="month_todayStrokeColor" format="color" />
         <attr name="month_todayBackgroundColor" format="color" />
         <attr name="month_dotColor" format="color" />
-        <attr name="month_todayDotColor" format="color" />
+        <attr name="month_dotPairColor" format="color" />
         <attr name="month_goneTextColor" format="color" />
-        <attr name="month_defaultTextColor" format="color" />
-        <attr name="month_todayTextColor" format="color" />
+        <attr name="month_textColor" format="color" />
+        <attr name="month_textPairColor" format="color" />
 
         <attr name="month_text" format="string" />
         <attr name="month_textSize" format="dimension" />
