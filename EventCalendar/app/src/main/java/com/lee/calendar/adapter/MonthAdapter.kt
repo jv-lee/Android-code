@@ -3,14 +3,14 @@ package com.lee.calendar.adapter
 import com.lee.calendar.R
 import com.lee.calendar.entity.DateData
 import com.lee.calendar.entity.DateEntity
-import com.lee.calendar.widget.MonthView
+import com.lee.calendar.widget.calendar.MonthView
 
 /**
  * @author jv.lee
  * @date 2020/11/15
  * @description
  */
-class MonthAdapter(data:ArrayList<DateEntity>) :BaseCalendarPageAdapter(data){
+class MonthAdapter(data: ArrayList<DateEntity>) : BaseCalendarPageAdapter(data) {
     override fun monthMode(): Int {
         return MonthView.MonthMode.MODE_MONTH
     }

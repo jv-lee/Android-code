@@ -19,8 +19,9 @@ import com.lee.calendar.entity.DateEntity
 import com.lee.calendar.entity.DayEntity
 import com.lee.calendar.utils.CalendarUtils
 import com.lee.calendar.viewmodel.TestViewModel
-import com.lee.calendar.widget.CalendarLinearLayout
-import com.lee.calendar.widget.CalendarView
+import com.lee.calendar.widget.calendar.CalendarLinearLayout
+import com.lee.calendar.widget.calendar.CalendarView
+import com.lee.calendar.widget.calendar.SimpleDayRender
 
 /**
  * @author jv.lee
@@ -42,35 +43,42 @@ class CalendarViewActivity : AppCompatActivity(R.layout.activity_calendar_view) 
         super.onCreate(savedInstanceState)
 
 
-        calendarView.setOnChangePager(object: CalendarView.OnChangePager{
-            override fun onMonthPageChange(position: Int, entity: DateEntity, viewVisibility:Int) {
+        calendarView.setOnChangePager(object : CalendarView.OnChangePager {
+            override fun onMonthPageChange(position: Int, entity: DateEntity, viewVisibility: Int) {
                 Log.i("jv.lee", "onMonthPageChange: $position - ${entity.year}-${entity.month}")
                 viewModel.getMonthData(position, entity.year, entity.month)
             }
 
-            override fun onWeekPageChange(position: Int, entity: DateEntity, viewVisibility:Int) {
+            override fun onWeekPageChange(position: Int, entity: DateEntity, viewVisibility: Int) {
                 Log.i("jv.lee", "onWeekPageChange: $position - ${entity.year}-${entity.month}")
                 if (entity.dayList.isNotEmpty()) {
                     Log.i("jv.lee", "onWeekPageChange: getWeekData")
-                    viewModel.getWeekData(position,entity.year,entity.month,entity.dayList[0].day)
+                    viewModel.getWeekData(
+                        position,
+                        entity.year,
+                        entity.month,
+                        entity.dayList[0].day
+                    )
                 }
             }
 
             override fun onDayChange(position: Int, entity: DayEntity) {
-                tvDateDescription.text = "${entity.year}-${CalendarUtils.getMonthNumber(entity.month)}"
+                tvDateDescription.text =
+                    "${entity.year}-${CalendarUtils.getMonthNumber(entity.month)}"
                 Log.i("jv.lee", "onDayChange: $position - $entity")
             }
 
         })
+        calendarView.setDayRender(SimpleDayRender(this,R.style.calendar_month_simple))
         calendarView.initData()
-        linearContainer.bindEventView(calendarView,rvContainer)
+        linearContainer.bindEventView(calendarView, rvContainer)
 
         viewModel.monthLiveData.observe(this, Observer {
             (calendarView.getMonthAdapter() as MonthAdapter).updateDayStatus(it.position, it.data)
         })
 
         viewModel.weekLiveData.observe(this, Observer {
-            (calendarView.getWeekAdapter() as WeekAdapter).updateDayStatus(it.position,it.data)
+            (calendarView.getWeekAdapter() as WeekAdapter).updateDayStatus(it.position, it.data)
         })
 
         initRecyclerViewData()
@@ -78,13 +86,15 @@ class CalendarViewActivity : AppCompatActivity(R.layout.activity_calendar_view) 
     }
 
     private val rvContainer by lazy { findViewById<RecyclerView>(R.id.rv_container) }
-    private val recyclerAdapter by lazy { TestDataAdapter(arrayListOf<String>().also {
-        for (index in 0..30) {
-            it.add("this is content - position($index)")
-        }
-    }) }
+    private val recyclerAdapter by lazy {
+        TestDataAdapter(arrayListOf<String>().also {
+            for (index in 0..30) {
+                it.add("this is content - position($index)")
+            }
+        })
+    }
 
-    private fun initRecyclerViewData(){
+    private fun initRecyclerViewData() {
         rvContainer.layoutManager = LinearLayoutManager(this)
         rvContainer.adapter = recyclerAdapter
     }
@@ -98,7 +108,7 @@ class CalendarViewActivity : AppCompatActivity(R.layout.activity_calendar_view) 
         }
     }
 
-    private fun hideAttendancePrompt():Boolean{
+    private fun hideAttendancePrompt(): Boolean {
         if (constAttendancePromptView.visibility == View.VISIBLE) {
             constAttendancePromptView.visibility = View.GONE
             return true

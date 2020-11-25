@@ -4,9 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.lee.calendar.widget.MonthView
+    <com.lee.calendar.widget.calendar.MonthView
         android:id="@+id/month_view"
-        style="@style/calendar_month"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintTop_toTopOf="parent" />

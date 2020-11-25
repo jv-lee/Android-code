@@ -7,7 +7,7 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="calendar_month">
+    <style name="calendar_month_default">
         <item name="month_updateBackgroundColor">#0A2477FA</item>
         <item name="month_updateStrokeColor">#FF2477FA</item>
         <item name="month_updateSelectedColor">#FFCADEFE</item>
@@ -19,6 +19,28 @@
         <item name="month_todayBackgroundColor">#FF2477FA</item>
         <item name="month_dotColor">#FF2477FA</item>
         <item name="month_dotPairColor">#99FFFFFF</item>
+        <item name="month_goneTextColor">#33222222</item>
+        <item name="month_textColor">#FF222222</item>
+        <item name="month_textPairColor">#FFFFFFFF</item>
+
+        <item name="month_textSize">15sp</item>
+        <item name="month_dotSize">5dp</item>
+        <item name="month_paddingSize">3dp</item>
+        <item name="month_strokeWidth">1dp</item>
+    </style>
+
+    <style name="calendar_month_simple">
+        <item name="month_updateBackgroundColor">#1A2477FA</item>
+        <item name="month_updateStrokeColor">#00000000</item>
+        <item name="month_updateSelectedColor">#FF2477FA</item>
+        <item name="month_overBackgroundColor">#33FF665B</item>
+        <item name="month_overStrokeColor">#00000000</item>
+        <item name="month_overSelectedColor">#FFFF665B</item>
+
+        <item name="month_todayStrokeColor">#FF2477FA</item>
+        <item name="month_todayBackgroundColor">#00000000</item>
+        <item name="month_dotColor">#FF2477FA</item>
+        <item name="month_dotPairColor">#B3FFFFFF</item>
         <item name="month_goneTextColor">#33222222</item>
         <item name="month_textColor">#FF222222</item>
         <item name="month_textPairColor">#FFFFFFFF</item>

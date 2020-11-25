@@ -1,4 +1,4 @@
-package com.lee.calendar.widget
+package com.lee.calendar.widget.calendar
 
 import android.content.Context
 import android.util.AttributeSet
@@ -45,6 +45,7 @@ class CalendarView(context: Context, attributeSet: AttributeSet) :
     private val initNextMonthCount: Int
     private val loadMonthCount: Int
 
+    private var mDayRender: IDayRender? = null
     private var mChangePager: OnChangePager? = null
 
     fun getWeekLayoutHeight() = weekLayoutHeight
@@ -57,6 +58,7 @@ class CalendarView(context: Context, attributeSet: AttributeSet) :
     fun getWeekAdapter() = mWeekViewPagerAdapter
 
     init {
+
         context.obtainStyledAttributes(attributeSet, R.styleable.CalendarView).run {
             startTime = getString(R.styleable.CalendarView_startTime) ?: ""
             initPrevMonthCount = getInt(R.styleable.CalendarView_init_prev_month_count, 3)
@@ -66,11 +68,11 @@ class CalendarView(context: Context, attributeSet: AttributeSet) :
                 getResourceId(R.styleable.CalendarView_week_layout, R.layout.layout_week)
             weekLayoutHeight = getDimension(
                 R.styleable.CalendarView_week_layout_height,
-                dp2px(context, 32)
+                context.dp2px(32)
             ).toInt()
             val itemHeight = getDimension(
                 R.styleable.CalendarView_itemHeight,
-                dp2px(context, 52)
+                context.dp2px(52)
             )
             minHeight = itemHeight.toInt()
             maxHeight = itemHeight.toInt() * 6
@@ -139,8 +141,12 @@ class CalendarView(context: Context, attributeSet: AttributeSet) :
     }
 
     fun initData() {
-        mMonthViewPagerAdapter.bindPager(mMonthViewPager, initPrevMonthCount)
-        mWeekViewPagerAdapter.bindPager(mWeekViewPager, initPrevMonthCount)
+        mMonthViewPagerAdapter.bindPager(mMonthViewPager, initPrevMonthCount, mDayRender)
+        mWeekViewPagerAdapter.bindPager(mWeekViewPager, initPrevMonthCount, mDayRender)
+    }
+
+    fun setDayRender(dayRender: IDayRender) {
+        this.mDayRender = dayRender
     }
 
     fun switchMonthOrWeekPager(expansionEnable: Boolean) {
