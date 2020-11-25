@@ -21,7 +21,6 @@ import com.lee.calendar.widget.calendar.utils.CalendarUtils
 import com.lee.calendar.viewmodel.TestViewModel
 import com.lee.calendar.widget.calendar.CalendarLinearLayout
 import com.lee.calendar.widget.calendar.CalendarView
-import com.lee.calendar.widget.calendar.render.SimpleDayRender
 
 /**
  * @author jv.lee
@@ -69,12 +68,7 @@ class CalendarViewActivity : AppCompatActivity(R.layout.activity_calendar_view) 
             }
 
         })
-        calendarView.setDayRender(
-            SimpleDayRender(
-                this,
-                R.style.calendar_month_simple
-            )
-        )
+
         calendarView.initData()
         linearContainer.bindEventView(calendarView, rvContainer)
 

@@ -151,13 +151,10 @@ class CalendarView(context: Context, attributeSet: AttributeSet) :
         }
     }
 
-    fun initData() {
+    fun initData(dayRender: IDayRender? = null) {
+        this.mDayRender = dayRender
         mMonthViewPagerAdapter.bindPager(mMonthViewPager, initPrevMonthCount, mDayRender)
         mWeekViewPagerAdapter.bindPager(mWeekViewPager, initPrevMonthCount, mDayRender)
-    }
-
-    fun setDayRender(dayRender: IDayRender) {
-        this.mDayRender = dayRender
     }
 
     fun switchMonthOrWeekPager(expansionEnable: Boolean) {
