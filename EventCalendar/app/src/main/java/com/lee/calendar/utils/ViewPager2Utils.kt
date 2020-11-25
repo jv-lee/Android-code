@@ -9,7 +9,7 @@ import androidx.viewpager2.widget.ViewPager2
 /**
  * @author jv.lee
  * @date 2020/11/15
- * @description
+ * @description 反射类 正式包混淆需要过滤 -keep public class androidx.viewpager2.widget.ViewPager2 { *; }
  */
 object ViewPager2Utils {
     fun closeItemAnim(viewPager: ViewPager2) {
