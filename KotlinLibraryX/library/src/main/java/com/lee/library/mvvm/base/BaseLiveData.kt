@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import com.lee.library.mvvm.CustomException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 
 /**
@@ -24,6 +25,11 @@ open class BaseLiveData<T> : MutableLiveData<T>(),
             }
         }
 
+    }
+
+    override fun onInactive() {
+        super.onInactive()
+        cancel()
     }
 
 
