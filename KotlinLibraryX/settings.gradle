@@ -1,3 +1,4 @@
+include ':app-adapter'
 include ':app-api'
 include ':app-ui'
 include ':app-pdfjs'

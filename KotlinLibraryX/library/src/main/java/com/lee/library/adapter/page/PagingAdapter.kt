@@ -10,7 +10,7 @@ import com.lee.library.adapter.callback.DiffCallback
  * @date 2020/8/11
  * @description
  */
-open class PagingAdapter<T>(context: Context, data: ArrayList<T>) :
+open class PagingAdapter<T>(context: Context, data: List<T>) :
     LeeViewAdapter<T>(context, data) {
 
     fun submitData(
