@@ -1,8 +1,8 @@
-package com.lee.calendar.manager
+package com.lee.calendar.widget.calendar.core
 
-import com.lee.calendar.entity.DateEntity
-import com.lee.calendar.entity.DayEntity
-import com.lee.calendar.utils.CalendarUtils
+import com.lee.calendar.widget.calendar.entity.DateEntity
+import com.lee.calendar.widget.calendar.entity.DayEntity
+import com.lee.calendar.widget.calendar.utils.CalendarUtils
 import java.util.*
 
 /**
@@ -222,7 +222,14 @@ class CalendarManager(
                 )
             }
 
-            dateList.add(DateEntity(year, month, dayArray, -1))
+            dateList.add(
+                DateEntity(
+                    year,
+                    month,
+                    dayArray,
+                    -1
+                )
+            )
 
             if (startCalendar.get(Calendar.YEAR) == endCalendar.get(Calendar.YEAR) &&
                 startCalendar.get(Calendar.MONTH) == endCalendar.get(Calendar.MONTH) &&

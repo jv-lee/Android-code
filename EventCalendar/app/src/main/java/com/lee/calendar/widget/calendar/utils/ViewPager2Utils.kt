@@ -1,7 +1,6 @@
-package com.lee.calendar.utils
+package com.lee.calendar.widget.calendar.utils
 
 import android.view.View
-import android.widget.OverScroller
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import androidx.viewpager2.widget.ViewPager2

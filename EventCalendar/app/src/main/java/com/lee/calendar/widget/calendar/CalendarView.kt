@@ -7,14 +7,15 @@ import android.widget.FrameLayout
 import android.widget.LinearLayout
 import androidx.viewpager2.widget.ViewPager2
 import com.lee.calendar.R
-import com.lee.calendar.adapter.BaseCalendarPageAdapter
-import com.lee.calendar.adapter.MonthAdapter
-import com.lee.calendar.adapter.WeekAdapter
-import com.lee.calendar.entity.DateEntity
-import com.lee.calendar.entity.DayEntity
+import com.lee.calendar.widget.calendar.adapter.BaseCalendarPageAdapter
+import com.lee.calendar.widget.calendar.adapter.MonthAdapter
+import com.lee.calendar.widget.calendar.adapter.WeekAdapter
+import com.lee.calendar.widget.calendar.entity.DateEntity
+import com.lee.calendar.widget.calendar.entity.DayEntity
 import com.lee.calendar.ex.dp2px
-import com.lee.calendar.manager.CalendarManager
-import com.lee.calendar.utils.ViewPager2Utils
+import com.lee.calendar.widget.calendar.core.CalendarManager
+import com.lee.calendar.widget.calendar.utils.ViewPager2Utils
+import com.lee.calendar.widget.calendar.render.IDayRender
 
 /**
  * @author jv.lee
@@ -97,11 +98,21 @@ class CalendarView(context: Context, attributeSet: AttributeSet) :
         mMonthViewPager.requestLayout()
 
         mMonthCalendarManager =
-            CalendarManager(true, initPrevMonthCount, initNextMonthCount, loadMonthCount)
+            CalendarManager(
+                true,
+                initPrevMonthCount,
+                initNextMonthCount,
+                loadMonthCount
+            )
         val monthData = mMonthCalendarManager.initDateList()
 
         mWeekCalendarManager =
-            CalendarManager(false, initPrevMonthCount, initNextMonthCount, loadMonthCount)
+            CalendarManager(
+                false,
+                initPrevMonthCount,
+                initNextMonthCount,
+                loadMonthCount
+            )
         val weekData = mWeekCalendarManager.initDateList()
 
         MonthAdapter(monthData).also {

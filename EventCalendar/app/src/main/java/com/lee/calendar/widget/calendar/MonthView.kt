@@ -9,7 +9,9 @@ import android.view.View
 import android.view.ViewConfiguration
 import androidx.annotation.IntDef
 import com.lee.calendar.R
-import com.lee.calendar.entity.DayEntity
+import com.lee.calendar.widget.calendar.entity.DayEntity
+import com.lee.calendar.widget.calendar.render.DefaultDayRender
+import com.lee.calendar.widget.calendar.render.IDayRender
 import kotlin.math.abs
 
 /**
@@ -36,7 +38,10 @@ class MonthView(context: Context, attributeSet: AttributeSet) : View(context, at
 
     private val dayList = ArrayList<DayEntity>()
     private var dayRender: IDayRender =
-        DefaultDayRender(context, R.style.calendar_month_default)
+        DefaultDayRender(
+            context,
+            R.style.calendar_month_default
+        )
 
     init {
         //初始化系统拖动阈值

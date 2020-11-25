@@ -3,9 +3,9 @@ package com.lee.calendar.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.lee.calendar.entity.DateData
-import com.lee.calendar.entity.DayStatus
+import com.lee.calendar.widget.calendar.entity.DayStatus
 import com.lee.calendar.utils.AttendanceDataUtils
-import com.lee.calendar.utils.CalendarUtils
+import com.lee.calendar.widget.calendar.utils.CalendarUtils
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -57,13 +57,20 @@ class TestViewModel : ViewModel() {
         val monthArray = arrayListOf<DateData>()
         for (index in 1..7) {
             when (index) {
-                1-> monthArray.add(DateData(index,DayStatus.UPDATE_STATUS))
-                2-> monthArray.add(DateData(index,DayStatus.OVER_UPDATE_STATUS))
-                3-> monthArray.add(DateData(index,DayStatus.UPDATE_STATUS))
-                4-> monthArray.add(DateData(index,DayStatus.OVER_UPDATE_STATUS))
-                5-> monthArray.add(DateData(index,DayStatus.UPDATE_STATUS))
-                6-> monthArray.add(DateData(index,DayStatus.OVER_UPDATE_STATUS))
-                7-> monthArray.add(DateData(index,DayStatus.OVER_UPDATE_STATUS))
+                1-> monthArray.add(DateData(index,
+                    DayStatus.UPDATE_STATUS))
+                2-> monthArray.add(DateData(index,
+                    DayStatus.OVER_UPDATE_STATUS))
+                3-> monthArray.add(DateData(index,
+                    DayStatus.UPDATE_STATUS))
+                4-> monthArray.add(DateData(index,
+                    DayStatus.OVER_UPDATE_STATUS))
+                5-> monthArray.add(DateData(index,
+                    DayStatus.UPDATE_STATUS))
+                6-> monthArray.add(DateData(index,
+                    DayStatus.OVER_UPDATE_STATUS))
+                7-> monthArray.add(DateData(index,
+                    DayStatus.OVER_UPDATE_STATUS))
             }
         }
         return monthArray

@@ -1,7 +1,7 @@
-package com.lee.calendar.entity
+package com.lee.calendar.widget.calendar.entity
 
 import androidx.annotation.IntDef
-import com.lee.calendar.utils.CalendarUtils
+import com.lee.calendar.widget.calendar.utils.CalendarUtils
 import com.lee.calendar.widget.calendar.MonthView
 import java.util.*
 import kotlin.collections.ArrayList
@@ -27,15 +27,23 @@ data class DateEntity(
 
             //获取当月1号遍历数量
             val startIndex = calendar.get(Calendar.DAY_OF_WEEK) - 1
-            return DateEntity(year, month, CalendarUtils.getMonthDayList(year, month,startIndex), startIndex)
+            return DateEntity(
+                year,
+                month,
+                CalendarUtils.getMonthDayList(year, month, startIndex),
+                startIndex
+            )
         }
 
-        fun parseWeekEntity(year: Int,month: Int,day:Int):DateEntity{
+        fun parseWeekEntity(year: Int,month: Int,day:Int): DateEntity {
             val calendar = Calendar.getInstance()
             calendar.set(Calendar.YEAR,year)
             calendar.set(Calendar.MONTH,month)
             calendar.set(Calendar.DATE,day)
-            return DateEntity(year,month,CalendarUtils.getWeekDayList(year,month,day),startIndex = -1)
+            return DateEntity(
+                year, month,
+                CalendarUtils.getWeekDayList(year, month, day), startIndex = -1
+            )
         }
     }
 
@@ -61,7 +69,12 @@ data class DayEntity(
     }
 }
 
-@IntDef(DayStatus.EMPTY_STATUS, DayStatus.UPDATE_STATUS, DayStatus.OVER_UPDATE_STATUS,DayStatus.DELAY_UPDATE_STATUS)
+@IntDef(
+    DayStatus.EMPTY_STATUS,
+    DayStatus.UPDATE_STATUS,
+    DayStatus.OVER_UPDATE_STATUS,
+    DayStatus.DELAY_UPDATE_STATUS
+)
 @Target(AnnotationTarget.FIELD, AnnotationTarget.VALUE_PARAMETER, AnnotationTarget.FUNCTION)
 @Retention(AnnotationRetention.SOURCE)
 annotation class DayStatus {

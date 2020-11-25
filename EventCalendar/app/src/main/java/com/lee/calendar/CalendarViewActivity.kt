@@ -12,16 +12,16 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.lee.calendar.adapter.MonthAdapter
+import com.lee.calendar.widget.calendar.adapter.MonthAdapter
 import com.lee.calendar.adapter.TestDataAdapter
-import com.lee.calendar.adapter.WeekAdapter
-import com.lee.calendar.entity.DateEntity
-import com.lee.calendar.entity.DayEntity
-import com.lee.calendar.utils.CalendarUtils
+import com.lee.calendar.widget.calendar.adapter.WeekAdapter
+import com.lee.calendar.widget.calendar.entity.DateEntity
+import com.lee.calendar.widget.calendar.entity.DayEntity
+import com.lee.calendar.widget.calendar.utils.CalendarUtils
 import com.lee.calendar.viewmodel.TestViewModel
 import com.lee.calendar.widget.calendar.CalendarLinearLayout
 import com.lee.calendar.widget.calendar.CalendarView
-import com.lee.calendar.widget.calendar.SimpleDayRender
+import com.lee.calendar.widget.calendar.render.SimpleDayRender
 
 /**
  * @author jv.lee
@@ -69,7 +69,12 @@ class CalendarViewActivity : AppCompatActivity(R.layout.activity_calendar_view) 
             }
 
         })
-        calendarView.setDayRender(SimpleDayRender(this,R.style.calendar_month_simple))
+        calendarView.setDayRender(
+            SimpleDayRender(
+                this,
+                R.style.calendar_month_simple
+            )
+        )
         calendarView.initData()
         linearContainer.bindEventView(calendarView, rvContainer)
 

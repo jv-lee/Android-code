@@ -1,6 +1,6 @@
-package com.lee.calendar.manager
+package com.lee.calendar.widget.calendar.core
 
-import com.lee.calendar.entity.DateEntity
+import com.lee.calendar.widget.calendar.entity.DateEntity
 
 /**
  * @author jv.lee

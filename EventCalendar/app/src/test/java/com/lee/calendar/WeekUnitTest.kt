@@ -1,8 +1,6 @@
 package com.lee.calendar
 
-import com.lee.calendar.utils.CalendarUtils
 import org.junit.Test
-import java.time.DayOfWeek
 import java.util.*
 
 /**

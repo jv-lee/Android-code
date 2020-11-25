@@ -1,6 +1,6 @@
-package com.lee.calendar.utils
+package com.lee.calendar.widget.calendar.utils
 
-import com.lee.calendar.entity.DayEntity
+import com.lee.calendar.widget.calendar.entity.DayEntity
 import java.util.*
 
 /**
@@ -114,7 +114,11 @@ object CalendarUtils {
      * 最后一周是否为当前月份
      */
     fun lastWeekDayIsToMonth(year: Int,month: Int):Boolean{
-        val lastDayIsWeek = getMonthWeekCount(year, month)
+        val lastDayIsWeek =
+            getMonthWeekCount(
+                year,
+                month
+            )
         val calendar = Calendar.getInstance().also {
             it.set(year,month,1)
             it.set(Calendar.WEEK_OF_MONTH,lastDayIsWeek)
@@ -127,7 +131,11 @@ object CalendarUtils {
      * 获取当前月总周数
      */
     fun getMonthWeekCount(year: Int, month: Int):Int {
-        val day = getMaxDayCountByMonth(year, month)
+        val day =
+            getMaxDayCountByMonth(
+                year,
+                month
+            )
         val calendar = Calendar.getInstance().also {
             it.set(year,month,day)
         }
@@ -161,10 +169,16 @@ object CalendarUtils {
      */
     fun getDiffWeekCount(tagCalendar: Calendar, currentCalendar: Calendar):Int {
         val tagWeek = tagCalendar.get(Calendar.WEEK_OF_YEAR)
-        val tagMaxWeek = getMaxWeekCountByYear(tagCalendar.get(Calendar.YEAR))
+        val tagMaxWeek =
+            getMaxWeekCountByYear(
+                tagCalendar.get(Calendar.YEAR)
+            )
 
         val currentWeek = currentCalendar.get(Calendar.WEEK_OF_YEAR)
-        val currentMaxWeek = getMaxWeekCountByYear(currentCalendar.get(Calendar.YEAR))
+        val currentMaxWeek =
+            getMaxWeekCountByYear(
+                currentCalendar.get(Calendar.YEAR)
+            )
 
         return if (tagWeek < 10 && currentWeek > 46) {
             tagWeek + (currentMaxWeek - currentWeek)
@@ -179,9 +193,18 @@ object CalendarUtils {
      * 根据年月日 获取当7天的数据
      */
     fun getWeekDayList(year: Int, month: Int, day: Int): ArrayList<DayEntity> {
-        val today = getTodayNumber(year, month)
+        val today =
+            getTodayNumber(
+                year,
+                month
+            )
         val dayArray = arrayListOf<DayEntity>()
-        val calendar = setWeekToSunday(year, month, day)
+        val calendar =
+            setWeekToSunday(
+                year,
+                month,
+                day
+            )
         for (index in 0..6) {
             calendar.add(Calendar.DAY_OF_MONTH, if(index == 0) 0 else 1)
             dayArray.add(
@@ -202,9 +225,17 @@ object CalendarUtils {
      * 根据年月 获取当月所有天数据
      */
     fun getMonthDayList(year: Int, month: Int, startIndex: Int): ArrayList<DayEntity> {
-        val today = getTodayNumber(year, month)
+        val today =
+            getTodayNumber(
+                year,
+                month
+            )
         val dayArray = arrayListOf<DayEntity>()
-        val dayCount = getMaxDayCountByMonth(year, month)
+        val dayCount =
+            getMaxDayCountByMonth(
+                year,
+                month
+            )
         for (index in 1..dayCount) {
             dayArray.add(
                 DayEntity(
@@ -217,7 +248,12 @@ object CalendarUtils {
                 )
             )
         }
-        return getAttachDayList(dayArray, year, month, startIndex)
+        return getAttachDayList(
+            dayArray,
+            year,
+            month,
+            startIndex
+        )
     }
 
     /**
@@ -229,8 +265,18 @@ object CalendarUtils {
         month: Int,
         startIndex: Int
     ): ArrayList<DayEntity> {
-        getAttachPrevDay(data, year, month, startIndex)
-        getAttachNextDay(data, year, month, startIndex)
+        getAttachPrevDay(
+            data,
+            year,
+            month,
+            startIndex
+        )
+        getAttachNextDay(
+            data,
+            year,
+            month,
+            startIndex
+        )
         return data
     }
 
