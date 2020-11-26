@@ -8,14 +8,30 @@ import com.lee.adapter.databinding.*
 import com.lee.adapter.viewmodel.ContentViewModel
 import com.lee.library.adapter.listener.LoadErrorListener
 import com.lee.library.base.BaseActivity
-import com.lee.library.mvvm.live.LoadStatus
+import com.lee.library.mvvm.load.LoadStatus
 
 class MainActivity : BaseActivity<ActivityMainBinding, ContentViewModel>(R.layout.activity_main) {
 
-    private val headerOne by lazy { DataBindingUtil.inflate<LayoutHeaderOneBinding>(layoutInflater,R.layout.layout_header_one,binding.rvContainer,false) }
-    private val headerTwo by lazy { DataBindingUtil.inflate<LayoutHeaderTwoBinding>(layoutInflater,R.layout.layout_header_two,binding.rvContainer,false) }
-    private val footerOne by lazy { DataBindingUtil.inflate<LayoutFooterOneBinding>(layoutInflater,R.layout.layout_footer_one,binding.rvContainer,false) }
-    private val footerTwo by lazy { DataBindingUtil.inflate<LayoutFooterTwoBinding>(layoutInflater,R.layout.layout_footer_two,binding.rvContainer,false) }
+    private val headerOne by lazy {
+        DataBindingUtil.inflate<LayoutHeaderOneBinding>(
+            layoutInflater, R.layout.layout_header_one, binding.rvContainer, false
+        )
+    }
+    private val headerTwo by lazy {
+        DataBindingUtil.inflate<LayoutHeaderTwoBinding>(
+            layoutInflater, R.layout.layout_header_two, binding.rvContainer, false
+        )
+    }
+    private val footerOne by lazy {
+        DataBindingUtil.inflate<LayoutFooterOneBinding>(
+            layoutInflater, R.layout.layout_footer_one, binding.rvContainer, false
+        )
+    }
+    private val footerTwo by lazy {
+        DataBindingUtil.inflate<LayoutFooterTwoBinding>(
+            layoutInflater, R.layout.layout_footer_two, binding.rvContainer, false
+        )
+    }
 
     private val mAdapter by lazy { ContentAdapter(this, arrayListOf()) }
 
@@ -26,7 +42,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, ContentViewModel>(R.layou
         mAdapter.setAutoLoadMoreListener {
             viewModel.loadData(LoadStatus.LOAD_MORE)
         }
-        mAdapter.setLoadErrorListener(object:LoadErrorListener{
+        mAdapter.setLoadErrorListener(object : LoadErrorListener {
             override fun itemReload() {
                 viewModel.loadData(LoadStatus.RELOAD)
             }
@@ -48,9 +64,8 @@ class MainActivity : BaseActivity<ActivityMainBinding, ContentViewModel>(R.layou
     override fun bindData() {
         viewModel.dataLiveData.observe(this, Observer {
             mAdapter.submitData(it)
-        })
-
-        viewModel.dataLiveData.failedEvent.observe(this, Observer {
+        }, Observer {
+            toast(it)
             mAdapter.submitFailed()
         })
 

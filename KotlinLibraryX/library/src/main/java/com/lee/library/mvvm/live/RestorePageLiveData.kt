@@ -25,7 +25,7 @@ class RestorePageLiveData : MutableLiveData<Int>() {
             }
 
             override fun onPageSelected(position: Int) {
-                if (position != 0) value = position
+                value = position
             }
 
         })

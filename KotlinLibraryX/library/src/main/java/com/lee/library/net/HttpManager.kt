@@ -1,7 +1,9 @@
 package com.lee.library.net
 
+import android.text.TextUtils
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.google.gson.JsonParser
 import com.lee.library.base.BaseApplication
 import com.lee.library.net.adapter.DoubleDefaultAdapter
 import com.lee.library.net.adapter.IntegerDefaultAdapter
@@ -16,6 +18,7 @@ import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.CallAdapter
 import retrofit2.Converter
+import retrofit2.HttpException
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.protobuf.ProtoConverterFactory
@@ -154,6 +157,28 @@ class HttpManager private constructor() {
 //            IRequest.CallType.OBSERVABLE -> RxJava2CallAdapterFactory.create()
             else -> null
         }
+    }
+
+    /**
+     * 获取服务器错误码信息
+     */
+    fun getServerMessage(throwable: Throwable, filedName: String = "msg"): String {
+        if (throwable is HttpException) {
+            try {
+                throwable.response()?.errorBody()?.let {
+                    val json = JsonParser().parse(it.string())
+                    val msg = json.asJsonObject.get(filedName).asString
+                    return if (TextUtils.isEmpty(msg)) {
+                        throwable.message ?: throwable.toString()
+                    } else {
+                        msg ?: throwable.message ?: throwable.toString()
+                    }
+                }
+            } catch (e: Exception) {
+                return throwable.message ?: throwable.toString()
+            }
+        }
+        return throwable.message ?: throwable.toString()
     }
 
 }

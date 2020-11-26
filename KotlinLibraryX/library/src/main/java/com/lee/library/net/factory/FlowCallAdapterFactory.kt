@@ -34,7 +34,7 @@ class FlowCallAdapterFactory private constructor() : CallAdapter.Factory() {
 
         val rawFlowType = getRawType(responseType)
         return if (rawFlowType == Response::class.java) {
-            check(responseType is ParameterizedType){ "Response must be parameterized as Response<Foo> or Response<out Foo>" }
+            check(responseType is ParameterizedType) { "Response must be parameterized as Response<Foo> or Response<out Foo>" }
             ResponseCallAdapter<Any>(getParameterUpperBound(0, responseType))
         } else {
             BodyCallAdapter<Any>(responseType)
@@ -57,10 +57,10 @@ class FlowCallAdapterFactory private constructor() : CallAdapter.Factory() {
                             }
 
                             override fun onResponse(call: Call<T>, response: Response<T>) {
-                                try {
+                                if (response.isSuccessful) {
                                     continuation.resume(response.body()!!)
-                                } catch (e: Exception) {
-                                    continuation.resumeWithException(e)
+                                } else {
+                                    continuation.resumeWithException(HttpException(response))
                                 }
                             }
                         })

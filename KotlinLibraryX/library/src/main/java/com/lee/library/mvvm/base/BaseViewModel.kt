@@ -4,7 +4,6 @@ import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.lee.library.base.BaseApplication
-import com.lee.library.mvvm.CustomException
 import kotlinx.coroutines.*
 import java.util.concurrent.CancellationException
 
@@ -15,7 +14,7 @@ import java.util.concurrent.CancellationException
  */
 open class BaseViewModel : ViewModel(), CoroutineScope by CoroutineScope(Dispatchers.Main) {
 
-    val failedEvent: MutableLiveData<CustomException> = MutableLiveData()
+    val failedEvent: MutableLiveData<Throwable> = MutableLiveData()
 
     open fun <T : Application?> getApplication(): T {
         return BaseApplication.getContext() as T
@@ -35,7 +34,7 @@ open class BaseViewModel : ViewModel(), CoroutineScope by CoroutineScope(Dispatc
 
     fun launchMain(failedCode: Int = -1, tryBlock: suspend CoroutineScope.() -> Unit) {
         launchOnUI {
-            tryCatch(tryBlock, {}, {}, true, failedCode)
+            tryCatch(tryBlock, {}, {}, true)
         }
     }
 
@@ -63,8 +62,7 @@ open class BaseViewModel : ViewModel(), CoroutineScope by CoroutineScope(Dispatc
         tryBlock: suspend CoroutineScope.() -> Unit,
         catchBlock: suspend CoroutineScope.(Throwable) -> Unit,
         finallyBlock: suspend CoroutineScope.() -> Unit,
-        handleCancellationExceptionManually: Boolean = false,
-        failedCode: Int = -1
+        handleCancellationExceptionManually: Boolean = false
     ) {
         coroutineScope {
             try {
@@ -72,8 +70,7 @@ open class BaseViewModel : ViewModel(), CoroutineScope by CoroutineScope(Dispatc
             } catch (e: Throwable) {
                 e.printStackTrace()
                 if (e !is CancellationException || handleCancellationExceptionManually) {
-                    failedEvent.value =
-                        CustomException(failedCode, e)
+                    failedEvent.value = e
                     catchBlock(e)
                 } else {
                     throw e
@@ -82,11 +79,6 @@ open class BaseViewModel : ViewModel(), CoroutineScope by CoroutineScope(Dispatc
                 finallyBlock()
             }
         }
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        cancel()
     }
 
 }

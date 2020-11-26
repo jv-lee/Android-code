@@ -1,9 +1,9 @@
-package com.lee.library.mvvm.live
+package com.lee.library.mvvm.load
 
 import androidx.annotation.IntDef
-import com.lee.library.mvvm.live.LoadStatus.Companion.LOAD_MORE
-import com.lee.library.mvvm.live.LoadStatus.Companion.REFRESH
-import com.lee.library.mvvm.live.LoadStatus.Companion.RELOAD
+import com.lee.library.mvvm.load.LoadStatus.Companion.LOAD_MORE
+import com.lee.library.mvvm.load.LoadStatus.Companion.REFRESH
+import com.lee.library.mvvm.load.LoadStatus.Companion.RELOAD
 
 /**
  * @author jv.lee

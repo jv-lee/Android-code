@@ -1,11 +1,11 @@
 package com.lee.library.mvvm.live
 
-import androidx.annotation.IntDef
 import com.lee.library.mvvm.base.BaseLiveData
-import com.lee.library.mvvm.live.LoadStatus.Companion.INIT
-import com.lee.library.mvvm.live.LoadStatus.Companion.LOAD_MORE
-import com.lee.library.mvvm.live.LoadStatus.Companion.REFRESH
-import com.lee.library.mvvm.live.LoadStatus.Companion.RELOAD
+import com.lee.library.mvvm.load.LoadStatus
+import com.lee.library.mvvm.load.LoadStatus.Companion.INIT
+import com.lee.library.mvvm.load.LoadStatus.Companion.LOAD_MORE
+import com.lee.library.mvvm.load.LoadStatus.Companion.REFRESH
+import com.lee.library.mvvm.load.LoadStatus.Companion.RELOAD
 import kotlinx.coroutines.CoroutineScope
 
 /**
