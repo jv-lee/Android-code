@@ -88,7 +88,8 @@ class FlowViewModel : BaseViewModel() {
                 }.map {
                     putCache()
                     it
-                }.flowOn(Dispatchers.IO)
+                }
+                .flowOn(Dispatchers.IO)
                 .catch {
 
                 }.collect {
