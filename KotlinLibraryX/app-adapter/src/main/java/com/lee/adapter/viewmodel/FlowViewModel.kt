@@ -8,6 +8,7 @@ import com.lee.library.mvvm.base.BaseLiveData
 import com.lee.library.mvvm.base.BaseViewModel
 import com.lee.library.mvvm.load.LoadStatus
 import com.lee.library.mvvm.load.PageNumber
+import com.lee.library.utils.LogUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.*
@@ -58,8 +59,10 @@ class FlowViewModel : BaseViewModel() {
         }
     }
 
+    //该方法在当前生命周期 销毁或重建前时调用
     override fun onCleared() {
         super.onCleared()
+        LogUtil.i("FlowViewModel.onCleared()")
         dataLiveData.cancel()
     }
 
