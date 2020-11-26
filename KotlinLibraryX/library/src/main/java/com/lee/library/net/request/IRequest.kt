@@ -2,6 +2,7 @@ package com.lee.library.net.request
 
 import androidx.annotation.IntDef
 import com.lee.library.net.request.IRequest.CallType.Companion.COROUTINE
+import com.lee.library.net.request.IRequest.CallType.Companion.FLOW
 import com.lee.library.net.request.IRequest.CallType.Companion.NO
 import com.lee.library.net.request.IRequest.CallType.Companion.OBSERVABLE
 import com.lee.library.net.request.IRequest.ConverterType.Companion.JSON
@@ -47,14 +48,14 @@ interface IRequest {
         AnnotationTarget.FUNCTION,
         AnnotationTarget.CONSTRUCTOR
     )
-    @IntDef(COROUTINE, OBSERVABLE, NO)
+    @IntDef(COROUTINE, FLOW, OBSERVABLE, NO)
     @Retention(AnnotationRetention.SOURCE)
     @MustBeDocumented
     annotation class CallType {
         companion object {
-            const val COROUTINE = 0
-            const val OBSERVABLE = 1
+            const val COROUTINE = 1
             const val FLOW = 2
+            const val OBSERVABLE = 3
             const val NO = -1
         }
     }

@@ -12,7 +12,7 @@ import kotlin.coroutines.resumeWithException
 /**
  * @author jv.lee
  * @date 2020/11/26
- * @description
+ * @description Kotlin Retrofit.FlowCall  携程返回数据适配工厂
  */
 class FlowCallAdapterFactory private constructor() : CallAdapter.Factory() {
     companion object {
