@@ -130,6 +130,7 @@ class CalendarLinearLayout(context: Context, attributeSet: AttributeSet) :
 
         }
         Log.i(TAG, "onInterceptTouchEvent: super.function()")
+        endAnimator()
         return super.onInterceptTouchEvent(e)
     }
 
