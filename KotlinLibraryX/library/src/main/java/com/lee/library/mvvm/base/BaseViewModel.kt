@@ -81,5 +81,11 @@ open class BaseViewModel : ViewModel(), CoroutineScope by CoroutineScope(Dispatc
         }
     }
 
+    //该方法在当前生命周期 销毁或重建前时调用
+    override fun onCleared() {
+        super.onCleared()
+        cancel()
+    }
+
 }
 
