@@ -20,14 +20,10 @@ class ContentViewModel : BaseViewModel() {
     val dataLiveData by lazy { PageLiveData<PageData<ContentData>>(limit = 1) }
 
     fun loadData(@LoadStatus status: Int) {
-        dataLiveData.pageLaunch(status, networkBlock = { page ->
-            repository.getContent(page)
-        })
-    }
-
-    fun loadFlowData() {
         launchMain {
-//            repository.getContent()
+            dataLiveData.pageLaunch(status, networkBlock = { page ->
+                repository.getContent(page)
+            })
         }
     }
 

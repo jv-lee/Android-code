@@ -21,6 +21,7 @@ class FlowActivity : BaseActivity<ActivityFlowBinding, FlowViewModel>(R.layout.a
             })
 
             getData(LoadStatus.INIT)
+            getCacheOrNetworkData1()
         }
     }
 }
