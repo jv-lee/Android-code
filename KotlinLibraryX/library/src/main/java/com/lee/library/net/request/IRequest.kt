@@ -54,7 +54,8 @@ interface IRequest {
         companion object {
             const val COROUTINE = 0
             const val OBSERVABLE = 1
-            const val NO = 2
+            const val FLOW = 2
+            const val NO = -1
         }
     }
 

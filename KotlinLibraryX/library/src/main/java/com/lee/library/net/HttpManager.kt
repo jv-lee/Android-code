@@ -6,8 +6,9 @@ import com.lee.library.base.BaseApplication
 import com.lee.library.net.adapter.DoubleDefaultAdapter
 import com.lee.library.net.adapter.IntegerDefaultAdapter
 import com.lee.library.net.adapter.LongDefaultAdapter
-import com.lee.library.net.call.CoroutineCallAdapterFactory
 import com.lee.library.net.client.OkHttpClientBuilder
+import com.lee.library.net.factory.CoroutineCallAdapterFactory
+import com.lee.library.net.factory.FlowCallAdapterFactory
 import com.lee.library.net.request.IRequest
 import com.lee.library.net.request.Request
 import okhttp3.Cache
@@ -149,6 +150,7 @@ class HttpManager private constructor() {
     private fun getCallAdapter(type: Int): CallAdapter.Factory? {
         return when (type) {
             IRequest.CallType.COROUTINE -> CoroutineCallAdapterFactory()
+            IRequest.CallType.FLOW -> FlowCallAdapterFactory()
 //            IRequest.CallType.OBSERVABLE -> RxJava2CallAdapterFactory.create()
             else -> null
         }
