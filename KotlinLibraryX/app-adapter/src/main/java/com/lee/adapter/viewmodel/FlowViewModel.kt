@@ -9,7 +9,8 @@ import com.lee.library.mvvm.base.BaseViewModel
 import com.lee.library.mvvm.load.LoadStatus
 import com.lee.library.mvvm.load.PageNumber
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.withContext
 
 /**
@@ -33,9 +34,33 @@ class FlowViewModel : BaseViewModel() {
                     it
                 }
                 .bindLive(dataLiveData)
-
         }
 
+    }
+
+    fun getCacheOrNetworkData() {
+        launchMain {
+            val hasCache = true
+            flowOf(hasCache)
+                .flatMapMerge {
+                    if (it) {
+                        return@flatMapMerge flowOf("cache")
+                    }
+                    return@flatMapMerge flowOf("network")
+                }.map {
+                    if (hasCache) println("put cache data.")
+                    it
+                }.catch {
+
+                }.collect {
+
+                }
+        }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        dataLiveData.cancel()
     }
 
 }
