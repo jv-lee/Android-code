@@ -101,11 +101,21 @@ class HttpManager private constructor() {
     ): T {
         val builder = Retrofit.Builder()
             .baseUrl(request.baseUrl)
-            .addConverterFactory(getConverterFactory(request.converterType))
 
-        val callAdapter = getCallAdapter(request.callType)
-        if (callAdapter != null) {
-            builder.addCallAdapterFactory(callAdapter)
+        if (request.converterTypes != null) {
+            request.converterTypes.forEach {
+                builder.addConverterFactory(getConverterFactory(it))
+            }
+        } else {
+            builder.addConverterFactory(getConverterFactory(request.converterType))
+        }
+
+        if (request.callTypes != null) {
+            request.callTypes.forEach {
+                builder.addCallAdapterFactory(getCallAdapter(it))
+            }
+        } else {
+            builder.addCallAdapterFactory(getCallAdapter(request.callType))
         }
 
         val retrofit = builder.client(client).build()
@@ -150,12 +160,12 @@ class HttpManager private constructor() {
         }
     }
 
-    private fun getCallAdapter(type: Int): CallAdapter.Factory? {
+    private fun getCallAdapter(type: Int): CallAdapter.Factory {
         return when (type) {
             IRequest.CallType.COROUTINE -> CoroutineCallAdapterFactory()
             IRequest.CallType.FLOW -> FlowCallAdapterFactory()
 //            IRequest.CallType.OBSERVABLE -> RxJava2CallAdapterFactory.create()
-            else -> null
+            else -> CoroutineCallAdapterFactory()
         }
     }
 

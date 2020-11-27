@@ -5,6 +5,7 @@ import com.lee.adapter.databinding.ActivityFlowBinding
 import com.lee.adapter.viewmodel.FlowViewModel
 import com.lee.library.base.BaseActivity
 import com.lee.library.mvvm.load.LoadStatus
+import com.lee.library.utils.LogUtil
 
 class FlowActivity : BaseActivity<ActivityFlowBinding, FlowViewModel>(R.layout.activity_flow) {
 
@@ -20,8 +21,16 @@ class FlowActivity : BaseActivity<ActivityFlowBinding, FlowViewModel>(R.layout.a
                 toast(it)
             })
 
-            getData(LoadStatus.INIT)
-            getCacheOrNetworkData1()
+//            getData(LoadStatus.INIT)
+//            getCacheOrNetworkData1()
+
+            pageLiveData.observe(this@FlowActivity, Observer {
+                LogUtil.i(it)
+            }, Observer {
+                LogUtil.e(it)
+            })
+            getFlowData(LoadStatus.INIT)
+            getFlowData(LoadStatus.LOAD_MORE)
         }
     }
 }

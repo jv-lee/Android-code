@@ -8,6 +8,7 @@ import com.lee.library.extensions.dispatchersIO
 import com.lee.library.extensions.notNull
 import com.lee.library.mvvm.base.BaseLiveData
 import com.lee.library.mvvm.base.BaseViewModel
+import com.lee.library.mvvm.live.PageLiveData
 import com.lee.library.mvvm.load.LoadStatus
 import com.lee.library.mvvm.load.PageNumber
 import com.lee.library.utils.LogUtil
@@ -28,6 +29,7 @@ class FlowViewModel : BaseViewModel() {
     private val page by lazy { PageNumber(1) }
 
     val dataLiveData by lazy { BaseLiveData<Page<Content>>() }
+    val pageLiveData by lazy { PageLiveData<String>() }
 
     fun getData(@LoadStatus status: Int) {
 
@@ -40,6 +42,33 @@ class FlowViewModel : BaseViewModel() {
                 .bindLive(dataLiveData)
         }
 
+    }
+
+    private suspend fun getFlowCache(): Flow<String?> {
+        return flowOf("cache-data")
+    }
+
+    private suspend fun getFlowNetwork(page: Int): Flow<String?> {
+        return flowOf("network-data-$page")
+    }
+
+    private suspend fun saveCache(data: String) {
+        LogUtil.i("save cache - $data")
+    }
+
+    fun getFlowData(@LoadStatus status: Int) {
+        launchMain {
+            pageLiveData.pageLaunchFlow(status,
+                { page ->
+                    getFlowNetwork(page)
+                }, {
+                    getFlowCache()
+                }, {
+                    //只缓存首页数据
+                    if (pageLiveData.page == pageLiveData.limit) saveCache(it)
+                    it
+                })
+        }
     }
 
     private suspend fun getCache(): String? {

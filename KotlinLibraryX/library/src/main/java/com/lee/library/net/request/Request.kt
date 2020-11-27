@@ -10,7 +10,9 @@ import androidx.annotation.NonNull
 class Request constructor(
     @NonNull override val baseUrl: String,
     @IRequest.ConverterType override val converterType: Int = IRequest.ConverterType.STRING,
+    val converterTypes: IntArray? = null,
     @IRequest.CallType override val callType: Int = IRequest.CallType.COROUTINE,
+    val callTypes: IntArray? = null,
     override val isDownload: Boolean = false,
     override val key: String = baseUrl + callType + converterType
 ) : IRequest
