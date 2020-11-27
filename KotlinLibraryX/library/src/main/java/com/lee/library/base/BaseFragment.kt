@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.DialogFragment
@@ -37,6 +37,25 @@ abstract class BaseFragment<V : ViewDataBinding, VM : BaseViewModel>(
     protected lateinit var viewModel: VM
 
     private var fistVisible = true
+
+    private var permissionSuccessCall: (() -> Unit)? = null
+    private var permissionFailedCall: ((String) -> Unit)? = null
+
+    private val permissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { it ->
+            if (it) permissionSuccessCall?.invoke() else permissionFailedCall?.invoke("")
+        }
+
+    private val permissionsLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { it ->
+            it.forEach {
+                if (!it.value) {
+                    permissionFailedCall?.invoke(it.key)
+                    return@forEach
+                }
+            }
+            permissionSuccessCall?.invoke()
+        }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -79,6 +98,8 @@ abstract class BaseFragment<V : ViewDataBinding, VM : BaseViewModel>(
     override fun onDetach() {
         super.onDetach()
         cancel()
+        permissionLauncher.unregister()
+        permissionsLauncher.unregister()
     }
 
     override fun onDestroyView() {
@@ -166,6 +187,26 @@ abstract class BaseFragment<V : ViewDataBinding, VM : BaseViewModel>(
             dialog.dismiss()
         } catch (e: Exception) {
         }
+    }
+
+    fun Fragment.requestPermission(
+        permission: String,
+        successCall: () -> Unit,
+        failedCall: (String) -> Unit = {}
+    ) {
+        this@BaseFragment.permissionSuccessCall = successCall
+        this@BaseFragment.permissionFailedCall = failedCall
+        permissionLauncher.launch(permission)
+    }
+
+    fun Fragment.requestPermissions(
+        vararg permission: String,
+        successCall: () -> Unit,
+        failedCall: (String) -> Unit = {}
+    ) {
+        this@BaseFragment.permissionSuccessCall = successCall
+        this@BaseFragment.permissionFailedCall = failedCall
+        permissionsLauncher.launch(permission)
     }
 
 }
