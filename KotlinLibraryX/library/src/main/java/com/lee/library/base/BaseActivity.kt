@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.KeyEvent
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
@@ -170,10 +171,36 @@ abstract class BaseActivity<V : ViewDataBinding, VM : BaseViewModel>(
         }
     }
 
+    fun AppCompatActivity.requestPermission(
+        permission: String,
+        successCall: () -> Unit,
+        failedCall: () -> Unit = {}
+    ) {
+        prepareCall(ActivityResultContracts.RequestPermission()) { it ->
+            if (it) successCall() else failedCall()
+        }.launch(permission)
+    }
+
+    fun AppCompatActivity.requestPermissions(
+        vararg permission: String,
+        successCall: () -> Unit,
+        failedCall: (String) -> Unit = {}
+    ) {
+        prepareCall(ActivityResultContracts.RequestPermissions()) { it ->
+            it.forEach {
+                if (!it.value) {
+                    failedCall(it.key)
+                    return@prepareCall
+                }
+            }
+            successCall()
+        }
+    }
+
     /**
      * fragment 控制扩展函数
      */
-    fun FragmentActivity.fragmentTransaction(containerId:Int,fragment: Fragment?) {
+    fun AppCompatActivity.fragmentTransaction(containerId:Int,fragment: Fragment?) {
         fragment ?: return
         val transaction = supportFragmentManager.beginTransaction().setCustomAnimations(R.anim.slide_right_in, R.anim.default_in_out)
         for (tag in supportFragmentManager.fragments) {
