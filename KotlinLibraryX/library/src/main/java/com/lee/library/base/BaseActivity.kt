@@ -12,7 +12,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -176,7 +175,7 @@ abstract class BaseActivity<V : ViewDataBinding, VM : BaseViewModel>(
         successCall: () -> Unit,
         failedCall: () -> Unit = {}
     ) {
-        prepareCall(ActivityResultContracts.RequestPermission()) { it ->
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { it ->
             if (it) successCall() else failedCall()
         }.launch(permission)
     }
@@ -186,15 +185,15 @@ abstract class BaseActivity<V : ViewDataBinding, VM : BaseViewModel>(
         successCall: () -> Unit,
         failedCall: (String) -> Unit = {}
     ) {
-        prepareCall(ActivityResultContracts.RequestPermissions()) { it ->
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()){it->
             it.forEach {
                 if (!it.value) {
                     failedCall(it.key)
-                    return@prepareCall
+                    return@forEach
                 }
             }
             successCall()
-        }
+        }.launch(permission)
     }
 
     /**

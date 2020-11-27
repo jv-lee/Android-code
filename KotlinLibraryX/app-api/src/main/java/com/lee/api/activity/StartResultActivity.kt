@@ -17,20 +17,20 @@ import java.io.File
 class StartResultActivity :
     BaseActivity<ActivityStartResultBinding, BaseViewModel>(R.layout.activity_start_result) {
 
-    private val dataResult = prepareCall(ActivityResultContracts.StartActivityForResult()) {
+    private val dataResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
         toast(it?.data?.getStringExtra("value") ?: "")
     }
 
     private val permissionsResult =
-        prepareCall(ActivityResultContracts.RequestPermissions()) { it ->
-            it ?: return@prepareCall
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { it ->
+            it ?: return@registerForActivityResult
             it.forEach {
                 toast("${it.key} request ${it.value}")
             }
         }
 
-    private val pictureResult = prepareCall(ActivityResultContracts.TakePicture()) {
-        binding.ivPicture.setImageBitmap(it)
+    private val pictureResult = registerForActivityResult(ActivityResultContracts.TakePicture()) {
+//        binding.ivPicture.setImageBitmap(it)
     }
 
     override fun bindView() {
