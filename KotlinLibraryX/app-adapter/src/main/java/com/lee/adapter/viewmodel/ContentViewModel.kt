@@ -6,6 +6,7 @@ import com.lee.adapter.repository.ContentRepository
 import com.lee.library.mvvm.base.BaseViewModel
 import com.lee.library.mvvm.load.LoadStatus
 import com.lee.library.mvvm.live.PageLiveData
+import kotlinx.coroutines.delay
 
 /**
  * @author jv.lee
@@ -21,6 +22,7 @@ class ContentViewModel : BaseViewModel() {
 
     fun loadData(@LoadStatus status: Int) {
         launchMain {
+            delay(500)
             dataLiveData.pageLaunch(status, networkBlock = { page ->
                 repository.getContent(page)
             })
