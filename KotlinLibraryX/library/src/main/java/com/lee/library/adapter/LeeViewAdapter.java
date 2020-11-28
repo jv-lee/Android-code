@@ -17,6 +17,7 @@ import com.lee.library.adapter.core.ProxyAdapter;
 import com.lee.library.adapter.listener.LeeViewItem;
 import com.lee.library.adapter.listener.LoadErrorListener;
 import com.lee.library.adapter.listener.LoadResource;
+import com.lee.library.adapter.listener.LoadStatusListener;
 import com.lee.library.adapter.manager.LeeViewAdapterManager;
 import com.lee.library.adapter.manager.LeeViewItemManager;
 
@@ -65,14 +66,14 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
     /**
      * 加载状态常量
      */
-    private final int STATUS_INIT = 0;
-    private final int STATUS_PAGE_LOADING = 1;
-    private final int STATUS_PAGE_EMPTY = 2;
-    private final int STATUS_PAGE_ERROR = 3;
-    private final int STATUS_PAGE_COMPLETED = 4;
-    private final int STATUS_ITEM_MORE = 5;
-    private final int STATUS_ITEM_END = 6;
-    private final int STATUS_ITEM_ERROR = 7;
+    public static final int STATUS_INIT = 0;
+    public static final int STATUS_PAGE_LOADING = 1;
+    public static final int STATUS_PAGE_EMPTY = 2;
+    public static final int STATUS_PAGE_ERROR = 3;
+    public static final int STATUS_PAGE_COMPLETED = 4;
+    public static final int STATUS_ITEM_MORE = 5;
+    public static final int STATUS_ITEM_END = 6;
+    public static final int STATUS_ITEM_ERROR = 7;
 
     private boolean isPageCompleted = false;
 
@@ -105,6 +106,11 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
      * 错误状态重试接口
      */
     private LoadErrorListener mLoadErrorListener;
+
+    /**
+     * 所有状态监听
+     */
+    private LoadStatusListener mLoadStatusListener;
 
     /**
      * 数据源
@@ -381,6 +387,9 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
                 loadErrorView.setVisibility(View.VISIBLE);
                 break;
             default:
+        }
+        if (mLoadStatusListener != null) {
+            mLoadStatusListener.onChangeStatus(status);
         }
     }
 
@@ -721,6 +730,10 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
     public void setLoadErrorListener(LoadErrorListener loadErrorListener) {
         mLoadErrorListener = loadErrorListener;
         bindLoadErrorListener();
+    }
+
+    public void setLoadStatusListener(LoadStatusListener loadStatusListener) {
+        mLoadStatusListener = loadStatusListener;
     }
 
 }

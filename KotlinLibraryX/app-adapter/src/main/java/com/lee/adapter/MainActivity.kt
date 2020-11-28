@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.lee.adapter.adapter.ContentAdapter
 import com.lee.adapter.databinding.*
 import com.lee.adapter.viewmodel.ContentViewModel
+import com.lee.library.adapter.LeeViewAdapter
 import com.lee.library.adapter.listener.LoadErrorListener
 import com.lee.library.base.BaseActivity
 import com.lee.library.mvvm.load.LoadStatus
@@ -52,11 +53,15 @@ class MainActivity : BaseActivity<ActivityMainBinding, ContentViewModel>(R.layou
             }
 
         })
+        mAdapter.setLoadStatusListener {
+            if(it == LeeViewAdapter.STATUS_ITEM_END){
+                mAdapter.addFooter(footerTwo.root)
+            }
+        }
 
         mAdapter.addHeader(headerOne.root)
         mAdapter.addHeader(headerTwo.root)
         mAdapter.addFooter(footerOne.root)
-        mAdapter.addFooter(footerTwo.root)
         mAdapter.initStatusView()
         mAdapter.pageLoading()
     }
