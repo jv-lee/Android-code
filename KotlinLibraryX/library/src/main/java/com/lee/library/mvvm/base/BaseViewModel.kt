@@ -32,7 +32,7 @@ open class BaseViewModel : ViewModel(), CoroutineScope by CoroutineScope(Dispatc
         }
     }
 
-    fun launchMain(failedCode: Int = -1, tryBlock: suspend CoroutineScope.() -> Unit) {
+    fun launchMain(tryBlock: suspend CoroutineScope.() -> Unit) {
         launchOnUI {
             tryCatch(tryBlock, {}, {}, true)
         }
