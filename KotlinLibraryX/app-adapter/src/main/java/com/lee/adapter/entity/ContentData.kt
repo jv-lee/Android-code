@@ -7,7 +7,15 @@ import com.lee.library.adapter.page.PagingData
  * @date 2020/11/25
  * @description
  */
-data class ContentData(val id: Long = 1)
+data class ContentData(val id: Long = 1, @ViewType val type: Int)
+
+annotation class ViewType {
+    companion object {
+        const val COMMON = 0
+        const val VERTICAL = 1
+        const val HORIZONTAL = 2
+    }
+}
 
 data class PageData<T>(val page: Int, val pageTotal: Int, val data: List<T>) : PagingData<T> {
 

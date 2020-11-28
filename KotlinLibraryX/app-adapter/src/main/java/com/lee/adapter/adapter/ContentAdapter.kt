@@ -12,6 +12,8 @@ import com.lee.library.adapter.page.PagingAdapter
 class ContentAdapter(context: Context, data: List<ContentData>) :
     PagingAdapter<ContentData>(context, data) {
     init {
-        addItemStyles(ContentItem())
+        addItemStyles(ContentCommonItem())
+        addItemStyles(ContentVerticalItem())
+        addItemStyles(ContentHorizontalItem())
     }
 }
