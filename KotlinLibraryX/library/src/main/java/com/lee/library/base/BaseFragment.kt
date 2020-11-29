@@ -28,10 +28,8 @@ import kotlinx.coroutines.cancel
  * @date 2019/8/16.
  * @description
  */
-abstract class BaseFragment<V : ViewDataBinding, VM : BaseViewModel>(
-    var layoutId: Int
-) : Fragment()
-    , CoroutineScope by CoroutineScope(Dispatchers.Main) {
+abstract class BaseFragment<V : ViewDataBinding, VM : BaseViewModel>(var layoutId: Int) :
+    Fragment(), CoroutineScope by CoroutineScope(Dispatchers.Main) {
 
     protected lateinit var binding: V
     protected lateinit var viewModel: VM

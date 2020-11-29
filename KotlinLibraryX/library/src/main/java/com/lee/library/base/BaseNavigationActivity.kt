@@ -14,11 +14,10 @@ import kotlinx.coroutines.Dispatchers
  * @date 2019-08-15
  * @description
  */
-abstract class BaseNavigationActivity<V : ViewDataBinding, VM : BaseViewModel>(
-    layoutId: Int) :
+abstract class BaseNavigationActivity<V : ViewDataBinding, VM : BaseViewModel>(layoutId: Int) :
     BaseActivity<V, VM>(layoutId), CoroutineScope by CoroutineScope(Dispatchers.Main) {
 
-    private  var navVisible = false
+    private var navVisible = false
 
     private var bottomNavigationView: BottomNavigationView? = null
     private var fragmentContainerView: FragmentContainerView? = null

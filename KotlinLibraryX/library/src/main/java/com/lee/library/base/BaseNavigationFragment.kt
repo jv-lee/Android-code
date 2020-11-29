@@ -21,9 +21,8 @@ import com.lee.library.mvvm.base.BaseViewModel
  * @date 2020/3/30
  * @description
  */
-abstract class BaseNavigationFragment<V : ViewDataBinding, VM : BaseViewModel>(
-    layoutId: Int
-) : BaseFragment<V, VM>(layoutId) {
+abstract class BaseNavigationFragment<V : ViewDataBinding, VM : BaseViewModel>(layoutId: Int) :
+    BaseFragment<V, VM>(layoutId) {
 
     private var isNavigationViewInit = false // 记录是否初始化view
     private var firstTime: Long = 0

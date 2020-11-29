@@ -13,7 +13,6 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.lee.library.R
-import com.lee.library.dialog.core.setFullWindow
 import com.lee.library.extensions.getVmClass
 import com.lee.library.utils.SizeUtil
 import kotlinx.coroutines.CoroutineScope

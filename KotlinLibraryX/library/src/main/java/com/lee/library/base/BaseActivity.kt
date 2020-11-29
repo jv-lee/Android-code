@@ -32,9 +32,7 @@ import kotlinx.coroutines.cancel
  * @date 2019-08-15
  * @description
  */
-abstract class BaseActivity<V : ViewDataBinding, VM : BaseViewModel>(
-    var layoutId: Int
-) :
+abstract class BaseActivity<V : ViewDataBinding, VM : BaseViewModel>(var layoutId: Int) :
     AppCompatActivity(), CoroutineScope by CoroutineScope(Dispatchers.Main) {
 
     protected lateinit var binding: V
