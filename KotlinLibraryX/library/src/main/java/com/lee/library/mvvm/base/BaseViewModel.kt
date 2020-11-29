@@ -1,6 +1,7 @@
 package com.lee.library.mvvm.base
 
 import android.app.Application
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -17,8 +18,8 @@ open class BaseViewModel : ViewModel() {
 
     val failedEvent: MutableLiveData<Throwable> = MutableLiveData()
 
-    open fun <T : Application?> getApplication(): T {
-        return BaseApplication.getContext() as T
+    open fun <T : Application?> getApplication(): Context {
+        return BaseApplication.getContext()
     }
 
     private fun launchOnUI(block: suspend CoroutineScope.() -> Unit) {
