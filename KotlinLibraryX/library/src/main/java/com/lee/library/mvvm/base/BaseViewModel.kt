@@ -3,6 +3,7 @@ package com.lee.library.mvvm.base
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.lee.library.base.BaseApplication
 import kotlinx.coroutines.*
 import java.util.concurrent.CancellationException
@@ -12,7 +13,7 @@ import java.util.concurrent.CancellationException
  * @date 2019-08-15
  * @description
  */
-open class BaseViewModel : ViewModel(), CoroutineScope by CoroutineScope(Dispatchers.Main) {
+open class BaseViewModel : ViewModel() {
 
     val failedEvent: MutableLiveData<Throwable> = MutableLiveData()
 
@@ -21,7 +22,7 @@ open class BaseViewModel : ViewModel(), CoroutineScope by CoroutineScope(Dispatc
     }
 
     private fun launchOnUI(block: suspend CoroutineScope.() -> Unit) {
-        launch {
+        viewModelScope.launch {
             block()
         }
     }
@@ -84,7 +85,7 @@ open class BaseViewModel : ViewModel(), CoroutineScope by CoroutineScope(Dispatc
     //该方法在当前生命周期 销毁或重建前时调用
     override fun onCleared() {
         super.onCleared()
-        cancel()
+//        cancel()
     }
 
 }
