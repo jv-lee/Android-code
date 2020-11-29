@@ -27,9 +27,9 @@ open class BaseViewModel : ViewModel() {
         }
     }
 
-    suspend fun <T> launchIO(block: suspend CoroutineScope.() -> T) {
-        withContext(Dispatchers.IO) {
-            block
+    suspend fun <T> launchIO(block: suspend CoroutineScope.() -> T): T {
+        return withContext(Dispatchers.IO) {
+            block()
         }
     }
 
