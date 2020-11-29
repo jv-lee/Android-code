@@ -111,7 +111,7 @@ open class TitleToolbar : CustomToolbarLayout {
             backEnable?.let { visibility = it }
             setOnClickListener {
                 try {
-                    findNavController().popBackStack()
+                    findNavController().navigateUp()
                 } catch (e: Exception) {
                     (context as Activity).finish()
                 }
