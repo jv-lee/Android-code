@@ -214,7 +214,6 @@ class WebViewEx : WebView, ObservableLifecycle {
                 }
             }
         }
-        bindLifecycle(context)
     }
 
     override fun onScrollChanged(l: Int, t: Int, oldl: Int, oldt: Int) {
@@ -250,6 +249,11 @@ class WebViewEx : WebView, ObservableLifecycle {
         loadUrl(url)
     }
 
+    fun bindLifecycle(lifecycleOwner: LifecycleOwner) {
+        this.lifecycleOwner = lifecycleOwner
+        lifecycleOwner.lifecycle.addObserver(this)
+    }
+
     override fun onLifecycleResume() {
         super.onLifecycleResume()
         if (isPause) {
@@ -274,7 +278,7 @@ class WebViewEx : WebView, ObservableLifecycle {
         isPause = false
         //取消生命周期监听
         if (lifecycleOwner != null) {
-            lifecycleOwner!!.lifecycle.removeObserver(this)
+            lifecycleOwner?.lifecycle?.removeObserver(this)
         }
     }
 

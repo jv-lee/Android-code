@@ -19,12 +19,6 @@ interface ObservableLifecycle : LifecycleObserver {
         }
     }
 
-    fun unBindLifecycle(context: Context) {
-        if (context is LifecycleOwner) {
-            (context as LifecycleOwner).lifecycle.removeObserver(this)
-        }
-    }
-
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
     fun onLifecycleCreate() {
     }
