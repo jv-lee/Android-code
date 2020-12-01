@@ -13,9 +13,18 @@ import androidx.lifecycle.OnLifecycleEvent
  */
 interface ViewLifecycle : LifecycleObserver {
 
-    fun initLifecycle(context: Context) {
+
+    fun bindLifecycle(context: Context?) {
+        context ?: return
         if (context is LifecycleOwner) {
             (context as LifecycleOwner).lifecycle.addObserver(this)
+        }
+    }
+
+    fun unBindLifecycle(context: Context?) {
+        context ?: return
+        if (context is LifecycleOwner) {
+            (context as LifecycleOwner).lifecycle.removeObserver(this)
         }
     }
 

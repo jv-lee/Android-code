@@ -52,7 +52,7 @@ class CalendarLinearLayout(context: Context, attributeSet: AttributeSet) :
     init {
         //初始化系统拖动阈值
         mTouchSlop = ViewConfiguration.get(context).scaledTouchSlop
-        initLifecycle(context)
+        bindLifecycle(context)
     }
 
     override fun onInterceptTouchEvent(e: MotionEvent): Boolean {
@@ -333,6 +333,7 @@ class CalendarLinearLayout(context: Context, attributeSet: AttributeSet) :
 
     override fun onLifecycleCancel() {
         mAnimation.cancel()
+        unBindLifecycle(context)
     }
 
 }
