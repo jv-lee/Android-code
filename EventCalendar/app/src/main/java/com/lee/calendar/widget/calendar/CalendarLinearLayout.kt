@@ -11,6 +11,7 @@ import android.view.animation.Animation
 import android.view.animation.Transformation
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.RecyclerView
+import com.lee.calendar.lifecycle.ViewLifecycle
 import com.lee.calendar.widget.calendar.CalendarView
 import kotlin.math.abs
 
@@ -20,7 +21,7 @@ import kotlin.math.abs
  * @description 日历容器 - 日历View的滑动交互必须在当前view中完成
  */
 class CalendarLinearLayout(context: Context, attributeSet: AttributeSet) :
-    LinearLayout(context, attributeSet) {
+    LinearLayout(context, attributeSet),ViewLifecycle {
 
     private val TAG = "CalendarLinearLayout"
 
@@ -51,6 +52,7 @@ class CalendarLinearLayout(context: Context, attributeSet: AttributeSet) :
     init {
         //初始化系统拖动阈值
         mTouchSlop = ViewConfiguration.get(context).scaledTouchSlop
+        bindLifecycle(context)
     }
 
     override fun onInterceptTouchEvent(e: MotionEvent): Boolean {
@@ -327,6 +329,10 @@ class CalendarLinearLayout(context: Context, attributeSet: AttributeSet) :
 
     interface ChildTouchChange {
         fun touchChange(): Boolean
+    }
+
+    override fun onLifecycleCancel() {
+        mAnimation.cancel()
     }
 
 }
