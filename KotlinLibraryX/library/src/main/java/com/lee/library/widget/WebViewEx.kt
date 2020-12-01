@@ -277,9 +277,7 @@ class WebViewEx : WebView, ObservableLifecycle {
         destroy()
         isPause = false
         //取消生命周期监听
-        if (lifecycleOwner != null) {
-            lifecycleOwner?.lifecycle?.removeObserver(this)
-        }
+        lifecycleOwner?.lifecycle?.removeObserver(this)
     }
 
     fun destroyView() {
