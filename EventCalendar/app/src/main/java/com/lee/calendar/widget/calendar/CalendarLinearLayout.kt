@@ -333,7 +333,6 @@ class CalendarLinearLayout(context: Context, attributeSet: AttributeSet) :
 
     override fun onLifecycleCancel() {
         mAnimation.cancel()
-        unBindLifecycle(context)
     }
 
 }
