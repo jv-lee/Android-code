@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.widget.ScrollView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.lee.library.dialog.LoadingDialog
 import com.lee.library.widget.SnackBarEx
 
 
@@ -19,6 +20,8 @@ class MainActivity : AppCompatActivity() {
             .build()
     }
 
+    private val loadingDialog by lazy { LoadingDialog(this) }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,7 +30,9 @@ class MainActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.btn_selector_1).setOnClickListener {
             snackBar.show()
         }
-        findViewById<TextView>(R.id.btn_selector_2).setOnClickListener { }
+        findViewById<TextView>(R.id.btn_selector_2).setOnClickListener {
+            loadingDialog.show()
+        }
         findViewById<TextView>(R.id.btn_selector_3).setOnClickListener { }
     }
 

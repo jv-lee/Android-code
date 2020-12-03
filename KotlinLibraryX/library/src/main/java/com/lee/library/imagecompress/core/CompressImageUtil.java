@@ -166,7 +166,7 @@ public class CompressImageUtil {
         }
         File mCacheDir = new File(Constants.BASE_CACHE_PATH
                 + context.getPackageName() + "/cache", config.getCacheDir());
-        Log.e("netease >>> ", mCacheDir.getAbsolutePath());
+        Log.e("compress >>> ", mCacheDir.getAbsolutePath());
         if (!mCacheDir.mkdirs() && (!mCacheDir.exists() || !mCacheDir.isDirectory())) {
             return file;
         } else {
