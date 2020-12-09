@@ -30,6 +30,7 @@ class StartResultActivity :
         }
 
     private val pictureResult = registerForActivityResult(ActivityResultContracts.TakePicture()) {
+        toast(it.toString())
 //        binding.ivPicture.setImageBitmap(it)
     }
 
@@ -49,9 +50,9 @@ class StartResultActivity :
 
             //设置文件路径创建文件对象
             val path =
-//                filesDir.absolutePath + File.separator + "img" + File.separator + System.currentTimeMillis() + File.separator + ".jpg"
+                filesDir.absolutePath + File.separator + "img" + File.separator + System.currentTimeMillis() + File.separator + ".jpg"
 //                filesDir.absolutePath + File.separator + System.currentTimeMillis() + File.separator + ".jpg"
-                Environment.getExternalStorageDirectory().absolutePath + File.separator + System.currentTimeMillis() + ".jpg"
+//                Environment.getExternalStorageDirectory().absolutePath + File.separator + System.currentTimeMillis() + ".jpg"
             val file = File(path)
 
             //文件创建操作
@@ -68,7 +69,7 @@ class StartResultActivity :
 //            intent.putExtra(MediaStore.EXTRA_OUTPUT, uri)
 //            intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
 //            startActivityForResult(intent, 1)
-            pictureResult.launch(null)
+            pictureResult.launch(uri)
         }
     }
 

@@ -9,7 +9,7 @@ import com.lee.library.mvvm.base.BaseViewModel
 
 class StartFragment : BaseFragment<FragmentMainBinding, BaseViewModel>(R.layout.fragment_main) {
 
-    private val forResult = prepareCall(ActivityResultContracts.StartActivityForResult()) {
+    private val forResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
         toast(it?.data?.getStringExtra("value") ?: "")
     }
 
