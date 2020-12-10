@@ -66,17 +66,6 @@ class ShadowLayout(context: Context, attributeSet: AttributeSet) :
         initPaddingSize()
     }
 
-    /**
-     * 获取实际绘制宽高 初始化padding值
-     */
-    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
-        super.onSizeChanged(w, h, oldw, oldh)
-        mWidth = w - shadowBlur
-        mHeight = h - shadowBlur
-        initRectF()
-        setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom)
-    }
-
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
         var widthSize = measuredWidth
@@ -99,6 +88,29 @@ class ShadowLayout(context: Context, attributeSet: AttributeSet) :
         setMeasuredDimension(widthSize, heightSize)
     }
 
+    /**
+     * 获取实际绘制宽高 初始化padding值
+     */
+    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
+        super.onSizeChanged(w, h, oldw, oldh)
+        mWidth = w - shadowBlur
+        mHeight = h - shadowBlur
+        initRectF()
+        setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom)
+    }
+
+    /**
+     * 根据offset 调整padding值
+     */
+    override fun setPadding(left: Int, top: Int, right: Int, bottom: Int) {
+        super.setPadding(
+            left + offsetLeftPadding,
+            top + offsetTopPadding,
+            right + offsetRightPadding,
+            bottom + offsetBottomPadding
+        )
+    }
+
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
         super.onLayout(changed, left, top, right, bottom)
     }
@@ -112,18 +124,6 @@ class ShadowLayout(context: Context, attributeSet: AttributeSet) :
         if (outLineWidth != 0F) {
             canvas?.drawRoundRect(mRectF, shadowRound, shadowRound, mStrokePaint)
         }
-    }
-
-    /**
-     * 根据offset 调整padding值
-     */
-    override fun setPadding(left: Int, top: Int, right: Int, bottom: Int) {
-        super.setPadding(
-            left + offsetLeftPadding,
-            top + offsetTopPadding,
-            right + offsetRightPadding,
-            bottom + offsetBottomPadding
-        )
     }
 
     /**

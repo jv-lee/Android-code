@@ -146,9 +146,10 @@
 
         <com.lee.library.widget.ShadowLayout
             android:id="@+id/shadow"
-            android:layout_width="100dp"
+            android:layout_width="300dp"
             android:layout_height="100dp"
             android:layout_marginTop="16dp"
+            android:padding="10dp"
             app:outLineColor="@color/colorPrimaryDark"
             app:outLineWidth="0dp"
             app:shadowBlur="4dp"
@@ -159,10 +160,11 @@
             app:shadowRound="12dp">
 
             <TextView
+                android:id="@+id/tv_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="content" />
+                android:text="this is content 《my good life》 !...." />
 
         </com.lee.library.widget.ShadowLayout>
 
