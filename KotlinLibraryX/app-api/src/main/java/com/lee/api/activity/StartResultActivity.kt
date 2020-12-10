@@ -5,7 +5,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
-import android.os.Environment
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
 import com.lee.api.R
@@ -17,9 +16,10 @@ import java.io.File
 class StartResultActivity :
     BaseActivity<ActivityStartResultBinding, BaseViewModel>(R.layout.activity_start_result) {
 
-    private val dataResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-        toast(it?.data?.getStringExtra("value") ?: "")
-    }
+    private val dataResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            toast(it?.data?.getStringExtra("value") ?: "")
+        }
 
     private val permissionsResult =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { it ->
@@ -30,9 +30,12 @@ class StartResultActivity :
         }
 
     private val pictureResult = registerForActivityResult(ActivityResultContracts.TakePicture()) {
-        toast(it.toString())
-//        binding.ivPicture.setImageBitmap(it)
+        if (it) {
+            binding.ivPicture.setImageURI(uri)
+        }
     }
+
+    private var uri: Uri? = null
 
     override fun bindView() {
         binding.btnActivityResult.setOnClickListener {
@@ -49,17 +52,14 @@ class StartResultActivity :
             }
 
             //设置文件路径创建文件对象
-            val path =
-                filesDir.absolutePath + File.separator + "img" + File.separator + System.currentTimeMillis() + File.separator + ".jpg"
-//                filesDir.absolutePath + File.separator + System.currentTimeMillis() + File.separator + ".jpg"
-//                Environment.getExternalStorageDirectory().absolutePath + File.separator + System.currentTimeMillis() + ".jpg"
-            val file = File(path)
+            val fileDir = File(filesDir.absolutePath, "image")
+            if (!fileDir.exists()) fileDir.mkdir()
+            val file = File(fileDir.absolutePath, "${System.currentTimeMillis()}.jpg")
 
             //文件创建操作
-//            if (!file.parentFile.exists()) file.parentFile.mkdir()
-//            if (!file.exists()) file.createNewFile()
+            if (!file.parentFile.exists()) file.parentFile.mkdir()
 
-            val uri = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            uri = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 FileProvider.getUriForFile(this, "$packageName.fileprovider", file)
             } else {
                 Uri.fromFile(file)
