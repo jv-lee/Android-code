@@ -74,9 +74,6 @@ ext {
             "conver-gson"       : "com.squareup.retrofit2:converter-gson:${retrofit}",
             "conver-scalars"    : "com.squareup.retrofit2:converter-scalars:${retrofit}",
             "conver-protobuf"   : "com.squareup.retrofit2:converter-protobuf:${retrofit}",
-
-            //第三方
-            "permission"        : "com.github.jv-lee:permission:lite-2.0.0",
     ]
 
 }

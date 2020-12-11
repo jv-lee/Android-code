@@ -4,15 +4,15 @@ import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
 
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import com.lee.library.intent.IntentManager;
-import com.lee.permission.PermissionManager;
-import com.lee.permission.core.IPermission;
 
 /**
  * @author jv.lee
@@ -21,31 +21,17 @@ import com.lee.permission.core.IPermission;
  */
 public class FloatWindowManager {
 
-    public void requestPermission(Activity activity, WindowCallback windowCallback) {
+    public void checkPermission(Activity activity, WindowCallback windowCallback) {
         // 7.0 以上需要引导用去设置开启窗口浮动权限
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             requestDrawOverLays(activity, windowCallback);
             // 6.0 动态申请
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            PermissionManager.getInstance()
-                    .request(Manifest.permission.SYSTEM_ALERT_WINDOW)
-                    .listener(new IPermission() {
-                        @Override
-                        public void granted() {
-                            windowCallback.success();
-
-                        }
-
-                        @Override
-                        public void cancel() {
-                            windowCallback.filed();
-                        }
-
-                        @Override
-                        public void denied() {
-                            windowCallback.filed();
-                        }
-                    });
+            if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.SYSTEM_ALERT_WINDOW) == PackageManager.PERMISSION_DENIED){
+                windowCallback.filed();
+            }else{
+                windowCallback.success();
+            }
         }
     }
 
