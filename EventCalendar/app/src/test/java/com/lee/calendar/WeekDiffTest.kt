@@ -35,12 +35,12 @@ class WeekDiffTest {
     @Test
     fun test2(){
         var tag = Calendar.getInstance().also {
-            it.set(Calendar.YEAR, 2020)
-            it.set(Calendar.MONTH, 10)
-            it.set(Calendar.DAY_OF_MONTH, 5)
+            it.set(Calendar.YEAR, 2021)
+            it.set(Calendar.MONTH, 0)
+            it.set(Calendar.DAY_OF_MONTH, 1)
         }
 //        println("${tag.get(Calendar.MONTH)}:${tag.get(Calendar.DATE)}")
-        val current = Calendar.getInstance()
+        val current = CalendarUtils.setFirstDayOfMonth(Calendar.getInstance())
 //        println("${current.get(Calendar.MONTH)}:${current.get(Calendar.DATE)}")
 
         val diff = getDiffWeekPage(tag, current)
@@ -54,12 +54,15 @@ class WeekDiffTest {
      * 适用于初始化 month/week 对比 同步page
      */
     fun getDiffWeekPage(tagCalendar: Calendar, currentCalendar: Calendar): Int {
-        val tag = CalendarUtils.setWeekToSunday(tagCalendar.also { it.time })
 
-        val current = CalendarUtils.setWeekToSunday(currentCalendar.also { it.time })
+        val tag = CalendarUtils.setFirstDayOfWeek(tagCalendar.also { it.time })
+        println("${tag.get(Calendar.YEAR)},${tag.get(Calendar.MONTH)},${tag.get(Calendar.DATE)}")
+        val current = CalendarUtils.setFirstDayOfWeek(currentCalendar.also { it.time })
+        println("${current.get(Calendar.YEAR)},${current.get(Calendar.MONTH)},${current.get(Calendar.DATE)}")
         val diff = tag.timeInMillis - current.timeInMillis
         val nd = 1000 * 24 * 60 * 60.toLong()
         val day = diff / nd
+        println(day)
         val week = day / 7
         println(week.toInt())
         return week.toInt()

@@ -34,15 +34,54 @@ object CalendarUtils {
      * 优化方法
      */
     fun getDiffWeekCount(tagCalendar: Calendar, currentCalendar: Calendar): Int {
-        val tag = setWeekToSunday(tagCalendar.also { it.time })
+        val tag = setFirstDayOfWeek(tagCalendar.also { it.time })
 
-        val current = setWeekToSunday(currentCalendar.also { it.time })
+        val current = setFirstDayOfWeek(currentCalendar.also { it.time })
         val diff = tag.timeInMillis - current.timeInMillis
         val nd = 1000 * 24 * 60 * 60.toLong()
         val day = diff / nd
         val week = day / 7
         println(week.toInt())
         return week.toInt()
+    }
+
+    /**
+     * 设置当前时间为当月第一天
+     */
+    fun setFirstDayOfMonth(calendar: Calendar): Calendar {
+        calendar.set(Calendar.DATE, 1)
+        calendar.set(Calendar.HOUR_OF_DAY, 0)
+        calendar.set(Calendar.MINUTE, 0)
+        calendar.set(Calendar.SECOND, 0)
+        calendar.set(Calendar.MILLISECOND, 0)
+        return calendar
+    }
+
+    /**
+     * 将日历设置为当周的第一天 (周日)
+     */
+    fun setFirstDayOfWeek(calendar: Calendar):Calendar{
+        calendar.set(Calendar.DAY_OF_WEEK,Calendar.SUNDAY)
+        calendar.set(Calendar.HOUR_OF_DAY, 0)
+        calendar.set(Calendar.MINUTE, 0)
+        calendar.set(Calendar.SECOND, 0)
+        calendar.set(Calendar.MILLISECOND, 0)
+        return calendar
+    }
+
+    /**
+     * 将当前日期设置为这周第一天 (周日)
+     * @return 日历对象
+     */
+    fun setFirstDayOfWeek(year: Int, month: Int, day: Int): Calendar {
+        return Calendar.getInstance().also {
+            it.set(year,month,day)
+            it.add(Calendar.DAY_OF_MONTH, Calendar.SUNDAY - it.get(Calendar.DAY_OF_WEEK))
+            it.set(Calendar.HOUR_OF_DAY, 0);
+            it.set(Calendar.MINUTE, 0);
+            it.set(Calendar.SECOND, 0);
+            it.set(Calendar.MILLISECOND, 0);
+        }
     }
 
     /**
@@ -85,25 +124,6 @@ object CalendarUtils {
         return calendar.get(Calendar.DAY_OF_WEEK)
     }
 
-    /**
-     * 将日历设置为当周的第一天 (周日)
-     */
-    fun setWeekToSunday(calendar: Calendar):Calendar{
-        calendar.set(Calendar.DAY_OF_WEEK,Calendar.SUNDAY)
-        return calendar
-    }
-
-
-    /**
-     * 将当前日期设置为这周第一天 (周日)
-     * @return 日历对象
-     */
-    fun setWeekToSunday(year: Int, month: Int, day: Int): Calendar {
-        return Calendar.getInstance().also {
-            it.set(year,month,day)
-            it.add(Calendar.DAY_OF_MONTH, Calendar.SUNDAY - it.get(Calendar.DAY_OF_WEEK))
-        }
-    }
 
     /**
      * 将当月第一周这职位这周第一天（周日）
@@ -178,7 +198,7 @@ object CalendarUtils {
             )
         val dayArray = arrayListOf<DayEntity>()
         val calendar =
-            setWeekToSunday(
+            setFirstDayOfWeek(
                 year,
                 month,
                 day

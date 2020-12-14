@@ -207,7 +207,7 @@ class CalendarManager(
 
             val today = CalendarUtils.getTodayNumber(year, month)
             val dayArray = arrayListOf<DayEntity>()
-            val calendar = CalendarUtils.setWeekToSunday(year, month, day)
+            val calendar = CalendarUtils.setFirstDayOfWeek(year, month, day)
             for (index in 0..6) {
                 calendar.add(Calendar.DAY_OF_MONTH, if (index == 0) 0 else 1)
                 dayArray.add(
@@ -238,7 +238,7 @@ class CalendarManager(
 
             startCalendar.add(Calendar.WEEK_OF_YEAR, 1)
             //将日期定位到当周第一天
-            CalendarUtils.setWeekToSunday(startCalendar)
+            CalendarUtils.setFirstDayOfWeek(startCalendar)
         }
         return dateList
     }
