@@ -19,22 +19,24 @@ class UTCTest {
 
     @Test
     fun test() {
-        val default = TimeZone.getDefault()
+        println(formatDate(Calendar.getInstance().timeInMillis))
+        TimeZone.setDefault(TimeZone.getTimeZone("UTC+0"))
+        println(formatDate(Calendar.getInstance().timeInMillis))
 
 //        TimeZone.setDefault(TimeZone.getTimeZone("UTC"))
-        val calendar2 = Calendar.getInstance()
+//        val calendar2 = Calendar.getInstance()
 
-        println(formatDate(calendar2.timeInMillis))
+//        println(formatDate(calendar2.timeInMillis))
 
 //        TimeZone.setDefault(default)
-        val calendar = Calendar.getInstance()
+//        val calendar = Calendar.getInstance()
 
-        println(formatDate(calendar.timeInMillis))
+//        println(formatDate(calendar.timeInMillis))
     }
 
     fun formatDate(millis: Long): String {
         val format = SimpleDateFormat("yyyy-MM-dd hh:mm")
-        format.timeZone = TimeZone.getTimeZone("UTC")
+//        format.timeZone = TimeZone.getTimeZone("UTC")
         return format.format(millis)
     }
 }
