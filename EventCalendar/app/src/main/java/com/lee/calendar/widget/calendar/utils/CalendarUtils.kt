@@ -30,6 +30,22 @@ object CalendarUtils {
     }
 
     /**
+     * 获取两个时间 长间距相隔多少个周
+     * 优化方法
+     */
+    fun getDiffWeekCount(tagCalendar: Calendar, currentCalendar: Calendar): Int {
+        val tag = setWeekToSunday(tagCalendar.also { it.time })
+
+        val current = setWeekToSunday(currentCalendar.also { it.time })
+        val diff = tag.timeInMillis - current.timeInMillis
+        val nd = 1000 * 24 * 60 * 60.toLong()
+        val day = diff / nd
+        val week = day / 7
+        println(week.toInt())
+        return week.toInt()
+    }
+
+    /**
      * 获取当月最大天数
      * @param year 年 1995
      * @param month 0-11
@@ -149,44 +165,6 @@ object CalendarUtils {
         val isToMonth = Calendar.getInstance().get(Calendar.YEAR) == year && Calendar.getInstance()
             .get(Calendar.MONTH) == month
         return if (isToMonth) Calendar.getInstance().get(Calendar.DAY_OF_MONTH) else -1
-    }
-
-    /**
-     * 获取两个时间 长间距相隔多少个周  （使用限制条件：起始时间和结束时间同为周天）
-     * 适用于初始化 month/week 对比 同步page
-     */
-    fun getDiffWeekPage(tagCalendar: Calendar, currentCalendar: Calendar):Int {
-        val diff = tagCalendar.timeInMillis - currentCalendar.timeInMillis
-        val nd = 1000 * 24 * 60 * 60.toLong()
-        val day = diff / nd
-        val week = day / 7
-        return week.toInt()
-    }
-
-    /**
-     * 获取当前两个短间距时间相隔多少周 (使用限制-上下周期一年内)
-     * 适用于点击/翻页 跟随
-     */
-    fun getDiffWeekCount(tagCalendar: Calendar, currentCalendar: Calendar):Int {
-        val tagWeek = tagCalendar.get(Calendar.WEEK_OF_YEAR)
-        val tagMaxWeek =
-            getMaxWeekCountByYear(
-                tagCalendar.get(Calendar.YEAR)
-            )
-
-        val currentWeek = currentCalendar.get(Calendar.WEEK_OF_YEAR)
-        val currentMaxWeek =
-            getMaxWeekCountByYear(
-                currentCalendar.get(Calendar.YEAR)
-            )
-
-        return if (tagWeek < 10 && currentWeek > 46) {
-            tagWeek + (currentMaxWeek - currentWeek)
-        } else if (tagWeek > 46 && currentWeek < 10) {
-            -(currentWeek + (tagMaxWeek - tagWeek))
-        } else {
-            tagWeek - currentWeek
-        }
     }
 
     /**
