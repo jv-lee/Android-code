@@ -208,11 +208,16 @@ class CalendarManager(
             val today = CalendarUtils.getTodayNumber(year, month)
             val dayArray = arrayListOf<DayEntity>()
             val calendar = CalendarUtils.setFirstDayOfWeek(year, month, day)
+            var selectIndex = 0
             for (index in 0..6) {
                 calendar.add(Calendar.DAY_OF_MONTH, if (index == 0) 0 else 1)
+                if (CalendarUtils.isCurrentMonth(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH))
+                    && calendar.get(Calendar.DAY_OF_MONTH) == 1) {
+                    selectIndex = index
+                }
                 dayArray.add(
                     DayEntity(
-                        isSelected = index == 0,
+                        isSelected = false,
                         year = calendar.get(Calendar.YEAR),
                         month = calendar.get(Calendar.MONTH),
                         day = calendar.get(Calendar.DAY_OF_MONTH),
@@ -221,6 +226,7 @@ class CalendarManager(
                     )
                 )
             }
+            if (dayArray.size > selectIndex) dayArray[selectIndex].isSelected = true
 
             dateList.add(
                 DateEntity(

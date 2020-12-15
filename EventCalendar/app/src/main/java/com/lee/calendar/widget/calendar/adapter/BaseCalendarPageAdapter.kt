@@ -67,7 +67,7 @@ abstract class BaseCalendarPageAdapter(private val data: ArrayList<DateEntity>) 
             position
         } else {
             val dayEntity = data[0].dayList[0]
-            val weekDiffCount = CalendarUtils.getDiffWeekCount(
+            val weekDiffCount = CalendarUtils.getDiffWeekPage(
                 Calendar.getInstance().also {
                     it.set(Calendar.DATE, 1)
                 }, Calendar.getInstance().also {

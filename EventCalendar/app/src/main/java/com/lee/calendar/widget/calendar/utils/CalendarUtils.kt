@@ -1,6 +1,8 @@
 package com.lee.calendar.widget.calendar.utils
 
+import android.annotation.SuppressLint
 import com.lee.calendar.widget.calendar.entity.DayEntity
+import java.text.SimpleDateFormat
 import java.util.*
 
 /**
@@ -30,18 +32,46 @@ object CalendarUtils {
     }
 
     /**
-     * 获取两个时间 长间距相隔多少个周
-     * 优化方法
+     * 获取当前两个短间距时间相隔多少周 (使用限制-上下周期一年内)
+     * 适用于点击/翻页 跟随
      */
+    @SuppressLint("SimpleDateFormat")
     fun getDiffWeekCount(tagCalendar: Calendar, currentCalendar: Calendar): Int {
-        val tag = setFirstDayOfWeek(tagCalendar.also { it.time })
+        val tag = setFirstDayOfWeek(
+            tagCalendar.get(Calendar.YEAR),
+            tagCalendar.get(Calendar.MONTH),
+            tagCalendar.get(Calendar.DATE)
+        )
+        val current = setFirstDayOfWeek(
+            currentCalendar.get(Calendar.YEAR),
+            currentCalendar.get(Calendar.MONTH),
+            currentCalendar.get(Calendar.DATE)
+        )
+        val df = SimpleDateFormat("yyyy-MM-dd")
+        println("${tag.get(Calendar.YEAR)}-${tag.get(Calendar.MONTH)}-${tag.get(Calendar.DATE)}")
+        println("${current.get(Calendar.YEAR)}-${current.get(Calendar.MONTH)}-${current.get(Calendar.DATE)}")
+        val startTime =
+            df.parse("${tag.get(Calendar.YEAR)}-${tag.get(Calendar.MONTH)}-${tag.get(Calendar.DATE)}")?.time
+                ?: 0
+        val endTime = df.parse(
+            "${current.get(Calendar.YEAR)}-${current.get(Calendar.MONTH)}-${current.get(Calendar.DATE)}"
+        )?.time ?: 0
+        val weekTime = (1000 * 3600 * 24 * 7)
+        val diff = ((startTime - endTime) % weekTime).toInt()
+        val diffValue = if (Math.abs(diff) >= (weekTime / 2)) 1 else 0
+        val count = ((startTime - endTime) / weekTime).toInt()
+        return if (count > 0) count + diffValue else if (count < 0) count - diffValue else diffValue
+    }
 
-        val current = setFirstDayOfWeek(currentCalendar.also { it.time })
-        val diff = tag.timeInMillis - current.timeInMillis
+    /**
+     * 获取两个时间 长间距相隔多少个周  （使用限制条件：起始时间和结束时间同为周天）
+     * 适用于初始化 month/week 对比 同步page
+     */
+    fun getDiffWeekPage(tagCalendar: Calendar, currentCalendar: Calendar): Int {
+        val diff = tagCalendar.timeInMillis - currentCalendar.timeInMillis
         val nd = 1000 * 24 * 60 * 60.toLong()
         val day = diff / nd
         val week = day / 7
-        println(week.toInt())
         return week.toInt()
     }
 
@@ -77,10 +107,37 @@ object CalendarUtils {
         return Calendar.getInstance().also {
             it.set(year,month,day)
             it.add(Calendar.DAY_OF_MONTH, Calendar.SUNDAY - it.get(Calendar.DAY_OF_WEEK))
-            it.set(Calendar.HOUR_OF_DAY, 0);
-            it.set(Calendar.MINUTE, 0);
-            it.set(Calendar.SECOND, 0);
-            it.set(Calendar.MILLISECOND, 0);
+            it.set(Calendar.HOUR_OF_DAY, 0)
+            it.set(Calendar.MINUTE, 0)
+            it.set(Calendar.SECOND, 0)
+            it.set(Calendar.MILLISECOND, 0)
+        }
+    }
+
+    fun moveNextWeekFirstDay(year: Int, month: Int, day: Int):Calendar{
+        return Calendar.getInstance().also {
+            it.set(year,month,day)
+            it.add(Calendar.WEEK_OF_YEAR,1)
+            it.add(Calendar.DAY_OF_MONTH, Calendar.SATURDAY - it.get(Calendar.DAY_OF_WEEK))
+            it.set(Calendar.HOUR_OF_DAY, 0)
+            it.set(Calendar.MINUTE, 0)
+            it.set(Calendar.SECOND, 0)
+            it.set(Calendar.MILLISECOND, 0)
+        }
+    }
+
+    /**
+     * 将当前日期设置为这周最后一天 (周六)
+     * @return 日历对象
+     */
+    fun setLastDayOfWeek(year: Int, month: Int, day: Int): Calendar {
+        return Calendar.getInstance().also {
+            it.set(year,month,day)
+            it.add(Calendar.DAY_OF_MONTH, Calendar.SATURDAY - it.get(Calendar.DAY_OF_WEEK))
+            it.set(Calendar.HOUR_OF_DAY, 0)
+            it.set(Calendar.MINUTE, 0)
+            it.set(Calendar.SECOND, 0)
+            it.set(Calendar.MILLISECOND, 0)
         }
     }
 
@@ -184,6 +241,11 @@ object CalendarUtils {
         val isToMonth = Calendar.getInstance().get(Calendar.YEAR) == year && Calendar.getInstance()
             .get(Calendar.MONTH) == month
         return if (isToMonth) Calendar.getInstance().get(Calendar.DAY_OF_MONTH) else -1
+    }
+
+    fun isCurrentMonth(year: Int, month: Int): Boolean {
+        val calendar = Calendar.getInstance()
+        return calendar.get(Calendar.YEAR) == year && calendar.get(Calendar.MONTH) == month
     }
 
     /**
