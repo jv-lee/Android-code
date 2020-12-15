@@ -14,8 +14,8 @@ class MaxWeekTest {
     fun test(){
 
 
-        println(CalendarUtils.getMaxDayCountByMonth(2020,11))
-        println(CalendarUtils.getMaxWeekCountByYear(2023))
+        println(CalendarUtils.getMaxDayOfMonth(2020,11))
+        println(CalendarUtils.getMaxWeekOfYear(2023))
 
 
     }

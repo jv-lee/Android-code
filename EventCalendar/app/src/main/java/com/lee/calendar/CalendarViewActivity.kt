@@ -69,8 +69,8 @@ class CalendarViewActivity : AppCompatActivity(R.layout.activity_calendar_view) 
 
         })
 
-        calendarView.initData()
         linearContainer.bindEventView(calendarView, rvContainer)
+        calendarView.initCalendar()
 
         viewModel.monthLiveData.observe(this, Observer {
             (calendarView.getMonthAdapter() as MonthAdapter).updateDayStatus(it.position, it.data)

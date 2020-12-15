@@ -16,6 +16,8 @@ import com.lee.calendar.ex.dp2px
 import com.lee.calendar.widget.calendar.core.CalendarManager
 import com.lee.calendar.widget.calendar.utils.ViewPager2Utils
 import com.lee.calendar.widget.calendar.render.IDayRender
+import com.lee.calendar.widget.calendar.utils.CalendarUtils
+import java.util.*
 
 /**
  * @author jv.lee
@@ -45,6 +47,15 @@ class CalendarView(context: Context, attributeSet: AttributeSet) :
     private val initPrevMonthCount: Int
     private val initNextMonthCount: Int
     private val loadMonthCount: Int
+
+    private var isReload = false
+
+    private var lastDay: DayEntity? = null
+    private var lastWeekDate: DateEntity? = null
+    private var lastMonthDate: DateEntity? = null
+
+    private var lastWeekPosition: Int = 0
+    private var lastMonthPosition: Int = 0
 
     private var mDayRender: IDayRender? = null
     private var mChangePager: OnChangePager? = null
@@ -96,65 +107,108 @@ class CalendarView(context: Context, attributeSet: AttributeSet) :
         mMonthViewPager.layoutParams =
             FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, maxHeight)
         mMonthViewPager.requestLayout()
+    }
 
-        mMonthCalendarManager =
-            CalendarManager(
-                true,
-                initPrevMonthCount,
-                initNextMonthCount,
-                loadMonthCount
-            )
-        val monthData = mMonthCalendarManager.initDateList()
+    private fun bindViewData(dayRender: IDayRender? = null) {
+        this.mDayRender = dayRender
+        if (!isReload) bindAdapterListener()
+        mMonthViewPagerAdapter.bindPager(mMonthViewPager, initPrevMonthCount, mDayRender)
+        mWeekViewPagerAdapter.bindPager(mWeekViewPager, initPrevMonthCount, mDayRender)
+        if (isReload) bindAdapterListener()
+    }
 
-        mWeekCalendarManager =
-            CalendarManager(
-                false,
-                initPrevMonthCount,
-                initNextMonthCount,
-                loadMonthCount
-            )
-        val weekData = mWeekCalendarManager.initDateList()
+    private fun bindAdapterListener() {
+        mMonthViewPagerAdapter.setOnChangeDataListener(object :
+            BaseCalendarPageAdapter.OnChangeDataListener {
+            override fun onPageChangeDate(position: Int, entity: DateEntity) {
+                lastMonthPosition = position
+                lastMonthDate = entity
+                mChangePager?.onMonthPageChange(position, entity, mMonthViewPager.visibility)
+            }
 
-        MonthAdapter(monthData).also {
-            mMonthViewPagerAdapter = it
-            mMonthViewPagerAdapter.setOnChangeDataListener(object :
-                BaseCalendarPageAdapter.OnChangeDataListener {
-                override fun onPageChangeDate(position: Int, entity: DateEntity) {
-                    mChangePager?.onMonthPageChange(position, entity, mMonthViewPager.visibility)
+            override fun onDayChangeDate(position: Int, entity: DayEntity) {
+                if (mMonthViewPager.visibility == View.VISIBLE) {
+                    lastDay = entity
+                    mWeekViewPagerAdapter.synchronizeSelectItem(entity)
+                    mChangePager?.onDayChange(position, entity)
                 }
+            }
 
-                override fun onDayChangeDate(position: Int, entity: DayEntity) {
-                    if (mMonthViewPager.visibility == View.VISIBLE) {
-                        mWeekViewPagerAdapter.synchronizeSelectItem(entity)
-                        mChangePager?.onDayChange(position, entity)
-                    }
+        })
+
+        mWeekViewPagerAdapter.setOnChangeDataListener(object :
+            BaseCalendarPageAdapter.OnChangeDataListener {
+            override fun onPageChangeDate(position: Int, entity: DateEntity) {
+                lastWeekPosition = position
+                lastWeekDate = entity
+                mChangePager?.onWeekPageChange(position, entity, mWeekViewPager.visibility)
+            }
+
+            override fun onDayChangeDate(position: Int, entity: DayEntity) {
+                if (mWeekViewPager.visibility == View.VISIBLE) {
+                    lastDay = entity
+                    mMonthViewPagerAdapter.synchronizeSelectItem(entity)
+                    mChangePager?.onDayChange(position, entity)
                 }
+            }
 
-            })
-        }
-        WeekAdapter((weekData)).also {
-            mWeekViewPagerAdapter = it
-            mWeekViewPagerAdapter.setOnChangeDataListener(object :
-                BaseCalendarPageAdapter.OnChangeDataListener {
-                override fun onPageChangeDate(position: Int, entity: DateEntity) {
-                    mChangePager?.onWeekPageChange(position, entity, mWeekViewPager.visibility)
-                }
+        })
+    }
 
-                override fun onDayChangeDate(position: Int, entity: DayEntity) {
-                    if (mWeekViewPager.visibility == View.VISIBLE) {
-                        mMonthViewPagerAdapter.synchronizeSelectItem(entity)
-                        mChangePager?.onDayChange(position, entity)
-                    }
-                }
-
-            })
+    private fun moveToLastPage() {
+        if (mWeekViewPager.visibility == View.VISIBLE) {
+            lastDay?.run {
+                val diff = CalendarUtils.getDiffWeekCount(Calendar.getInstance().also {
+                    it.set(Calendar.YEAR, year)
+                    it.set(Calendar.MONTH, month)
+                    it.set(Calendar.DATE, day)
+                }, CalendarUtils.setFirstDayOfMonth(Calendar.getInstance()))
+                mWeekViewPager.setCurrentItem(diff + mWeekViewPager.currentItem, false)
+                if (diff == 0) notifyChangeListener()
+            }
+        } else if (mMonthViewPager.visibility == View.VISIBLE) {
+            lastDay?.run {
+                val diff = CalendarUtils.getDiffMonthCount(Calendar.getInstance().also {
+                    it.set(Calendar.YEAR, year)
+                    it.set(Calendar.MONTH, month)
+                    it.set(Calendar.DATE, day)
+                }, CalendarUtils.setFirstDayOfMonth(Calendar.getInstance()))
+                mMonthViewPager.setCurrentItem(diff + mMonthViewPager.currentItem, false)
+                if (diff == 0) notifyChangeListener()
+            }
         }
     }
 
-    fun initData(dayRender: IDayRender? = null) {
-        this.mDayRender = dayRender
-        mMonthViewPagerAdapter.bindPager(mMonthViewPager, initPrevMonthCount, mDayRender)
-        mWeekViewPagerAdapter.bindPager(mWeekViewPager, initPrevMonthCount, mDayRender)
+    private fun notifyChangeListener() {
+        lastMonthDate ?: return
+        lastWeekDate ?: return
+        lastDay ?: return
+        mChangePager?.onMonthPageChange(lastMonthPosition, lastMonthDate!!, mMonthViewPager.visibility)
+        mChangePager?.onWeekPageChange(lastWeekPosition, lastWeekDate!!, mWeekViewPager.visibility)
+        mChangePager?.onDayChange(0, lastDay!!)
+    }
+
+    fun initCalendar(dayRender: IDayRender? = null) {
+        mMonthCalendarManager =
+            CalendarManager(true, initPrevMonthCount, initNextMonthCount, loadMonthCount)
+        val monthData = mMonthCalendarManager.initDateList()
+
+        mWeekCalendarManager =
+            CalendarManager(false, initPrevMonthCount, initNextMonthCount, loadMonthCount)
+        val weekData = mWeekCalendarManager.initDateList()
+
+        mMonthViewPagerAdapter = MonthAdapter(monthData)
+        mWeekViewPagerAdapter = WeekAdapter(weekData)
+
+        bindViewData(dayRender)
+    }
+
+    fun reInitCalendar(dayRender: IDayRender? = null) {
+        isReload = true
+        mMonthViewPagerAdapter.unBindPager(mMonthViewPager)
+        mWeekViewPagerAdapter.unBindPager(mWeekViewPager)
+        initCalendar(dayRender)
+        moveToLastPage()
     }
 
     fun switchMonthOrWeekPager(expansionEnable: Boolean) {

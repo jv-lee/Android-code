@@ -29,6 +29,13 @@ abstract class BaseCalendarPageAdapter(private val data: ArrayList<DateEntity>) 
     private var currentSelectIndex = 0
     private var currentDay: DayEntity? = null
 
+    private val pageChangeCallback = object : ViewPager2.OnPageChangeCallback() {
+        override fun onPageSelected(position: Int) {
+            updateCurrentSelected(data[position])
+            mChangeDataListener?.onPageChangeDate(position, data[position])
+        }
+    }
+
     fun getRowIndex() = rowIndex
     fun getData() = data
 
@@ -38,13 +45,14 @@ abstract class BaseCalendarPageAdapter(private val data: ArrayList<DateEntity>) 
         this.mPager = pager
 
         pager.adapter = this
-        pager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-            override fun onPageSelected(position: Int) {
-                updateCurrentSelected(data[position])
-                mChangeDataListener?.onPageChangeDate(position, data[position])
-            }
-        })
+        pager.registerOnPageChangeCallback(pageChangeCallback)
         initStartPage(startPage)
+    }
+
+    fun unBindPager(pager: ViewPager2) {
+        getData().clear()
+        pager.unregisterOnPageChangeCallback(pageChangeCallback)
+        notifyDataSetChanged()
     }
 
     //初始化搜起始页面 - 默认为当月

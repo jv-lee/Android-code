@@ -77,7 +77,7 @@ class TestViewModel : ViewModel() {
     }
 
     private fun createMonthData(year: Int, month: Int): ArrayList<DateData> {
-        val monthMaxDay = CalendarUtils.getMaxDayCountByMonth(year, month)
+        val monthMaxDay = CalendarUtils.getMaxDayOfMonth(year, month)
         val monthArray = arrayListOf<DateData>()
         for (index in 1..monthMaxDay) {
             when (index) {

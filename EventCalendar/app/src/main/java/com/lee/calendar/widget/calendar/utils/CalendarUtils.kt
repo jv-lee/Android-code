@@ -85,11 +85,22 @@ object CalendarUtils {
     }
 
     /**
+     * 将当月第一周这职位这周第一天（周日）
+     */
+    fun setFirstWeekToSunday(year: Int, month: Int, day: Int):Calendar {
+        return Calendar.getInstance().also {
+            it.set(year,month,day)
+            it.set(Calendar.WEEK_OF_MONTH,7)
+            it.set(Calendar.DAY_OF_WEEK,Calendar.SUNDAY)
+        }
+    }
+
+    /**
      * 获取当月最大天数
      * @param year 年 1995
      * @param month 0-11
      */
-    fun getMaxDayCountByMonth(year: Int, month: Int): Int {
+    fun getMaxDayOfMonth(year: Int, month: Int): Int {
         val calendar = Calendar.getInstance()
         //日期设置为当月第一天
         calendar.set(year,month,1)
@@ -102,7 +113,7 @@ object CalendarUtils {
      * 获取当年最大周数
      * @param year 年 1995
      */
-    fun getMaxWeekCountByYear(year:Int):Int{
+    fun getMaxWeekOfYear(year:Int):Int{
         val calendar = Calendar.getInstance()
         calendar.set(year + 1, 0, 1)
         calendar.add(Calendar.DAY_OF_YEAR,-1)
@@ -124,18 +135,6 @@ object CalendarUtils {
         return calendar.get(Calendar.DAY_OF_WEEK)
     }
 
-
-    /**
-     * 将当月第一周这职位这周第一天（周日）
-     */
-    fun setFirstWeekToSunday(year: Int, month: Int, day: Int):Calendar {
-        return Calendar.getInstance().also {
-            it.set(year,month,day)
-            it.set(Calendar.WEEK_OF_MONTH,7)
-            it.set(Calendar.DAY_OF_WEEK,Calendar.SUNDAY)
-        }
-    }
-
     /**
      * 当月第一天是否为周日
      */
@@ -151,7 +150,7 @@ object CalendarUtils {
      */
     fun lastWeekDayIsToMonth(year: Int,month: Int):Boolean{
         val lastDayIsWeek =
-            getMonthWeekCount(
+            getMaxWeekOfMonth(
                 year,
                 month
             )
@@ -166,9 +165,9 @@ object CalendarUtils {
     /**
      * 获取当前月总周数
      */
-    fun getMonthWeekCount(year: Int, month: Int):Int {
+    fun getMaxWeekOfMonth(year: Int, month: Int):Int {
         val day =
-            getMaxDayCountByMonth(
+            getMaxDayOfMonth(
                 year,
                 month
             )
@@ -230,7 +229,7 @@ object CalendarUtils {
             )
         val dayArray = arrayListOf<DayEntity>()
         val dayCount =
-            getMaxDayCountByMonth(
+            getMaxDayOfMonth(
                 year,
                 month
             )
