@@ -43,6 +43,11 @@ public class CacheManager {
      */
     private static final long MAX_SIZE = 1024 * 1024 * 100;
 
+    /**
+     * 磁盘缓存开关 默认打开.
+     */
+    private static boolean isDisk = true;
+
     private MemoryCache memoryCache;
     private DiskCache diskCache;
     private Gson gson;
@@ -54,7 +59,7 @@ public class CacheManager {
         diskCache = new DiskCache(mContext.getFilesDir().getAbsolutePath() + File.separator + DISK_LRU_CACHE_DIR, APP_VERSION, VALUE_COUNT, MAX_SIZE);
     }
 
-    public synchronized static void getInstance(Context context, int version) {
+    public synchronized static void init(Context context, int version) {
         APP_VERSION = version;
         mContext = context.getApplicationContext();
         if (instance == null) {
@@ -62,7 +67,16 @@ public class CacheManager {
         }
     }
 
-    public synchronized static CacheManager getInstance() {
+    public synchronized static CacheManager getDefault() {
+        isDisk = true;
+        if (instance == null) {
+            throw new RuntimeException("未初始化context 和 具体版本");
+        }
+        return instance;
+    }
+
+    public synchronized static CacheManager getMemory() {
+        isDisk = false;
         if (instance == null) {
             throw new RuntimeException("未初始化context 和 具体版本");
         }
@@ -70,7 +84,7 @@ public class CacheManager {
     }
 
     /**
-     * @param key   [a-z0-9_-]{1,120} 无法使用大写
+     * @param key   [a-zA-Z0-9+_/-]{1,120}
      * @param clazz 具体类型
      * @param <T>   泛型
      * @return 具体类型数据实体
@@ -82,6 +96,8 @@ public class CacheManager {
             return readJsonToObject(data, clazz);
         }
 
+        if (!isDisk) return null;
+
         data = diskCache.get(key);
         if (null != data) {
             memoryCache.put(key, data);
@@ -93,7 +109,7 @@ public class CacheManager {
     }
 
     /**
-     * @param key   [a-z0-9_-]{1,120} 无法使用大写
+     * @param key   [a-zA-Z0-9+_/-]{1,120}
      * @param type 具体类型
      * @param <T>   泛型
      * @return 具体类型数据实体
@@ -104,6 +120,8 @@ public class CacheManager {
             Log.i(TAG, "get: from memory cacheData");
             return readJsonToObject(data, type);
         }
+
+        if (!isDisk) return null;
 
         data = diskCache.get(key);
         if (null != data) {
@@ -116,14 +134,16 @@ public class CacheManager {
     }
 
     /**
-     * @param key   [a-z0-9_-]{1,120} 无法使用大写
+     * @param key   [a-zA-Z0-9+_/-]{1,120}
      * @param value 具体对象数据
      * @param <T>   泛型
      */
     public synchronized  <T> void put(String key, T value) {
         String json = readObjectToJson(value);
         memoryCache.put(key, json);
-        diskCache.put(key, json);
+        if (isDisk) {
+            diskCache.put(key, json);
+        }
     }
 
     private <T> String readObjectToJson(T value) {
