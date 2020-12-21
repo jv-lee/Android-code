@@ -15,7 +15,7 @@ import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.OverScroller;
 
-public class ZoomImageView extends AppCompatImageView implements ViewTreeObserver.OnGlobalLayoutListener {
+public class SimpleZoomImageView extends AppCompatImageView implements ViewTreeObserver.OnGlobalLayoutListener {
 
     private boolean mIsOneLoad = true;
 
@@ -34,7 +34,6 @@ public class ZoomImageView extends AppCompatImageView implements ViewTreeObserve
     private GestureDetector gestureDetector;
 
     //双击
-    private boolean isEnlarge = false;//是否放大
     private ValueAnimator mAnimator; //双击缩放动画
 
     //滚动
@@ -45,15 +44,15 @@ public class ZoomImageView extends AppCompatImageView implements ViewTreeObserve
     //单击
     private OnClickListener onClickListener;//单击监听
 
-    public ZoomImageView(Context context) {
+    public SimpleZoomImageView(Context context) {
         this(context, null);
     }
 
-    public ZoomImageView(Context context, AttributeSet attrs) {
+    public SimpleZoomImageView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public ZoomImageView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public SimpleZoomImageView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         //记住，一定要把ScaleType设置成ScaleType.MATRIX，否则无法缩放
         setScaleType(ScaleType.MATRIX);
@@ -148,7 +147,7 @@ public class ZoomImageView extends AppCompatImageView implements ViewTreeObserve
             public boolean onSingleTapConfirmed(MotionEvent e) {
                 //单击事件
                 if (onClickListener != null)
-                    onClickListener.onClick(ZoomImageView.this);
+                    onClickListener.onClick(SimpleZoomImageView.this);
                 return true;
             }
         });
