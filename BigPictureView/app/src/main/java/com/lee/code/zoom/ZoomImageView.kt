@@ -214,7 +214,10 @@ class ZoomImageView : AppCompatImageView, ViewTreeObserver.OnGlobalLayoutListene
             duration = 300
             interpolator = AccelerateDecelerateInterpolator()
             addUpdateListener { animation ->
-                Log.i(TAG, "scaleAnimation: ${animation.currentPlayTime}")
+                val tranScale = animation.currentPlayTime.toFloat() / animation.duration.toFloat()
+                val translateX = getTranslateX() * tranScale
+                val translateY = getTranslateY() * tranScale
+                mScaleMatrix.postTranslate(translateX, translateY)
                 val value: Float = animation.animatedValue as Float / getScale()
                 mScaleMatrix.postScale(value, value, x, y)
                 imageMatrix = mScaleMatrix
@@ -230,11 +233,9 @@ class ZoomImageView : AppCompatImageView, ViewTreeObserver.OnGlobalLayoutListene
                 }
 
                 override fun onAnimationCancel(animation: Animator?) {
-
                 }
 
                 override fun onAnimationStart(animation: Animator?) {
-
                 }
 
             })
@@ -255,30 +256,25 @@ class ZoomImageView : AppCompatImageView, ViewTreeObserver.OnGlobalLayoutListene
 
     private fun getTranslateX(): Float {
         val rectF: RectF = getMatrixRectF() ?: return 0F
-        val value =  if (rectF.left > 0) {
+        val value = if (rectF.left > 0) {
             if (rectF.width() > width) {
                 //图片宽度大于控件宽度，移动到左边贴边
-                val value = -rectF.left
-                value
+                -rectF.left
             } else {
                 //图片宽度小于控件宽度，移动到中间
-                val value = width / 2f - (rectF.width() / 2f + rectF.left)
-                value
+                width * 1f / 2f - (rectF.width() * 1F / 2f + rectF.left)
             }
         } else if (rectF.right < width) {
             if (rectF.width() > width) {
                 //图片宽度大于控件宽度，移动到右边贴边
-                val value = width - rectF.right
-                value
+                width * 1F - rectF.right
             } else {
                 //图片宽度小于控件宽度，移动到中间
-                val value = width / 2f - (rectF.width() / 2f + rectF.left)
-                value
+                width * 1F / 2f - (rectF.width() / 2f + rectF.left)
             }
         } else {
             0F
         }
-        Log.i(TAG, "getTranslateX: $value")
         return value
     }
 
@@ -298,7 +294,7 @@ class ZoomImageView : AppCompatImageView, ViewTreeObserver.OnGlobalLayoutListene
                 rectF.height() - bottom
             } else {
                 //图片高度小于控件宽度，移动到中间
-                height / 2f - (rectF.height()/ 2f + rectF.top)
+                height / 2f - (rectF.height() / 2f + rectF.top)
             }
         } else {
             0F
