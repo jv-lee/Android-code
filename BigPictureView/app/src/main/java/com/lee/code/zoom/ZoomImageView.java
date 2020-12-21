@@ -8,13 +8,11 @@ import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.AccelerateInterpolator;
 import android.widget.OverScroller;
 
 public class ZoomImageView extends AppCompatImageView implements ViewTreeObserver.OnGlobalLayoutListener {
@@ -224,7 +222,6 @@ public class ZoomImageView extends AppCompatImageView implements ViewTreeObserve
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        Log.i("jv.lee", "onTouchEvent: "+canScrollHorizontally(1));
         return mScaleGestureDetector.onTouchEvent(event) |
                 gestureDetector.onTouchEvent(event);
     }
@@ -365,7 +362,7 @@ public class ZoomImageView extends AppCompatImageView implements ViewTreeObserve
             return;
         mAnimator = ObjectAnimator.ofFloat(getScale(), drowScale);
         mAnimator.setDuration(300);
-        mAnimator.setInterpolator(new AccelerateInterpolator());
+        mAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
         mAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
@@ -390,22 +387,11 @@ public class ZoomImageView extends AppCompatImageView implements ViewTreeObserve
             scale = mInitScale;
         if (Math.abs(mMidScale - scale) < deviation)
             scale = mMidScale;
-        if (Math.abs(mMaxScale - scale) < deviation)
-            scale = mMaxScale;
-        if (scale != mMidScale) {
+        if (scale != mInitScale) {
             //当前大小不等于mMidScale,则调整到mMidScale
-            drowScale = mMidScale;
-            isEnlarge = scale < mMidScale;
+            drowScale = mInitScale;
         } else {
-            //如果等于mMidScale，则判断放大或者缩小
-            //判断是放大或者缩小，如果上次是放大，则继续放大，缩小则继续缩小
-            if (isEnlarge) {
-                //放大
-                drowScale = mMaxScale;
-            } else {
-                //缩小
-                drowScale = mInitScale;
-            }
+            drowScale = mMidScale;
         }
         return drowScale;
     }
