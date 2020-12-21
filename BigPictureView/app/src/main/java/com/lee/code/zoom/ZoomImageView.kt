@@ -1,12 +1,15 @@
 package com.lee.code.zoom
 
+import android.animation.Animator
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Matrix
+import android.graphics.RectF
 import android.support.v7.widget.AppCompatImageView
 import android.util.AttributeSet
+import android.util.Log
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.ScaleGestureDetector
@@ -21,8 +24,10 @@ import android.widget.OverScroller
  */
 class ZoomImageView : AppCompatImageView, ViewTreeObserver.OnGlobalLayoutListener {
 
+    private val TAG = ZoomImageView::class.java.simpleName
+
     //view初次构建调整视图 单次调整
-    private var mIsFristLoad = true
+    private var mIsFirstLoad = true
 
     //初始化的比例,也就是最小比例
     private var mScale = 0f
@@ -43,7 +48,7 @@ class ZoomImageView : AppCompatImageView, ViewTreeObserver.OnGlobalLayoutListene
     private var gestureDetector: GestureDetector
 
     //双击
-    private var mAnimator: ValueAnimator? = null
+    private var mScaleAnimator: ValueAnimator? = null
 
     //滚动
     private var scroller: OverScroller
@@ -121,7 +126,7 @@ class ZoomImageView : AppCompatImageView, ViewTreeObserver.OnGlobalLayoutListene
     }
 
     override fun onGlobalLayout() {
-        if (mIsFristLoad) {
+        if (mIsFirstLoad) {
             //获取图片drawable 无图片资源直接返回
             drawable ?: return
 
@@ -158,7 +163,7 @@ class ZoomImageView : AppCompatImageView, ViewTreeObserver.OnGlobalLayoutListene
             mScaleMatrix.postTranslate(translationX, translationY)
             mScaleMatrix.postScale(mScale, mScale, centerX, centerY)
             imageMatrix = mScaleMatrix
-            mIsFristLoad = false
+            mIsFirstLoad = false
         }
     }
 
@@ -171,7 +176,7 @@ class ZoomImageView : AppCompatImageView, ViewTreeObserver.OnGlobalLayoutListene
      */
     private fun onDoubleScale(x: Float, y: Float) {
         //如果缩放动画已经在执行，那就不执行任何事件
-        mAnimator?.takeIf { it.isRunning }?.run { return }
+        mScaleAnimator?.takeIf { it.isRunning }?.run { return }
 
         //执行动画缩放
         scaleAnimation(getDoubleScale(), x, y)
@@ -203,17 +208,36 @@ class ZoomImageView : AppCompatImageView, ViewTreeObserver.OnGlobalLayoutListene
      */
     private fun scaleAnimation(tagScale: Float, x: Float, y: Float) {
         //如果缩放动画已经在执行，那就不执行任何事件
-        mAnimator?.takeIf { it.isRunning }?.run { return }
+        mScaleAnimator?.takeIf { it.isRunning }?.run { return }
 
-        mAnimator = ObjectAnimator.ofFloat(getScale(), tagScale).apply {
+        mScaleAnimator = ObjectAnimator.ofFloat(getScale(), tagScale).apply {
             duration = 300
             interpolator = AccelerateDecelerateInterpolator()
             addUpdateListener { animation ->
+                Log.i(TAG, "scaleAnimation: ${animation.currentPlayTime}")
                 val value: Float = animation.animatedValue as Float / getScale()
                 mScaleMatrix.postScale(value, value, x, y)
                 imageMatrix = mScaleMatrix
-//            removeBorderAndTranslationCenter()
             }
+            addListener(object : Animator.AnimatorListener {
+                override fun onAnimationRepeat(animation: Animator?) {
+
+                }
+
+                override fun onAnimationEnd(animation: Animator?) {
+                    mScaleMatrix.postTranslate(getTranslateX(), getTranslateY())
+                    imageMatrix = mScaleMatrix
+                }
+
+                override fun onAnimationCancel(animation: Animator?) {
+
+                }
+
+                override fun onAnimationStart(animation: Animator?) {
+
+                }
+
+            })
             start()
         }
     }
@@ -227,6 +251,68 @@ class ZoomImageView : AppCompatImageView, ViewTreeObserver.OnGlobalLayoutListene
         val values = FloatArray(9)
         mScaleMatrix.getValues(values)
         return values[Matrix.MSCALE_X]
+    }
+
+    private fun getTranslateX(): Float {
+        val rectF: RectF = getMatrixRectF() ?: return 0F
+        val value =  if (rectF.left > 0) {
+            if (rectF.width() > width) {
+                //图片宽度大于控件宽度，移动到左边贴边
+                val value = -rectF.left
+                value
+            } else {
+                //图片宽度小于控件宽度，移动到中间
+                val value = width / 2f - (rectF.width() / 2f + rectF.left)
+                value
+            }
+        } else if (rectF.right < width) {
+            if (rectF.width() > width) {
+                //图片宽度大于控件宽度，移动到右边贴边
+                val value = width - rectF.right
+                value
+            } else {
+                //图片宽度小于控件宽度，移动到中间
+                val value = width / 2f - (rectF.width() / 2f + rectF.left)
+                value
+            }
+        } else {
+            0F
+        }
+        Log.i(TAG, "getTranslateX: $value")
+        return value
+    }
+
+    private fun getTranslateY(): Float {
+        val rectF: RectF = getMatrixRectF() ?: return 0F
+        return if (rectF.top > 0) {
+            if (rectF.height() > height) {
+                //图片高度大于控件高度，去除顶部边界
+                -rectF.top
+            } else {
+                //图片高度小于控件宽度，移动到中间
+                height / 2f - (rectF.height() / 2f + rectF.top)
+            }
+        } else if (rectF.bottom < height) {
+            if (rectF.height() > height) {
+                //图片高度大于控件高度，去除顶部边界
+                rectF.height() - bottom
+            } else {
+                //图片高度小于控件宽度，移动到中间
+                height / 2f - (rectF.height()/ 2f + rectF.top)
+            }
+        } else {
+            0F
+        }
+    }
+
+
+    //获取图片宽高以及左右上下边界
+    private fun getMatrixRectF(): RectF? {
+        val drawable = drawable ?: return null
+        val rectF = RectF(0f, 0f, drawable.minimumWidth.toFloat(), drawable.minimumHeight.toFloat())
+        val matrix = imageMatrix
+        matrix.mapRect(rectF)
+        return rectF
     }
 
 }
