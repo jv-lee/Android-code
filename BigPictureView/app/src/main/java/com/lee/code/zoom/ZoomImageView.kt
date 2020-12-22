@@ -9,14 +9,13 @@ import android.graphics.Matrix
 import android.graphics.RectF
 import android.support.v7.widget.AppCompatImageView
 import android.util.AttributeSet
-import android.util.Log
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.ScaleGestureDetector
 import android.view.ViewTreeObserver
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.OverScroller
-import kotlin.math.abs
+import kotlin.math.roundToInt
 
 /**
  * @author jv.lee
@@ -53,6 +52,9 @@ class ZoomImageView : AppCompatImageView, ViewTreeObserver.OnGlobalLayoutListene
 
     //滚动
     private var scroller: OverScroller
+    private var mCurrentX = 0
+    private var mCurrentY = 0
+    private var mTranslateAnimator: ValueAnimator? = null
 
     //单击
     private var onClickListener: OnClickListener? = null
@@ -64,6 +66,7 @@ class ZoomImageView : AppCompatImageView, ViewTreeObserver.OnGlobalLayoutListene
     constructor(context: Context, attributeSet: AttributeSet, defStyleAttr: Int) : super(context, attributeSet, defStyleAttr)
 
     init {
+        //设置视图类型为矩阵渲染.
         scaleType = ScaleType.MATRIX
 
         //缩放矩阵
@@ -87,23 +90,24 @@ class ZoomImageView : AppCompatImageView, ViewTreeObserver.OnGlobalLayoutListene
         //基础手势事件监听
         gestureDetector = GestureDetector(context, object : GestureDetector.SimpleOnGestureListener() {
             override fun onScroll(e1: MotionEvent?, e2: MotionEvent?, distanceX: Float, distanceY: Float): Boolean {
-                //滑动监听
                 onTranslationImage(-distanceX, -distanceY)
                 return true
             }
 
             override fun onDoubleTap(e: MotionEvent?): Boolean {
-                //双击监听
                 e?.run { onDoubleScale(x, y) }
                 return true
             }
 
-            override fun onFling(e1: MotionEvent?, e2: MotionEvent?, velocityX: Float, velocityY: Float): Boolean {
-                return super.onFling(e1, e2, velocityX, velocityY)
+            override fun onFling(e1: MotionEvent, e2: MotionEvent, velocityX: Float, velocityY: Float): Boolean {
+                return if (onFlingEvent(e2.x, e2.y, velocityX, velocityY)) {
+                    super.onFling(e1, e2, velocityX, velocityY)
+                } else {
+                    false
+                }
             }
 
             override fun onSingleTapConfirmed(e: MotionEvent?): Boolean {
-                //单击事件
                 onClickListener?.onClick(this@ZoomImageView)
                 return true
             }
@@ -130,8 +134,14 @@ class ZoomImageView : AppCompatImageView, ViewTreeObserver.OnGlobalLayoutListene
                 gestureDetector.onTouchEvent(event)
     }
 
-    //初始化调正 view视图渲染位置大小.
     override fun onGlobalLayout() {
+        initDrawImage()
+    }
+
+    /**
+     * 初始化调正 view视图渲染位置大小.
+     */
+    private fun initDrawImage() {
         if (mIsFirstLoad) {
             //获取图片drawable 无图片资源直接返回
             drawable ?: return
@@ -247,22 +257,60 @@ class ZoomImageView : AppCompatImageView, ViewTreeObserver.OnGlobalLayoutListene
         imageMatrix = mScaleMatrix
     }
 
-    //返回双击后改变的大小比例(我们希望缩放误差在deviation范围内)
-    private fun getDoubleScale(): Float {
-        val deviation = 0.05f
-        var clickScale = 1.0f
-        var scale: Float = getScale()
-        if (Math.abs(mScale - scale) < deviation) scale = mScale
-        if (Math.abs(mMidScale - scale) < deviation) scale = mMidScale
-        if (scale != mScale) {
-            //当前大小不等于mMidScale,则调整到mMidScale
-            clickScale = mScale
-        } else {
-            clickScale = mMidScale
-        }
-        return clickScale
-    }
+    /**
+     * todo Event - FlingEvent
+     * 滑动惯性平移事件
+     *
+     * @param x
+     * @param y
+     * @param velocityX
+     * @param velocityY
+     */
+    private fun onFlingEvent(x: Float, y: Float, velocityX: Float, velocityY: Float): Boolean {
+        mCurrentX = x.toInt()
+        mCurrentY = y.toInt()
 
+        val rect = getMatrixRectF()
+        rect ?: return false
+
+        val startX = mCurrentX
+        val startY = mCurrentY
+
+        val minX = 100
+        val minY = 100
+        val maxX = rect.width().roundToInt()
+        val maxY = rect.height().roundToInt()
+        val vX = velocityX.roundToInt()
+        val vY = velocityY.roundToInt()
+
+        if (startX != maxX || startY != maxY) {
+            //模拟滑动
+            scroller.fling(startX, startY, vX, vY, minX, maxX, minY, maxY, maxX, maxY)
+        }
+
+        //动画启动结束后设置为end状态
+        mTranslateAnimator?.takeIf { it.isStarted }?.end()
+        mTranslateAnimator = ValueAnimator.ofInt(0, 1).apply {
+            interpolator = AccelerateDecelerateInterpolator()
+            duration = 2000
+            addUpdateListener {
+                if (scroller.computeScrollOffset()) {
+                    //获得当前的x坐标
+                    val newX = scroller.currX
+                    val dx = newX - mCurrentX
+                    mCurrentX = newX
+                    //获得当前的y坐标
+                    val newY = scroller.currY
+                    val dy = newY - mCurrentY
+                    mCurrentY = newY
+                    //进行平移操作
+                    if (dx != 0 && dy != 0) onTranslationImage(dx.toFloat(), dy.toFloat())
+                }
+            }
+            start()
+        }
+        return true
+    }
 
     /**
      * 缩放动画
@@ -308,17 +356,30 @@ class ZoomImageView : AppCompatImageView, ViewTreeObserver.OnGlobalLayoutListene
         }
     }
 
-    /**
-     * 获取当前图片的缩放值
-     *
-     * @return
-     */
+    //返回双击后改变的大小比例(我们希望缩放误差在deviation范围内)
+    private fun getDoubleScale(): Float {
+        val deviation = 0.05f
+        var clickScale = 1.0f
+        var scale: Float = getScale()
+        if (Math.abs(mScale - scale) < deviation) scale = mScale
+        if (Math.abs(mMidScale - scale) < deviation) scale = mMidScale
+        if (scale != mScale) {
+            //当前大小不等于mMidScale,则调整到mMidScale
+            clickScale = mScale
+        } else {
+            clickScale = mMidScale
+        }
+        return clickScale
+    }
+
+    //获取当前图片的缩放值
     private fun getScale(): Float {
         val values = FloatArray(9)
         mScaleMatrix.getValues(values)
         return values[Matrix.MSCALE_X]
     }
 
+    //获取当前剧中translateX值
     private fun getTranslateX(): Float {
         val rectF: RectF = getMatrixRectF() ?: return 0F
         val value = if (rectF.left > 0) {
@@ -343,6 +404,7 @@ class ZoomImageView : AppCompatImageView, ViewTreeObserver.OnGlobalLayoutListene
         return value
     }
 
+    //获取当前剧中translateY值
     private fun getTranslateY(): Float {
         val rectF: RectF = getMatrixRectF() ?: return 0F
         return if (rectF.top > 0) {
