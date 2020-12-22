@@ -9,6 +9,7 @@ import android.graphics.Matrix
 import android.graphics.RectF
 import android.support.v7.widget.AppCompatImageView
 import android.util.AttributeSet
+import android.util.Log
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.ScaleGestureDetector
@@ -22,7 +23,7 @@ import kotlin.math.roundToInt
  * @date 2020/12/21
  * @description
  */
-class ZoomImageView : AppCompatImageView, ViewTreeObserver.OnGlobalLayoutListener {
+open class ZoomImageView : AppCompatImageView, ViewTreeObserver.OnGlobalLayoutListener {
 
     private val TAG = ZoomImageView::class.java.simpleName
 
@@ -61,9 +62,13 @@ class ZoomImageView : AppCompatImageView, ViewTreeObserver.OnGlobalLayoutListene
 
     constructor(context: Context) : super(context, null)
 
-    constructor(context: Context, attributeSet: AttributeSet) : super(context, attributeSet, 0)
+    constructor(context: Context, attributeSet: AttributeSet?) : super(context, attributeSet, 0)
 
-    constructor(context: Context, attributeSet: AttributeSet, defStyleAttr: Int) : super(context, attributeSet, defStyleAttr)
+    constructor(context: Context, attributeSet: AttributeSet?, defStyleAttr: Int) : super(
+            context,
+            attributeSet,
+            defStyleAttr
+    )
 
     init {
         //设置视图类型为矩阵渲染.
@@ -76,45 +81,58 @@ class ZoomImageView : AppCompatImageView, ViewTreeObserver.OnGlobalLayoutListene
         scroller = OverScroller(context)
 
         //手势缩放事件监听
-        mScaleGestureDetector = ScaleGestureDetector(context, object : ScaleGestureDetector.SimpleOnScaleGestureListener() {
-            override fun onScale(detector: ScaleGestureDetector?): Boolean {
-                onGestureScale(detector)
-                return true
-            }
+        mScaleGestureDetector = ScaleGestureDetector(
+                context,
+                object : ScaleGestureDetector.SimpleOnScaleGestureListener() {
+                    override fun onScale(detector: ScaleGestureDetector?): Boolean {
+                        onGestureScale(detector)
+                        return true
+                    }
 
-            override fun onScaleEnd(detector: ScaleGestureDetector?) {
-                onGestureScaleEnd(detector)
-            }
-        })
+                    override fun onScaleEnd(detector: ScaleGestureDetector?) {
+                        onGestureScaleEnd(detector)
+                    }
+                })
 
         //基础手势事件监听
-        gestureDetector = GestureDetector(context, object : GestureDetector.SimpleOnGestureListener() {
-            override fun onScroll(e1: MotionEvent?, e2: MotionEvent?, distanceX: Float, distanceY: Float): Boolean {
-                onTranslationImage(-distanceX, -distanceY)
-                return true
-            }
+        gestureDetector =
+                GestureDetector(context, object : GestureDetector.SimpleOnGestureListener() {
+                    override fun onScroll(
+                            e1: MotionEvent?,
+                            e2: MotionEvent?,
+                            distanceX: Float,
+                            distanceY: Float
+                    ): Boolean {
+                        onTranslationImage(-distanceX, -distanceY)
+                        return true
+                    }
 
-            override fun onDoubleTap(e: MotionEvent?): Boolean {
-                e?.run { onDoubleScale(x, y) }
-                return true
-            }
+                    override fun onDoubleTap(e: MotionEvent?): Boolean {
+                        e?.run { onDoubleScale(x, y) }
+                        return true
+                    }
 
-            override fun onFling(e1: MotionEvent, e2: MotionEvent, velocityX: Float, velocityY: Float): Boolean {
-                return if (onFlingEvent(e2.x, e2.y, velocityX, velocityY)) {
-                    super.onFling(e1, e2, velocityX, velocityY)
-                } else {
-                    false
-                }
-            }
+                    override fun onFling(
+                            e1: MotionEvent,
+                            e2: MotionEvent,
+                            velocityX: Float,
+                            velocityY: Float
+                    ): Boolean {
+                        return if (onFlingEvent(e2.x, e2.y, velocityX, velocityY)) {
+                            super.onFling(e1, e2, velocityX, velocityY)
+                        } else {
+                            false
+                        }
+                    }
 
-            override fun onSingleTapConfirmed(e: MotionEvent?): Boolean {
-                onClickListener?.onClick(this@ZoomImageView)
-                return true
-            }
-        })
+                    override fun onSingleTapConfirmed(e: MotionEvent?): Boolean {
+                        onClickListener?.onClick(this@ZoomImageView)
+                        return true
+                    }
+                })
     }
 
-    override fun setOnClickListener(onClickListener: OnClickListener) {
+    override fun setOnClickListener(onClickListener: OnClickListener?) {
         this.onClickListener = onClickListener
     }
 
@@ -129,60 +147,60 @@ class ZoomImageView : AppCompatImageView, ViewTreeObserver.OnGlobalLayoutListene
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    override fun onTouchEvent(event: MotionEvent?): Boolean {
+    override fun onTouchEvent(event: MotionEvent): Boolean {
         return mScaleGestureDetector.onTouchEvent(event) or
                 gestureDetector.onTouchEvent(event)
     }
 
     override fun onGlobalLayout() {
-        initDrawImage()
+        if (mIsFirstLoad) {
+            postDelayed({ drawViewLayout() }, 300)
+            mIsFirstLoad = false
+        }
     }
 
     /**
      * 初始化调正 view视图渲染位置大小.
      */
-    private fun initDrawImage() {
-        if (mIsFirstLoad) {
-            //获取图片drawable 无图片资源直接返回
-            drawable ?: return
+    fun drawViewLayout() {
+        Log.i(TAG, "drawViewLayout: $drawable")
+        //获取图片drawable 无图片资源直接返回
+        drawable ?: return
 
-            //获取图片宽高
-            val dw = drawable.intrinsicWidth
-            val dh = drawable.intrinsicHeight
+        //获取图片宽高
+        val dw = drawable.intrinsicWidth
+        val dh = drawable.intrinsicHeight
 
-            var scale = 1.0f
+        var scale = 1.0f
 
-            //计算缩放比例将图片宽度设置到目标宽高
-            if (dw > width && dh <= height)
-                scale = width.toFloat() / dw
+        //计算缩放比例将图片宽度设置到目标宽高
+        if (dw > width && dh <= height)
+            scale = width.toFloat() / dw
 
-            if (dw <= width && dh > height)
-                scale = height.toFloat() / dh
+        if (dw <= width && dh > height)
+            scale = height.toFloat() / dh
 
-            if ((dw <= width && dh <= height) || (dw >= width && dh >= height))
-                scale = Math.min(width.toFloat() / dw, height.toFloat() / dh)
+        if ((dw <= width && dh <= height) || (dw >= width && dh >= height))
+            scale = Math.min(width.toFloat() / dw, height.toFloat() / dh)
 
-            //设置基础缩放值
-            //图片原始比例
-            mScale = scale
-            //图片双击缩放值
-            mMidScale = scale * 2
-            //图片最大拉升缩放值
-            mMaxScale = scale * 4
+        //设置基础缩放值
+        //图片原始比例
+        mScale = scale
+        //图片双击缩放值
+        mMidScale = scale * 2
+        //图片最大拉升缩放值
+        mMaxScale = scale * 4
 
-            //图片定位剧中
-            val translationX = width.toFloat() / 2 - dw / 2
-            val translationY = height.toFloat() / 2 - dh / 2
-            val centerX = width.toFloat() / 2
-            val centerY = height.toFloat() / 2
+        //图片定位剧中
+        val translationX = width.toFloat() / 2 - dw / 2
+        val translationY = height.toFloat() / 2 - dh / 2
+        val centerX = width.toFloat() / 2
+        val centerY = height.toFloat() / 2
 
-            mScaleMatrix.postTranslate(translationX, translationY)
-            mScaleMatrix.postScale(mScale, mScale, centerX, centerY)
-            imageMatrix = mScaleMatrix
-            mIsFirstLoad = false
-        }
+        mScaleMatrix.postTranslate(translationX, translationY)
+        mScaleMatrix.postScale(mScale, mScale, centerX, centerY)
+        imageMatrix = mScaleMatrix
     }
-
 
     /**
      * TODO Event - DoubleClick
@@ -237,11 +255,23 @@ class ZoomImageView : AppCompatImageView, ViewTreeObserver.OnGlobalLayoutListene
      * @param dx 移动X坐标
      * @param dy 移动Y坐标
      */
-    private fun onTranslationImage(dx: Float, dy: Float) {
+    private fun onTranslationImage(dx: Float, dy: Float, isTouch: Boolean = true) {
         var dx = dx
         var dy = dy
         val rect = getMatrixRectF()
         rect ?: return
+
+        //判断是否拖动到边界 将事件交由父容器处理
+        if (isTouch && rect.right == width.toFloat() && dx < 0) {
+            parent.requestDisallowInterceptTouchEvent(false)
+            return
+        }
+
+        //判断是否拖动到边界 将事件交由父容器处理
+        if (isTouch && rect.left == 0f && dx > 0) {
+            parent.requestDisallowInterceptTouchEvent(false)
+            return
+        }
 
         //图片宽度小于控件宽度时不允许左右移动
         if (rect.width() <= width) dx = 0.0f
@@ -304,7 +334,7 @@ class ZoomImageView : AppCompatImageView, ViewTreeObserver.OnGlobalLayoutListene
                     val dy = newY - mCurrentY
                     mCurrentY = newY
                     //进行平移操作
-                    if (dx != 0 && dy != 0) onTranslationImage(dx.toFloat(), dy.toFloat())
+                    if (dx != 0 && dy != 0) onTranslationImage(dx.toFloat(), dy.toFloat(), false)
                 }
             }
             start()
@@ -438,4 +468,21 @@ class ZoomImageView : AppCompatImageView, ViewTreeObserver.OnGlobalLayoutListene
         return rectF
     }
 
+    /**
+     * 解决和父控件滑动冲突 只要图片边界超过控件边界，返回true
+     *
+     * @param direction
+     * @return true 禁止父控件滑动
+     */
+    override fun canScrollHorizontally(direction: Int): Boolean {
+        val rect = getMatrixRectF()
+        rect ?: return false
+        return rect.right >= width + 1 || rect.left <= -1
+    }
+
+    override fun canScrollVertically(direction: Int): Boolean {
+        val rect = getMatrixRectF()
+        rect ?: return false
+        return rect.bottom >= height + 1 || rect.top <= -1
+    }
 }
