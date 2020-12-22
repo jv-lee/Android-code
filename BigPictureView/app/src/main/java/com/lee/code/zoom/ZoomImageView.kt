@@ -16,6 +16,7 @@ import android.view.ScaleGestureDetector
 import android.view.ViewTreeObserver
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.OverScroller
+import kotlin.math.abs
 
 /**
  * @author jv.lee
@@ -71,20 +72,24 @@ class ZoomImageView : AppCompatImageView, ViewTreeObserver.OnGlobalLayoutListene
         //模拟滑动惯性
         scroller = OverScroller(context)
 
-        //手势缩放
+        //手势缩放事件监听
         mScaleGestureDetector = ScaleGestureDetector(context, object : ScaleGestureDetector.SimpleOnScaleGestureListener() {
             override fun onScale(detector: ScaleGestureDetector?): Boolean {
-                return super.onScale(detector)
+                onGestureScale(detector)
+                return true
             }
 
             override fun onScaleEnd(detector: ScaleGestureDetector?) {
-                super.onScaleEnd(detector)
+                onGestureScaleEnd(detector)
             }
         })
 
+        //基础手势事件监听
         gestureDetector = GestureDetector(context, object : GestureDetector.SimpleOnGestureListener() {
             override fun onScroll(e1: MotionEvent?, e2: MotionEvent?, distanceX: Float, distanceY: Float): Boolean {
-                return super.onScroll(e1, e2, distanceX, distanceY)
+                //滑动监听
+                onTranslationImage(-distanceX, -distanceY)
+                return true
             }
 
             override fun onDoubleTap(e: MotionEvent?): Boolean {
@@ -125,6 +130,7 @@ class ZoomImageView : AppCompatImageView, ViewTreeObserver.OnGlobalLayoutListene
                 gestureDetector.onTouchEvent(event)
     }
 
+    //初始化调正 view视图渲染位置大小.
     override fun onGlobalLayout() {
         if (mIsFirstLoad) {
             //获取图片drawable 无图片资源直接返回
@@ -169,7 +175,8 @@ class ZoomImageView : AppCompatImageView, ViewTreeObserver.OnGlobalLayoutListene
 
 
     /**
-     * 双击改变大小
+     * TODO Event - DoubleClick
+     * 双击缩放
      *
      * @param x 点击的中心点
      * @param y 点击的中心点
@@ -182,20 +189,78 @@ class ZoomImageView : AppCompatImageView, ViewTreeObserver.OnGlobalLayoutListene
         scaleAnimation(getDoubleScale(), x, y)
     }
 
+    /**
+     * todo Event - GestureScale
+     * 手势缩放
+     *
+     * @param detector 手势操作
+     */
+    fun onGestureScale(detector: ScaleGestureDetector?) {
+        detector ?: return
+        //获取手势操作的值,scaleFactor>1说明放大，<1则说明缩小
+        val scaleFactor = detector.scaleFactor
+        //获取手势操作后的比例，当放操作后比例在[mInitScale,mMaxScale]区间时允许放大
+        mScaleMatrix.postScale(scaleFactor, scaleFactor, detector.focusX, detector.focusY)
+        imageMatrix = mScaleMatrix
+    }
+
+    /**
+     * todo Event - GestureScaleEnd
+     * 手势缩放结后定位
+     *
+     * @param detector 手势操作
+     */
+    fun onGestureScaleEnd(detector: ScaleGestureDetector?) {
+        detector ?: return
+        val scale = detector.scaleFactor * getScale()
+        if (scale < mScale) {
+            scaleAnimation(mScale, width.toFloat() / 2, height.toFloat() / 2)
+        } else if (scale > mMaxScale) {
+            scaleAnimation(mMaxScale, width.toFloat() / 2, height.toFloat() / 2)
+        }
+    }
+
+    /**
+     * todo Event - TranslationImage
+     * 手势移动Image
+     *
+     * @param dx 移动X坐标
+     * @param dy 移动Y坐标
+     */
+    private fun onTranslationImage(dx: Float, dy: Float) {
+        var dx = dx
+        var dy = dy
+        val rect = getMatrixRectF()
+        rect ?: return
+
+        //图片宽度小于控件宽度时不允许左右移动
+        if (rect.width() <= width) dx = 0.0f
+        //图片高度小于控件宽度时，不允许上下移动
+        if (rect.height() <= height) dy = 0.0f
+        //移动距离等于0，那就不需要移动了
+        if (dx == 0.0f && dy == 0.0f) return
+        //设置移动位置
+        mScaleMatrix.postTranslate(dx, dy)
+        imageMatrix = mScaleMatrix
+        //调整限制位置
+        mScaleMatrix.postTranslate(getTranslateX(), getTranslateY())
+        imageMatrix = mScaleMatrix
+    }
+
     //返回双击后改变的大小比例(我们希望缩放误差在deviation范围内)
     private fun getDoubleScale(): Float {
         val deviation = 0.05f
-        var drowScale = 1.0f
+        var clickScale = 1.0f
         var scale: Float = getScale()
         if (Math.abs(mScale - scale) < deviation) scale = mScale
         if (Math.abs(mMidScale - scale) < deviation) scale = mMidScale
         if (scale != mScale) {
             //当前大小不等于mMidScale,则调整到mMidScale
-            drowScale = mScale
+            clickScale = mScale
         } else {
-            drowScale = mMidScale
+            clickScale = mMidScale
         }
-        return drowScale
+        return clickScale
     }
 
 
@@ -291,7 +356,7 @@ class ZoomImageView : AppCompatImageView, ViewTreeObserver.OnGlobalLayoutListene
         } else if (rectF.bottom < height) {
             if (rectF.height() > height) {
                 //图片高度大于控件高度，去除顶部边界
-                rectF.height() - bottom
+                height - rectF.bottom
             } else {
                 //图片高度小于控件宽度，移动到中间
                 height / 2f - (rectF.height() / 2f + rectF.top)
