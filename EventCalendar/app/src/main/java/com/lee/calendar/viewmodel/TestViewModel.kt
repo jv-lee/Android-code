@@ -9,7 +9,9 @@ import com.lee.calendar.widget.calendar.utils.CalendarUtils
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import java.util.*
 import java.util.concurrent.TimeUnit
+import kotlin.collections.ArrayList
 
 /**
  * @author jv.lee
@@ -27,10 +29,10 @@ class TestViewModel : ViewModel() {
         val disposable = Observable.create<ArrayList<DateData>> {
             it.onNext(createMonthData(year, month))
         }.map {
-            AttendanceDataUtils.setBackgroundStatus(it,year,month)
+            AttendanceDataUtils.setBackgroundStatus(it, year, month)
         }.map {
             DateObserver(position, it)
-        }.delay(500,TimeUnit.MILLISECONDS)
+        }.delay(500, TimeUnit.MILLISECONDS)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
@@ -38,14 +40,14 @@ class TestViewModel : ViewModel() {
             }
     }
 
-    fun getWeekData(position: Int, year: Int, month: Int,day:Int) {
+    fun getWeekData(position: Int, year: Int, month: Int, day: Int) {
         val disposable = Observable.create<ArrayList<DateData>> {
-            it.onNext(createWeekData(year, month,day))
+            it.onNext(createWeekData(year, month, day))
         }.map {
-            AttendanceDataUtils.setBackgroundStatus(it,year,month)
+            AttendanceDataUtils.setBackgroundStatus(it, year, month)
         }.map {
             DateObserver(position, it)
-        }.delay(500,TimeUnit.MILLISECONDS)
+        }.delay(500, TimeUnit.MILLISECONDS)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
@@ -53,31 +55,59 @@ class TestViewModel : ViewModel() {
             }
     }
 
-    private fun createWeekData(year:Int,month:Int,day:Int):ArrayList<DateData>{
+    private fun createWeekData(year: Int, month: Int, day: Int): ArrayList<DateData> {
         val monthArray = arrayListOf<DateData>()
         for (index in 1..7) {
             when (index) {
-                1-> monthArray.add(DateData(index,
-                    DayStatus.UPDATE_STATUS))
-                2-> monthArray.add(DateData(index,
-                    DayStatus.OVER_UPDATE_STATUS))
-                3-> monthArray.add(DateData(index,
-                    DayStatus.UPDATE_STATUS))
-                4-> monthArray.add(DateData(index,
-                    DayStatus.OVER_UPDATE_STATUS))
-                5-> monthArray.add(DateData(index,
-                    DayStatus.UPDATE_STATUS))
-                6-> monthArray.add(DateData(index,
-                    DayStatus.OVER_UPDATE_STATUS))
-                7-> monthArray.add(DateData(index,
-                    DayStatus.OVER_UPDATE_STATUS))
+                1 -> monthArray.add(
+                    DateData(
+                        index,
+                        DayStatus.UPDATE_STATUS
+                    )
+                )
+                2 -> monthArray.add(
+                    DateData(
+                        index,
+                        DayStatus.OVER_UPDATE_STATUS
+                    )
+                )
+                3 -> monthArray.add(
+                    DateData(
+                        index,
+                        DayStatus.UPDATE_STATUS
+                    )
+                )
+                4 -> monthArray.add(
+                    DateData(
+                        index,
+                        DayStatus.OVER_UPDATE_STATUS
+                    )
+                )
+                5 -> monthArray.add(
+                    DateData(
+                        index,
+                        DayStatus.UPDATE_STATUS
+                    )
+                )
+                6 -> monthArray.add(
+                    DateData(
+                        index,
+                        DayStatus.OVER_UPDATE_STATUS
+                    )
+                )
+                7 -> monthArray.add(
+                    DateData(
+                        index,
+                        DayStatus.OVER_UPDATE_STATUS
+                    )
+                )
             }
         }
         return monthArray
     }
 
     private fun createMonthData(year: Int, month: Int): ArrayList<DateData> {
-        val monthMaxDay = CalendarUtils.getMaxDayOfMonth(year, month)
+        val monthMaxDay = CalendarUtils.getMaxDayOfMonth(Calendar.getInstance(), year, month)
         val monthArray = arrayListOf<DateData>()
         for (index in 1..monthMaxDay) {
             when (index) {
