@@ -1,4 +1,4 @@
-package com.lee.code.zoom
+package com.imagetools.select.widget
 
 import android.animation.Animator
 import android.animation.ObjectAnimator
@@ -6,14 +6,16 @@ import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Matrix
+import android.graphics.Point
 import android.graphics.RectF
+import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.support.v7.widget.AppCompatImageView
 import android.util.AttributeSet
-import android.util.Log
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.ScaleGestureDetector
-import android.view.ViewTreeObserver
+import android.view.WindowManager
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.OverScroller
 import kotlin.math.roundToInt
@@ -23,42 +25,7 @@ import kotlin.math.roundToInt
  * @date 2020/12/21
  * @description
  */
-open class ZoomImageView : AppCompatImageView, ViewTreeObserver.OnGlobalLayoutListener {
-
-    private val TAG = ZoomImageView::class.java.simpleName
-
-    //view初次构建调整视图 单次调整
-    private var mIsFirstLoad = true
-
-    //初始化的比例,也就是最小比例
-    private var mScale = 0f
-
-    //图片最大比例
-    private var mMaxScale = 0f
-
-    //双击能达到的最大比例
-    private var mMidScale = 0f
-
-    //缩放矩阵
-    private var mScaleMatrix: Matrix
-
-    //捕获用户多点触控
-    private var mScaleGestureDetector: ScaleGestureDetector
-
-    //移动
-    private var gestureDetector: GestureDetector
-
-    //双击
-    private var mScaleAnimator: ValueAnimator? = null
-
-    //滚动
-    private var scroller: OverScroller
-    private var mCurrentX = 0
-    private var mCurrentY = 0
-    private var mTranslateAnimator: ValueAnimator? = null
-
-    //单击
-    private var onClickListener: OnClickListener? = null
+open class ZoomImageView : AppCompatImageView {
 
     constructor(context: Context) : super(context, null)
 
@@ -70,15 +37,57 @@ open class ZoomImageView : AppCompatImageView, ViewTreeObserver.OnGlobalLayoutLi
             defStyleAttr
     )
 
+    private val TAG = ZoomImageView::class.java.simpleName
+
+    //初始化的比例,也就是最小比例
+    private var mScale = 0f
+
+    //图片最大比例
+    private var mMaxScale = 0f
+
+    //双击能达到的最大比例
+    private var mMidScale = 0f
+
+    //屏幕宽高
+    private var sWidth = 0
+    private var sHeight = 0
+
+    //缩放矩阵
+    private var mScaleMatrix = Matrix()
+
+    //捕获用户多点触控
+    private var mScaleGestureDetector: ScaleGestureDetector
+
+    //移动
+    private var gestureDetector: GestureDetector
+
+    //双击
+    private var mScaleAnimator: ValueAnimator? = null
+    private val mInterpolator = AccelerateDecelerateInterpolator()
+
+    //滚动
+    private var scroller: OverScroller
+    private var mCurrentX = 0
+    private var mCurrentY = 0
+    private var mTranslateAnimator: ValueAnimator? = null
+
+    //单击
+    private var onClickListener: OnClickListener? = null
+
     init {
         //设置视图类型为矩阵渲染.
         scaleType = ScaleType.MATRIX
 
-        //缩放矩阵
-        mScaleMatrix = Matrix()
-
         //模拟滑动惯性
         scroller = OverScroller(context)
+
+        //初始化屏幕宽高比
+        Point().run {
+            (context.getSystemService(Context.WINDOW_SERVICE) as WindowManager)
+                    .defaultDisplay.getSize(this)
+            sWidth = x
+            sHeight = y
+        }
 
         //手势缩放事件监听
         mScaleGestureDetector = ScaleGestureDetector(
@@ -119,7 +128,7 @@ open class ZoomImageView : AppCompatImageView, ViewTreeObserver.OnGlobalLayoutLi
                             velocityY: Float
                     ): Boolean {
                         return if (onFlingEvent(e2.x, e2.y, velocityX, velocityY)) {
-                            super.onFling(e1, e2, velocityX, velocityY)
+                            return super.onFling(e1, e2, velocityX, velocityY)
                         } else {
                             false
                         }
@@ -132,40 +141,65 @@ open class ZoomImageView : AppCompatImageView, ViewTreeObserver.OnGlobalLayoutLi
                 })
     }
 
-    override fun setOnClickListener(onClickListener: OnClickListener?) {
-        this.onClickListener = onClickListener
-    }
-
-    override fun onAttachedToWindow() {
-        super.onAttachedToWindow()
-        viewTreeObserver.addOnGlobalLayoutListener(this)
-    }
-
-    override fun onDetachedFromWindow() {
-        super.onDetachedFromWindow()
-        viewTreeObserver.removeOnGlobalLayoutListener(this)
-    }
-
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent): Boolean {
         return mScaleGestureDetector.onTouchEvent(event) or
                 gestureDetector.onTouchEvent(event)
     }
 
-    override fun onGlobalLayout() {
-        if (mIsFirstLoad) {
-            postDelayed({ drawViewLayout() }, 300)
-            mIsFirstLoad = false
+    override fun setOnClickListener(onClickListener: OnClickListener?) {
+        this.onClickListener = onClickListener
+    }
+
+    override fun setImageDrawable(drawable: Drawable?) {
+        super.setImageDrawable(drawable)
+        // setImageBitmap calls through to this method
+        drawViewLayout()
+    }
+
+    override fun setImageResource(resId: Int) {
+        super.setImageResource(resId)
+        drawViewLayout()
+    }
+
+    override fun setImageURI(uri: Uri?) {
+        super.setImageURI(uri)
+        drawViewLayout()
+    }
+
+    override fun setFrame(l: Int, t: Int, r: Int, b: Int): Boolean {
+        val changed = super.setFrame(l, t, r, b)
+        if (changed) {
+            drawViewLayout()
         }
+        return changed
+    }
+
+    /**
+     * 解决和父控件滑动冲突 只要图片边界超过控件边界，返回true
+     *
+     * @param direction
+     * @return true 禁止父控件滑动
+     */
+    override fun canScrollHorizontally(direction: Int): Boolean {
+        val rect = getMatrixRectF()
+        rect ?: return false
+        return rect.right >= width + 1 || rect.left <= -1
+    }
+
+    override fun canScrollVertically(direction: Int): Boolean {
+        val rect = getMatrixRectF()
+        rect ?: return false
+        return rect.bottom >= height + 1 || rect.top <= -1
     }
 
     /**
      * 初始化调正 view视图渲染位置大小.
      */
-    fun drawViewLayout() {
-        Log.i(TAG, "drawViewLayout: $drawable")
+    private fun drawViewLayout() {
         //获取图片drawable 无图片资源直接返回
         drawable ?: return
+        mScaleMatrix?:return
 
         //获取图片宽高
         val dw = drawable.intrinsicWidth
@@ -197,6 +231,7 @@ open class ZoomImageView : AppCompatImageView, ViewTreeObserver.OnGlobalLayoutLi
         val centerX = width.toFloat() / 2
         val centerY = height.toFloat() / 2
 
+        mScaleMatrix.reset()
         mScaleMatrix.postTranslate(translationX, translationY)
         mScaleMatrix.postScale(mScale, mScale, centerX, centerY)
         imageMatrix = mScaleMatrix
@@ -321,7 +356,7 @@ open class ZoomImageView : AppCompatImageView, ViewTreeObserver.OnGlobalLayoutLi
         //动画启动结束后设置为end状态
         mTranslateAnimator?.takeIf { it.isStarted }?.end()
         mTranslateAnimator = ValueAnimator.ofInt(0, 1).apply {
-            interpolator = AccelerateDecelerateInterpolator()
+            interpolator = mInterpolator
             duration = 2000
             addUpdateListener {
                 if (scroller.computeScrollOffset()) {
@@ -352,10 +387,9 @@ open class ZoomImageView : AppCompatImageView, ViewTreeObserver.OnGlobalLayoutLi
     private fun scaleAnimation(tagScale: Float, x: Float, y: Float) {
         //如果缩放动画已经在执行，那就不执行任何事件
         mScaleAnimator?.takeIf { it.isRunning }?.run { return }
-
         mScaleAnimator = ObjectAnimator.ofFloat(getScale(), tagScale).apply {
             duration = 300
-            interpolator = AccelerateDecelerateInterpolator()
+            interpolator = mInterpolator
             addUpdateListener { animation ->
                 val tranScale = animation.currentPlayTime.toFloat() / animation.duration.toFloat()
                 val translateX = getTranslateX() * tranScale
@@ -371,8 +405,8 @@ open class ZoomImageView : AppCompatImageView, ViewTreeObserver.OnGlobalLayoutLi
                 }
 
                 override fun onAnimationEnd(animation: Animator?) {
-                    mScaleMatrix.postTranslate(getTranslateX(), getTranslateY())
-                    imageMatrix = mScaleMatrix
+                    //复原缩放操作 直接初始化控件大小位置.
+                    if (getDoubleScale() != mScale) drawViewLayout()
                 }
 
                 override fun onAnimationCancel(animation: Animator?) {
@@ -458,7 +492,6 @@ open class ZoomImageView : AppCompatImageView, ViewTreeObserver.OnGlobalLayoutLi
         }
     }
 
-
     //获取图片宽高以及左右上下边界
     private fun getMatrixRectF(): RectF? {
         val drawable = drawable ?: return null
@@ -466,23 +499,5 @@ open class ZoomImageView : AppCompatImageView, ViewTreeObserver.OnGlobalLayoutLi
         val matrix = imageMatrix
         matrix.mapRect(rectF)
         return rectF
-    }
-
-    /**
-     * 解决和父控件滑动冲突 只要图片边界超过控件边界，返回true
-     *
-     * @param direction
-     * @return true 禁止父控件滑动
-     */
-    override fun canScrollHorizontally(direction: Int): Boolean {
-        val rect = getMatrixRectF()
-        rect ?: return false
-        return rect.right >= width + 1 || rect.left <= -1
-    }
-
-    override fun canScrollVertically(direction: Int): Boolean {
-        val rect = getMatrixRectF()
-        rect ?: return false
-        return rect.bottom >= height + 1 || rect.top <= -1
     }
 }
