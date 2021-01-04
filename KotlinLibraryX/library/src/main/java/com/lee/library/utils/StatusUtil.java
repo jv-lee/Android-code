@@ -59,25 +59,11 @@ public class StatusUtil {
     }
 
     /**
-     * 设置状态栏颜色 黑色
-     *
-     * @param activity
-     */
-    public static void setStatusFontLight(Activity activity) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            //获取窗口区域
-            Window window = activity.getWindow();
-            //设置显示为黑色字体
-            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-        }
-    }
-
-    /**
      * 保持原有flag 设置深色状态栏颜色
      *
      * @param activity
      */
-    public static void setStatusFontLight2(Activity activity) {
+    public static void setDarkStatusIcon(Activity activity) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             int originFlag = activity.getWindow().getDecorView().getSystemUiVisibility();
             activity.getWindow().getDecorView().setSystemUiVisibility(originFlag | View
@@ -90,7 +76,7 @@ public class StatusUtil {
      *
      * @param activity
      */
-    public static void clearStatusFontLight2(Activity activity) {
+    public static void setLightStatusIcon(Activity activity) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             int originFlag = activity.getWindow().getDecorView().getSystemUiVisibility();
             //使用异或清除SYSTEM_UI_FLAG_LIGHT_STATUS_BAR

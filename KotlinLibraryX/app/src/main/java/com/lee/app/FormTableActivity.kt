@@ -1,8 +1,5 @@
 package com.lee.app
 
-import android.view.ViewGroup
-import androidx.lifecycle.ViewModel
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.lee.app.adapter.FormAdapter
 import com.lee.app.databinding.ActivityFormTableBinding
 import com.lee.library.base.BaseActivity
@@ -30,7 +27,7 @@ class FormTableActivity :
     private val keyboardHelper by lazy { KeyboardHelper(window.decorView, binding.root) }
 
     override fun bindView() {
-        StatusUtil.setStatusFontLight2(this)
+        StatusUtil.setDarkStatusIcon(this)
 //        keyboardHelper.enable()
         KeyboardUtil.keyboardOpenMoveView(window, binding.constRoot)
 

@@ -1,8 +1,6 @@
 package com.lee.app
 
 import android.content.Intent
-import android.content.res.Resources
-import android.net.Uri
 import android.os.Bundle
 import android.widget.Button
 import android.widget.Toast
@@ -63,7 +61,7 @@ class TestActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         StatusUtil.statusBar(window, false)
-        StatusUtil.setStatusFontLight2(this)
+        StatusUtil.setDarkStatusIcon(this)
         testDialog()
 //        testNetwork()
         findViewById<StatusLayout>(R.id.status).setStatus(STATUS_LOADING)
