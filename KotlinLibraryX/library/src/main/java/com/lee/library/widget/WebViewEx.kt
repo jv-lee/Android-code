@@ -1,6 +1,7 @@
 package com.lee.library.widget
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
@@ -64,9 +65,9 @@ class WebViewEx : WebView, ObservableLifecycle {
                 handler: SslErrorHandler,
                 error: SslError
             ) {
+                lifecycleOwner ?: return
                 val mHandler: SslErrorHandler = handler
-                val builder =
-                    AlertDialog.Builder(view.context)
+                val builder = AlertDialog.Builder(lifecycleOwner as Activity)
                 builder.setMessage("ssl证书验证失败")
                 //不校验https证书
                 builder.setPositiveButton(
