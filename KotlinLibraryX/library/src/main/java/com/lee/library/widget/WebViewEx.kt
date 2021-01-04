@@ -18,6 +18,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.webkit.*
 import androidx.lifecycle.LifecycleOwner
+import com.lee.library.R
 import com.lee.library.lifecycle.ObservableLifecycle
 
 /**
@@ -68,14 +69,14 @@ class WebViewEx : WebView, ObservableLifecycle {
                 lifecycleOwner ?: return
                 val mHandler: SslErrorHandler = handler
                 val builder = AlertDialog.Builder(lifecycleOwner as Activity)
-                builder.setMessage("ssl证书验证失败")
+                builder.setMessage(context.getString(R.string.str_ssl_error))
                 //不校验https证书
                 builder.setPositiveButton(
-                    "继续"
+                    context.getString(R.string.str_continue)
                 ) { dialog: DialogInterface?, which: Int -> mHandler.proceed() }
                 //校验证书
                 builder.setNegativeButton(
-                    "取消"
+                    context.getString(R.string.str_cancel)
                 ) { dialog: DialogInterface?, which: Int -> mHandler.cancel() }
                 builder.setOnKeyListener { dialog: DialogInterface, keyCode: Int, event: KeyEvent ->
                     if (event.action == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {

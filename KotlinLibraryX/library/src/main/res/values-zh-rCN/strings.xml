@@ -20,5 +20,7 @@
 
     <string name="str_confirm">确定</string>
     <string name="str_cancel">取消</string>
+    <string name="str_continue">继续</string>
+    <string name="str_ssl_error">ssl证书验证失败</string>
     <string name="double_click_back">再次按下退出</string>
 </resources>
