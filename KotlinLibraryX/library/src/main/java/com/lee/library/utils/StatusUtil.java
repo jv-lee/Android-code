@@ -86,6 +86,18 @@ public class StatusUtil {
     }
 
     /**
+     * 设置导航栏颜色
+     *
+     * @param activity
+     * @param color
+     */
+    public static void setNavigationBarColor(Activity activity, int color) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            activity.getWindow().setNavigationBarColor(color);
+        }
+    }
+
+    /**
      * 全屏模式
      *
      * @param activity
