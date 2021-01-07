@@ -19,6 +19,11 @@
         android:paddingTop="6dp"
         android:paddingBottom="36dp">
 
+        <com.lee.library.widget.WheelView
+            android:id="@+id/wheel_view"
+            android:layout_width="match_parent"
+            android:layout_height="120dp" />
+
         <com.lee.library.widget.RoundImageView
             android:layout_width="100dp"
             android:layout_height="100dp"
