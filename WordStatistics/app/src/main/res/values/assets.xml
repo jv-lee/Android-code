@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="LimitInputView">
+        <attr name="max_length" format="integer" />
+        <attr name="min_length" format="integer" />
+        <attr name="computer_type" format="integer">
+            <enum name="normal" value="1" />
+            <enum name="word" value="2" />
+            <enum name="word-new" value="3" />
+        </attr>
+        <attr name="hint" format="string|reference" />
+        <attr name="filter_break" format="boolean" />
+    </declare-styleable>
+</resources>
