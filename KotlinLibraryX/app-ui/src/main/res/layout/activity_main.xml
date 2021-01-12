@@ -19,6 +19,11 @@
         android:paddingTop="6dp"
         android:paddingBottom="36dp">
 
+        <com.lee.library.widget.nav.DotNumberView
+            android:id="@+id/dot_view"
+            android:layout_width="50dp"
+            android:layout_height="50dp" />
+
         <com.lee.library.widget.WheelView
             android:id="@+id/wheel_view"
             android:layout_width="match_parent"

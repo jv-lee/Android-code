@@ -11,6 +11,7 @@ import com.lee.library.dialog.LoadingDialog
 import com.lee.library.utils.TextSpanHelper
 import com.lee.library.widget.SnackBarEx
 import com.lee.library.widget.WheelView
+import com.lee.library.widget.nav.DotNumberView
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -31,6 +32,9 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val dot = findViewById<DotNumberView>(R.id.dot_view)
+        dot.setNumberCount(15)
 
         findViewById<TextView>(R.id.btn_selector_1).setOnClickListener {
             snackBar.show()
