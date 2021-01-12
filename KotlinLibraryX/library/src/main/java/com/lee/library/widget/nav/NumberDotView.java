@@ -5,19 +5,18 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.PaintFlagsDrawFilter;
 import android.graphics.Rect;
-import android.graphics.drawable.GradientDrawable;
+import android.graphics.RectF;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.View;
-import android.view.ViewGroup;
 
 /**
  * @author jv.lee
  * @date 2019/5/7
  */
-public class DotNumberView extends View {
+public class NumberDotView extends View {
+    private Paint mBackgroundPaint;
     private Paint mNumberPaint;
     private Rect mTextBounds;
     private int mWidth;
@@ -25,18 +24,20 @@ public class DotNumberView extends View {
     private int backgroundColor = Color.parseColor("#FF665B");
     private int numberColor = Color.WHITE;
     private int numberCount = 0;
+    private final String MAX_VALUE = "999+";
 
-    public DotNumberView(Context context) {
+    public NumberDotView(Context context) {
         this(context, null);
     }
 
-    public DotNumberView(Context context, AttributeSet attrs) {
+    public NumberDotView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public DotNumberView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public NumberDotView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initPaint();
+        initTextBound();
     }
 
     private void initPaint() {
@@ -45,6 +46,16 @@ public class DotNumberView extends View {
         mNumberPaint.setStrokeWidth(1);
         mNumberPaint.setTextAlign(Paint.Align.CENTER);
         mNumberPaint.setStyle(Paint.Style.FILL);
+        mBackgroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mBackgroundPaint.setColor(backgroundColor);
+        mBackgroundPaint.setStyle(Paint.Style.FILL);
+    }
+
+    private void initTextBound() {
+        String text = parseNumberStr(numberCount);
+        mTextBounds = new Rect();
+        mNumberPaint.setTextSize(10);
+        mNumberPaint.getTextBounds(text, 0, text.length(), mTextBounds);
     }
 
     @Override
@@ -55,6 +66,12 @@ public class DotNumberView extends View {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        setMeasuredDimension(layoutWidth(), layoutHeight());
+    }
+
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
         mWidth = getMeasuredWidth();
         mHeight = getMeasuredHeight();
     }
@@ -63,19 +80,13 @@ public class DotNumberView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         if (drawCount()) {
-            canvas.setDrawFilter(new PaintFlagsDrawFilter(0, Paint.ANTI_ALIAS_FLAG));
             drawBackground(canvas);
             drawTextCount(canvas);
         }
     }
 
     private boolean drawCount() {
-        if (numberCount <= 0) {
-            setVisibility(GONE);
-            return false;
-        }
-        setVisibility(VISIBLE);
-        return true;
+        return numberCount > 0;
     }
 
     private void drawTextCount(Canvas canvas) {
@@ -87,14 +98,16 @@ public class DotNumberView extends View {
         mNumberPaint.getTextBounds(count, 0, count.length(), bounds);
         float offSet = (bounds.top + bounds.bottom) / 2;
 
-        canvas.drawText(count, mWidth / 2 - scaleSize(), (mHeight / 2) - offSet, mNumberPaint);
+        canvas.drawText(count, mWidth / 2, (mHeight / 2) - offSet, mNumberPaint);
     }
 
     private void drawBackground(Canvas canvas) {
-        GradientDrawable pressedDrawable = new GradientDrawable();
-        pressedDrawable.setColor(backgroundColor);
-        pressedDrawable.setCornerRadius(mHeight / 2);
-        setBackground(pressedDrawable);
+        RectF rectF = new RectF();
+        rectF.left = 0;
+        rectF.right = mWidth;
+        rectF.top = 0;
+        rectF.bottom = mHeight;
+        canvas.drawRoundRect(rectF, mHeight / 2, mHeight / 2, mBackgroundPaint);
     }
 
     @Override
@@ -110,54 +123,29 @@ public class DotNumberView extends View {
 
     public void setNumberCount(int numberCount) {
         this.numberCount = numberCount;
-        buildLayoutSize();
         requestLayout();
+        initTextBound();
+        postInvalidate();
     }
 
     private String parseNumberStr(int number) {
-        if (number >= 999) return "999+";
+        if (number >= 999) return MAX_VALUE;
         return String.valueOf(number);
     }
 
-    private void buildLayoutSize() {
-        String count = parseNumberStr(numberCount);
-        mTextBounds = new Rect();
-        mNumberPaint.setTextSize(10);
-        mNumberPaint.getTextBounds(count, 0, count.length(), mTextBounds);
 
-        ViewGroup.MarginLayoutParams layoutParams = buildLayoutParams();
-        setLayoutParams(layoutParams);
-    }
-
-    private ViewGroup.MarginLayoutParams buildLayoutParams() {
-        ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) getLayoutParams();
-        layoutParams.width = buildWidth();
-        layoutParams.height = buildHeight();
-        return layoutParams;
-    }
-
-    private int buildWidth() {
+    private int layoutWidth() {
         int width = 0;
         if (numberCount < 10) {
             width = dp2px(16);
-        } else if (numberCount < 999) {
-            width = dp2px(mTextBounds.width()) + dp2px(10);
         } else {
             width = dp2px(mTextBounds.width()) + dp2px(10);
         }
         return width;
     }
 
-    private int buildHeight() {
+    private int layoutHeight() {
         return dp2px(16);
-    }
-
-    private float scaleSize() {
-        if (numberCount > 10 && numberCount < 999 && String.valueOf(numberCount).substring(0, 1).equals("1")) {
-            return 1F;
-        } else {
-            return 0f;
-        }
     }
 
     private int dp2px(float dpValue) {

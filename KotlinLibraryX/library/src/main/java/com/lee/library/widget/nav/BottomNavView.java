@@ -7,6 +7,8 @@ import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.ViewPager;
@@ -15,6 +17,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomnavigation.LabelVisibilityMode;
+import com.lee.library.utils.ReflexUtil;
 import com.lee.library.utils.SizeUtil;
 
 import java.util.ArrayList;
@@ -23,13 +26,13 @@ import java.util.List;
 /**
  * @author jv.lee
  * @date 2019/5/7
- * @description  使用png 等多色彩图片时 需要动态设置 itemIconTintList = null
+ * @description 使用png 等多色彩图片时 需要动态设置 itemIconTintList = null
  */
 @androidx.annotation.RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
 public class BottomNavView extends BottomNavigationView implements BottomNavigationView.OnNavigationItemSelectedListener {
 
     private ViewPager mViewPager;
-    private List<DotNumberView> numberDots;
+    private List<NumberDotView> numberDots;
     private List<DotView> dots;
     private ItemPositionListener mItemPositionListener;
 
@@ -46,8 +49,10 @@ public class BottomNavView extends BottomNavigationView implements BottomNavigat
         setHorizontalFadingEdgeEnabled(false);
         setLabelVisibilityMode(LabelVisibilityMode.LABEL_VISIBILITY_LABELED);
         setOnNavigationItemSelectedListener(this);
-        createNumberDotViews();
-        createDotViews();
+        post(() -> {
+            createNumberDotViews();
+            createDotViews();
+        });
     }
 
     @Override
@@ -93,11 +98,13 @@ public class BottomNavView extends BottomNavigationView implements BottomNavigat
             numberDots = new ArrayList<>();
             for (int i = 0; i < menuView.getChildCount(); i++) {
                 BottomNavigationItemView itemView = (BottomNavigationItemView) menuView.getChildAt(i);
-                LayoutParams params = new LayoutParams(SizeUtil.dp2px(getContext(), 15), SizeUtil.dp2px(getContext(), 15));
-                params.gravity = Gravity.RIGHT;
-                params.topMargin = SizeUtil.dp2px(getContext(), 5);
-                params.rightMargin = SizeUtil.dp2px(getContext(), 15);
-                DotNumberView dotView = new DotNumberView(getContext());
+                LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                ImageView imageView = ReflexUtil.INSTANCE.reflexField(itemView, "icon");
+                if (imageView != null) {
+                    params.topMargin = imageView.getTop();
+                    params.leftMargin = imageView.getRight();
+                }
+                NumberDotView dotView = new NumberDotView(getContext());
                 itemView.addView(dotView, params);
                 numberDots.add(dotView);
             }
@@ -119,9 +126,9 @@ public class BottomNavView extends BottomNavigationView implements BottomNavigat
             for (int i = 0; i < menuView.getChildCount(); i++) {
                 BottomNavigationItemView itemView = (BottomNavigationItemView) menuView.getChildAt(i);
                 LayoutParams params = new LayoutParams(SizeUtil.dp2px(getContext(), 6), SizeUtil.dp2px(getContext(), 6));
-                params.gravity = Gravity.RIGHT;
-                params.topMargin = SizeUtil.dp2px(getContext(), 5);
-                params.rightMargin = SizeUtil.dp2px(getContext(), 15);
+                params.gravity = Gravity.CENTER_HORIZONTAL;
+                params.topMargin = SizeUtil.dp2px(getContext(), 6);
+                params.leftMargin = SizeUtil.dp2px(getContext(), 6);
                 DotView dotView = new DotView(getContext());
                 dotView.setVisibility(GONE);
                 itemView.addView(dotView, params);
@@ -131,15 +138,17 @@ public class BottomNavView extends BottomNavigationView implements BottomNavigat
     }
 
     public void setNumberDot(final int index, final int number) {
-        if (numberDots != null) {
+        if (numberDots != null && numberDots.size() > index) {
             numberDots.get(index).setNumberCount(number);
         }
+        postDelayed(() -> numberDots.get(index).setNumberCount(number), 100);
     }
 
     public void setDotVisibility(int index, int visibility) {
-        if (dots != null) {
+        if (dots != null && dots.size() > index) {
             dots.get(index).setVisibility(visibility);
         }
+        postDelayed(() -> dots.get(index).setVisibility(visibility), 100);
     }
 
     public interface ItemPositionListener {

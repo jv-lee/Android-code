@@ -1,77 +1,36 @@
 package com.lee.ui
 
-import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
-import android.widget.ScrollView
-import android.widget.TextView
-import android.widget.Toast
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import com.lee.library.dialog.LoadingDialog
-import com.lee.library.utils.TextSpanHelper
-import com.lee.library.widget.SnackBarEx
-import com.lee.library.widget.WheelView
-import com.lee.library.widget.nav.DotNumberView
+import com.lee.library.adapter.core.UiPagerAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
-    private val scrollRoot by lazy { findViewById<ScrollView>(R.id.scroll_root) }
-    private val snackBar by lazy {
-        SnackBarEx.Builder(scrollRoot)
-            .setDuration(5000)
-            .setActionText("action")
-            .setMessage("message")
-            .setOnClickListener { }
-            .build()
+    private val vpAdapter by lazy {
+        UiPagerAdapter(
+            supportFragmentManager,
+            fragments,
+            titles
+        )
     }
-
-    private val loadingDialog by lazy { LoadingDialog(this) }
-
+    private val fragments by lazy { listOf(SelectorFragment(), WheelFragment()) }
+    private val titles by lazy {
+        listOf(
+            getString(R.string.nav_selector),
+            getString(R.string.nav_wheel)
+        )
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        val dot = findViewById<DotNumberView>(R.id.dot_view)
-        dot.setNumberCount(15)
-
-        findViewById<TextView>(R.id.btn_selector_1).setOnClickListener {
-            snackBar.show()
-        }
-        findViewById<TextView>(R.id.btn_selector_2).setOnClickListener {
-            loadingDialog.show()
-        }
-        findViewById<TextView>(R.id.btn_selector_3).setOnClickListener { }
-
-        val text = tv_text.text
-        TextSpanHelper.Builder(tv_text)
-            .setColor(Color.BLUE)
-            .setText(text.toString())
-            .isGroup(false)
-            .setPattern("[《](.*?)[》]")
-            .setCallback {
-                Toast.makeText(this, "click span text.", Toast.LENGTH_SHORT).show()
-            }
-            .create()
-            .buildSpan()
-
-        val wheelView = findViewById<WheelView>(R.id.wheel_view)
-        wheelView.bindData(arrayListOf<String>().also {
-            for (index in 1..10) {
-                it.add("Type - $index")
-            }
-        }, object : WheelView.DataFormat<String> {
-            override fun format(item: String) = item
-        })
-        wheelView.setSelectedListener(object : WheelView.SelectedListener<String> {
-            override fun selected(item: String) {
-                Log.i("UI", "selected: $item")
-            }
-
-        })
-
+        vp_container.adapter = vpAdapter
+        vp_container.setNoScroll(true)
+        bottom_nav.bindViewPager(vp_container)
+        bottom_nav.setDotVisibility(0, View.VISIBLE)
+        bottom_nav.setNumberDot(1, 999)
     }
-
 
 }
