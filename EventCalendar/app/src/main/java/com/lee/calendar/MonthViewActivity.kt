@@ -33,7 +33,7 @@ class MonthViewActivity : AppCompatActivity(R.layout.activity_month_view) {
 
         vp_container.registerOnPageChangeCallback(object: ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
-                Toast.makeText(this@MonthViewActivity,"$position",Toast.LENGTH_LONG).show()
+                Toast.makeText(applicationContext,"$position",Toast.LENGTH_LONG).show()
             }
         })
         vp_container.setCurrentItem(viewPagerAdapter.itemCount / 2,false)

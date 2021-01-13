@@ -26,6 +26,8 @@ public class DensityUtil {
      */
     private static float appScaleDensity;
 
+    private static ComponentCallbacks componentCallbacks;
+
     /**
      * 修改当前activity的缩放比例 调整dpi值
      *
@@ -43,8 +45,7 @@ public class DensityUtil {
             appDensity = displayMetrics.density;
             appScaleDensity = displayMetrics.scaledDensity;
 
-            //添加字体变化监听回调
-            activity.getApplication().registerComponentCallbacks(new ComponentCallbacks() {
+            componentCallbacks = new ComponentCallbacks() {
                 @Override
                 public void onConfigurationChanged(Configuration newConfig) {
                     //表示字体发生更改，重新对scaleDensity进行赋值
@@ -57,7 +58,9 @@ public class DensityUtil {
                 public void onLowMemory() {
 
                 }
-            });
+            };
+            //添加字体变化监听回调
+            activity.getApplication().registerComponentCallbacks(componentCallbacks);
         }
         //计算目标值 density,scaledDensity,densityDpi
         float targetDensity = displayMetrics.widthPixels / WIDTH;
@@ -91,6 +94,13 @@ public class DensityUtil {
      */
     public static void singleActivityMode(Boolean mode) {
         singleMode = mode;
+    }
+
+    public static void unSetDensity(Activity activity) {
+        if (componentCallbacks != null) {
+            activity.getApplication().unregisterComponentCallbacks(componentCallbacks);
+            componentCallbacks = null;
+        }
     }
 
 }

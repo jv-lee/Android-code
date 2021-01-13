@@ -155,7 +155,7 @@ abstract class BaseActivity<V : ViewDataBinding, VM : BaseViewModel>(var layoutI
 
     fun Activity.toast(message: CharSequence?, duration: Int = Toast.LENGTH_SHORT) {
         message ?: return
-        Toast.makeText(this, message, duration).show()
+        Toast.makeText(applicationContext, message, duration).show()
     }
 
     fun FragmentActivity.show(dialog: Dialog) {

@@ -8,7 +8,6 @@ import com.lee.calendar.utils.DensityUtil
 
 class MainActivity : AppCompatActivity() {
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         DensityUtil.setDensity(this)
@@ -23,4 +22,10 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        DensityUtil.unSetDensity(this)
+    }
+
 }

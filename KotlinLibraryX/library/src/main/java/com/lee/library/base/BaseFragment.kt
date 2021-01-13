@@ -152,7 +152,7 @@ abstract class BaseFragment<V : ViewDataBinding, VM : BaseViewModel>(var layoutI
 
     fun Fragment.toast(message: CharSequence?, duration: Int = Toast.LENGTH_SHORT) {
         message ?: return
-        Toast.makeText(activity, message, duration).show()
+        Toast.makeText(requireContext().applicationContext, message, duration).show()
     }
 
     fun Fragment.show(dialog: Dialog) {
