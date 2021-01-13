@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.widget.ImageView
+import android.widget.Switch
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -37,11 +38,14 @@ class CalendarViewActivity : AppCompatActivity(R.layout.activity_calendar_view) 
     private val constAttendancePromptView by lazy { findViewById<ConstraintLayout>(R.id.const_attendance_prompt) }
     private val ivAttendanceStatusIcon by lazy { findViewById<ImageView>(R.id.iv_attendance_status_icon) }
     private val ivAttendanceAq by lazy { findViewById<ImageView>(R.id.iv_attendance_aq) }
+    private val switch by lazy { findViewById<Switch>(R.id.view_switch) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
+        switch.setOnCheckedChangeListener { buttonView, isChecked ->
+            calendarView.reInitCalendar()
+        }
         calendarView.setOnChangePager(object : CalendarView.OnChangePager {
             override fun onMonthPageChange(position: Int, entity: DateEntity, viewVisibility: Int) {
                 Log.i("jv.lee", "onMonthPageChange: $position - ${entity.year}-${entity.month}")

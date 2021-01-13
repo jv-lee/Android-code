@@ -2,6 +2,7 @@ package com.lee.calendar
 
 import com.lee.calendar.widget.calendar.utils.CalendarUtils
 import org.junit.Test
+import java.util.*
 
 /**
  * @author jv.lee
@@ -11,10 +12,10 @@ import org.junit.Test
 class MaxWeekTest {
 
     @Test
-    fun test(){
+    fun test() {
 
 
-        println(CalendarUtils.getMaxDayOfMonth(2020,11))
+        println(CalendarUtils.getMaxDayOfMonth(Calendar.getInstance(), 2020, 11))
         println(CalendarUtils.getMaxWeekOfYear(2023))
 
 

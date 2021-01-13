@@ -77,7 +77,7 @@ class WeekDiffTest {
 
     @Test
     fun testDiffTime() {
-        var tag = CalendarUtils.setFirstDayOfWeek(2020, 5, 16)
+        var tag = CalendarUtils.setFirstDayOfWeek(Calendar.getInstance().apply { set(2020, 9, 2) })
 //        var tag = CalendarUtils.setFirstDayOfWeek(2021, 0, 3)
         println(getDiffWeek(tag, CalendarUtils.setFirstDayOfWeek(Calendar.getInstance())))
     }
@@ -85,16 +85,8 @@ class WeekDiffTest {
 
     @SuppressLint("SimpleDateFormat")
     fun getDiffWeek(tagCalendar: Calendar, currentCalendar: Calendar): Int {
-        val tag = CalendarUtils.setFirstDayOfWeek(
-            tagCalendar.get(Calendar.YEAR),
-            tagCalendar.get(Calendar.MONTH),
-            tagCalendar.get(Calendar.DATE)
-        )
-        val current = CalendarUtils.setFirstDayOfWeek(
-            currentCalendar.get(Calendar.YEAR),
-            currentCalendar.get(Calendar.MONTH),
-            currentCalendar.get(Calendar.DATE)
-        )
+        val tag = CalendarUtils.setFirstDayOfWeek(tagCalendar)
+        val current = CalendarUtils.setFirstDayOfWeek(currentCalendar)
         val df = SimpleDateFormat("yyyy-MM-dd")
         println("${tag.get(Calendar.YEAR)}-${tag.get(Calendar.MONTH)}-${tag.get(Calendar.DATE)}")
         println("${current.get(Calendar.YEAR)}-${current.get(Calendar.MONTH)}-${current.get(Calendar.DATE)}")

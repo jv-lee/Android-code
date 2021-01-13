@@ -8,17 +8,30 @@
     android:background="#F6F8F9"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tv_date_description"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:background="#ffffff"
-        android:gravity="center_vertical"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:textColor="#FF222222"
-        android:textSize="16sp"
-        android:textStyle="bold" />
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_date_description"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="#ffffff"
+            android:gravity="center_vertical"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:textColor="#FF222222"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <Switch
+            android:id="@+id/view_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center_vertical" />
+
+    </FrameLayout>
+
 
     <View
         android:id="@+id/view_line"
@@ -35,8 +48,8 @@
         android:background="#ffffff"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
-        app:init_next_month_count="3"
-        app:init_prev_month_count="6"
+        app:init_next_month_count="12"
+        app:init_prev_month_count="24"
         app:itemHeight="52dp"
         app:load_month_count="3"
         app:week_layout="@layout/layout_week"
