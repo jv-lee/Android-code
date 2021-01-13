@@ -13,13 +13,8 @@ import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.lee.library.R;
-import com.lee.library.utils.LogUtil;
-import com.lee.library.utils.SizeUtil;
-
-import static android.animation.ValueAnimator.INFINITE;
 
 /**
  * @author jv.lee

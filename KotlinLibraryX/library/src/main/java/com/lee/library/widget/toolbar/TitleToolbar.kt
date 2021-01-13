@@ -7,20 +7,16 @@ import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.Gravity
 import android.view.View
-import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
-import androidx.core.view.updateLayoutParams
 import androidx.navigation.findNavController
 import com.lee.library.R
+import com.lee.library.extensions.px2sp
 import com.lee.library.extensions.setImageTintCompat
-import com.lee.library.utils.SizeUtil
 import com.lee.library.utils.StatusUtil
 import com.lee.library.widget.menu.CustomPopupMenuHelper
-import java.lang.Exception
 
 /**
  * @author jv.lee
@@ -125,12 +121,12 @@ open class TitleToolbar : CustomToolbarLayout {
         tvTitle = TextView(context)
         tvTitle?.run {
             id = R.id.toolbar_title
-            layoutParams = LayoutParams(WRAP_CONTENT, WRAP_CONTENT).apply { gravity = Gravity.CENTER }
+            layoutParams =
+                LayoutParams(WRAP_CONTENT, WRAP_CONTENT).apply { gravity = Gravity.CENTER }
             setTextColor(ContextCompat.getColor(context, R.color.colorAccent))
             titleText?.let { text = it }
             titleEnable?.let { visibility = it }
-            textSize =
-                SizeUtil.px2sp(context, resources.getDimension(R.dimen.font_size_medium)).toFloat()
+            textSize = context.px2sp(resources.getDimension(R.dimen.font_size_medium).toInt())
             addView(this)
         }
     }

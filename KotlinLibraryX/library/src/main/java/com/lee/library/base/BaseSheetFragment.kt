@@ -13,8 +13,8 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.lee.library.R
+import com.lee.library.extensions.dp2px
 import com.lee.library.extensions.getVmClass
-import com.lee.library.utils.SizeUtil
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -53,7 +53,7 @@ abstract class BaseSheetFragment<V : ViewDataBinding, VM : ViewModel>(
             val bottomSheet = dialog?.findViewById<View>(R.id.design_bottom_sheet)
             bottomSheet?.layoutParams?.height = ViewGroup.LayoutParams.MATCH_PARENT
         }
-        getBehavior()?.peekHeight = SizeUtil.dp2px(context, peekHeight.toFloat())
+        getBehavior()?.peekHeight = requireContext().dp2px(peekHeight).toInt()
         getBehavior()?.state = behaviorState
     }
 

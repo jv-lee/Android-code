@@ -13,8 +13,8 @@ import android.widget.LinearLayout
 import androidx.annotation.MenuRes
 import androidx.core.content.ContextCompat
 import com.lee.library.R
+import com.lee.library.extensions.dp2px
 import com.lee.library.extensions.setImageTintCompat
-import com.lee.library.utils.SizeUtil
 import org.xmlpull.v1.XmlPullParser
 import org.xmlpull.v1.XmlPullParserException
 import java.io.IOException
@@ -106,7 +106,7 @@ class CustomMenuInflater(var context: Context) {
     private fun drawLine() {
         val lineView = View(context)
         lineView.layoutParams =
-            ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, SizeUtil.dp2px(context, 1f))
+            ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, context.dp2px(1).toInt())
         lineView.setBackgroundColor(ContextCompat.getColor(context, android.R.color.darker_gray))
         rootView.addView(lineView)
     }

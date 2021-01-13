@@ -12,7 +12,7 @@ import android.view.Gravity
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import com.lee.library.R
-import com.lee.library.utils.SizeUtil
+import com.lee.library.extensions.dp2px
 
 /**
  * @author jv.lee
@@ -79,10 +79,8 @@ class SelectorTextView constructor(context: Context, attributeSet: AttributeSet)
                 ContextCompat.getColor(context, android.R.color.transparent)
             )
             strokeWidth = getDimension(R.styleable.SelectorTextView_strokeWidth, 0f)
-            buttonRadius = getDimension(
-                R.styleable.SelectorTextView_buttonRadius,
-                SizeUtil.dp2px(context, 10F).toFloat()
-            )
+            buttonRadius =
+                getDimension(R.styleable.SelectorTextView_buttonRadius, context.dp2px(10))
             buttonDisable = getBoolean(R.styleable.SelectorTextView_buttonDisable, false)
             rippleMode = getInt(R.styleable.SelectorTextView_rippleMode, 0)
             recycle()

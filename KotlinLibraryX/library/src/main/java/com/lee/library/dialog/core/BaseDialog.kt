@@ -8,7 +8,7 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.util.DisplayMetrics
 import android.view.*
-import com.lee.library.utils.SizeUtil
+import com.lee.library.extensions.dp2px
 import com.lee.library.utils.StatusUtil
 
 
@@ -79,7 +79,7 @@ fun Dialog.setBottomDialog(height: Int) {
         val dm = DisplayMetrics()
         windowManager.defaultDisplay.getMetrics(dm)
         setGravity(Gravity.START or Gravity.BOTTOM)
-        val maxHeight = SizeUtil.dp2px(context, height.toFloat())
+        val maxHeight = context.dp2px(height).toInt()
         if (dm.heightPixels < maxHeight) {
             setLayout(dm.widthPixels, ViewGroup.LayoutParams.WRAP_CONTENT)
         } else {

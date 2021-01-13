@@ -14,7 +14,6 @@ import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.lee.library.utils.SizeUtil
 import kotlin.math.abs
 
 /**

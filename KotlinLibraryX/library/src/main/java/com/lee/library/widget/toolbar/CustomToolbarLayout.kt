@@ -8,7 +8,8 @@ import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.FrameLayout
 import androidx.core.content.ContextCompat
 import com.lee.library.R
-import com.lee.library.utils.SizeUtil
+import com.lee.library.extensions.dp2px
+import com.lee.library.extensions.px2dp
 import com.lee.library.utils.StatusUtil
 
 
@@ -61,14 +62,14 @@ open class CustomToolbarLayout : FrameLayout {
      */
     open fun initStatusBarPadding() {
         val statusHeight = StatusUtil.getStatusBarHeight(context)
-        setPadding(SizeUtil.dp2px(context, 16f), statusHeight, SizeUtil.dp2px(context, 16f), 0)
+        setPadding(context.dp2px(16).toInt(), statusHeight, context.dp2px(16).toInt(), 0)
     }
 
     private fun initBottomLine() {
         val lineView = View(context)
         lineView.run {
             id = R.id.toolbar_line
-            layoutParams = LayoutParams(MATCH_PARENT, SizeUtil.px2dp(context, 1f)).apply {
+            layoutParams = LayoutParams(MATCH_PARENT, context.px2dp(1).toInt()).apply {
                 gravity = Gravity.BOTTOM
             }
             lineView.setBackgroundColor(
