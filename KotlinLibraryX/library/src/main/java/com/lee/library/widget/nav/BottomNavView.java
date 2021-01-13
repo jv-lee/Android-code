@@ -1,7 +1,6 @@
 package com.lee.library.widget.nav;
 
 import android.content.Context;
-import android.graphics.Canvas;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.Gravity;
@@ -56,16 +55,6 @@ public class BottomNavView extends BottomNavigationView implements BottomNavigat
     }
 
     @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-    }
-
-    @Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-    }
-
-    @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         for (int i = 0; i < getMenu().size(); i++) {
             if (getMenu().getItem(i) == menuItem) {
@@ -84,7 +73,7 @@ public class BottomNavView extends BottomNavigationView implements BottomNavigat
         setSelectedItemId(getMenu().getItem(position).getItemId());
     }
 
-    public void createNumberDotViews() {
+    private void createNumberDotViews() {
         //初始化红点view
         BottomNavigationMenuView menuView = null;
         for (int i = 0; i < getChildCount(); i++) {
@@ -137,18 +126,28 @@ public class BottomNavView extends BottomNavigationView implements BottomNavigat
         }
     }
 
-    public void setNumberDot(final int index, final int number) {
-        if (numberDots != null && numberDots.size() > index) {
-            numberDots.get(index).setNumberCount(number);
+    private void toNumberDot(int index, int number) {
+        if (numberDots.size() > index) numberDots.get(index).setNumberCount(number);
+    }
+
+    private void toDotVisibility(int index, int visibility) {
+        if (dots.size() > index) dots.get(index).setVisibility(visibility);
+    }
+
+    public void setNumberDot(int index, int number) {
+        if (numberDots != null) {
+            toNumberDot(index, number);
+        } else {
+            postDelayed(() -> toNumberDot(index, number), 100);
         }
-        postDelayed(() -> numberDots.get(index).setNumberCount(number), 100);
     }
 
     public void setDotVisibility(int index, int visibility) {
-        if (dots != null && dots.size() > index) {
-            dots.get(index).setVisibility(visibility);
+        if (dots != null) {
+            toDotVisibility(index, visibility);
+        } else {
+            postDelayed(() -> toDotVisibility(index, visibility), 100);
         }
-        postDelayed(() -> dots.get(index).setVisibility(visibility), 100);
     }
 
     public interface ItemPositionListener {
