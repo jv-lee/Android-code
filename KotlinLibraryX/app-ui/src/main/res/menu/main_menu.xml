@@ -8,4 +8,9 @@
         android:id="@+id/recommend"
         android:icon="@drawable/vector_icon"
         android:title="@string/nav_wheel" />
+
+    <item
+        android:id="@+id/test"
+        android:icon="@drawable/vector_icon"
+        android:title="test" />
 </menu>

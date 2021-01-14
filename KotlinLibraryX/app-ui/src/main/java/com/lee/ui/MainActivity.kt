@@ -16,11 +16,12 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
             titles
         )
     }
-    private val fragments by lazy { listOf(SelectorFragment(), WheelFragment()) }
+    private val fragments by lazy { listOf(SelectorFragment(), WheelFragment(), TestFragment()) }
     private val titles by lazy {
         listOf(
             getString(R.string.nav_selector),
-            getString(R.string.nav_wheel)
+            getString(R.string.nav_wheel),
+            "test"
         )
     }
 
