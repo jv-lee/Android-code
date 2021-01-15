@@ -12,8 +12,6 @@ import java.util.HashMap;
  */
 public class DensityUtil {
 
-    private static boolean singleMode = false;
-
     /**
      * 参考设备的宽，单位：dp
      */
@@ -28,7 +26,7 @@ public class DensityUtil {
      */
     private static float appScaleDensity;
 
-    private static HashMap<String, ComponentCallbacks> mComponentCallbacks = new HashMap<>();
+    private static HashMap<String, ComponentCallbacks> mComponentCallbacks;
 
     /**
      * 修改当前activity的缩放比例 调整dpi值
@@ -46,6 +44,10 @@ public class DensityUtil {
             //初始化赋值操作
             appDensity = displayMetrics.density;
             appScaleDensity = displayMetrics.scaledDensity;
+
+            if (mComponentCallbacks == null) {
+                mComponentCallbacks = new HashMap<>();
+            }
 
             //添加字体变化监听回调
             if (!mComponentCallbacks.containsKey(activity.getClass().getSimpleName())) {
@@ -87,12 +89,20 @@ public class DensityUtil {
     public static void resetDensity(Activity activity) {
         DisplayMetrics dm = activity.getResources().getDisplayMetrics();
         dm.setToDefaults();
+
+        if (mComponentCallbacks == null) {
+            return;
+        }
+
         if (mComponentCallbacks.containsKey(activity.getClass().getSimpleName())) {
             ComponentCallbacks componentCallbacks = mComponentCallbacks.get(activity.getClass().getSimpleName());
             activity.getApplication().unregisterComponentCallbacks(componentCallbacks);
             mComponentCallbacks.remove(componentCallbacks);
         }
 
+        if (mComponentCallbacks.isEmpty()) {
+            mComponentCallbacks = null;
+        }
 //        dm.density = appDensity;
 //        dm.scaledDensity = appScaleDensity;
 //        dm.densityDpi = (int) (appDensity * 160);
