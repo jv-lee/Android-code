@@ -1,14 +1,11 @@
 package com.lee.library.utils;
 
 import android.app.Activity;
-import android.app.Application;
 import android.content.ComponentCallbacks;
 import android.content.res.Configuration;
-import android.content.res.Resources;
-import android.os.Build;
 import android.util.DisplayMetrics;
 
-import com.lee.library.base.BaseApplication;
+import java.util.HashMap;
 
 /**
  * @author jv.lee
@@ -31,41 +28,46 @@ public class DensityUtil {
      */
     private static float appScaleDensity;
 
+    private static HashMap<String, ComponentCallbacks> mComponentCallbacks = new HashMap<>();
+
     /**
      * 修改当前activity的缩放比例 调整dpi值
+     * 单Fragment架构在onStart中调用 、 多Activity架构在onCreate中调用
      *
      * @param activity
      */
     public static void setDensity(Activity activity) {
-        //单Activity架构 设置SingleMode后 不在重复设置适配
-        if (singleMode) {
-            return;
-        }
         //获取当前app的屏幕显示信息
         DisplayMetrics displayMetrics = activity.getApplication().getResources().getDisplayMetrics();
+        //计算目标值 density,scaledDensity,densityDpi
+        float targetDensity = displayMetrics.widthPixels / WIDTH;
+
         if (appDensity == 0) {
             //初始化赋值操作
             appDensity = displayMetrics.density;
             appScaleDensity = displayMetrics.scaledDensity;
 
             //添加字体变化监听回调
-            activity.getApplication().registerComponentCallbacks(new ComponentCallbacks() {
-                @Override
-                public void onConfigurationChanged(Configuration newConfig) {
-                    //表示字体发生更改，重新对scaleDensity进行赋值
-                    if (newConfig != null && newConfig.fontScale > 0) {
-                        appScaleDensity = activity.getApplication().getResources().getDisplayMetrics().scaledDensity;
+            if (!mComponentCallbacks.containsKey(activity.getClass().getSimpleName())) {
+                ComponentCallbacks componentCallbacks = new ComponentCallbacks() {
+                    @Override
+                    public void onConfigurationChanged(Configuration newConfig) {
+                        //表示字体发生更改，重新对scaleDensity进行赋值
+                        if (newConfig != null && newConfig.fontScale > 0) {
+                            appScaleDensity = activity.getApplication().getResources().getDisplayMetrics().scaledDensity;
+                        }
                     }
-                }
 
-                @Override
-                public void onLowMemory() {
+                    @Override
+                    public void onLowMemory() {
 
-                }
-            });
+                    }
+                };
+                activity.getApplication().registerComponentCallbacks(componentCallbacks);
+                mComponentCallbacks.put(activity.getClass().getSimpleName(), componentCallbacks);
+            }
         }
-        //计算目标值 density,scaledDensity,densityDpi
-        float targetDensity = displayMetrics.widthPixels / WIDTH;
+
         //设置字体缩放大小
         float targetScaleDensity = targetDensity * (appScaleDensity / appDensity);
         int targetDensityDpi = (int) (targetDensity * 160);
@@ -84,18 +86,16 @@ public class DensityUtil {
      */
     public static void resetDensity(Activity activity) {
         DisplayMetrics dm = activity.getResources().getDisplayMetrics();
-        dm.density = appDensity;
-        dm.scaledDensity = appScaleDensity;
-        dm.densityDpi = (int) (appDensity * 160);
-    }
+        dm.setToDefaults();
+        if (mComponentCallbacks.containsKey(activity.getClass().getSimpleName())) {
+            ComponentCallbacks componentCallbacks = mComponentCallbacks.get(activity.getClass().getSimpleName());
+            activity.getApplication().unregisterComponentCallbacks(componentCallbacks);
+            mComponentCallbacks.remove(componentCallbacks);
+        }
 
-    /**
-     * 为单Activity架构设置 单次调整防止失效
-     *
-     * @param mode true 为已经设置后 关闭重复设置 / false 为可重复设置
-     */
-    public static void singleActivityMode(Boolean mode) {
-        singleMode = mode;
+//        dm.density = appDensity;
+//        dm.scaledDensity = appScaleDensity;
+//        dm.densityDpi = (int) (appDensity * 160);
     }
 
 }
