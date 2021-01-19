@@ -99,7 +99,7 @@ public class DensityUtil {
         if (mComponentCallbacks.containsKey(activity.getClass().getSimpleName())) {
             ComponentCallbacks componentCallbacks = mComponentCallbacks.get(activity.getClass().getSimpleName());
             activity.getApplication().unregisterComponentCallbacks(componentCallbacks);
-            mComponentCallbacks.remove(componentCallbacks);
+            mComponentCallbacks.remove(activity.getClass().getSimpleName());
         }
 
         if (mComponentCallbacks.isEmpty()) {
