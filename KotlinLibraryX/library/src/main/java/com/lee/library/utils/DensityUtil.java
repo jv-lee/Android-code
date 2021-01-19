@@ -34,7 +34,7 @@ public class DensityUtil {
      * 修改当前activity的缩放比例 调整dpi值
      * 单Fragment架构在onStart中调用 、 多Activity架构在onCreate中调用
      *
-     * @param activity
+     * @param activity 需要设置的activity
      */
     public static void setDensity(Activity activity) {
         //获取当前app的屏幕显示信息
@@ -86,7 +86,7 @@ public class DensityUtil {
     /**
      * 保证在应用进入热启动之前 清除所以density修改 保证热启动闪屏ui 不被 density和系统初始化的density发生拉扯情况
      *
-     * @param activity
+     * @param activity 需要取消的activity
      */
     public static void resetDensity(Activity activity) {
         DisplayMetrics dm = activity.getResources().getDisplayMetrics();
