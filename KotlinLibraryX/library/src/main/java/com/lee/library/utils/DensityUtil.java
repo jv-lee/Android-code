@@ -5,6 +5,8 @@ import android.content.ComponentCallbacks;
 import android.content.res.Configuration;
 import android.util.DisplayMetrics;
 
+import androidx.annotation.NonNull;
+
 import java.util.HashMap;
 
 /**
@@ -53,9 +55,9 @@ public class DensityUtil {
             if (!mComponentCallbacks.containsKey(activity.getClass().getSimpleName())) {
                 ComponentCallbacks componentCallbacks = new ComponentCallbacks() {
                     @Override
-                    public void onConfigurationChanged(Configuration newConfig) {
+                    public void onConfigurationChanged(@NonNull Configuration newConfig) {
                         //表示字体发生更改，重新对scaleDensity进行赋值
-                        if (newConfig != null && newConfig.fontScale > 0) {
+                        if (newConfig.fontScale > 0) {
                             appScaleDensity = activity.getApplication().getResources().getDisplayMetrics().scaledDensity;
                         }
                     }
