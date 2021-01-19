@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <com.lee.library.widget.nav.DotView
+        android:id="@+id/dotView"
+        android:layout_width="50dp"
+        android:layout_height="50dp" />
+
+    <com.lee.library.widget.nav.NumberDotView
+        android:id="@+id/numberDotView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp" />
+
+</LinearLayout>

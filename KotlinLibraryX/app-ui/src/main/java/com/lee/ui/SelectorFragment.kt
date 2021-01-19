@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment
 import com.lee.library.dialog.LoadingDialog
 import com.lee.library.utils.TextSpanHelper
 import com.lee.library.widget.SnackBarEx
-import com.lee.library.widget.nav.NumberDotView
 import kotlinx.android.synthetic.main.fragment_selector.*
 
 /**

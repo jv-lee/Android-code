@@ -129,4 +129,12 @@
         <attr name="isVertical" format="boolean" />
     </declare-styleable>
 
+    <declare-styleable name="DotView">
+        <attr name="dotColor" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="NumberDotView">
+        <attr name="dotBackground" format="color" />
+    </declare-styleable>
+
 </resources>

@@ -1,32 +1,43 @@
 package com.lee.library.widget.nav
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
-import android.graphics.PaintFlagsDrawFilter
 import android.util.AttributeSet
 import android.view.View
-import androidx.core.content.ContextCompat
+import androidx.annotation.ColorInt
 import com.lee.library.R
 
 /**
  * @author jv.lee
  * @date 2019/5/7
  */
-class DotView @JvmOverloads constructor(
-    context: Context?,
-    attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0
-) : View(context, attrs, defStyleAttr) {
-    private var mBackgroundPaint: Paint? = null
+class DotView : View {
+
+    private var mBackgroundPaint = Paint(Paint.ANTI_ALIAS_FLAG)
     private var mWidth = 0
     private var mHeight = 0
     private var backgroundColor = Color.RED
 
-    private fun initPaint() {
-        mBackgroundPaint = Paint(Paint.ANTI_ALIAS_FLAG).also {
+    constructor(context: Context) : this(context, null, 0)
+    constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
+    constructor(context: Context, attrs: AttributeSet?, defStyle: Int) : super(
+        context,
+        attrs,
+        defStyle
+    ) {
+        init(attrs)
+    }
+
+    private fun init(attrs: AttributeSet?) {
+        attrs?.let {
+            context.obtainStyledAttributes(it, R.styleable.DotView).run {
+                backgroundColor = getColor(R.styleable.DotView_dotColor, Color.RED)
+                recycle()
+            }
+        }
+        mBackgroundPaint.let {
             it.color = backgroundColor
             it.strokeWidth = 1f
             it.style = Paint.Style.FILL
@@ -39,31 +50,26 @@ class DotView @JvmOverloads constructor(
         mHeight = measuredHeight
     }
 
-    @SuppressLint("DrawAllocation")
     override fun onDraw(canvas: Canvas) {
-        canvas.drawFilter = PaintFlagsDrawFilter(0, Paint.ANTI_ALIAS_FLAG)
         drawBackground(canvas)
     }
 
     private fun drawBackground(canvas: Canvas) {
-        val drawable = ContextCompat.getDrawable(context, R.drawable.shape_indicator_dot)
-        if (drawable != null) {
-            background = drawable
-        } else {
-            canvas.drawCircle(
-                mWidth / 2.toFloat(),
-                mHeight / 2.toFloat(),
-                mWidth / 2.toFloat(),
-                mBackgroundPaint
-            )
-        }
+        canvas.drawCircle(
+            mWidth / 2.toFloat(),
+            mHeight / 2.toFloat(),
+            mWidth / 2.toFloat(),
+            mBackgroundPaint
+        )
     }
 
     override fun setBackgroundColor(backgroundColor: Int) {
         this.backgroundColor = backgroundColor
     }
 
-    init {
-        initPaint()
+    fun setDotColor(@ColorInt color: Int) {
+        mBackgroundPaint.color = color
+        invalidate()
     }
+
 }

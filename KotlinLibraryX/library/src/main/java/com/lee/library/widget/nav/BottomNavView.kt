@@ -112,7 +112,7 @@ class BottomNavView @JvmOverloads constructor(
     }
 
     private fun toNumberDot(index: Int, number: Int) {
-        if (numberDots.size > index) numberDots[index].setNumberCount(number)
+        if (numberDots.size > index) numberDots[index].setNumber(number)
     }
 
     private fun toDotVisibility(index: Int, visibility: Int) {
