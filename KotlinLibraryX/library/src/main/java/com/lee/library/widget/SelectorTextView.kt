@@ -19,7 +19,7 @@ import com.lee.library.extensions.dp2px
  * @date 2020/9/16
  * @description 状态按钮 可设置点击状态不同颜色 及锁定点击状态颜色
  */
-class SelectorTextView constructor(context: Context, attributeSet: AttributeSet) :
+class SelectorTextView(context: Context, attributeSet: AttributeSet) :
     AppCompatTextView(context, attributeSet) {
 
     private var pressedBackgroundColor: Int

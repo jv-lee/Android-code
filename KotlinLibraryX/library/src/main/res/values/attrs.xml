@@ -107,6 +107,13 @@
         </attr>
     </declare-styleable>
 
+    <declare-styleable name="BackgroundConstraintLayout">
+        <attr name="layoutBackgroundColor" format="color" />
+        <attr name="layoutStrokeColor" format="color" />
+        <attr name="layoutStrokeWidth" format="dimension" />
+        <attr name="layoutRadius" format="dimension" />
+    </declare-styleable>
+
     <declare-styleable name="ShadowLayout">
         <attr name="outLineWidth" format="dimension" />
         <attr name="outLineColor" format="color" />
