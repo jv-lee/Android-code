@@ -3,11 +3,13 @@ package com.lee.library.widget.nav
 import android.content.Context
 import android.os.Build
 import android.util.AttributeSet
+import android.util.TypedValue
 import android.view.Gravity
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.core.view.children
 import androidx.viewpager.widget.ViewPager
@@ -77,6 +79,7 @@ class BottomNavView @JvmOverloads constructor(
                     params.leftMargin = it.right
                 }
                 val dotView = NumberDotView(context)
+                dotView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f)
                 if (!itemView.children.contains(dotView)) itemView.addView(dotView, params)
                 numberDots.add(dotView)
             }

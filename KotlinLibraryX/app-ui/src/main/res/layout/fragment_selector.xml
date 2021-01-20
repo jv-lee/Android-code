@@ -144,6 +144,18 @@
 
         </com.lee.library.widget.ShadowFrameLayout>
 
+        <TextView
+            android:id="@+id/tv_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:text="this is content 《my good life》 !...."
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <com.lee.library.widget.ShadowConstraintLayout
             android:id="@+id/shadow"
             android:layout_width="match_parent"
@@ -160,7 +172,6 @@
             app:shadowRound="12dp">
 
             <TextView
-                android:id="@+id/tv_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
