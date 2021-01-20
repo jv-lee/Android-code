@@ -6,9 +6,7 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.RectF
 import android.util.AttributeSet
-import android.view.animation.PathInterpolator
 import android.widget.FrameLayout
-import androidx.core.content.ContextCompat
 import com.lee.library.R
 import kotlin.math.abs
 
@@ -33,6 +31,7 @@ class ShadowLayout(context: Context, attributeSet: AttributeSet) :
     private val mPaint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val mStrokePaint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val mRectF = RectF()
+    private val mLineRectF = RectF()
 
     private var outLineWidth: Float
     private var outLineColor: Int
@@ -71,19 +70,16 @@ class ShadowLayout(context: Context, attributeSet: AttributeSet) :
         var widthSize = measuredWidth
         var heightSize = measuredHeight
 
-//        val widthMode = MeasureSpec.getMode(widthMeasureSpec)
-//        val heightMode = MeasureSpec.getMode(heightMeasureSpec)
-//
-//        //自适应模式调整宽高 加上阴影所占的值
-//        if (widthMode == MeasureSpec.AT_MOST || widthMode == MeasureSpec.EXACTLY) {
-//            widthSize += (shadowSize.toInt() * 2)
-//        }
-//        if (heightMode == MeasureSpec.AT_MOST || widthMode == MeasureSpec.EXACTLY) {
-//            heightSize += (shadowSize.toInt() * 2)
-//        }
+        val widthMode = MeasureSpec.getMode(widthMeasureSpec)
+        val heightMode = MeasureSpec.getMode(heightMeasureSpec)
 
-        widthSize += (shadowBlur.toInt() * 2)
-        heightSize += (shadowBlur.toInt() * 2)
+        //非精确模式 设置阴影填充
+        if (widthMode != MeasureSpec.EXACTLY) {
+            widthSize += (shadowBlur.toInt() * 2)
+        }
+        if (heightMode != MeasureSpec.EXACTLY) {
+            heightSize += (shadowBlur.toInt() * 2)
+        }
 
         setMeasuredDimension(widthSize, heightSize)
     }
@@ -111,18 +107,14 @@ class ShadowLayout(context: Context, attributeSet: AttributeSet) :
         )
     }
 
-    override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
-        super.onLayout(changed, left, top, right, bottom)
-    }
-
     /**
      * 绘制阴影区域
      */
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
-        canvas?.drawRoundRect(mRectF, shadowRound, shadowRound, mPaint)
+        canvas?.drawRoundRect(mRectF, shadowRound + outLineWidth, shadowRound + outLineWidth, mPaint)
         if (outLineWidth != 0F) {
-            canvas?.drawRoundRect(mRectF, shadowRound, shadowRound, mStrokePaint)
+            canvas?.drawRoundRect(mLineRectF, shadowRound, shadowRound, mStrokePaint)
         }
     }
 
@@ -132,12 +124,13 @@ class ShadowLayout(context: Context, attributeSet: AttributeSet) :
     private fun initPaint() {
         mPaint.color = shadowFillColor
         mPaint.style = Paint.Style.FILL
+        mPaint.strokeWidth = outLineWidth
         mPaint.setShadowLayer(shadowBlur, shadowOffsetX, shadowOffsetY, shadowColor)
         setLayerType(LAYER_TYPE_SOFTWARE, mPaint)
 
         mStrokePaint.color = outLineColor
-        mStrokePaint.strokeWidth = outLineWidth
         mStrokePaint.style = Paint.Style.STROKE
+        mStrokePaint.strokeWidth = outLineWidth
     }
 
     /**
@@ -179,6 +172,11 @@ class ShadowLayout(context: Context, attributeSet: AttributeSet) :
             mRectF.right = mWidth + abs(shadowOffsetX)
         }
 
+        val lineOffset = outLineWidth / 2
+        mLineRectF.top = mRectF.top + lineOffset
+        mLineRectF.bottom = mRectF.bottom - lineOffset
+        mLineRectF.left = mRectF.left + lineOffset
+        mLineRectF.right = mRectF.right - lineOffset
     }
 
 }
