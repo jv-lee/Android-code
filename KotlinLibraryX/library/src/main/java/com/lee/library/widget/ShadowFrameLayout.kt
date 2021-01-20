@@ -24,8 +24,6 @@ import kotlin.math.abs
 class ShadowFrameLayout(context: Context, attributeSet: AttributeSet) :
     FrameLayout(context, attributeSet) {
 
-    private val TAG = "ShadowLayout"
-
     private var mWidth = 0F
     private var mHeight = 0F
     private val mPaint = Paint(Paint.ANTI_ALIAS_FLAG)

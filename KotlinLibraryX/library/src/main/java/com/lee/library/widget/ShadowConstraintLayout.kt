@@ -6,7 +6,6 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.RectF
 import android.util.AttributeSet
-import android.widget.FrameLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.lee.library.R
 import kotlin.math.abs
@@ -24,8 +23,6 @@ import kotlin.math.abs
  */
 class ShadowConstraintLayout(context: Context, attributeSet: AttributeSet) :
     ConstraintLayout(context, attributeSet) {
-
-    private val TAG = "ShadowLayout"
 
     private var mWidth = 0F
     private var mHeight = 0F
