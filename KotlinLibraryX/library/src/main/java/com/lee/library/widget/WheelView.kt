@@ -40,6 +40,10 @@ class WheelView : RecyclerView {
         defStyle
     )
 
+    init {
+        overScrollMode = View.OVER_SCROLL_NEVER
+    }
+
     override fun onScrolled(dx: Int, dy: Int) {
         super.onScrolled(dx, dy)
         mScrollY += dy
