@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.RectF
 import android.util.AttributeSet
+import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.lee.library.R
 import kotlin.math.abs
@@ -61,6 +62,7 @@ class ShadowConstraintLayout(context: Context, attributeSet: AttributeSet) :
         setWillNotDraw(false)
         initPaint()
         initPaddingSize()
+        setLayerType(View.LAYER_TYPE_SOFTWARE, null)
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -110,7 +112,12 @@ class ShadowConstraintLayout(context: Context, attributeSet: AttributeSet) :
      */
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
-        canvas?.drawRoundRect(mRectF, shadowRound + outLineWidth, shadowRound + outLineWidth, mPaint)
+        canvas?.drawRoundRect(
+            mRectF,
+            shadowRound + outLineWidth,
+            shadowRound + outLineWidth,
+            mPaint
+        )
         if (outLineWidth != 0F) {
             canvas?.drawRoundRect(mLineRectF, shadowRound, shadowRound, mStrokePaint)
         }
@@ -156,14 +163,14 @@ class ShadowConstraintLayout(context: Context, attributeSet: AttributeSet) :
      */
     private fun initRectF() {
         if (shadowOffsetY > 0) {
-            mRectF.top = if(shadowOffsetY > shadowBlur) 0F else shadowBlur - shadowOffsetY
+            mRectF.top = if (shadowOffsetY > shadowBlur) 0F else shadowBlur - shadowOffsetY
             mRectF.bottom = mHeight - shadowOffsetY
         } else {
             mRectF.top = shadowBlur + abs(shadowOffsetY)
             mRectF.bottom = mHeight
         }
         if (shadowOffsetX > 0) {
-            mRectF.left = if(shadowOffsetX > shadowBlur) 0F else shadowBlur - shadowOffsetX
+            mRectF.left = if (shadowOffsetX > shadowBlur) 0F else shadowBlur - shadowOffsetX
             mRectF.right = mWidth - shadowOffsetX
         } else {
             mRectF.left = shadowBlur + abs(shadowOffsetX)

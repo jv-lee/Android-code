@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.RectF
 import android.util.AttributeSet
+import android.view.View
 import android.widget.FrameLayout
 import com.lee.library.R
 import kotlin.math.abs
@@ -61,6 +62,7 @@ class ShadowFrameLayout(context: Context, attributeSet: AttributeSet) :
         setWillNotDraw(false)
         initPaint()
         initPaddingSize()
+        setLayerType(View.LAYER_TYPE_SOFTWARE, null)
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
