@@ -83,7 +83,7 @@
             app:pressedTextColor="@android:color/white"
             app:strokeWidth="2dp" />
 
-        <com.lee.library.widget.ShadowLayout
+        <com.lee.library.widget.ShadowFrameLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -112,21 +112,51 @@
                 app:pressedTextColor="@android:color/white"
                 app:strokeWidth="2dp" />
 
-        </com.lee.library.widget.ShadowLayout>
+        </com.lee.library.widget.ShadowFrameLayout>
 
-        <com.lee.library.widget.ShadowLayout
+        <com.lee.library.widget.ShadowFrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:shadowBlur="10dp"
+            app:shadowColor="#000000"
+            app:shadowOffsetX="0dp"
+            app:shadowOffsetY="0dp"
+            app:shadowRound="23dp">
+
+            <com.lee.library.widget.SelectorTextView
+                android:layout_width="wrap_content"
+                android:layout_height="46dp"
+                android:padding="10dp"
+                android:text="show Warn Dialog"
+                app:buttonDisable="false"
+                app:buttonRadius="23dp"
+                app:disableBackgroundColor="@android:color/black"
+                app:disableStrokeColor="@android:color/holo_red_dark"
+                app:disableTextColor="@android:color/white"
+                app:normalBackgroundColor="@color/colorPrimary"
+                app:normalStrokeColor="@color/colorPrimary"
+                app:normalTextColor="@android:color/black"
+                app:pressedBackgroundColor="@color/colorThemeAccent"
+                app:pressedStrokeColor="@color/colorThemeAccent"
+                app:pressedTextColor="@android:color/white"
+                app:strokeWidth="2dp" />
+
+        </com.lee.library.widget.ShadowFrameLayout>
+
+        <com.lee.library.widget.ShadowConstraintLayout
             android:id="@+id/shadow"
-            android:layout_width="300dp"
+            android:layout_width="match_parent"
             android:layout_height="100dp"
             android:layout_marginTop="16dp"
-            android:padding="10dp"
+            android:padding="4dp"
             app:outLineColor="@color/colorPrimaryDark"
             app:outLineWidth="0dp"
             app:shadowBlur="4dp"
-            app:shadowColor="#80D1D1D1"
-            app:shadowFillColor="#FFFFFF"
-            app:shadowOffsetX="10dp"
-            app:shadowOffsetY="0dp"
+            app:shadowColor="#000000"
+            app:shadowFillColor="#D1D1D1"
+            app:shadowOffsetX="-6dp"
+            app:shadowOffsetY="6dp"
             app:shadowRound="12dp">
 
             <TextView
@@ -134,12 +164,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="this is content 《my good life》 !...." />
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+                android:text="this is content 《my good life》 !...."
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        </com.lee.library.widget.ShadowLayout>
+        </com.lee.library.widget.ShadowConstraintLayout>
 
-
-        <com.lee.library.widget.ShadowLayout
+        <com.lee.library.widget.ShadowConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="168dp"
             android:layout_marginTop="16dp"
@@ -156,29 +191,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="this is content 《my good life》 !...." />
-
-        </com.lee.library.widget.ShadowLayout>
-
-        <com.lee.library.widget.BackgroundConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="168dp"
-            android:layout_marginTop="16dp"
-            app:layoutBackgroundColor="@color/colorThemePrimary"
-            app:layoutRadius="12dp"
-            app:layoutStrokeColor="@color/colorThemeAccent"
-            app:layoutStrokeWidth="6dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=" this is content text"
+                android:text="this is content 《my good life》 !...."
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-        </com.lee.library.widget.BackgroundConstraintLayout>
+        </com.lee.library.widget.ShadowConstraintLayout>
 
     </LinearLayout>
 

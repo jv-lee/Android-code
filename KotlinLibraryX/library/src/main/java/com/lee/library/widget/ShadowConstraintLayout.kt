@@ -7,6 +7,7 @@ import android.graphics.Paint
 import android.graphics.RectF
 import android.util.AttributeSet
 import android.widget.FrameLayout
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.lee.library.R
 import kotlin.math.abs
 
@@ -21,8 +22,8 @@ import kotlin.math.abs
  * @set shadowOffsetX 阴影X轴偏移量
  * @set shadowOffsetY 阴影Y轴偏移量
  */
-class ShadowLayout(context: Context, attributeSet: AttributeSet) :
-    FrameLayout(context, attributeSet) {
+class ShadowConstraintLayout(context: Context, attributeSet: AttributeSet) :
+    ConstraintLayout(context, attributeSet) {
 
     private val TAG = "ShadowLayout"
 
@@ -48,15 +49,15 @@ class ShadowLayout(context: Context, attributeSet: AttributeSet) :
     private var offsetBottomPadding = 0
 
     init {
-        context.obtainStyledAttributes(attributeSet, R.styleable.ShadowLayout).run {
-            outLineWidth = getDimension(R.styleable.ShadowLayout_outLineWidth, 0f)
-            outLineColor = getColor(R.styleable.ShadowLayout_outLineColor, Color.BLACK)
-            shadowRound = getDimension(R.styleable.ShadowLayout_shadowRound, 10F)
-            shadowBlur = getDimension(R.styleable.ShadowLayout_shadowBlur, 10F)
-            shadowColor = getColor(R.styleable.ShadowLayout_shadowColor, Color.BLACK)
-            shadowFillColor = getColor(R.styleable.ShadowLayout_shadowFillColor, Color.WHITE)
-            shadowOffsetX = getDimension(R.styleable.ShadowLayout_shadowOffsetX, 0F)
-            shadowOffsetY = getDimension(R.styleable.ShadowLayout_shadowOffsetY, 0F)
+        context.obtainStyledAttributes(attributeSet, R.styleable.ShadowConstraintLayout).run {
+            outLineWidth = getDimension(R.styleable.ShadowFrameLayout_outLineWidth, 0f)
+            outLineColor = getColor(R.styleable.ShadowFrameLayout_outLineColor, Color.BLACK)
+            shadowRound = getDimension(R.styleable.ShadowFrameLayout_shadowRound, 10F)
+            shadowBlur = getDimension(R.styleable.ShadowFrameLayout_shadowBlur, 10F)
+            shadowColor = getColor(R.styleable.ShadowFrameLayout_shadowColor, Color.BLACK)
+            shadowFillColor = getColor(R.styleable.ShadowFrameLayout_shadowFillColor, Color.WHITE)
+            shadowOffsetX = getDimension(R.styleable.ShadowFrameLayout_shadowOffsetX, 0F)
+            shadowOffsetY = getDimension(R.styleable.ShadowFrameLayout_shadowOffsetY, 0F)
 
             recycle()
         }
@@ -158,18 +159,18 @@ class ShadowLayout(context: Context, attributeSet: AttributeSet) :
      */
     private fun initRectF() {
         if (shadowOffsetY > 0) {
-            mRectF.top = shadowBlur - shadowOffsetY
+            mRectF.top = if(shadowOffsetY > shadowBlur) 0F else shadowBlur - shadowOffsetY
             mRectF.bottom = mHeight - shadowOffsetY
         } else {
             mRectF.top = shadowBlur + abs(shadowOffsetY)
-            mRectF.bottom = mHeight + abs(shadowOffsetY)
+            mRectF.bottom = mHeight
         }
         if (shadowOffsetX > 0) {
-            mRectF.left = shadowBlur - shadowOffsetX
+            mRectF.left = if(shadowOffsetX > shadowBlur) 0F else shadowBlur - shadowOffsetX
             mRectF.right = mWidth - shadowOffsetX
         } else {
             mRectF.left = shadowBlur + abs(shadowOffsetX)
-            mRectF.right = mWidth + abs(shadowOffsetX)
+            mRectF.right = mWidth
         }
 
         val lineOffset = outLineWidth / 2

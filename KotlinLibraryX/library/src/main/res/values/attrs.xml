@@ -114,15 +114,35 @@
         <attr name="layoutRadius" format="dimension" />
     </declare-styleable>
 
-    <declare-styleable name="ShadowLayout">
-        <attr name="outLineWidth" format="dimension" />
-        <attr name="outLineColor" format="color" />
-        <attr name="shadowRound" format="dimension" />
-        <attr name="shadowBlur" format="dimension" />
-        <attr name="shadowColor" format="color" />
-        <attr name="shadowFillColor" format="color" />
-        <attr name="shadowOffsetX" format="dimension" />
-        <attr name="shadowOffsetY" format="dimension" />
+    <attr name="outLineWidth" format="dimension" />
+    <attr name="outLineColor" format="color" />
+    <attr name="shadowRound" format="dimension" />
+    <attr name="shadowBlur" format="dimension" />
+    <attr name="shadowColor" format="color" />
+    <attr name="shadowFillColor" format="color" />
+    <attr name="shadowOffsetX" format="dimension" />
+    <attr name="shadowOffsetY" format="dimension" />
+
+    <declare-styleable name="ShadowFrameLayout">
+        <attr name="outLineWidth"/>
+        <attr name="outLineColor" />
+        <attr name="shadowRound" />
+        <attr name="shadowBlur" />
+        <attr name="shadowColor" />
+        <attr name="shadowFillColor" />
+        <attr name="shadowOffsetX" />
+        <attr name="shadowOffsetY" />
+    </declare-styleable>
+
+    <declare-styleable name="ShadowConstraintLayout">
+        <attr name="outLineWidth" />
+        <attr name="outLineColor" />
+        <attr name="shadowRound" />
+        <attr name="shadowBlur" />
+        <attr name="shadowColor" />
+        <attr name="shadowFillColor" />
+        <attr name="shadowOffsetX" />
+        <attr name="shadowOffsetY" />
     </declare-styleable>
 
     <declare-styleable name="VerticalViewPager">
