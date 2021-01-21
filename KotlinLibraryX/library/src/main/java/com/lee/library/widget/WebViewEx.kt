@@ -52,7 +52,6 @@ class WebViewEx : WebView, ObservableLifecycle {
 
     @SuppressLint("SetJavaScriptEnabled")
     private fun init() {
-        setBackgroundColor(Color.TRANSPARENT)
         val settings = settings
         settings.javaScriptEnabled = true
         settings.cacheMode = WebSettings.LOAD_DEFAULT
