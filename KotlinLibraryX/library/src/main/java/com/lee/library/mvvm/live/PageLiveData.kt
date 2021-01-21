@@ -103,10 +103,6 @@ class PageLiveData<T>(val limit: Int = 0) : BaseLiveData<T>() {
             emitAll(networkBlock(page))
         }
             .notNull()
-            .filter {
-                //判断是否设置缓存数据 - 缓存数据与网络数据是否一致 不一致则继续设置网络数据
-                value != it
-            }
             .map {
                 //该回调中saveCache/applyData
                 completerBlock(it!!)
