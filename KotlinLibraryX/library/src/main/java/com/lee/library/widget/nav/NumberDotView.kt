@@ -47,27 +47,23 @@ class NumberDotView : AppCompatTextView {
         setTextColor(Color.WHITE)
     }
 
-    private fun buildBackground() {
+    override fun onDraw(canvas: Canvas) {
+        if (visibleView()) {
+            buildDotView()
+            super.onDraw(canvas)
+        } else {
+            background = null
+        }
+    }
+
+    private fun buildDotView() {
         val gradientDrawable = GradientDrawable()
         gradientDrawable.setColor(dotBackgroundColor)
         gradientDrawable.cornerRadius = height.toFloat()
         gradientDrawable.setStroke(context.dp2px(1).toInt(), dotLineColor)
         background = gradientDrawable
         minWidth = height
-    }
-
-    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
-        super.onSizeChanged(w, h, oldw, oldh)
         initPadding()
-    }
-
-    override fun onDraw(canvas: Canvas) {
-        if (visibleView()) {
-            buildBackground()
-            super.onDraw(canvas)
-        } else {
-            background = null
-        }
     }
 
     fun setNumber(count: Int) {

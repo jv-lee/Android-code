@@ -33,7 +33,10 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         bottom_nav.setDotVisibility(0, View.VISIBLE)
         bottom_nav.setNumberDot(1, 999)
         bottom_nav.setNumberDot(2, 7)
-        bottom_nav.setNumberDot(2,0)
+        bottom_nav.run {
+            postDelayed({ setNumberDot(2, 0) }, 2000)
+            postDelayed({ setNumberDot(2, 17) }, 5000)
+        }
     }
 
     override fun onBackPressed() {
