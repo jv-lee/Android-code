@@ -35,4 +35,8 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         bottom_nav.setNumberDot(2, 7)
     }
 
+    override fun onBackPressed() {
+        moveTaskToBack(true)
+    }
+
 }
