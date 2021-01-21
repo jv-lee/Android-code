@@ -32,6 +32,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         bottom_nav.bindViewPager(vp_container)
         bottom_nav.setDotVisibility(0, View.VISIBLE)
         bottom_nav.setNumberDot(1, 999)
+        bottom_nav.setNumberDot(2, 7)
     }
 
 }

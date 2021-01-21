@@ -75,8 +75,8 @@ class BottomNavView @JvmOverloads constructor(
                 val imageView =
                     reflexField<ImageView>(itemView, "icon")
                 imageView?.let {
-                    params.topMargin = it.top
-                    params.leftMargin = it.right
+                    params.topMargin = it.top / 2
+                    params.leftMargin = (it.right - (it.width * 0.25)).toInt()
                 }
                 val dotView = NumberDotView(context)
                 dotView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f)
