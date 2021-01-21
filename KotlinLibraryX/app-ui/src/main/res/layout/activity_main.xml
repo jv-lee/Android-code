@@ -19,6 +19,7 @@
         android:id="@+id/bottom_nav"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:dotBackground="@color/colorThemeAccent"
         android:background="@color/colorThemeItem"
         app:itemIconTint="@drawable/main_selector"
         app:itemTextColor="@drawable/main_selector"

@@ -7,7 +7,6 @@ import android.graphics.drawable.GradientDrawable
 import android.text.TextUtils
 import android.util.AttributeSet
 import android.view.Gravity
-import android.view.View
 import androidx.annotation.ColorInt
 import androidx.appcompat.widget.AppCompatTextView
 import com.lee.library.R
@@ -43,28 +42,31 @@ class NumberDotView : AppCompatTextView {
                 recycle()
             }
         }
+        gravity = Gravity.CENTER
+        includeFontPadding = false
+        setTextColor(Color.WHITE)
     }
 
-    private fun initParams() {
+    private fun buildBackground() {
         val gradientDrawable = GradientDrawable()
         gradientDrawable.setColor(dotBackgroundColor)
         gradientDrawable.cornerRadius = height.toFloat()
         gradientDrawable.setStroke(context.dp2px(1).toInt(), dotLineColor)
         background = gradientDrawable
         minWidth = height
-        gravity = Gravity.CENTER
-        setTextColor(Color.WHITE)
-        includeFontPadding = false
+    }
+
+    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
+        super.onSizeChanged(w, h, oldw, oldh)
         initPadding()
     }
 
     override fun onDraw(canvas: Canvas) {
         if (visibleView()) {
-            visibility = View.VISIBLE
-            initParams()
+            buildBackground()
             super.onDraw(canvas)
-        }else{
-            visibility = View.GONE
+        } else {
+            background = null
         }
     }
 
@@ -84,7 +86,7 @@ class NumberDotView : AppCompatTextView {
     }
 
     private fun parseNumberStr(number: Int): String {
-        return if (number >= 999) MAX_VALUE else number.toString()
+        return if (number >= 999) MAX_VALUE else if (number <= 0) "" else number.toString()
     }
 
     private fun initPadding() {
