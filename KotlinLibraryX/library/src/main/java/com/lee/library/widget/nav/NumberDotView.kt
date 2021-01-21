@@ -7,6 +7,7 @@ import android.graphics.drawable.GradientDrawable
 import android.text.TextUtils
 import android.util.AttributeSet
 import android.view.Gravity
+import android.view.View
 import androidx.annotation.ColorInt
 import androidx.appcompat.widget.AppCompatTextView
 import com.lee.library.R
@@ -19,6 +20,7 @@ import com.lee.library.extensions.dp2px
 class NumberDotView : AppCompatTextView {
 
     private var dotBackgroundColor = Color.RED
+    private var dotLineColor = Color.WHITE
 
     internal companion object {
         const val MAX_VALUE = "999+"
@@ -47,6 +49,7 @@ class NumberDotView : AppCompatTextView {
         val gradientDrawable = GradientDrawable()
         gradientDrawable.setColor(dotBackgroundColor)
         gradientDrawable.cornerRadius = height.toFloat()
+        gradientDrawable.setStroke(context.dp2px(1).toInt(), dotLineColor)
         background = gradientDrawable
         minWidth = height
         gravity = Gravity.CENTER
@@ -57,23 +60,27 @@ class NumberDotView : AppCompatTextView {
 
     override fun onDraw(canvas: Canvas) {
         if (visibleView()) {
+            visibility = View.VISIBLE
             initParams()
             super.onDraw(canvas)
+        }else{
+            visibility = View.GONE
         }
-    }
-
-    override fun setBackgroundColor(backgroundColor: Int) {
-        this.dotBackgroundColor = backgroundColor
-        postInvalidate()
     }
 
     fun setNumber(count: Int) {
         text = parseNumberStr(count)
+        invalidate()
     }
 
     fun setDotBackgroundColor(@ColorInt color: Int) {
         dotBackgroundColor = color
         invalidate()
+    }
+
+    fun setDotLineColor(color: Int) {
+        this.dotLineColor = color
+        postInvalidate()
     }
 
     private fun parseNumberStr(number: Int): String {
@@ -86,14 +93,24 @@ class NumberDotView : AppCompatTextView {
             return
         }
         if (text.length > 1) {
-            setPadding(context.dp2px(4).toInt(), 0, context.dp2px(4).toInt(), 0)
+            setPadding(
+                context.dp2px(6).toInt(),
+                context.dp2px(2).toInt(),
+                context.dp2px(6).toInt(),
+                context.dp2px(2).toInt()
+            )
         } else {
-            setPadding(0, 0, 0, 0)
+            setPadding(
+                context.dp2px(2).toInt(),
+                context.dp2px(2).toInt(),
+                context.dp2px(2).toInt(),
+                context.dp2px(2).toInt()
+            )
         }
     }
 
     private fun visibleView(): Boolean {
-        return !(TextUtils.isEmpty(text) || TextUtils.equals(text,"0"))
+        return !(TextUtils.isEmpty(text) || TextUtils.equals(text, "0"))
     }
 
 }

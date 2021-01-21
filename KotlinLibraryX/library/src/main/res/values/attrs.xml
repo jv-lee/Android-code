@@ -124,7 +124,7 @@
     <attr name="shadowOffsetY" format="dimension" />
 
     <declare-styleable name="ShadowFrameLayout">
-        <attr name="outLineWidth"/>
+        <attr name="outLineWidth" />
         <attr name="outLineColor" />
         <attr name="shadowRound" />
         <attr name="shadowBlur" />
@@ -149,12 +149,22 @@
         <attr name="isVertical" format="boolean" />
     </declare-styleable>
 
+    <attr name="dotBackground" format="color" />
+
+    <declare-styleable name="BottomNavView">
+        <attr name="dotNumberTextSize" format="dimension" />
+        <attr name="dotBackground" />
+        <attr name="dotNumberTextColor" format="color" />
+        <attr name="dotLineColor" format="color" />
+        <attr name="dotSize" format="dimension" />
+    </declare-styleable>
+
     <declare-styleable name="DotView">
-        <attr name="dotColor" format="color" />
+        <attr name="dotBackground"  />
     </declare-styleable>
 
     <declare-styleable name="NumberDotView">
-        <attr name="dotBackground" format="color" />
+        <attr name="dotBackground" />
     </declare-styleable>
 
 </resources>

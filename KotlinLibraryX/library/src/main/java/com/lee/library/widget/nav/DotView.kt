@@ -33,7 +33,7 @@ class DotView : View {
     private fun init(attrs: AttributeSet?) {
         attrs?.let {
             context.obtainStyledAttributes(it, R.styleable.DotView).run {
-                backgroundColor = getColor(R.styleable.DotView_dotColor, Color.RED)
+                backgroundColor = getColor(R.styleable.DotView_dotBackground, Color.RED)
                 recycle()
             }
         }
