@@ -38,7 +38,7 @@ open class CustomToolbarLayout : FrameLayout {
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
         //设置默认宽高比 适配沉浸式
-        setMeasuredDimension(MATCH_PARENT, toolbarLayoutHeight)
+        setMeasuredDimension(measuredWidth, toolbarLayoutHeight)
     }
 
     /**
