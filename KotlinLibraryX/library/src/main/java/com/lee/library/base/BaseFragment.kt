@@ -11,10 +11,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.*
 import com.lee.library.extensions.getVmClass
 import com.lee.library.mvvm.base.BaseViewModel
 import com.lee.library.utils.ActivityUtil
@@ -79,7 +76,7 @@ abstract class BaseFragment<V : ViewDataBinding, VM : BaseViewModel>(var layoutI
     }
 
     protected fun initFailedViewModel() {
-        viewModel.failedEvent.observe(viewLifecycleOwner, Observer {
+        viewModel.failedEvent.observe(this as LifecycleOwner, Observer {
             toast(it.message)
         })
     }
