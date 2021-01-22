@@ -47,6 +47,14 @@ fun Context.px2sp(value: Int): Float {
 }
 
 /**
+ * dimens值转sp
+ */
+fun Context.dimensToSp(dimens: Float): Float {
+    val scale = resources.displayMetrics.density
+    return dimens / scale
+}
+
+/**
  * 各种单位转换
  *
  * 该方法存在于TypedValue

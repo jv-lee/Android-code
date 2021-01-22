@@ -147,7 +147,7 @@ class WebViewEx : WebView, ObservableLifecycle {
             override fun shouldInterceptRequest(
                 view: WebView,
                 request: WebResourceRequest
-            ): WebResourceResponse {
+            ): WebResourceResponse? {
                 return super.shouldInterceptRequest(view, request)
             }
 
@@ -155,7 +155,7 @@ class WebViewEx : WebView, ObservableLifecycle {
             override fun onPageStarted(
                 view: WebView,
                 url: String,
-                favicon: Bitmap
+                favicon: Bitmap?
             ) {
                 super.onPageStarted(view, url, favicon)
                 getSettings().blockNetworkImage = true
