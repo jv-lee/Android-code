@@ -72,9 +72,17 @@ open class ZoomImageView : AppCompatImageView {
     //单击
     private var onClickListener: OnClickListener? = null
 
+    private var MAX_FLING_OVER_SCROLL = 0
+    private var MAX_OVER_RESISTANCE = 0
+
     init {
         //设置视图类型为矩阵渲染.
         super.setScaleType(ScaleType.MATRIX)
+
+        //设置惯性滑动常量值
+        val density = resources.displayMetrics.density
+        MAX_FLING_OVER_SCROLL = (density * 30).toInt()
+        MAX_OVER_RESISTANCE = (density * 140).toInt()
 
         //apply the previously applied scale type
         scaleType = ScaleType.FIT_CENTER
@@ -226,9 +234,9 @@ open class ZoomImageView : AppCompatImageView {
         //图片原始比例
         mScale = scale
         //图片双击缩放值
-        mMidScale = scale * 2
+        mMidScale = scale * 3
         //图片最大拉升缩放值
-        mMaxScale = scale * 4
+        mMaxScale = scale * 6
 
         //图片定位剧中
         val translationX = width.toFloat() / 2 - dw / 2
@@ -362,8 +370,65 @@ open class ZoomImageView : AppCompatImageView {
 
         if (startX != maxX || startY != maxY) {
             //模拟滑动
-            scroller.fling(startX, startY, vX, vY, minX, maxX, minY, maxY, maxX, maxY)
+//            scroller.fling(startX, startY, vX, vY, minX, maxX, minY, maxY, maxX, maxY)
+            scroller.fling(startX, startY, vX, vY, minX, maxX, minY, maxY
+                    , if (Math.abs(maxX) < MAX_FLING_OVER_SCROLL * 2) 0 else MAX_FLING_OVER_SCROLL
+                    , if (Math.abs(maxY) < MAX_FLING_OVER_SCROLL * 2) 0 else MAX_FLING_OVER_SCROLL)
         }
+
+        //动画启动结束后设置为end状态
+        mTranslateAnimator?.takeIf { it.isStarted }?.end()
+        mTranslateAnimator = ValueAnimator.ofInt(0, 1).apply {
+            interpolator = mInterpolator
+            duration = 2000
+            addUpdateListener {
+                if (scroller.computeScrollOffset()) {
+                    //获得当前的x坐标
+                    val newX = scroller.currX
+                    val dx = newX - mCurrentX
+                    mCurrentX = newX
+                    //获得当前的y坐标
+                    val newY = scroller.currY
+                    val dy = newY - mCurrentY
+                    mCurrentY = newY
+                    //进行平移操作
+                    if (dx != 0 && dy != 0) onTranslationImage(dx.toFloat(), dy.toFloat(), false)
+                }
+            }
+            start()
+        }
+        return true
+    }
+
+    private fun onFlingEvent2(x: Float, y: Float, velocityX: Float, velocityY: Float): Boolean {
+        val rect = getMatrixRectF()
+        rect ?: return false
+
+        val mLastFlingX = if (velocityX < 0) Int.MAX_VALUE else 0
+        var distanceX: Int = if (velocityX > 0) Math.abs(rect.left).toInt() else (rect.right - right).toInt()
+        distanceX = if (velocityX < 0) Int.MAX_VALUE - distanceX else distanceX
+        var minX = if (velocityX < 0) distanceX else 0
+        var maxX = (if (velocityX < 0) Int.MAX_VALUE else distanceX)
+        val overX = if (velocityX < 0) Int.MAX_VALUE - minX else distanceX
+
+        val mLastFlingY = if (velocityY < 0) Int.MAX_VALUE else 0
+        var distanceY: Int = (if (velocityY > 0) Math.abs(rect.top - top).toInt() else (rect.bottom - bottom).toInt())
+        distanceY = if (velocityY < 0) Int.MAX_VALUE - distanceY else distanceY
+        var minY = if (velocityY < 0) distanceY else 0
+        var maxY = if (velocityY < 0) Int.MAX_VALUE else distanceY
+        val overY = if (velocityY < 0) Int.MAX_VALUE - minY else distanceY
+
+        if (velocityX == 0f) {
+            maxX = 0
+            minX = 0
+        }
+
+        if (velocityY == 0f) {
+            maxY = 0
+            minY = 0
+        }
+
+        scroller.fling(mLastFlingX, mLastFlingY, velocityX.toInt(), velocityY.toInt(), minX, maxX, minY, maxY, if (Math.abs(overX) < MAX_FLING_OVER_SCROLL * 2) 0 else MAX_FLING_OVER_SCROLL, if (Math.abs(overY) < MAX_FLING_OVER_SCROLL * 2) 0 else MAX_FLING_OVER_SCROLL)
 
         //动画启动结束后设置为end状态
         mTranslateAnimator?.takeIf { it.isStarted }?.end()
@@ -403,12 +468,13 @@ open class ZoomImageView : AppCompatImageView {
             duration = 300
             interpolator = mInterpolator
             addUpdateListener { animation ->
-                val tranScale = animation.currentPlayTime.toFloat() / animation.duration.toFloat()
-                val translateX = getTranslateX() * tranScale
-                val translateY = getTranslateY() * tranScale
-                mScaleMatrix.postTranslate(translateX, translateY)
                 val value: Float = animation.animatedValue as Float / getScale()
                 mScaleMatrix.postScale(value, value, x, y)
+                imageMatrix = mScaleMatrix
+
+                val translateX = getTranslateX()
+                val translateY = getTranslateY()
+                mScaleMatrix.postTranslate(translateX, translateY)
                 imageMatrix = mScaleMatrix
             }
             addListener(object : Animator.AnimatorListener {
@@ -418,7 +484,7 @@ open class ZoomImageView : AppCompatImageView {
 
                 override fun onAnimationEnd(animation: Animator?) {
                     //复原缩放操作 直接初始化控件大小位置.
-                    if (getDoubleScale() != mScale) drawViewLayout()
+//                    if (getDoubleScale() != mScale) drawViewLayout()
                 }
 
                 override fun onAnimationCancel(animation: Animator?) {
