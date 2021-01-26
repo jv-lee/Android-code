@@ -11,16 +11,15 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
-import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PointF;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -32,6 +31,8 @@ import android.view.animation.Interpolator;
 import android.widget.ImageView;
 import android.widget.OverScroller;
 import android.widget.Scroller;
+
+import java.io.Serializable;
 
 
 /**
@@ -70,7 +71,6 @@ public class CropImageView extends ImageView {
     private boolean hasDrawable;
     private boolean isKnowSize;
     private boolean hasOverTranslate;
-    private boolean isEnable = false;
     private boolean isRotateEnable = false;
     // 当前是否处于放大状态
     private boolean isZoomUp;
@@ -85,8 +85,8 @@ public class CropImageView extends ImageView {
     private int mTranslateX;
     private int mTranslateY;
 
-    private RectF mCropRect = new RectF();
     private RectF mBaseRect = new RectF();
+    private RectF mCropRect = new RectF();
     private RectF mImgRect = new RectF();
     private RectF mTmpRect = new RectF();
     private RectF mCommonRect = new RectF();
@@ -95,16 +95,12 @@ public class CropImageView extends ImageView {
     private PointF mScaleCenter = new PointF();
     private PointF mRotateCenter = new PointF();
 
-    private Paint linePaint;
-
     private Transform mTranslate = new Transform();
 
     private RectF mClip;
     private Runnable mCompleteCallBack;
 
     private OnLongClickListener mLongClick;
-
-    private boolean isShowCropRect = true;
 
     public CropImageView(Context context) {
         super(context);
@@ -134,9 +130,6 @@ public class CropImageView extends ImageView {
         mMinRotate = MIN_ROTATE;
         mAnimDuring = ANIM_DURING;
         mMaxScale = MAX_SCALE;
-
-        initCropLineRect();
-        initCropRect();
     }
 
     @Override
@@ -170,13 +163,6 @@ public class CropImageView extends ImageView {
      */
     public void setMaxScale(float maxScale) {
         mMaxScale = maxScale;
-    }
-
-    /**
-     * 启用缩放功能
-     */
-    public void enable() {
-        isEnable = true;
     }
 
     @Override
@@ -524,10 +510,6 @@ public class CropImageView extends ImageView {
         resetCropSize(getWidth(), getHeight());
     }
 
-    public boolean isEditing() {
-        return isShowLine;
-    }
-
     public void setCropMargin(int cropMargin) {
         this.cropMargin = cropMargin;
     }
@@ -587,80 +569,9 @@ public class CropImageView extends ImageView {
         isRotateEnable = rotateEnable;
     }
 
-    private boolean isShowLine = false;
-    private Paint cropRectPaint;
-    private Paint maskPaint;
-    private Paint cropStrokePaint;
-
-    private void initCropRect() {
-        cropRectPaint = new Paint();
-        cropRectPaint.setStrokeWidth(dp(2f));
-        cropRectPaint.setColor(Color.WHITE);
-        cropRectPaint.setAntiAlias(true);
-        cropRectPaint.setStyle(Paint.Style.STROKE);
-        cropRectPaint.setDither(true);
-        initMaskPaint();
-    }
-
-    private void initCropLineRect() {
-        linePaint = new Paint();
-        linePaint.setColor(Color.WHITE);
-        linePaint.setAntiAlias(true);
-        linePaint.setStrokeWidth(dp(0.5f));
-        linePaint.setStyle(Paint.Style.FILL);
-
-        cropStrokePaint = new Paint();
-        cropStrokePaint.setColor(Color.WHITE);
-        cropStrokePaint.setAntiAlias(true);
-        cropStrokePaint.setStrokeCap(Paint.Cap.ROUND);
-        cropStrokePaint.setStrokeWidth(dp(4));
-        cropStrokePaint.setStyle(Paint.Style.STROKE);
-    }
-
-    private void initMaskPaint() {
-        maskPaint = new Paint();
-        maskPaint.setColor(Color.parseColor("#a0000000"));
-        maskPaint.setAntiAlias(true);
-        maskPaint.setStyle(Paint.Style.FILL);
-    }
-
     private Rect viewDrawingRect = new Rect();
     private Path path = new Path();
 
-    private void drawStrokeLine(Canvas canvas) {
-        int lineWidth = dp(30);
-        float x = mCropRect.left;
-        float y = mCropRect.top + dp(1);
-        float w = mCropRect.width();
-        float h = mCropRect.height() - dp(2);
-        canvas.drawLine(x, y, lineWidth + x, y, cropStrokePaint);
-        canvas.drawLine(x, y, x, y + lineWidth, cropStrokePaint);
-        canvas.drawLine(x, y + h, x, y + h - lineWidth, cropStrokePaint);
-        canvas.drawLine(x, y + h, x + lineWidth, y + h, cropStrokePaint);
-        canvas.drawLine(x + w, y, x + w - lineWidth, y, cropStrokePaint);
-        canvas.drawLine(x + w, y, x + w, y + lineWidth, cropStrokePaint);
-        canvas.drawLine(x + w, y + h, x + w - lineWidth, y + h, cropStrokePaint);
-        canvas.drawLine(x + w, y + h, x + w, y + h - lineWidth, cropStrokePaint);
-    }
-
-    private boolean isShowImageRectLine = false;
-    private boolean canShowTouchLine = true;
-    private boolean isCircle = false;
-
-    public void setCircle(boolean circle) {
-        isCircle = circle;
-        invalidate();
-    }
-
-    public void setShowImageRectLine(boolean showImageRectLine) {
-        isShowImageRectLine = showImageRectLine;
-        invalidate();
-    }
-
-    public void setCanShowTouchLine(boolean canShowTouchLine) {
-        this.canShowTouchLine = canShowTouchLine;
-        invalidate();
-    }
 
     @Override
     protected void onDraw(Canvas canvas) {
@@ -669,45 +580,7 @@ public class CropImageView extends ImageView {
         } catch (Exception ignored) {
             loadMaxSize = (int) (loadMaxSize * 0.8);
             setImageBitmap(originalBitmap);
-            return;
         }
-
-        if (isShowLine && canShowTouchLine && !isCircle) {
-            int left, top, right, bottom, w, h;
-            if (isShowImageRectLine) {
-                left = mImgRect.left > mCropRect.left ? (int) mImgRect.left : (int) mCropRect.left;
-                top = (int) mImgRect.top > mCropRect.top ? (int) mImgRect.top : (int) mCropRect.top;
-                right = mImgRect.right < mCropRect.right ? (int) mImgRect.right : (int) mCropRect.right;
-                bottom = mImgRect.bottom < mCropRect.bottom ? (int) mImgRect.bottom : (int) mCropRect.bottom;
-                w = right - left;
-                h = bottom - top;
-            } else {
-                w = (int) mCropRect.width();
-                h = (int) mCropRect.height();
-                left = (int) mCropRect.left;
-                top = (int) mCropRect.top;
-            }
-            canvas.drawLine(left + w / 3.0f, top, left + w / 3.0f, h + top, linePaint);
-            canvas.drawLine(left + w * 2 / 3.0f, top, left + w * 2 / 3.0f, h + top, linePaint);
-            canvas.drawLine(left, top + h / 3.0f, left + w, top + h / 3.0f, linePaint);
-            canvas.drawLine(left, top + h * 2 / 3.0f, left + w, top + h * 2 / 3.0f, linePaint);
-        }
-
-        if (!isShowCropRect || aspectY <= 0 || aspectX <= 0) {
-            return;
-        }
-
-        getDrawingRect(viewDrawingRect);
-        path.reset();
-        if (isCircle) {
-            path.addCircle(mCropRect.left + mCropRect.width() / 2, mCropRect.top + mCropRect.height() / 2, mCropRect.width() / 2, Path.Direction.CW);
-        } else {
-            drawStrokeLine(canvas);
-            path.addRect(mCropRect.left, mCropRect.top, mCropRect.right, mCropRect.bottom, Path.Direction.CW);
-        }
-        canvas.clipPath(path, android.graphics.Region.Op.DIFFERENCE);
-        canvas.drawRect(viewDrawingRect, maskPaint);
-        canvas.drawPath(path, cropRectPaint);
     }
 
     @Override
@@ -721,28 +594,18 @@ public class CropImageView extends ImageView {
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
-        if (isEnable) {
-            final int Action = event.getActionMasked();
-            if (event.getPointerCount() >= 2) hasMultiTouch = true;
+        final int Action = event.getActionMasked();
+        if (event.getPointerCount() >= 2) hasMultiTouch = true;
 
-            mDetector.onTouchEvent(event);
-            if (isRotateEnable) {
-                mRotateDetector.onTouchEvent(event);
-            }
-            mScaleDetector.onTouchEvent(event);
-            if (Action == MotionEvent.ACTION_DOWN) {
-                isShowLine = true;
-                invalidate();
-            } else if (Action == MotionEvent.ACTION_UP || Action == MotionEvent.ACTION_CANCEL) {
-                onUp();
-                isShowLine = false;
-                invalidate();
-            }
-
-            return true;
-        } else {
-            return super.dispatchTouchEvent(event);
+        mDetector.onTouchEvent(event);
+        if (isRotateEnable) {
+            mRotateDetector.onTouchEvent(event);
         }
+        mScaleDetector.onTouchEvent(event);
+        if (Action == MotionEvent.ACTION_UP || Action == MotionEvent.ACTION_CANCEL) {
+            onUp();
+        }
+        return true;
     }
 
     private void onUp() {
@@ -761,10 +624,6 @@ public class CropImageView extends ImageView {
             mTranslate.withRotate((int) mDegrees, (int) toDegrees);
 
             mDegrees = toDegrees;
-        }
-
-        if (!isBounceEnable) {
-            return;
         }
 
         float cx = mImgRect.left * 1.00f + mImgRect.width() / 2;
@@ -793,12 +652,6 @@ public class CropImageView extends ImageView {
 
         doTranslateReset(mTmpRect);
         mTranslate.start();
-    }
-
-    private boolean isBounceEnable = true;
-
-    public void setBounceEnable(boolean isBounceEnable) {
-        this.isBounceEnable = isBounceEnable;
     }
 
     private void doTranslateReset(RectF imgRect) {
@@ -1008,9 +861,9 @@ public class CropImageView extends ImageView {
 
                 mAnimMatrix.postTranslate(-distanceX, 0);
                 mTranslateX -= distanceX;
-            } else if (imgLargeWidth || hasMultiTouch || hasOverTranslate || !isBounceEnable) {
+            } else if (imgLargeWidth || hasMultiTouch || hasOverTranslate) {
                 checkRect();
-                if (!hasMultiTouch || !isBounceEnable) {
+                if (!hasMultiTouch) {
                     if (distanceX < 0 && mImgRect.left - distanceX > mCommonRect.left)
                         distanceX = resistanceScrollByX(mImgRect.left - mCommonRect.left, distanceX);
                     if (distanceX > 0 && mImgRect.right - distanceX < mCommonRect.right)
@@ -1030,9 +883,9 @@ public class CropImageView extends ImageView {
 
                 mAnimMatrix.postTranslate(0, -distanceY);
                 mTranslateY -= distanceY;
-            } else if (imgLargeHeight || hasOverTranslate || hasMultiTouch || !isBounceEnable) {
+            } else if (imgLargeHeight || hasOverTranslate || hasMultiTouch) {
                 checkRect();
-                if (!hasMultiTouch || !isBounceEnable) {
+                if (!hasMultiTouch) {
                     if (distanceY < 0 && mImgRect.top - distanceY > mCommonRect.top)
                         distanceY = resistanceScrollByY(mImgRect.top - mCommonRect.top, distanceY);
                     if (distanceY > 0 && mImgRect.bottom - distanceY < mCommonRect.bottom)
@@ -1112,18 +965,12 @@ public class CropImageView extends ImageView {
 
     @Override
     public boolean canScrollHorizontally(int direction) {
-        if (!isEnable) {
-            return super.canScrollHorizontally(direction);
-        }
         if (hasMultiTouch) return true;
         return canScrollHorizontallySelf(direction);
     }
 
     @Override
     public boolean canScrollVertically(int direction) {
-        if (!isEnable) {
-            return super.canScrollVertically(direction);
-        }
         if (hasMultiTouch) return true;
         return canScrollVerticallySelf(direction);
     }
@@ -1379,8 +1226,6 @@ public class CropImageView extends ImageView {
         ((Activity) getContext()).runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                setShowImageRectLine(false);
-                isShowCropRect = false;
                 invalidate();
             }
         });
@@ -1389,9 +1234,6 @@ public class CropImageView extends ImageView {
         try {
             bitmap = Bitmap.createBitmap(bitmap, (int) mCropRect.left, (int) mCropRect.top,
                     (int) mCropRect.width(), (int) mCropRect.height());
-            if (isCircle) {
-                bitmap = createCircleBitmap(bitmap, backgroundColor);
-            }
         } catch (Exception ignored) {
         }
         return bitmap;
@@ -1400,7 +1242,7 @@ public class CropImageView extends ImageView {
     /**
      * @return view的截图，在InVisible时也可以获取到bitmap
      */
-    public  Bitmap getViewBitmap(View view) {
+    public Bitmap getViewBitmap(View view) {
         view.measure(View.MeasureSpec.makeMeasureSpec(view.getMeasuredWidth(), View.MeasureSpec.EXACTLY),
                 View.MeasureSpec.makeMeasureSpec(view.getMeasuredHeight(), View.MeasureSpec.EXACTLY));
         view.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
@@ -1470,42 +1312,11 @@ public class CropImageView extends ImageView {
         Bitmap bitmap1;
         try {
             bitmap1 = Bitmap.createBitmap(originalBitmap, (int) endX, (int) endY, (int) endW, (int) endH);
-            if (isCircle) {
-                bitmap1 = createCircleBitmap(bitmap1, Color.TRANSPARENT);
-            }
         } catch (Exception ignored) {
             bitmap1 = generateCropBitmapFromView(Color.BLACK);
         }
         return bitmap1;
     }
-
-    public void setShowCropRect(boolean showCropRect) {
-        isShowCropRect = showCropRect;
-        invalidate();
-    }
-
-    private Bitmap createCircleBitmap(Bitmap resource, int backgroundColor) {
-        int width = resource.getWidth();
-        Paint paint = new Paint();
-        paint.setAntiAlias(true);
-        Bitmap circleBitmap = Bitmap.createBitmap(resource.getWidth(), resource.getHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(circleBitmap);
-        if (backgroundColor != Color.TRANSPARENT) {
-            paint.setColor(backgroundColor);
-        }
-        canvas.drawCircle(width / 2, width / 2, width / 2, paint);
-        //设置画笔为取交集模式
-        if (backgroundColor == Color.TRANSPARENT) {
-            paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
-        } else {
-            paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_ATOP));
-        }
-
-        //裁剪图片
-        canvas.drawBitmap(resource, 0, 0, paint);
-        return circleBitmap;
-    }
-
 
     public float getTranslateX() {
         return mImgRect.left - mCropRect.left;
@@ -1562,7 +1373,6 @@ public class CropImageView extends ImageView {
                 mCropRect.top = (finalTop - oldTop) * value + oldTop;
                 mCropRect.right = (finalRight - oldRight) * value + oldRight;
                 mCropRect.bottom = (finalBottom - oldBottom) * value + oldBottom;
-                isShowLine = value < 1.0f;
                 initBase();
                 invalidate();
             }
@@ -1603,4 +1413,158 @@ public class CropImageView extends ImageView {
             setLayoutParams(params);
         }
     }
+
+
+    public class Info implements Parcelable, Serializable {
+        // 控件在窗口的位置
+        public RectF mImgRect = new RectF();
+        public RectF mWidgetRect = new RectF();
+
+        public float mDegrees;
+        public float mCropX;
+        public float mCropY;
+        public String mScaleType;
+
+        public float transitX;
+        public float transitY;
+        public float mScale;
+
+        public ImageView.ScaleType getScaleType() {
+            return ImageView.ScaleType.valueOf(mScaleType);
+        }
+
+
+        public Info(RectF img, RectF widget, float degrees, String scaleType, float mCropX,
+                    float mCropY, float transitX, float transitY, float mScale) {
+            mImgRect.set(img);
+            mWidgetRect.set(widget);
+            mScaleType = scaleType;
+            mDegrees = degrees;
+            this.mCropX = mCropX;
+            this.mCropY = mCropY;
+            this.transitX = transitX;
+            this.transitY = transitY;
+            this.mScale = mScale;
+        }
+
+        protected Info(Parcel in) {
+            mImgRect = in.readParcelable(RectF.class.getClassLoader());
+            mWidgetRect = in.readParcelable(RectF.class.getClassLoader());
+            mScaleType = in.readString();
+            mDegrees = in.readFloat();
+            mCropX = in.readFloat();
+            mCropY = in.readFloat();
+            this.transitX = in.readFloat();;
+            this.transitY = in.readFloat();;
+            this.mScale = in.readFloat();;
+        }
+
+        public final Creator<Info> CREATOR = new Creator<Info>() {
+            @Override
+            public Info createFromParcel(Parcel in) {
+                return new Info(in);
+            }
+
+            @Override
+            public Info[] newArray(int size) {
+                return new Info[size];
+            }
+        };
+
+        /**
+         * Describe the kinds of special objects contained in this Parcelable
+         * instance's marshaled representation. For example, if the object will
+         * include a file descriptor in the output of {@link #writeToParcel(Parcel, int)},
+         * the return value of this method must include the
+         * {@link #CONTENTS_FILE_DESCRIPTOR} bit.
+         *
+         * @return a bitmask indicating the set of special object types marshaled
+         * by this Parcelable object instance.
+         */
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        /**
+         * Flatten this object in to a Parcel.
+         *
+         * @param dest  The Parcel in which the object should be written.
+         * @param flags Additional flags about how the object should be written.
+         *              May be 0 or {@link #PARCELABLE_WRITE_RETURN_VALUE}.
+         */
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeParcelable(mImgRect, flags);
+            dest.writeParcelable(mWidgetRect, flags);
+            dest.writeString(mScaleType);
+            dest.writeFloat(mDegrees);
+            dest.writeFloat(mCropX);
+            dest.writeFloat(mCropY);
+            dest.writeFloat(transitX);
+            dest.writeFloat(transitY);
+            dest.writeFloat(mScale);
+        }
+    }
+
+    public static class RotateGestureDetector {
+
+        private static final int MAX_DEGREES_STEP = 120;
+
+        private OnRotateListener mListener;
+
+        private float mPrevSlope;
+        private float mCurrSlope;
+
+        private float x1;
+        private float y1;
+        private float x2;
+        private float y2;
+
+        public RotateGestureDetector(OnRotateListener l) {
+            mListener = l;
+        }
+
+        public void onTouchEvent(MotionEvent event) {
+
+            final int Action = event.getActionMasked();
+
+            switch (Action) {
+                case MotionEvent.ACTION_POINTER_DOWN:
+                case MotionEvent.ACTION_POINTER_UP:
+                    if (event.getPointerCount() == 2) mPrevSlope = caculateSlope(event);
+                    break;
+                case MotionEvent.ACTION_MOVE:
+                    if (event.getPointerCount() > 1) {
+                        mCurrSlope = caculateSlope(event);
+
+                        double currDegrees = Math.toDegrees(Math.atan(mCurrSlope));
+                        double prevDegrees = Math.toDegrees(Math.atan(mPrevSlope));
+
+                        double deltaSlope = currDegrees - prevDegrees;
+
+                        if (Math.abs(deltaSlope) <= MAX_DEGREES_STEP) {
+                            mListener.onRotate((float) deltaSlope, (x2 + x1) / 2, (y2 + y1) / 2);
+                        }
+                        mPrevSlope = mCurrSlope;
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private float caculateSlope(MotionEvent event) {
+            x1 = event.getX(0);
+            y1 = event.getY(0);
+            x2 = event.getX(1);
+            y2 = event.getY(1);
+            return (y2 - y1) / (x2 - x1);
+        }
+
+        public interface OnRotateListener {
+            void onRotate(float degrees, float focusX, float focusY);
+        }
+    }
+
 }
