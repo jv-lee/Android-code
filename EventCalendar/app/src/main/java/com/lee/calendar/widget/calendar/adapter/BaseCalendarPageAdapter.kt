@@ -66,6 +66,7 @@ abstract class BaseCalendarPageAdapter(private val data: ArrayList<DateEntity>) 
         return if (monthMode() == MonthView.MonthMode.MODE_MONTH) {
             position
         } else {
+            if (data.isEmpty()) return 0
             val dayEntity = data[0].dayList[0]
             val weekDiffCount = CalendarUtils.getDiffWeekPage(
                 Calendar.getInstance().also {

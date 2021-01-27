@@ -3,6 +3,7 @@ package com.lee.calendar.widget.calendar.core
 import com.lee.calendar.widget.calendar.entity.DateEntity
 import com.lee.calendar.widget.calendar.entity.DayEntity
 import com.lee.calendar.widget.calendar.utils.CalendarUtils
+import com.lee.calendar.widget.calendar.utils.MemoryUtils
 import java.util.*
 
 /**
@@ -36,6 +37,10 @@ class CalendarManager(
     }
 
     private fun initMonthList(): ArrayList<DateEntity> {
+        //内存不足初始化失败
+        if (!MemoryUtils.hasMemory()) {
+            return arrayListOf()
+        }
         val startCalendar = Calendar.getInstance()
         startCalendar.add(Calendar.MONTH, -initPrevMonthCount)
 
@@ -46,6 +51,10 @@ class CalendarManager(
         val calendar = Calendar.getInstance()
 
         while (true) {
+            //内存不足初始化失败
+            if (!MemoryUtils.hasMemory()) {
+                return arrayListOf()
+            }
             val year = startCalendar.get(Calendar.YEAR)
             val month = startCalendar.get(Calendar.MONTH)
 
@@ -194,6 +203,10 @@ class CalendarManager(
     }
 
     private fun initWeekList(): ArrayList<DateEntity> {
+        //内存不足初始化失败
+        if (!MemoryUtils.hasMemory()) {
+            return arrayListOf()
+        }
         val startCalendar = Calendar.getInstance()
         startCalendar.add(Calendar.MONTH, -initPrevMonthCount)
         startCalendar.set(Calendar.DATE, 1)
@@ -206,6 +219,10 @@ class CalendarManager(
         val dateList = arrayListOf<DateEntity>()
         var calendar = Calendar.getInstance()
         while (true) {
+            //内存不足初始化失败
+            if (!MemoryUtils.hasMemory()) {
+                return arrayListOf()
+            }
             val year = startCalendar.get(Calendar.YEAR)
             val month = startCalendar.get(Calendar.MONTH)
             val day = startCalendar.get(Calendar.DATE)
