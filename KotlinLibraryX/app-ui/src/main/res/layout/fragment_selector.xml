@@ -138,10 +138,9 @@
             <com.lee.library.widget.RoundImageView
                 app:topLeftRadius="10dp"
                 app:topRightRadius="10dp"
-                android:layout_width="352dp"
+                android:layout_width="match_parent"
                 android:layout_height="100dp"
                 app:layout_mode="round"
-                android:layout_marginTop="4dp"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

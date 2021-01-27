@@ -56,12 +56,12 @@ class ShadowConstraintLayout(context: Context, attributeSet: AttributeSet) :
             shadowFillColor = getColor(R.styleable.ShadowFrameLayout_shadowFillColor, Color.WHITE)
             shadowOffsetX = getDimension(R.styleable.ShadowFrameLayout_shadowOffsetX, 0F)
             shadowOffsetY = getDimension(R.styleable.ShadowFrameLayout_shadowOffsetY, 0F)
-
             recycle()
         }
         setWillNotDraw(false)
         initPaint()
         initPaddingSize()
+        super.setPadding(offsetLeftPadding, offsetTopPadding, offsetRightPadding, offsetBottomPadding)
         setLayerType(View.LAYER_TYPE_SOFTWARE, null)
     }
 
@@ -92,7 +92,6 @@ class ShadowConstraintLayout(context: Context, attributeSet: AttributeSet) :
         mWidth = w - shadowBlur
         mHeight = h - shadowBlur
         initRectF()
-        setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom)
     }
 
     /**
