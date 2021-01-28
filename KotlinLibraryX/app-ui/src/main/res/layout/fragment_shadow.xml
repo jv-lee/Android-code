@@ -126,7 +126,6 @@
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:layout_marginTop="16dp"
-            android:padding="4dp"
             app:outLineColor="@color/colorPrimaryDark"
             app:outLineWidth="0dp"
             app:shadowBlur="4dp"
