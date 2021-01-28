@@ -48,14 +48,14 @@ class ShadowConstraintLayout(context: Context, attributeSet: AttributeSet) :
 
     init {
         context.obtainStyledAttributes(attributeSet, R.styleable.ShadowConstraintLayout).run {
-            outLineWidth = getDimension(R.styleable.ShadowFrameLayout_outLineWidth, 0f)
-            outLineColor = getColor(R.styleable.ShadowFrameLayout_outLineColor, Color.BLACK)
-            shadowRound = getDimension(R.styleable.ShadowFrameLayout_shadowRound, 10F)
-            shadowBlur = getDimension(R.styleable.ShadowFrameLayout_shadowBlur, 10F)
-            shadowColor = getColor(R.styleable.ShadowFrameLayout_shadowColor, Color.BLACK)
-            shadowFillColor = getColor(R.styleable.ShadowFrameLayout_shadowFillColor, Color.WHITE)
-            shadowOffsetX = getDimension(R.styleable.ShadowFrameLayout_shadowOffsetX, 0F)
-            shadowOffsetY = getDimension(R.styleable.ShadowFrameLayout_shadowOffsetY, 0F)
+            outLineWidth = getDimension(R.styleable.ShadowConstraintLayout_outLineWidth, 0f)
+            outLineColor = getColor(R.styleable.ShadowConstraintLayout_outLineColor, Color.BLACK)
+            shadowRound = getDimension(R.styleable.ShadowConstraintLayout_shadowRound, 10F)
+            shadowBlur = getDimension(R.styleable.ShadowConstraintLayout_shadowBlur, 10F)
+            shadowColor = getColor(R.styleable.ShadowConstraintLayout_shadowColor, Color.BLACK)
+            shadowFillColor = getColor(R.styleable.ShadowConstraintLayout_shadowFillColor, Color.WHITE)
+            shadowOffsetX = getDimension(R.styleable.ShadowConstraintLayout_shadowOffsetX, 0F)
+            shadowOffsetY = getDimension(R.styleable.ShadowConstraintLayout_shadowOffsetY, 0F)
             recycle()
         }
         setWillNotDraw(false)
@@ -63,25 +63,6 @@ class ShadowConstraintLayout(context: Context, attributeSet: AttributeSet) :
         initPaddingSize()
         super.setPadding(offsetLeftPadding, offsetTopPadding, offsetRightPadding, offsetBottomPadding)
         setLayerType(View.LAYER_TYPE_SOFTWARE, null)
-    }
-
-    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-        var widthSize = measuredWidth
-        var heightSize = measuredHeight
-
-        val widthMode = MeasureSpec.getMode(widthMeasureSpec)
-        val heightMode = MeasureSpec.getMode(heightMeasureSpec)
-
-        //非精确模式 设置阴影填充
-        if (widthMode != MeasureSpec.EXACTLY) {
-            widthSize += (shadowBlur.toInt() * 2)
-        }
-        if (heightMode != MeasureSpec.EXACTLY) {
-            heightSize += (shadowBlur.toInt() * 2)
-        }
-
-        setMeasuredDimension(widthSize, heightSize)
     }
 
     /**

@@ -123,17 +123,6 @@
     <attr name="shadowOffsetX" format="dimension" />
     <attr name="shadowOffsetY" format="dimension" />
 
-    <declare-styleable name="ShadowFrameLayout">
-        <attr name="outLineWidth" />
-        <attr name="outLineColor" />
-        <attr name="shadowRound" />
-        <attr name="shadowBlur" />
-        <attr name="shadowColor" />
-        <attr name="shadowFillColor" />
-        <attr name="shadowOffsetX" />
-        <attr name="shadowOffsetY" />
-    </declare-styleable>
-
     <declare-styleable name="ShadowConstraintLayout">
         <attr name="outLineWidth" />
         <attr name="outLineColor" />

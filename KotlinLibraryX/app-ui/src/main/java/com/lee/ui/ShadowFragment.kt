@@ -10,7 +10,7 @@ import com.lee.library.widget.nav.NumberDotView
  * @date 2021/1/14
  * @description
  */
-class DotFragment : Fragment(R.layout.fragment_dot) {
+class ShadowFragment : Fragment(R.layout.fragment_shadow) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
