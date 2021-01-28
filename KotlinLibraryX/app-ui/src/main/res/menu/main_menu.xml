@@ -10,7 +10,7 @@
         android:title="@string/nav_wheel" />
 
     <item
-        android:id="@+id/test"
+        android:id="@+id/shadow"
         android:icon="@drawable/vector_icon"
-        android:title="test" />
+        android:title="@string/nav_shadow" />
 </menu>
