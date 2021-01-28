@@ -15,6 +15,8 @@ import kotlin.math.abs
  * @author jv.lee
  * @date 2020/9/16
  * @description 阴影容器
+ * @set outLineWidth 外线条宽度
+ * @set outLineColor 外线条颜色
  * @set shadowRound 容器圆角size
  * @set shadowBlur 阴影范围size
  * @set shadowColor 阴影颜色
@@ -53,7 +55,8 @@ class ShadowConstraintLayout(context: Context, attributeSet: AttributeSet) :
             shadowRound = getDimension(R.styleable.ShadowConstraintLayout_shadowRound, 10F)
             shadowBlur = getDimension(R.styleable.ShadowConstraintLayout_shadowBlur, 10F)
             shadowColor = getColor(R.styleable.ShadowConstraintLayout_shadowColor, Color.BLACK)
-            shadowFillColor = getColor(R.styleable.ShadowConstraintLayout_shadowFillColor, Color.WHITE)
+            shadowFillColor =
+                getColor(R.styleable.ShadowConstraintLayout_shadowFillColor, Color.WHITE)
             shadowOffsetX = getDimension(R.styleable.ShadowConstraintLayout_shadowOffsetX, 0F)
             shadowOffsetY = getDimension(R.styleable.ShadowConstraintLayout_shadowOffsetY, 0F)
             recycle()
@@ -61,7 +64,12 @@ class ShadowConstraintLayout(context: Context, attributeSet: AttributeSet) :
         setWillNotDraw(false)
         initPaint()
         initPaddingSize()
-        super.setPadding(offsetLeftPadding, offsetTopPadding, offsetRightPadding, offsetBottomPadding)
+        super.setPadding(
+            offsetLeftPadding,
+            offsetTopPadding,
+            offsetRightPadding,
+            offsetBottomPadding
+        )
         setLayerType(View.LAYER_TYPE_SOFTWARE, null)
     }
 
