@@ -3,6 +3,7 @@ package com.lee.wordstatistics
 import org.junit.Test
 
 import org.junit.Assert.*
+import java.util.concurrent.Executors
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -12,6 +13,19 @@ import org.junit.Assert.*
 class ExampleUnitTest {
     @Test
     fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
+        //按顺序队列执行的线程池
+        val executors = Executors.newSingleThreadExecutor()
+        executors.submit {
+            println(1)
+        }
+        executors.submit {
+            println(2)
+        }
+        executors.submit {
+            println(3)
+        }
+        executors.submit {
+            println(4)
+        }
     }
 }
