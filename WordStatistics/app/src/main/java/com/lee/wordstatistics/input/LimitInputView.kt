@@ -14,8 +14,10 @@ import com.dreame.reader.common.ui.widgets.edittext.CharLengthInputFilter
 import com.dreame.reader.common.ui.widgets.edittext.LengthWatcher
 import com.lee.wordstatistics.input.edit.WordLengthBySpaceInputFilter
 import com.lee.wordstatistics.R
+import com.lee.wordstatistics.WordCounter
 import com.lee.wordstatistics.input.edit.BreakInputFilter
 import com.lee.wordstatistics.input.edit.WordCounterInputFilter
+import com.lee.wordstatistics.input.edit.WordCounterWatcher
 
 /**
  * @Description 限制长度输入框
@@ -88,6 +90,27 @@ class LimitInputView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) 
             filters.add(BreakInputFilter())
         }
 
+        if (computerType == ComputerType.WORD_NEW) {
+            val watcher = object : WordCounterWatcher(context.applicationContext) {
+                override fun changeTextLimit(wordCounter: WordCounter, text: String, count: Int) {
+                    limitView.visibility = View.VISIBLE
+                    if (count == 0) {
+                        limitView.visibility = View.GONE
+                    } else if (count > maxLength) {
+                        val content = wordCounter.getWordLimitContent(text, maxLength)
+                        editText.setText(content)
+                        editText.setSelection(content.length)
+                    } else {
+                        limitView.text = getLengthString(count)
+                        limitView.setTextColor(getShowTipColor(maxLength - count))
+                    }
+                }
+
+            }
+            editText.addTextChangedListener(watcher)
+            return
+        }
+
         val watcher = object : LengthWatcher {
             override fun onChanged(inputLength: Int, minLength: Int, maxLength: Int) {
                 val remainLength = maxLength - inputLength
@@ -108,13 +131,7 @@ class LimitInputView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) 
                 this.minLength = this@LimitInputView.minLength
                 this.watcher = watcher
             })
-        } else if (computerType == ComputerType.WORD_NEW) {
-            filters.add(WordCounterInputFilter(context.applicationContext).apply {
-                this.maxLength = this@LimitInputView.maxLength
-                this.minLength = this@LimitInputView.minLength
-                this.watcher = watcher
-            })
-        } else {
+        }  else {
             filters.add(CharLengthInputFilter().apply {
                 this.maxLength = this@LimitInputView.maxLength
                 this.minLength = this@LimitInputView.minLength
