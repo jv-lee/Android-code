@@ -1,4 +1,4 @@
-package com.lee.code.widget.cropimage;
+package com.lee.code.widget;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -10,29 +10,18 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Matrix;
-import android.graphics.Path;
 import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
-import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.DecelerateInterpolator;
-import android.view.animation.Interpolator;
 import android.widget.ImageView;
 import android.widget.OverScroller;
-import android.widget.Scroller;
-
-import java.io.Serializable;
 
 
 /**
@@ -42,7 +31,9 @@ import java.io.Serializable;
  * Date: 2019/2/21
  */
 @SuppressLint("AppCompatCustomView")
-public class CropImageView extends ImageView {
+public class TransformImageView extends ImageView {
+
+    private final static String TAG = TransformImageView.class.getSimpleName();
     private final static int MIN_ROTATE = 35;
     private final static int ANIM_DURING = 340;
     private final static float MAX_SCALE = 2.5f;
@@ -55,23 +46,24 @@ public class CropImageView extends ImageView {
     private int MAX_FLING_OVER_SCROLL = 0;
     private int MAX_OVER_RESISTANCE = 0;
 
-    private Matrix mBaseMatrix = new Matrix();
-    private Matrix mAnimMatrix = new Matrix();
-    private Matrix mSynthesisMatrix = new Matrix();
-    private Matrix mTmpMatrix = new Matrix();
+    private android.graphics.Matrix mBaseMatrix = new android.graphics.Matrix();
+    private android.graphics.Matrix mAnimMatrix = new android.graphics.Matrix();
+    private android.graphics.Matrix mSynthesisMatrix = new android.graphics.Matrix();
+    private android.graphics.Matrix mTmpMatrix = new android.graphics.Matrix();
 
     private RotateGestureDetector mRotateDetector;
     private GestureDetector mDetector;
     private ScaleGestureDetector mScaleDetector;
     private OnClickListener mClickListener;
 
-    private ScaleType mScaleType = ScaleType.CENTER_INSIDE;
+    private ScaleType mScaleType = ScaleType.FIT_CENTER;
 
     private boolean hasMultiTouch;
     private boolean hasDrawable;
     private boolean isKnowSize;
     private boolean hasOverTranslate;
     private boolean isRotateEnable = false;
+    public boolean isDispatch = true;
     // 当前是否处于放大状态
     private boolean isZoomUp;
     private boolean canRotate;
@@ -102,24 +94,35 @@ public class CropImageView extends ImageView {
 
     private OnLongClickListener mLongClick;
 
-    public CropImageView(Context context) {
+    private boolean isDrawComplete = false;
+
+    //绘制完成设置状态
+    private void drawMatrixComplete() {
+        if (isDrawComplete) return;
+        postDelayed(() -> {
+            isDrawComplete = true;
+        }, 100);
+
+    }
+
+    public TransformImageView(Context context) {
         super(context);
         init();
     }
 
-    public CropImageView(Context context, AttributeSet attrs) {
+    public TransformImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
     }
 
-    public CropImageView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public TransformImageView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init();
     }
 
     private void init() {
         super.setScaleType(ScaleType.MATRIX);
-        if (mScaleType == null) mScaleType = ScaleType.CENTER_CROP;
+        if (mScaleType == null) mScaleType = ScaleType.FIT_CENTER;
         mRotateDetector = new RotateGestureDetector(mRotateListener);
         mDetector = new GestureDetector(getContext(), mGestureListener);
         mScaleDetector = new ScaleGestureDetector(getContext(), mScaleListener);
@@ -140,12 +143,16 @@ public class CropImageView extends ImageView {
 
     @Override
     public void setScaleType(ScaleType scaleType) {
-        if (scaleType == ScaleType.MATRIX) return;
-
-        if (scaleType != mScaleType) {
+        if (isDrawComplete) {
+            super.setScaleType(scaleType);
+        } else {
             mScaleType = scaleType;
             initBase();
         }
+    }
+
+    public void setScaleValue(float scale) {
+        this.mScale = scale;
     }
 
     public ScaleType getNewScaleType() {
@@ -167,7 +174,7 @@ public class CropImageView extends ImageView {
 
     @Override
     public void setImageResource(int resId) {
-        Drawable drawable = null;
+        android.graphics.drawable.Drawable drawable = null;
         try {
             drawable = getResources().getDrawable(resId);
         } catch (Exception ignored) {
@@ -207,7 +214,7 @@ public class CropImageView extends ImageView {
     }
 
     @Override
-    public void setImageDrawable(Drawable drawable) {
+    public void setImageDrawable(android.graphics.drawable.Drawable drawable) {
         super.setImageDrawable(drawable);
 
         if (drawable == null) {
@@ -224,7 +231,7 @@ public class CropImageView extends ImageView {
                 originalBitmap = ((BitmapDrawable) drawable).getBitmap();
             } else if (drawable instanceof AnimationDrawable) {
                 AnimationDrawable drawable1 = (AnimationDrawable) drawable;
-                Drawable drawable2 = drawable1.getFrame(0);
+                android.graphics.drawable.Drawable drawable2 = drawable1.getFrame(0);
                 if (drawable2 instanceof BitmapDrawable) {
                     originalBitmap = ((BitmapDrawable) drawable2).getBitmap();
                 }
@@ -310,20 +317,20 @@ public class CropImageView extends ImageView {
         this.onImageLoadListener = onImageLoadListener;
     }
 
-    private boolean hasSize(Drawable d) {
+    private boolean hasSize(android.graphics.drawable.Drawable d) {
         return (d.getIntrinsicHeight() > 0 && d.getIntrinsicWidth() > 0)
                 || (d.getMinimumWidth() > 0 && d.getMinimumHeight() > 0)
                 || (d.getBounds().width() > 0 && d.getBounds().height() > 0);
     }
 
-    private static int getDrawableWidth(Drawable d) {
+    private static int getDrawableWidth(android.graphics.drawable.Drawable d) {
         int width = d.getIntrinsicWidth();
         if (width <= 0) width = d.getMinimumWidth();
         if (width <= 0) width = d.getBounds().width();
         return width;
     }
 
-    private static int getDrawableHeight(Drawable d) {
+    private static int getDrawableHeight(android.graphics.drawable.Drawable d) {
         int height = d.getIntrinsicHeight();
         if (height <= 0) height = d.getMinimumHeight();
         if (height <= 0) height = d.getBounds().height();
@@ -340,7 +347,7 @@ public class CropImageView extends ImageView {
         mAnimMatrix.reset();
         isZoomUp = false;
 
-        Drawable img = getDrawable();
+        android.graphics.drawable.Drawable img = getDrawable();
 
         int w = getWidth();
         int h = getHeight();
@@ -400,6 +407,7 @@ public class CropImageView extends ImageView {
                 initFitXY();
                 break;
         }
+        drawMatrixComplete();
     }
 
     private void initCenter() {
@@ -470,7 +478,7 @@ public class CropImageView extends ImageView {
     }
 
     private void resetBase() {
-        Drawable img = getDrawable();
+        android.graphics.drawable.Drawable img = getDrawable();
         mBaseRect.set(0, 0, getDrawableWidth(img), getDrawableHeight(img));
         mBaseMatrix.set(mSynthesisMatrix);
         mBaseMatrix.mapRect(mBaseRect);
@@ -570,7 +578,7 @@ public class CropImageView extends ImageView {
     }
 
     private Rect viewDrawingRect = new Rect();
-    private Path path = new Path();
+    private android.graphics.Path path = new android.graphics.Path();
 
 
     @Override
@@ -594,6 +602,9 @@ public class CropImageView extends ImageView {
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
+        //继承控件拦截事件消费
+        if (!isDispatch) return super.dispatchTouchEvent(event);
+
         final int Action = event.getActionMasked();
         if (event.getPointerCount() >= 2) hasMultiTouch = true;
 
@@ -605,7 +616,7 @@ public class CropImageView extends ImageView {
         if (Action == MotionEvent.ACTION_UP || Action == MotionEvent.ACTION_CANCEL) {
             onUp();
         }
-        return true;
+        return super.dispatchTouchEvent(event);
     }
 
     private void onUp() {
@@ -792,7 +803,7 @@ public class CropImageView extends ImageView {
         @Override
         public void run() {
             if (mClickListener != null) {
-                mClickListener.onClick(CropImageView.this);
+                mClickListener.onClick(TransformImageView.this);
             }
         }
     };
@@ -801,7 +812,7 @@ public class CropImageView extends ImageView {
         @Override
         public void onLongPress(MotionEvent e) {
             if (mLongClick != null) {
-                mLongClick.onLongClick(CropImageView.this);
+                mLongClick.onLongClick(TransformImageView.this);
             }
         }
 
@@ -950,17 +961,29 @@ public class CropImageView extends ImageView {
     };
 
     public boolean canScrollHorizontallySelf(float direction) {
-        if (mImgRect.width() <= mCropRect.width()) return false;
-        if (direction < 0 && Math.round(mImgRect.left) - direction >= mCropRect.left)
+        if (mImgRect.width() <= mCropRect.width()) {
             return false;
-        return !(direction > 0) || !(Math.round(mImgRect.right) - direction <= mCropRect.right);
+        }
+        if (direction < 0 && Math.round(mImgRect.left) == Math.round(mCropRect.left)) {
+            return false;
+        }
+        if (direction > 0 && Math.round(mImgRect.right) == Math.round(mCropRect.right)) {
+            return false;
+        }
+        return true;
     }
 
     public boolean canScrollVerticallySelf(float direction) {
-        if (mImgRect.height() <= mCropRect.height()) return false;
-        if (direction < 0 && Math.round(mImgRect.top) - direction >= mCropRect.top)
+        if (mImgRect.height() <= mCropRect.height()) {
             return false;
-        return !(direction > 0) || !(Math.round(mImgRect.bottom) - direction <= mCropRect.bottom);
+        }
+        if (direction < 0 && Math.round(mImgRect.top) == Math.round(mCropRect.top)) {
+            return false;
+        }
+        if (direction > 0 && Math.round(mImgRect.bottom) == Math.round(mCropRect.bottom)) {
+            return false;
+        }
+        return true;
     }
 
     @Override
@@ -975,15 +998,15 @@ public class CropImageView extends ImageView {
         return canScrollVerticallySelf(direction);
     }
 
-    private class InterpolatorProxy implements Interpolator {
+    private class InterpolatorProxy implements android.view.animation.Interpolator {
 
-        private Interpolator mTarget;
+        private android.view.animation.Interpolator mTarget;
 
         private InterpolatorProxy() {
-            mTarget = new DecelerateInterpolator();
+            mTarget = new android.view.animation.DecelerateInterpolator();
         }
 
-        void setTargetInterpolator(Interpolator interpolator) {
+        void setTargetInterpolator(android.view.animation.Interpolator interpolator) {
             mTarget = interpolator;
         }
 
@@ -1002,9 +1025,9 @@ public class CropImageView extends ImageView {
 
         OverScroller mTranslateScroller;
         OverScroller mFlingScroller;
-        Scroller mScaleScroller;
-        Scroller mClipScroller;
-        Scroller mRotateScroller;
+        android.widget.Scroller mScaleScroller;
+        android.widget.Scroller mClipScroller;
+        android.widget.Scroller mRotateScroller;
 
         ClipCalculate C;
 
@@ -1021,13 +1044,13 @@ public class CropImageView extends ImageView {
         Transform() {
             Context ctx = getContext();
             mTranslateScroller = new OverScroller(ctx, mInterpolatorProxy);
-            mScaleScroller = new Scroller(ctx, mInterpolatorProxy);
+            mScaleScroller = new android.widget.Scroller(ctx, mInterpolatorProxy);
             mFlingScroller = new OverScroller(ctx, mInterpolatorProxy);
-            mClipScroller = new Scroller(ctx, mInterpolatorProxy);
-            mRotateScroller = new Scroller(ctx, mInterpolatorProxy);
+            mClipScroller = new android.widget.Scroller(ctx, mInterpolatorProxy);
+            mRotateScroller = new android.widget.Scroller(ctx, mInterpolatorProxy);
         }
 
-        public void setInterpolator(Interpolator interpolator) {
+        public void setInterpolator(android.view.animation.Interpolator interpolator) {
             mInterpolatorProxy.setTargetInterpolator(interpolator);
         }
 
@@ -1230,7 +1253,7 @@ public class CropImageView extends ImageView {
             }
         });
 
-        Bitmap bitmap = getViewBitmap(CropImageView.this);
+        Bitmap bitmap = getViewBitmap(TransformImageView.this);
         try {
             bitmap = Bitmap.createBitmap(bitmap, (int) mCropRect.left, (int) mCropRect.top,
                     (int) mCropRect.width(), (int) mCropRect.height());
@@ -1242,10 +1265,10 @@ public class CropImageView extends ImageView {
     /**
      * @return view的截图，在InVisible时也可以获取到bitmap
      */
-    public Bitmap getViewBitmap(View view) {
-        view.measure(View.MeasureSpec.makeMeasureSpec(view.getMeasuredWidth(), View.MeasureSpec.EXACTLY),
-                View.MeasureSpec.makeMeasureSpec(view.getMeasuredHeight(), View.MeasureSpec.EXACTLY));
-        view.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
+    public Bitmap getViewBitmap(android.view.View view) {
+        view.measure(MeasureSpec.makeMeasureSpec(view.getMeasuredWidth(), MeasureSpec.EXACTLY),
+                MeasureSpec.makeMeasureSpec(view.getMeasuredHeight(), MeasureSpec.EXACTLY));
+        view.setDrawingCacheQuality(android.view.View.DRAWING_CACHE_QUALITY_HIGH);
         view.setDrawingCacheEnabled(true);
         view.buildDrawingCache(true);
         return view.getDrawingCache(true);
@@ -1361,7 +1384,7 @@ public class CropImageView extends ImageView {
 
         if (cropAnim == null) {
             cropAnim = ObjectAnimator.ofFloat(0.0F, 1.0F).setDuration(400);
-            cropAnim.setInterpolator(new DecelerateInterpolator());
+            cropAnim.setInterpolator(new android.view.animation.DecelerateInterpolator());
         }
         cropAnim.removeAllUpdateListeners();
         cropAnim.removeAllListeners();
@@ -1393,7 +1416,7 @@ public class CropImageView extends ImageView {
             final int startWidth = getWidth();
             final int startHeight = getHeight();
             ValueAnimator anim = ValueAnimator.ofFloat(0.0f, 1.0f).setDuration(200);
-            anim.setInterpolator(new DecelerateInterpolator());
+            anim.setInterpolator(new android.view.animation.DecelerateInterpolator());
             anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 @Override
                 public void onAnimationUpdate(ValueAnimator animation) {
@@ -1415,7 +1438,7 @@ public class CropImageView extends ImageView {
     }
 
 
-    public class Info implements Parcelable, Serializable {
+    public class Info implements android.os.Parcelable, java.io.Serializable {
         // 控件在窗口的位置
         public RectF mImgRect = new RectF();
         public RectF mWidgetRect = new RectF();
@@ -1429,8 +1452,8 @@ public class CropImageView extends ImageView {
         public float transitY;
         public float mScale;
 
-        public ImageView.ScaleType getScaleType() {
-            return ImageView.ScaleType.valueOf(mScaleType);
+        public ScaleType getScaleType() {
+            return ScaleType.valueOf(mScaleType);
         }
 
 
@@ -1447,21 +1470,24 @@ public class CropImageView extends ImageView {
             this.mScale = mScale;
         }
 
-        protected Info(Parcel in) {
+        protected Info(android.os.Parcel in) {
             mImgRect = in.readParcelable(RectF.class.getClassLoader());
             mWidgetRect = in.readParcelable(RectF.class.getClassLoader());
             mScaleType = in.readString();
             mDegrees = in.readFloat();
             mCropX = in.readFloat();
             mCropY = in.readFloat();
-            this.transitX = in.readFloat();;
-            this.transitY = in.readFloat();;
-            this.mScale = in.readFloat();;
+            this.transitX = in.readFloat();
+            ;
+            this.transitY = in.readFloat();
+            ;
+            this.mScale = in.readFloat();
+            ;
         }
 
         public final Creator<Info> CREATOR = new Creator<Info>() {
             @Override
-            public Info createFromParcel(Parcel in) {
+            public Info createFromParcel(android.os.Parcel in) {
                 return new Info(in);
             }
 
@@ -1474,7 +1500,7 @@ public class CropImageView extends ImageView {
         /**
          * Describe the kinds of special objects contained in this Parcelable
          * instance's marshaled representation. For example, if the object will
-         * include a file descriptor in the output of {@link #writeToParcel(Parcel, int)},
+         * include a file descriptor in the output of {@link #writeToParcel(android.os.Parcel, int)},
          * the return value of this method must include the
          * {@link #CONTENTS_FILE_DESCRIPTOR} bit.
          *
@@ -1494,7 +1520,7 @@ public class CropImageView extends ImageView {
          *              May be 0 or {@link #PARCELABLE_WRITE_RETURN_VALUE}.
          */
         @Override
-        public void writeToParcel(Parcel dest, int flags) {
+        public void writeToParcel(android.os.Parcel dest, int flags) {
             dest.writeParcelable(mImgRect, flags);
             dest.writeParcelable(mWidgetRect, flags);
             dest.writeString(mScaleType);

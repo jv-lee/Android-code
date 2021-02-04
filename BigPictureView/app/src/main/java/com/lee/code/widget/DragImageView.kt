@@ -1,4 +1,4 @@
-package com.lee.code.widget.cropimage
+package com.lee.code.widget
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -7,6 +7,7 @@ import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.animation.Animation
 import android.view.animation.Transformation
+import kotlin.math.abs
 
 /**
  * @author jv.lee
@@ -14,11 +15,11 @@ import android.view.animation.Transformation
  * @description 可拖拽的ImageView
  * 当前实现为向下拖拽进入拖拽模式 ， 横向 向上不进入拖拽模式.
  */
-class DragImageView : CropImageView {
+class DragImageView : TransformImageView {
 
-    constructor(context: Context) : super(context, null, 0)
-    constructor(context: Context, attributeSet: AttributeSet) : super(context, attributeSet, 0)
-    constructor(context: Context, attributeSet: AttributeSet, defaultStyle: Int) : super(
+    constructor(context: Context) : this(context, null)
+    constructor(context: Context, attributeSet: AttributeSet?) : this(context, attributeSet, 0)
+    constructor(context: Context, attributeSet: AttributeSet?, defaultStyle: Int) : super(
         context,
         attributeSet,
         defaultStyle
@@ -84,21 +85,24 @@ class DragImageView : CropImageView {
                 // 获取当前手指位置
                 val endY: Float = ev.y
                 val endX: Float = ev.x
-                val distanceX: Float = Math.abs(endX - mStartX)
-                val distanceY: Float = Math.abs(endY - mStartY)
+                val distanceX: Float = mStartX - endX
+                val distanceY: Float = mStartY - endY
 
                 //判断当前View是否可以拖动 可拖动情况下 拦截父容器事件 子view处理当前滑动事件.
-                if (canScrollHorizontally(0) || canScrollVertically(0)) {
+                if ((abs(distanceX) > abs(distanceY) && canScrollHorizontally(distanceX.toInt())) ||
+                    (abs(distanceY) > abs(distanceX)) && canScrollVertically(distanceY.toInt())) {
                     parent.requestDisallowInterceptTouchEvent(true)
                     return super.dispatchTouchEvent(ev)
                 }
                 // 当前子view不可消费事件 且为横向拖动 则返回false 子view不处理 直接返回父容器处理事件
-                if (!isChildTouch && distanceX > distanceY) {
+                if (!isChildTouch && abs(distanceX) > abs(distanceY)) {
+                    parent.requestDisallowInterceptTouchEvent(false)
                     isParentTouch = true
                     return false
                 }
                 // 当前子view不可消费事件 且滑动为向上滑动 则返回false 直接返回父亲容器处理事件
                 if (!isChildTouch && endY < mStartY) {
+                    parent.requestDisallowInterceptTouchEvent(false)
                     isParentTouch = true
                     return false
                 }
@@ -106,6 +110,7 @@ class DragImageView : CropImageView {
                 if (endY > mStartY) {
                     isChildTouch = true
                     isParentTouch = false
+                    isDispatch = false
                     parent.requestDisallowInterceptTouchEvent(true)
                     return super.dispatchTouchEvent(ev)
                 }
@@ -115,6 +120,7 @@ class DragImageView : CropImageView {
                 parent.requestDisallowInterceptTouchEvent(false)
                 isParentTouch = false
                 isChildTouch = false
+                isDispatch = true
             }
         }
         return super.dispatchTouchEvent(ev)
@@ -123,19 +129,27 @@ class DragImageView : CropImageView {
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent): Boolean {
         super.onTouchEvent(event)
+        mGesture.onTouchEvent(event)
         //多点触控直接交由父view处理
         if (event.pointerCount > 1) {
             parent.requestDisallowInterceptTouchEvent(true)
             return true
         }
-        //父view可滑动则当前滑动事件不处理
-        if (canScrollHorizontally(0) || canScrollHorizontally(0)) {
-            return true
-        }
+
         val x = event.rawX.toInt()
         val y = event.rawY.toInt()
         when (event.action) {
+            MotionEvent.ACTION_DOWN ->{
+                mStartY = event.y
+                mStartX = event.x
+            }
             MotionEvent.ACTION_MOVE -> {
+                val distanceX: Float = mStartX - x
+                val distanceY: Float = mStartY - y
+                //父view可滑动则当前滑动事件不处理
+                if (canScrollHorizontally(distanceX.toInt()) || canScrollHorizontally(distanceY.toInt())) {
+                    return true
+                }
                 //当前view拖动时拦截父容器处理事件
                 parent.requestDisallowInterceptTouchEvent(true)
                 //计算距离上次移动了多远
@@ -165,7 +179,6 @@ class DragImageView : CropImageView {
         }
         mEndX = x
         mEndY = y
-        mGesture.onTouchEvent(event)
         return true
     }
 
