@@ -1,6 +1,7 @@
 package com.lee.library.extensions
 
 import android.content.res.ColorStateList
+import android.graphics.drawable.Drawable
 import android.graphics.drawable.StateListDrawable
 import android.text.*
 import android.view.View
@@ -85,10 +86,10 @@ fun View.setBackgroundSelectorTintCompat(selectorId: Int) {
  */
 fun View.setBackgroundAlphaCompat(alpha: Int) {
     background ?: return
-    val mutate = background.mutate()
-    if (mutate != null) {
-        mutate.alpha = alpha
-    } else {
+    val mutate: Drawable? = background.mutate()
+    mutate?.let {
+        it.alpha = alpha
+    } ?: kotlin.run {
         background.alpha = alpha
     }
 }
