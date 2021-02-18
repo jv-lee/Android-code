@@ -27,25 +27,26 @@ import kotlin.math.abs
  * 监听RecyclerView滑动状态 Glide加载模式
  */
 fun RecyclerView.glideEnable() {
-    if (true) {
-        return
-    }
     addOnScrollListener(object : RecyclerView.OnScrollListener() {
         var isDown = false
         var lastPosition = 0
         override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
             super.onScrollStateChanged(recyclerView, newState)
-            if (!isDown) return
+            context ?: return
+            if (!isDown) {
+                Glide.with(context).resumeRequests()
+                return
+            }
             when (newState) {
                 //正在拖动
                 RecyclerView.SCROLL_STATE_DRAGGING ->
-                    context?.let { Glide.with(it).resumeRequests() }
+                    Glide.with(context).resumeRequests()
                 //滑动停止
                 RecyclerView.SCROLL_STATE_IDLE ->
-                    context?.let { Glide.with(it).resumeRequests() }
+                    Glide.with(context).resumeRequests()
                 //惯性滑动中
                 RecyclerView.SCROLL_STATE_SETTLING ->
-                    context?.let { Glide.with(it).pauseRequests() }
+                    Glide.with(context).pauseRequests()
             }
         }
 
