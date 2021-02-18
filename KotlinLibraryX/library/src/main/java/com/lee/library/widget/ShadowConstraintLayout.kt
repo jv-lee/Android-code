@@ -9,6 +9,7 @@ import android.util.AttributeSet
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.lee.library.R
+import com.lee.library.extensions.dp2px
 import kotlin.math.abs
 
 /**
@@ -102,12 +103,17 @@ class ShadowConstraintLayout(context: Context, attributeSet: AttributeSet) :
         super.onDraw(canvas)
         canvas?.drawRoundRect(
             mRectF,
-            shadowRound + outLineWidth,
-            shadowRound + outLineWidth,
+            context.dp2px((shadowRound + outLineWidth).toInt()),
+            context.dp2px((shadowRound + outLineWidth).toInt()),
             mPaint
         )
         if (outLineWidth != 0F) {
-            canvas?.drawRoundRect(mLineRectF, shadowRound, shadowRound, mStrokePaint)
+            canvas?.drawRoundRect(
+                mLineRectF,
+                context.dp2px(shadowRound.toInt()),
+                context.dp2px(shadowRound.toInt()),
+                mStrokePaint
+            )
         }
     }
 
