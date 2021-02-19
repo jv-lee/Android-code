@@ -61,6 +61,97 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:outLineColor="#ff0000"
+            app:outLineWidth="1dp"
+            app:shadowBlur="16dp"
+            app:shadowColor="#000000"
+            app:shadowFillColor="#000000"
+            app:shadowOffsetY="4dp"
+            app:shadowRound="10dp">
+
+            <com.lee.library.widget.RoundImageView
+                android:id="@+id/iv_picture"
+                android:layout_width="match_parent"
+                android:layout_height="160dp"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/picture"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_mode="round"
+                app:topLeftRadius="10dp"
+                app:topRightRadius="10dp" />
+
+            <TextView
+                android:id="@+id/tv_description"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxLines="3"
+                android:text="this is content text."
+                android:textColor="#ffffff"
+                android:textSize="@dimen/font_size_large_xx"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_picture" />
+
+        </com.lee.library.widget.ShadowConstraintLayout>
+
+        <com.lee.library.widget.ShadowConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:shadowBlur="8dp"
+            app:shadowColor="#ababab"
+            app:shadowFillColor="#000000"
+            app:shadowOffsetY="4dp"
+            app:shadowRound="10dp">
+
+            <com.lee.library.widget.RoundImageView
+                android:id="@+id/iv_picture2"
+                android:layout_width="match_parent"
+                android:layout_height="160dp"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/picture"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_mode="round"
+                app:topLeftRadius="10dp"
+                app:topRightRadius="10dp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxLines="3"
+                android:text="this is content text."
+                android:textColor="#ffffff"
+                android:textSize="@dimen/font_size_large_xx"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_picture2" />
+
+        </com.lee.library.widget.ShadowConstraintLayout>
+
+        <com.lee.library.widget.ShadowConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
             app:shadowBlur="4dp"
             app:shadowColor="@color/colorPrimaryDark"
             app:shadowOffsetX="2dp"

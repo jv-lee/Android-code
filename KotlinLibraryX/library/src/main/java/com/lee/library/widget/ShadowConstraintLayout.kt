@@ -49,6 +49,9 @@ class ShadowConstraintLayout(context: Context, attributeSet: AttributeSet) :
     private var offsetRightPadding = 0
     private var offsetBottomPadding = 0
 
+    private var roundOffset = 0F
+    private var lineRoundOffset = 0F
+
     init {
         context.obtainStyledAttributes(attributeSet, R.styleable.ShadowConstraintLayout).run {
             outLineWidth = getDimension(R.styleable.ShadowConstraintLayout_outLineWidth, 0f)
@@ -65,6 +68,7 @@ class ShadowConstraintLayout(context: Context, attributeSet: AttributeSet) :
         setWillNotDraw(false)
         initPaint()
         initPaddingSize()
+        initRoundOffset()
         super.setPadding(
             offsetLeftPadding,
             offsetTopPadding,
@@ -101,20 +105,18 @@ class ShadowConstraintLayout(context: Context, attributeSet: AttributeSet) :
      */
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
-        canvas?.drawRoundRect(
-            mRectF,
-            context.dp2px((shadowRound + outLineWidth).toInt()),
-            context.dp2px((shadowRound + outLineWidth).toInt()),
-            mPaint
+        canvas?.drawRoundRect(mRectF, roundOffset, roundOffset, mPaint)
+        if (outLineWidth != 0F) canvas?.drawRoundRect(
+            mLineRectF,
+            lineRoundOffset,
+            lineRoundOffset,
+            mStrokePaint
         )
-        if (outLineWidth != 0F) {
-            canvas?.drawRoundRect(
-                mLineRectF,
-                context.dp2px(shadowRound.toInt()),
-                context.dp2px(shadowRound.toInt()),
-                mStrokePaint
-            )
-        }
+    }
+
+    private fun initRoundOffset() {
+        roundOffset = shadowRound + outLineWidth + context.dp2px(1)
+        lineRoundOffset = shadowRound + outLineWidth
     }
 
     /**
@@ -137,18 +139,18 @@ class ShadowConstraintLayout(context: Context, attributeSet: AttributeSet) :
      */
     private fun initPaddingSize() {
         if (shadowOffsetY > 0) {
-            offsetTopPadding = (shadowBlur - shadowOffsetY).toInt()
-            offsetBottomPadding = (shadowBlur + shadowOffsetY).toInt()
+            offsetTopPadding = ((shadowBlur - shadowOffsetY) + outLineWidth).toInt()
+            offsetBottomPadding = ((shadowBlur + shadowOffsetY) + outLineWidth).toInt()
         } else {
-            offsetTopPadding = ((shadowBlur + abs(shadowOffsetY)).toInt())
-            offsetBottomPadding = (shadowBlur - abs(shadowOffsetY)).toInt()
+            offsetTopPadding = ((shadowBlur + abs(shadowOffsetY)) + outLineWidth).toInt()
+            offsetBottomPadding = ((shadowBlur - abs(shadowOffsetY)) + outLineWidth).toInt()
         }
         if (shadowOffsetX > 0) {
-            offsetLeftPadding = (shadowBlur - shadowOffsetX).toInt()
-            offsetRightPadding = (shadowBlur + shadowOffsetX).toInt()
+            offsetLeftPadding = ((shadowBlur - shadowOffsetX) + outLineWidth).toInt()
+            offsetRightPadding = ((shadowBlur + shadowOffsetX) + outLineWidth).toInt()
         } else {
-            offsetLeftPadding = (shadowBlur + abs(shadowOffsetX)).toInt()
-            offsetRightPadding = (shadowBlur - abs(shadowOffsetX)).toInt()
+            offsetLeftPadding = ((shadowBlur + abs(shadowOffsetX)) + outLineWidth).toInt()
+            offsetRightPadding = ((shadowBlur - abs(shadowOffsetX)) + outLineWidth).toInt()
         }
     }
 
