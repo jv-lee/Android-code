@@ -49,8 +49,8 @@ class ShadowConstraintLayout(context: Context, attributeSet: AttributeSet) :
     private var offsetRightPadding = 0
     private var offsetBottomPadding = 0
 
-    private var roundOffset = 0F
-    private var lineRoundOffset = 0F
+    private var roundSize = 0F
+    private var roundLineSize = 0F
 
     init {
         context.obtainStyledAttributes(attributeSet, R.styleable.ShadowConstraintLayout).run {
@@ -68,7 +68,7 @@ class ShadowConstraintLayout(context: Context, attributeSet: AttributeSet) :
         setWillNotDraw(false)
         initPaint()
         initPaddingSize()
-        initRoundOffset()
+        initRoundSize()
         super.setPadding(
             offsetLeftPadding,
             offsetTopPadding,
@@ -105,18 +105,18 @@ class ShadowConstraintLayout(context: Context, attributeSet: AttributeSet) :
      */
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
-        canvas?.drawRoundRect(mRectF, roundOffset, roundOffset, mPaint)
+        canvas?.drawRoundRect(mRectF, roundSize, roundSize, mPaint)
         if (outLineWidth != 0F) canvas?.drawRoundRect(
             mLineRectF,
-            lineRoundOffset,
-            lineRoundOffset,
+            roundLineSize,
+            roundLineSize,
             mStrokePaint
         )
     }
 
-    private fun initRoundOffset() {
-        roundOffset = shadowRound + outLineWidth + context.dp2px(1)
-        lineRoundOffset = shadowRound + outLineWidth
+    private fun initRoundSize() {
+        roundSize = shadowRound + outLineWidth + context.dp2px(1)
+        roundLineSize = shadowRound + outLineWidth
     }
 
     /**
