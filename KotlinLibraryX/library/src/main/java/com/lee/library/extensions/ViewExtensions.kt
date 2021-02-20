@@ -3,6 +3,7 @@ package com.lee.library.extensions
 import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.StateListDrawable
+import android.os.Build
 import android.text.*
 import android.view.View
 import android.widget.EditText
@@ -15,6 +16,7 @@ import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.lee.library.R
 import kotlin.math.abs
 
 /**
@@ -131,6 +133,22 @@ fun RadioButton.setButtonTint(drawableId: Int, selectorId: Int) {
     val colorStateList = ContextCompat.getColorStateList(context, selectorId)
     DrawableCompat.setTintList(drawable, colorStateList)
     buttonDrawable = drawable
+}
+
+/**
+ * 设置view 前景色点击效果
+ */
+fun View.setSelectableItemForeground() {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        val attrs = intArrayOf(R.attr.selectableItemBackground)
+        val typedArray = context.obtainStyledAttributes(attrs)
+        val backgroundResource: Int = typedArray.getResourceId(
+            0,
+            0
+        )
+        setBackgroundResource(backgroundResource)
+        typedArray.recycle()
+    }
 }
 
 /**

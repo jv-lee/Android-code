@@ -15,6 +15,7 @@ import androidx.navigation.findNavController
 import com.lee.library.R
 import com.lee.library.extensions.px2sp
 import com.lee.library.extensions.setImageTintCompat
+import com.lee.library.extensions.setSelectableItemForeground
 import com.lee.library.utils.StatusUtil
 import com.lee.library.widget.menu.CustomPopupMenuHelper
 
@@ -103,6 +104,7 @@ open class TitleToolbar : CustomToolbarLayout {
                     resources.getDimension(R.dimen.toolbar_button_width).toInt()
                 ).apply { gravity = Gravity.START }
             scaleType = ImageView.ScaleType.CENTER
+            setSelectableItemForeground()
             backIcon?.let { setImageTintCompat(it, backIconTint!!) }
             backEnable?.let { visibility = it }
             setOnClickListener {
@@ -142,6 +144,7 @@ open class TitleToolbar : CustomToolbarLayout {
                     resources.getDimension(R.dimen.toolbar_button_width).toInt()
                 ).apply { gravity = Gravity.END }
             scaleType = ImageView.ScaleType.CENTER
+            setSelectableItemForeground()
             menuIcon?.let { setImageTintCompat(it, menuIconTint!!) }
             menuEnable?.let { visibility = it }
             setOnClickListener {
