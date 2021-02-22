@@ -142,10 +142,7 @@ fun View.setSelectableItemForeground() {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
         val attrs = intArrayOf(R.attr.selectableItemBackground)
         val typedArray = context.obtainStyledAttributes(attrs)
-        val backgroundResource: Int = typedArray.getResourceId(
-            0,
-            0
-        )
+        val backgroundResource: Int = typedArray.getResourceId(0, 0)
         setBackgroundResource(backgroundResource)
         typedArray.recycle()
     }
