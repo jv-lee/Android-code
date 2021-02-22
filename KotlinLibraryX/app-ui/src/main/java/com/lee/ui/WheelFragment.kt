@@ -1,10 +1,18 @@
 package com.lee.ui
 
+import android.animation.ValueAnimator
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
+import android.view.GestureDetector
+import android.view.MotionEvent
 import android.view.View
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.lee.library.extensions.dp2px
 import com.lee.library.widget.WheelView
+import kotlin.math.abs
 
 /**
  * @author jv.lee
@@ -13,9 +21,25 @@ import com.lee.library.widget.WheelView
  */
 class WheelFragment : Fragment(R.layout.fragment_wheel) {
 
+    private val TAG = "wheel_touch"
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initRefresh(view)
+        initWheel(view)
+    }
+
+    private fun initRefresh(view: View) {
+        val refreshView = view.findViewById<SwipeRefreshLayout>(R.id.refresh)
+        val constRoot = view.findViewById<ConstraintLayout>(R.id.const_root)
+        refreshView.dropLayout(constRoot)
+        refreshView.setOnRefreshListener {
+            refreshView.postDelayed({ refreshView.dropLayoutEnd(constRoot) }, 1000)
+        }
+    }
+
+    private fun initWheel(view: View) {
         val wheelView = view.findViewById<WheelView>(R.id.wheel_view)
         wheelView.bindData(arrayListOf<String>().also {
             for (index in 1..10) {
@@ -30,6 +54,62 @@ class WheelFragment : Fragment(R.layout.fragment_wheel) {
             }
 
         })
+    }
+
+    private fun SwipeRefreshLayout.dropLayoutEnd(contentView: View) {
+        isRefreshing = false
+        val animator = ValueAnimator.ofFloat(contentView.translationY, 0f)
+        animator.duration = 100
+        animator.addUpdateListener {
+            contentView.translationY = it.animatedValue as Float
+        }
+        animator.start()
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private fun SwipeRefreshLayout.dropLayout(contentView: View) {
+        val gestureDetector =
+            GestureDetector(context, object : GestureDetector.SimpleOnGestureListener() {
+                override fun onScroll(
+                    e1: MotionEvent?,
+                    e2: MotionEvent?,
+                    distanceX: Float,
+                    distanceY: Float
+                ): Boolean {
+                    if (contentView.translationY <= requireContext().dp2px(146)) {
+                        contentView.translationY += math(distanceY) / 2
+                    }
+                    return super.onScroll(e1, e2, distanceX, distanceY)
+                }
+            })
+        setOnTouchListener { v, event ->
+            if (event.action == MotionEvent.ACTION_UP) {
+                val animator =
+                    ValueAnimator.ofFloat(contentView.translationY, requireContext().dp2px(76))
+                animator.duration = 200
+                animator.addUpdateListener {
+                    contentView.translationY = it.animatedValue as Float
+                }
+                animator.start()
+                false
+            }
+            gestureDetector.onTouchEvent(event)
+            false
+        }
+    }
+
+    private fun math(number: Float): Float {
+        return when {
+            number > 0 -> {
+                return -number
+            }
+            number < 0 -> {
+                return abs(number)
+            }
+            else -> {
+                number
+            }
+        }
     }
 
 }
