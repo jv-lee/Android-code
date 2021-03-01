@@ -2,11 +2,17 @@ package com.lee.ui
 
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
+import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.renderscript.Allocation
+import android.renderscript.Element
+import android.renderscript.RenderScript
+import android.renderscript.ScriptIntrinsicBlur
 import android.util.Log
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
+import android.widget.ImageView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -25,9 +31,17 @@ class WheelFragment : Fragment(R.layout.fragment_wheel) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        initBlurImage(view)
         initRefresh(view)
         initWheel(view)
+    }
+
+    private fun initBlurImage(view: View) {
+        val ivImage = view.findViewById<ImageView>(R.id.iv_image)
+        val bitmap = BitmapFactory.decodeResource(resources, R.mipmap.header)
+        val blurBitmap = BlurUtils.blur(requireContext(), bitmap, 15f)
+
+        ivImage.setImageBitmap(blurBitmap)
     }
 
     private fun initRefresh(view: View) {
