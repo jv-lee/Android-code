@@ -4,10 +4,6 @@ import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.renderscript.Allocation
-import android.renderscript.Element
-import android.renderscript.RenderScript
-import android.renderscript.ScriptIntrinsicBlur
 import android.util.Log
 import android.view.GestureDetector
 import android.view.MotionEvent
@@ -82,6 +78,7 @@ class WheelFragment : Fragment(R.layout.fragment_wheel) {
 
     @SuppressLint("ClickableViewAccessibility")
     private fun SwipeRefreshLayout.dropLayout(contentView: View) {
+        var hasDrop = false
         val gestureDetector =
             GestureDetector(context, object : GestureDetector.SimpleOnGestureListener() {
                 override fun onScroll(
@@ -90,29 +87,35 @@ class WheelFragment : Fragment(R.layout.fragment_wheel) {
                     distanceX: Float,
                     distanceY: Float
                 ): Boolean {
-                    if (contentView.translationY <= requireContext().dp2px(146)) {
-                        contentView.translationY += math(distanceY) / 2
+                    if (contentView.translationY <= requireContext().dp2px(146) &&
+                        contentView.translationY >= 0f &&
+                        (contentView.translationY == 0f && distanceY < 0)
+                    ) {
+                        contentView.translationY += negate(distanceY) / 2
+                        Log.i(TAG, "onScroll: ${contentView.translationY}")
                     }
                     return super.onScroll(e1, e2, distanceX, distanceY)
                 }
             })
         setOnTouchListener { v, event ->
             if (event.action == MotionEvent.ACTION_UP) {
-                val animator =
-                    ValueAnimator.ofFloat(contentView.translationY, requireContext().dp2px(76))
-                animator.duration = 200
-                animator.addUpdateListener {
-                    contentView.translationY = it.animatedValue as Float
+                if (hasDrop) {
+                    val animator =
+                        ValueAnimator.ofFloat(contentView.translationY, requireContext().dp2px(76))
+                    animator.duration = 200
+                    animator.addUpdateListener {
+                        contentView.translationY = it.animatedValue as Float
+                    }
+                    animator.start()
                 }
-                animator.start()
-                false
+                hasDrop = false
             }
             gestureDetector.onTouchEvent(event)
             false
         }
     }
 
-    private fun math(number: Float): Float {
+    private fun negate(number: Float): Float {
         return when {
             number > 0 -> {
                 return -number
