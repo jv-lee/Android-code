@@ -1,11 +1,19 @@
 package com.lee.camerax
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
+import com.lee.camerax.base.BaseActivity
+import com.lee.camerax.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+/**
+ * @author jv.lee
+ * @date 2021/3/23
+ * @description CameraX 示例
+ */
+class MainActivity : BaseActivity<ActivityMainBinding>() {
+
+    override fun bindViewBinding() = ActivityMainBinding.inflate(layoutInflater)
+
+    override fun bindView() {
+        binding.tvText.text = "Update Text Content."
     }
+
 }
