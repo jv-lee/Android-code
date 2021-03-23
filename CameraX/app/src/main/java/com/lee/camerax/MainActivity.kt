@@ -1,5 +1,6 @@
 package com.lee.camerax
 
+import android.Manifest
 import com.lee.camerax.base.BaseActivity
 import com.lee.camerax.databinding.ActivityMainBinding
 
@@ -14,6 +15,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     override fun bindView() {
         binding.tvText.text = "Update Text Content."
+        requestPermission(Manifest.permission.CAMERA, {
+
+        }, failedCall = {
+
+        })
     }
 
 }

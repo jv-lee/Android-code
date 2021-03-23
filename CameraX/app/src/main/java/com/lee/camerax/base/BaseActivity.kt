@@ -3,6 +3,7 @@ package com.lee.camerax.base
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentActivity
 import androidx.viewbinding.ViewBinding
 
 /**
@@ -37,5 +38,15 @@ abstract class BaseActivity<Binding : ViewBinding> : AppCompatActivity() {
     abstract fun bindViewBinding(): Binding
 
     abstract fun bindView()
+
+    fun FragmentActivity.requestPermission(
+        permission: String,
+        successCall: () -> Unit,
+        failedCall: (String) -> Unit = {}
+    ) {
+        this@BaseActivity.permissionSuccessCall = successCall
+        this@BaseActivity.permissionFailedCall = failedCall
+        permissionLauncher.launch(permission)
+    }
 
 }
