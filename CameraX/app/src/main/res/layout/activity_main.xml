@@ -42,4 +42,15 @@
         app:layout_constraintStart_toEndOf="@id/iv_take_picture"
         app:layout_constraintTop_toTopOf="@id/iv_take_picture" />
 
+    <ImageView
+        android:id="@+id/iv_qr_code"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="56dp"
+        android:onClick="onAnalyzeGo"
+        android:src="@drawable/ic_qr_code"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/iv_take_picture"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

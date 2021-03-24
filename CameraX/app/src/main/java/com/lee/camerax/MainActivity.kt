@@ -4,19 +4,26 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.provider.MediaStore
+import android.util.Size
 import android.view.SoundEffectConstants
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.PopupWindow
 import androidx.camera.core.*
+import androidx.camera.core.impl.utils.executor.CameraXExecutors
+import androidx.camera.extensions.BeautyPreviewExtender
+import androidx.camera.extensions.NightImageCaptureExtender
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
-import androidx.core.content.ContextCompat
+import com.google.zxing.BinaryBitmap
+import com.google.zxing.MultiFormatReader
+import com.google.zxing.PlanarYUVLuminanceSource
+import com.google.zxing.common.HybridBinarizer
 import com.lee.camerax.base.BaseActivity
 import com.lee.camerax.base.dp2px
 import com.lee.camerax.databinding.ActivityMainBinding
-import org.jetbrains.annotations.NotNull
+
 
 /**
  * @author jv.lee
@@ -33,9 +40,17 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     private var mImageAnalysis: ImageAnalysis? = null
     private var mVideoCapture: VideoCapture? = null
 
+    private val multiFormatReader by lazy { MultiFormatReader() }
+
     private var isBack = true
     private var isVideo = false
     private var isRecording = false
+    private var isAnalyzing = false
+
+    companion object {
+        const val MIME_TYPE_IMAGE = "image/jpg"
+        const val MIME_TYPE_VIDEO = "video/mp4"
+    }
 
     override fun bindViewBinding() = ActivityMainBinding.inflate(layoutInflater)
 
@@ -56,7 +71,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         }
     }
 
-    //切换摄像头
+    /**
+     * 切换摄像头
+     */
     fun onSwitchCamera(view: View) {
         mCameraProvider?.let {
             isBack = !isBack
@@ -64,7 +81,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         }
     }
 
-    //拍照
+    /**
+     * 拍照/设想
+     */
     fun onTakePicture(view: View) {
         requestPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, {
             if (isVideo) {
@@ -75,7 +94,26 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         }, { toast(it) })
     }
 
-    //初始化相机
+    @SuppressLint("RestrictedApi")
+    fun onAnalyzeGo(view: View) {
+        if (isVideo) return
+
+        if (!isAnalyzing) {
+            mImageAnalysis?.setAnalyzer(
+                CameraXExecutors.mainThreadExecutor(),
+                ImageAnalysis.Analyzer {
+                    analyzeQRCode(it)
+                })
+        } else {
+            mImageAnalysis?.clearAnalyzer()
+        }
+
+        isAnalyzing = !isAnalyzing
+    }
+
+    /**
+     * 初始化相机
+     */
     private fun initCamera() {
         requestPermission(Manifest.permission.CAMERA, {
             setUpCamera(binding.previewView)
@@ -85,19 +123,20 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     /**
      * 设置相机提供者 启动绑定预览
      */
+    @SuppressLint("RestrictedApi")
     private fun setUpCamera(previewView: PreviewView) {
         ProcessCameraProvider.getInstance(this).let { processCameraProvider ->
             processCameraProvider.addListener(Runnable {
                 try {
                     mCameraProvider = processCameraProvider.get()
                     //绑定预览视图
-                    bindPreview(mCameraProvider, previewView)
+                    bindPreview(mCameraProvider!!, previewView)
                     //绑定触摸聚焦
                     bindTouchPreview()
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
-            }, ContextCompat.getMainExecutor(this))
+            }, CameraXExecutors.mainThreadExecutor())
         }
     }
 
@@ -106,30 +145,38 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
      */
     @SuppressLint("RestrictedApi")
     private fun bindPreview(
-        @NotNull cameraProvider: ProcessCameraProvider?,
+        cameraProvider: ProcessCameraProvider,
         previewView: PreviewView
     ) {
-        cameraProvider ?: return
+        //设置前置/后置摄像头
+        val cameraSelector =
+            if (isBack) CameraSelector.DEFAULT_BACK_CAMERA else CameraSelector.DEFAULT_FRONT_CAMERA
+
         //创建预览配置
-        mPreview = Preview.Builder().build()
+        val previewBuilder = Preview.Builder()
+        setPreviewExtender(previewBuilder, cameraSelector)
+        mPreview = previewBuilder.build()
+
         //创建拍照配置
-        mImageCapture = ImageCapture
+        val imageCaptureBuilder = ImageCapture
             .Builder()
             .setTargetRotation(previewView.display.rotation)
+        setCaptureExtender(imageCaptureBuilder, cameraSelector)
+        mImageCapture = imageCaptureBuilder.build()
+
+        //创建图像分析
+        mImageAnalysis = ImageAnalysis.Builder()
+            .setTargetRotation(previewView.display.rotation)
+            .setTargetResolution(Size(720, 1440))
+            .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
             .build()
+
         //创建录像配置
         mVideoCapture = VideoCapture.Builder()
             .setTargetRotation(previewView.display.rotation)
             .setVideoFrameRate(25)
             .setBitRate(3 * 1024 * 1024)
             .build()
-
-        //设置前置/后置摄像头
-        val cameraSelector = if (isBack) {
-            CameraSelector.DEFAULT_BACK_CAMERA
-        } else {
-            CameraSelector.DEFAULT_FRONT_CAMERA
-        }
 
         //清除所有绑定
         cameraProvider.unbindAll()
@@ -138,7 +185,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         mCamera = if (isVideo) {
             cameraProvider.bindToLifecycle(this, cameraSelector, mPreview, mVideoCapture)
         } else {
-            cameraProvider.bindToLifecycle(this, cameraSelector, mPreview, mImageCapture)
+            cameraProvider.bindToLifecycle(
+                this,
+                cameraSelector,
+                mPreview,
+                mImageCapture,
+                mImageAnalysis
+            )
         }
 
         //设置视图
@@ -152,10 +205,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     private fun bindTouchPreview() {
         binding.previewView.setOnTouchListener { v, event ->
             val action = FocusMeteringAction.Builder(
-                binding.previewView.meteringPointFactory.createPoint(
-                    event.x,
-                    event.y
-                )
+                binding.previewView.meteringPointFactory.createPoint(event.x, event.y)
             ).build()
             try {
                 showFocusView(event.x.toInt(), event.y.toInt())
@@ -180,8 +230,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         popupWindow.contentView = imageView
         popupWindow.showAsDropDown(
             binding.previewView,
-            x - dp2px(28),
-            y - dp2px(28)
+            x - dp2px(18),
+            y - dp2px(18)
         )
         binding.previewView.postDelayed(popupWindow::dismiss, 600)
         binding.previewView.playSoundEffect(SoundEffectConstants.CLICK)
@@ -190,13 +240,14 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     /**
      * 拍照存储至内置存储空间
      */
+    @SuppressLint("RestrictedApi")
     private fun takePictureInternal() {
         val contentValues = ContentValues()
         contentValues.put(
             MediaStore.MediaColumns.DISPLAY_NAME,
             System.currentTimeMillis().toString()
         )
-        contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "image/jpg")
+        contentValues.put(MediaStore.MediaColumns.MIME_TYPE, MIME_TYPE_IMAGE)
         val outputFileOptions = ImageCapture.OutputFileOptions.Builder(
             contentResolver,
             MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
@@ -205,7 +256,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
         mImageCapture?.takePicture(
             outputFileOptions,
-            ContextCompat.getMainExecutor(this),
+            CameraXExecutors.mainThreadExecutor(),
             object : ImageCapture.OnImageSavedCallback {
                 override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
                     toast(outputFileResults.savedUri.toString())
@@ -218,6 +269,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             })
     }
 
+    /**
+     * 开始视频录制
+     */
     @SuppressLint("RestrictedApi")
     private fun recordVideo() {
         if (isRecording) {
@@ -230,7 +284,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             MediaStore.MediaColumns.DISPLAY_NAME,
             System.currentTimeMillis().toString()
         )
-        contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "video/mp4")
+        contentValues.put(MediaStore.MediaColumns.MIME_TYPE, MIME_TYPE_VIDEO)
 
         try {
             isRecording = true
@@ -239,7 +293,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
                 contentValues
             ).build(),
-                ContextCompat.getMainExecutor(this),
+                CameraXExecutors.mainThreadExecutor(),
                 object : VideoCapture.OnVideoSavedCallback {
                     override fun onVideoSaved(outputFileResults: VideoCapture.OutputFileResults) {
                         toast(outputFileResults.savedUri.toString())
@@ -259,6 +313,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         }
     }
 
+    /**
+     * 结束录制 初始化状态
+     */
     @SuppressLint("RestrictedApi")
     private fun stopRecording() {
         if (isRecording) {
@@ -267,5 +324,55 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         }
     }
 
+    /**
+     * 二维码解析
+     */
+    private fun analyzeQRCode(image: ImageProxy) {
+        try {
+            val buffer = image.planes[0].buffer
+            val data = ByteArray(buffer.remaining())
+            buffer.get(data)
+
+            val width = image.width
+            val height = image.height
+            val source = PlanarYUVLuminanceSource(data, width, height, 0, 0, width, height, false)
+            val bitmap = BinaryBitmap(HybridBinarizer(source))
+
+            val result = multiFormatReader.decode(bitmap)
+            toast(result.text)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        image.close()
+    }
+
+    /**
+     * 设置预览滤镜
+     */
+    private fun setPreviewExtender(builder: Preview.Builder, cameraSelector: CameraSelector) {
+        val beautyPreviewExtender = BeautyPreviewExtender.create(builder)
+        if (beautyPreviewExtender.isExtensionAvailable(cameraSelector)) {
+            // Enable the extension if available.
+            toast("beauty preview extension enable")
+            beautyPreviewExtender.enableExtension(cameraSelector)
+        } else {
+            toast("beauty preview extension not available")
+        }
+    }
+
+    /**
+     * 设置拍照滤镜
+     */
+    private fun setCaptureExtender(builder: ImageCapture.Builder, cameraSelector: CameraSelector) {
+        val nightImageCaptureExtender =
+            NightImageCaptureExtender.create(builder)
+        if (nightImageCaptureExtender.isExtensionAvailable(cameraSelector)) {
+            // Enable the extension if available.
+            toast("night capture extension enable")
+            nightImageCaptureExtender.enableExtension(cameraSelector)
+        } else {
+            toast("night capture extension not available")
+        }
+    }
 
 }

@@ -57,4 +57,7 @@ dependencies {
     // If you want to additionally use the CameraX Extensions library
     implementation "androidx.camera:camera-extensions:1.0.0-alpha21"
 
+    // parse qr code
+    implementation 'com.google.zxing:core:3.3.2'
+
 }
