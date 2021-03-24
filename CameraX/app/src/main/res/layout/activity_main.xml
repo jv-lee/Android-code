@@ -16,10 +16,21 @@
         android:layout_width="56dp"
         android:layout_height="56dp"
         android:layout_marginStart="26dp"
-        android:layout_marginBottom="56dp"
         android:onClick="onSwitchCamera"
         android:src="@drawable/ic_camera_switch"
+        app:layout_constraintBottom_toBottomOf="@id/iv_take_picture"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/iv_take_picture" />
+
+    <ImageView
+        android:id="@+id/iv_take_picture"
+        android:layout_width="78dp"
+        android:layout_height="78dp"
+        android:layout_marginBottom="56dp"
+        android:onClick="onTakePicture"
+        android:src="@drawable/ic_take_picture"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

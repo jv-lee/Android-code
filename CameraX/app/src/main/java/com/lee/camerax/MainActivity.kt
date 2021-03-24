@@ -2,15 +2,14 @@ package com.lee.camerax
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.ContentValues
+import android.provider.MediaStore
 import android.view.SoundEffectConstants
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.PopupWindow
-import androidx.camera.core.Camera
-import androidx.camera.core.CameraSelector
-import androidx.camera.core.FocusMeteringAction
-import androidx.camera.core.Preview
+import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.core.content.ContextCompat
@@ -26,8 +25,10 @@ import org.jetbrains.annotations.NotNull
 class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     private var mCameraProvider: ProcessCameraProvider? = null
-    private var mPreview: Preview? = null
     private var mCamera: Camera? = null
+
+    private var mPreview: Preview? = null
+    private var mImageCapture: ImageCapture? = null
 
     private var isBack = true
 
@@ -42,6 +43,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             isBack = !isBack
             bindPreview(it, binding.previewView)
         }
+    }
+
+    fun onTakePicture(view: View) {
+        requestPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, {
+            takePictureInternal(true)
+        }, { toast(it) })
     }
 
     private fun initPreview() {
@@ -78,10 +85,16 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     ) {
         cameraProvider ?: return
         mPreview = Preview.Builder().build()
-        val cameraSelector =
-            if (isBack) CameraSelector.DEFAULT_BACK_CAMERA else CameraSelector.DEFAULT_FRONT_CAMERA
+        mImageCapture = ImageCapture
+            .Builder()
+            .setTargetRotation(previewView.display.rotation)
+            .build()
+
+        val cameraSelector = if (isBack) CameraSelector.DEFAULT_BACK_CAMERA
+        else CameraSelector.DEFAULT_FRONT_CAMERA
+
         cameraProvider.unbindAll()
-        mCamera = cameraProvider.bindToLifecycle(this, cameraSelector, mPreview)
+        mCamera = cameraProvider.bindToLifecycle(this, cameraSelector, mPreview, mImageCapture)
         mPreview?.setSurfaceProvider(previewView.surfaceProvider)
     }
 
@@ -121,6 +134,35 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         popupWindow.showAsDropDown(binding.previewView, x, y)
         binding.previewView.postDelayed(popupWindow::dismiss, 600)
         binding.previewView.playSoundEffect(SoundEffectConstants.CLICK)
+    }
+
+    private fun takePictureInternal(isExternal: Boolean) {
+        val contentValues = ContentValues()
+        contentValues.put(
+            MediaStore.MediaColumns.DISPLAY_NAME,
+            System.currentTimeMillis().toString()
+        )
+        contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "image/jpg")
+        val outputFileOptions = ImageCapture.OutputFileOptions.Builder(
+            contentResolver,
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+            contentValues
+        ).build()
+
+        mImageCapture?.takePicture(
+            outputFileOptions,
+            ContextCompat.getMainExecutor(this),
+            object : ImageCapture.OnImageSavedCallback {
+                override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
+                    toast(outputFileResults.savedUri.toString())
+                }
+
+                override fun onError(exception: ImageCaptureException) {
+                    toast(exception.message)
+                }
+
+            })
+
     }
 
 }
