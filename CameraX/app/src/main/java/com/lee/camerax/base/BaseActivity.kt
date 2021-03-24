@@ -1,6 +1,7 @@
 package com.lee.camerax.base
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentActivity
@@ -38,6 +39,10 @@ abstract class BaseActivity<Binding : ViewBinding> : AppCompatActivity() {
     abstract fun bindViewBinding(): Binding
 
     abstract fun bindView()
+
+    fun FragmentActivity.toast(message: String?) {
+        message?.let { Toast.makeText(this, it, Toast.LENGTH_SHORT).show() }
+    }
 
     fun FragmentActivity.requestPermission(
         permission: String,
