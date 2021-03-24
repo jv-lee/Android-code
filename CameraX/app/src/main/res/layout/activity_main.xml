@@ -15,22 +15,31 @@
         android:id="@+id/iv_camera_switch"
         android:layout_width="56dp"
         android:layout_height="56dp"
-        android:layout_marginStart="26dp"
         android:onClick="onSwitchCamera"
         android:src="@drawable/ic_camera_switch"
         app:layout_constraintBottom_toBottomOf="@id/iv_take_picture"
+        app:layout_constraintEnd_toStartOf="@id/iv_take_picture"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/iv_take_picture" />
 
     <ImageView
         android:id="@+id/iv_take_picture"
-        android:layout_width="78dp"
-        android:layout_height="78dp"
+        android:layout_width="108dp"
+        android:layout_height="108dp"
         android:layout_marginBottom="56dp"
         android:onClick="onTakePicture"
         android:src="@drawable/ic_take_picture"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/switch_video"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@id/iv_take_picture"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/iv_take_picture"
+        app:layout_constraintTop_toTopOf="@id/iv_take_picture" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

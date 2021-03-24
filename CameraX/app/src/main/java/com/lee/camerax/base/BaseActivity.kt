@@ -24,6 +24,17 @@ abstract class BaseActivity<Binding : ViewBinding> : AppCompatActivity() {
             if (it) permissionSuccessCall?.invoke() else permissionFailedCall?.invoke("")
         }
 
+    private val permissionsLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { it ->
+            it.forEach {
+                if (!it.value) {
+                    permissionFailedCall?.invoke(it.key)
+                    return@forEach
+                }
+            }
+            permissionSuccessCall?.invoke()
+        }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = bindViewBinding()
@@ -52,6 +63,16 @@ abstract class BaseActivity<Binding : ViewBinding> : AppCompatActivity() {
         this@BaseActivity.permissionSuccessCall = successCall
         this@BaseActivity.permissionFailedCall = failedCall
         permissionLauncher.launch(permission)
+    }
+
+    fun FragmentActivity.requestPermissions(
+        vararg permission: String,
+        successCall: () -> Unit,
+        failedCall: (String) -> Unit = {}
+    ) {
+        this@BaseActivity.permissionSuccessCall = successCall
+        this@BaseActivity.permissionFailedCall = failedCall
+        permissionsLauncher.launch(permission)
     }
 
 }
