@@ -3,6 +3,7 @@ package com.lee.camerax
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.ContentValues
+import android.graphics.ImageFormat
 import android.provider.MediaStore
 import android.util.Size
 import android.view.SoundEffectConstants
@@ -12,17 +13,22 @@ import android.widget.ImageView
 import android.widget.PopupWindow
 import androidx.camera.core.*
 import androidx.camera.core.impl.utils.executor.CameraXExecutors
+import androidx.camera.core.internal.utils.ImageUtil
 import androidx.camera.extensions.BeautyPreviewExtender
 import androidx.camera.extensions.NightImageCaptureExtender
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import com.google.zxing.BinaryBitmap
+import com.google.zxing.DecodeHintType
 import com.google.zxing.MultiFormatReader
 import com.google.zxing.PlanarYUVLuminanceSource
 import com.google.zxing.common.HybridBinarizer
+import com.google.zxing.multi.qrcode.QRCodeMultiReader
 import com.lee.camerax.base.BaseActivity
 import com.lee.camerax.base.dp2px
 import com.lee.camerax.databinding.ActivityMainBinding
+import java.lang.Boolean
+import java.util.*
 
 
 /**
@@ -35,12 +41,21 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     private var mCameraProvider: ProcessCameraProvider? = null
     private var mCamera: Camera? = null
 
+    //预览
     private var mPreview: Preview? = null
+
+    //拍照
     private var mImageCapture: ImageCapture? = null
+
+    //图像分析
     private var mImageAnalysis: ImageAnalysis? = null
+
+    //录制
     private var mVideoCapture: VideoCapture? = null
 
+    //zxing解析
     private val multiFormatReader by lazy { MultiFormatReader() }
+    private val qrCodeMultiReader by lazy { QRCodeMultiReader() }
 
     private var isBack = true
     private var isVideo = false
@@ -57,6 +72,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     override fun bindView() {
         initCamera()
         bindSwitchVideo()
+        toast("width:${resources.displayMetrics.widthPixels},height:${resources.displayMetrics.heightPixels}")
     }
 
     private fun bindSwitchVideo() {
@@ -100,7 +116,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
         if (!isAnalyzing) {
             mImageAnalysis?.setAnalyzer(
-                CameraXExecutors.mainThreadExecutor(),
+                CameraXExecutors.ioExecutor(),
                 ImageAnalysis.Analyzer {
                     analyzeQRCode(it)
                 })
@@ -167,7 +183,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         //创建图像分析
         mImageAnalysis = ImageAnalysis.Builder()
             .setTargetRotation(previewView.display.rotation)
-            .setTargetResolution(Size(720, 1440))
+            .setTargetResolution(
+                Size(
+                    resources.displayMetrics.widthPixels,
+                    resources.displayMetrics.heightPixels
+                )
+            )
             .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
             .build()
 
@@ -328,21 +349,35 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
      * 二维码解析
      */
     private fun analyzeQRCode(image: ImageProxy) {
-        try {
-            val buffer = image.planes[0].buffer
-            val data = ByteArray(buffer.remaining())
-            buffer.get(data)
+        runOnUiThread {
+            toast(image.format.toString())
+        }
+        ImageUtil.yuv_420_888toNv21(image)
+        if (image.format == ImageFormat.YUV_420_888) {
 
-            val width = image.width
-            val height = image.height
-            val source = PlanarYUVLuminanceSource(data, width, height, 0, 0, width, height, false)
-            val bitmap = BinaryBitmap(HybridBinarizer(source))
+        }
+        val buffer = image.planes[0].buffer
+        val data = ByteArray(buffer.remaining())
+        buffer.get(data)
 
-            val result = multiFormatReader.decode(bitmap)
-            toast(result.text)
+        val width = image.width
+        val height = image.height
+        val source = PlanarYUVLuminanceSource(data, width, height, 0, 0, width, height, false)
+        val bitmap = BinaryBitmap(HybridBinarizer(source))
+
+        val hints: Hashtable<DecodeHintType, Any> = Hashtable<DecodeHintType, Any>()
+        hints[DecodeHintType.CHARACTER_SET] = "UTF-8"
+        //复杂模式，开启PURE_BARCODE模式,带图片LOGO的解码方案,否则会出现NotFoundException
+        hints[DecodeHintType.PURE_BARCODE] = Boolean.TRUE
+
+        val result = try {
+//            qrCodeMultiReader.decode(bitmap, hints)
+            multiFormatReader.decode(bitmap, hints)
         } catch (e: Exception) {
             e.printStackTrace()
+            null
         }
+        toast(result?.text)
         image.close()
     }
 
