@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.graphics.ImageFormat
 import android.provider.MediaStore
+import android.util.Log
 import android.util.Size
 import android.view.SoundEffectConstants
 import android.view.View
@@ -349,13 +350,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
      * 二维码解析
      */
     private fun analyzeQRCode(image: ImageProxy) {
-        runOnUiThread {
-            toast(image.format.toString())
-        }
-        ImageUtil.yuv_420_888toNv21(image)
-        if (image.format == ImageFormat.YUV_420_888) {
-
-        }
         val buffer = image.planes[0].buffer
         val data = ByteArray(buffer.remaining())
         buffer.get(data)
