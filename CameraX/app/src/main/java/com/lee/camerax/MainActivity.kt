@@ -3,9 +3,7 @@ package com.lee.camerax
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.ContentValues
-import android.graphics.ImageFormat
 import android.provider.MediaStore
-import android.util.Log
 import android.util.Size
 import android.view.SoundEffectConstants
 import android.view.View
@@ -14,7 +12,6 @@ import android.widget.ImageView
 import android.widget.PopupWindow
 import androidx.camera.core.*
 import androidx.camera.core.impl.utils.executor.CameraXExecutors
-import androidx.camera.core.internal.utils.ImageUtil
 import androidx.camera.extensions.BeautyPreviewExtender
 import androidx.camera.extensions.NightImageCaptureExtender
 import androidx.camera.lifecycle.ProcessCameraProvider
