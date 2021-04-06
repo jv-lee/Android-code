@@ -7,7 +7,6 @@ import android.content.Context
 import android.provider.MediaStore
 import android.util.Size
 import android.view.SoundEffectConstants
-import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.PopupWindow
@@ -83,7 +82,7 @@ class CameraXManager {
     /**
      * 切换摄像头
      */
-    fun switchCamera(view: View) {
+    fun switchCamera() {
         isBack = !isBack
         bindPreview(mCameraProvider, mPreviewView)
     }
@@ -97,6 +96,11 @@ class CameraXManager {
         isVideo = enable
         bindPreview(mCameraProvider, mPreviewView)
     }
+
+    /**
+     * 摄像头是否切换为摄像模式
+     */
+    fun isVideoMode() = isVideo
 
     /**
      * 拍照存储至内置存储空间
@@ -141,7 +145,7 @@ class CameraXManager {
      */
     @SuppressLint("RestrictedApi")
     @RequiresPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-    private fun startRecord(callback: VideoCapture.OnVideoSavedCallback) {
+    fun startRecord(callback: VideoCapture.OnVideoSavedCallback) {
         if (isRecording) {
             stopRecording()
             return
