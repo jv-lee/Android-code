@@ -4,37 +4,48 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.lee.app.adapter.ChatAdapter
 import com.lee.app.databinding.ActivityChatListBinding
 import com.lee.library.base.BaseActivity
+import com.lee.library.extensions.adjustResizeStatusBar
+import com.lee.library.extensions.keyboardObserver
+import com.lee.library.extensions.reverseLayout
+import com.lee.library.extensions.smoothScrollToEnd
 import com.lee.library.mvvm.base.BaseViewModel
-import com.lee.library.utils.KeyboardHelper
 import com.lee.library.utils.StatusUtil
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 /**
  * @author jv.lee
  * @date 2020/9/7
- * @description 聊天界面 沉浸式状态栏 输入法适配
+ * @description 聊天界面 沉浸式状态栏 输入法适配 方案二
+ * 1.设置根布局 android:fitsSystemWindows="true"
+ * 2.设置根布局 marginTop 为 负状态栏高度
  */
-class ChatListActivity :
+class ChatListActivity2 :
     BaseActivity<ActivityChatListBinding, BaseViewModel>(R.layout.activity_chat_list) {
 
     private var page = 0
 
     private val adapter by lazy { ChatAdapter(this, ArrayList()) }
 
-    private val keyboardHelper by lazy { KeyboardHelper(window.decorView, binding.root) }
+    var isOpen = false
 
     override fun bindView() {
         StatusUtil.setDarkStatusIcon(this)
+
+        //适配沉浸式状态栏顶部弹起设置
+        binding.constRoot.adjustResizeStatusBar(binding.toolbar.getStatusBarHeight())
 
         //设置recyclerView基础参数
         binding.rvContainer.adapter = adapter.proxy
         binding.rvContainer.layoutManager = LinearLayoutManager(this)
 
-        //先绑定recyclerView 后开启输入法弹起布局自适应
-        keyboardHelper.bindRecyclerView(binding.rvContainer, true)
-        keyboardHelper.enable()
+        //反转RecyclerView布局
+        binding.rvContainer.reverseLayout()
+
+        //监听键盘弹起
+        window.keyboardObserver {
+            if (it) binding.rvContainer.smoothScrollToEnd()
+        }
 
         //设置adapter基础配置
         adapter.initStatusView()
@@ -44,12 +55,6 @@ class ChatListActivity :
 
     override fun bindData() {
         requestData()
-    }
-
-    @ExperimentalCoroutinesApi
-    override fun onDestroy() {
-        keyboardHelper.disable()
-        super.onDestroy()
     }
 
     private fun requestData() {

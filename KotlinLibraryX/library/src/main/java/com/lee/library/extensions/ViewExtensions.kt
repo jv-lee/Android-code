@@ -6,6 +6,8 @@ import android.graphics.drawable.StateListDrawable
 import android.os.Build
 import android.text.*
 import android.view.View
+import android.view.ViewGroup
+import android.view.Window
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.RadioButton
@@ -17,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.lee.library.R
+import com.lee.library.utils.StatusUtil
 import kotlin.math.abs
 
 /**
@@ -345,3 +348,79 @@ fun EditText.setBankCodeTextWatcher(lengthLimit: Int = 16) {
 
     })
 }
+
+/**
+ * 扩展容器类设置Marin方法
+ */
+fun ViewGroup.setMargin(left: Int = 0, top: Int = 0, right: Int = 0, bottom: Int = 0) {
+    if (layoutParams is ViewGroup.MarginLayoutParams) {
+        (layoutParams as ViewGroup.MarginLayoutParams).run {
+            setMargins(
+                if (left == 0) leftMargin else left,
+                if (top == 0) topMargin else top,
+                if (right == 0) rightMargin else right,
+                if (bottom == 0) bottomMargin else bottom
+            )
+        }
+    }
+}
+
+/**
+ * 沉浸式状态栏 设置adjustResize 后 解决软键盘无法正常顶起解决方式
+ */
+fun ViewGroup.adjustResizeStatusBar(marginValue: Int = StatusUtil.getStatusBarHeight(context)) {
+    fitsSystemWindows = true
+    setMargin(top = -marginValue)
+}
+
+/**
+ * RecyclerView 反转布局方向
+ */
+fun RecyclerView.reverseLayout() {
+    val layoutManager = layoutManager
+    layoutManager?.let {
+        if (it is LinearLayoutManager) {
+            it.reverseLayout = true
+            it.stackFromEnd = true
+        }
+    }
+}
+
+/**
+ * RecyclerView 多数据列表快速滑动到底部
+ */
+fun RecyclerView.smoothScrollToEnd() {
+    adapter?.let {
+        if (it.itemCount > 5) {
+            scrollToPosition(5)
+        }
+        postDelayed({
+            smoothScrollToPosition(0)
+        }, 100)
+    }
+
+}
+
+/**
+ * 监听键盘弹起
+ */
+fun Window.keyboardObserver(observer: (isOpen: Boolean) -> Unit) {
+    var isOpen = false
+    val keyboardHeight = 200
+    decorView.viewTreeObserver.addOnGlobalLayoutListener {
+        val rect = android.graphics.Rect()
+        decorView.getWindowVisibleDisplayFrame(rect)
+
+        val height: Int = context.resources.displayMetrics.heightPixels
+        // 获取键盘抬高的高度
+        val diff: Int = height - rect.height()
+        if (diff > keyboardHeight && !isOpen) {
+            isOpen = true
+            observer(true)
+        } else if (diff < keyboardHeight && isOpen) {
+            isOpen = false
+            observer(false)
+        }
+    }
+}
+

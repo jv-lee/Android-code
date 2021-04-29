@@ -58,8 +58,7 @@ open class TitleToolbar : CustomToolbarLayout {
      * 设置状态栏填充padding
      */
     override fun initStatusBarPadding() {
-        val statusHeight = StatusUtil.getStatusBarHeight(context)
-        setPadding(0, statusHeight, 0, 0)
+        setPadding(0, getStatusBarHeight(), 0, 0)
     }
 
     private fun initAttr(attrs: AttributeSet) {

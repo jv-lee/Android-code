@@ -20,6 +20,7 @@ import com.lee.library.utils.StatusUtil
  */
 open class CustomToolbarLayout : FrameLayout {
 
+    private var statusBarHeight = 0
     private var toolbarLayoutHeight = 0
 
     constructor(context: Context) : this(context, null, 0)
@@ -31,8 +32,13 @@ open class CustomToolbarLayout : FrameLayout {
     ) {
         toolbarLayoutHeight = initLayoutHeight()
         initBackground()
+        initStatusBarHeight()
         initStatusBarPadding()
 //        initBottomLine()
+    }
+
+    private fun initStatusBarHeight() {
+        statusBarHeight = StatusUtil.getStatusBarHeight(context)
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -61,8 +67,7 @@ open class CustomToolbarLayout : FrameLayout {
      * 设置状态栏填充padding
      */
     open fun initStatusBarPadding() {
-        val statusHeight = StatusUtil.getStatusBarHeight(context)
-        setPadding(context.dp2px(16).toInt(), statusHeight, context.dp2px(16).toInt(), 0)
+        setPadding(context.dp2px(16).toInt(), statusBarHeight, context.dp2px(16).toInt(), 0)
     }
 
     private fun initBottomLine() {
@@ -85,8 +90,8 @@ open class CustomToolbarLayout : FrameLayout {
     /**
      * 获取toolbarLayout高度
      */
-    fun getToolbarLayoutHeight(): Int {
-        return toolbarLayoutHeight
-    }
+    fun getToolbarLayoutHeight() = toolbarLayoutHeight
+
+    fun getStatusBarHeight() = statusBarHeight
 
 }
