@@ -27,8 +27,6 @@ class ChatListActivity2 :
 
     private val adapter by lazy { ChatAdapter(this, ArrayList()) }
 
-    var isOpen = false
-
     override fun bindView() {
         StatusUtil.setDarkStatusIcon(this)
 
@@ -43,9 +41,7 @@ class ChatListActivity2 :
         binding.rvContainer.reverseLayout()
 
         //监听键盘弹起
-        window.keyboardObserver {
-            if (it) binding.rvContainer.smoothScrollToEnd()
-        }
+        window.keyboardObserver { binding.rvContainer.smoothScrollToEnd() }
 
         //设置adapter基础配置
         adapter.initStatusView()

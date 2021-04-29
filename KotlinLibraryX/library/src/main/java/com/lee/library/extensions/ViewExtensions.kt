@@ -404,7 +404,7 @@ fun RecyclerView.smoothScrollToEnd() {
 /**
  * 监听键盘弹起
  */
-fun Window.keyboardObserver(observer: (isOpen: Boolean) -> Unit) {
+fun Window.keyboardObserver(openObserver: () -> Unit = {}, closeObserver: () -> Unit = {}) {
     var isOpen = false
     val keyboardHeight = 200
     decorView.viewTreeObserver.addOnGlobalLayoutListener {
@@ -416,10 +416,10 @@ fun Window.keyboardObserver(observer: (isOpen: Boolean) -> Unit) {
         val diff: Int = height - rect.height()
         if (diff > keyboardHeight && !isOpen) {
             isOpen = true
-            observer(true)
+            openObserver()
         } else if (diff < keyboardHeight && isOpen) {
             isOpen = false
-            observer(false)
+            closeObserver()
         }
     }
 }
