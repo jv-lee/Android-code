@@ -31,7 +31,7 @@ class ChatListActivity2 :
         StatusUtil.setDarkStatusIcon(this)
 
         //适配沉浸式状态栏顶部弹起设置
-        binding.constRoot.adjustResizeStatusBar(binding.toolbar.getStatusBarHeight())
+        binding.constRoot.adjustResizeStatusBar(window, binding.toolbar.getStatusBarHeight())
 
         //设置recyclerView基础参数
         binding.rvContainer.adapter = adapter.proxy
@@ -41,7 +41,7 @@ class ChatListActivity2 :
         binding.rvContainer.reverseLayout()
 
         //监听键盘弹起
-        window.keyboardObserver { binding.rvContainer.smoothScrollToEnd() }
+        window.keyboardObserver(openObserver = { binding.rvContainer.smoothScrollToEnd() })
 
         //设置adapter基础配置
         adapter.initStatusView()

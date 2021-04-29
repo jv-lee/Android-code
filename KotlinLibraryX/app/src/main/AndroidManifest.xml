@@ -23,13 +23,11 @@
 
         </activity>
         <activity
-            android:name=".ChatListActivity"
-            android:windowSoftInputMode="adjustResize">
+            android:name=".ChatListActivity">
 
         </activity>
         <activity
-            android:name=".ChatListActivity2"
-            android:windowSoftInputMode="adjustResize">
+            android:name=".ChatListActivity2">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

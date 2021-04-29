@@ -8,6 +8,7 @@ import android.text.*
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
+import android.view.WindowManager
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.RadioButton
@@ -368,7 +369,11 @@ fun ViewGroup.setMargin(left: Int = 0, top: Int = 0, right: Int = 0, bottom: Int
 /**
  * 沉浸式状态栏 设置adjustResize 后 解决软键盘无法正常顶起解决方式
  */
-fun ViewGroup.adjustResizeStatusBar(marginValue: Int = StatusUtil.getStatusBarHeight(context)) {
+fun ViewGroup.adjustResizeStatusBar(
+    window: Window,
+    marginValue: Int = StatusUtil.getStatusBarHeight(context)
+) {
+    window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
     fitsSystemWindows = true
     setMargin(top = -marginValue)
 }
