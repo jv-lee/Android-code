@@ -386,7 +386,6 @@ fun RecyclerView.reverseLayout() {
     layoutManager?.let {
         if (it is LinearLayoutManager) {
             it.reverseLayout = true
-            it.stackFromEnd = true
         }
     }
 }
