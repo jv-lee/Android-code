@@ -382,11 +382,8 @@ fun ViewGroup.adjustResizeStatusBar(
  * RecyclerView 反转布局方向
  */
 fun RecyclerView.reverseLayout() {
-    val layoutManager = layoutManager
-    layoutManager?.let {
-        if (it is LinearLayoutManager) {
-            it.reverseLayout = true
-        }
+    layoutManager?.takeIf { it is LinearLayoutManager }.let {
+        (it as LinearLayoutManager).reverseLayout = true
     }
 }
 
@@ -394,15 +391,18 @@ fun RecyclerView.reverseLayout() {
  * RecyclerView 多数据列表快速滑动到顶部
  */
 fun RecyclerView.smoothScrollToTop() {
-    adapter?.let {
-        if (it.itemCount > 5) {
-            scrollToPosition(5)
-        }
-        postDelayed({
-            smoothScrollToPosition(0)
-        }, 100)
+    val itemCount = adapter?.itemCount ?: return
+    if (itemCount == 0) return
+
+    if (layoutManager is LinearLayoutManager &&
+        (layoutManager as LinearLayoutManager).findFirstVisibleItemPosition() == 0
+    ) {
+        scrollToPosition(0)
+        return
     }
 
+    scrollToPosition(5)
+    postDelayed({ smoothScrollToPosition(0) }, 50)
 }
 
 /**

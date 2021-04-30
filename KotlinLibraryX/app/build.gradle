@@ -42,4 +42,5 @@ android {
 
 dependencies {
     implementation project(path: ':library')
+    testImplementation 'junit:junit:4.12'
 }

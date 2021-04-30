@@ -24,15 +24,15 @@
         </activity>
         <activity
             android:name=".ChatListActivity">
-
-        </activity>
-        <activity
-            android:name=".ChatListActivity2">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".ChatListActivity2">
+
         </activity>
         <activity android:name=".TestActivity">
 

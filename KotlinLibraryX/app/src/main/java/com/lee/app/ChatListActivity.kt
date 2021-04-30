@@ -4,6 +4,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.lee.app.adapter.ChatAdapter
 import com.lee.app.databinding.ActivityChatListBinding
 import com.lee.library.base.BaseActivity
+import com.lee.library.extensions.reverseLayout
 import com.lee.library.mvvm.base.BaseViewModel
 import com.lee.library.utils.KeyboardHelper
 import com.lee.library.utils.StatusUtil
@@ -31,6 +32,7 @@ class ChatListActivity :
         //设置recyclerView基础参数
         binding.rvContainer.adapter = adapter.proxy
         binding.rvContainer.layoutManager = LinearLayoutManager(this)
+        binding.rvContainer.reverseLayout()
 
         //先绑定recyclerView 后开启输入法弹起布局自适应
         keyboardHelper.bindRecyclerView(binding.rvContainer, true)

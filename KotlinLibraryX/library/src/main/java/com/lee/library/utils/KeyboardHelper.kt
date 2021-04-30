@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.lee.library.extensions.smoothScrollToTop
 import kotlin.math.abs
 
 /**
@@ -58,17 +59,6 @@ class KeyboardHelper(
         this.recyclerView = recyclerView
         this.reverse = reverse
         this.isEnd = reverse
-        if (!reverse) {
-            return
-        }
-        val layoutManager = recyclerView.layoutManager
-        layoutManager?.let {
-            if (it is LinearLayoutManager) {
-                it.reverseLayout = true
-                it.stackFromEnd = true
-            }
-        }
-        recyclerView.scrollToPosition(0)
     }
 
     private var onScrollListener = object : RecyclerView.OnScrollListener() {
@@ -135,12 +125,15 @@ class KeyboardHelper(
      * @param open 是否未打开键盘时
      */
     private fun recyclerViewMove(diff: Int, open: Boolean = true) {
-        recyclerView?.let {
+        recyclerView?.run {
+            val itemCount = adapter?.itemCount ?: return
+            if (itemCount == 0) return
+
             if (open) {
-                it.postDelayed({ it.smoothScrollBy(0, diff) }, 100)
+                postDelayed({ smoothScrollBy(0, diff) }, 100)
             }
             if (!open && !isEnd) {
-                it.smoothScrollBy(0, -tempDiff)
+                smoothScrollBy(0, -tempDiff)
             }
         }
     }
@@ -151,14 +144,9 @@ class KeyboardHelper(
      * @param open 是否未打开键盘时
      */
     private fun recyclerViewMoveReverse(diff: Int, open: Boolean = true) {
-        recyclerView?.let {
+        recyclerView?.run {
             if (open) {
-                if (it.adapter?.itemCount!! > 5) {
-                    it.scrollToPosition(5)
-                }
-                it.postDelayed({
-                    it.smoothScrollToPosition(0)
-                }, 100)
+                recyclerView?.smoothScrollToTop()
             }
         }
     }
