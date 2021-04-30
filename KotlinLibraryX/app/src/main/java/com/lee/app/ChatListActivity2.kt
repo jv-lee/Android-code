@@ -7,7 +7,7 @@ import com.lee.library.base.BaseActivity
 import com.lee.library.extensions.adjustResizeStatusBar
 import com.lee.library.extensions.keyboardObserver
 import com.lee.library.extensions.reverseLayout
-import com.lee.library.extensions.smoothScrollToEnd
+import com.lee.library.extensions.smoothScrollToTop
 import com.lee.library.mvvm.base.BaseViewModel
 import com.lee.library.utils.StatusUtil
 import kotlinx.coroutines.delay
@@ -41,7 +41,7 @@ class ChatListActivity2 :
         binding.rvContainer.reverseLayout()
 
         //监听键盘弹起
-        window.keyboardObserver(openObserver = { binding.rvContainer.smoothScrollToEnd() })
+        window.keyboardObserver(openObserver = { binding.rvContainer.smoothScrollToTop() })
 
         //设置adapter基础配置
         adapter.initStatusView()

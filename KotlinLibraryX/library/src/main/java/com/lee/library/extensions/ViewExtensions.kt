@@ -392,9 +392,9 @@ fun RecyclerView.reverseLayout() {
 }
 
 /**
- * RecyclerView 多数据列表快速滑动到底部
+ * RecyclerView 多数据列表快速滑动到顶部
  */
-fun RecyclerView.smoothScrollToEnd() {
+fun RecyclerView.smoothScrollToTop() {
     adapter?.let {
         if (it.itemCount > 5) {
             scrollToPosition(5)
