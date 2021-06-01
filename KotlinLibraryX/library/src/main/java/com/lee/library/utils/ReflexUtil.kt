@@ -19,4 +19,15 @@ object ReflexUtil {
         }
         return null
     }
+
+    fun reflexMethod(clazz: Any, methodName: String) {
+        try {
+            val method = clazz.javaClass.getDeclaredMethod(methodName)
+            method.invoke(clazz)
+        } catch (e: NoSuchFieldException) {
+            e.printStackTrace()
+        } catch (e: IllegalAccessException) {
+            e.printStackTrace()
+        }
+    }
 }

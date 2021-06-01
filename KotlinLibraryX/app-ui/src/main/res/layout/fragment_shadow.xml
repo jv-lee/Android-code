@@ -24,38 +24,80 @@
             android:layout_height="wrap_content"
             android:textSize="12sp" />
 
-        <com.lee.library.widget.ShadowConstraintLayout
+        <TextView
+            android:id="@+id/tv_message_shape"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            app:shadowBlur="10dp"
-            app:shadowColor="#000000"
-            app:shadowOffsetX="0dp"
-            app:shadowOffsetY="0dp"
-            app:shadowRound="23dp">
+            android:padding="10dp"
+            android:text="yechaoa" />
 
-            <com.lee.library.widget.SelectorTextView
-                android:id="@+id/btn_selector_4"
-                android:layout_width="wrap_content"
-                android:layout_height="46dp"
-                android:layout_gravity="center"
-                android:padding="10dp"
-                android:text="show Warn Dialog"
-                app:buttonDisable="false"
-                app:buttonRadius="23dp"
-                app:disableBackgroundColor="@android:color/black"
-                app:disableStrokeColor="@android:color/holo_red_dark"
-                app:disableTextColor="@android:color/white"
-                app:normalBackgroundColor="@color/colorPrimary"
-                app:normalStrokeColor="@color/colorPrimary"
-                app:normalTextColor="@android:color/black"
-                app:pressedBackgroundColor="@color/colorThemeAccent"
-                app:pressedStrokeColor="@color/colorThemeAccent"
-                app:pressedTextColor="@android:color/white"
-                app:strokeWidth="2dp" />
+        <com.google.android.material.imageview.ShapeableImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:src="@mipmap/picture"
+            app:shapeAppearance="@style/RoundedStyle" />
 
-        </com.lee.library.widget.ShadowConstraintLayout>
+        <com.google.android.material.imageview.ShapeableImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_margin="10dp"
+            android:padding="2dp"
+            android:src="@mipmap/picture"
+            app:shapeAppearance="@style/CircleStyle"
+            app:strokeColor="@android:color/holo_red_dark"
+            app:strokeWidth="4dp" />
 
+        <com.google.android.material.imageview.ShapeableImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:padding="2dp"
+            android:src="@mipmap/picture"
+            app:shapeAppearance="@style/CutStyle"
+            app:strokeColor="@android:color/holo_red_dark"
+            app:strokeWidth="4dp" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:padding="2dp"
+            android:src="@mipmap/picture"
+            app:shapeAppearance="@style/RhombusStyle"
+            app:strokeColor="@android:color/holo_red_dark"
+            app:strokeWidth="4dp" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:padding="2dp"
+            android:src="@mipmap/picture"
+            app:shapeAppearance="@style/LeafStyle"
+            app:strokeColor="@android:color/holo_red_dark"
+            app:strokeWidth="4dp" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:padding="2dp"
+            android:src="@mipmap/picture"
+            app:shapeAppearance="@style/SemicircleStyle"
+            app:strokeColor="@android:color/holo_red_dark"
+            app:strokeWidth="4dp" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_margin="10dp"
+            android:padding="2dp"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/picture"
+            app:shapeAppearance="@style/HexagonStyle"
+            app:strokeColor="@android:color/holo_red_dark"
+            app:strokeWidth="4dp" />
 
         <com.lee.library.widget.ShadowConstraintLayout
             android:layout_width="match_parent"
