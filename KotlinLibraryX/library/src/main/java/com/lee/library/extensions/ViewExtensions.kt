@@ -119,6 +119,13 @@ fun View.setBackgroundColorCompat(color: Int) {
 }
 
 /**
+ * 设置view背景资源兼容方法
+ */
+fun View.setBackgroundDrawableCompat(drawableId: Int) {
+    background = ContextCompat.getDrawable(context,drawableId)
+}
+
+/**
  * 设置文本颜色兼容方法
  */
 fun TextView.setTextColorCompat(color: Int) {
