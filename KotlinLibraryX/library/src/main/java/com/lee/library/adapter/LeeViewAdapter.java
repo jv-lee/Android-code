@@ -63,6 +63,9 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
     private View loadEndView;
     private View loadErrorView;
 
+    private int currentPageStatus = -1;
+    private int currentItemStatus = -1;
+
     /**
      * 加载状态常量
      */
@@ -356,34 +359,41 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
         }
         switch (status) {
             case STATUS_PAGE_LOADING:
+                currentPageStatus = status;
                 clearData();
                 pageLoadingView.setVisibility(View.VISIBLE);
                 notifyDataSetChanged();
                 break;
             case STATUS_PAGE_EMPTY:
+                currentPageStatus = status;
                 clearData();
                 pageEmptyView.setVisibility(View.VISIBLE);
                 notifyDataSetChanged();
                 break;
             case STATUS_PAGE_ERROR:
+                currentPageStatus = status;
                 clearData();
                 pageErrorView.setVisibility(View.VISIBLE);
                 notifyDataSetChanged();
                 break;
             case STATUS_PAGE_COMPLETED:
+                currentPageStatus = status;
                 isPageCompleted = true;
                 removeFooter(pageLayout);
                 break;
             case STATUS_ITEM_MORE:
+                currentItemStatus = status;
                 loadMoreView.setVisibility(View.VISIBLE);
                 break;
             case STATUS_ITEM_END:
+                currentItemStatus = status;
                 loadEndView.setVisibility(View.VISIBLE);
                 if (!isPageCompleted) {
                     removeFooter(pageLayout);
                 }
                 break;
             case STATUS_ITEM_ERROR:
+                currentItemStatus = status;
                 loadErrorView.setVisibility(View.VISIBLE);
                 break;
             default:
@@ -416,6 +426,35 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
         }
         addFooter(itemLayout);
         updateStatus(STATUS_INIT);
+    }
+
+    public void reInitStatusView() {
+        if (mLoadResource == null) {
+            mLoadResource = LeeViewAdapterManager.getInstance().getLoadResource();
+        }
+
+        removeFooter(pageLayout);
+        pageLayout = LayoutInflater.from(context).inflate(mLoadResource.pageLayoutId(), new FrameLayout(context), false);
+        pageLoadingView = pageLayout.findViewById(mLoadResource.pageLoadingId());
+        pageEmptyView = pageLayout.findViewById(mLoadResource.pageEmptyId());
+        pageErrorView = pageLayout.findViewById(mLoadResource.pageErrorId());
+        addFooter(pageLayout);
+
+        removeFooter(itemLayout);
+        itemLayout = LayoutInflater.from(context).inflate(mLoadResource.itemLayoutId(), new FrameLayout(context), false);
+        loadMoreView = itemLayout.findViewById(mLoadResource.itemLoadMoreId());
+        loadEndView = itemLayout.findViewById(mLoadResource.itemLoadEndId());
+        loadErrorView = itemLayout.findViewById(mLoadResource.itemLoadErrorId());
+        addFooter(itemLayout);
+
+        //item状态已更改同步page、item状态更新
+        if (currentItemStatus != -1) {
+            updateStatus(currentPageStatus);
+            updateStatus(currentItemStatus);
+            //item状态未更改，同步page状态更新
+        } else {
+            updateStatus(currentPageStatus);
+        }
     }
 
     /**
