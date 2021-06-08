@@ -180,4 +180,15 @@ class ShadowConstraintLayout(context: Context, attributeSet: AttributeSet) :
         mLineRectF.right = mRectF.right - lineOffset
     }
 
+    fun setShadowFillColor(color: Int) {
+        shadowFillColor = color
+        mPaint.color = color
+        invalidate()
+    }
+
+    fun setShadowColor(color: Int) {
+        shadowColor = color
+        invalidate()
+    }
+
 }
