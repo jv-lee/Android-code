@@ -44,16 +44,20 @@ android {
         dataBinding = true
     }
 
+    viewBinding {
+        enabled = true
+    }
+
 }
 
-protobuf{
-    protoc{
+protobuf {
+    protoc {
         artifact = 'com.google.protobuf:protoc:3.11.0'
     }
-    generateProtoTasks{
-        all().each{ task ->
-            task.builtins{
-                java{
+    generateProtoTasks {
+        all().each { task ->
+            task.builtins {
+                java {
 //                    option "lite"
                 }
             }
