@@ -447,6 +447,8 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
         loadErrorView = itemLayout.findViewById(mLoadResource.itemLoadErrorId());
         addFooter(itemLayout);
 
+        bindLoadErrorListener();
+
         //item状态已更改同步page、item状态更新
         if (currentItemStatus != -1) {
             updateStatus(currentPageStatus);
@@ -642,13 +644,13 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
      * 设置错误回调逻辑
      */
     private void bindLoadErrorListener() {
-        if (mLoadResource != null && pageLayout != null) {
+        if (mLoadResource != null && pageLayout != null && mLoadErrorListener != null) {
             pageLayout.findViewById(mLoadResource.pageReloadId()).setOnClickListener(v -> {
                 updateStatus(STATUS_PAGE_LOADING);
                 mLoadErrorListener.pageReload();
             });
         }
-        if (mLoadResource != null && itemLayout != null) {
+        if (mLoadResource != null && itemLayout != null && mLoadErrorListener != null) {
             itemLayout.findViewById(mLoadResource.itemReloadId()).setOnClickListener(v -> {
                 updateStatus(STATUS_ITEM_MORE);
                 mLoadErrorListener.itemReload();
