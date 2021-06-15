@@ -2,7 +2,7 @@ package com.lee.app
 
 import com.lee.app.adapter.FormAdapter
 import com.lee.app.databinding.ActivityFormTableBinding
-import com.lee.library.base.BaseActivity
+import com.lee.library.base.BaseVMActivity
 import com.lee.library.mvvm.base.BaseViewModel
 import com.lee.library.utils.KeyboardHelper
 import com.lee.library.utils.KeyboardUtil
@@ -15,7 +15,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
  * @description 表单样式 沉浸式状态栏 输入法适配
  */
 class FormTableActivity :
-    BaseActivity<ActivityFormTableBinding, BaseViewModel>(R.layout.activity_form_table) {
+    BaseVMActivity<ActivityFormTableBinding, BaseViewModel>(R.layout.activity_form_table) {
     private val adapter by lazy {
         FormAdapter(this, ArrayList<String>().also {
             for (index in 0..30) {

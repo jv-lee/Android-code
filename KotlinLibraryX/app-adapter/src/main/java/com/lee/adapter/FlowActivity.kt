@@ -3,11 +3,11 @@ package com.lee.adapter
 import androidx.lifecycle.Observer
 import com.lee.adapter.databinding.ActivityFlowBinding
 import com.lee.adapter.viewmodel.FlowViewModel
-import com.lee.library.base.BaseActivity
+import com.lee.library.base.BaseVMActivity
 import com.lee.library.mvvm.load.LoadStatus
 import com.lee.library.utils.LogUtil
 
-class FlowActivity : BaseActivity<ActivityFlowBinding, FlowViewModel>(R.layout.activity_flow) {
+class FlowActivity : BaseVMActivity<ActivityFlowBinding, FlowViewModel>(R.layout.activity_flow) {
 
     override fun bindView() {
 

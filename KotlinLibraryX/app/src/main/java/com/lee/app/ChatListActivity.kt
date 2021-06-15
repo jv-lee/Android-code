@@ -3,8 +3,7 @@ package com.lee.app
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lee.app.adapter.ChatAdapter
 import com.lee.app.databinding.ActivityChatListBinding
-import com.lee.library.base.BaseActivity
-import com.lee.library.extensions.reverseLayout
+import com.lee.library.base.BaseVMActivity
 import com.lee.library.mvvm.base.BaseViewModel
 import com.lee.library.utils.KeyboardHelper
 import com.lee.library.utils.StatusUtil
@@ -18,7 +17,7 @@ import kotlinx.coroutines.launch
  * @description 聊天界面 沉浸式状态栏 输入法适配
  */
 class ChatListActivity :
-    BaseActivity<ActivityChatListBinding, BaseViewModel>(R.layout.activity_chat_list) {
+    BaseVMActivity<ActivityChatListBinding, BaseViewModel>(R.layout.activity_chat_list) {
 
     private var page = 0
 

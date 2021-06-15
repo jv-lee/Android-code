@@ -1,4 +1,4 @@
-package com.lee.library.adapter;
+package com.lee.library.adapter.base;
 
 import android.content.Context;
 import android.util.SparseArray;
@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
  * @date 2019/3/29
  * 封装的RecyclerViewHolder
  */
-public class LeeViewHolder extends RecyclerView.ViewHolder {
+public class BaseViewHolder extends RecyclerView.ViewHolder {
 
     /**
      * 所有的控件的集合
@@ -25,7 +25,7 @@ public class LeeViewHolder extends RecyclerView.ViewHolder {
      */
     private View mConvertView;
 
-    public LeeViewHolder(@NonNull View itemView) {
+    public BaseViewHolder(@NonNull View itemView) {
         super(itemView);
         mConvertView = itemView;
         mViews = new SparseArray<>();
@@ -39,9 +39,9 @@ public class LeeViewHolder extends RecyclerView.ViewHolder {
      * @param layoutId 布局id
      * @return 返回ViewHolder
      */
-    public static LeeViewHolder createViewHolder(Context context, ViewGroup parent, int layoutId){
+    public static BaseViewHolder createViewHolder(Context context, ViewGroup parent, int layoutId){
         View itemView = LayoutInflater.from(context).inflate(layoutId, parent, false);
-        return new LeeViewHolder(itemView);
+        return new BaseViewHolder(itemView);
     }
 
     /**

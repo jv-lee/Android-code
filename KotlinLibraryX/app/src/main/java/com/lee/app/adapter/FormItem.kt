@@ -2,44 +2,28 @@ package com.lee.app.adapter
 
 import android.app.Dialog
 import android.content.Context
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import com.lee.app.BottomTitleDialog
 import com.lee.app.R
-import com.lee.library.adapter.LeeViewHolder
-import com.lee.library.adapter.listener.LeeViewItem
+import com.lee.library.adapter.base.BaseViewHolder
+import com.lee.library.adapter.item.ViewItem
 
 /**
  * @author jv.lee
  * @date 2020/9/7
  * @description 每一个item持有一个dialog 解决方案
  */
-class FormItem : LeeViewItem<String> {
+class FormItem : ViewItem<String>() {
 
-    override fun getItemLayout(): Int {
-        return R.layout.item_form
+    override fun getItemView(context: Context, parent: ViewGroup): View {
+        return LayoutInflater.from(context).inflate(R.layout.item_form, parent, false)
     }
 
-    override fun openClick(): Boolean {
-        return true
-    }
-
-    override fun openShake(): Boolean {
-        return true
-    }
-
-    override fun openRecycler(): Boolean {
-        return false
-    }
-
-    override fun isItemView(entity: String?, position: Int): Boolean {
-        return entity != null
-    }
-
-    override fun convert(holder: LeeViewHolder?, entity: String?, position: Int) {
-        holder ?: return
-        entity ?: return
-
+    override fun convert(holder: BaseViewHolder, entity: String, position: Int) {
         val dialog = getDialog2(holder, entity, position)
 
         val editText = holder.getView<EditText>(R.id.et_input)
@@ -50,9 +34,6 @@ class FormItem : LeeViewItem<String> {
             dialog.show()
         }
 
-    }
-
-    override fun viewRecycled(holder: LeeViewHolder?, entity: String?, position: Int) {
     }
 
     /**
@@ -70,7 +51,7 @@ class FormItem : LeeViewItem<String> {
     /**
      * 建议解决方式二 更加优雅
      */
-    private fun getDialog2(holder: LeeViewHolder, entity: String, position: Int): Dialog {
+    private fun getDialog2(holder: BaseViewHolder, entity: String, position: Int): Dialog {
         var dialog = holder.convertView.getTag(entity.hashCode())
         if (dialog == null) {
             dialog = BottomTitleDialog(holder.convertView.context)

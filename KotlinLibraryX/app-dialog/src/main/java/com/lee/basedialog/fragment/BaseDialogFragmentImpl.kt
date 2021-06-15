@@ -3,7 +3,7 @@ package com.lee.basedialog.fragment
 import androidx.lifecycle.ViewModel
 import com.lee.basedialog.R
 import com.lee.basedialog.databinding.FragmentBaseDialogBinding
-import com.lee.library.base.BaseDialogFragment
+import com.lee.library.base.BaseVMDialogFragment
 
 /**
  * @author jv.lee
@@ -11,7 +11,7 @@ import com.lee.library.base.BaseDialogFragment
  * @description BaseDialog样式 DialogFragment
  */
 class BaseDialogFragmentImpl :
-    BaseDialogFragment<FragmentBaseDialogBinding, ViewModel>(R.layout.fragment_base_dialog) {
+    BaseVMDialogFragment<FragmentBaseDialogBinding, ViewModel>(R.layout.fragment_base_dialog) {
     override fun bindView() {
 
     }

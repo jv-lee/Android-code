@@ -1,11 +1,16 @@
 package com.lee.adapter.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import com.lee.adapter.R
 import com.lee.adapter.entity.ContentData
 import com.lee.adapter.entity.ViewType
-import com.lee.library.adapter.LeeViewHolder
-import com.lee.library.adapter.listener.LeeViewItem
+import com.lee.library.adapter.base.BaseViewHolder
+import com.lee.library.adapter.base.BaseViewItem
+import com.lee.library.adapter.binding.ViewBindingHolder
+import com.lee.library.adapter.item.ViewItem
 import com.lee.library.widget.linear.LinearListView
 
 /**
@@ -13,22 +18,15 @@ import com.lee.library.widget.linear.LinearListView
  * @date 2020/11/25
  * @description
  */
-class ContentHorizontalItem : LeeViewItem<ContentData> {
-    override fun getItemLayout() = R.layout.item_content_horizontal
+class ContentHorizontalItem :
+    ViewItem<ContentData>() {
 
-    override fun openClick() = true
+    override fun isItemView(entity: ContentData, position: Int) = entity.type == ViewType.HORIZONTAL
 
-    override fun openShake() = true
+    override fun getItemView(context: Context, parent: ViewGroup): View =
+        LayoutInflater.from(context).inflate(R.layout.item_content_horizontal, parent, false)
 
-    override fun openRecycler() = false
-
-    override fun isItemView(entity: ContentData?, position: Int) =
-        entity?.type == ViewType.HORIZONTAL
-
-    override fun convert(holder: LeeViewHolder?, entity: ContentData?, position: Int) {
-        holder ?: return
-        entity ?: return
-
+    override fun convert(holder: BaseViewHolder, entity: ContentData, position: Int) {
         val linearListView = holder.getView<LinearListView>(R.id.linear_list_view)
         if (linearListView.childCount != 0) return
         for (index in 1..6) {
@@ -37,10 +35,6 @@ class ContentHorizontalItem : LeeViewItem<ContentData> {
                     .inflate(R.layout.item_image, linearListView, false)
             )
         }
-    }
-
-    override fun viewRecycled(holder: LeeViewHolder?, entity: ContentData?, position: Int) {
-
     }
 
 }

@@ -1,7 +1,7 @@
 package com.lee.app.adapter
 
 import android.content.Context
-import com.lee.library.adapter.LeeViewAdapter
+import com.lee.library.adapter.base.BaseViewAdapter
 
 /**
  * @author jv.lee
@@ -9,7 +9,7 @@ import com.lee.library.adapter.LeeViewAdapter
  * @description
  */
 class ChatAdapter(context: Context, data: ArrayList<String>) :
-    LeeViewAdapter<String>(context, data) {
+    BaseViewAdapter<String>(context, data) {
     init {
         addItemStyles(ChatItem())
     }

@@ -10,7 +10,6 @@ import android.webkit.WebView
 import androidx.activity.OnBackPressedCallback
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.lee.library.R
 import com.lee.library.extensions.getVmClass
@@ -21,8 +20,8 @@ import com.lee.library.mvvm.base.BaseViewModel
  * @date 2020/3/30
  * @description
  */
-abstract class BaseNavigationFragment<V : ViewDataBinding, VM : BaseViewModel>(layoutId: Int) :
-    BaseFragment<V, VM>(layoutId) {
+abstract class BaseVMNavigationFragment<V : ViewDataBinding, VM : BaseViewModel>(layoutId: Int) :
+    BaseVMFragment<V, VM>(layoutId) {
 
     private var isNavigationViewInit = false // 记录是否初始化view
     private var firstTime: Long = 0
@@ -31,6 +30,10 @@ abstract class BaseNavigationFragment<V : ViewDataBinding, VM : BaseViewModel>(l
         super.onAttach(context)
         //设置viewBinding
         binding = DataBindingUtil.inflate(LayoutInflater.from(context), layoutId, null, false)
+    }
+
+    override fun createView(inflater: LayoutInflater, container: ViewGroup?): View {
+        return super.createView(inflater, container)
     }
 
     override fun onCreateView(
@@ -53,24 +56,6 @@ abstract class BaseNavigationFragment<V : ViewDataBinding, VM : BaseViewModel>(l
             bindData()
             initFailedViewModel()
             isNavigationViewInit = true
-        }
-    }
-
-    /**
-     * 显示底部导航栏
-     */
-    open fun showNavigation() {
-        if (activity is BaseNavigationActivity<*, *>) {
-            (activity as BaseNavigationActivity<*, *>).showView()
-        }
-    }
-
-    /**
-     * 隐藏底部导航栏
-     */
-    open fun hideNavigation() {
-        if (activity is BaseNavigationActivity<*, *>) {
-            (activity as BaseNavigationActivity<*, *>).hideView()
         }
     }
 

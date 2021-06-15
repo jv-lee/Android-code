@@ -1,9 +1,12 @@
 package com.lee.basedialog.fragment
 
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.lifecycle.ViewModel
 import com.lee.basedialog.R
 import com.lee.basedialog.databinding.FragmentAlertDialogBinding
-import com.lee.library.base.BaseAlertDialogFragment
+import com.lee.library.base.BaseVMAlertFragment
 
 /**
  * @author jv.lee
@@ -11,7 +14,8 @@ import com.lee.library.base.BaseAlertDialogFragment
  * @description Alert样式 DialogFragment
  */
 class BaseAlertDialogFragmentImpl :
-    BaseAlertDialogFragment<FragmentAlertDialogBinding, ViewModel>(R.layout.fragment_alert_dialog) {
+    BaseVMAlertFragment<FragmentAlertDialogBinding, ViewModel>(R.layout.fragment_alert_dialog) {
+
     override fun bindView() {
     }
 

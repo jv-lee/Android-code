@@ -2,7 +2,7 @@ package com.lee.adapter.adapter
 
 import android.content.Context
 import com.lee.adapter.entity.ContentData
-import com.lee.library.adapter.page.PagingAdapter
+import com.lee.library.adapter.base.BaseViewAdapter
 
 /**
  * @author jv.lee
@@ -10,7 +10,7 @@ import com.lee.library.adapter.page.PagingAdapter
  * @description
  */
 class ContentAdapter(context: Context, data: List<ContentData>) :
-    PagingAdapter<ContentData>(context, data) {
+    BaseViewAdapter<ContentData>(context, data) {
     init {
         addItemStyles(ContentCommonItem())
         addItemStyles(ContentVerticalItem())

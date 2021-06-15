@@ -1,4 +1,4 @@
-package com.lee.library.adapter;
+package com.lee.library.adapter.base;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -14,12 +14,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.lee.library.adapter.core.ProxyAdapter;
-import com.lee.library.adapter.listener.LeeViewItem;
+import com.lee.library.adapter.manager.ViewItemManager;
 import com.lee.library.adapter.listener.LoadErrorListener;
 import com.lee.library.adapter.listener.LoadResource;
 import com.lee.library.adapter.listener.LoadStatusListener;
-import com.lee.library.adapter.manager.LeeViewAdapterManager;
-import com.lee.library.adapter.manager.LeeViewItemManager;
+import com.lee.library.adapter.manager.ViewLoadManager;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,7 +29,7 @@ import java.util.List;
  * @date 2019/3/29
  * 封装的RecyclerViewAdapter
  */
-public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
+public abstract class BaseViewAdapter<T> extends RecyclerView.Adapter<BaseViewHolder> {
 
     private Context context;
     /**
@@ -83,7 +82,7 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
     /**
      * item类型管理器
      */
-    protected LeeViewItemManager<T> itemStyle;
+    protected ViewItemManager<T> itemStyle = new ViewItemManager<>();
     /**
      * 条目点击事件监听
      */
@@ -140,13 +139,12 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
      *
      * @param data 数据源
      */
-    public LeeViewAdapter(Context context, List<T> data) {
+    public BaseViewAdapter(Context context, List<T> data) {
         this.context = context;
         if (data == null) {
             this.mData = new ArrayList<>();
         }
         this.mData = data;
-        itemStyle = new LeeViewItemManager<>();
     }
 
     /**
@@ -155,7 +153,7 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
      * @param data 数据源
      * @param item item类型
      */
-    public LeeViewAdapter(Context context, List<T> data, LeeViewItem<T> item) {
+    public BaseViewAdapter(Context context, List<T> data, BaseViewItem<T> item) {
         this(context, data);
         //将item类型加入
         addItemStyles(item);
@@ -246,7 +244,7 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
      *
      * @param item 样式类型
      */
-    protected void addItemStyles(LeeViewItem<T> item) {
+    protected void addItemStyles(BaseViewItem<T> item) {
         itemStyle.addStyles(item);
     }
 
@@ -290,16 +288,18 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
         proxyAdapter.removeFooterView(view);
     }
 
-    private SparseArray<LeeViewHolder> viewHolders = new SparseArray<>();
+    private SparseArray<BaseViewHolder> viewHolders = new SparseArray<>();
 
     @NonNull
     @Override
-    public LeeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public BaseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         //根据布局的类型 创建不同的ViewHolder
-        LeeViewItem item = itemStyle.getLeeViewItem(viewType);
-        int layoutId = item.getItemLayout();
-        LeeViewHolder viewHolder = LeeViewHolder.createViewHolder(parent.getContext(), parent, layoutId);
+        BaseViewItem item = itemStyle.getViewItem(viewType);
+        if(item == null) throw new RuntimeException("itemStyle.getViewItem is null.");
+        View view = (View) item.getItemViewAny(parent.getContext(), parent);
+        if(view == null) throw new RuntimeException("itemStyle.getItemViewAny is null.");
 
+        BaseViewHolder viewHolder = new BaseViewHolder(view);
         //点击的监听
         if (item.openClick()) {
             setListener(viewHolder, item.openShake());
@@ -310,7 +310,7 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull LeeViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull BaseViewHolder holder, int position) {
         convert(holder, mData.get(position));
         if (mAutoLoadMoreListener != null && hasLoadMore) {
             callEnd(position);
@@ -318,7 +318,7 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
     }
 
     @Override
-    public void onViewRecycled(@NonNull LeeViewHolder holder) {
+    public void onViewRecycled(@NonNull BaseViewHolder holder) {
         super.onViewRecycled(holder);
         viewRecycled(holder);
     }
@@ -409,7 +409,7 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
         //开启loadMore模式
         hasLoadMore = true;
         if (mLoadResource == null) {
-            mLoadResource = LeeViewAdapterManager.getInstance().getLoadResource();
+            mLoadResource = ViewLoadManager.getInstance().getLoadResource();
         }
         if (pageLayout == null) {
             pageLayout = LayoutInflater.from(context).inflate(mLoadResource.pageLayoutId(), new FrameLayout(context), false);
@@ -430,7 +430,7 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
 
     public void reInitStatusView() {
         if (mLoadResource == null) {
-            mLoadResource = LeeViewAdapterManager.getInstance().getLoadResource();
+            mLoadResource = ViewLoadManager.getInstance().getLoadResource();
         }
 
         removeFooter(pageLayout);
@@ -556,7 +556,7 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
      * @param viewHolder
      * @return
      */
-    private int getPosition(LeeViewHolder viewHolder) {
+    private int getPosition(BaseViewHolder viewHolder) {
         return proxyAdapter == null ? viewHolder.getLayoutPosition() : viewHolder.getLayoutPosition() - proxyAdapter.getHeaderCount();
     }
 
@@ -565,7 +565,7 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
      *
      * @param viewHolder view复用器
      */
-    protected void setChildListener(LeeViewHolder viewHolder, boolean shake) {
+    protected void setChildListener(BaseViewHolder viewHolder, boolean shake) {
         if (mOnItemChildChange != null) {
             for (Integer childClickId : childClickIds) {
                 View view = viewHolder.getConvertView().findViewById(childClickId);
@@ -594,7 +594,7 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
      *
      * @param viewHolder view复用器
      */
-    protected void setListener(LeeViewHolder viewHolder, boolean shake) {
+    protected void setListener(BaseViewHolder viewHolder, boolean shake) {
         //阻塞事件
         if (mOnItemClickListener != null) {
             viewHolder.getConvertView().setOnClickListener(v -> {
@@ -623,11 +623,11 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
         }
     }
 
-    private void convert(LeeViewHolder holder, T entity) {
+    private void convert(BaseViewHolder holder, T entity) {
         itemStyle.convert(holder, entity, holder.getLayoutPosition());
     }
 
-    private void viewRecycled(LeeViewHolder holder) {
+    private void viewRecycled(BaseViewHolder holder) {
         int position;
         if (proxyAdapter != null) {
             position = holder.getLayoutPosition() - proxyAdapter.getHeaderCount();

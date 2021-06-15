@@ -8,18 +8,12 @@ import android.view.KeyEvent
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.lee.library.R
-import com.lee.library.extensions.getVmClass
-import com.lee.library.mvvm.base.BaseViewModel
 import com.lee.library.utils.ActivityUtil
 import com.lee.library.utils.StatusUtil
 import kotlinx.coroutines.CoroutineScope
@@ -29,14 +23,11 @@ import kotlinx.coroutines.cancel
 
 /**
  * @author jv.lee
- * @date 2019-08-15
+ * @date 2021/6/15
  * @description
  */
-abstract class BaseActivity<V : ViewDataBinding, VM : BaseViewModel>(var layoutId: Int) :
+abstract class BaseActivity :
     AppCompatActivity(), CoroutineScope by CoroutineScope(Dispatchers.Main) {
-
-    protected lateinit var binding: V
-    protected lateinit var viewModel: VM
 
     private var firstTime: Long = 0
     private var hasBackExit = false
@@ -66,28 +57,11 @@ abstract class BaseActivity<V : ViewDataBinding, VM : BaseViewModel>(var layoutI
         StatusUtil.statusBar(window, false)
         super.onCreate(savedInstanceState)
 
-        //设置viewBinding
-        binding = DataBindingUtil.setContentView(this, layoutId)
-
-        //设置viewModel
-        try {
-            viewModel = ViewModelProvider(this).get(getVmClass(this))
-        } catch (e: Exception) {
-        }
-
         intentParams(intent, savedInstanceState)
 
         bindView()
 
         bindData()
-
-        initFailedViewModel()
-    }
-
-    private fun initFailedViewModel() {
-        viewModel.failedEvent.observe(this, Observer {
-            toast(it.message)
-        })
     }
 
     open fun intentParams(intent: Intent, savedInstanceState: Bundle?) {
@@ -159,7 +133,7 @@ abstract class BaseActivity<V : ViewDataBinding, VM : BaseViewModel>(var layoutI
     }
 
     fun FragmentActivity.show(dialog: Dialog) {
-        if (ActivityUtil.assertActivityDestroyed(this@BaseActivity)) return
+        if (ActivityUtil.assertActivityDestroyed(this)) return
         try {
             dialog.show()
         } catch (e: Exception) {
@@ -167,7 +141,7 @@ abstract class BaseActivity<V : ViewDataBinding, VM : BaseViewModel>(var layoutI
     }
 
     fun FragmentActivity.dismiss(dialog: Dialog) {
-        if (ActivityUtil.assertActivityDestroyed(this@BaseActivity)) return
+        if (ActivityUtil.assertActivityDestroyed(this)) return
         try {
             dialog.dismiss()
         } catch (e: Exception) {
@@ -175,7 +149,7 @@ abstract class BaseActivity<V : ViewDataBinding, VM : BaseViewModel>(var layoutI
     }
 
     fun FragmentActivity.show(dialog: DialogFragment) {
-        if (ActivityUtil.assertActivityDestroyed(this@BaseActivity)) return
+        if (ActivityUtil.assertActivityDestroyed(this)) return
         try {
             dialog.show(supportFragmentManager, dialog::class.java.simpleName)
         } catch (e: Exception) {
@@ -183,7 +157,7 @@ abstract class BaseActivity<V : ViewDataBinding, VM : BaseViewModel>(var layoutI
     }
 
     fun FragmentActivity.dismiss(dialog: DialogFragment) {
-        if (ActivityUtil.assertActivityDestroyed(this@BaseActivity)) return
+        if (ActivityUtil.assertActivityDestroyed(this)) return
         try {
             dialog.dismiss()
         } catch (e: Exception) {

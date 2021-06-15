@@ -6,10 +6,10 @@ import com.lee.api.activity.DataStoreProtoActivity
 import com.lee.api.activity.StartResultActivity
 import com.lee.api.databinding.ActivityMainBinding
 import com.lee.api.fragment.StartFragmentActivity
-import com.lee.library.base.BaseActivity
+import com.lee.library.base.BaseVMActivity
 import com.lee.library.mvvm.base.BaseViewModel
 
-class MainActivity : BaseActivity<ActivityMainBinding, BaseViewModel>(R.layout.activity_main) {
+class MainActivity : BaseVMActivity<ActivityMainBinding, BaseViewModel>(R.layout.activity_main) {
 
     override fun bindView() {
         binding.btnFragmentResult.setOnClickListener {

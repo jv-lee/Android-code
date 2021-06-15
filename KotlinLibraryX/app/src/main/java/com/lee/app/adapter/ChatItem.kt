@@ -1,42 +1,30 @@
 package com.lee.app.adapter
 
+import android.content.Context
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import android.widget.TextView
 import com.lee.app.R
-import com.lee.library.adapter.LeeViewHolder
-import com.lee.library.adapter.listener.LeeViewItem
+import com.lee.library.adapter.base.BaseViewHolder
+import com.lee.library.adapter.base.BaseViewItem
 
 /**
  * @author jv.lee
  * @date 2020/9/7
  * @description
  */
-class ChatItem : LeeViewItem<String> {
-    override fun getItemLayout(): Int {
-        return R.layout.item_chat
+class ChatItem : BaseViewItem<String> {
+
+    override fun getItemViewAny(context: Context, parent: ViewGroup): Any {
+        return LayoutInflater.from(context).inflate(R.layout.item_chat, parent, false)
     }
 
-    override fun openClick(): Boolean {
-        return true
-    }
-
-    override fun openShake(): Boolean {
-        return true
-    }
-
-    override fun openRecycler(): Boolean {
-        return false
-    }
-
-    override fun isItemView(entity: String?, position: Int): Boolean {
-        return entity != null
-    }
-
-    override fun convert(holder: LeeViewHolder?, entity: String?, position: Int) {
-        val textView = holder?.getView<TextView>(R.id.tv_content)
+    override fun convert(holder: BaseViewHolder, entity: String, position: Int) {
+        val textView = holder.getView<TextView>(R.id.tv_content)
         textView?.text = "this is item data -> $position"
     }
 
-    override fun viewRecycled(holder: LeeViewHolder?, entity: String?, position: Int) {
+    override fun viewRecycled(holder: BaseViewHolder, entity: String, position: Int) {
     }
 
 }

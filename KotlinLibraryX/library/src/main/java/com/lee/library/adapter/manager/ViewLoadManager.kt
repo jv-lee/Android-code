@@ -8,18 +8,18 @@ import com.lee.library.adapter.listener.LoadResource
  * @date 2020/8/11
  * @description 全局设置LoadResource资源
  */
-class LeeViewAdapterManager {
+class ViewLoadManager {
 
     companion object {
 
         @Volatile
-        private var instance: LeeViewAdapterManager? = null
+        private var instance: ViewLoadManager? = null
 
         @JvmStatic
         fun getInstance() = instance
             ?: synchronized(this) {
             instance
-                ?: LeeViewAdapterManager()
+                ?: ViewLoadManager()
                     .also { instance = it }
         }
     }

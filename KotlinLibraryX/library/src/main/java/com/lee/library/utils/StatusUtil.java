@@ -99,6 +99,7 @@ public class StatusUtil {
 
     /**
      * 全屏模式
+     * Activity在onResume中调用 防止横竖屏切换
      *
      * @param activity
      */

@@ -3,11 +3,11 @@ package com.lee.api.fragment
 import androidx.activity.OnBackPressedCallback
 import com.lee.api.R
 import com.lee.api.databinding.FragmentBackBinding
-import com.lee.library.base.BaseFragment
+import com.lee.library.base.BaseVMFragment
 import com.lee.library.mvvm.base.BaseViewModel
 
 
-class BackFragment : BaseFragment<FragmentBackBinding, BaseViewModel>(R.layout.fragment_back) {
+class BackFragment : BaseVMFragment<FragmentBackBinding, BaseViewModel>(R.layout.fragment_back) {
     override fun bindView() {
         requireActivity().onBackPressedDispatcher.addCallback(this,
             //enabled true 为fragment 拦截back事件->传递至 handleOnBackPressed()
