@@ -4,6 +4,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.lee.app.adapter.ChatAdapter
 import com.lee.app.databinding.ActivityChatListBinding
 import com.lee.library.base.BaseVMActivity
+import com.lee.library.extensions.reverseLayout
 import com.lee.library.mvvm.base.BaseViewModel
 import com.lee.library.utils.KeyboardHelper
 import com.lee.library.utils.StatusUtil
