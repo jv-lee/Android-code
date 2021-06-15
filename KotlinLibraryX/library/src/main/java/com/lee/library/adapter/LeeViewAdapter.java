@@ -83,7 +83,7 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
     /**
      * item类型管理器
      */
-    private LeeViewItemManager<T> itemStyle;
+    protected LeeViewItemManager<T> itemStyle;
     /**
      * 条目点击事件监听
      */
@@ -565,7 +565,7 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
      *
      * @param viewHolder view复用器
      */
-    private void setChildListener(LeeViewHolder viewHolder, boolean shake) {
+    protected void setChildListener(LeeViewHolder viewHolder, boolean shake) {
         if (mOnItemChildChange != null) {
             for (Integer childClickId : childClickIds) {
                 View view = viewHolder.getConvertView().findViewById(childClickId);
@@ -594,7 +594,7 @@ public class LeeViewAdapter<T> extends RecyclerView.Adapter<LeeViewHolder> {
      *
      * @param viewHolder view复用器
      */
-    private void setListener(LeeViewHolder viewHolder, boolean shake) {
+    protected void setListener(LeeViewHolder viewHolder, boolean shake) {
         //阻塞事件
         if (mOnItemClickListener != null) {
             viewHolder.getConvertView().setOnClickListener(v -> {
