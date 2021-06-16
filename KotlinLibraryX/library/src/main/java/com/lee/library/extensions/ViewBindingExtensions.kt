@@ -152,3 +152,8 @@ class ViewGroupViewBindingProperty<in G : ViewGroup, out V : ViewBinding>(
         }
     }
 }
+
+//该方式无法控制binding解除绑定
+//fun <VB : ViewBinding> Activity.binding(inflate: (LayoutInflater) -> VB) = lazy {
+//    inflate(layoutInflater).apply { setContentView(root) }
+//}
