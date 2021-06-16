@@ -1,9 +1,9 @@
-package com.lee.adapter
+package com.lee.adapter.binding
 
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.lee.adapter.binding.BindingAdapter
+import com.lee.adapter.R
 import com.lee.adapter.databinding.ActivityViewBindingBinding
 import com.lee.adapter.databinding.LayoutFooterBinding
 import com.lee.adapter.databinding.LayoutHeaderBinding
@@ -32,7 +32,10 @@ class ViewBindingActivity : BaseActivity() {
     private val mAdapter by lazy { BindingAdapter(this, arrayListOf()) }
 
     override fun bindView() {
-        supportFragmentManager.beginTransaction().add(R.id.frame_container, BindingFragment())
+        supportFragmentManager.beginTransaction().add(
+            R.id.frame_container,
+            BindingFragment()
+        )
             .commit()
 
         binding.rvContainer.layoutManager = LinearLayoutManager(this)

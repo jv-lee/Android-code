@@ -1,5 +1,6 @@
-package com.lee.adapter
+package com.lee.adapter.binding
 
+import com.lee.adapter.R
 import com.lee.adapter.databinding.DialogBindingBinding
 import com.lee.library.base.BaseAlertFragment
 import com.lee.library.extensions.binding

@@ -1,5 +1,6 @@
-package com.lee.adapter
+package com.lee.adapter.binding
 
+import com.lee.adapter.R
 import com.lee.adapter.databinding.FragmentBindingBinding
 import com.lee.adapter.databinding.LayoutTextBinding
 import com.lee.adapter.databinding.LayoutViewBinding
