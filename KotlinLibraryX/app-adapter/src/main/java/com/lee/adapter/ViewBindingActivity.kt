@@ -1,6 +1,5 @@
 package com.lee.adapter
 
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -68,7 +67,7 @@ class ViewBindingActivity : BaseActivity() {
         viewModel.dataLiveData.observe(this, Observer {
             mAdapter.submitData(it)
         }, Observer {
-            Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+            toast(it)
             mAdapter.submitFailed()
         })
 
