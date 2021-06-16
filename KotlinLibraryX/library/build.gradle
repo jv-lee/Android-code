@@ -47,3 +47,4 @@ dependencies {
     support.each { k, v -> api v}
     processor.each {k,v -> annotationProcessor v}
 }
+

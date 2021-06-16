@@ -1,18 +1,15 @@
 package com.lee.library.extensions
 
-import android.app.Activity
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.ComponentActivity
 import androidx.annotation.MainThread
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.OnLifecycleEvent
+import androidx.lifecycle.*
 import androidx.viewbinding.ViewBinding
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
@@ -20,22 +17,22 @@ import kotlin.reflect.KProperty
 /**
  * @author jv.lee
  * @date 2021/6/15
- * @description
+ * @description ViewBinding 扩展函数（属性委托解绑模式）
  */
-fun <VB : ViewBinding> Activity.binding(inflate: (LayoutInflater) -> VB) = lazy {
-    inflate(layoutInflater).apply { setContentView(root) }
+@Suppress("UNCHECKED_CAST")
+@JvmName("viewBindingActivity")
+inline fun <A : ComponentActivity, V : ViewBinding> ComponentActivity.binding(
+    crossinline inflate: (LayoutInflater) -> V
+): ViewBindingProperty<A, V> = ActivityViewBindingProperty { activity: A ->
+    inflate(activity.layoutInflater).apply { setContentView(root) }
 }
 
-fun <VB : ViewBinding> Activity.inflate(inflate: (LayoutInflater) -> VB) = lazy {
-    inflate(layoutInflater)
-}
-
-fun <VB : ViewBinding> View.binding(binder: (View) -> VB) = lazy {
-    binder(this)
-}
-
-fun <VB : ViewBinding> View.inflate(inflate: (LayoutInflater) -> VB) = lazy {
-    inflate(LayoutInflater.from(context))
+@Suppress("UNCHECKED_CAST")
+@JvmName("viewInflateActivity")
+inline fun <A : ComponentActivity, V : ViewBinding> ComponentActivity.inflate(
+    crossinline inflate: (LayoutInflater) -> V
+): ViewBindingProperty<A, V> = ActivityViewBindingProperty { activity: A ->
+    inflate(activity.layoutInflater)
 }
 
 @Suppress("UNCHECKED_CAST")
@@ -53,6 +50,14 @@ inline fun <F : Fragment, V : ViewBinding> Fragment.inflate(
     crossinline viewInflate: (LayoutInflater) -> V
 ): ViewBindingProperty<F, V> = FragmentViewBindingProperty { fragment: F ->
     viewInflate(fragment.layoutInflater)
+}
+
+@Suppress("UNCHECKED_CAST")
+@JvmName("viewInflateViewGroup")
+inline fun <G : ViewGroup, V : ViewBinding> ViewGroup.inflate(
+    crossinline viewInflate: (LayoutInflater) -> V
+): ViewGroupViewBindingProperty<G, V> = ViewGroupViewBindingProperty { view: G ->
+    viewInflate(LayoutInflater.from(view.context))
 }
 
 interface ViewBindingProperty<in R : Any, out V : ViewBinding> : ReadOnlyProperty<R, V> {
@@ -114,6 +119,16 @@ abstract class LifecycleViewBindingProperty<in R : Any, out V : ViewBinding>(
     }
 }
 
+class ActivityViewBindingProperty<in A : ComponentActivity, out V : ViewBinding>(
+    viewBinder: (A) -> V
+) : LifecycleViewBindingProperty<A, V>(viewBinder) {
+
+    override fun getLifecycleOwner(thisRef: A): LifecycleOwner {
+        return thisRef
+    }
+}
+
+
 class FragmentViewBindingProperty<in F : Fragment, out V : ViewBinding>(
     viewBinder: (F) -> V
 ) : LifecycleViewBindingProperty<F, V>(viewBinder) {
@@ -123,6 +138,17 @@ class FragmentViewBindingProperty<in F : Fragment, out V : ViewBinding>(
             return thisRef.viewLifecycleOwner
         } catch (ignored: IllegalStateException) {
             error("Fragment doesn't have view associated with it or the view has been destroyed")
+        }
+    }
+}
+
+class ViewGroupViewBindingProperty<in G : ViewGroup, out V : ViewBinding>(
+    viewBinder: (G) -> V
+) : LifecycleViewBindingProperty<G, V>(viewBinder) {
+
+    override fun getLifecycleOwner(thisRef: G): LifecycleOwner {
+        return checkNotNull(ViewTreeLifecycleOwner.get(thisRef)) {
+            "Fragment doesn't have view associated with it or the view has been destroyed"
         }
     }
 }
