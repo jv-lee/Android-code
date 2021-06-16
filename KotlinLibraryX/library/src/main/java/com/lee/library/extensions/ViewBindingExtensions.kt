@@ -6,6 +6,7 @@ import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.annotation.MainThread
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
@@ -27,6 +28,14 @@ fun <VB : ViewBinding> Activity.binding(inflate: (LayoutInflater) -> VB) = lazy 
 
 fun <VB : ViewBinding> Activity.inflate(inflate: (LayoutInflater) -> VB) = lazy {
     inflate(layoutInflater)
+}
+
+fun <VB : ViewBinding> View.binding(binder: (View) -> VB) = lazy {
+    binder(this)
+}
+
+fun <VB : ViewBinding> View.inflate(inflate: (LayoutInflater) -> VB) = lazy {
+    inflate(LayoutInflater.from(context))
 }
 
 @Suppress("UNCHECKED_CAST")
