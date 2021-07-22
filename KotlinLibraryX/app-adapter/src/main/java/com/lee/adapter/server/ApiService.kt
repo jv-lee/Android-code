@@ -19,6 +19,6 @@ interface ApiService {
      * @param page: >=1
      * @param count： [10, 50]
      */
-    @GET("1data/category/Girl/type/Girl/page/{page}/count/20")
+    @GET("data/category/Girl/type/Girl/page/{page}/count/20")
     fun getContentDataAsync(@Path("page") page: Int): Flow<Page<Content>>
 }
