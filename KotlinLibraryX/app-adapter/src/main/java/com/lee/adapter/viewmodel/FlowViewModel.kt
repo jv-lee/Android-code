@@ -1,5 +1,8 @@
 package com.lee.adapter.viewmodel
 
+import androidx.lifecycle.liveData
+import androidx.lifecycle.switchMap
+import androidx.lifecycle.viewModelScope
 import com.lee.adapter.entity.Content
 import com.lee.adapter.entity.Page
 import com.lee.adapter.repository.FlowRepository
@@ -31,7 +34,21 @@ class FlowViewModel : BaseViewModel() {
     val dataLiveData by lazy { BaseLiveData<Page<Content>>() }
     val pageLiveData by lazy { PageLiveData<String>() }
 
+    val data by lazy {
+        MutableStateFlow("").stateIn(
+            viewModelScope,
+            SharingStarted.WhileSubscribed(5000),
+            ""
+        )
+    }
+
     fun getData(@LoadStatus status: Int) {
+
+        val data = dataLiveData.switchMap {
+            liveData<String> {
+                emit("")
+            }
+        }
 
         launchMain {
             repository.getData(page.getPage(status))
@@ -39,6 +56,7 @@ class FlowViewModel : BaseViewModel() {
                     val value = withContext(Dispatchers.IO) { 1 }
                     it
                 }
+                .flowOn(Dispatchers.IO)
                 .bindLive(dataLiveData)
         }
 
