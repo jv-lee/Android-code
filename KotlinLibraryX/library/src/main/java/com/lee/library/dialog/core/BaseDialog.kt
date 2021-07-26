@@ -18,7 +18,7 @@ import com.lee.library.utils.StatusUtil
  * @description
  */
 abstract class BaseDialog constructor(
-    val mContext: Context,
+    private val mContext: Context,
     theme: Int,
     layoutId: Int,
     isCancel: Boolean = true
