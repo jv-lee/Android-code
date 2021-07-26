@@ -45,7 +45,7 @@ abstract class BaseDialogFragment(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         //全屏显示
-        dialog?.setFullWindow()
+        dialog?.setFullWindow(context)
         intentParams(arguments, savedInstanceState)
         bindView()
         bindData()

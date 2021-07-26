@@ -5,13 +5,15 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toolbar;
 
-import androidx.annotation.RequiresApi;
+import androidx.fragment.app.FragmentActivity;
 
 /**
  * 状态栏工具
@@ -24,7 +26,7 @@ public class StatusUtil {
     /**
      * 设置沉浸式状态栏
      *
-     * @param window                 引用
+     * @param window                   引用
      * @param navigationBarTranslucent 导航栏是否设置为透明
      */
     public static void statusBar(Window window, boolean navigationBarTranslucent) {
@@ -163,10 +165,41 @@ public class StatusUtil {
      */
     public static int getNavigationBarHeight(Context context) {
         int resId = context.getResources().getIdentifier("navigation_bar_height", "dimen", "android");
-        if (resId > 0) {
+        if (resId > 0 && checkHasNavigationBar(context)) {
             return context.getResources().getDimensionPixelSize(resId);
         }
         return 0;
+    }
+
+    /**
+     * 判断是否存在导航栏
+     *
+     * @param context
+     * @return
+     */
+    public static boolean checkHasNavigationBar(Context context) {
+        try {
+            WindowManager windowManager = ((Activity) context).getWindowManager();
+            Display d = windowManager.getDefaultDisplay();
+
+            DisplayMetrics realDisplayMetrics = new DisplayMetrics();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                d.getRealMetrics(realDisplayMetrics);
+            }
+
+            int realHeight = realDisplayMetrics.heightPixels;
+            int realWidth = realDisplayMetrics.widthPixels;
+
+            DisplayMetrics displayMetrics = new DisplayMetrics();
+            d.getMetrics(displayMetrics);
+
+            int displayHeight = displayMetrics.heightPixels;
+            int displayWidth = displayMetrics.widthPixels;
+
+            return (realWidth - displayWidth) > 0 || (realHeight - displayHeight) > 0;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     /**
