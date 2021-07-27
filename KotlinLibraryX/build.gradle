@@ -6,8 +6,13 @@ buildscript {
         kotlin_version = '1.3.72'
     }
     repositories {
+        maven { url 'https://jitpack.io' }
+        maven { url 'https://maven.aliyun.com/repository/public' }
+        maven { url 'https://maven.aliyun.com/repository/central' }
+        maven { url 'https://maven.aliyun.com/repository/google' }
+        maven { url 'https://maven.aliyun.com/repository/public' }
+        maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
         google()
-        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
         jcenter()
 
     }
@@ -22,10 +27,14 @@ buildscript {
 
 allprojects {
     repositories {
-        google()
-        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
-        jcenter()
         maven { url 'https://jitpack.io' }
+        maven { url 'https://maven.aliyun.com/repository/public' }
+        maven { url 'https://maven.aliyun.com/repository/central' }
+        maven { url 'https://maven.aliyun.com/repository/google' }
+        maven { url 'https://maven.aliyun.com/repository/public' }
+        maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
+        google()
+        jcenter()
     }
 }
 
