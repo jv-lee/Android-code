@@ -1,5 +1,6 @@
 package com.lee.basedialog
 
+import android.view.WindowManager
 import android.widget.Button
 import com.lee.basedialog.databinding.ActivityMainBinding
 import com.lee.basedialog.dialog.BaseAlertDialogImpl
@@ -20,7 +21,10 @@ class MainActivity : BaseVMActivity<ActivityMainBinding, BaseViewModel>(R.layout
 
     //dialog
     private val baseBottomDialogImpl by lazy { BaseBottomDialogImpl(this) }
-    private val baseAlertDialogImpl by lazy { BaseAlertDialogImpl(this) }
+    private val baseAlertDialogImpl by lazy { BaseAlertDialogImpl(this).also {
+        //清除默认遮罩
+        it.window?.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+    } }
     private val baseTranslucentDialogImpl by lazy { BaseTranslucentDialogImpl(this) }
 
     override fun bindView() {
