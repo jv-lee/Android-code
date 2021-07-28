@@ -1,8 +1,5 @@
 package com.lee.basedialog.fragment
 
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.lifecycle.ViewModel
 import com.lee.basedialog.R
 import com.lee.basedialog.databinding.FragmentAlertDialogBinding

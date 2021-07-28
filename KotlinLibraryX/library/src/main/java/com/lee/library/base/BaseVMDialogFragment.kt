@@ -19,7 +19,7 @@ abstract class BaseVMDialogFragment<V : ViewDataBinding, VM : ViewModel>(
     private val layoutId: Int,
     private val isCancel: Boolean = true
 ) :
-    BaseDialogFragment() {
+    BaseDialogFragment(isCancel = isCancel) {
 
     protected lateinit var binding: V
     protected lateinit var viewModel: VM

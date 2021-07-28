@@ -16,10 +16,10 @@ import com.lee.library.extensions.getVmClass
  */
 abstract class BaseVMSheetFragment<V : ViewDataBinding, VM : ViewModel>(
     var layoutId: Int,
-    private var isFullWindow: Boolean = false,
-    private var behaviorState: Int = BottomSheetBehavior.STATE_EXPANDED,
-    private var peekHeight: Int = -1
-) : BaseSheetFragment() {
+    isFullWindow: Boolean = false,
+    behaviorState: Int = BottomSheetBehavior.STATE_EXPANDED,
+    peekHeight: Int = -1
+) : BaseSheetFragment(isFullWindow = isFullWindow,behaviorState = behaviorState,peekHeight = peekHeight) {
 
     protected lateinit var binding: V
     protected lateinit var viewModel: VM
