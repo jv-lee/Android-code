@@ -22,7 +22,8 @@ import kotlinx.coroutines.cancel
  */
 abstract class BaseDialogFragment(
     private val resourceId: Int? = 0,
-    private val isCancel: Boolean = true
+    private val isCancel: Boolean = true,
+    private val isFullWindow: Boolean = true
 ) :
     DialogFragment(), CoroutineScope by CoroutineScope(Dispatchers.Main) {
 
@@ -45,7 +46,7 @@ abstract class BaseDialogFragment(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         //全屏显示
-        dialog?.setFullWindow(context)
+        if (isFullWindow) dialog?.setFullWindow(context)
         intentParams(arguments, savedInstanceState)
         bindView()
         bindData()

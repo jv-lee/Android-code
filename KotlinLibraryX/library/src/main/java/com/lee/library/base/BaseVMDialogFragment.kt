@@ -17,9 +17,10 @@ import com.lee.library.extensions.getVmClass
  */
 abstract class BaseVMDialogFragment<V : ViewDataBinding, VM : ViewModel>(
     private val layoutId: Int,
-    private val isCancel: Boolean = true
+    private val isCancel: Boolean = true,
+    private val isFullWindow: Boolean = true
 ) :
-    BaseDialogFragment(isCancel = isCancel) {
+    BaseDialogFragment(isCancel = isCancel, isFullWindow = isFullWindow) {
 
     protected lateinit var binding: V
     protected lateinit var viewModel: VM

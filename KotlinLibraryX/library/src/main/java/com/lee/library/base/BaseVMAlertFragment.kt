@@ -11,9 +11,10 @@ import com.lee.library.R
  */
 abstract class BaseVMAlertFragment<V : ViewDataBinding, VM : ViewModel>(
     resId: Int,
-    isCancel: Boolean = true
+    isCancel: Boolean = true,
+    isFullWindow: Boolean = true
 ) :
-    BaseVMDialogFragment<V, VM>(resId, isCancel) {
+    BaseVMDialogFragment<V, VM>(resId, isCancel, isFullWindow) {
     init {
         setStyle(STYLE_NO_TITLE, R.style.BaseAlertDialog)
     }
