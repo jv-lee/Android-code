@@ -4,8 +4,8 @@
     Android:zAdjustment="top">
     <scale
         Android:duration="@android:integer/config_shortAnimTime"
-        Android:fromXScale="1.1"
-        Android:fromYScale="1.1"
+        Android:fromXScale="1.05"
+        Android:fromYScale="1.05"
         Android:pivotX="50%p"
         Android:pivotY="50%p"
         Android:toXScale="1"
