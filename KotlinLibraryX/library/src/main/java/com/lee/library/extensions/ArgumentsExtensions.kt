@@ -11,36 +11,52 @@ import androidx.fragment.app.Fragment
  */
 
 @MainThread
-public inline fun <reified P : Any> Activity.arguments(key: String): Lazy<P> = getIntentParams(key)
+inline fun <reified P : Any> Activity.arguments(key: String): Lazy<P> =
+    getIntentParams(key)
 
 @MainThread
-public inline fun <reified P : Any> Fragment.arguments(key: String): Lazy<P> = getIntentParams(key)
+inline fun <reified P : Any> Fragment.arguments(key: String): Lazy<P> =
+    getArgumentsParams(key)
 
 @MainThread
-public fun <P : Any> Activity.getIntentParams(
+inline fun <reified P : Any> Fragment.activityArguments(key: String): Lazy<P> =
+    getActivityIntentParams(key)
+
+@MainThread
+fun <P : Any> Activity.getIntentParams(
     key: String
 ): Lazy<P> {
     return ParamsLazy {
         checkNotNull(intent.extras) { "activity intent.extras is null." }
         val value = intent.extras.get(key)
-        checkNotNull(value) { "activity bundle by key:$key is not found." }
+        checkNotNull(value) { "activity intent.extras query $key value is not found." }
         value as P
     }
 }
 
 @MainThread
-public fun <P : Any> Fragment.getIntentParams(
+fun <P : Any> Fragment.getActivityIntentParams(key: String): Lazy<P> {
+    return ParamsLazy {
+        checkNotNull(requireActivity().intent.extras) { "requestActivity().intent.extras is null." }
+        val value = requireActivity().intent.extras.get(key)
+        checkNotNull(value) { "requestActivity().intent.extras query $key value is not found." }
+        value as P
+    }
+}
+
+@MainThread
+fun <P : Any> Fragment.getArgumentsParams(
     key: String
 ): Lazy<P> {
     return ParamsLazy {
         checkNotNull(arguments) { "fragment arguments is null." }
         val value = arguments?.get(key)
-        checkNotNull(value) { "fragment bundle by key:$key is not found." }
+        checkNotNull(value) { "fragment arguments query $key value is not found." }
         value as P
     }
 }
 
-public class ParamsLazy<P : Any>(
+class ParamsLazy<P : Any>(
     private val initializer: () -> P
 ) : Lazy<P> {
     private var cached: P? = null
