@@ -12,14 +12,17 @@ import com.lee.library.utils.LogUtil
 import com.simple.vm.constants.USER_ID_KEY
 import com.simple.vm.databinding.ActivityViewModelBinding
 import com.simple.vm.viewmodel.HandleViewModel
+import com.simple.vm.viewmodel.InjectViewModel
 import com.simple.vm.viewmodel.ParamsViewModel
 import com.simple.vm.viewmodel.SimpleViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
 /**
  * @author jv.lee
  * @data 2021/8/19
  * @description
  */
+@AndroidEntryPoint //使用hilt 为ViewModel注入savedStateHandler
 class ViewModelActivity : AppCompatActivity() {
 
     //通过viewBinding扩展函数构建view
@@ -27,6 +30,9 @@ class ViewModelActivity : AppCompatActivity() {
 
     //通过arguments扩展函数 获取intent传递参数
     private val userID by arguments<String>(USER_ID_KEY)
+
+    //获取hilt注入savedStateHandler的ViewModel
+    private val injectViewModel by viewModels<InjectViewModel>()
 
     //获取普通viewModel
     private val simpleViewModel by viewModels<SimpleViewModel>()
@@ -46,12 +52,15 @@ class ViewModelActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        handleViewModel.textLiveData.observe(this, {
+        injectViewModel.textLiveData.observe(this) {
             LogUtil.i("activity:$it")
-        })
-        simpleHandleViewModel.textLiveData.observe(this, {
+        }
+        handleViewModel.textLiveData.observe(this) {
             LogUtil.i("activity:$it")
-        })
+        }
+        simpleHandleViewModel.textLiveData.observe(this) {
+            LogUtil.i("activity:$it")
+        }
 
         supportFragmentManager.beginTransaction()
             .add(binding.frameContainer.id, ViewModelFragment.newInstance(userID))
@@ -60,6 +69,7 @@ class ViewModelActivity : AppCompatActivity() {
 
 
     private fun simple() {
+        val injectViewModel = ViewModelProvider(this)[InjectViewModel::class.java]
         val simpleViewModel = ViewModelProvider(this)[SimpleViewModel::class.java]
         val paramsViewModel =
             ViewModelProvider(this, ParamsViewModel.CreateFactory(""))[ParamsViewModel::class.java]

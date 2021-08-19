@@ -5,30 +5,33 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.lee.library.utils.LogUtil
 import com.simple.vm.constants.USER_ID_KEY
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
 /**
  * @author jv.lee
- * @data 8/19/21
- * @description 通过构造函数传递请求参数 的ViewModel实现
+ * @data 2021/8/19
+ * @description
  */
-class HandleViewModel(handle: SavedStateHandle) : ViewModel() {
+@HiltViewModel
+class InjectViewModel @Inject constructor(handle: SavedStateHandle) : ViewModel() {
 
     private val userID = handle[USER_ID_KEY] ?: ""
-    private val userType = handle["userType"] ?: ""
 
     val textLiveData by lazy { MutableLiveData<String>() }
 
     init {
-        LogUtil.i("StateHandleViewModel init.")
+        LogUtil.i("InjectViewModel init.")
         requestData()
     }
 
     //页面初始拉取数据使用init初次创建后获取
     fun requestData() {
-        requestByNetwork(userID, userType)
+        requestByNetwork(userID)
     }
 
-    private fun requestByNetwork(userID: String, userType: String) {
-        textLiveData.postValue("HandlerViewModel -> notify:$userID - $userType")
+    private fun requestByNetwork(userID: String) {
+        textLiveData.postValue("InjectViewModel -> notify:$userID")
     }
+
 }
