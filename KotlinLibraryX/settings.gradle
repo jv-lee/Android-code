@@ -1,7 +1,9 @@
+rootProject.name = 'KotlinLibraryX'
 include ':app-adapter'
 include ':app-api'
 include ':app-ui'
 include ':app-pdfjs'
 include ':app-dialog'
 include ':app', ':library'
-rootProject.name = 'KotlinLibraryX'
+include ':app-create-vm'
+

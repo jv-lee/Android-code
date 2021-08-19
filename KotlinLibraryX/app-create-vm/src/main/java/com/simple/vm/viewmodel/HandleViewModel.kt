@@ -1,0 +1,34 @@
+package com.simple.vm.viewmodel
+
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.ViewModel
+import com.lee.library.utils.LogUtil
+import com.simple.vm.constants.USER_ID_KEY
+
+/**
+ * @author jv.lee
+ * @data 8/19/21
+ * @description 通过构造函数传递请求参数 的ViewModel实现
+ */
+class HandleViewModel(private val handle: SavedStateHandle) : ViewModel() {
+
+    private val userID by lazy { handle[USER_ID_KEY] ?: "" }
+    private val userType by lazy { handle["userType"] ?: "" }
+
+    val textLiveData by lazy { MutableLiveData<String>() }
+
+    init {
+        LogUtil.i("StateHandleViewModel init.")
+        requestData()
+    }
+
+    //页面初始拉取数据使用init初次创建后获取
+    fun requestData() {
+        requestByNetwork(userID, userType)
+    }
+
+    private fun requestByNetwork(userID: String, userType: String) {
+        textLiveData.postValue("HandlerViewModel -> notify:$userID - $userType")
+    }
+}
