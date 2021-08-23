@@ -11,6 +11,8 @@
         <entry key="app-create-vm/src/main/res/layout/activity_main.xml" value="0.31476449275362317" />
         <entry key="app-create-vm/src/main/res/layout/activity_view_model.xml" value="0.31476449275362317" />
         <entry key="app-create-vm/src/main/res/layout/fragment_view_model.xml" value="0.31476449275362317" />
+        <entry key="app-dialog/src/main/res/layout/activity_dialog_show.xml" value="0.23854166666666668" />
+        <entry key="app-dialog/src/main/res/layout/fragment_alert_dialog.xml" value="0.30027173913043476" />
       </map>
     </option>
   </component>
