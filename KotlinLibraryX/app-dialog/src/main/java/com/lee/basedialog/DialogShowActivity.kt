@@ -6,7 +6,7 @@ import com.lee.basedialog.fragment.BaseAlertDialogFragmentImpl
 import com.lee.basedialog.fragment.BaseDialogFragmentImpl
 import com.lee.basedialog.fragment.BaseSheetDialogFragmentImpl
 import com.lee.library.base.BaseActivity
-import com.lee.library.dialog.core.MultipleDialogTask
+import com.lee.library.dialog.multiple.MultipleDialogTask
 import com.lee.library.extensions.binding
 
 /**
