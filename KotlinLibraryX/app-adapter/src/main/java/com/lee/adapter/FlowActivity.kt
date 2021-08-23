@@ -15,18 +15,18 @@ class FlowActivity : BaseVMActivity<ActivityFlowBinding, FlowViewModel>(R.layout
 
     override fun bindData() {
         viewModel.run {
-            dataLiveData.observe(this@FlowActivity, Observer {
+            dataLiveData.observe(this@FlowActivity, {
                 toast(it.toString())
-            }, Observer {
+            }, {
                 toast(it)
             })
 
 //            getData(LoadStatus.INIT)
 //            getCacheOrNetworkData1()
 
-            pageLiveData.observe(this@FlowActivity, Observer {
+            pageLiveData.observe(this@FlowActivity, {
                 LogUtil.i(it)
-            }, Observer {
+            }, {
                 LogUtil.e(it)
             })
             getFlowData(LoadStatus.INIT)

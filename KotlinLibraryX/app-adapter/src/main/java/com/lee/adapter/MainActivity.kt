@@ -69,9 +69,9 @@ class MainActivity : BaseVMActivity<ActivityMainBinding, ContentViewModel>(R.lay
     }
 
     override fun bindData() {
-        viewModel.dataLiveData.observe(this, Observer {
+        viewModel.dataLiveData.observe(this, {
             mAdapter.submitData(it)
-        }, Observer {
+        }, {
             toast(it)
             mAdapter.submitFailed()
         })
