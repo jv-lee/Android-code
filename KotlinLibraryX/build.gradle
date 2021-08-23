@@ -24,7 +24,7 @@ buildscript {
         // in the individual module build.gradle files
 
         //hilt依赖注入
-        classpath 'com.google.dagger:hilt-android-gradle-plugin:2.28-alpha'
+        classpath 'com.google.dagger:hilt-android-gradle-plugin:2.38.1'
     }
 }
 
