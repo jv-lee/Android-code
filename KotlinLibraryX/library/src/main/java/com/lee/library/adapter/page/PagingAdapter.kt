@@ -14,8 +14,7 @@ fun <T> BaseViewAdapter<T>.submitData(
     limit: Int = 1,
     diff: Boolean = false,
     refreshBlock: () -> Unit = {},
-    emptyBlock: () -> Unit = {},
-    animLoadMore: Boolean = false
+    emptyBlock: () -> Unit = {}
 ) {
     //首页加载逻辑
     if (pageData.getPageNumber() == limit) {
@@ -34,36 +33,30 @@ fun <T> BaseViewAdapter<T>.submitData(
         pageCompleted()
         refreshBlock()
 
-        //设置尾页状态 (包括notifyDateSetChange)
-        if (pageData.getPageNumber() >= pageData.getPageTotalNumber()) {
-            loadMoreEnd()
-        } else {
-            loadMoreCompleted()
-        }
-        return
-    }
-
-    //分页加载逻辑
-    //防止view重构后在分页加载时 pageCompleted状态重置
-    if (!isPageCompleted) {
-        pageCompleted()
-    }
-    if (diff) {
-        //防止activity重建在viewModel中填充历史数据 做差分填充
-        val oldData = data
-        updateData(pageData.getDataSource())
-        val result =
-            DiffUtil.calculateDiff(DiffCallback<T>(oldData, pageData.getDataSource()), true)
-        result.dispatchUpdatesTo(this)
+        //分页加载逻辑
     } else {
-        addData(pageData.getDataSource())
+        //防止view重构后在分页加载时 pageCompleted状态重置
+        if (!isPageCompleted) {
+            pageCompleted()
+        }
+        if (diff) {
+            //防止activity重建在viewModel中填充历史数据 做差分填充
+            val oldData = data
+            updateData(pageData.getDataSource())
+            val result =
+                DiffUtil.calculateDiff(DiffCallback<T>(oldData, pageData.getDataSource()), true)
+            result.dispatchUpdatesTo(this)
+        } else {
+            addData(pageData.getDataSource())
+        }
+
     }
 
     //设置尾页状态 (包括notifyDateSetChange)
     if (pageData.getPageNumber() >= pageData.getPageTotalNumber()) {
-        if (animLoadMore) loadMoreEnd(pageData.getDataSource().size) else loadMoreEnd()
+        loadMoreEnd()
     } else {
-        if (animLoadMore) loadMoreCompleted(pageData.getDataSource().size) else loadMoreCompleted()
+        loadMoreCompleted()
     }
 }
 
@@ -71,8 +64,7 @@ fun <T> BaseViewAdapter<T>.submitData(
     pageData: PagingData2<T>,
     diff: Boolean = false,
     refreshBlock: () -> Unit = {},
-    emptyBlock: () -> Unit = {},
-    animLoadMore: Boolean = false
+    emptyBlock: () -> Unit = {}
 ) {
     //首页加载逻辑
     if (pageData.isFirstPage()) {
@@ -91,36 +83,29 @@ fun <T> BaseViewAdapter<T>.submitData(
         pageCompleted()
         refreshBlock()
 
-        //设置尾页状态 (包括notifyDateSetChange)
-        if (pageData.isLastPage()) {
-            loadMoreEnd()
-        } else {
-            loadMoreCompleted()
-        }
-
-    }
-
-    //分页加载逻辑
-    //防止view重构后在分页加载时 pageCompleted状态重置
-    if (!isPageCompleted) {
-        pageCompleted()
-    }
-    if (diff) {
-        //防止activity重建在viewModel中填充历史数据 做差分填充
-        val oldData = data
-        updateData(pageData.getDataSource())
-        val result =
-            DiffUtil.calculateDiff(DiffCallback<T>(oldData, pageData.getDataSource()), true)
-        result.dispatchUpdatesTo(this)
+        //分页加载逻辑
     } else {
-        addData(pageData.getDataSource())
+        //防止view重构后在分页加载时 pageCompleted状态重置
+        if (!isPageCompleted) {
+            pageCompleted()
+        }
+        if (diff) {
+            //防止activity重建在viewModel中填充历史数据 做差分填充
+            val oldData = data
+            updateData(pageData.getDataSource())
+            val result =
+                DiffUtil.calculateDiff(DiffCallback<T>(oldData, pageData.getDataSource()), true)
+            result.dispatchUpdatesTo(this)
+        } else {
+            addData(pageData.getDataSource())
+        }
     }
 
     //设置尾页状态 (包括notifyDateSetChange)
     if (pageData.isLastPage()) {
-        if (animLoadMore) loadMoreEnd(pageData.getDataSource().size) else loadMoreEnd()
+        loadMoreEnd()
     } else {
-        if (animLoadMore) loadMoreCompleted(pageData.getDataSource().size) else loadMoreCompleted()
+        loadMoreCompleted()
     }
 }
 
