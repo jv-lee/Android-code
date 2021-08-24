@@ -28,7 +28,7 @@ fun <P : Any> Activity.getIntentParams(
 ): Lazy<P> {
     return ParamsLazy {
         checkNotNull(intent.extras) { "activity intent.extras is null." }
-        val value = intent.extras.get(key)
+        val value = intent.extras?.get(key)
         checkNotNull(value) { "activity intent.extras query $key value is not found." }
         value as P
     }
@@ -38,7 +38,7 @@ fun <P : Any> Activity.getIntentParams(
 fun <P : Any> Fragment.getActivityIntentParams(key: String): Lazy<P> {
     return ParamsLazy {
         checkNotNull(requireActivity().intent.extras) { "requestActivity().intent.extras is null." }
-        val value = requireActivity().intent.extras.get(key)
+        val value = requireActivity().intent.extras?.get(key)
         checkNotNull(value) { "requestActivity().intent.extras query $key value is not found." }
         value as P
     }
