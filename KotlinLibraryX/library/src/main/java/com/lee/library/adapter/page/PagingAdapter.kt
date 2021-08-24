@@ -7,15 +7,17 @@ import com.lee.library.adapter.callback.DiffCallback
 /**
  * @author jv.lee
  * @date 2020/8/11
- * @description
+ * @description 适配器加载数据状态逻辑
  */
 fun <T> BaseViewAdapter<T>.submitData(
     pageData: PagingData<T>,
     limit: Int = 1,
     diff: Boolean = false,
     refreshBlock: () -> Unit = {},
-    emptyBlock: () -> Unit = {}
+    emptyBlock: () -> Unit = {},
+    animLoadMore: Boolean = false
 ) {
+    //首页加载逻辑
     if (pageData.getPageNumber() == limit) {
         //设置空页面
         if (pageData.getDataSource().isNullOrEmpty()) {
@@ -31,38 +33,48 @@ fun <T> BaseViewAdapter<T>.submitData(
         updateData(pageData.getDataSource())
         pageCompleted()
         refreshBlock()
-    } else {
-        //防止view重构后在分页加载时 pageCompleted状态重置
-        if (!isPageCompleted) {
-            pageCompleted()
-        }
-        if (diff) {
-            //防止activity重建在viewModel中填充历史数据 做差分填充
-            val oldData = data
-            updateData(pageData.getDataSource())
-            val result =
-                DiffUtil.calculateDiff(DiffCallback<T>(oldData, pageData.getDataSource()), true)
-            result.dispatchUpdatesTo(this)
+
+        //设置尾页状态 (包括notifyDateSetChange)
+        if (pageData.getPageNumber() >= pageData.getPageTotalNumber()) {
+            loadMoreEnd()
         } else {
-            addData(pageData.getDataSource())
+            loadMoreCompleted()
         }
+        return
+    }
+
+    //分页加载逻辑
+    //防止view重构后在分页加载时 pageCompleted状态重置
+    if (!isPageCompleted) {
+        pageCompleted()
+    }
+    if (diff) {
+        //防止activity重建在viewModel中填充历史数据 做差分填充
+        val oldData = data
+        updateData(pageData.getDataSource())
+        val result =
+            DiffUtil.calculateDiff(DiffCallback<T>(oldData, pageData.getDataSource()), true)
+        result.dispatchUpdatesTo(this)
+    } else {
+        addData(pageData.getDataSource())
     }
 
     //设置尾页状态 (包括notifyDateSetChange)
     if (pageData.getPageNumber() >= pageData.getPageTotalNumber()) {
-        loadMoreEnd()
+        if (animLoadMore) loadMoreEnd(pageData.getDataSource().size) else loadMoreEnd()
     } else {
-        loadMoreCompleted()
+        if (animLoadMore) loadMoreCompleted(pageData.getDataSource().size) else loadMoreCompleted()
     }
 }
 
 fun <T> BaseViewAdapter<T>.submitData(
     pageData: PagingData2<T>,
-    limit: Int = 1,
     diff: Boolean = false,
     refreshBlock: () -> Unit = {},
-    emptyBlock: () -> Unit = {}
+    emptyBlock: () -> Unit = {},
+    animLoadMore: Boolean = false
 ) {
+    //首页加载逻辑
     if (pageData.isFirstPage()) {
         //设置空页面
         if (pageData.getDataSource().isNullOrEmpty()) {
@@ -78,28 +90,37 @@ fun <T> BaseViewAdapter<T>.submitData(
         updateData(pageData.getDataSource())
         pageCompleted()
         refreshBlock()
-    } else {
-        //防止view重构后在分页加载时 pageCompleted状态重置
-        if (!isPageCompleted) {
-            pageCompleted()
-        }
-        if (diff) {
-            //防止activity重建在viewModel中填充历史数据 做差分填充
-            val oldData = data
-            updateData(pageData.getDataSource())
-            val result =
-                DiffUtil.calculateDiff(DiffCallback<T>(oldData, pageData.getDataSource()), true)
-            result.dispatchUpdatesTo(this)
+
+        //设置尾页状态 (包括notifyDateSetChange)
+        if (pageData.isLastPage()) {
+            loadMoreEnd()
         } else {
-            addData(pageData.getDataSource())
+            loadMoreCompleted()
         }
+
+    }
+
+    //分页加载逻辑
+    //防止view重构后在分页加载时 pageCompleted状态重置
+    if (!isPageCompleted) {
+        pageCompleted()
+    }
+    if (diff) {
+        //防止activity重建在viewModel中填充历史数据 做差分填充
+        val oldData = data
+        updateData(pageData.getDataSource())
+        val result =
+            DiffUtil.calculateDiff(DiffCallback<T>(oldData, pageData.getDataSource()), true)
+        result.dispatchUpdatesTo(this)
+    } else {
+        addData(pageData.getDataSource())
     }
 
     //设置尾页状态 (包括notifyDateSetChange)
     if (pageData.isLastPage()) {
-        loadMoreEnd()
+        if (animLoadMore) loadMoreEnd(pageData.getDataSource().size) else loadMoreEnd()
     } else {
-        loadMoreCompleted()
+        if (animLoadMore) loadMoreCompleted(pageData.getDataSource().size) else loadMoreCompleted()
     }
 }
 

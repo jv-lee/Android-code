@@ -3,8 +3,8 @@ package com.lee.library.adapter.base;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,10 +14,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.lee.library.adapter.core.ProxyAdapter;
-import com.lee.library.adapter.manager.ViewItemManager;
 import com.lee.library.adapter.listener.LoadErrorListener;
 import com.lee.library.adapter.listener.LoadResource;
 import com.lee.library.adapter.listener.LoadStatusListener;
+import com.lee.library.adapter.manager.ViewItemManager;
 import com.lee.library.adapter.manager.ViewLoadManager;
 
 import java.util.ArrayList;
@@ -31,7 +31,7 @@ import java.util.List;
  */
 public abstract class BaseViewAdapter<T> extends RecyclerView.Adapter<BaseViewHolder> {
 
-    private Context context;
+    private final Context context;
     /**
      * 代理适配器 头尾
      */
@@ -251,7 +251,7 @@ public abstract class BaseViewAdapter<T> extends RecyclerView.Adapter<BaseViewHo
     /**
      * 添加头部尾部代理适配
      *
-     * @return
+     * @return 代理适配器 添加头部尾部
      */
     public ProxyAdapter getProxy() {
         if (proxyAdapter == null) {
@@ -288,16 +288,13 @@ public abstract class BaseViewAdapter<T> extends RecyclerView.Adapter<BaseViewHo
         proxyAdapter.removeFooterView(view);
     }
 
-    private SparseArray<BaseViewHolder> viewHolders = new SparseArray<>();
-
     @NonNull
     @Override
     public BaseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         //根据布局的类型 创建不同的ViewHolder
-        BaseViewItem item = itemStyle.getViewItem(viewType);
+        BaseViewItem<?> item = itemStyle.getViewItem(viewType);
         if(item == null) throw new RuntimeException("itemStyle.getViewItem is null.");
         View view = (View) item.getItemViewAny(parent.getContext(), parent);
-        if(view == null) throw new RuntimeException("itemStyle.getItemViewAny is null.");
 
         BaseViewHolder viewHolder = new BaseViewHolder(view);
         //点击的监听
@@ -326,7 +323,7 @@ public abstract class BaseViewAdapter<T> extends RecyclerView.Adapter<BaseViewHo
     /**
      * 自动加载数据
      *
-     * @param position
+     * @param position 当前下标
      */
     private void callEnd(int position) {
         int current = getItemCount() - position;
@@ -347,6 +344,7 @@ public abstract class BaseViewAdapter<T> extends RecyclerView.Adapter<BaseViewHo
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private void updateStatus(int status) {
         if (pageLoadingView == null || pageEmptyView == null || pageErrorView == null || loadMoreView == null || loadEndView == null || loadErrorView == null) {
             return;
@@ -486,6 +484,7 @@ public abstract class BaseViewAdapter<T> extends RecyclerView.Adapter<BaseViewHo
     /**
      * 加载完成
      */
+    @SuppressLint("NotifyDataSetChanged")
     public void loadMoreCompleted() {
         hasLoadMore = true;
         notifyDataSetChanged();
@@ -494,6 +493,7 @@ public abstract class BaseViewAdapter<T> extends RecyclerView.Adapter<BaseViewHo
     /**
      * 没有更多了
      */
+    @SuppressLint("NotifyDataSetChanged")
     public void loadMoreEnd() {
         //添加底部布局
         if (proxyAdapter == null) {
@@ -533,9 +533,8 @@ public abstract class BaseViewAdapter<T> extends RecyclerView.Adapter<BaseViewHo
 
     /**
      * 设置加载更多最低阈值
-     * num = 5 则为 20-5 = 滑动到15项的时候加载
      *
-     * @param num
+     * @param num num = 5 则为 20-5 = 滑动到15项的时候加载
      */
     public void setLoadMoreNum(int num) {
         this.loadMoreNum = num;
@@ -551,10 +550,8 @@ public abstract class BaseViewAdapter<T> extends RecyclerView.Adapter<BaseViewHo
     }
 
     /**
-     * 获取当前数据下标
-     *
-     * @param viewHolder
-     * @return
+     * @param viewHolder 缓存view
+     * @return 获取当前数据下标
      */
     private int getPosition(BaseViewHolder viewHolder) {
         return proxyAdapter == null ? viewHolder.getLayoutPosition() : viewHolder.getLayoutPosition() - proxyAdapter.getHeaderCount();
@@ -719,7 +716,7 @@ public abstract class BaseViewAdapter<T> extends RecyclerView.Adapter<BaseViewHo
     /**
      * 添加item点击监听接口
      *
-     * @param mOnItemClickListener item接口
+     * @param mOnItemClickListener item点击监听接口
      */
     public void setOnItemClickListener(OnItemClickListener<T> mOnItemClickListener) {
         this.mOnItemClickListener = mOnItemClickListener;
@@ -728,7 +725,7 @@ public abstract class BaseViewAdapter<T> extends RecyclerView.Adapter<BaseViewHo
     /**
      * 设置item长按点击事件
      *
-     * @param onItemLongClickListener
+     * @param onItemLongClickListener item长按点击事件接口
      */
     public void setOnItemLongClickListener(OnItemLongClickListener<T> onItemLongClickListener) {
         this.mOnItemLongClickListener = onItemLongClickListener;
@@ -737,8 +734,8 @@ public abstract class BaseViewAdapter<T> extends RecyclerView.Adapter<BaseViewHo
     /**
      * 设置item子view点击事件
      *
-     * @param onItemChildView
-     * @param childClickIds
+     * @param onItemChildView item子view点击事件监听接口
+     * @param childClickIds 注册子view id
      */
     public void setOnItemChildClickListener(OnItemChildView<T> onItemChildView, Integer... childClickIds) {
         this.childClickIds = Arrays.asList(childClickIds);
@@ -748,7 +745,7 @@ public abstract class BaseViewAdapter<T> extends RecyclerView.Adapter<BaseViewHo
     /**
      * 设置自动加载更多监听
      *
-     * @param autoLoadMoreListener
+     * @param autoLoadMoreListener 自动加载更多监听接口
      */
     public void setAutoLoadMoreListener(AutoLoadMoreListener autoLoadMoreListener) {
         this.mAutoLoadMoreListener = autoLoadMoreListener;
@@ -757,7 +754,7 @@ public abstract class BaseViewAdapter<T> extends RecyclerView.Adapter<BaseViewHo
     /**
      * 设置自定义 page状态资源布局接口
      *
-     * @param loadResource
+     * @param loadResource page状态资源布局接口
      */
     public void setLoadResource(LoadResource loadResource) {
         this.mLoadResource = loadResource;
@@ -766,7 +763,7 @@ public abstract class BaseViewAdapter<T> extends RecyclerView.Adapter<BaseViewHo
     /**
      * 设置错误重试接口
      *
-     * @param loadErrorListener
+     * @param loadErrorListener 错误重试接口
      */
     public void setLoadErrorListener(LoadErrorListener loadErrorListener) {
         mLoadErrorListener = loadErrorListener;
