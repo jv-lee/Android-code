@@ -59,20 +59,21 @@ fun Fragment.dismiss(dialog: DialogFragment) {
 fun Fragment.delayBackEvent(
     backExitTime: Int = 2000,
     alertCall: () -> Unit = { toast(getString(R.string.double_click_back)) }
-) {
+): OnBackPressedCallback {
     var firstTime: Long = 0
-    requireActivity().onBackPressedDispatcher.addCallback(this,
-        object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                val secondTime = System.currentTimeMillis()
-                //如果两次按键时间间隔大于2秒，则不退出
-                if (secondTime - firstTime > backExitTime) {
-                    alertCall.invoke()
-                    //更新firstTime
-                    firstTime = secondTime
-                } else {//两次按键小于2秒时，退出应用
-                    requireActivity().finish()
-                }
+    return object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            val secondTime = System.currentTimeMillis()
+            //如果两次按键时间间隔大于2秒，则不退出
+            if (secondTime - firstTime > backExitTime) {
+                alertCall.invoke()
+                //更新firstTime
+                firstTime = secondTime
+            } else {//两次按键小于2秒时，退出应用
+                requireActivity().finish()
             }
-        })
+        }
+    }.apply {
+        requireActivity().onBackPressedDispatcher.addCallback(this@delayBackEvent, this)
+    }
 }

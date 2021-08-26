@@ -58,13 +58,13 @@ fun FragmentActivity.dismiss(dialog: DialogFragment) {
  * @return back控制实例 .remove 移除back拦截事件
  */
 fun FragmentActivity.banBackEvent(handler: () -> Unit = {}): OnBackPressedCallback {
-    val callback = object : OnBackPressedCallback(true) {
+    return object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
             handler.invoke()
         }
+    }.apply {
+        onBackPressedDispatcher.addCallback(this@banBackEvent, this)
     }
-    onBackPressedDispatcher.addCallback(this, callback)
-    return callback
 }
 
 /**
@@ -78,7 +78,7 @@ fun FragmentActivity.delayBackEvent(
     alertCall: () -> Unit = { toast(getString(R.string.double_click_back)) }
 ): OnBackPressedCallback {
     var firstTime: Long = 0
-    val callback = object : OnBackPressedCallback(true) {
+    return object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
             val secondTime = System.currentTimeMillis()
             //如果两次按键时间间隔大于2秒，则不退出
@@ -90,9 +90,9 @@ fun FragmentActivity.delayBackEvent(
                 finish()
             }
         }
+    }.apply {
+        onBackPressedDispatcher.addCallback(this@delayBackEvent, this)
     }
-    onBackPressedDispatcher.addCallback(this, callback)
-    return callback
 }
 
 /**
