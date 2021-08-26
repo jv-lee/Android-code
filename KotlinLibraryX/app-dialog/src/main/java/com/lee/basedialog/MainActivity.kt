@@ -9,6 +9,7 @@ import com.lee.basedialog.fragment.BaseAlertDialogFragmentImpl
 import com.lee.basedialog.fragment.BaseDialogFragmentImpl
 import com.lee.basedialog.fragment.BaseSheetDialogFragmentImpl
 import com.lee.library.base.BaseVMActivity
+import com.lee.library.extensions.show
 import com.lee.library.mvvm.base.BaseViewModel
 
 class MainActivity : BaseVMActivity<ActivityMainBinding, BaseViewModel>(R.layout.activity_main) {

@@ -1,5 +1,6 @@
 package com.lee.library.base
 
+import android.annotation.SuppressLint
 import android.content.Context
 import androidx.multidex.MultiDexApplication
 
@@ -11,6 +12,7 @@ import androidx.multidex.MultiDexApplication
 abstract class BaseApplication : MultiDexApplication() {
 
     companion object {
+        @SuppressLint("StaticFieldLeak")
         private lateinit var sContext: Context
 
         fun getContext(): Context {

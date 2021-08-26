@@ -6,8 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProviders
 import com.lee.library.dialog.core.setBackDismiss
 import com.lee.library.dialog.core.setFullWindow
 import kotlinx.coroutines.CoroutineScope
@@ -47,7 +45,6 @@ abstract class BaseDialogFragment(
         super.onViewCreated(view, savedInstanceState)
         //全屏显示
         if (isFullWindow) dialog?.setFullWindow(context)
-        intentParams(arguments, savedInstanceState)
         bindView()
         bindData()
     }
@@ -66,13 +63,6 @@ abstract class BaseDialogFragment(
         cancel()
     }
 
-    /**
-     * 初始化参数配置
-     */
-    open fun intentParams(arguments: Bundle?, savedInstanceState: Bundle?) {
-
-    }
-
     open fun createView(inflater: LayoutInflater, container: ViewGroup?): View? {
         if (resourceId == null || resourceId == 0) throw RuntimeException("fragment createView() not override && constructor params resourceId == 0")
         return inflater.inflate(resourceId, container, false)
@@ -85,20 +75,11 @@ abstract class BaseDialogFragment(
 
     /**
      * 设置加载数据等业务操作
-     *
      */
     protected abstract fun bindData()
-
 
     /**
      * 使用page 多fragment时 懒加载
      */
     open fun lazyLoad() {}
-
-    /**
-     * 创建ViewModel
-     */
-    protected fun <T : ViewModel> createViewModel(cls: Class<T>): T {
-        return ViewModelProviders.of(this).get(cls)
-    }
 }

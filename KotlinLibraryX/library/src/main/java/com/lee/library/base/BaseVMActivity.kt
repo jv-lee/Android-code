@@ -6,6 +6,7 @@ import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.lee.library.extensions.getVmClass
+import com.lee.library.extensions.toast
 import com.lee.library.mvvm.base.BaseViewModel
 
 /**
@@ -18,11 +19,6 @@ abstract class BaseVMActivity<V : ViewDataBinding, VM : BaseViewModel>(var layou
 
     protected lateinit var binding: V
     protected lateinit var viewModel: VM
-
-    private var firstTime: Long = 0
-    private var hasBackExit = false
-    private var hasBanBack = false
-    private var hasBackExitTimer = 2000
 
     override fun onCreate(savedInstanceState: Bundle?) {
         //设置viewBinding

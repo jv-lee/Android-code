@@ -5,16 +5,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.lee.library.R
 import com.lee.library.extensions.dp2px
-import com.lee.library.extensions.getVmClass
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -58,7 +53,6 @@ abstract class BaseSheetFragment(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        intentParams(arguments, savedInstanceState)
         bindView()
         bindData()
     }
@@ -68,8 +62,6 @@ abstract class BaseSheetFragment(
         super.onDetach()
         cancel()
     }
-
-    open fun intentParams(arguments: Bundle?, savedInstanceState: Bundle?) {}
 
     open fun createView(inflater: LayoutInflater, container: ViewGroup?): View? {
         if (resourceId == null || resourceId == 0) throw RuntimeException("fragment createView() not override && constructor params resourceId == 0")
@@ -83,8 +75,6 @@ abstract class BaseSheetFragment(
 
     /**
      * 设置加载数据等业务操作
-     *
-     * @param savedInstanceState 重置回调参数
      */
     protected abstract fun bindData()
 

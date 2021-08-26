@@ -5,10 +5,8 @@ import android.graphics.drawable.Drawable
 import android.graphics.drawable.StateListDrawable
 import android.os.Build
 import android.text.*
-import android.view.View
-import android.view.ViewGroup
-import android.view.Window
-import android.view.WindowManager
+import android.view.*
+import android.webkit.WebView
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.RadioButton
@@ -122,14 +120,14 @@ fun View.setBackgroundColorCompat(color: Int) {
  * 设置view背景资源兼容方法
  */
 fun View.setBackgroundDrawableCompat(drawableId: Int) {
-    background = ContextCompat.getDrawable(context,drawableId)
+    background = ContextCompat.getDrawable(context, drawableId)
 }
 
 /**
  * 设置文本颜色兼容方法
  */
 fun TextView.setTextColorCompat(color: Int) {
-    setTextColor(ContextCompat.getColor(context,color))
+    setTextColor(ContextCompat.getColor(context, color))
 }
 
 /**
@@ -457,5 +455,24 @@ fun Window.keyboardObserver(openObserver: () -> Unit = {}, closeObserver: () -> 
             closeObserver()
         }
     }
+}
+
+/**
+ * webView设置back事件拦截
+ */
+fun WebView.setWebBackEvent() {
+    isFocusable = true
+    isFocusableInTouchMode = true
+    requestFocus()
+    setOnKeyListener(object : View.OnKeyListener {
+        override fun onKey(view: View?, i: Int, keyEvent: KeyEvent?): Boolean {
+            if (canGoBack()) {
+                goBack()
+                return true
+            }
+            return false
+        }
+
+    })
 }
 
