@@ -5,6 +5,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.lee.basedialog.R
 import com.lee.basedialog.databinding.FragmentSheetDialogBinding
 import com.lee.library.base.BaseVMSheetFragment
+import com.lee.library.dialog.core.DialogActionCall
 
 /**
  * @author jv.lee
@@ -17,6 +18,9 @@ class BaseSheetDialogFragmentImpl : BaseVMSheetFragment<FragmentSheetDialogBindi
     BottomSheetBehavior.STATE_EXPANDED,
     130
 ) {
+
+    var actionCall: DialogActionCall? = null
+
     override fun bindView() {
 
     }
@@ -24,4 +28,5 @@ class BaseSheetDialogFragmentImpl : BaseVMSheetFragment<FragmentSheetDialogBindi
     override fun bindData() {
 
     }
+
 }

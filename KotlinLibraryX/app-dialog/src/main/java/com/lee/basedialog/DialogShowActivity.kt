@@ -5,7 +5,13 @@ import com.lee.basedialog.dialog.BaseBottomDialogImpl
 import com.lee.basedialog.fragment.BaseAlertDialogFragmentImpl
 import com.lee.basedialog.fragment.BaseDialogFragmentImpl
 import com.lee.basedialog.fragment.BaseSheetDialogFragmentImpl
+import com.lee.basedialog.intercept.FourDialogIntercept
+import com.lee.basedialog.intercept.OneDialogIntercept
+import com.lee.basedialog.intercept.ThreeDialogIntercept
+import com.lee.basedialog.intercept.TwoDialogIntercept
 import com.lee.library.base.BaseActivity
+import com.lee.library.dialog.intercept.DialogCreateConfig
+import com.lee.library.dialog.intercept.DialogInterceptHandler
 import com.lee.library.dialog.multiple.MultipleDialogTask
 import com.lee.library.extensions.binding
 
@@ -35,9 +41,24 @@ class DialogShowActivity : BaseActivity() {
             .addAction(baseBottomDialogImpl)
     }
 
+    //dialog拦截器模式 根据拦截器内部条件显示
+    private val interceptDialogs by lazy {
+        DialogInterceptHandler<DialogCreateConfig>().apply {
+            add(OneDialogIntercept())
+            add(TwoDialogIntercept())
+            add(ThreeDialogIntercept())
+            add(FourDialogIntercept())
+        }
+    }
+
     override fun bindView() {
+        //多dialog弹窗加载任务
         binding.button.setOnClickListener {
             multipleDialogTask.nextShow()
+        }
+        //拦截器复杂弹窗加载任务
+        binding.buttonIntercept.setOnClickListener {
+            interceptDialogs.intercept(DialogCreateConfig(this, supportFragmentManager))
         }
     }
 
