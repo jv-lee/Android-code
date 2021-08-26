@@ -55,51 +55,44 @@ fun FragmentActivity.dismiss(dialog: DialogFragment) {
 /**
  * 禁用back事件关闭Activity
  * @param handler back执行后回调方法体
+ * @return back控制实例 .remove 移除back拦截事件
  */
-fun FragmentActivity.banBackEvent(handler: () -> Unit = {}) {
-    onBackPressedDispatcher.addCallback(this,
-        object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                handler.invoke()
-            }
-        })
-}
-
-/**
- * 打开back事件关闭Activity
- */
-fun FragmentActivity.unBanBackEvent() {
-    onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+fun FragmentActivity.banBackEvent(handler: () -> Unit = {}): OnBackPressedCallback {
+    val callback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
-            finish()
+            handler.invoke()
         }
-    })
+    }
+    onBackPressedDispatcher.addCallback(this, callback)
+    return callback
 }
 
 /**
  * 设置双击back关闭Activity
  * @param backExitTime  两次back事件间隔 默认2秒
  * @param alertCall 两次back事件间隔时间不满足条件 call回调
+ * @return back控制实例 .remove 移除back拦截事件
  */
 fun FragmentActivity.delayBackEvent(
     backExitTime: Int = 2000,
     alertCall: () -> Unit = { toast(getString(R.string.double_click_back)) }
-) {
+): OnBackPressedCallback {
     var firstTime: Long = 0
-    onBackPressedDispatcher.addCallback(this,
-        object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                val secondTime = System.currentTimeMillis()
-                //如果两次按键时间间隔大于2秒，则不退出
-                if (secondTime - firstTime > backExitTime) {
-                    alertCall.invoke()
-                    //更新firstTime
-                    firstTime = secondTime
-                } else {//两次按键小于2秒时，退出应用
-                    finish()
-                }
+    val callback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            val secondTime = System.currentTimeMillis()
+            //如果两次按键时间间隔大于2秒，则不退出
+            if (secondTime - firstTime > backExitTime) {
+                alertCall.invoke()
+                //更新firstTime
+                firstTime = secondTime
+            } else {//两次按键小于2秒时，退出应用
+                finish()
             }
-        })
+        }
+    }
+    onBackPressedDispatcher.addCallback(this, callback)
+    return callback
 }
 
 /**

@@ -2,8 +2,10 @@ package com.lee.library.extensions
 
 import android.app.Dialog
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
+import com.lee.library.R
 import com.lee.library.utils.ActivityUtil
 
 /**
@@ -46,4 +48,31 @@ fun Fragment.dismiss(dialog: DialogFragment) {
         dialog.dismiss()
     } catch (e: Exception) {
     }
+}
+
+/**
+ * 设置双击back关闭Activity
+ * @param backExitTime  两次back事件间隔 默认2秒
+ * @param alertCall 两次back事件间隔时间不满足条件 call回调
+ * @return back控制实例 .remove 移除back拦截事件
+ */
+fun Fragment.delayBackEvent(
+    backExitTime: Int = 2000,
+    alertCall: () -> Unit = { toast(getString(R.string.double_click_back)) }
+) {
+    var firstTime: Long = 0
+    requireActivity().onBackPressedDispatcher.addCallback(this,
+        object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                val secondTime = System.currentTimeMillis()
+                //如果两次按键时间间隔大于2秒，则不退出
+                if (secondTime - firstTime > backExitTime) {
+                    alertCall.invoke()
+                    //更新firstTime
+                    firstTime = secondTime
+                } else {//两次按键小于2秒时，退出应用
+                    requireActivity().finish()
+                }
+            }
+        })
 }
