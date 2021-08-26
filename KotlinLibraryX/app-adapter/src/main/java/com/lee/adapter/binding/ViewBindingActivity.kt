@@ -15,6 +15,7 @@ import com.lee.library.adapter.page.submitFailed
 import com.lee.library.base.BaseActivity
 import com.lee.library.extensions.binding
 import com.lee.library.extensions.inflate
+import com.lee.library.extensions.toast
 import com.lee.library.mvvm.load.LoadStatus
 
 class ViewBindingActivity : BaseActivity() {

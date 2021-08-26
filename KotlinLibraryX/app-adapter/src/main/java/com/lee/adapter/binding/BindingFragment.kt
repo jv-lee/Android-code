@@ -7,6 +7,7 @@ import com.lee.adapter.databinding.LayoutViewBinding
 import com.lee.library.base.BaseFragment
 import com.lee.library.extensions.binding
 import com.lee.library.extensions.inflate
+import com.lee.library.extensions.show
 
 /**
  * @author jv.lee

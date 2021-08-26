@@ -5,6 +5,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import com.lee.api.R
 import com.lee.api.databinding.FragmentMainBinding
 import com.lee.library.base.BaseVMFragment
+import com.lee.library.extensions.toast
 import com.lee.library.mvvm.base.BaseViewModel
 
 class StartFragment : BaseVMFragment<FragmentMainBinding, BaseViewModel>(R.layout.fragment_main) {
