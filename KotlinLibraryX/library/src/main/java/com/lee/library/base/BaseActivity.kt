@@ -1,5 +1,6 @@
 package com.lee.library.base
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -40,10 +41,14 @@ abstract class BaseActivity :
         StatusUtil.statusBar(window, false)
         super.onCreate(savedInstanceState)
 
+        initSavedState(intent, savedInstanceState)
+
         bindView()
 
         bindData()
     }
+
+    open fun initSavedState(intent: Intent, savedInstanceState: Bundle?) {}
 
     protected abstract fun bindView()
 
