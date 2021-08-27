@@ -94,6 +94,13 @@ class PermissionLauncher {
         }
     }
 
+    /**
+     * 单个权限申请
+     * @param permission 被申请的权限常量
+     * @param successCall 权限申请成功回调
+     * @param cancelCall 用户点击取消回调
+     * @param disableCall 用户勾选禁止提示申请权限并拒绝回调
+     */
     fun requestPermission(
         permission: String,
         successCall: () -> Unit,
@@ -107,6 +114,13 @@ class PermissionLauncher {
         permissionLauncher?.launch(permission)
     }
 
+    /**
+     * 多个权限申请
+     * @param permission 被申请的权限常量(可变长变量 array<String>)
+     * @param successCall 权限申请成功回调
+     * @param cancelCall 用户点击取消回调
+     * @param disableCall 用户勾选禁止提示申请权限并拒绝回调
+     */
     fun requestPermissions(
         vararg permission: String,
         successCall: () -> Unit,
