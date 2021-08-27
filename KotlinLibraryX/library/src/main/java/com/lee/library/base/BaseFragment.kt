@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -20,25 +19,6 @@ abstract class BaseFragment(private val resourceId: Int? = 0) : Fragment(),
     CoroutineScope by CoroutineScope(Dispatchers.Main) {
 
     private var fistVisible = true
-
-    private var permissionSuccessCall: (() -> Unit)? = null
-    private var permissionFailedCall: ((String) -> Unit)? = null
-
-    private val permissionLauncher =
-        registerForActivityResult(ActivityResultContracts.RequestPermission()) { it ->
-            if (it) permissionSuccessCall?.invoke() else permissionFailedCall?.invoke("")
-        }
-
-    private val permissionsLauncher =
-        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { it ->
-            it.forEach {
-                if (!it.value) {
-                    permissionFailedCall?.invoke(it.key)
-                    return@forEach
-                }
-            }
-            permissionSuccessCall?.invoke()
-        }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -66,8 +46,6 @@ abstract class BaseFragment(private val resourceId: Int? = 0) : Fragment(),
     override fun onDetach() {
         super.onDetach()
         cancel()
-        permissionLauncher.unregister()
-        permissionsLauncher.unregister()
     }
 
     override fun onDestroyView() {
@@ -109,26 +87,6 @@ abstract class BaseFragment(private val resourceId: Int? = 0) : Fragment(),
 
     private fun getChildClassName(): String {
         return javaClass.simpleName
-    }
-
-    fun requestPermission(
-        permission: String,
-        successCall: () -> Unit,
-        failedCall: (String) -> Unit = {}
-    ) {
-        this@BaseFragment.permissionSuccessCall = successCall
-        this@BaseFragment.permissionFailedCall = failedCall
-        permissionLauncher.launch(permission)
-    }
-
-    fun requestPermissions(
-        vararg permission: String,
-        successCall: () -> Unit,
-        failedCall: (String) -> Unit = {}
-    ) {
-        this@BaseFragment.permissionSuccessCall = successCall
-        this@BaseFragment.permissionFailedCall = failedCall
-        permissionsLauncher.launch(permission)
     }
 
 }
