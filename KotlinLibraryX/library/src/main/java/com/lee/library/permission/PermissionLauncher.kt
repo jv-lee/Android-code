@@ -1,5 +1,6 @@
 package com.lee.library.permission
 
+import android.annotation.SuppressLint
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
@@ -11,22 +12,37 @@ import com.lee.library.extensions.destroy
  * @data 2021/8/27
  * @description 权限申请启动器
  */
+@SuppressLint("NewApi")
 class PermissionLauncher {
 
     constructor(fragment: Fragment) {
+        checkPermission = {
+            fragment.shouldShowRequestPermissionRationale(it)
+        }
         createLauncher(fragment)
     }
 
-    constructor(activity: FragmentActivity){
+    constructor(activity: FragmentActivity) {
+        checkPermission = {
+            activity.shouldShowRequestPermissionRationale(it)
+        }
         createLauncher(activity)
     }
 
+    //权限校验禁止状态函数
+    private var checkPermission: ((String) -> Boolean)
+
+    //单个权限申请临时存储变量
+    private var singlePermission: String = ""
+
     private var permissionSuccessCall: (() -> Unit)? = null
-    private var permissionFailedCall: ((String) -> Unit)? = null
+    private var permissionCancelCall: ((String) -> Unit)? = null
+    private var permissionDisableCall: ((String) -> Unit)? = null
 
     private var permissionLauncher: ActivityResultLauncher<String>? = null
     private var permissionsLauncher: ActivityResultLauncher<Array<out String>>? = null
 
+    @SuppressLint("NewApi")
     private fun createLauncher(thisClass: Any) {
         val thisT = when (thisClass) {
             is FragmentActivity -> {
@@ -42,14 +58,28 @@ class PermissionLauncher {
 
         permissionLauncher =
             thisT.registerForActivityResult(ActivityResultContracts.RequestPermission()) { it ->
-                if (it) permissionSuccessCall?.invoke() else permissionFailedCall?.invoke("")
+                if (it) {
+                    permissionSuccessCall?.invoke()
+                    return@registerForActivityResult
+                }
+
+                if (checkPermission.invoke(singlePermission)) {
+                    permissionCancelCall?.invoke(singlePermission)
+                } else {
+                    permissionDisableCall?.invoke(singlePermission)
+                }
             }
+
         permissionsLauncher =
             thisT.registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { it ->
                 it.forEach {
                     if (!it.value) {
-                        permissionFailedCall?.invoke(it.key)
-                        return@forEach
+                        if (checkPermission.invoke(it.key)) {
+                            permissionCancelCall?.invoke(it.key)
+                        } else {
+                            permissionDisableCall?.invoke(it.key)
+                        }
+                        return@registerForActivityResult
                     }
                 }
                 permissionSuccessCall?.invoke()
@@ -59,27 +89,33 @@ class PermissionLauncher {
             permissionLauncher?.unregister()
             permissionsLauncher?.unregister()
             permissionSuccessCall = null
-            permissionFailedCall = null
+            permissionCancelCall = null
+            permissionDisableCall = null
         }
     }
 
     fun requestPermission(
         permission: String,
         successCall: () -> Unit,
-        failedCall: (String) -> Unit = {}
+        cancelCall: (String) -> Unit = {},
+        disableCall: (String) -> Unit = {}
     ) {
+        singlePermission = permission
         permissionSuccessCall = successCall
-        permissionFailedCall = failedCall
+        permissionCancelCall = cancelCall
+        permissionDisableCall = disableCall
         permissionLauncher?.launch(permission)
     }
 
     fun requestPermissions(
         vararg permission: String,
         successCall: () -> Unit,
-        failedCall: (String) -> Unit = {}
+        cancelCall: (String) -> Unit = {},
+        disableCall: (String) -> Unit = {}
     ) {
         permissionSuccessCall = successCall
-        permissionFailedCall = failedCall
+        permissionCancelCall = cancelCall
+        permissionDisableCall = disableCall
         permissionsLauncher?.launch(permission)
     }
 }
