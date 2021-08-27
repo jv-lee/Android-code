@@ -23,8 +23,25 @@ import kotlin.reflect.KProperty
 @JvmName("viewBindingActivity")
 inline fun <A : ComponentActivity, V : ViewBinding> ComponentActivity.binding(
     crossinline inflate: (LayoutInflater) -> V
-): ViewBindingProperty<A, V> = ActivityViewBindingProperty { activity: A ->
-    inflate(activity.layoutInflater).apply { setContentView(root) }
+): ViewBindingProperty<A, V> {
+    var binding: V? = null
+
+    val createBinding = { activity: ComponentActivity ->
+        binding ?: inflate(activity.layoutInflater).also { binding = it }
+            .apply { setContentView(root) }
+    }
+
+    lifecycle.addObserver(object : LifecycleObserver {
+        @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
+        fun initLazyProperty() {
+            lifecycle.removeObserver(this)
+            createBinding.invoke(this@binding)
+        }
+    })
+
+    return ActivityViewBindingProperty { activity: A ->
+        createBinding.invoke(activity)
+    }
 }
 
 @Suppress("UNCHECKED_CAST")
