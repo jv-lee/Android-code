@@ -21,7 +21,7 @@ import kotlin.reflect.KProperty
  */
 @Suppress("UNCHECKED_CAST")
 @JvmName("viewBindingActivity")
-inline fun <A : ComponentActivity, V : ViewBinding> ComponentActivity.binding(
+inline fun <reified A : ComponentActivity, reified V : ViewBinding> ComponentActivity.binding(
     crossinline inflate: (LayoutInflater) -> V
 ): ViewBindingProperty<A, V> {
     var binding: V? = null
@@ -46,7 +46,7 @@ inline fun <A : ComponentActivity, V : ViewBinding> ComponentActivity.binding(
 
 @Suppress("UNCHECKED_CAST")
 @JvmName("viewInflateActivity")
-inline fun <A : ComponentActivity, V : ViewBinding> ComponentActivity.inflate(
+inline fun <reified A : ComponentActivity, reified V : ViewBinding> ComponentActivity.inflate(
     crossinline inflate: (LayoutInflater) -> V
 ): ViewBindingProperty<A, V> = ActivityViewBindingProperty { activity: A ->
     inflate(activity.layoutInflater)
@@ -54,7 +54,7 @@ inline fun <A : ComponentActivity, V : ViewBinding> ComponentActivity.inflate(
 
 @Suppress("UNCHECKED_CAST")
 @JvmName("viewBindingFragment")
-inline fun <F : Fragment, V : ViewBinding> Fragment.binding(
+inline fun <reified F : Fragment, reified V : ViewBinding> Fragment.binding(
     crossinline viewBinder: (View) -> V,
     crossinline viewProvider: (F) -> View = Fragment::requireView
 ): ViewBindingProperty<F, V> = FragmentViewBindingProperty { fragment: F ->
@@ -63,7 +63,7 @@ inline fun <F : Fragment, V : ViewBinding> Fragment.binding(
 
 @Suppress("UNCHECKED_CAST")
 @JvmName("viewInflateFragment")
-inline fun <F : Fragment, V : ViewBinding> Fragment.inflate(
+inline fun <reified F : Fragment, reified V : ViewBinding> Fragment.inflate(
     crossinline viewInflate: (LayoutInflater) -> V
 ): ViewBindingProperty<F, V> = FragmentViewBindingProperty { fragment: F ->
     viewInflate(fragment.layoutInflater)
@@ -71,7 +71,7 @@ inline fun <F : Fragment, V : ViewBinding> Fragment.inflate(
 
 @Suppress("UNCHECKED_CAST")
 @JvmName("viewInflateViewGroup")
-inline fun <G : ViewGroup, V : ViewBinding> ViewGroup.inflate(
+inline fun <reified G : ViewGroup, reified V : ViewBinding> ViewGroup.inflate(
     crossinline viewInflate: (LayoutInflater) -> V
 ): ViewGroupViewBindingProperty<G, V> = ViewGroupViewBindingProperty { view: G ->
     viewInflate(LayoutInflater.from(view.context))

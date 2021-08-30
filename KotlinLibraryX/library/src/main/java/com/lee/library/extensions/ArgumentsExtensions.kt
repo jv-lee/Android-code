@@ -23,7 +23,7 @@ inline fun <reified P : Any> Fragment.activityArguments(key: String): Lazy<P> =
     getActivityIntentParams(key)
 
 @MainThread
-fun <P : Any> Activity.getIntentParams(
+inline fun <reified P : Any> Activity.getIntentParams(
     key: String
 ): Lazy<P> {
     return ParamsLazy {
@@ -35,7 +35,7 @@ fun <P : Any> Activity.getIntentParams(
 }
 
 @MainThread
-fun <P : Any> Fragment.getActivityIntentParams(key: String): Lazy<P> {
+inline fun <reified P : Any> Fragment.getActivityIntentParams(key: String): Lazy<P> {
     return ParamsLazy {
         checkNotNull(requireActivity().intent.extras) { "requestActivity().intent.extras is null." }
         val value = requireActivity().intent.extras?.get(key)
@@ -45,7 +45,7 @@ fun <P : Any> Fragment.getActivityIntentParams(key: String): Lazy<P> {
 }
 
 @MainThread
-fun <P : Any> Fragment.getArgumentsParams(
+inline fun <reified P : Any> Fragment.getArgumentsParams(
     key: String
 ): Lazy<P> {
     return ParamsLazy {
