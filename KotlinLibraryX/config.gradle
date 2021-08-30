@@ -39,8 +39,9 @@ ext {
             "coroutines-android": "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.4",
 
             //生命周期
-            "lifecycle"         : "androidx.lifecycle:lifecycle-extensions:2.1.0",
-            "livedata"          : "androidx.lifecycle:lifecycle-livedata-ktx:2.2.0",
+            "runtime"           : "androidx.lifecycle:lifecycle-runtime-ktx:2.3.1", //仅生命周期 没有 livedata/viewmodel
+            "livedata"          : "androidx.lifecycle:lifecycle-livedata-ktx:2.3.1",
+            "viewmodel"         : "androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1",
 
             //分包库
             "multidex"          : "androidx.multidex:multidex:2.0.1",
