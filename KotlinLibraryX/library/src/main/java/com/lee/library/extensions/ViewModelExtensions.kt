@@ -46,8 +46,7 @@ inline fun <reified VM : ViewModel> ComponentActivity.viewModelByFactory(
 inline fun <reified VM : ViewModel> Fragment.viewModelByFactory(): Lazy<VM> {
     return viewModels {
         createViewModelFactory(this, arguments) {
-            val constructor =
-                findMatchingConstructor<VM>(arrayOf(SavedStateHandle::class.java))
+            val constructor = findMatchingConstructor<VM>(arrayOf(SavedStateHandle::class.java))
             constructor!!.newInstance(it)
         }
     }
