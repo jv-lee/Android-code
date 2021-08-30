@@ -9,12 +9,12 @@ import androidx.lifecycle.OnLifecycleEvent
  * @data 2021/8/26
  * @description
  */
-fun Lifecycle.destroy(call: () -> Unit) {
+inline fun Lifecycle.destroy(crossinline call: () -> Unit) {
     addObserver(object : LifecycleObserver {
         @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
         fun destroy() {
             removeObserver(this)
-            call.invoke()
+            call()
         }
     })
 }

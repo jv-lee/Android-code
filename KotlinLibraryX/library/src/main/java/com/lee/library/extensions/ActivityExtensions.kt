@@ -57,10 +57,10 @@ fun FragmentActivity.dismiss(dialog: DialogFragment) {
  * @param handler back执行后回调方法体
  * @return back控制实例 .remove 移除back拦截事件
  */
-fun FragmentActivity.banBackEvent(handler: () -> Unit = {}): OnBackPressedCallback {
+inline fun FragmentActivity.banBackEvent(crossinline handler: () -> Unit = {}): OnBackPressedCallback {
     return object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
-            handler.invoke()
+            handler()
         }
     }.apply {
         onBackPressedDispatcher.addCallback(this@banBackEvent, this)
@@ -73,9 +73,9 @@ fun FragmentActivity.banBackEvent(handler: () -> Unit = {}): OnBackPressedCallba
  * @param alertCall 两次back事件间隔时间不满足条件 call回调
  * @return back控制实例 .remove 移除back拦截事件
  */
-fun FragmentActivity.delayBackEvent(
+inline fun FragmentActivity.delayBackEvent(
     backExitTime: Int = 2000,
-    alertCall: () -> Unit = { toast(getString(R.string.double_click_back)) }
+    crossinline alertCall: () -> Unit = { toast(getString(R.string.double_click_back)) }
 ): OnBackPressedCallback {
     var firstTime: Long = 0
     return object : OnBackPressedCallback(true) {
@@ -83,7 +83,7 @@ fun FragmentActivity.delayBackEvent(
             val secondTime = System.currentTimeMillis()
             //如果两次按键时间间隔大于2秒，则不退出
             if (secondTime - firstTime > backExitTime) {
-                alertCall.invoke()
+                alertCall()
                 //更新firstTime
                 firstTime = secondTime
             } else {//两次按键小于2秒时，退出应用

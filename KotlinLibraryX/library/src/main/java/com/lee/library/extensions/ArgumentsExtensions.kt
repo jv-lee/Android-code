@@ -64,7 +64,7 @@ class ParamsLazy<P : Any>(
     override val value: P
         get() {
             if (cached == null) {
-                cached = initializer.invoke()
+                cached = initializer()
             }
 
             return cached as P

@@ -33,7 +33,7 @@ typealias CreateViewModel = (handle: SavedStateHandle) -> ViewModel
  * @param create SavedStateHandlerViewModel 构建类型
  */
 @MainThread
-public inline fun <reified VM : ViewModel> ComponentActivity.viewModelByFactory(
+inline fun <reified VM : ViewModel> ComponentActivity.viewModelByFactory(
 ): Lazy<VM> {
     return viewModels {
         createViewModelFactory(this, intent.extras) {

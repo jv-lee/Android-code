@@ -35,12 +35,12 @@ inline fun <A : ComponentActivity, V : ViewBinding> ComponentActivity.binding(
         @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
         fun initLazyProperty() {
             lifecycle.removeObserver(this)
-            createBinding.invoke(this@binding)
+            createBinding(this@binding)
         }
     })
 
     return ActivityViewBindingProperty { activity: A ->
-        createBinding.invoke(activity)
+        createBinding(activity)
     }
 }
 

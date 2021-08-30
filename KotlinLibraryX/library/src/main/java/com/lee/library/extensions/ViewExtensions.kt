@@ -184,7 +184,10 @@ fun View.setSelectableItemForeground() {
 /**
  * NestedScrollView 滑动改变view 透明度及view状态
  */
-fun NestedScrollView.setScrollTransparent(limit: Int, transparentBar: (Boolean, Int) -> Unit) {
+inline fun NestedScrollView.setScrollTransparent(
+    limit: Int,
+    crossinline transparentBar: (Boolean, Int) -> Unit
+) {
     setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { _, _, scrollY, _, _ ->
         if (scrollY < limit) {
             transparentBar(true, scrollY)
@@ -198,7 +201,7 @@ fun NestedScrollView.setScrollTransparent(limit: Int, transparentBar: (Boolean, 
 /**
  * RecyclerView 滑动改变view 透明度及view状态
  */
-fun RecyclerView.setScrollTransparent(transparentBar: (Boolean, Int) -> Unit) {
+inline fun RecyclerView.setScrollTransparent(crossinline transparentBar: (Boolean, Int) -> Unit) {
     addOnScrollListener(object : RecyclerView.OnScrollListener() {
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
             super.onScrolled(recyclerView, dx, dy)
@@ -220,7 +223,7 @@ fun RecyclerView.setScrollTransparent(transparentBar: (Boolean, Int) -> Unit) {
 /**
  * RecyclerView 滑动改变view 透明度及view状态
  */
-fun RecyclerView.setScrollTransparent2(transparentBar: (Boolean, Int) -> Unit) {
+inline fun RecyclerView.setScrollTransparent2(crossinline transparentBar: (Boolean, Int) -> Unit) {
     addOnScrollListener(object : RecyclerView.OnScrollListener() {
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
             super.onScrolled(recyclerView, dx, dy)
@@ -243,7 +246,7 @@ fun RecyclerView.setScrollTransparent2(transparentBar: (Boolean, Int) -> Unit) {
  * 回调RecyclerView滑动高度
  * @return 滑动距离 - px值
  */
-fun RecyclerView.callScrollHeight(callScroll: (Int) -> Unit) {
+inline fun RecyclerView.callScrollHeight(crossinline callScroll: (Int) -> Unit) {
     addOnScrollListener(object : RecyclerView.OnScrollListener() {
         private var scrollHeight = 0
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -437,7 +440,10 @@ fun RecyclerView.smoothScrollToTop() {
 /**
  * 监听键盘弹起
  */
-fun Window.keyboardObserver(openObserver: () -> Unit = {}, closeObserver: () -> Unit = {}) {
+inline fun Window.keyboardObserver(
+    crossinline openObserver: () -> Unit = {},
+    crossinline closeObserver: () -> Unit = {}
+) {
     var isOpen = false
     val keyboardHeight = 200
     decorView.viewTreeObserver.addOnGlobalLayoutListener {
