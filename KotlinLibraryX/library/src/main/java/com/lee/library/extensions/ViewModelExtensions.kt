@@ -14,7 +14,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.savedstate.SavedStateRegistryOwner
 import java.lang.reflect.Constructor
 import java.lang.reflect.ParameterizedType
-import java.util.*
 
 /**
  * 获取当前class第二个泛型class类型
@@ -29,16 +28,13 @@ typealias CreateViewModel = (handle: SavedStateHandle) -> ViewModel
 
 /**
  * activity的SavedStateHandlerViewModel扩展函数
- * @param defaultArgs 当前activity的intent.extras 参数
- * @param create SavedStateHandlerViewModel 构建类型
  */
 @MainThread
 inline fun <reified VM : ViewModel> ComponentActivity.viewModelByFactory(
 ): Lazy<VM> {
     return viewModels {
         createViewModelFactory(this, intent.extras) {
-            val constructor =
-                findMatchingConstructor(VM::class.java, arrayOf(SavedStateHandle::class.java))
+            val constructor = findMatchingConstructor<VM>(arrayOf(SavedStateHandle::class.java))
             constructor!!.newInstance(it)
         }
     }
@@ -46,14 +42,12 @@ inline fun <reified VM : ViewModel> ComponentActivity.viewModelByFactory(
 
 /**
  * fragment的SavedStateHandlerViewModel扩展函数
- * @param defaultArgs 当前fragment的arguments 参数
- * @param create SavedStateHandlerViewModel 构建类型
  */
 inline fun <reified VM : ViewModel> Fragment.viewModelByFactory(): Lazy<VM> {
     return viewModels {
         createViewModelFactory(this, arguments) {
             val constructor =
-                findMatchingConstructor(VM::class.java, arrayOf(SavedStateHandle::class.java))
+                findMatchingConstructor<VM>(arrayOf(SavedStateHandle::class.java))
             constructor!!.newInstance(it)
         }
     }
@@ -61,8 +55,6 @@ inline fun <reified VM : ViewModel> Fragment.viewModelByFactory(): Lazy<VM> {
 
 /**
  * fragment的SavedStateHandlerViewModel扩展函数
- * @param defaultArgs 当前fragment的arguments 参数
- * @param create SavedStateHandlerViewModel 构建类型
  */
 inline fun <reified VM : ViewModel> Fragment.activityViewModelByFactory(
     noinline create: CreateViewModel
@@ -100,21 +92,20 @@ fun createViewModelFactory(
 
 /**
  * 通过class查找当前类构造函数
- * @param modelClass 当前传入class类型
  * @param signature 当前构造参数类型数组
+ * T 当前传入class类型
  */
 @PublishedApi
 @MainThread
-internal fun <T> findMatchingConstructor(
-    modelClass: Class<T>,
+internal inline fun <reified T> findMatchingConstructor(
     signature: Array<Class<*>>
 ): Constructor<T>? {
     //遍历当前class的所有构造函数
-    for (constructor in modelClass.constructors) {
+    for (constructor in T::class.java.constructors) {
         //获取当前构造函数参数类型
         val parameterTypes = constructor.parameterTypes
         //参数类型与目标参数class类型匹配则为目标构造函数 返回构造函数
-        if (Arrays.equals(signature, parameterTypes)) {
+        if (signature.contentEquals(parameterTypes)) {
             @Suppress("UNCHECKED_CAST")
             return constructor as Constructor<T>
         }
