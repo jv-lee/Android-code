@@ -1,10 +1,9 @@
 package com.lee.coroutine
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.lee.coroutine.test.PlanBStart
-import com.lee.coroutine.test.PlanCDispatcher
-import com.lee.coroutine.test.PlanDFlow
+import androidx.appcompat.app.AppCompatActivity
+import com.lee.coroutine.test.PlanEModel
+import kotlinx.coroutines.runBlocking
 
 /**
  * @author jv.lee
@@ -21,6 +20,16 @@ class MainActivity : AppCompatActivity() {
 
 //        PlanCDispatcher().test(
 
-        PlanDFlow().test()
+//        PlanDFlow().test()
+
+        val planEModel = PlanEModel()
+
+        planEModel.simpleFun()
+
+        runBlocking {
+            planEModel.suspendFun()
+        }
+
+        planEModel.simple2Fun()
     }
 }
