@@ -128,6 +128,17 @@ object ScreenDensityUtil : ComponentCallbacks {
     }
 
     /**
+     * 保证在应用进入热启动之前 清除所以density修改 保证热启动闪屏ui 不被 density和系统初始化的density发生拉扯情况
+     *
+     * @param activity 需要取消的activity
+     */
+    fun resetDensity(activity: Activity) {
+        activity.resources.displayMetrics.density = metrics.density
+        activity.resources.displayMetrics.densityDpi = metrics.densityDpi
+        activity.resources.displayMetrics.scaledDensity = metrics.scaledDensity
+    }
+
+    /**
      * 设置 Bitmap 的默认屏幕密度
      * 由于 Bitmap 的屏幕密度是读取配置的，需要使用反射强行修改
      * @param density 屏幕密度
