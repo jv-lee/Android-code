@@ -6,6 +6,7 @@ import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.FrameLayout
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import com.lee.library.R
 import com.lee.library.extensions.dp2px
@@ -18,7 +19,7 @@ import com.lee.library.utils.StatusUtil
  * @date 2020/4/1
  * @description 自定义toolbar容器
  */
-open class CustomToolbarLayout : FrameLayout {
+open class CustomToolbarLayout : ConstraintLayout {
 
     private var statusBarHeight = 0
     private var toolbarLayoutHeight = 0
@@ -75,7 +76,7 @@ open class CustomToolbarLayout : FrameLayout {
         lineView.run {
             id = R.id.toolbar_line
             layoutParams = LayoutParams(MATCH_PARENT, context.px2dp(1).toInt()).apply {
-                gravity = Gravity.BOTTOM
+                bottomToBottom = 0
             }
             lineView.setBackgroundColor(
                 ContextCompat.getColor(

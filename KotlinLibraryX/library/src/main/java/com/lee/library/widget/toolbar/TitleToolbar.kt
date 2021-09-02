@@ -16,7 +16,6 @@ import com.lee.library.R
 import com.lee.library.extensions.px2sp
 import com.lee.library.extensions.setImageTintCompat
 import com.lee.library.extensions.setSelectableItemForeground
-import com.lee.library.utils.StatusUtil
 import com.lee.library.widget.menu.CustomPopupMenuHelper
 
 /**
@@ -101,7 +100,9 @@ open class TitleToolbar : CustomToolbarLayout {
                 LayoutParams(
                     resources.getDimension(R.dimen.toolbar_button_width).toInt(),
                     resources.getDimension(R.dimen.toolbar_button_width).toInt()
-                ).apply { gravity = Gravity.START }
+                ).apply {
+                    startToStart = 0
+                }
             scaleType = ImageView.ScaleType.CENTER
             setSelectableItemForeground()
             backIcon?.let { setImageTintCompat(it, backIconTint!!) }
@@ -123,7 +124,13 @@ open class TitleToolbar : CustomToolbarLayout {
         tvTitle?.run {
             id = R.id.toolbar_title
             layoutParams =
-                LayoutParams(WRAP_CONTENT, WRAP_CONTENT).apply { gravity = Gravity.CENTER }
+                LayoutParams(WRAP_CONTENT, resources.getDimension(R.dimen.toolbar_button_width).toInt()).apply {
+                    startToStart = 0
+                    endToEnd = 0
+                    topToTop = 0
+                    bottomToBottom = 0
+                    gravity = Gravity.CENTER
+                }
             setTextColor(ContextCompat.getColor(context, R.color.colorAccent))
             titleText?.let { text = it }
             titleEnable?.let { visibility = it }
@@ -141,7 +148,7 @@ open class TitleToolbar : CustomToolbarLayout {
                 LayoutParams(
                     resources.getDimension(R.dimen.toolbar_button_width).toInt(),
                     resources.getDimension(R.dimen.toolbar_button_width).toInt()
-                ).apply { gravity = Gravity.END }
+                ).apply { endToEnd = 0 }
             scaleType = ImageView.ScaleType.CENTER
             setSelectableItemForeground()
             menuIcon?.let { setImageTintCompat(it, menuIconTint!!) }
