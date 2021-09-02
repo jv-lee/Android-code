@@ -1,11 +1,14 @@
 package com.lee.library.extensions
 
+import android.app.Activity
 import android.app.Dialog
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.annotation.NonNull
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentManager
 import com.lee.library.R
 import com.lee.library.utils.ActivityUtil
 
@@ -117,5 +120,20 @@ fun FragmentActivity.fragmentTransaction(containerId: Int, fragment: Fragment?) 
         transaction.commit()
         //事务通知所有事件执行 防止 isAdded / getTag失效 引发异常
         supportFragmentManager.executePendingTransactions()
+    }
+}
+
+fun Activity.bindFragmentLifecycle(
+    @NonNull cb: FragmentManager.FragmentLifecycleCallbacks,
+    recursive: Boolean = true
+) {
+    if (this is FragmentActivity) {
+        supportFragmentManager.registerFragmentLifecycleCallbacks(cb, recursive)
+    }
+}
+
+fun Activity.unbindFragmentLifecycle(@NonNull cb: FragmentManager.FragmentLifecycleCallbacks) {
+    if (this is FragmentActivity) {
+        supportFragmentManager.unregisterFragmentLifecycleCallbacks(cb)
     }
 }
