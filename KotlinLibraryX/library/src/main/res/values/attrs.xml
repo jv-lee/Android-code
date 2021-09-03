@@ -53,6 +53,7 @@
 
     <declare-styleable name="TitleToolbar">
         <attr name="titleText" format="string" />
+        <attr name="titleColor" format="color" />
         <attr name="backIcon" format="reference" />
         <attr name="menuIcon" format="reference" />
         <attr name="menuRes" format="reference" />
@@ -149,7 +150,7 @@
     </declare-styleable>
 
     <declare-styleable name="DotView">
-        <attr name="dotBackground"  />
+        <attr name="dotBackground" />
     </declare-styleable>
 
     <declare-styleable name="NumberDotView">
