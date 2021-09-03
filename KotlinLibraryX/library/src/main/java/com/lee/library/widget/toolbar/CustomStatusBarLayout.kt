@@ -22,7 +22,7 @@ class CustomStatusBarLayout : CustomToolbarLayout {
     override fun initStatusBarPadding() {}
 
     override fun initLayoutHeight(): Int {
-        return StatusUtil.getStatusBarHeight(context)
+        return getStatusBarHeight()
     }
 
 }

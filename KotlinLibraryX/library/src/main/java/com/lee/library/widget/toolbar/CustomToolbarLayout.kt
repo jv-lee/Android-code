@@ -21,8 +21,8 @@ import com.lee.library.utils.StatusUtil
  */
 open class CustomToolbarLayout : ConstraintLayout {
 
-    private var statusBarHeight = 0
-    private var toolbarLayoutHeight = 0
+    private var statusBarHeight = StatusUtil.getStatusBarHeight(context)
+    private var toolbarLayoutHeight = initLayoutHeight()
 
     constructor(context: Context) : this(context, null, 0)
     constructor(context: Context, attributes: AttributeSet) : this(context, attributes, 0)
@@ -31,21 +31,10 @@ open class CustomToolbarLayout : ConstraintLayout {
         attributes,
         defStyleAttr
     ) {
-        toolbarLayoutHeight = initLayoutHeight()
-        initBackground()
-        initStatusBarHeight()
+        minHeight = toolbarLayoutHeight
+
         initStatusBarPadding()
-//        initBottomLine()
-    }
-
-    private fun initStatusBarHeight() {
-        statusBarHeight = StatusUtil.getStatusBarHeight(context)
-    }
-
-    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-        //设置默认宽高比 适配沉浸式
-        setMeasuredDimension(measuredWidth, toolbarLayoutHeight)
+        initBackground()
     }
 
     /**
@@ -53,8 +42,7 @@ open class CustomToolbarLayout : ConstraintLayout {
      */
     open fun initLayoutHeight(): Int {
         val toolbarHeight = resources.getDimension(R.dimen.toolbar_height).toInt()
-        val statusHeight = StatusUtil.getStatusBarHeight(context)
-        return toolbarHeight + statusHeight
+        return toolbarHeight + statusBarHeight
     }
 
     /**
@@ -70,6 +58,16 @@ open class CustomToolbarLayout : ConstraintLayout {
     open fun initStatusBarPadding() {
         setPadding(context.dp2px(16).toInt(), statusBarHeight, context.dp2px(16).toInt(), 0)
     }
+
+    /**
+     * 获取toolbarLayout高度
+     */
+    fun getToolbarLayoutHeight() = toolbarLayoutHeight
+
+    /**
+     * 获取状态栏高度
+     */
+    fun getStatusBarHeight() = statusBarHeight
 
     private fun initBottomLine() {
         val lineView = View(context)
@@ -87,12 +85,5 @@ open class CustomToolbarLayout : ConstraintLayout {
         }
         addView(lineView)
     }
-
-    /**
-     * 获取toolbarLayout高度
-     */
-    fun getToolbarLayoutHeight() = toolbarLayoutHeight
-
-    fun getStatusBarHeight() = statusBarHeight
 
 }
