@@ -1,14 +1,13 @@
 package com.lee.ui
 
 import android.graphics.Color
-import android.os.Bundle
-import android.view.View
-import android.widget.TextView
 import android.widget.Toast
-import androidx.fragment.app.Fragment
+import com.lee.library.base.BaseFragment
 import com.lee.library.dialog.LoadingDialog
+import com.lee.library.extensions.binding
 import com.lee.library.utils.TextSpanHelper
 import com.lee.library.widget.SnackBarEx
+import com.lee.ui.databinding.FragmentSelectorBinding
 import kotlinx.android.synthetic.main.fragment_selector.*
 
 /**
@@ -16,7 +15,11 @@ import kotlinx.android.synthetic.main.fragment_selector.*
  * @date 2021/1/12
  * @description
  */
-class SelectorFragment : Fragment(R.layout.fragment_selector) {
+class SelectorFragment : BaseFragment(R.layout.fragment_selector) {
+
+    private val binding by binding(FragmentSelectorBinding::bind)
+
+    private val loadingDialog by lazy { LoadingDialog(requireActivity()) }
 
     private val snackBar by lazy {
         SnackBarEx.Builder(linear)
@@ -27,21 +30,24 @@ class SelectorFragment : Fragment(R.layout.fragment_selector) {
             .build()
     }
 
-    private val loadingDialog by lazy { LoadingDialog(requireActivity()) }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        view.findViewById<TextView>(R.id.btn_selector_1).setOnClickListener {
+    override fun bindView() {
+        binding.btnSelector1.setOnClickListener {
             snackBar.show()
         }
-        view.findViewById<TextView>(R.id.btn_selector_2).setOnClickListener {
+        binding.btnSelector2.setOnClickListener {
             loadingDialog.show()
             it.postDelayed({ loadingDialog.dismiss() }, 3000)
         }
-        view.findViewById<TextView>(R.id.btn_selector_3).setOnClickListener { }
+        binding.btnSelector3.setOnClickListener {
 
-        val text = tv_text.text
-        TextSpanHelper.Builder(tv_text)
+        }
+
+    }
+
+    override fun bindData() {
+        val text = binding.tvText.text
+        TextSpanHelper.Builder(binding.tvText)
             .setColor(Color.BLUE)
             .setText(text.toString())
             .isGroup(false)
@@ -52,4 +58,5 @@ class SelectorFragment : Fragment(R.layout.fragment_selector) {
             .create()
             .buildSpan()
     }
+
 }

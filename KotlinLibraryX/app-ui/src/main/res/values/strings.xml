@@ -4,4 +4,5 @@
     <string name="nav_selector">selector</string>
     <string name="nav_wheel">wheel</string>
     <string name="nav_shadow">shadow</string>
+    <string name="nav_toolbar">toolbar</string>
 </resources>

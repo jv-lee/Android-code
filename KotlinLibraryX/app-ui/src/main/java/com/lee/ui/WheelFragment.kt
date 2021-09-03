@@ -10,10 +10,12 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.ImageView
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.fragment.app.Fragment
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.lee.library.base.BaseFragment
+import com.lee.library.extensions.binding
 import com.lee.library.extensions.dp2px
 import com.lee.library.widget.WheelView
+import com.lee.ui.databinding.FragmentWheelBinding
 import kotlin.math.abs
 
 /**
@@ -21,44 +23,45 @@ import kotlin.math.abs
  * @date 2021/1/12
  * @description
  */
-class WheelFragment : Fragment(R.layout.fragment_wheel) {
+class WheelFragment : BaseFragment(R.layout.fragment_wheel) {
+
+    private val binding by binding(FragmentWheelBinding::bind)
 
     private val TAG = "wheel_touch"
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        initBlurImage(view)
-        initRefresh(view)
-        initWheel(view)
+    override fun bindView() {
+        initBlurImage()
+        initRefresh()
+        initWheel()
     }
 
-    private fun initBlurImage(view: View) {
-        val ivImage = view.findViewById<ImageView>(R.id.iv_image)
+    override fun bindData() {
+
+    }
+
+    private fun initBlurImage() {
         val bitmap = BitmapFactory.decodeResource(resources, R.mipmap.header)
         val blurBitmap = BlurUtils.blur(requireContext(), bitmap, 15f)
 
-        ivImage.setImageBitmap(blurBitmap)
+        binding.ivImage.setImageBitmap(blurBitmap)
     }
 
-    private fun initRefresh(view: View) {
-        val refreshView = view.findViewById<SwipeRefreshLayout>(R.id.refresh)
-        val constRoot = view.findViewById<ConstraintLayout>(R.id.const_root)
-        refreshView.dropLayout(constRoot)
-        refreshView.setOnRefreshListener {
-            refreshView.postDelayed({ refreshView.dropLayoutEnd(constRoot) }, 1000)
+    private fun initRefresh() {
+        binding.refresh.dropLayout(binding.constRoot)
+        binding.refresh.setOnRefreshListener {
+            binding.refresh.postDelayed({ binding.refresh.dropLayoutEnd(binding.constRoot) }, 1000)
         }
     }
 
-    private fun initWheel(view: View) {
-        val wheelView = view.findViewById<WheelView>(R.id.wheel_view)
-        wheelView.bindData(arrayListOf<String>().also {
+    private fun initWheel() {
+        binding.wheelView.bindData(arrayListOf<String>().also {
             for (index in 1..10) {
                 it.add("Type - $index")
             }
         }, object : WheelView.DataFormat<String> {
             override fun format(item: String) = item
         })
-        wheelView.setSelectedListener(object : WheelView.SelectedListener<String> {
+        binding.wheelView.setSelectedListener(object : WheelView.SelectedListener<String> {
             override fun selected(item: String) {
                 Log.i("UI", "selected: $item")
             }

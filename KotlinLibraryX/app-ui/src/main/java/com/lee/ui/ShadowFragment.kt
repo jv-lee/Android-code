@@ -8,14 +8,19 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.shape.*
+import com.lee.library.base.BaseFragment
+import com.lee.library.extensions.binding
 import com.lee.library.widget.nav.NumberDotView
+import com.lee.ui.databinding.FragmentShadowBinding
 
 /**
  * @author jv.lee
  * @date 2021/1/14
  * @description
  */
-class ShadowFragment : Fragment(R.layout.fragment_shadow) {
+class ShadowFragment : BaseFragment(R.layout.fragment_shadow) {
+
+    private val binding by binding(FragmentShadowBinding::bind)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -23,6 +28,15 @@ class ShadowFragment : Fragment(R.layout.fragment_shadow) {
         view.findViewById<NumberDotView>(R.id.numberDotView).setNumber(12)
 
         setMessageShape()
+    }
+
+    override fun bindView() {
+        binding.numberDotView.setNumber(12)
+        setMessageShape()
+    }
+
+    override fun bindData() {
+
     }
 
     private fun setMessageShape() {
@@ -44,7 +58,8 @@ class ShadowFragment : Fragment(R.layout.fragment_shadow) {
             setTint(ContextCompat.getColor(requireContext(), R.color.colorPrimary))
             paintStyle = Paint.Style.FILL
         }
-        view?.findViewById<TextView>(R.id.tv_message_shape)?.apply {
+
+        binding.tvMessageShape.apply {
             //不限制子view在父容器范围内 所以角标可以延伸出去
             (parent as ViewGroup).clipChildren = false
             background = drawable

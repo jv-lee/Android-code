@@ -1,32 +1,51 @@
 package com.lee.ui
 
-import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import com.lee.library.adapter.core.UiPagerAdapter
-import kotlinx.android.synthetic.main.activity_main.*
+import com.lee.library.base.BaseActivity
+import com.lee.library.extensions.binding
+import com.lee.ui.databinding.ActivityMainBinding
 
 
-class MainActivity : AppCompatActivity(R.layout.activity_main) {
+class MainActivity : BaseActivity() {
+
+    private val binding by binding(ActivityMainBinding::inflate)
 
     private val vpAdapter by lazy { UiPagerAdapter(supportFragmentManager, fragments, titles) }
-    private val fragments by lazy { listOf(SelectorFragment(), WheelFragment(), ShadowFragment()) }
-    private val titles by lazy { listOf(getString(R.string.nav_selector), getString(R.string.nav_wheel), getString(R.string.nav_shadow)) }
+    private val fragments by lazy {
+        listOf(
+            SelectorFragment(),
+            WheelFragment(),
+            ShadowFragment(),
+            ToolbarFragment()
+        )
+    }
+    private val titles by lazy {
+        listOf(
+            getString(R.string.nav_selector),
+            getString(R.string.nav_wheel),
+            getString(R.string.nav_shadow),
+            getString(R.string.nav_toolbar)
+        )
+    }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun bindView() {
+        binding.vpContainer.adapter = vpAdapter
+        binding.vpContainer.setNoScroll(true)
 
-        vp_container.adapter = vpAdapter
-        vp_container.setNoScroll(true)
-
-        bottom_nav.bindViewPager(vp_container)
-        bottom_nav.setDotVisibility(0, View.VISIBLE)
-        bottom_nav.setNumberDot(1, 999)
-        bottom_nav.setNumberDot(2, 7)
-        bottom_nav.run {
+        binding.bottomNav.run {
+            bindViewPager(binding.vpContainer)
+            setDotVisibility(0, View.VISIBLE)
+            setNumberDot(1, 999)
+            setNumberDot(2, 7)
             postDelayed({ setNumberDot(2, 0) }, 2000)
             postDelayed({ setNumberDot(2, 17) }, 5000)
         }
+
+    }
+
+    override fun bindData() {
+
     }
 
     override fun onBackPressed() {

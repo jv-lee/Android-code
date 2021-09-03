@@ -13,4 +13,9 @@
         android:id="@+id/shadow"
         android:icon="@drawable/vector_icon"
         android:title="@string/nav_shadow" />
+
+    <item
+        android:id="@+id/toolbar"
+        android:icon="@drawable/vector_icon"
+        android:title="@string/nav_toolbar" />
 </menu>
