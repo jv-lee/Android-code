@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  * @author jv.lee
- * description：PageFragment适配器
+ * description：PageFragment适配器 -> 适用于viewPager
  */
 public class UiPagerAdapter extends FragmentStatePagerAdapter {
     private List<Fragment> fragmentList;

@@ -4,20 +4,17 @@ package com.lee.library.adapter.core;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentStatePagerAdapter;
-import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import java.util.List;
 
 /**
  * @author jv.lee
- * description：PageFragment适配器
+ * description：PageFragment适配器 -> 适用于ViewPager2
  */
 public class UiPager2Adapter extends FragmentStateAdapter {
-    private List<Fragment> fragmentList;
-    private List<String> tabList;
+    private final List<Fragment> fragmentList;
+    private final List<String> tabList;
 
     public UiPager2Adapter(@NonNull FragmentActivity fragmentActivity, List<Fragment> fragments, List<String> titles) {
         super(fragmentActivity);

@@ -13,6 +13,7 @@ import android.widget.ImageView
 import androidx.annotation.RequiresApi
 import androidx.core.view.children
 import androidx.viewpager.widget.ViewPager
+import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomnavigation.BottomNavigationItemView
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -34,6 +35,7 @@ class BottomNavView @JvmOverloads constructor(
 ) : BottomNavigationView(context, attrs, defStyleAttr),
     BottomNavigationView.OnNavigationItemSelectedListener {
     private var mViewPager: ViewPager? = null
+    private var mViewPager2: ViewPager2? = null
     private var mItemPositionListener: ItemPositionListener? = null
     private var numberDots = ArrayList<NumberDotView>()
     private var dots = ArrayList<DotView>()
@@ -72,6 +74,7 @@ class BottomNavView @JvmOverloads constructor(
         for (i in 0 until menu.size()) {
             if (menu.getItem(i) === menuItem) {
                 mViewPager?.setCurrentItem(i, false)
+                mViewPager2?.setCurrentItem(i,false)
                 mItemPositionListener?.onPosition(menuItem, i)
             }
         }
@@ -175,11 +178,16 @@ class BottomNavView @JvmOverloads constructor(
         fun onPosition(menuItem: MenuItem?, position: Int)
     }
 
-    fun setItemPositionListener(mItemPositionListener: ItemPositionListener?) {
-        this.mItemPositionListener = mItemPositionListener
+    fun setItemPositionListener(itemPositionListener: ItemPositionListener?) {
+        this.mItemPositionListener = itemPositionListener
     }
 
-    fun bindViewPager(mViewPager: ViewPager?) {
-        this.mViewPager = mViewPager
+    fun bindViewPager(viewPager: ViewPager?) {
+        this.mViewPager = viewPager
     }
+
+    fun bindViewPager(viewPager: ViewPager2?) {
+        this.mViewPager2 = viewPager
+    }
+
 }
