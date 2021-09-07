@@ -10,14 +10,14 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
  */
 class UiPager2Adapter : FragmentStateAdapter {
 
-    private val fragmentList: List<Fragment>
+    private val fragmentList: MutableList<Fragment>
 
-    constructor(fragmentActivity: FragmentActivity, fragments: List<Fragment>)
+    constructor(fragmentActivity: FragmentActivity, fragments: MutableList<Fragment>)
             : super(fragmentActivity) {
         fragmentList = fragments
     }
 
-    constructor(fragment: Fragment, fragments: List<Fragment>) : super(fragment) {
+    constructor(fragment: Fragment, fragments: MutableList<Fragment>) : super(fragment) {
         fragmentList = fragments
     }
 
