@@ -32,9 +32,7 @@ class WebViewTools constructor(context: Context) {
             instance ?: WebViewTools(context).also { instance = it }
         }
 
-        fun get() = instance ?: throw Exception("请先调用WebViewTools.get(application)初始化")
-
-        fun getWeb() = get().web
+        fun getWeb(context: Context) = get(context).web
     }
 
     fun onDestroy() {

@@ -50,6 +50,7 @@ object ScreenDensityUtil : ComponentCallbacks {
         ruler: Float = 420f,
         @Density flag: Int = Density.SHORT_SIDE_BASED
     ) {
+        resetDensity(activity)
         val f = activity.window.decorView.systemUiVisibility
         val sf1 = View.SYSTEM_UI_FLAG_FULLSCREEN
         val sf2 = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
@@ -132,7 +133,7 @@ object ScreenDensityUtil : ComponentCallbacks {
      *
      * @param activity 需要取消的activity
      */
-    fun resetDensity(activity: Activity) {
+    private fun resetDensity(activity: Activity) {
         activity.resources.displayMetrics.density = metrics.density
         activity.resources.displayMetrics.densityDpi = metrics.densityDpi
         activity.resources.displayMetrics.scaledDensity = metrics.scaledDensity
