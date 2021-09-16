@@ -5,18 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.cancel
 
 /**
  * @author jv.lee
  * @date 2019/8/16.
  * @description
  */
-abstract class BaseFragment(private val resourceId: Int? = 0) : Fragment(),
-    CoroutineScope by CoroutineScope(Dispatchers.Main) {
+abstract class BaseFragment(private val resourceId: Int? = 0) : Fragment() {
 
     private var fistVisible = true
 
@@ -40,16 +35,6 @@ abstract class BaseFragment(private val resourceId: Int? = 0) : Fragment(),
             fistVisible = false
             lazyLoad()
         }
-    }
-
-    @ExperimentalCoroutinesApi
-    override fun onDetach() {
-        super.onDetach()
-        cancel()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
     }
 
     override fun onPause() {
