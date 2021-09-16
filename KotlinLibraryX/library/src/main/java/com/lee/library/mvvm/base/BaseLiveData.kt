@@ -3,6 +3,7 @@ package com.lee.library.mvvm.base
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import com.lee.library.mvvm.livedata.SingleLiveData
 import com.lee.library.net.HttpManager
 
 /**
@@ -11,10 +12,10 @@ import com.lee.library.net.HttpManager
  * @description
  */
 open class BaseLiveData<T> : MutableLiveData<T>() {
-    private val failedEvent: MutableLiveData<String> = MutableLiveData()
+    private val failedEvent: SingleLiveData<String> = SingleLiveData()
 
     fun throwMessage(throwable: Throwable) {
-        failedEvent.value = HttpManager.getInstance().getServerMessage(throwable)
+        failedEvent.setValue(HttpManager.getInstance().getServerMessage(throwable))
     }
 
     fun observe(owner: LifecycleOwner, observer: Observer<in T>, failedObserver: Observer<String>) {

@@ -1,4 +1,4 @@
-package com.lee.library.mvvm.live
+package com.lee.library.mvvm.livedata
 
 import com.lee.library.extensions.dispatchersIO
 import com.lee.library.extensions.notNull

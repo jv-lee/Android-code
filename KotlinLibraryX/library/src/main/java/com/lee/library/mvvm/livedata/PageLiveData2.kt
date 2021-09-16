@@ -1,4 +1,4 @@
-package com.lee.library.mvvm.live
+package com.lee.library.mvvm.livedata
 
 import com.lee.library.mvvm.base.BaseLiveData
 import com.lee.library.mvvm.load.LoadStatus
@@ -8,7 +8,7 @@ import com.lee.library.mvvm.load.LoadStatus
  * @date 2020/5/20
  * @description
  */
-class PageKeyLiveData<T, K>(private val initKey: K? = null) : BaseLiveData<T>() {
+class PageLiveData2<T, K>(private val initKey: K? = null) : BaseLiveData<T>() {
 
     private var key: K? = null
     private var nextKey: K? = null
