@@ -55,7 +55,7 @@ public class MZBannerView<T> extends RelativeLayout {
      * 当前位置
      */
     private int mCurrentItem = 0;
-    private Handler mHandler = new Handler();
+    private final Handler mHandler = new Handler();
     /**
      * Banner 切换时间间隔
      */
@@ -72,15 +72,16 @@ public class MZBannerView<T> extends RelativeLayout {
      * 是否轮播图片
      */
     private boolean mIsCanLoop = true;
+    private boolean isStart = false;
     /**
      * indicator容器
      */
     private LinearLayout mIndicatorContainer;
-    private ArrayList<ImageView> mIndicators = new ArrayList<>();
+    private final ArrayList<ImageView> mIndicators = new ArrayList<>();
     /**
      * mIndicatorRes[0] 为为选中，mIndicatorRes[1]为选中
      */
-    private int[] mIndicatorRes = new int[]{R.drawable.shape_indicator_normal, R.drawable.shape_indicator_selected};
+    private final int[] mIndicatorRes = new int[]{R.drawable.shape_indicator_normal, R.drawable.shape_indicator_selected};
     private int mIndicatorPaddingLeft = 0;
     private int mIndicatorPaddingRight = 0;
     /**
@@ -296,6 +297,9 @@ public class MZBannerView<T> extends RelativeLayout {
      * <p>应该确保在调用用了{@link MZBannerView {@link #setPages(List, MZHolderCreator)}} 之后调用这个方法开始轮播</p>
      */
     public void start() {
+        if (isStart) {
+            return;
+        }
         // 如果Adapter为null, 说明还没有设置数据，这个时候不应该轮播Banner
         if (mAdapter == null) {
             return;
@@ -303,6 +307,7 @@ public class MZBannerView<T> extends RelativeLayout {
         if (mIsCanLoop) {
             mIsAutoPlay = true;
             mHandler.postDelayed(mLoopRunnable, mDelayedTime);
+            isStart = true;
         }
     }
 
@@ -310,6 +315,7 @@ public class MZBannerView<T> extends RelativeLayout {
      * 停止轮播
      */
     public void pause() {
+        isStart = false;
         mIsAutoPlay = false;
         mHandler.removeCallbacks(mLoopRunnable);
     }
@@ -706,4 +712,7 @@ public class MZBannerView<T> extends RelativeLayout {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, Resources.getSystem().getDisplayMetrics());
     }
 
+    public MZPagerAdapter getAdapter() {
+        return mAdapter;
+    }
 }
