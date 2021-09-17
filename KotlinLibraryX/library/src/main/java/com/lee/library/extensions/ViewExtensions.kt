@@ -7,10 +7,8 @@ import android.os.Build
 import android.text.*
 import android.view.*
 import android.webkit.WebView
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.RadioButton
-import android.widget.TextView
+import android.widget.*
+import androidx.annotation.IdRes
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.view.ViewCompat
@@ -480,5 +478,13 @@ fun WebView.setWebBackEvent() {
         }
 
     })
+}
+
+/**
+ * 选择radioButton 不通知监听器
+ * @param id radioButtonViewId
+ */
+fun RadioGroup.checkUnNotification(@IdRes id: Int) {
+    findViewById<RadioButton>(id).isChecked = true
 }
 
