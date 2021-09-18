@@ -16,15 +16,6 @@ sealed class UiState {
     object Default : UiState()
 }
 
-inline fun <reified T> stateLiveData(crossinline block: suspend () -> T) = liveData {
-    try {
-        emit(UiState.Loading)
-        emit(UiState.Success(block()))
-    } catch (e: Exception) {
-        emit(UiState.Error(e))
-    }
-}
-
 suspend inline fun <reified T> Flow<UiState>.collect(
     crossinline success: (T) -> Unit,
     crossinline error: (Throwable) -> Unit,
@@ -69,5 +60,39 @@ fun <T> Flow<T>.uiState(): Flow<UiState> {
         return@transform emit(UiState.Success(value) as UiState)
     }.catch {
         emit(UiState.Error(it))
+    }
+}
+
+inline fun <reified T> stateLive(crossinline block: suspend () -> T) = liveData {
+    try {
+        emit(UiState.Loading)
+        emit(UiState.Success(block()))
+    } catch (e: Exception) {
+        emit(UiState.Error(e))
+    }
+}
+
+inline fun <reified T> stateCacheLive(crossinline startBlock: suspend () -> T? = { null },
+                                      crossinline resumeBlock: suspend () -> T? = { null },
+                                      crossinline completedBlock: suspend (T) -> Unit = {}) = liveData {
+    try {
+        emit(UiState.Loading)
+
+        //加载缓存数据
+        val cacheData = startBlock()?.also {
+            emit(UiState.Success(it))
+        }
+
+        //网络数据
+        resumeBlock()?.also {
+            if (cacheData != it) {
+                //发送网络数据
+                emit(UiState.Success(it))
+                //发送存储本地数据
+                completedBlock(it)
+            }
+        }
+    } catch (e: Exception) {
+        emit(UiState.Error(e))
     }
 }

@@ -109,6 +109,16 @@ fun <T> BaseViewAdapter<T>.submitData(
     }
 }
 
+fun <T> BaseViewAdapter<T>.submitSinglePage(newData: List<T>) {
+    if (data.isNullOrEmpty() && newData.isNullOrEmpty()) {
+        pageEmpty()
+    } else if (newData.isNotEmpty()) {
+        updateData(newData)
+        pageCompleted()
+        loadMoreEnd()
+    }
+}
+
 fun <T> BaseViewAdapter<T>.submitFailed() {
     if (isPageCompleted && data.isNotEmpty()) {
         loadFailed()
