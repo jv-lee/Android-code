@@ -12,7 +12,9 @@ import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewbinding.ViewBinding;
 
+import com.lee.library.adapter.binding.ViewBindingHolder;
 import com.lee.library.adapter.core.ProxyAdapter;
 import com.lee.library.adapter.listener.LoadErrorListener;
 import com.lee.library.adapter.listener.LoadResource;
@@ -293,7 +295,7 @@ public abstract class BaseViewAdapter<T> extends RecyclerView.Adapter<BaseViewHo
     public BaseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         //根据布局的类型 创建不同的ViewHolder
         BaseViewItem<?> item = itemStyle.getViewItem(viewType);
-        if(item == null) throw new RuntimeException("itemStyle.getViewItem is null.");
+        if (item == null) throw new RuntimeException("itemStyle.getViewItem is null.");
         View view = (View) item.getItemViewAny(parent.getContext(), parent);
 
         BaseViewHolder viewHolder = new BaseViewHolder(view);
@@ -625,16 +627,7 @@ public abstract class BaseViewAdapter<T> extends RecyclerView.Adapter<BaseViewHo
     }
 
     private void viewRecycled(BaseViewHolder holder) {
-        int position;
-        if (proxyAdapter != null) {
-            position = holder.getLayoutPosition() - proxyAdapter.getHeaderCount();
-        } else {
-            position = holder.getLayoutPosition();
-        }
-        if (position < getItemCount()) {
-            T entity = getData().get(position);
-            itemStyle.viewRecycled(holder, entity, position);
-        }
+        itemStyle.viewRecycled(holder);
     }
 
     /**
@@ -735,7 +728,7 @@ public abstract class BaseViewAdapter<T> extends RecyclerView.Adapter<BaseViewHo
      * 设置item子view点击事件
      *
      * @param onItemChildView item子view点击事件监听接口
-     * @param childClickIds 注册子view id
+     * @param childClickIds   注册子view id
      */
     public void setOnItemChildClickListener(OnItemChildView<T> onItemChildView, Integer... childClickIds) {
         this.childClickIds = Arrays.asList(childClickIds);

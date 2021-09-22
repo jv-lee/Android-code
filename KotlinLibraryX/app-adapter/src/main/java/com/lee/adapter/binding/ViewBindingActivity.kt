@@ -71,7 +71,7 @@ class ViewBindingActivity : BaseActivity() {
         viewModel.dataLiveData.observe(this, {
             mAdapter.submitData(it)
         }, {
-            toast(it)
+            toast(it.message)
             mAdapter.submitFailed()
         })
 

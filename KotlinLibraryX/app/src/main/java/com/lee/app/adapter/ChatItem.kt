@@ -24,7 +24,4 @@ class ChatItem : BaseViewItem<String> {
         textView?.text = "this is item data -> $position"
     }
 
-    override fun viewRecycled(holder: BaseViewHolder, entity: String, position: Int) {
-    }
-
 }

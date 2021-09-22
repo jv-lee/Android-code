@@ -1,6 +1,7 @@
 package com.lee.library.adapter.manager
 
 import androidx.collection.SparseArrayCompat
+import androidx.collection.forEach
 import com.lee.library.adapter.base.BaseViewHolder
 import com.lee.library.adapter.base.BaseViewItem
 
@@ -86,17 +87,14 @@ class ViewItemManager<T> {
         throw java.lang.IllegalArgumentException("位置：$position,该item没有匹配的LeeViewItem类型")
     }
 
-    fun viewRecycled(holder: BaseViewHolder, entity: T, position: Int) {
-        for (i in 0 until styles.size()) {
-            val item = styles.valueAt(i)
-            if (item.isItemView(entity, position)) {
-                if (item.openRecycler()) {
-                    item.viewRecycled(holder, entity, position)
-                }
+    fun viewRecycled(holder: BaseViewHolder) {
+        val itemViewType = holder.itemViewType
+        styles.forEach { key, value ->
+            if (itemViewType == key) {
+                value.viewRecycled(holder)
                 return
             }
         }
-        throw java.lang.IllegalArgumentException("位置：$position,该item没有匹配的LeeViewItem类型")
     }
 
 }

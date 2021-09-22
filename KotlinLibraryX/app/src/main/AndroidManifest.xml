@@ -16,22 +16,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        tools:replace="android:label"
         tools:targetApi="n">
         <activity
             android:name=".FormTableActivity"
             android:windowSoftInputMode="adjustResize">
 
         </activity>
-        <activity
-            android:name=".ChatListActivity">
+        <activity android:name=".ChatListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ChatListActivity2">
+        <activity android:name=".ChatListActivity2">
 
         </activity>
         <activity android:name=".TestActivity">

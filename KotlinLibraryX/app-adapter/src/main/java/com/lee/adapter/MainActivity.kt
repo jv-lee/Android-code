@@ -73,7 +73,7 @@ class MainActivity : BaseVMActivity<ActivityMainBinding, ContentViewModel>(R.lay
         viewModel.dataLiveData.observe(this, {
             mAdapter.submitData(it)
         }, {
-            toast(it)
+            toast(it.message)
             mAdapter.submitFailed()
         })
 

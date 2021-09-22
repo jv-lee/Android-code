@@ -9,7 +9,6 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
  * description：PageFragment适配器 -> 适用于ViewPager2
  */
 class UiPager2Adapter : FragmentStateAdapter {
-
     private val fragmentList: MutableList<Fragment>
 
     constructor(fragmentActivity: FragmentActivity, fragments: MutableList<Fragment>)
@@ -21,9 +20,14 @@ class UiPager2Adapter : FragmentStateAdapter {
         fragmentList = fragments
     }
 
-    override fun createFragment(position: Int) = fragmentList[position]
+    override fun createFragment(position: Int): Fragment {
+        return fragmentList[position]
+    }
 
-    override fun getItemCount() = fragmentList.size
+    override fun getItemCount(): Int {
+        return fragmentList.size
+    }
 
     fun getFragments() = fragmentList
+
 }

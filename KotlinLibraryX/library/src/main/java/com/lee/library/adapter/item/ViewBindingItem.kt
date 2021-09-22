@@ -23,14 +23,14 @@ abstract class ViewBindingItem<T> :
         this.convert(holder as ViewBindingHolder, entity, position)
     }
 
-    override fun viewRecycled(holder: BaseViewHolder, entity: T, position: Int) {
-        this.viewRecycled(holder as ViewBindingHolder, entity, position)
+    override fun viewRecycled(holder: BaseViewHolder) {
+        this.viewRecycled(holder as ViewBindingHolder)
     }
 
     abstract fun getItemViewBinding(context: Context, parent: ViewGroup): ViewBinding
 
     abstract fun convert(holder: ViewBindingHolder, entity: T, position: Int)
 
-    open fun viewRecycled(holder: ViewBindingHolder, entity: T, position: Int) {}
+    open fun viewRecycled(holder: ViewBindingHolder) {}
 
 }

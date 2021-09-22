@@ -32,7 +32,7 @@ class ParamsViewModel(private val userID: String) : ViewModel() {
      * 对外提供有参构造器 通过该工厂构造放入当前activity/fragment viewModelStore中存储
      */
     class CreateFactory(private val userID: String) : ViewModelProvider.Factory {
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
             return modelClass.getConstructor(String::class.java).newInstance(userID)
         }
     }

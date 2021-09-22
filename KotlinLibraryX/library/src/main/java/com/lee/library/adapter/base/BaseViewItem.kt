@@ -56,8 +56,6 @@ interface BaseViewItem<T> {
     /**
      * 当item隐藏后 回调销毁及回收操作
      * @param holder
-     * @param entity
-     * @param position
      */
-    fun viewRecycled(holder: BaseViewHolder, entity: T, position: Int) {}
+    fun viewRecycled(holder: BaseViewHolder) {}
 }

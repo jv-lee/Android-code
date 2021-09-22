@@ -19,8 +19,8 @@ abstract class ViewItem<T> :
         return getItemView(context, parent)
     }
 
-    override fun viewRecycled(holder: BaseViewHolder, entity: T, position: Int) {
-        viewRecycled(holder,entity, position)
+    override fun viewRecycled(holder: BaseViewHolder) {
+        viewRecycled(holder)
     }
 
     abstract fun getItemView(context: Context, parent: ViewGroup): View
