@@ -12,13 +12,13 @@ import com.lee.library.net.HttpManager
  * @description
  */
 open class BaseLiveData<T> : MutableLiveData<T>() {
-    private val failedEvent: SingleLiveData<String> = SingleLiveData()
+    private val failedEvent: SingleLiveData<Throwable> = SingleLiveData()
 
     fun throwMessage(throwable: Throwable) {
-        failedEvent.setValue(HttpManager.getInstance().getServerMessage(throwable))
+        failedEvent.setValue(throwable)
     }
 
-    fun observe(owner: LifecycleOwner, observer: Observer<in T>, failedObserver: Observer<String>) {
+    fun observe(owner: LifecycleOwner, observer: Observer<in T>, failedObserver: Observer<Throwable>) {
         super.observe(owner, observer)
         failedEvent.observe(owner, failedObserver)
     }

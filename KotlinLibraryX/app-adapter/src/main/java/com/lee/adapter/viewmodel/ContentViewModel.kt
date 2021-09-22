@@ -3,9 +3,9 @@ package com.lee.adapter.viewmodel
 import com.lee.adapter.entity.ContentData
 import com.lee.adapter.entity.PageData
 import com.lee.adapter.repository.ContentRepository
-import com.lee.library.mvvm.base.BaseViewModel
+import com.lee.library.mvvm.base.CoroutineViewModel
+import com.lee.library.mvvm.livedata.PageLiveData
 import com.lee.library.mvvm.load.LoadStatus
-import com.lee.library.mvvm.live.PageLiveData
 import kotlinx.coroutines.delay
 
 /**
@@ -13,7 +13,7 @@ import kotlinx.coroutines.delay
  * @date 2020/11/25
  * @description
  */
-class ContentViewModel : BaseViewModel() {
+class ContentViewModel : CoroutineViewModel() {
 
     private val repository by lazy { ContentRepository() }
 

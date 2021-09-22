@@ -10,8 +10,8 @@ import com.lee.library.extensions.bindLive
 import com.lee.library.extensions.dispatchersIO
 import com.lee.library.extensions.notNull
 import com.lee.library.mvvm.base.BaseLiveData
-import com.lee.library.mvvm.base.BaseViewModel
-import com.lee.library.mvvm.live.PageLiveData
+import com.lee.library.mvvm.base.CoroutineViewModel
+import com.lee.library.mvvm.livedata.PageLiveData
 import com.lee.library.mvvm.load.LoadStatus
 import com.lee.library.mvvm.load.PageNumber
 import com.lee.library.utils.LogUtil
@@ -26,7 +26,7 @@ import kotlinx.coroutines.withContext
  * @date 2020/11/26
  * @description
  */
-class FlowViewModel : BaseViewModel() {
+class FlowViewModel : CoroutineViewModel() {
 
     private val repository by lazy { FlowRepository() }
     private val page by lazy { PageNumber(1) }
