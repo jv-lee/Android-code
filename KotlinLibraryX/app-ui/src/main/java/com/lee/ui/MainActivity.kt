@@ -5,6 +5,7 @@ import com.lee.library.adapter.core.UiPagerAdapter
 import com.lee.library.base.BaseActivity
 import com.lee.library.extensions.binding
 import com.lee.ui.databinding.ActivityMainBinding
+import com.lee.ui.fragment.*
 
 
 class MainActivity : BaseActivity() {
@@ -17,7 +18,8 @@ class MainActivity : BaseActivity() {
             SelectorFragment(),
             WheelFragment(),
             ShadowFragment(),
-            ToolbarFragment()
+            ToolbarFragment(),
+            BannerFragment()
         )
     }
     private val titles by lazy {
@@ -25,7 +27,8 @@ class MainActivity : BaseActivity() {
             getString(R.string.nav_selector),
             getString(R.string.nav_wheel),
             getString(R.string.nav_shadow),
-            getString(R.string.nav_toolbar)
+            getString(R.string.nav_toolbar),
+            getString(R.string.nav_banner)
         )
     }
 

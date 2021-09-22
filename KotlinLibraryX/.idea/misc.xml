@@ -16,6 +16,7 @@
         <entry key="app-dialog/src/main/res/layout/activity_dialog_show.xml" value="0.23854166666666668" />
         <entry key="app-dialog/src/main/res/layout/fragment_alert_dialog.xml" value="0.30027173913043476" />
         <entry key="app-ui/src/main/res/layout/activity_main.xml" value="0.21927083333333333" />
+        <entry key="app-ui/src/main/res/layout/fragment_banner.xml" value="0.24592391304347827" />
         <entry key="app-ui/src/main/res/layout/fragment_shadow.xml" value="0.21927083333333333" />
         <entry key="app-ui/src/main/res/layout/fragment_toolbar.xml" value="0.375" />
         <entry key="app-ui/src/main/res/menu/main_menu.xml" value="0.21927083333333333" />

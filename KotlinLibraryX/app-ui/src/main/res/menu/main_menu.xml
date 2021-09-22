@@ -18,4 +18,9 @@
         android:id="@+id/toolbar"
         android:icon="@drawable/vector_icon"
         android:title="@string/nav_toolbar" />
+
+    <item
+        android:id="@+id/banner"
+        android:icon="@drawable/vector_icon"
+        android:title="@string/nav_banner" />
 </menu>

@@ -1,4 +1,4 @@
-package com.lee.ui
+package com.lee.ui.fragment
 
 import android.graphics.Color
 import android.widget.Toast
@@ -7,6 +7,7 @@ import com.lee.library.dialog.LoadingDialog
 import com.lee.library.extensions.binding
 import com.lee.library.utils.TextSpanHelper
 import com.lee.library.widget.SnackBarEx
+import com.lee.ui.R
 import com.lee.ui.databinding.FragmentSelectorBinding
 import kotlinx.android.synthetic.main.fragment_selector.*
 

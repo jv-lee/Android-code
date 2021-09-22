@@ -1,7 +1,8 @@
-package com.lee.ui
+package com.lee.ui.fragment
 
 import com.lee.library.base.BaseFragment
 import com.lee.library.extensions.binding
+import com.lee.ui.R
 import com.lee.ui.databinding.FragmentToolbarBinding
 
 /**

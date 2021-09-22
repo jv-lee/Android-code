@@ -1,21 +1,20 @@
-package com.lee.ui
+package com.lee.ui.fragment
 
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.graphics.BitmapFactory
-import android.os.Bundle
 import android.util.Log
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
-import android.widget.ImageView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.lee.library.base.BaseFragment
 import com.lee.library.extensions.binding
 import com.lee.library.extensions.dp2px
 import com.lee.library.widget.WheelView
+import com.lee.ui.R
 import com.lee.ui.databinding.FragmentWheelBinding
+import com.lee.ui.utils.BlurUtils
 import kotlin.math.abs
 
 /**

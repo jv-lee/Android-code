@@ -1,4 +1,4 @@
-package com.lee.ui
+package com.lee.ui.utils
 
 import android.content.Context
 import android.graphics.Bitmap
