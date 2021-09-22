@@ -2,9 +2,9 @@ package com.lee.library.mvvm.base
 
 import android.app.Application
 import android.content.Context
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.lee.library.base.BaseApplication
+import com.lee.library.mvvm.livedata.SingleLiveData
 
 /**
  * @author jv.lee
@@ -13,7 +13,7 @@ import com.lee.library.base.BaseApplication
  */
 open class BaseViewModel : ViewModel() {
 
-    val failedEvent: MutableLiveData<Throwable> = MutableLiveData()
+    val failedEvent = SingleLiveData<Throwable>()
 
     open fun <T : Application?> getApplication(): Context {
         return BaseApplication.getContext()
