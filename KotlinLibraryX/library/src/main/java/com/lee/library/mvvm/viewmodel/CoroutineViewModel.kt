@@ -1,6 +1,7 @@
-package com.lee.library.mvvm.base
+package com.lee.library.mvvm.viewmodel
 
 import androidx.lifecycle.viewModelScope
+import com.lee.library.mvvm.base.BaseViewModel
 import kotlinx.coroutines.*
 import java.util.concurrent.CancellationException
 
@@ -61,7 +62,7 @@ open class CoroutineViewModel : BaseViewModel() {
             } catch (e: Throwable) {
                 e.printStackTrace()
                 if (e !is CancellationException || handleCancellationExceptionManually) {
-                    failedEvent.value = e
+                    failedEvent.postValue(e)
                     catchBlock(e)
                 } else {
                     throw e

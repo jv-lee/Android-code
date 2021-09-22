@@ -3,7 +3,7 @@ package com.lee.adapter.viewmodel
 import com.lee.adapter.entity.ContentData
 import com.lee.adapter.entity.PageData
 import com.lee.adapter.repository.ContentRepository
-import com.lee.library.mvvm.base.CoroutineViewModel
+import com.lee.library.mvvm.viewmodel.CoroutineViewModel
 import com.lee.library.mvvm.livedata.PageLiveData
 import com.lee.library.mvvm.livedata.pageLaunch
 import com.lee.library.mvvm.load.LoadStatus
