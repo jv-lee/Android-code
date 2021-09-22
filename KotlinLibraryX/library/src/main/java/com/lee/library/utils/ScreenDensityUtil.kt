@@ -12,6 +12,7 @@ import android.util.DisplayMetrics
 import android.view.Display
 import android.view.View
 import android.view.WindowManager
+import java.util.*
 
 /**
  * @author jv.lee
@@ -20,10 +21,13 @@ import android.view.WindowManager
  */
 object ScreenDensityUtil : ComponentCallbacks {
 
+    private const val WIDTH = 360f
     var scale = 0f                                  //屏幕缩放倍数
     private var density: Float = 0f                 //Application的DisplayMetrics
     private var scaledDensity: Float = 0f           //
     private lateinit var metrics: DisplayMetrics    //Application的Density
+
+    private val mComponentCallbacks: HashMap<String, ComponentCallbacks> = hashMapOf()
 
     /**
      * 在Application中初始化Metrics
@@ -47,7 +51,7 @@ object ScreenDensityUtil : ComponentCallbacks {
      */
     fun init(
         activity: Activity,
-        ruler: Float = 420f,
+        ruler: Float = WIDTH,
         @Density flag: Int = Density.SHORT_SIDE_BASED
     ) {
         resetDensity(activity)
@@ -69,7 +73,7 @@ object ScreenDensityUtil : ComponentCallbacks {
      */
     fun init(
         activity: Activity,
-        ruler: Float = 420f,
+        ruler: Float = WIDTH,
         status: Boolean = false,
         navigation: Boolean = false,
         @Density flag: Int = Density.SHORT_SIDE_BASED
@@ -83,7 +87,7 @@ object ScreenDensityUtil : ComponentCallbacks {
             Density.LONG_SIDE_BASED -> if (activity.application.isLandscape) width else height
             else -> 0
         }
-        init(activity.resources.displayMetrics, pixels / ruler)
+        init(activity, pixels / ruler)
     }
 
     /**
@@ -91,7 +95,7 @@ object ScreenDensityUtil : ComponentCallbacks {
      * @param portRuler UI竖屏时的设计宽度，默认为420dp
      * @param landRuler UI横屏时的设计宽度，默认为980dp
      */
-    fun init(activity: Activity, portRuler: Float = 420f, landRuler: Float) {
+    fun init(activity: Activity, portRuler: Float = WIDTH, landRuler: Float) {
         val f = activity.window.decorView.systemUiVisibility
         val nf = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
         val sf = View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
@@ -107,25 +111,25 @@ object ScreenDensityUtil : ComponentCallbacks {
      */
     fun init(
         activity: Activity,
-        portRuler: Float = 420f,
+        portRuler: Float = WIDTH,
         landRuler: Float,
         navigation: Boolean = false
     ) {
         val pixels = width(navigation)
         val ruler = if (app.isLandscape) landRuler else portRuler
-        init(activity.resources.displayMetrics, pixels / ruler)
+        init(activity, pixels / ruler)
     }
 
     /**
      * 初始化Activity的Density
      */
-    private fun init(metrics: DisplayMetrics, density: Float) {
-        metrics.density = density
-        metrics.densityDpi = (160 * density).toInt()
-        metrics.scaledDensity = density * (scaledDensity / this.density)
+    private fun init(activity: Activity, density: Float) {
+        activity.resources.displayMetrics.density = density
+        activity.resources.displayMetrics.densityDpi = (160 * density).toInt()
+        activity.resources.displayMetrics.scaledDensity = density * (scaledDensity / this.density)
         scale = this.density / density
 
-        setBitmapDensity(metrics.densityDpi)
+        setBitmapDensity(activity.resources.displayMetrics.densityDpi)
     }
 
     /**
@@ -169,6 +173,7 @@ object ScreenDensityUtil : ComponentCallbacks {
      * 字体变化时的回调
      */
     override fun onConfigurationChanged(newConfig: Configuration) {
+        LogUtil.i("onConfigurationChanged")
         //字体改变后,将appScaledDensity重新赋值
         if (newConfig.fontScale > 0) scaledDensity = metrics.scaledDensity
     }
