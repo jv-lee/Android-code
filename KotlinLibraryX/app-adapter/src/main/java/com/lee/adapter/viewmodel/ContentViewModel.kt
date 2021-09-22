@@ -5,6 +5,7 @@ import com.lee.adapter.entity.PageData
 import com.lee.adapter.repository.ContentRepository
 import com.lee.library.mvvm.base.CoroutineViewModel
 import com.lee.library.mvvm.livedata.PageLiveData
+import com.lee.library.mvvm.livedata.pageLaunch
 import com.lee.library.mvvm.load.LoadStatus
 import kotlinx.coroutines.delay
 
@@ -18,7 +19,7 @@ class ContentViewModel : CoroutineViewModel() {
     private val repository by lazy { ContentRepository() }
 
 
-    val dataLiveData by lazy { PageLiveData<PageData<ContentData>>(limit = 1) }
+    val dataLiveData by lazy { PageLiveData<PageData<ContentData>>(initPage = 1) }
 
     fun loadData(@LoadStatus status: Int) {
         launchMain {
