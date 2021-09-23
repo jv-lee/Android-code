@@ -20,6 +20,9 @@
         <entry key="app-ui/src/main/res/layout/fragment_shadow.xml" value="0.21927083333333333" />
         <entry key="app-ui/src/main/res/layout/fragment_toolbar.xml" value="0.375" />
         <entry key="app-ui/src/main/res/menu/main_menu.xml" value="0.21927083333333333" />
+        <entry key="library/src/main/res/drawable/shape_indicator_normal.xml" value="0.3425641025641026" />
+        <entry key="library/src/main/res/drawable/shape_indicator_selected.xml" value="0.3425641025641026" />
+        <entry key="library/src/main/res/layout/layout_banner_effect.xml" value="0.16134751773049646" />
         <entry key="library/src/main/res/layout/layout_dialog_choice.xml" value="0.30027173913043476" />
         <entry key="library/src/main/res/layout/layout_item_load.xml" value="0.25815217391304346" />
       </map>
