@@ -6,7 +6,10 @@ import android.animation.TimeInterpolator
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.content.Context
-import android.os.*
+import android.os.Handler
+import android.os.Looper
+import android.os.Parcel
+import android.os.Parcelable
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
@@ -294,22 +297,6 @@ class BannerView : RelativeLayout {
          * @param item
          */
         fun onItemClick(position: Int, item: T) {}
-    }
-
-    /**
-     * banner处于ViewGroup 如RecyclerView的header内 不会调用子view的onSaveInstanceState / onRestoreInstanceState 方法
-     * 需手动保存恢复view状态
-     */
-    fun onSaveInstanceState(outState: Bundle) {
-        outState.putInt(BannerView::class.java.simpleName, mViewPager.currentItem)
-    }
-
-    fun onViewStateRestored(savedInstanceState: Bundle?) {
-        savedInstanceState?.let {
-            val currentItem = it.getInt(BannerView::class.java.simpleName, -1)
-            saveIndex = currentItem
-            mViewPager.setCurrentItem(currentItem, false)
-        }
     }
 
     override fun onSaveInstanceState(): Parcelable {
