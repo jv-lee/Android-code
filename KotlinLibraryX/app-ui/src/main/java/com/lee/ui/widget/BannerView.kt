@@ -8,7 +8,7 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
+import android.widget.RelativeLayout
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.lee.ui.utils.moveToItem
@@ -18,7 +18,7 @@ import com.lee.ui.utils.moveToItem
  * @data 2021/9/23
  * @description
  */
-class BannerView : FrameLayout {
+class BannerView : RelativeLayout {
 
     private val mHandler = Handler(Looper.getMainLooper())
 
