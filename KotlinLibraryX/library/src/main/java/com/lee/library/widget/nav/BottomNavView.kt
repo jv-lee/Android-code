@@ -18,6 +18,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationItemView
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomnavigation.LabelVisibilityMode
+import com.google.android.material.navigation.NavigationBarView
 import com.lee.library.R
 import com.lee.library.extensions.dp2px
 import com.lee.library.utils.ReflexUtil.reflexField
@@ -33,7 +34,7 @@ class BottomNavView @JvmOverloads constructor(
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : BottomNavigationView(context, attrs, defStyleAttr),
-    BottomNavigationView.OnNavigationItemSelectedListener {
+    NavigationBarView.OnItemSelectedListener {
     private var mViewPager: ViewPager? = null
     private var mViewPager2: ViewPager2? = null
     private var mItemPositionListener: ItemPositionListener? = null
@@ -62,8 +63,8 @@ class BottomNavView @JvmOverloads constructor(
             }
         }
         isHorizontalFadingEdgeEnabled = false
-        labelVisibilityMode = LabelVisibilityMode.LABEL_VISIBILITY_LABELED
-        setOnNavigationItemSelectedListener(this)
+        labelVisibilityMode = LABEL_VISIBILITY_LABELED
+        setOnItemSelectedListener(this)
         post {
             createNumberDotViews()
             createDotViews()
