@@ -5,13 +5,19 @@ import android.content.Context
 import android.os.Handler
 import android.os.Looper
 import android.util.AttributeSet
+import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
+import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
+import com.lee.library.R
 import com.lee.ui.utils.moveToItem
+import java.util.*
 
 /**
  * @author jv.lee
@@ -35,6 +41,19 @@ class BannerView : RelativeLayout {
         it.layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
     }
 
+    /**
+     * indicator容器
+     */
+    private var indicatorPadding = 10
+    private val mIndicatorContainer = LinearLayout(context)
+    private val mIndicators = ArrayList<ImageView>()
+
+    /**
+     * mIndicatorRes[0] 为为选中，mIndicatorRes[1]为选中
+     */
+    private val mIndicatorRes =
+        intArrayOf(R.drawable.shape_indicator_normal, R.drawable.shape_indicator_selected)
+
     constructor(context: Context) : super(context, null, 0)
     constructor(context: Context, attributeSet: AttributeSet) : super(context, attributeSet, 0)
     constructor(context: Context, attributeSet: AttributeSet, defStyle: Int) : super(
@@ -45,6 +64,7 @@ class BannerView : RelativeLayout {
 
     init {
         initViewPager()
+        initIndicator()
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -53,8 +73,20 @@ class BannerView : RelativeLayout {
 
         mViewPager.setOnTouchListener { v, event ->
             isAutoPlay = event.action == MotionEvent.ACTION_UP
-            false
+            true
         }
+    }
+
+    private fun initIndicator() {
+        mIndicatorContainer.layoutParams =
+            LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT).also {
+                it.addRule(CENTER_HORIZONTAL)
+                it.addRule(ALIGN_PARENT_BOTTOM)
+                it.setMargins(0, 0, 0, indicatorPadding)
+            }
+        mIndicatorContainer.orientation = LinearLayout.HORIZONTAL
+
+        addView(mIndicatorContainer)
     }
 
     fun <T> bindDataCreate(data: List<T>, createHolder: CreateHolder<T>) {
@@ -63,10 +95,38 @@ class BannerView : RelativeLayout {
             mViewPager.adapter = it
             mViewPager.setCurrentItem(it.getStartSelectItem(), false)
             mViewPager.registerOnPageChangeCallback(mPagerChange)
+            buildIndicatorView()
         }
 
         isStart = false
         start()
+    }
+
+    private fun buildIndicatorView() {
+        mIndicatorContainer.removeAllViews()
+        mIndicators.clear()
+        for (index in mAdapter.data.indices) {
+            val imageView = ImageView(context)
+            imageView.layoutParams =
+                LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
+
+            imageView.setPadding(
+                indicatorPadding,
+                indicatorPadding,
+                indicatorPadding,
+                indicatorPadding
+            )
+
+            if (index == mViewPager.currentItem % mAdapter.data.size) {
+                imageView.setImageResource(mIndicatorRes[1])
+            } else {
+                imageView.setImageResource(mIndicatorRes[0])
+            }
+
+            mIndicatorContainer.addView(imageView)
+            mIndicators.add(imageView)
+        }
+        mIndicatorContainer.requestLayout()
     }
 
     fun start() {
@@ -90,6 +150,15 @@ class BannerView : RelativeLayout {
     private val mPagerChange = object : ViewPager2.OnPageChangeCallback() {
         override fun onPageSelected(position: Int) {
             val index = position % mAdapter.data.size
+
+            // 切换indicator
+            for (i in mIndicators.indices) {
+                if (i == index) {
+                    mIndicators[i].setImageResource(mIndicatorRes[1])
+                } else {
+                    mIndicators[i].setImageResource(mIndicatorRes[0])
+                }
+            }
         }
     }
 
