@@ -6,8 +6,7 @@ import android.animation.TimeInterpolator
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.content.Context
-import android.os.Handler
-import android.os.Looper
+import android.os.*
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
@@ -29,6 +28,8 @@ import java.util.*
 class BannerView : RelativeLayout {
 
     private val mHandler = Handler(Looper.getMainLooper())
+
+    private var saveIndex = -1
 
     private var isStart = true
     private var isAutoPlay = false
@@ -91,19 +92,6 @@ class BannerView : RelativeLayout {
         addView(mIndicatorContainer)
     }
 
-    fun <T> bindDataCreate(data: List<T>, createHolder: CreateHolder<T>) {
-        BannerAdapter(data, createHolder).also {
-            mAdapter = it
-            mViewPager.adapter = it
-            mViewPager.setCurrentItem(it.getStartSelectItem(), false)
-            mViewPager.registerOnPageChangeCallback(mPagerChange)
-            buildIndicatorView()
-        }
-
-        isStart = false
-        start()
-    }
-
     private fun buildIndicatorView() {
         mIndicatorContainer.removeAllViews()
         mIndicators.clear()
@@ -119,7 +107,7 @@ class BannerView : RelativeLayout {
                 indicatorPadding
             )
 
-            if (index == mViewPager.currentItem % mAdapter.data.size) {
+            if (index == getRealIndex(mViewPager.currentItem)) {
                 imageView.setImageResource(mIndicatorRes[1])
             } else {
                 imageView.setImageResource(mIndicatorRes[0])
@@ -129,6 +117,47 @@ class BannerView : RelativeLayout {
             mIndicators.add(imageView)
         }
         mIndicatorContainer.requestLayout()
+    }
+
+    private fun ViewPager2.moveToItem(
+        itemIndex: Int,
+        duration: Long = 500,
+        interpolator: TimeInterpolator = AccelerateDecelerateInterpolator(),
+    ) {
+        val pxToDrag: Int = width * (itemIndex - currentItem)
+        val animator = ValueAnimator.ofInt(0, pxToDrag)
+        var previousValue = 0
+        animator.addUpdateListener { valueAnimator ->
+            val currentValue = valueAnimator.animatedValue as Int
+            val currentPxToDrag = (currentValue - previousValue).toFloat()
+            fakeDragBy(-currentPxToDrag)
+            previousValue = currentValue
+        }
+        animator.addListener(object : AnimatorListenerAdapter() {
+            override fun onAnimationStart(animation: Animator?) {
+                beginFakeDrag()
+            }
+
+            override fun onAnimationEnd(animation: Animator?) {
+                endFakeDrag()
+            }
+        })
+        animator.interpolator = interpolator
+        animator.duration = duration
+        animator.start()
+    }
+
+    fun <T> bindDataCreate(data: List<T>, createHolder: CreateHolder<T>) {
+        BannerAdapter(data, createHolder).also {
+            mAdapter = it
+            mViewPager.adapter = it
+            mViewPager.setCurrentItem(getStartIndex(), false)
+            mViewPager.registerOnPageChangeCallback(mPagerChange)
+            buildIndicatorView()
+        }
+
+        isStart = false
+        start()
     }
 
     fun start() {
@@ -149,9 +178,24 @@ class BannerView : RelativeLayout {
         mViewPager.unregisterOnPageChangeCallback(mPagerChange)
     }
 
+    private fun getRealIndex(position: Int): Int {
+        return position % mAdapter.data.size
+    }
+
+    private fun getStartIndex(): Int {
+        val index: Int
+        if (saveIndex == -1) {
+            index = mAdapter.getStartSelectItem()
+        } else {
+            index = saveIndex
+            saveIndex = -1
+        }
+        return index
+    }
+
     private val mPagerChange = object : ViewPager2.OnPageChangeCallback() {
         override fun onPageSelected(position: Int) {
-            val index = position % mAdapter.data.size
+            val index = getRealIndex(position)
 
             // 切换indicator
             for (i in mIndicators.indices) {
@@ -193,7 +237,7 @@ class BannerView : RelativeLayout {
 
         override fun onBindViewHolder(holder: BannerViewHolder, position: Int) {
             //获取真实的下标
-            val realPosition = position % data.size
+            val realPosition = getRealIndex(position)
             val itemData = data[realPosition]
             create.onBind(holder, realPosition, itemData)
 
@@ -210,11 +254,12 @@ class BannerView : RelativeLayout {
             // 我们设置当前选中的位置为Integer.MAX_VALUE / 2,这样开始就能往左滑动
             // 但是要保证这个值与getRealPosition 的 余数为0，因为要从第一页开始显示
             var currentItem: Int = data.size * mLooperCountFactor / 2
-            if (currentItem % data.size == 0) {
+            val realIndex = getRealIndex(currentItem)
+            if (realIndex == 0) {
                 return currentItem
             }
             // 直到找到从0开始的位置
-            while (currentItem % data.size != 0) {
+            while (realIndex != 0) {
                 currentItem++
             }
             return currentItem
@@ -251,32 +296,60 @@ class BannerView : RelativeLayout {
         fun onItemClick(position: Int, item: T) {}
     }
 
-}
-
-fun ViewPager2.moveToItem(
-    itemIndex: Int,
-    duration: Long = 500,
-    interpolator: TimeInterpolator = AccelerateDecelerateInterpolator(),
-) {
-    val pxToDrag: Int = width * (itemIndex - currentItem)
-    val animator = ValueAnimator.ofInt(0, pxToDrag)
-    var previousValue = 0
-    animator.addUpdateListener { valueAnimator ->
-        val currentValue = valueAnimator.animatedValue as Int
-        val currentPxToDrag = (currentValue - previousValue).toFloat()
-        fakeDragBy(-currentPxToDrag)
-        previousValue = currentValue
+    /**
+     * banner处于ViewGroup 如RecyclerView的header内 不会调用子view的onSaveInstanceState / onRestoreInstanceState 方法
+     * 需手动保存恢复view状态
+     */
+    fun onSaveInstanceState(outState: Bundle) {
+        outState.putInt(BannerView::class.java.simpleName, mViewPager.currentItem)
     }
-    animator.addListener(object : AnimatorListenerAdapter() {
-        override fun onAnimationStart(animation: Animator?) {
-            beginFakeDrag()
+
+    fun onViewStateRestored(savedInstanceState: Bundle?) {
+        savedInstanceState?.let {
+            val currentItem = it.getInt(BannerView::class.java.simpleName, -1)
+            saveIndex = currentItem
+            mViewPager.setCurrentItem(currentItem, false)
+        }
+    }
+
+    override fun onSaveInstanceState(): Parcelable {
+        val parcelable = super.onSaveInstanceState()
+        val currentItemSaveState = CurrentItemSaveState(parcelable)
+        currentItemSaveState.currentItem = mViewPager.currentItem
+        return currentItemSaveState
+    }
+
+    override fun onRestoreInstanceState(state: Parcelable?) {
+        state?.run {
+            val currentItemSaveState = state as CurrentItemSaveState
+            super.onRestoreInstanceState(currentItemSaveState.superState)
+            saveIndex = currentItemSaveState.currentItem
+            mViewPager.setCurrentItem(currentItemSaveState.currentItem, false)
+        }
+    }
+
+    class CurrentItemSaveState : BaseSavedState {
+        var currentItem: Int = 0
+
+        constructor(source: Parcel?) : super(source)
+        constructor(source: Parcelable?) : super(source)
+
+        override fun writeToParcel(out: Parcel?, flags: Int) {
+            super.writeToParcel(out, flags)
+            out?.writeInt(currentItem)
         }
 
-        override fun onAnimationEnd(animation: Animator?) {
-            endFakeDrag()
+        @JvmField
+        val create = object : Parcelable.Creator<CurrentItemSaveState> {
+            override fun createFromParcel(source: Parcel?): CurrentItemSaveState {
+                return CurrentItemSaveState(source)
+            }
+
+            override fun newArray(size: Int): Array<CurrentItemSaveState> {
+                return newArray(size)
+            }
+
         }
-    })
-    animator.interpolator = interpolator
-    animator.duration = duration
-    animator.start()
+    }
+
 }
