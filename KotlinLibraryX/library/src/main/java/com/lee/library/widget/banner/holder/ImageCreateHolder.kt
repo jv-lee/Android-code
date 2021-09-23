@@ -1,11 +1,11 @@
-package com.lee.ui.widget.create
+package com.lee.library.widget.banner.holder
 
 import android.content.Context
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.view.ViewCompat
-import com.lee.ui.widget.BannerView
+import com.lee.library.widget.banner.BannerView
 
 /**
  * @author jv.lee

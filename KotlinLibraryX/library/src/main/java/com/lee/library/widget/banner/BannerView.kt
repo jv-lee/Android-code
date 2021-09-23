@@ -1,4 +1,4 @@
-package com.lee.ui.widget
+package com.lee.library.widget.banner
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter

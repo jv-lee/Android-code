@@ -6,7 +6,7 @@ import com.lee.library.extensions.binding
 import com.lee.library.extensions.toast
 import com.lee.ui.R
 import com.lee.ui.databinding.FragmentBannerBinding
-import com.lee.ui.widget.create.ImageCreateHolder
+import com.lee.library.widget.banner.holder.ImageCreateHolder
 
 /**
  * @author jv.lee
