@@ -1,22 +1,24 @@
 package com.lee.ui.widget
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
+import android.animation.TimeInterpolator
+import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Handler
 import android.os.Looper
 import android.util.AttributeSet
-import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.lee.library.R
-import com.lee.ui.utils.moveToItem
 import java.util.*
 
 /**
@@ -249,4 +251,32 @@ class BannerView : RelativeLayout {
         fun onItemClick(position: Int, item: T) {}
     }
 
+}
+
+fun ViewPager2.moveToItem(
+    itemIndex: Int,
+    duration: Long = 500,
+    interpolator: TimeInterpolator = AccelerateDecelerateInterpolator(),
+) {
+    val pxToDrag: Int = width * (itemIndex - currentItem)
+    val animator = ValueAnimator.ofInt(0, pxToDrag)
+    var previousValue = 0
+    animator.addUpdateListener { valueAnimator ->
+        val currentValue = valueAnimator.animatedValue as Int
+        val currentPxToDrag = (currentValue - previousValue).toFloat()
+        fakeDragBy(-currentPxToDrag)
+        previousValue = currentValue
+    }
+    animator.addListener(object : AnimatorListenerAdapter() {
+        override fun onAnimationStart(animation: Animator?) {
+            beginFakeDrag()
+        }
+
+        override fun onAnimationEnd(animation: Animator?) {
+            endFakeDrag()
+        }
+    })
+    animator.interpolator = interpolator
+    animator.duration = duration
+    animator.start()
 }
