@@ -301,7 +301,6 @@ class BannerView : RelativeLayout {
      * 手动在fragment中调用该方法恢复状态
      */
     fun onSaveInstanceState(outState: Bundle) {
-        LogUtil.i("save instance")
         outState.putInt(BannerView::class.java.simpleName, mViewPager.currentItem)
     }
 
@@ -309,7 +308,6 @@ class BannerView : RelativeLayout {
      * * 手动在fragment中调用该方法恢复状态
      */
     fun onViewStateRestored(savedInstanceState: Bundle?) {
-        LogUtil.i("restored instance")
         savedInstanceState?.run {
             val currentIndex = getInt(BannerView::class.java.simpleName, -1)
             saveIndex = currentIndex
