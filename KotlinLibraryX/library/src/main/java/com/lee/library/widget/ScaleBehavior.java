@@ -17,8 +17,8 @@ import androidx.interpolator.view.animation.LinearOutSlowInInterpolator;
  */
 public class ScaleBehavior<V extends View>  extends CoordinatorLayout.Behavior<V> {
 
-    private FastOutLinearInInterpolator linearInInterpolator = new FastOutLinearInInterpolator();
-    private LinearOutSlowInInterpolator linearOutSlowInInterpolator = new LinearOutSlowInInterpolator();
+    private final FastOutLinearInInterpolator linearInInterpolator = new FastOutLinearInInterpolator();
+    private final LinearOutSlowInInterpolator linearOutSlowInInterpolator = new LinearOutSlowInInterpolator();
     private boolean isRunning;
 
     public ScaleBehavior(Context context, AttributeSet attributeSet) {
