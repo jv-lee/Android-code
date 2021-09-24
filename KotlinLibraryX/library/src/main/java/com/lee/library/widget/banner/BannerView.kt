@@ -6,8 +6,7 @@ import android.animation.TimeInterpolator
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.content.Context
-import android.os.Handler
-import android.os.Looper
+import android.os.Bundle
 import android.os.Parcel
 import android.os.Parcelable
 import android.util.AttributeSet
@@ -21,6 +20,7 @@ import android.widget.RelativeLayout
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.lee.library.R
+import com.lee.library.utils.LogUtil
 import java.util.*
 
 /**
@@ -30,11 +30,9 @@ import java.util.*
  */
 class BannerView : RelativeLayout {
 
-    private val mHandler = Handler(Looper.getMainLooper())
-
     private var saveIndex = -1
 
-    private var isStart = true
+    private var isStart = false
     private var isAutoPlay = false
 
     private var delayTime = 3000L
@@ -77,6 +75,8 @@ class BannerView : RelativeLayout {
     private fun initViewPager() {
         addView(mViewPager)
 
+        mViewPager.isSaveEnabled = true
+        mViewPager.isSaveFromParentEnabled = true
         mViewPager.setOnTouchListener { v, event ->
             isAutoPlay = event.action == MotionEvent.ACTION_UP
             true
@@ -159,26 +159,9 @@ class BannerView : RelativeLayout {
             buildIndicatorView()
         }
 
-        isStart = false
-        start()
-    }
-
-    fun start() {
-        if (isStart) return
         isStart = true
         isAutoPlay = true
-        mHandler.removeCallbacks(mLoopRunnable)
-        mHandler.postDelayed(mLoopRunnable, delayTime)
-    }
-
-    fun pause() {
-        isStart = false
-        isAutoPlay = false
-        mHandler.removeCallbacks(mLoopRunnable)
-    }
-
-    fun destroy() {
-        mViewPager.unregisterOnPageChangeCallback(mPagerChange)
+        postDelayed(mLoopRunnable, delayTime)
     }
 
     private fun getRealIndex(position: Int): Int {
@@ -224,7 +207,7 @@ class BannerView : RelativeLayout {
                     mViewPager.moveToItem(++itemIndex, moveDuration)
                 }
             }
-            mHandler.postDelayed(this, delayTime)
+            postDelayed(this, delayTime)
         }
     }
 
@@ -299,23 +282,57 @@ class BannerView : RelativeLayout {
         fun onItemClick(position: Int, item: T) {}
     }
 
-    override fun onSaveInstanceState(): Parcelable {
-        val parcelable = super.onSaveInstanceState()
-        val currentItemSaveState = CurrentItemSaveState(parcelable)
-        currentItemSaveState.currentItem = mViewPager.currentItem
-        return currentItemSaveState
-    }
-
-    override fun onRestoreInstanceState(state: Parcelable?) {
-        state?.run {
-            val currentItemSaveState = state as CurrentItemSaveState
-            super.onRestoreInstanceState(currentItemSaveState.superState)
-            saveIndex = currentItemSaveState.currentItem
-            mViewPager.setCurrentItem(currentItemSaveState.currentItem, false)
+    override fun onWindowVisibilityChanged(visibility: Int) {
+        super.onWindowVisibilityChanged(visibility)
+        if (!isAutoPlay) return
+        if (visibility == VISIBLE) {
+            if (isStart) {
+                removeCallbacks(mLoopRunnable)
+                postDelayed(mLoopRunnable, delayTime)
+            }
+        } else {
+            removeCallbacks(mLoopRunnable)
         }
     }
 
-    class CurrentItemSaveState : BaseSavedState {
+    /**
+     * BannerView处于RecyclerView头部无法回调view状态监听
+     * RecyclerView内部dispatch状态通知只更新自身 不更新子view
+     * 手动在fragment中调用该方法恢复状态
+     */
+    fun onSaveInstanceState(outState: Bundle) {
+        LogUtil.i("save instance")
+        outState.putInt(BannerView::class.java.simpleName, mViewPager.currentItem)
+    }
+
+    /**
+     * * 手动在fragment中调用该方法恢复状态
+     */
+    fun onViewStateRestored(savedInstanceState: Bundle?) {
+        LogUtil.i("restored instance")
+        savedInstanceState?.run {
+            val currentIndex = getInt(BannerView::class.java.simpleName, -1)
+            saveIndex = currentIndex
+            mViewPager.setCurrentItem(currentIndex, false)
+        }
+    }
+
+    override fun onSaveInstanceState(): Parcelable {
+        val parcelable = super.onSaveInstanceState()
+        val saveState = SaveState(parcelable)
+        saveState.currentItem = mViewPager.currentItem
+        return saveState
+    }
+
+    override fun onRestoreInstanceState(state: Parcelable) {
+        val saveState = state as SaveState
+        super.onRestoreInstanceState(saveState.superState)
+        saveIndex = saveState.currentItem
+        mViewPager.setCurrentItem(saveState.currentItem, false)
+
+    }
+
+    class SaveState : BaseSavedState {
         var currentItem: Int = 0
 
         constructor(source: Parcel?) : super(source)
@@ -327,12 +344,12 @@ class BannerView : RelativeLayout {
         }
 
         @JvmField
-        val create = object : Parcelable.Creator<CurrentItemSaveState> {
-            override fun createFromParcel(source: Parcel?): CurrentItemSaveState {
-                return CurrentItemSaveState(source)
+        val create = object : Parcelable.Creator<SaveState> {
+            override fun createFromParcel(source: Parcel?): SaveState {
+                return SaveState(source)
             }
 
-            override fun newArray(size: Int): Array<CurrentItemSaveState> {
+            override fun newArray(size: Int): Array<SaveState> {
                 return newArray(size)
             }
 
