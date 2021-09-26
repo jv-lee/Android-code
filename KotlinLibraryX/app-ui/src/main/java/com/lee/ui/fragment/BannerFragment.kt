@@ -4,9 +4,9 @@ import android.widget.ImageView
 import com.lee.library.base.BaseFragment
 import com.lee.library.extensions.binding
 import com.lee.library.extensions.toast
+import com.lee.library.widget.banner.holder.ImageCreateHolder
 import com.lee.ui.R
 import com.lee.ui.databinding.FragmentBannerBinding
-import com.lee.library.widget.banner.holder.ImageCreateHolder
 
 /**
  * @author jv.lee
@@ -33,16 +33,6 @@ class BannerFragment : BaseFragment(R.layout.fragment_banner) {
 
     override fun bindData() {
 
-    }
-
-    override fun onResume() {
-        super.onResume()
-        binding.banner.start()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        binding.banner.pause()
     }
 
 }

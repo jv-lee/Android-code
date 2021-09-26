@@ -1,13 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <attr name="indicatorGravity">
+        <flag name="top" value="0x30" />
+        <flag name="bottom" value="0x50" />
+        <flag name="left" value="0x03" />
+        <flag name="right" value="0x05" />
+        <flag name="center_vertical" value="0x10" />
+        <flag name="fill_vertical" value="0x70" />
+        <flag name="center_horizontal" value="0x01" />
+        <flag name="fill_horizontal" value="0x07" />
+        <flag name="center" value="0x11" />
+        <flag name="fill" value="0x77" />
+        <flag name="clip_vertical" value="0x80" />
+        <flag name="clip_horizontal" value="0x08" />
+        <flag name="start" value="0x00800003" />
+        <flag name="end" value="0x00800005" />
+    </attr>
+
+    <declare-styleable name="BannerView">
+        <attr name="autoPlay" format="boolean" />
+        <attr name="delayTime" format="integer" />
+        <attr name="moveDuration" format="integer" />
+        <attr name="indicatorPadding" format="dimension" />
+        <attr name="indicatorChildPadding" format="dimension" />
+        <attr name="indicatorGravity" />
+        <attr name="indicatorNormalDrawable" format="reference"/>
+        <attr name="indicatorSelectedDrawable" format="reference"/>
+    </declare-styleable>
+
     <!--魅族Banner-->
     <declare-styleable name="MZBannerView">
         <attr name="open_mz_mode" format="boolean" />
         <attr name="canLoop" format="boolean" />
         <attr name="indicatorPaddingLeft" format="dimension" />
         <attr name="indicatorPaddingRight" format="dimension" />
-        <attr name="indicatorAlign">
+        <attr name="indicatorAlign" format="color">
             <enum name="left" value="0" />
             <enum name="center" value="1" />
             <enum name="right" value="2" />

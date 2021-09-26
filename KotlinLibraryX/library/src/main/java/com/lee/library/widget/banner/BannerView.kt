@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.os.Parcel
 import android.os.Parcelable
 import android.util.AttributeSet
+import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +18,8 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
+import androidx.annotation.DrawableRes
+import androidx.core.view.setPadding
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.lee.library.R
@@ -30,13 +33,12 @@ import java.util.*
 class BannerView : RelativeLayout {
 
     private var saveIndex = -1
-
     private var isStart = false
-    private var isAutoPlay = false
-
-    private var delayTime = 3000L
-    private var moveDuration = 500L
     private val mLooperCountFactor = 500
+
+    var isAutoPlay: Boolean = false
+    var delayTime: Long = 0
+    var moveDuration: Long = 5
 
     private lateinit var mAdapter: BannerAdapter<*>
 
@@ -47,7 +49,9 @@ class BannerView : RelativeLayout {
     /**
      * indicator容器
      */
-    private var indicatorPadding = 10
+    var indicatorGravity: Int = 0
+    var indicatorPadding: Float = 0F
+    var indicatorChildPadding: Float = 0F
     private val mIndicatorContainer = LinearLayout(context)
     private val mIndicators = ArrayList<ImageView>()
 
@@ -57,17 +61,39 @@ class BannerView : RelativeLayout {
     private val mIndicatorRes =
         intArrayOf(R.drawable.shape_indicator_normal, R.drawable.shape_indicator_selected)
 
-    constructor(context: Context) : super(context, null, 0)
-    constructor(context: Context, attributeSet: AttributeSet) : super(context, attributeSet, 0)
-    constructor(context: Context, attributeSet: AttributeSet, defStyle: Int) : super(
+    constructor(context: Context) : this(context, null, 0)
+    constructor(context: Context, attributeSet: AttributeSet?) : this(context, attributeSet, 0)
+    constructor(context: Context, attributeSet: AttributeSet?, defStyle: Int) : super(
         context,
         attributeSet,
         defStyle
-    )
-
-    init {
+    ) {
+        initAttributes(attributeSet)
         initViewPager()
         initIndicator()
+    }
+
+    private fun initAttributes(attributeSet: AttributeSet?) {
+        context.obtainStyledAttributes(attributeSet, R.styleable.BannerView).run {
+            isAutoPlay = getBoolean(R.styleable.BannerView_autoPlay, true)
+            delayTime = getInteger(R.styleable.BannerView_delayTime, 3000).toLong()
+            moveDuration = getInteger(R.styleable.BannerView_moveDuration, 500).toLong()
+            indicatorPadding = getDimension(R.styleable.BannerView_indicatorPadding, 10F)
+            indicatorChildPadding = getDimension(R.styleable.BannerView_indicatorChildPadding, 10F)
+            indicatorGravity = getInt(
+                R.styleable.BannerView_indicatorGravity,
+                Gravity.CENTER_HORIZONTAL or Gravity.BOTTOM
+            )
+            mIndicatorRes[0] = getResourceId(
+                R.styleable.BannerView_indicatorNormalDrawable,
+                R.drawable.shape_indicator_normal
+            )
+            mIndicatorRes[1] = getResourceId(
+                R.styleable.BannerView_indicatorSelectedDrawable,
+                R.drawable.shape_indicator_selected
+            )
+            recycle()
+        }
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -85,13 +111,40 @@ class BannerView : RelativeLayout {
     private fun initIndicator() {
         mIndicatorContainer.layoutParams =
             LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT).also {
-                it.addRule(CENTER_HORIZONTAL)
-                it.addRule(ALIGN_PARENT_BOTTOM)
-                it.setMargins(0, 0, 0, indicatorPadding)
+                setLayoutGravity(it)
             }
+        mIndicatorContainer.setPadding(indicatorPadding.toInt())
         mIndicatorContainer.orientation = LinearLayout.HORIZONTAL
 
         addView(mIndicatorContainer)
+    }
+
+    private fun hasGravity(gravity: Int): Boolean {
+        return indicatorGravity and gravity == gravity
+    }
+
+    private fun setLayoutGravity(layoutParams: LayoutParams) {
+        if (hasGravity(Gravity.LEFT) || hasGravity(Gravity.START)) {
+            layoutParams.addRule(ALIGN_PARENT_LEFT)
+        }
+        if (hasGravity(Gravity.TOP)) {
+            layoutParams.addRule(ALIGN_PARENT_TOP)
+        }
+        if (hasGravity(Gravity.RIGHT) || hasGravity(Gravity.END)) {
+            layoutParams.addRule(ALIGN_PARENT_RIGHT)
+        }
+        if (hasGravity(Gravity.BOTTOM)) {
+            layoutParams.addRule(ALIGN_PARENT_BOTTOM)
+        }
+        if (hasGravity(Gravity.CENTER_HORIZONTAL)) {
+            layoutParams.addRule(CENTER_HORIZONTAL)
+        }
+        if (hasGravity(Gravity.CENTER_VERTICAL)) {
+            layoutParams.addRule(CENTER_VERTICAL)
+        }
+        if (hasGravity(Gravity.CENTER)) {
+            layoutParams.addRule(CENTER_IN_PARENT)
+        }
     }
 
     private fun buildIndicatorView() {
@@ -101,13 +154,7 @@ class BannerView : RelativeLayout {
             val imageView = ImageView(context)
             imageView.layoutParams =
                 LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
-
-            imageView.setPadding(
-                indicatorPadding,
-                indicatorPadding,
-                indicatorPadding,
-                indicatorPadding
-            )
+            imageView.setPadding(indicatorChildPadding.toInt())
 
             if (index == getRealIndex(mViewPager.currentItem)) {
                 imageView.setImageResource(mIndicatorRes[1])
@@ -149,6 +196,11 @@ class BannerView : RelativeLayout {
         animator.start()
     }
 
+    /**
+     * 绑定数据及View构建器
+     * @param data banner数据源
+     * @param createHolder bannerView构建样式
+     */
     fun <T> bindDataCreate(data: List<T>, createHolder: CreateHolder<T>) {
         mAdapter = BannerAdapter(data, createHolder)
 
@@ -159,9 +211,20 @@ class BannerView : RelativeLayout {
             buildIndicatorView()
 
             isStart = true
-            isAutoPlay = true
-            postDelayed(mLoopRunnable, delayTime)
+            if (isAutoPlay) {
+                postDelayed(mLoopRunnable, delayTime)
+            }
         }
+    }
+
+    /**
+     * 设置指示器资源样式
+     * @param normalRes 未选中指示器样式
+     * @param selectedRes 选中指示器样式
+     */
+    fun setIndicatorDrawable(@DrawableRes normalRes: Int, @DrawableRes selectedRes: Int) {
+        mIndicatorRes[0] = normalRes
+        mIndicatorRes[1] = selectedRes
     }
 
     private fun getRealIndex(position: Int): Int {
@@ -177,6 +240,19 @@ class BannerView : RelativeLayout {
             saveIndex = -1
         }
         return index
+    }
+
+    override fun onWindowVisibilityChanged(visibility: Int) {
+        super.onWindowVisibilityChanged(visibility)
+        if (!isAutoPlay) return
+        if (visibility == VISIBLE) {
+            if (isStart) {
+                removeCallbacks(mLoopRunnable)
+                postDelayed(mLoopRunnable, delayTime)
+            }
+        } else {
+            removeCallbacks(mLoopRunnable)
+        }
     }
 
     private val mPagerChange = object : ViewPager2.OnPageChangeCallback() {
@@ -255,7 +331,6 @@ class BannerView : RelativeLayout {
         inner class BannerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
     }
 
-
     interface CreateHolder<T> {
         /**
          * 创建View
@@ -280,19 +355,6 @@ class BannerView : RelativeLayout {
          * @param item
          */
         fun onItemClick(position: Int, item: T) {}
-    }
-
-    override fun onWindowVisibilityChanged(visibility: Int) {
-        super.onWindowVisibilityChanged(visibility)
-        if (!isAutoPlay) return
-        if (visibility == VISIBLE) {
-            if (isStart) {
-                removeCallbacks(mLoopRunnable)
-                postDelayed(mLoopRunnable, delayTime)
-            }
-        } else {
-            removeCallbacks(mLoopRunnable)
-        }
     }
 
     /**
