@@ -40,26 +40,24 @@ class BannerView : RelativeLayout {
     var delayTime: Long = 0
     var moveDuration: Long = 5
 
+    private var mViewPager = ViewPager2(context)
+
     private lateinit var mAdapter: BannerAdapter<*>
 
-    private var mViewPager: ViewPager2 = ViewPager2(context).also {
-        it.layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
-    }
-
-    /**
-     * indicator容器
-     */
+    //indicator配置参数
     var indicatorGravity: Int = 0
     var indicatorPadding: Float = 0F
     var indicatorChildPadding: Float = 0F
-    private val mIndicatorContainer = LinearLayout(context)
+
+    //indicatorView数据集合
     private val mIndicators = ArrayList<ImageView>()
 
-    /**
-     * mIndicatorRes[0] 为为选中，mIndicatorRes[1]为选中
-     */
+    //mIndicatorRes[0] 为为选中，mIndicatorRes[1]为选中
     private val mIndicatorRes =
         intArrayOf(R.drawable.shape_indicator_normal, R.drawable.shape_indicator_selected)
+
+    //indicator容器
+    private val mIndicatorContainer = LinearLayout(context)
 
     constructor(context: Context) : this(context, null, 0)
     constructor(context: Context, attributeSet: AttributeSet?) : this(context, attributeSet, 0)
@@ -98,14 +96,15 @@ class BannerView : RelativeLayout {
 
     @SuppressLint("ClickableViewAccessibility")
     private fun initViewPager() {
-        addView(mViewPager)
-
+        mViewPager.layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
         mViewPager.isSaveEnabled = true
         mViewPager.isSaveFromParentEnabled = true
         mViewPager.setOnTouchListener { v, event ->
             isAutoPlay = event.action == MotionEvent.ACTION_UP
             true
         }
+
+        addView(mViewPager)
     }
 
     private fun initIndicator() {
@@ -194,37 +193,6 @@ class BannerView : RelativeLayout {
         animator.interpolator = interpolator
         animator.duration = duration
         animator.start()
-    }
-
-    /**
-     * 绑定数据及View构建器
-     * @param data banner数据源
-     * @param createHolder bannerView构建样式
-     */
-    fun <T> bindDataCreate(data: List<T>, createHolder: CreateHolder<T>) {
-        mAdapter = BannerAdapter(data, createHolder)
-
-        post {
-            mViewPager.adapter = mAdapter
-            mViewPager.setCurrentItem(getStartIndex(), false)
-            mViewPager.registerOnPageChangeCallback(mPagerChange)
-            buildIndicatorView()
-
-            isStart = true
-            if (isAutoPlay) {
-                postDelayed(mLoopRunnable, delayTime)
-            }
-        }
-    }
-
-    /**
-     * 设置指示器资源样式
-     * @param normalRes 未选中指示器样式
-     * @param selectedRes 选中指示器样式
-     */
-    fun setIndicatorDrawable(@DrawableRes normalRes: Int, @DrawableRes selectedRes: Int) {
-        mIndicatorRes[0] = normalRes
-        mIndicatorRes[1] = selectedRes
     }
 
     private fun getRealIndex(position: Int): Int {
@@ -357,26 +325,6 @@ class BannerView : RelativeLayout {
         fun onItemClick(position: Int, item: T) {}
     }
 
-    /**
-     * BannerView处于RecyclerView头部无法回调view状态监听
-     * RecyclerView内部dispatch状态通知只更新自身 不更新子view
-     * 手动在fragment中调用该方法恢复状态
-     */
-    fun onSaveInstanceState(outState: Bundle) {
-        outState.putInt(BannerView::class.java.simpleName, mViewPager.currentItem)
-    }
-
-    /**
-     * * 手动在fragment中调用该方法恢复状态
-     */
-    fun onViewStateRestored(savedInstanceState: Bundle?) {
-        savedInstanceState?.run {
-            val currentIndex = getInt(BannerView::class.java.simpleName, -1)
-            saveIndex = currentIndex
-            mViewPager.setCurrentItem(currentIndex, false)
-        }
-    }
-
     override fun onSaveInstanceState(): Parcelable {
         val parcelable = super.onSaveInstanceState()
         val saveState = SaveState(parcelable)
@@ -413,6 +361,57 @@ class BannerView : RelativeLayout {
                 return newArray(size)
             }
 
+        }
+    }
+
+    /**
+     * 绑定数据及View构建器
+     * @param data banner数据源
+     * @param createHolder bannerView构建样式
+     */
+    fun <T> bindDataCreate(data: List<T>, createHolder: CreateHolder<T>) {
+        mAdapter = BannerAdapter(data, createHolder)
+
+        post {
+            mViewPager.adapter = mAdapter
+            mViewPager.setCurrentItem(getStartIndex(), false)
+            mViewPager.registerOnPageChangeCallback(mPagerChange)
+            buildIndicatorView()
+
+            isStart = true
+            if (isAutoPlay) {
+                postDelayed(mLoopRunnable, delayTime)
+            }
+        }
+    }
+
+    /**
+     * 设置指示器资源样式
+     * @param normalRes 未选中指示器样式
+     * @param selectedRes 选中指示器样式
+     */
+    fun setIndicatorDrawable(@DrawableRes normalRes: Int, @DrawableRes selectedRes: Int) {
+        mIndicatorRes[0] = normalRes
+        mIndicatorRes[1] = selectedRes
+    }
+
+    /**
+     * BannerView处于RecyclerView头部无法回调view状态监听
+     * RecyclerView内部dispatch状态通知只更新自身 不更新子view
+     * 手动在fragment中调用该方法恢复状态
+     */
+    fun onSaveInstanceState(outState: Bundle) {
+        outState.putInt(BannerView::class.java.simpleName, mViewPager.currentItem)
+    }
+
+    /**
+     * * 手动在fragment中调用该方法恢复状态
+     */
+    fun onViewStateRestored(savedInstanceState: Bundle?) {
+        savedInstanceState?.run {
+            val currentIndex = getInt(BannerView::class.java.simpleName, -1)
+            saveIndex = currentIndex
+            mViewPager.setCurrentItem(currentIndex, false)
         }
     }
 
