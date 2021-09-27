@@ -4,12 +4,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.lee.app.adapter.ChatAdapter
 import com.lee.app.databinding.ActivityChatListBinding
 import com.lee.library.base.BaseVMActivity
-import com.lee.library.extensions.keyboardObserver
 import com.lee.library.extensions.adjustResizeStatusBar
+import com.lee.library.extensions.keyboardObserver
 import com.lee.library.extensions.reverseLayout
 import com.lee.library.extensions.smoothScrollToTop
 import com.lee.library.mvvm.base.BaseViewModel
 import com.lee.library.tools.StatusTools
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -28,7 +30,7 @@ class ChatListActivity2 :
     private val adapter by lazy { ChatAdapter(this, ArrayList()) }
 
     override fun bindView() {
-        StatusUtil.setDarkStatusIcon(this)
+        StatusTools.setDarkStatusIcon(this)
 
         //适配沉浸式状态栏顶部弹起设置
         binding.constRoot.adjustResizeStatusBar(window, binding.toolbar.getStatusBarHeight())
@@ -58,7 +60,7 @@ class ChatListActivity2 :
             adapter.loadMoreEnd()
             return
         }
-        launch {
+        CoroutineScope(Dispatchers.Main).launch {
             delay(1000)
             adapter.addData(arrayListOf<String>().also {
                 for (index in 0..20) {

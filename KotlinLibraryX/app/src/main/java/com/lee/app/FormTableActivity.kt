@@ -27,9 +27,9 @@ class FormTableActivity :
     private val keyboardHelper by lazy { KeyboardHelper(window.decorView, binding.root) }
 
     override fun bindView() {
-        StatusUtil.setDarkStatusIcon(this)
+        StatusTools.setDarkStatusIcon(this)
 //        keyboardHelper.enable()
-        KeyboardUtil.keyboardOpenMoveView(window, binding.constRoot)
+        KeyboardTools.keyboardOpenMoveView(window, binding.constRoot)
 
 //        binding.rvContainer.layoutManager = LinearLayoutManager(this)
 //        binding.rvContainer.adapter = adapter

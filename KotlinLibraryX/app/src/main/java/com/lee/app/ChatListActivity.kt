@@ -1,5 +1,6 @@
 package com.lee.app
 
+import android.annotation.SuppressLint
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lee.app.adapter.ChatAdapter
 import com.lee.app.databinding.ActivityChatListBinding
@@ -8,9 +9,7 @@ import com.lee.library.extensions.reverseLayout
 import com.lee.library.mvvm.base.BaseViewModel
 import com.lee.library.tools.KeyboardHelper
 import com.lee.library.tools.StatusTools
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 /**
  * @author jv.lee
@@ -27,7 +26,7 @@ class ChatListActivity :
     private val keyboardHelper by lazy { KeyboardHelper(window.decorView, binding.root) }
 
     override fun bindView() {
-        StatusUtil.setDarkStatusIcon(this)
+        StatusTools.setDarkStatusIcon(this)
 
         //设置recyclerView基础参数
         binding.rvContainer.adapter = adapter.proxy
@@ -54,12 +53,13 @@ class ChatListActivity :
         super.onDestroy()
     }
 
-    private fun requestData() {
+    @SuppressLint("NotifyDataSetChanged")
+    private  fun requestData() {
         if (page == 6) {
             adapter.loadMoreEnd()
             return
         }
-        launch {
+        CoroutineScope(Dispatchers.Main).launch {
             delay(1000)
             adapter.addData(arrayListOf<String>().also {
                 for (index in 0..20) {

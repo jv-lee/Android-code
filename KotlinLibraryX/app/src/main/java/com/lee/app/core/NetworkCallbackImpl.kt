@@ -15,17 +15,17 @@ class NetworkCallbackImpl : ConnectivityManager.NetworkCallback() {
     var firstCode = 0
     var lastCode = 0
 
-    override fun onAvailable(network: Network?) {
+    override fun onAvailable(network: Network) {
         super.onAvailable(network)
         firstCode = network.toString().toInt()
-        LogUtil.i("${network.toString()}网络：连接成功")
+        LogUtil.i("${network}网络：连接成功")
     }
 
-    override fun onLost(network: Network?) {
+    override fun onLost(network: Network) {
         super.onLost(network)
         lastCode = network.toString().toInt()
         if (lastCode >= firstCode) {
-            LogUtil.i("${network.toString()}网络：断开连接")
+            LogUtil.i("${network}网络：断开连接")
         }
     }
 
@@ -36,11 +36,11 @@ class NetworkCallbackImpl : ConnectivityManager.NetworkCallback() {
         super.onCapabilitiesChanged(network, networkCapabilities)
         if (networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)) {
             if (networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
-                LogUtil.d("onCapabilitiesChanged: 网络类型为wifi :" + network.toString())
+                LogUtil.d("onCapabilitiesChanged: 网络类型为wifi :$network")
             } else if (networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
-                LogUtil.d("onCapabilitiesChanged: 蜂窝网络:" + network.toString())
+                LogUtil.d("onCapabilitiesChanged: 蜂窝网络:$network")
             } else {
-                LogUtil.d("onCapabilitiesChanged: 其他网络:" + network.toString())
+                LogUtil.d("onCapabilitiesChanged: 其他网络:$network")
             }
         }
     }

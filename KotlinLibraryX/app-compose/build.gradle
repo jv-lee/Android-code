@@ -4,14 +4,15 @@ plugins {
 }
 
 android {
-    compileSdkVersion 31
+    compileSdkVersion androidId.compileSdkVersion
+    buildToolsVersion "29.0.3"
 
     defaultConfig {
         applicationId "com.simple.compose"
-        minSdkVersion 21
-        targetSdkVersion 31
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion androidId.minSdkVersion
+        targetSdkVersion androidId.targetSdkVersion
+        versionCode androidId.versionCode
+        versionName androidId.versionName
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -41,7 +42,6 @@ android {
         kotlinCompilerVersion '1.5.10'
     }
     packagingOptions {
-
     }
 }
 
