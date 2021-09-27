@@ -1,8 +1,15 @@
 package com.lee.api
 
+import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Intent
+import com.lee.api.activity.DataStorePreferenceActivity
+import com.lee.api.activity.DataStoreProtoActivity
+import com.lee.api.activity.StartResultActivity
 import com.lee.api.databinding.ActivityMainBinding
+import com.lee.api.fragment.StartFragmentActivity
 import com.lee.library.base.BaseVMActivity
+import com.lee.library.extensions.toast
 import com.lee.library.mvvm.base.BaseViewModel
 
 class MainActivity : BaseVMActivity<ActivityMainBinding, BaseViewModel>(R.layout.activity_main) {
