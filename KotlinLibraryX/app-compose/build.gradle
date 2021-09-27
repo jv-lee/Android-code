@@ -4,13 +4,11 @@ plugins {
 }
 
 android {
-    compileSdkVersion androidId.compileSdkVersion
-    buildToolsVersion "29.0.3"
-
+    compileSdk androidId.compileSdk
     defaultConfig {
         applicationId "com.simple.compose"
-        minSdkVersion androidId.minSdkVersion
-        targetSdkVersion androidId.targetSdkVersion
+        minSdk androidId.minSdk
+        targetSdk androidId.targetSdk
         versionCode androidId.versionCode
         versionName androidId.versionName
 

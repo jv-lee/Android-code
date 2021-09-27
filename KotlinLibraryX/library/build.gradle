@@ -1,17 +1,17 @@
-apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
-android {
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+}
 
-    compileSdkVersion androidId.compileSdkVersion
-    buildToolsVersion "29.0.3"
+android {
+    compileSdk androidId.compileSdk
 
     defaultConfig {
-        minSdkVersion androidId.minSdkVersion
-        targetSdkVersion androidId.targetSdkVersion
+        minSdk androidId.minSdk
+        targetSdk androidId.targetSdk
         versionCode androidId.versionCode
         versionName androidId.versionName
-
     }
 
     buildTypes {

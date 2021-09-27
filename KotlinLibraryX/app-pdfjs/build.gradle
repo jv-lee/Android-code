@@ -1,17 +1,16 @@
-apply plugin: 'com.android.application'
-
-apply plugin: 'kotlin-android'
-
-apply plugin: 'kotlin-kapt'
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+}
 
 android {
-    compileSdkVersion androidId.compileSdkVersion
-    buildToolsVersion "29.0.3"
+    compileSdk androidId.compileSdk
 
     defaultConfig {
         applicationId "com.lee.pdfjs"
-        minSdkVersion androidId.minSdkVersion
-        targetSdkVersion androidId.targetSdkVersion
+        minSdk androidId.minSdk
+        targetSdk androidId.targetSdk
         versionCode androidId.versionCode
         versionName androidId.versionName
     }
@@ -23,7 +22,7 @@ android {
         }
     }
 
-    compileOptions{
+    compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }

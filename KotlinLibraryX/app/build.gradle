@@ -1,17 +1,16 @@
-apply plugin: 'com.android.application'
-
-apply plugin: 'kotlin-android'
-
-apply plugin: 'kotlin-kapt'
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+}
 
 android {
-    compileSdkVersion androidId.compileSdkVersion
-
+    compileSdk androidId.compileSdk
 
     defaultConfig {
         applicationId androidId.applicationId
-        minSdkVersion androidId.minSdkVersion
-        targetSdkVersion androidId.targetSdkVersion
+        minSdk androidId.minSdk
+        targetSdk androidId.targetSdk
         versionCode androidId.versionCode
         versionName androidId.versionName
     }
