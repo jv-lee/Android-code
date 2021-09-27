@@ -3,7 +3,7 @@ package com.lee.library.widget.banner.transformer;
 import android.os.Build;
 import android.view.View;
 
-import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager2.widget.ViewPager2;
 
 /**
  *
@@ -11,7 +11,7 @@ import androidx.viewpager.widget.ViewPager;
  * @date 2017/8/15
  */
 @androidx.annotation.RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
-public class CustomTransformer implements ViewPager.PageTransformer {
+public class ClipTransformer implements ViewPager2.PageTransformer {
     private static final float MIN_SCALE = 0.9F;
     @Override
     public void transformPage(View page, float position) {

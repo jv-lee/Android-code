@@ -24,21 +24,12 @@
         <attr name="moveDuration" format="integer" />
         <attr name="indicatorPadding" format="dimension" />
         <attr name="indicatorChildPadding" format="dimension" />
-        <attr name="indicatorGravity" />
         <attr name="indicatorNormalDrawable" format="reference"/>
         <attr name="indicatorSelectedDrawable" format="reference"/>
-    </declare-styleable>
-
-    <!--魅族Banner-->
-    <declare-styleable name="MZBannerView">
-        <attr name="open_mz_mode" format="boolean" />
-        <attr name="canLoop" format="boolean" />
-        <attr name="indicatorPaddingLeft" format="dimension" />
-        <attr name="indicatorPaddingRight" format="dimension" />
-        <attr name="indicatorAlign" format="color">
-            <enum name="left" value="0" />
-            <enum name="center" value="1" />
-            <enum name="right" value="2" />
+        <attr name="indicatorGravity" />
+        <attr name="bannerMode">
+            <enum name="defaultMode" value="0x0"/>
+            <enum name="clipMode" value="0x1"/>
         </attr>
     </declare-styleable>
 

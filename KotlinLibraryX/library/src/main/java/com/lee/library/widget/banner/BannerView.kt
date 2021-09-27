@@ -19,10 +19,16 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import androidx.annotation.DrawableRes
+import androidx.annotation.IntDef
 import androidx.core.view.setPadding
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.lee.library.R
+import com.lee.library.extensions.dp2px
+import com.lee.library.extensions.setMargin
+import com.lee.library.widget.banner.BannerView.BannerMode.Companion.MODE_CLIP
+import com.lee.library.widget.banner.BannerView.BannerMode.Companion.MODE_DEFAULT
+import com.lee.library.widget.banner.transformer.ClipTransformer
 import java.util.*
 
 /**
@@ -32,32 +38,54 @@ import java.util.*
  */
 class BannerView : RelativeLayout {
 
-    private var saveIndex = -1
+    //记录初始化启动状态
     private var isStart = false
+
+    //是否支持自动轮播
+    private var isAutoPlay: Boolean = false
+
+    //数据保存下标值
+    private var saveIndex = -1
+
+    //页面翻页延时
+    private var delayTime: Long = 0
+
+    //页面切换动画时长
+    private var moveDuration: Long = 5
+
+    //无限翻页最大倍数 count * filed
     private val mLooperCountFactor = 500
 
-    var isAutoPlay: Boolean = false
-    var delayTime: Long = 0
-    var moveDuration: Long = 5
-
-    private var mViewPager = ViewPager2(context)
-
+    //banner适配器
     private lateinit var mAdapter: BannerAdapter<*>
 
-    //indicator配置参数
-    var indicatorGravity: Int = 0
-    var indicatorPadding: Float = 0F
-    var indicatorChildPadding: Float = 0F
+    //banner容器
+    private var mViewPager = ViewPager2(context)
+
+    //indicator容器
+    private val mIndicatorContainer = LinearLayout(context)
 
     //indicatorView数据集合
     private val mIndicators = ArrayList<ImageView>()
+
+    //indicator配置参数
+    private var indicatorGravity: Int = 0
+    private var indicatorPadding: Float = 0F
+    private var indicatorChildPadding: Float = 0F
 
     //mIndicatorRes[0] 为为选中，mIndicatorRes[1]为选中
     private val mIndicatorRes =
         intArrayOf(R.drawable.shape_indicator_normal, R.drawable.shape_indicator_selected)
 
-    //indicator容器
-    private val mIndicatorContainer = LinearLayout(context)
+    @IntDef(MODE_DEFAULT, MODE_CLIP)
+    annotation class BannerMode {
+        companion object {
+            const val MODE_DEFAULT = 0x0
+            const val MODE_CLIP = 0x1
+        }
+    }
+
+    private var bannerMode = MODE_DEFAULT
 
     constructor(context: Context) : this(context, null, 0)
     constructor(context: Context, attributeSet: AttributeSet?) : this(context, attributeSet, 0)
@@ -90,6 +118,7 @@ class BannerView : RelativeLayout {
                 R.styleable.BannerView_indicatorSelectedDrawable,
                 R.drawable.shape_indicator_selected
             )
+            bannerMode = getInt(R.styleable.BannerView_bannerMode, MODE_DEFAULT)
             recycle()
         }
     }
@@ -99,7 +128,9 @@ class BannerView : RelativeLayout {
         mViewPager.layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
         mViewPager.isSaveEnabled = true
         mViewPager.isSaveFromParentEnabled = true
-        mViewPager.setOnTouchListener { v, event ->
+        mViewPager.offscreenPageLimit = 3
+        setBannerClipMode(bannerMode == MODE_CLIP)
+        mViewPager.setOnTouchListener { _, event ->
             isAutoPlay = event.action == MotionEvent.ACTION_UP
             true
         }
@@ -165,6 +196,21 @@ class BannerView : RelativeLayout {
             mIndicators.add(imageView)
         }
         mIndicatorContainer.requestLayout()
+    }
+
+    private fun setBannerClipMode(enable: Boolean) {
+        clipChildren = !enable
+        mViewPager.clipChildren = !enable
+        if (enable) {
+            mViewPager.setPageTransformer(ClipTransformer())
+            mViewPager.setMargin(
+                left = context.dp2px(30).toInt(),
+                right = context.dp2px(30).toInt()
+            )
+        } else {
+            mViewPager.setPageTransformer(null)
+            mViewPager.setMargin(0, 0, 0, 0)
+        }
     }
 
     private fun ViewPager2.moveToItem(
@@ -373,6 +419,9 @@ class BannerView : RelativeLayout {
         mAdapter = BannerAdapter(data, createHolder)
 
         post {
+            if (bannerMode == MODE_CLIP && data.size < 3) {
+                setBannerClipMode(false)
+            }
             mViewPager.adapter = mAdapter
             mViewPager.setCurrentItem(getStartIndex(), false)
             mViewPager.registerOnPageChangeCallback(mPagerChange)
@@ -383,6 +432,54 @@ class BannerView : RelativeLayout {
                 postDelayed(mLoopRunnable, delayTime)
             }
         }
+    }
+
+    /**
+     * 设置是否支持自动播放
+     * @param enable
+     */
+    fun setAutoPlay(enable: Boolean) {
+        isAutoPlay = enable
+    }
+
+    /**
+     * 设置轮播延时间隔
+     * @param duration
+     */
+    fun setDelayTime(duration: Long) {
+        delayTime = duration
+    }
+
+    /**
+     * 设置切换banner时动画时长
+     * @param duration
+     */
+    fun setMoveDuration(duration: Long) {
+        moveDuration = duration
+    }
+
+    /**
+     * 设置indicator指示器位置
+     * @param gravity 位置参数 Gravity.*
+     */
+    fun setIndicatorGravity(gravity: Int) {
+        indicatorGravity = gravity
+    }
+
+    /**
+     * 设置indicator容器padding值
+     * @param dimension
+     */
+    fun setIndicatorPadding(dimension: Float) {
+        indicatorPadding = dimension
+    }
+
+    /**
+     * 设置indicator指示灯子viewPadding间距
+     * @param dimension
+     */
+    fun setIndicatorChildPadding(dimension: Float) {
+        indicatorChildPadding = dimension
     }
 
     /**
