@@ -5,7 +5,7 @@ import android.widget.Toast
 import com.lee.library.base.BaseFragment
 import com.lee.library.dialog.LoadingDialog
 import com.lee.library.extensions.binding
-import com.lee.library.utils.TextSpanHelper
+import com.lee.library.tools.TextSpanHelper
 import com.lee.library.widget.SnackBarEx
 import com.lee.ui.R
 import com.lee.ui.databinding.FragmentSelectorBinding

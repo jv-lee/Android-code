@@ -10,21 +10,21 @@ import java.util.concurrent.TimeUnit;
  * @date 2019/9/11.
  * @description 定时任务器
  */
-public class TimerEx {
+public class TimerUtil {
 
-    private static TimerEx instance;
+    private static TimerUtil instance;
 
     private ScheduledExecutorService timer;
 
-    private TimerEx() {
+    private TimerUtil() {
         timer = Executors.newScheduledThreadPool(1);
     }
 
-    public static TimerEx get() {
+    public static TimerUtil get() {
         if (instance == null) {
-            synchronized (TimerEx.class) {
+            synchronized (TimerUtil.class) {
                 if (instance == null) {
-                    instance = new TimerEx();
+                    instance = new TimerUtil();
                 }
             }
         }

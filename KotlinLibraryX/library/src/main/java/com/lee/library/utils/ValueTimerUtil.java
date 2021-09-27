@@ -13,7 +13,7 @@ import android.view.animation.LinearInterpolator;
  * @description ValueAnimation 时间统计工具类
  */
 @androidx.annotation.RequiresApi(api = Build.VERSION_CODES.KITKAT)
-public class ValueTimerEx {
+public class ValueTimerUtil {
 
     public static ValueAnimator changeRepeat(int time, TimeCallback callback) {
         ValueAnimator value = ValueAnimator.ofInt(1, time);

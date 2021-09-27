@@ -1,4 +1,4 @@
-package com.lee.library.utils
+package com.lee.library.tools
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -12,6 +12,7 @@ import android.util.DisplayMetrics
 import android.view.Display
 import android.view.View
 import android.view.WindowManager
+import com.lee.library.utils.LogUtil
 import java.util.*
 
 /**
@@ -126,8 +127,8 @@ object ScreenDensityUtil : ComponentCallbacks {
     private fun init(activity: Activity, density: Float) {
         activity.resources.displayMetrics.density = density
         activity.resources.displayMetrics.densityDpi = (160 * density).toInt()
-        activity.resources.displayMetrics.scaledDensity = density * (scaledDensity / this.density)
-        scale = this.density / density
+        activity.resources.displayMetrics.scaledDensity = density * (scaledDensity / ScreenDensityUtil.density)
+        scale = ScreenDensityUtil.density / density
 
         setBitmapDensity(activity.resources.displayMetrics.densityDpi)
     }

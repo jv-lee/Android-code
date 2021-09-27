@@ -1,4 +1,4 @@
-package com.lee.library.utils
+package com.lee.library.tools
 
 import android.annotation.SuppressLint
 import android.annotation.TargetApi
@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.view.Window
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import com.lee.library.tools.StatusTools
 import kotlin.math.abs
 
 /**
@@ -25,7 +26,7 @@ import kotlin.math.abs
  * @date 2020/9/4
  * @description
  */
-object KeyboardUtil {
+object KeyboardTools {
 
     /**
      * 动态隐藏软键盘
@@ -104,7 +105,7 @@ object KeyboardUtil {
      */
     fun keyboardOpenMoveView(window: Window, rootView: ViewGroup) {
         val decorView = window.decorView
-        val statusBarHeight = StatusUtil.getStatusBarHeight(decorView.context)
+        val statusBarHeight = StatusTools.getStatusBarHeight(decorView.context)
         var isStatusDiff = false
         var statusDiff = 0
         decorView.viewTreeObserver.addOnGlobalLayoutListener {

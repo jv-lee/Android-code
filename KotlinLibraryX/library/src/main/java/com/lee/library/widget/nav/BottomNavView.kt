@@ -17,11 +17,10 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomnavigation.BottomNavigationItemView
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.bottomnavigation.LabelVisibilityMode
 import com.google.android.material.navigation.NavigationBarView
 import com.lee.library.R
 import com.lee.library.extensions.dp2px
-import com.lee.library.utils.ReflexUtil.reflexField
+import com.lee.library.tools.ReflexTools.reflexField
 
 /**
  * @author jv.lee

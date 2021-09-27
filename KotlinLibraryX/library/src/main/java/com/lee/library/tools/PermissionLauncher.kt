@@ -1,4 +1,4 @@
-package com.lee.library.permission
+package com.lee.library.tools
 
 import android.annotation.SuppressLint
 import androidx.activity.result.ActivityResultLauncher

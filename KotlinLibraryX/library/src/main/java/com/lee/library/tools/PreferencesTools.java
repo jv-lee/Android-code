@@ -1,4 +1,4 @@
-package com.lee.library.utils;
+package com.lee.library.tools;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -10,17 +10,17 @@ import android.os.Build;
  * SharedPreferences 存储工具
  * Created by jv.lee on 2016/8/31.
  */
-public class SPUtil {
+public class PreferencesTools {
 
     private static final String SP_NAME = "share_data";
     private volatile static SharedPreferences mSharedPreferences;
 
-    private SPUtil() {
+    private PreferencesTools() {
     }
 
     public static SharedPreferences getInstance(Context context) {
         if (mSharedPreferences == null) {
-            synchronized (SPUtil.class) {
+            synchronized (PreferencesTools.class) {
                 if (mSharedPreferences == null) {
                     mSharedPreferences = context.getApplicationContext().getSharedPreferences(SP_NAME, Context.MODE_PRIVATE);
                 }

@@ -1,4 +1,4 @@
-package com.lee.library.utils
+package com.lee.library.tools
 
 import android.R
 import android.app.Activity
@@ -17,7 +17,7 @@ import android.widget.Toolbar
  * @author jv.lee
  * @date 2019/4/5
  */
-object StatusUtil {
+object StatusTools {
     /**
      * 设置沉浸式状态栏
      *

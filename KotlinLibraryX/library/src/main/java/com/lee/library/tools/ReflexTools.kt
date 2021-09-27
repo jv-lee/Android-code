@@ -1,12 +1,12 @@
-package com.lee.library.utils
+package com.lee.library.tools
 
 /**
  * @author jv.lee
  * @date 2021/1/12
  * @description
  */
-object ReflexUtil {
-    fun <T> reflexField(clazz: Any, fieldName: String): T? {
+object ReflexTools {
+    inline fun <reified T> reflexField(clazz: Any, fieldName: String): T? {
         try {
             val field = clazz.javaClass.getDeclaredField(fieldName)
             field.isAccessible = true

@@ -9,7 +9,7 @@ import com.lee.library.extensions.adjustResizeStatusBar
 import com.lee.library.extensions.reverseLayout
 import com.lee.library.extensions.smoothScrollToTop
 import com.lee.library.mvvm.base.BaseViewModel
-import com.lee.library.utils.StatusUtil
+import com.lee.library.tools.StatusTools
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 

@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.lee.library.R
-import com.lee.library.utils.StatusUtil
+import com.lee.library.tools.StatusTools
 import kotlin.math.abs
 
 /**
@@ -401,7 +401,7 @@ fun ViewGroup.setMargin(left: Int = 0, top: Int = 0, right: Int = 0, bottom: Int
  */
 fun ViewGroup.adjustResizeStatusBar(
     window: Window,
-    marginValue: Int = StatusUtil.getStatusBarHeight(context)
+    marginValue: Int = StatusTools.getStatusBarHeight(context)
 ) {
     window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
     fitsSystemWindows = true

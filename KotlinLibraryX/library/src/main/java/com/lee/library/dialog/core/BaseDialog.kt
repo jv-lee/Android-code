@@ -9,7 +9,7 @@ import android.os.Build
 import android.util.DisplayMetrics
 import android.view.*
 import com.lee.library.extensions.dp2px
-import com.lee.library.utils.StatusUtil
+import com.lee.library.tools.StatusTools
 
 
 /**
@@ -109,7 +109,7 @@ fun Dialog.setFullWindow(context: Context?) {
             View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
     }
 
-    val contentHeight = StatusUtil.getContentHeight(context)
+    val contentHeight = StatusTools.getContentHeight(context)
     val dm = DisplayMetrics()
     //获取包含状态栏及导航栏的屏幕size
     window.windowManager.defaultDisplay.getRealMetrics(dm)

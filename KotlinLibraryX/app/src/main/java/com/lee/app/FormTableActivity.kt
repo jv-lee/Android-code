@@ -4,9 +4,9 @@ import com.lee.app.adapter.FormAdapter
 import com.lee.app.databinding.ActivityFormTableBinding
 import com.lee.library.base.BaseVMActivity
 import com.lee.library.mvvm.base.BaseViewModel
-import com.lee.library.utils.KeyboardHelper
-import com.lee.library.utils.KeyboardUtil
-import com.lee.library.utils.StatusUtil
+import com.lee.library.tools.KeyboardHelper
+import com.lee.library.tools.KeyboardTools
+import com.lee.library.tools.StatusTools
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 /**
