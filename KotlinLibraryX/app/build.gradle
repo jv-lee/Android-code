@@ -2,13 +2,11 @@ apply plugin: 'com.android.application'
 
 apply plugin: 'kotlin-android'
 
-apply plugin: 'kotlin-android-extensions'
-
 apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion androidId.compileSdkVersion
-    buildToolsVersion "29.0.3"
+
 
     defaultConfig {
         applicationId androidId.applicationId
@@ -30,13 +28,13 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-
     kapt {
         generateStubs = true
     }
 
     buildFeatures {
-        dataBinding = true
+        dataBinding true
+        viewBinding true
     }
 }
 

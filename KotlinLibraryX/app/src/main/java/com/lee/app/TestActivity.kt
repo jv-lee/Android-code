@@ -1,27 +1,29 @@
 package com.lee.app
 
 import android.content.Intent
-import android.os.Bundle
 import android.widget.Button
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
+import com.lee.app.databinding.ActivityMainBinding
 import com.lee.app.server.ApiServiceImpl
+import com.lee.library.base.BaseActivity
 import com.lee.library.dialog.ChoiceDialog
 import com.lee.library.dialog.LoadingDialog
 import com.lee.library.dialog.WarnDialog
 import com.lee.library.dialog.core.ConfirmListener
+import com.lee.library.extensions.binding
+import com.lee.library.tools.StatusTools
 import com.lee.library.utils.DensityUtil
 import com.lee.library.utils.LogUtil
-import com.lee.library.tools.StatusTools
 import com.lee.library.widget.StatusLayout
 import com.lee.library.widget.StatusLayout.STATUS_LOADING
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class TestActivity : AppCompatActivity() {
+class TestActivity : BaseActivity() {
+
+    private val binding by binding(ActivityMainBinding::inflate)
 
     /**
      * loading提示框
@@ -56,10 +58,8 @@ class TestActivity : AppCompatActivity() {
         }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun bindView() {
         DensityUtil.setDensity(this)
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
         StatusTools.statusBar(window, false)
         StatusTools.setDarkStatusIcon(this)
         testDialog()
@@ -73,12 +73,16 @@ class TestActivity : AppCompatActivity() {
         }
     }
 
-    private fun testDialog() {
-        btn_show_loading.setOnClickListener { loadingDialog.show() }
-        btn_show_loading.setButtonDisable(false)
+    override fun bindData() {
 
-        btn_show_warn.setOnClickListener { warnDialog.show() }
-        btn_show_choice.setOnClickListener { choiceDialog.show() }
+    }
+
+    private fun testDialog() {
+        binding.btnShowLoading.setOnClickListener { loadingDialog.show() }
+        binding.btnShowLoading.setButtonDisable(false)
+
+        binding.btnShowWarn.setOnClickListener { warnDialog.show() }
+        binding.btnShowChoice.setOnClickListener { choiceDialog.show() }
     }
 
     private fun testNetwork() {

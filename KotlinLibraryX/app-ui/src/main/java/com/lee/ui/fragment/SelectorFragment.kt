@@ -9,7 +9,6 @@ import com.lee.library.tools.TextSpanHelper
 import com.lee.library.widget.SnackBarEx
 import com.lee.ui.R
 import com.lee.ui.databinding.FragmentSelectorBinding
-import kotlinx.android.synthetic.main.fragment_selector.*
 
 /**
  * @author jv.lee
@@ -23,7 +22,7 @@ class SelectorFragment : BaseFragment(R.layout.fragment_selector) {
     private val loadingDialog by lazy { LoadingDialog(requireActivity()) }
 
     private val snackBar by lazy {
-        SnackBarEx.Builder(linear)
+        SnackBarEx.Builder(binding.linear)
             .setDuration(5000)
             .setActionText("action")
             .setMessage("message")
