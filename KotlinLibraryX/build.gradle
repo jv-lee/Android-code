@@ -4,6 +4,7 @@ buildscript {
     apply from: "config.gradle"
     ext {
         kotlin_version = '1.5.20'
+        compose_version = '1.0.0'
     }
     repositories {
         maven { url 'https://jitpack.io' }
