@@ -13,6 +13,7 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/app-adapter" />
+            <option value="$PROJECT_DIR$/app-api" />
             <option value="$PROJECT_DIR$/app-compose" />
             <option value="$PROJECT_DIR$/app-create-vm" />
             <option value="$PROJECT_DIR$/app-dialog" />

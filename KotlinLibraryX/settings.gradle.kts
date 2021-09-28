@@ -17,7 +17,7 @@ rootProject.buildFileName = "build.gradle.kts"
 
 include(":app")
 include(":app-adapter")
-//include(":app-api")
+include(":app-api")
 include(":app-create-vm")
 include(":app-dialog")
 include(":app-pdfjs")

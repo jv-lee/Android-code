@@ -12,6 +12,7 @@ android {
     defaultConfig {
         applicationId = "com.lee.api"
     }
+
 }
 
 protobuf {
@@ -35,10 +36,10 @@ protobuf {
 
 dependencies {
     // Preferences DataStore
-    implementation("androidx.datastore:datastore-preferences:1.0.0-alpha04")
+    implementation("androidx.datastore:datastore-preferences:1.0.0-alpha05")
 
     // Proto DataStore
-    implementation("androidx.datastore:datastore-core:1.0.0-alpha04")
+    implementation("androidx.datastore:datastore-core:1.0.0-alpha05")
 
     implementation("com.google.protobuf:protobuf-java:3.11.0")
 //    implementation 'com.google.protobuf:protobuf-javalite:3.11.0'
