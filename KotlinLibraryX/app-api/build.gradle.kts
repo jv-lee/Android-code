@@ -1,13 +1,10 @@
-import com.google.protobuf.gradle.generateProtoTasks
-import com.google.protobuf.gradle.proto
-import com.google.protobuf.gradle.protobuf
-import com.google.protobuf.gradle.protoc
+import com.google.protobuf.gradle.*
 
 plugins {
-    id("com.android.application")
-    id("kotlin-android")
-    id("kotlin-kapt")
-    id("com.google.protobuf")
+    id(BuildPlugin.application)
+    id(BuildPlugin.kotlin)
+    id(BuildPlugin.kapt)
+    id(BuildPlugin.proto)
 }
 
 android {
@@ -57,16 +54,6 @@ android {
         generateStubs = true
     }
 
-    sourceSets.getByName("main") {
-        java {
-            srcDir("src/main/java")
-        }
-
-//        proto {
-//            srcDir("src/main/proto")
-//            include("**/*.proto")
-//        }
-    }
 }
 
 protobuf {
@@ -74,11 +61,13 @@ protobuf {
         artifact = "com.google.protobuf:protoc:3.10.0"
     }
     generateProtoTasks {
-        sourceSets
-        all().onEach { task ->
-            task.builtins {
-                remove("java")
+        ofSourceSet("main").forEach {
+            it.sourceSet.proto {
+                srcDir("src/main/proto")
+                include("**/*.proto")
             }
+        }
+        all().onEach { task ->
             task.builtins {
                 java {}
             }
@@ -97,7 +86,6 @@ dependencies {
     implementation("androidx.datastore:datastore-core:1.0.0-alpha08")
 
     implementation("com.google.protobuf:protobuf-java:3.11.0")
-//    implementation 'com.google.protobuf:protobuf-javalite:3.11.0'
 
     //WorkManager
     implementation("androidx.work:work-runtime:2.5.0")
