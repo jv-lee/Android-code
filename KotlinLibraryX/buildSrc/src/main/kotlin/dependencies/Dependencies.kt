@@ -1,74 +1,60 @@
-/*
- * Copyright 2019 vmadalin.com
- *
- * Licensed under the Apache License Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing software
- * distributed under the License is distributed on an "AS IS" BASIS
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package dependencies
 
-/**
- * Project dependencies makes it easy to include external binaries or
- * other library modules to build.
- */
 object Dependencies {
     //kotlin androidx核心库
-    const val KOTLIN_CORE = "androidx.core:core-ktx:1.2.0"
+    const val coreKtx = "androidx.core:core-ktx:1.2.0"
 
     //协程
-    const val COROUTINES = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.9"
-    const val COROUTINES_ANDROID = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.4"
+    const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.9"
+    const val coroutinesAndroid = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.4"
 
     //生命周期
-    const val LIFECYCLE_RUNTIME = "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle"
-    const val LIFECYCLE_LIVEDATA = "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle"
-    const val LIFECYCLE_VIEWMODEL = "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle"
+    const val lifecycle = "androidx.lifecycle:lifecycle-runtime-ktx:${Version.lifecycle}"
+    const val lifecycleLivedata = "androidx.lifecycle:lifecycle-livedata-ktx:${Version.lifecycle}"
+    const val lifecycleViewModel = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Version.lifecycle}"
 
     //核心基础
-    const val ACTIVITY = "androidx.activity:activity-ktx:$activity"
-    const val FRAGMENT = "androidx.fragment:fragment-ktx:$fragment"
+    const val activity = "androidx.activity:activity-ktx:${Version.activity}"
+    const val fragment = "androidx.fragment:fragment-ktx:${Version.fragment}"
 
     //分包库
-    const val MULTIDEX = "androidx.multidex:multidex:2.0.1"
+    const val multidex = "androidx.multidex:multidex:2.0.1"
 
     //androidUi
-    const val APPCOMPAT = "androidx.appcompat:appcompat:1.2.0"
-    const val SUPPORT = "androidx.legacy:legacy-support-v4:1.0.0"
-    const val RECYCLERVIEW = "androidx.recyclerview:recyclerview:1.1.0"
-    const val CONSTRAINT = "androidx.constraintlayout:constraintlayout:2.0.2"
-    const val VIEWPAGER2 = "androidx.viewpager2:viewpager2:1.0.0"
-    const val MATERIAL = "com.google.android.material:material:1.1.0"
+    const val appcompat = "androidx.appcompat:appcompat:1.2.0"
+    const val support = "androidx.legacy:legacy-support-v4:1.0.0"
+    const val recyclerview = "androidx.recyclerview:recyclerview:1.1.0"
+    const val constraint = "androidx.constraintlayout:constraintlayout:2.0.2"
+    const val viewpager2 = "androidx.viewpager2:viewpager2:1.0.0"
+    const val material = "com.google.android.material:material:1.1.0"
 
     //fragment导航
-    const val NAVIGATION_FRAGMENT = "androidx.navigation:navigation-fragment-ktx:$navigation"
-    const val NAVIGATION_UI = "androidx.navigation:navigation-ui-ktx:$navigation"
-    const val NAVIGATION_DYNAMIC =
-        "androidx.navigation:navigation-dynamic-features-fragment:$navigation"
+    const val navigationFragment =
+        "androidx.navigation:navigation-fragment-ktx:${Version.navigation}"
+    const val navigationUi = "androidx.navigation:navigation-ui-ktx:${Version.navigation}"
+    const val navigationDynamic =
+        "androidx.navigation:navigation-dynamic-features-fragment:${Version.navigation}"
 
     //room数据库
-    const val ROOM = "androidx.room:room-ktx:${room}"
-    const val ROOM_RUNTIME = "androidx.room:room-runtime:${room}"
+    const val room = "androidx.room:room-ktx:${Version.room}"
+    const val roomRuntime = "androidx.room:room-runtime:${Version.room}"
 
     //图片加载
-    const val GLIDE = "com.github.bumptech.glide:glide:${glide}"
-    const val GLIDE_OKHTTP3 = "com.github.bumptech.glide:okhttp3-integration:${glide}"
-    const val GLIDE_ANNOTATIONS = "com.github.bumptech.glide:annotations:${glide}"
+    const val glide = "com.github.bumptech.glide:glide:${Version.glide}"
+    const val glideOkhttp3 = "com.github.bumptech.glide:okhttp3-integration:${Version.glide}"
+    const val glideAnnotations = "com.github.bumptech.glide:annotations:${Version.glide}"
 
     //网络加载
-    const val RETROFIT = "com.squareup.retrofit2:retrofit:${retrofit}"
-    const val RETROFIT_CONVERTER_GSON = "com.squareup.retrofit2:converter-gson:${retrofit}"
-    const val RETROFIT_CONVERTER_SCALARS = "com.squareup.retrofit2:converter-scalars:${retrofit}"
-    const val RETROFIT_CONVERTER_PROTOBUF = "com.squareup.retrofit2:converter-protobuf:${retrofit}"
+    const val retrofit = "com.squareup.retrofit2:retrofit:${Version.retrofit}"
+    const val retrofitConverterGson = "com.squareup.retrofit2:converter-gson:${Version.retrofit}"
+    const val retrofitConverterScalars =
+        "com.squareup.retrofit2:converter-scalars:${Version.retrofit}"
+    const val retrofitConverterProtobuf =
+        "com.squareup.retrofit2:converter-protobuf:${Version.retrofit}"
 
     //组件化依赖
-    const val AUTO_SERVICE = "com.google.auto.service:auto-service:${autoService}"
+    const val autoService = "com.google.auto.service:auto-service:${Version.autoService}"
+
+    //图片选择器
+    const val imageTools = "com.github.jv-lee.imagetools:library:1.4.3"
 }
