@@ -103,7 +103,7 @@ class KeyboardHelper(
                 //set the padding of the contentView for the keyboard
                 contentView.setPadding(0, 0, 0, diff)
                 //动态设置recyclerView滑动适配距离
-                if (reverse) recyclerViewMoveReverse(diff)
+                if (reverse) recyclerViewMoveReverse()
                 else recyclerViewMove(diff)
             }
         } else {
@@ -112,7 +112,7 @@ class KeyboardHelper(
                 //reset the padding of the contentView
                 contentView.setPadding(0, 0, 0, 0)
                 //动态设置recyclerView滑动适配距离
-                if (reverse) recyclerViewMoveReverse(-tempDiff, false)
+                if (reverse) recyclerViewMoveReverse(false)
                 else recyclerViewMove(-tempDiff, false)
                 //清除临时diff值
                 tempDiff = 0
@@ -141,10 +141,9 @@ class KeyboardHelper(
 
     /**
      * 逆序数据列表设置diff值
-     * @param diff 列表滑动距离
      * @param open 是否未打开键盘时
      */
-    private fun recyclerViewMoveReverse(diff: Int, open: Boolean = true) {
+    private fun recyclerViewMoveReverse(open: Boolean = true) {
         recyclerView?.run {
             if (open) {
                 recyclerView?.smoothScrollToTop()

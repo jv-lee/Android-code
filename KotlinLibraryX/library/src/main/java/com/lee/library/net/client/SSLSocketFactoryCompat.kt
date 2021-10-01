@@ -42,7 +42,7 @@ class SSLSocketFactoryCompat : SSLSocketFactory {
     private fun enableTls12(socket: Socket): Socket {
         if (Build.VERSION.SDK_INT == 19) {
             if (socket is SSLSocket) {
-                (socket as SSLSocket).enabledProtocols = TLS_V12_ONLY
+                socket.enabledProtocols = TLS_V12_ONLY
             }
         }
         return socket

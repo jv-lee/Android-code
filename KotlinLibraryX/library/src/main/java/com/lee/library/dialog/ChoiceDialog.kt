@@ -14,11 +14,11 @@ import com.lee.library.dialog.core.BaseAlertDialog
 class ChoiceDialog(context: Context) : BaseAlertDialog(context, R.layout.layout_dialog_choice,false) {
 
     public override fun bindView() {
-        findViewById<View>(R.id.tv_confirm).setOnClickListener { v: View? ->
+        findViewById<View>(R.id.tv_confirm).setOnClickListener {
             confirmListener ?: dismiss()
             confirmListener?.onConfirm()
         }
-        findViewById<View>(R.id.tv_cancel).setOnClickListener { v: View? ->
+        findViewById<View>(R.id.tv_cancel).setOnClickListener {
             cancelListener ?: dismiss()
             cancelListener?.onCancel()
         }

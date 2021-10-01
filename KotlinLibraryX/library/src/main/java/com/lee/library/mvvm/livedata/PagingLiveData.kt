@@ -24,7 +24,7 @@ fun <T> PageLiveData<*>.applyData(
 
 suspend fun <T> PageLiveData<*>.pageLaunch(
     @LoadStatus status: Int,
-    networkBlock: suspend (Int) -> T? = { page: Int -> null },
+    networkBlock: suspend (Int) -> T? = { _: Int -> null },
     cacheBlock: suspend () -> T? = { null },
     cacheSaveBlock: suspend (T) -> Unit = {}
 ) {
@@ -85,7 +85,7 @@ class PageLiveData2<T, K>(internal val initKey: K? = null) : CacheLiveData<T>() 
 suspend fun <T, K> PageLiveData2<T, K>.pageLaunch(
     @LoadStatus status: Int,
     startBlock: suspend () -> T? = { null },
-    resumeBlock: suspend (K?) -> T? = { key: K? -> null },
+    resumeBlock: suspend (K?) -> T? = { _: K? -> null },
     completedBlock: suspend (T) -> Unit = {}
 ) {
     try {

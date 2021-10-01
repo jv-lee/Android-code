@@ -14,7 +14,7 @@ import com.lee.library.dialog.core.BaseAlertDialog
 class WarnDialog(context: Context) : BaseAlertDialog(context, R.layout.layout_dialog_warm, false) {
 
     public override fun bindView() {
-        findViewById<View>(R.id.tv_confirm).setOnClickListener { v: View? ->
+        findViewById<View>(R.id.tv_confirm).setOnClickListener {
             if (confirmListener != null) {
                 confirmListener?.onConfirm()
             } else {

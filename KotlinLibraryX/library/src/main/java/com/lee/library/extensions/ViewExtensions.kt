@@ -80,7 +80,7 @@ fun View.setBackgroundSelectorTintCompat(selectorId: Int) {
         this,
         ColorStateList.createFromXml(
             this.resources,
-            this.resources.getXml(selectorId)
+            this.resources.getXml(selectorId),
         )
     )
 }
@@ -347,8 +347,8 @@ fun EditText.setBankCodeTextWatcher(lengthLimit: Int = 16) {
             }
         }
 
-        private fun addSpaceByCredit(content: String, lengthLimit: Int): String {
-            var content = content
+        private fun addSpaceByCredit(contents: String, lengthLimit: Int): String {
+            var content = contents
             if (TextUtils.isEmpty(content)) {
                 return ""
             }

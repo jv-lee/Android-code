@@ -129,6 +129,7 @@ class WheelView : RecyclerView {
         addItemDecoration(PaddingDecoration())
     }
 
+    @Suppress("UNCHECKED_CAST")
     fun <T> setSelectedListener(selectedListener: SelectedListener<T>) {
         (adapter as SelectAdapter<T>).mSelectedListener = selectedListener
     }

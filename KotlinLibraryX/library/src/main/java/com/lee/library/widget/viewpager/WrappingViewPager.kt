@@ -47,7 +47,7 @@ open class WrappingViewPager(context:Context,attrs: AttributeSet?,private var is
     }
 
     public override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        var heightMeasureSpec = heightMeasureSpec
+        var heightMeasureSpecTemp = heightMeasureSpec
         if (!mAnimStarted && mCurrentView != null) {
             var height: Int
             mCurrentView!!.measure(
@@ -63,16 +63,16 @@ open class WrappingViewPager(context:Context,attrs: AttributeSet?,private var is
                 height = minimumHeight
             }
             val newHeight = MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY)
-            if (layoutParams.height != 0 && heightMeasureSpec != newHeight) {
+            if (layoutParams.height != 0 && heightMeasureSpecTemp != newHeight) {
                 mAnimation.setDimensions(height, layoutParams.height)
                 mAnimation.duration = mAnimDuration
                 startAnimation(mAnimation)
                 mAnimStarted = true
             } else {
-                heightMeasureSpec = newHeight
+                heightMeasureSpecTemp = newHeight
             }
         }
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+        super.onMeasure(widthMeasureSpec, heightMeasureSpecTemp)
     }
 
     /**
@@ -94,7 +94,7 @@ open class WrappingViewPager(context:Context,attrs: AttributeSet?,private var is
     private fun clearVerticalViewEmptyPadding(){
         if (!isVertical)return
         val view = findViewById<View>(currentItem + 1)
-        view?.let {view->
+        view?.run {
             val paddingTop = view.paddingTop
             if (paddingTop >= diffPadding) {
                 view.setPadding(
