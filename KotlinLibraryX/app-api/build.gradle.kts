@@ -1,7 +1,7 @@
 import com.google.protobuf.gradle.generateProtoTasks
+import com.google.protobuf.gradle.proto
 import com.google.protobuf.gradle.protobuf
 import com.google.protobuf.gradle.protoc
-import org.jetbrains.kotlin.compiler.plugin.parsePluginOption
 
 plugins {
     id("com.android.application")
@@ -56,22 +56,31 @@ android {
     kapt {
         generateStubs = true
     }
+
+    sourceSets.getByName("main") {
+        java {
+            srcDir("src/main/java")
+        }
+
+//        proto {
+//            srcDir("src/main/proto")
+//            include("**/*.proto")
+//        }
+    }
 }
 
 protobuf {
     protoc {
         artifact = "com.google.protobuf:protoc:3.10.0"
     }
-
-    // Generates the java Protobuf-lite code for the Protobufs in this project. See
-    // https://github.com/google/protobuf-gradle-plugin#customizing-protobuf-compilation
-    // for more information.
     generateProtoTasks {
+        sourceSets
         all().onEach { task ->
             task.builtins {
-                java {
-                    parsePluginOption("lite")
-                }
+                remove("java")
+            }
+            task.builtins {
+                java {}
             }
         }
     }
@@ -82,16 +91,16 @@ dependencies {
     DependenciesEach.processors.forEach { kapt(it) }
 
     // Preferences DataStore
-    implementation("androidx.datastore:datastore-preferences:1.0.0-alpha05")
+    implementation("androidx.datastore:datastore-preferences:1.0.0-alpha08")
 
     // Proto DataStore
-    implementation("androidx.datastore:datastore-core:1.0.0-alpha05")
+    implementation("androidx.datastore:datastore-core:1.0.0-alpha08")
 
     implementation("com.google.protobuf:protobuf-java:3.11.0")
 //    implementation 'com.google.protobuf:protobuf-javalite:3.11.0'
 
     //WorkManager
-    implementation("androidx.work:work-runtime:2.3.4")
+    implementation("androidx.work:work-runtime:2.5.0")
 
-    testImplementation("junit:junit:4.12")
+    testImplementation("junit:junit:4.13.2")
 }
