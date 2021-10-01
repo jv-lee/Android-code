@@ -1,14 +1,45 @@
 plugins {
-    id("commons.android-app")
+    id("com.android.application")
+    id("kotlin-android")
+    id("kotlin-kapt")
 }
 
 android {
+    compileSdk = BuildConfig.compileSdk
+
     defaultConfig {
         applicationId = "com.simple.compose"
+        minSdk = BuildConfig.minSdk
+        targetSdk = BuildConfig.targetSdk
+        versionName = BuildConfig.versionName
+        versionCode = BuildConfig.versionCode
+
+        multiDexEnabled = BuildConfig.multiDex
 
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        vectorDrawables.useSupportLibrary = BuildConfig.SUPPORT_LIBRARY_VECTOR_DRAWABLES
+        testInstrumentationRunner = BuildConfig.TEST_INSTRUMENTATION_RUNNER
+        testInstrumentationRunnerArguments.putAll(BuildConfig.TEST_INSTRUMENTATION_RUNNER_ARGUMENTS)
+    }
+
+    buildTypes {
+        getByName(BuildType.RELEASE) {
+            isMinifyEnabled = BuildRelease.isMinifyEnabled
+            proguardFiles("proguard-android-optimize.txt", "proguard-rules.pro")
+        }
+
+        getByName(BuildType.DEBUG) {
+            isMinifyEnabled = BuildDebug.isMinifyEnabled
+            proguardFiles("proguard-android-optimize.txt", "proguard-rules.pro")
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
 
     kotlinOptions {
@@ -18,7 +49,13 @@ android {
     }
 
     buildFeatures {
+        dataBinding = true
+        viewBinding = true
         compose = true
+    }
+
+    kapt {
+        generateStubs = true
     }
 
     composeOptions {
@@ -34,6 +71,9 @@ android {
 }
 
 dependencies {
+    implementation(project(BuildModules.LIBRARY))
+    DependenciesEach.processors.forEach { kapt(it) }
+
     val composeVersion = "1.0.0"
 
     implementation("androidx.compose.ui:ui:$composeVersion")
