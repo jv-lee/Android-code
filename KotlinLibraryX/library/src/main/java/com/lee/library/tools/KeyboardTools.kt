@@ -90,7 +90,7 @@ object KeyboardTools {
      */
     @SuppressLint("ClickableViewAccessibility")
     fun parentTouchHideSoftInput(activity: Activity, view: View) {
-        view.setOnTouchListener { view, _ ->
+        view.setOnTouchListener { _, _ ->
             view.isFocusable = true
             view.isFocusableInTouchMode = true
             view.requestFocus()

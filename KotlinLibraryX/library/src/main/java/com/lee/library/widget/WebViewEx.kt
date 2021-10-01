@@ -54,7 +54,7 @@ class WebViewEx : WebView, ObservableLifecycle {
         settings.cacheMode = WebSettings.LOAD_DEFAULT
         settings.domStorageEnabled = true
         settings.javaScriptCanOpenWindowsAutomatically = true
-        settings.savePassword = false
+
         setWebContentsDebuggingEnabled(true)
         webViewClient = object : WebViewClient() {
             override fun onReceivedSslError(
@@ -69,11 +69,11 @@ class WebViewEx : WebView, ObservableLifecycle {
                 //不校验https证书
                 builder.setPositiveButton(
                     context.getString(R.string.str_continue)
-                ) { dialog: DialogInterface?, which: Int -> mHandler.proceed() }
+                ) { _: DialogInterface?, _: Int -> mHandler.proceed() }
                 //校验证书
                 builder.setNegativeButton(
                     context.getString(R.string.str_cancel)
-                ) { dialog: DialogInterface?, which: Int -> mHandler.cancel() }
+                ) { _: DialogInterface?, _: Int -> mHandler.cancel() }
                 builder.setOnKeyListener { dialog: DialogInterface, keyCode: Int, event: KeyEvent ->
                     if (event.action == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
                         mHandler.cancel()
