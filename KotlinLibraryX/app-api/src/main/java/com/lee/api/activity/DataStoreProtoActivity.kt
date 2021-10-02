@@ -8,8 +8,8 @@ import com.lee.api.R
 import com.lee.api.proto.SettingsSerializer.settingsDataStore
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
@@ -19,34 +19,46 @@ class DataStoreProtoActivity : AppCompatActivity(R.layout.activity_data_store_pr
         const val TAG = "DataStore"
     }
 
-    private val settings = runBlocking { settingsDataStore.data.first() }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         CoroutineScope(Dispatchers.Main).launch {
             updateData()
             getData()
         }
+        blocking()
     }
 
+    /**
+     * 异步方式修改方式
+     */
     private suspend fun updateData() {
         settingsDataStore.updateData { settings ->
             settings.toBuilder()
-                .setExampleCounter(settings.exampleCounter + 1)
+                .setExampleCounter(1)
                 .build()
         }
     }
 
+    /**
+     * 异步方式获取方式
+     */
     private suspend fun getData() {
-        settingsDataStore.data.map { settings ->
-            Log.i(TAG, "exampleCounter:${settings.exampleCounter}")
+        settingsDataStore.data.collect {
+            Log.i(TAG, "exampleCounter:${it.exampleCounter}")
         }
     }
 
+    /**
+     * 同步获取方式
+     */
     private fun blocking() {
-        Log.i(TAG, "exampleCounter:${settings.exampleCounter}")
+        val settings = runBlocking { settingsDataStore.data.first() }
+        Log.i(TAG, "blocking:${settings.exampleCounter}")
         lifecycleScope.launch {
-            Log.i(TAG, "blocking: ${settingsDataStore.data.first().exampleCounter}")
+            Log.i(
+                TAG,
+                "blocking: ${settingsDataStore.data.first().exampleCounter}"
+            )
         }
     }
 

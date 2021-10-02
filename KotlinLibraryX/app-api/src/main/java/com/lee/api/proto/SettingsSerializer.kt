@@ -33,5 +33,4 @@ object SettingsSerializer : Serializer<Settings> {
         fileName = "settings.pb",
         serializer = SettingsSerializer
     )
-
 }

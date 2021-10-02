@@ -2,7 +2,7 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
-    id 'com.google.protobuf'
+    id 'com.google.protobuf' version "0.8.13"
 }
 
 android {
@@ -41,19 +41,6 @@ android {
         viewBinding true
     }
 
-    sourceSets {
-        main {
-            java {
-                srcDir 'src/main/java'
-            }
-
-            proto {
-                srcDir 'src/main/proto'
-                include '**/*.proto'
-            }
-        }
-    }
-
 }
 
 protobuf {
@@ -63,10 +50,8 @@ protobuf {
     generateProtoTasks {
         all().each { task ->
             task.builtins {
-                remove java
-            }
-            task.builtins {
-                java {}
+                java {
+                }
             }
         }
     }
@@ -83,6 +68,7 @@ dependencies {
     // Proto DataStore
     implementation "androidx.datastore:datastore:1.0.0"
 
+    // proto
     implementation 'com.google.protobuf:protobuf-java:3.11.0'
 
     //WorkManager
@@ -91,5 +77,4 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-
 }
