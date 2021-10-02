@@ -6,6 +6,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.core.Serializer
 import androidx.datastore.dataStore
 import androidx.datastore.preferences.protobuf.InvalidProtocolBufferException
+import com.proto.model.Settings
 import java.io.InputStream
 import java.io.OutputStream
 
@@ -32,5 +33,4 @@ object SettingsSerializer : Serializer<Settings> {
         fileName = "settings.pb",
         serializer = SettingsSerializer
     )
-
 }

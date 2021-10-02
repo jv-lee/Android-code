@@ -13,6 +13,7 @@ object BuildPlugin {
     const val navigationSafeargs = "androidx.navigation.safeargs.kotlin"
 
     const val protobuf = "com.google.protobuf"
+    const val protobuf_version = "0.8.17"
 
     const val hilt = "dagger.hilt.android.plugin"
 }
