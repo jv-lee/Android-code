@@ -3,6 +3,8 @@ import com.google.protobuf.gradle.generateProtoTasks
 import com.google.protobuf.gradle.protobuf
 import com.google.protobuf.gradle.protoc
 
+apply("basic.gradle")
+
 plugins {
     id(BuildPlugin.application)
     id(BuildPlugin.kotlin)
@@ -62,10 +64,10 @@ android {
             java {
                 srcDir("src/main/java")
             }
-//            proto {
-//                srcDir("src/main/proto")
-//                include("**/*.proto")
-//            }
+            proto {
+                srcDir("src/main/proto")
+                include("**/*.proto")
+            }
         }
     }
 }
@@ -88,10 +90,10 @@ dependencies {
     DependenciesEach.processors.forEach { kapt(it) }
 
     // Preferences DataStore
-    implementation("androidx.datastore:datastore-preferences:1.0.0-alpha08")
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
 
     // Proto DataStore
-    implementation("androidx.datastore:datastore-core:1.0.0-alpha08")
+    implementation("androidx.datastore:datastore:1.0.0")
 
     implementation("com.google.protobuf:protobuf-java:3.11.0")
 
