@@ -78,10 +78,10 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
 
     // Preferences DataStore
-    implementation "androidx.datastore:datastore-preferences:1.0.0-alpha08"
+    implementation "androidx.datastore:datastore-preferences:1.0.0"
 
     // Proto DataStore
-    implementation "androidx.datastore:datastore-core:1.0.0-alpha08"
+    implementation "androidx.datastore:datastore:1.0.0"
 
     implementation 'com.google.protobuf:protobuf-java:3.11.0'
 

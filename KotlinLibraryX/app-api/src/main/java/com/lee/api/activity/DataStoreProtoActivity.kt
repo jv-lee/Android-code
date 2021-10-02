@@ -3,19 +3,15 @@ package com.lee.api.activity
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.datastore.core.DataStore
-import androidx.datastore.createDataStore
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.preferencesKey
-import androidx.datastore.preferences.createDataStore
+import androidx.lifecycle.lifecycleScope
 import com.lee.api.R
-import com.lee.api.proto.SettingsSerializer
-import com.proto.model.SettingsProto
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
+import com.lee.api.proto.SettingsSerializer.settingsDataStore
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 class DataStoreProtoActivity : AppCompatActivity(R.layout.activity_data_store_preference) {
 
@@ -23,39 +19,34 @@ class DataStoreProtoActivity : AppCompatActivity(R.layout.activity_data_store_pr
         const val TAG = "DataStore"
     }
 
-    private val dataStore: DataStore<SettingsProto.Settings> by lazy {
-        createDataStore(
-            fileName = "settings.pb",
-            serializer = SettingsSerializer
-        )
-    }
+    private val settings = runBlocking { settingsDataStore.data.first() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        GlobalScope.launch {
+        CoroutineScope(Dispatchers.Main).launch {
             updateData()
-            getData().collect {
-                Log.i(TAG, "onCreate: exampleCounter:${it.exampleCounter}")
-            }
+            getData()
         }
-
-    }
-
-    private fun getData(): Flow<SettingsProto.Settings> {
-        return dataStore.data
-//        dataStore.data
-//            .map {
-//                it.exampleCounter
-//            }.collect {
-//                Log.i(TAG, "getData: exampleCounter:$it")
-//            }
     }
 
     private suspend fun updateData() {
-        dataStore.updateData {
-            it.toBuilder()
-                .setExampleCounter(it.exampleCounter + 1)
+        settingsDataStore.updateData { settings ->
+            settings.toBuilder()
+                .setExampleCounter(settings.exampleCounter + 1)
                 .build()
+        }
+    }
+
+    private suspend fun getData() {
+        settingsDataStore.data.map { settings ->
+            Log.i(TAG, "exampleCounter:${settings.exampleCounter}")
+        }
+    }
+
+    private fun blocking() {
+        Log.i(TAG, "exampleCounter:${settings.exampleCounter}")
+        lifecycleScope.launch {
+            Log.i(TAG, "blocking: ${settingsDataStore.data.first().exampleCounter}")
         }
     }
 
