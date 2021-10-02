@@ -12,7 +12,7 @@ object BuildPlugin {
 
     const val navigationSafeargs = "androidx.navigation.safeargs.kotlin"
 
-    const val proto = "com.google.protobuf"
+    const val protobuf = "com.google.protobuf"
 
     const val hilt = "dagger.hilt.android.plugin"
 }

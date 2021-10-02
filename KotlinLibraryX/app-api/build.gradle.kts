@@ -2,13 +2,12 @@ import com.google.protobuf.gradle.builtins
 import com.google.protobuf.gradle.generateProtoTasks
 import com.google.protobuf.gradle.protobuf
 import com.google.protobuf.gradle.protoc
-import org.jetbrains.kotlin.gradle.targets.js.npm.includedRange
 
 plugins {
     id(BuildPlugin.application)
     id(BuildPlugin.kotlin)
     id(BuildPlugin.kapt)
-    id(BuildPlugin.proto)
+    id(BuildPlugin.protobuf)
 }
 
 android {
@@ -58,12 +57,22 @@ android {
         generateStubs = true
     }
 
+    sourceSets {
+        getByName("main") {
+            java {
+                srcDir("src/main/java")
+            }
+//            proto {
+//                srcDir("src/main/proto")
+//                include("**/*.proto")
+//            }
+        }
+    }
 }
 
 protobuf {
     protoc {
         artifact = "com.google.protobuf:protoc:3.10.0"
-        path = "${project.rootDir.path}/app-api/src/main/proto"
     }
     generateProtoTasks {
         all().onEach { task ->
