@@ -53,7 +53,7 @@ android {
 }
 
 dependencies {
-    DependenciesEach.processors.forEach { kapt(it) }
+    commonProcessors()
 
     implementation(project(BuildModules.LIBRARY))
     testImplementation("junit:junit:4.12")

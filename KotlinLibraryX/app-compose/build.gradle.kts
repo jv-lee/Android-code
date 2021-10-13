@@ -71,8 +71,9 @@ android {
 }
 
 dependencies {
+    commonProcessors()
+
     implementation(project(BuildModules.LIBRARY))
-    DependenciesEach.processors.forEach { kapt(it) }
 
     val composeVersion = "1.0.0"
 
@@ -80,7 +81,6 @@ dependencies {
     implementation("androidx.compose.material:material:$composeVersion")
     implementation("androidx.compose.ui:ui-tooling-preview:$composeVersion")
     implementation("androidx.activity:activity-compose:1.3.0-alpha06")
-
 
     testImplementation("junit:junit:4.+")
     androidTestImplementation("androidx.test.ext:junit:1.1.2")

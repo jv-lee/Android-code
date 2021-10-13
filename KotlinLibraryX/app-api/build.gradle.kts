@@ -75,8 +75,9 @@ protobuf {
 }
 
 dependencies {
+    commonProcessors()
+
     implementation(project(BuildModules.LIBRARY))
-    DependenciesEach.processors.forEach { kapt(it) }
 
     // Preferences DataStore
     implementation("androidx.datastore:datastore-preferences:1.0.0")
