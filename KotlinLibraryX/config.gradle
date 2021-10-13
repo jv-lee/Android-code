@@ -19,6 +19,7 @@ ext {
     room = "2.2.2"
     glide = "4.11.0"
     gson = "2.8.5"
+    protobuf = "3.10.0"
     retrofit = "2.6.0"
     activity = "1.3.0"
     fragment = "1.3.6"
@@ -85,8 +86,9 @@ ext {
             "retrofit"          : "com.squareup.retrofit2:retrofit:${retrofit}",
             "conver-gson"       : "com.squareup.retrofit2:converter-gson:${retrofit}",
             "conver-scalars"    : "com.squareup.retrofit2:converter-scalars:${retrofit}",
-            "conver-protobuf"   : "com.squareup.retrofit2:converter-protobuf:${retrofit}",
-            "call-fast-json"    : "com.github.BaronZ88:Retrofit2-FastJson-Converter:1.2",
+
+            //protobuf
+            "protobuf" : "com.google.protobuf:protobuf-javalite:${protobuf}",
 
             //组件化依赖
             "autoService"       : "com.google.auto.service:auto-service:${autoService}",
