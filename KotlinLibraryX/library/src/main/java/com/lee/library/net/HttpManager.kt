@@ -11,6 +11,7 @@ import com.lee.library.net.adapter.LongDefaultAdapter
 import com.lee.library.net.client.OkHttpClientBuilder
 import com.lee.library.net.factory.CoroutineCallAdapterFactory
 import com.lee.library.net.factory.FlowCallAdapterFactory
+import com.lee.library.net.factory.ProtoConverterFactory
 import com.lee.library.net.request.IRequest
 import com.lee.library.net.request.Request
 import okhttp3.Cache
@@ -21,7 +22,6 @@ import retrofit2.Converter
 import retrofit2.HttpException
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.converter.protobuf.ProtoConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.io.File
 

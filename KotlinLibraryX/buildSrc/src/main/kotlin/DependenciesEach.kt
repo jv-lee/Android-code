@@ -45,7 +45,8 @@ object DependenciesEach {
         Dependencies.retrofit,
         Dependencies.retrofitConverterGson,
         Dependencies.retrofitConverterScalars,
-        Dependencies.retrofitConverterProtobuf,
+
+        Dependencies.protobuf,
 
         Dependencies.autoService,
 

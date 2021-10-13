@@ -49,8 +49,9 @@ object Dependencies {
     const val retrofitConverterGson = "com.squareup.retrofit2:converter-gson:${Version.retrofit}"
     const val retrofitConverterScalars =
         "com.squareup.retrofit2:converter-scalars:${Version.retrofit}"
-    const val retrofitConverterProtobuf =
-        "com.squareup.retrofit2:converter-protobuf:${Version.retrofit}"
+
+    //protobuf
+    const val protobuf = "com.google.protobuf:protobuf-javalite:${Version.protobuf}"
 
     //组件化依赖
     const val autoService = "com.google.auto.service:auto-service:${Version.autoService}"
