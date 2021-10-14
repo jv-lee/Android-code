@@ -2,6 +2,7 @@ import dependencies.Dependencies
 import dependencies.ProcessorsDependencies
 import dependencies.TestDependencies
 import org.gradle.kotlin.dsl.DependencyHandlerScope
+import org.gradle.kotlin.dsl.exclude
 import org.gradle.kotlin.dsl.project
 
 //app依赖扩展配置
@@ -61,8 +62,10 @@ fun DependencyHandlerScope.commonDependencies() {
     api(Dependencies.glideAnnotations)
 
     api(Dependencies.retrofit)
-    api(Dependencies.retrofitConverterGson)
+    api(Dependencies.retrofitConverterGson) { exclude("com.google.code.gson") }
     api(Dependencies.retrofitConverterScalars)
+
+    api(Dependencies.gson)
 
     api(Dependencies.protobuf)
 

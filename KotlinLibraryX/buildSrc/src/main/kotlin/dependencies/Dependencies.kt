@@ -50,6 +50,9 @@ object Dependencies {
     const val retrofitConverterScalars =
         "com.squareup.retrofit2:converter-scalars:${Version.retrofit}"
 
+    //gson解析
+    const val gson ="com.google.code.gson:gson:${Version.gson}"
+
     //protobuf
     const val protobuf = "com.google.protobuf:protobuf-javalite:${Version.protobuf}"
 
