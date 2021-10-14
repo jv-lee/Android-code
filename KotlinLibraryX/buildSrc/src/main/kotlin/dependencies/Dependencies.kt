@@ -2,11 +2,11 @@ package dependencies
 
 object Dependencies {
     //kotlin androidx核心库
-    const val coreKtx = "androidx.core:core-ktx:1.2.0"
+    const val coreKtx = "androidx.core:core-ktx:${Version.ktxCore}"
 
     //协程
-    const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.9"
-    const val coroutinesAndroid = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.4"
+    const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Version.coroutines}"
+    const val coroutinesAndroid = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Version.coroutinesAndroid}"
 
     //生命周期
     const val lifecycle = "androidx.lifecycle:lifecycle-runtime-ktx:${Version.lifecycle}"
@@ -18,15 +18,15 @@ object Dependencies {
     const val fragment = "androidx.fragment:fragment-ktx:${Version.fragment}"
 
     //分包库
-    const val multidex = "androidx.multidex:multidex:2.0.1"
+    const val multidex = "androidx.multidex:multidex:${Version.multidex}"
 
     //androidUi
-    const val appcompat = "androidx.appcompat:appcompat:1.2.0"
-    const val support = "androidx.legacy:legacy-support-v4:1.0.0"
-    const val recyclerview = "androidx.recyclerview:recyclerview:1.1.0"
-    const val constraint = "androidx.constraintlayout:constraintlayout:2.0.2"
-    const val viewpager2 = "androidx.viewpager2:viewpager2:1.0.0"
-    const val material = "com.google.android.material:material:1.1.0"
+    const val appcompat = "androidx.appcompat:appcompat:${Version.appcompat}"
+    const val support = "androidx.legacy:legacy-support-v4:${Version.support}"
+    const val recyclerview = "androidx.recyclerview:recyclerview:${Version.recyclerview}"
+    const val constraint = "androidx.constraintlayout:constraintlayout:${Version.constraintLayout}"
+    const val viewpager2 = "androidx.viewpager2:viewpager2:${Version.viewpager2}"
+    const val material = "com.google.android.material:material:${Version.material}"
 
     //fragment导航
     const val navigationFragment =
@@ -58,7 +58,4 @@ object Dependencies {
 
     //组件化依赖
     const val autoService = "com.google.auto.service:auto-service:${Version.autoService}"
-
-    //图片选择器
-    const val imageTools = "com.github.jv-lee.imagetools:library:1.4.3"
 }
