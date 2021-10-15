@@ -2,16 +2,13 @@ package configures
 
 import build.*
 import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
-import org.gradle.api.JavaVersion
-import org.gradle.api.Project
-import org.gradle.kotlin.dsl.configure
-import org.gradle.kotlin.dsl.dependencies
-import org.gradle.kotlin.dsl.withType
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import kapt
-import org.gradle.kotlin.dsl.project
 import commonProcessors
 import implementation
+import kapt
+import org.gradle.api.JavaVersion
+import org.gradle.api.Project
+import org.gradle.kotlin.dsl.*
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import testImplementation
 
 /**
@@ -28,6 +25,8 @@ fun Project.appConfigure(
     plugins.apply(BuildPlugin.application)
     plugins.apply(BuildPlugin.kotlin)
     plugins.apply(BuildPlugin.kapt)
+
+    projectConfigure()
 
     extensions.configure<BaseAppModuleExtension> {
         compileSdk = BuildConfig.compileSdk
