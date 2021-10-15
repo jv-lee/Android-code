@@ -1,7 +1,9 @@
 import configures.appConfigure
-import configures.protobufConfigure
+import configures.plugins.protobufConfigure
 
 appConfigure(packageName = "com.lee.api", projectConfigure = {
+    protobufConfigure()
+
     dependencies {
         // Preferences DataStore
         implementation("androidx.datastore:datastore-preferences:1.0.0")
@@ -13,5 +15,3 @@ appConfigure(packageName = "com.lee.api", projectConfigure = {
         implementation("androidx.work:work-runtime:2.5.0")
     }
 })
-
-protobufConfigure()

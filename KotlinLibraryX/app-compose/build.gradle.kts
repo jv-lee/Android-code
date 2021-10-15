@@ -1,7 +1,9 @@
 import configures.appConfigure
-import configures.composeConfigure
+import configures.plugins.composeConfigure
 
 appConfigure(packageName = "com.simple.compose", projectConfigure = {
+    composeConfigure()
+
     dependencies {
         val composeVersion = "1.0.0"
 
@@ -17,6 +19,4 @@ appConfigure(packageName = "com.simple.compose", projectConfigure = {
         debugImplementation("androidx.compose.ui:ui-tooling:$composeVersion")
     }
 })
-
-composeConfigure()
 

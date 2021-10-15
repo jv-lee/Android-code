@@ -1,4 +1,4 @@
-package configures
+package configures.plugins
 
 import build.BuildPlugin
 import com.google.protobuf.gradle.builtins
