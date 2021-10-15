@@ -1,27 +1,8 @@
-import com.google.protobuf.gradle.*
 import configures.appConfigure
-
-plugins {
-    id(build.BuildPlugin.protobuf).version(build.BuildPlugin.protobuf_version)
-}
+import configures.protobufConfigure
 
 appConfigure(packageName = "com.lee.api")
-
-protobuf {
-    generatedFilesBaseDir = "$projectDir/src"
-    protoc {
-        artifact = "com.google.protobuf:protoc:3.10.0"
-    }
-    generateProtoTasks {
-        all().onEach { task ->
-            task.builtins {
-                create("java") {
-                    option("lite")
-                }
-            }
-        }
-    }
-}
+protobufConfigure()
 
 dependencies {
     // Preferences DataStore
