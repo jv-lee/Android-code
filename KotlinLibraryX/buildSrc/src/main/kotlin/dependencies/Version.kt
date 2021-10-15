@@ -1,10 +1,5 @@
 package dependencies
 
-/**
- * @author jv.lee
- * @data 2021/9/28
- * @description
- */
 object Version {
 
     //core

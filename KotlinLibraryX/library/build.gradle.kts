@@ -1,3 +1,5 @@
+import configures.libraryConfigure
+
 libraryConfigure()
 
 dependencies {
