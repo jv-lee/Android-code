@@ -87,7 +87,7 @@ inline fun Fragment.delayBackEvent(
  * 携程flow fragment生命周期绑定
  */
 inline fun Fragment.launchAndRepeatWithViewLifecycle(
-    minActiveState: Lifecycle.State = Lifecycle.State.CREATED,
+    minActiveState: Lifecycle.State = Lifecycle.State.STARTED,
     crossinline block:suspend CoroutineScope.() -> Unit
 ) {
     viewLifecycleOwner.lifecycleScope.launch {
