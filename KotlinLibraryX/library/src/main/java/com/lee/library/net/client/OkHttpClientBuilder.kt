@@ -39,7 +39,7 @@ class OkHttpClientBuilder {
      * 忽略所有证书的 OKHttpClient
      * @return
      */
-    fun getUnSafeClient(): OkHttpClient? {
+    fun getUnSafeClient(): OkHttpClient {
         if (unSafeClient == null) {
             val builder: OkHttpClient.Builder =
                 getSafeClient().newBuilder()
@@ -59,7 +59,7 @@ class OkHttpClientBuilder {
             }
             unSafeClient = builder.build()
         }
-        return unSafeClient
+        return unSafeClient!!
     }
 
     private fun getUnsafeHostNameVerifier(): HostnameVerifier {

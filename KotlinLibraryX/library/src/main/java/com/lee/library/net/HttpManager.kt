@@ -55,12 +55,17 @@ class HttpManager private constructor() {
     private val mInterceptors by lazy { ArrayList<Interceptor>() }
     private var mClient: OkHttpClient? = null
     private var mDownloadClient: OkHttpClient? = null
+    private var isUnSafeClient = false
+
+    fun setUnSafeClient(enable: Boolean) {
+        this.isUnSafeClient = enable
+    }
 
     fun putInterceptor(interceptor: Interceptor) {
         mInterceptors.add(interceptor)
     }
 
-    fun getClient(): OkHttpClient? {
+    fun getClient(): OkHttpClient {
         return getOkHttpClient(Request("https://android.cn", IRequest.ConverterType.JSON))
     }
 
@@ -131,7 +136,11 @@ class HttpManager private constructor() {
             return mClient as OkHttpClient
         }
 
-        val builder = OkHttpClientBuilder().getSafeClient().newBuilder()
+        val builder = if (isUnSafeClient) {
+            OkHttpClientBuilder().getUnSafeClient().newBuilder()
+        } else {
+            OkHttpClientBuilder().getSafeClient().newBuilder()
+        }
 
         //cache
         val httpCacheDirectory = File(BaseApplication.getContext().cacheDir, "OkHttpCache")
