@@ -147,7 +147,7 @@ fun Activity.unbindFragmentLifecycle(@NonNull cb: FragmentManager.FragmentLifecy
  * 携程flow fragment生命周期绑定
  */
 inline fun FragmentActivity.launchAndRepeatWithViewLifecycle(
-    minActiveState: Lifecycle.State = Lifecycle.State.CREATED,
+    minActiveState: Lifecycle.State = Lifecycle.State.STARTED,
     crossinline block:suspend CoroutineScope.() -> Unit
 ) {
     lifecycleScope.launch {
