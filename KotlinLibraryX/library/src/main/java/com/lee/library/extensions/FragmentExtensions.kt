@@ -5,8 +5,13 @@ import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.lee.library.R
 import com.lee.library.utils.ActivityUtil
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 /**
  * @author jv.lee
@@ -75,5 +80,19 @@ inline fun Fragment.delayBackEvent(
         }
     }.apply {
         requireActivity().onBackPressedDispatcher.addCallback(this@delayBackEvent, this)
+    }
+}
+
+/**
+ * 携程flow fragment生命周期绑定
+ */
+inline fun Fragment.launchAndRepeatWithViewLifecycle(
+    minActiveState: Lifecycle.State = Lifecycle.State.CREATED,
+    crossinline block:suspend CoroutineScope.() -> Unit
+) {
+    viewLifecycleOwner.lifecycleScope.launch {
+        viewLifecycleOwner.lifecycle.repeatOnLifecycle(minActiveState) {
+            block()
+        }
     }
 }

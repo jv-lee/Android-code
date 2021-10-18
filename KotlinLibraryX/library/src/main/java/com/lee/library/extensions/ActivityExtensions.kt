@@ -9,8 +9,13 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.lee.library.R
 import com.lee.library.utils.ActivityUtil
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 /**
  * @author jv.lee
@@ -135,5 +140,19 @@ fun Activity.bindFragmentLifecycle(
 fun Activity.unbindFragmentLifecycle(@NonNull cb: FragmentManager.FragmentLifecycleCallbacks) {
     if (this is FragmentActivity) {
         supportFragmentManager.unregisterFragmentLifecycleCallbacks(cb)
+    }
+}
+
+/**
+ * 携程flow fragment生命周期绑定
+ */
+inline fun FragmentActivity.launchAndRepeatWithViewLifecycle(
+    minActiveState: Lifecycle.State = Lifecycle.State.CREATED,
+    crossinline block:suspend CoroutineScope.() -> Unit
+) {
+    lifecycleScope.launch {
+        lifecycle.repeatOnLifecycle(minActiveState) {
+            block()
+        }
     }
 }
