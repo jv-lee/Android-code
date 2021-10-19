@@ -99,7 +99,16 @@ inline fun <reified T> stateCacheLive(
     }
 }
 
-inline fun <reified T> flowCacheLive(
+inline fun <reified T> stateFlow(crossinline block: suspend () -> T) = flow {
+    try {
+        emit(UiState.Loading)
+        emit(UiState.Success(block()))
+    } catch (e: Exception) {
+        emit(UiState.Error(e))
+    }
+}
+
+inline fun <reified T> stateCacheFlow(
     crossinline startBlock: suspend () -> T? = { null },
     crossinline resumeBlock: suspend () -> T? = { null },
     crossinline completedBlock: suspend (T) -> Unit = {}
