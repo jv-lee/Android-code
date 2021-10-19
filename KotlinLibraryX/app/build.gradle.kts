@@ -1,0 +1,3 @@
+import configures.appConfigure
+
+appConfigure()
