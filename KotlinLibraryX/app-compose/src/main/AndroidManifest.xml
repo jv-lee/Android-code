@@ -16,8 +16,17 @@
             android:theme="@style/Theme.KotlinLibraryX.NoActionBar">
 
         </activity>
+
         <activity
             android:name=".ComposeActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.KotlinLibraryX.NoActionBar">
+
+        </activity>
+
+        <activity
+            android:name=".ComposeStateActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.KotlinLibraryX.NoActionBar">
