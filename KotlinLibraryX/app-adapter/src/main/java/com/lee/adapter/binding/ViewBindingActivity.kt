@@ -6,6 +6,8 @@ import com.lee.adapter.R
 import com.lee.adapter.databinding.ActivityViewBindingBinding
 import com.lee.adapter.databinding.LayoutFooterBinding
 import com.lee.adapter.databinding.LayoutHeaderBinding
+import com.lee.adapter.entity.ContentData
+import com.lee.adapter.entity.PageData
 import com.lee.adapter.viewmodel.ContentViewModel
 import com.lee.library.adapter.base.BaseViewAdapter
 import com.lee.library.adapter.listener.LoadErrorListener
@@ -16,6 +18,7 @@ import com.lee.library.extensions.binding
 import com.lee.library.extensions.inflate
 import com.lee.library.extensions.toast
 import com.lee.library.mvvm.livedata.LoadStatus
+import com.lee.library.mvvm.ui.observe
 
 class ViewBindingActivity : BaseActivity() {
 
@@ -67,9 +70,9 @@ class ViewBindingActivity : BaseActivity() {
     }
 
     override fun bindData() {
-        viewModel.dataLiveData.observe(this, {
+        viewModel.dataLive.observe<PageData<ContentData>>(this, success = {
             mAdapter.submitData(it)
-        }, {
+        }, error = {
             toast(it.message)
             mAdapter.submitFailed()
         })

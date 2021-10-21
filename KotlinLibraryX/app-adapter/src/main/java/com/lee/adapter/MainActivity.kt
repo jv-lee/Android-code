@@ -4,6 +4,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lee.adapter.adapter.ContentAdapter
 import com.lee.adapter.databinding.*
+import com.lee.adapter.entity.ContentData
+import com.lee.adapter.entity.PageData
 import com.lee.adapter.viewmodel.ContentViewModel
 import com.lee.library.adapter.base.BaseViewAdapter
 import com.lee.library.adapter.listener.LoadErrorListener
@@ -12,6 +14,7 @@ import com.lee.library.adapter.page.submitFailed
 import com.lee.library.base.BaseVMActivity
 import com.lee.library.extensions.toast
 import com.lee.library.mvvm.livedata.LoadStatus
+import com.lee.library.mvvm.ui.observe
 
 class MainActivity : BaseVMActivity<ActivityMainBinding, ContentViewModel>(R.layout.activity_main) {
 
@@ -56,7 +59,7 @@ class MainActivity : BaseVMActivity<ActivityMainBinding, ContentViewModel>(R.lay
 
         })
         mAdapter.setLoadStatusListener {
-            if(it == BaseViewAdapter.STATUS_ITEM_END){
+            if (it == BaseViewAdapter.STATUS_ITEM_END) {
                 mAdapter.addFooter(footerTwo.root)
             }
         }
@@ -69,9 +72,9 @@ class MainActivity : BaseVMActivity<ActivityMainBinding, ContentViewModel>(R.lay
     }
 
     override fun bindData() {
-        viewModel.dataLiveData.observe(this, {
+        viewModel.dataLive.observe<PageData<ContentData>>(this, success = {
             mAdapter.submitData(it)
-        }, {
+        }, error = {
             toast(it.message)
             mAdapter.submitFailed()
         })
