@@ -1,7 +1,6 @@
 package com.lee.adapter.binding
 
 import androidx.activity.viewModels
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lee.adapter.R
 import com.lee.adapter.databinding.ActivityViewBindingBinding
@@ -16,7 +15,7 @@ import com.lee.library.base.BaseActivity
 import com.lee.library.extensions.binding
 import com.lee.library.extensions.inflate
 import com.lee.library.extensions.toast
-import com.lee.library.mvvm.load.LoadStatus
+import com.lee.library.mvvm.livedata.LoadStatus
 
 class ViewBindingActivity : BaseActivity() {
 

@@ -6,7 +6,7 @@ import com.lee.adapter.repository.ContentRepository
 import com.lee.library.mvvm.viewmodel.CoroutineViewModel
 import com.lee.library.mvvm.livedata.PageLiveData
 import com.lee.library.mvvm.livedata.pageLaunch
-import com.lee.library.mvvm.load.LoadStatus
+import com.lee.library.mvvm.livedata.LoadStatus
 import kotlinx.coroutines.delay
 
 /**
