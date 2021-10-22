@@ -83,10 +83,7 @@ class UiStatePageLiveData(internal val initPage: Int = 0) : LiveData<UiState>() 
     }
 
     //分页数据合并
-    fun <T> applyData(
-        oldData: ArrayList<T>?,
-        newData: ArrayList<T>
-    ) {
+    fun <T> applyData(oldData: MutableList<T>?, newData: MutableList<T>) {
         oldData ?: return
         if (page != initPage) newData.addAll(0, oldData)
     }
