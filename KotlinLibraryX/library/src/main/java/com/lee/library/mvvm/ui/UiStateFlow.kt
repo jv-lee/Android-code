@@ -59,10 +59,14 @@ inline fun <reified T> stateCacheFlow(
 }
 
 
-inline fun <reified T> Flow<T>.uiState() = transform { value ->
-    emit(UiState.Success(value) as UiState)
-}.catch {
-    emit(UiState.Error(it))
-}.onStart {
-    emit(UiState.Loading)
+inline fun <reified T> Flow<T>.uiState(): Flow<UiState> {
+    var data: T? = null
+    return transform { value ->
+        data = value
+        emit(UiState.Success(value) as UiState)
+    }.onStart {
+        emit(UiState.Loading)
+    }.catch { e ->
+        emit(UiState.Failure(data, e))
+    }
 }
