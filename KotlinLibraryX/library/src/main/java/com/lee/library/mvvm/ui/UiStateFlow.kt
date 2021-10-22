@@ -58,25 +58,11 @@ inline fun <reified T> stateCacheFlow(
     }
 }
 
-inline fun <reified T> uiState(flow: Flow<T>) = flow {
-    emit(UiState.Loading)
-    emitAll(flow.map { UiState.Success(it) })
+
+inline fun <reified T> Flow<T>.uiState() = transform { value ->
+    emit(UiState.Success(value) as UiState)
 }.catch {
     emit(UiState.Error(it))
-}
-
-inline fun <reified T> Flow<T>.uiStateTransform() = transform { value ->
+}.onStart {
     emit(UiState.Loading)
-    emit(UiState.Success(value))
-}.catch {
-    emit(UiState.Error(it))
-}
-
-inline fun <reified T> Flow<T>.uiStateFlat() = flatMapConcat {
-    flow {
-        emit(UiState.Loading)
-        emit(UiState.Success(it))
-    }
-}.catch { e ->
-    emit(UiState.Error(e))
 }
