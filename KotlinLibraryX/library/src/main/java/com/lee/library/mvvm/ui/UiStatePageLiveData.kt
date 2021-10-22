@@ -29,7 +29,7 @@ class UiStatePageLiveData(internal val initPage: Int = 0) : LiveData<UiState>() 
 
     suspend fun <T> pageLaunch(
         @LoadStatus status: Int,
-        networkBlock: suspend (Int) -> T? = { null },
+        requestBlock: suspend (Int) -> T? = { null },
         cacheBlock: suspend () -> T? = { null },
         cacheSaveBlock: suspend (T) -> Unit = {}
     ) {
@@ -59,7 +59,7 @@ class UiStatePageLiveData(internal val initPage: Int = 0) : LiveData<UiState>() 
             }
 
             //网络数据设置
-            response = networkBlock(page).also {
+            response = requestBlock(page).also {
                 if (response != it) {
                     postValue(UiState.Success(it))
                 }

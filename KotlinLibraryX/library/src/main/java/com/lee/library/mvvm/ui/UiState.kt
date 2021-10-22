@@ -81,8 +81,8 @@ inline fun <reified T> stateLive(crossinline block: suspend () -> T) = liveData 
 }
 
 inline fun <reified T> stateCacheLive(
-    crossinline startBlock: suspend () -> T? = { null },
-    crossinline resumeBlock: suspend () -> T? = { null },
+    crossinline requestBlock: suspend () -> T? = { null },
+    crossinline cacheBlock: suspend () -> T? = { null },
     crossinline completedBlock: suspend (T) -> Unit = {}
 ) = liveData {
     var data: T? = null
@@ -90,12 +90,12 @@ inline fun <reified T> stateCacheLive(
         emit(UiState.Loading)
 
         //加载缓存数据
-        data = startBlock()?.also {
+        data = cacheBlock()?.also {
             emit(UiState.Success(it))
         }
 
         //网络数据
-        resumeBlock()?.also {
+        requestBlock()?.also {
             if (data != it) {
                 //发送网络数据
                 emit(UiState.Success(it))
@@ -121,8 +121,8 @@ inline fun <reified T> stateFlow(crossinline block: suspend () -> T) = flow {
 }
 
 inline fun <reified T> stateCacheFlow(
-    crossinline startBlock: suspend () -> T? = { null },
-    crossinline resumeBlock: suspend () -> T? = { null },
+    crossinline requestBlock: suspend () -> T? = { null },
+    crossinline cacheBlock: suspend () -> T? = { null },
     crossinline completedBlock: suspend (T) -> Unit = {}
 ) = flow {
     var data: T? = null
@@ -130,12 +130,12 @@ inline fun <reified T> stateCacheFlow(
         emit(UiState.Loading)
 
         //加载缓存数据
-        data = startBlock()?.also {
+        data = cacheBlock()?.also {
             emit(UiState.Success(it))
         }
 
         //网络数据
-        resumeBlock()?.also {
+        requestBlock()?.also {
             if (data != it) {
                 //发送网络数据
                 emit(UiState.Success(it))

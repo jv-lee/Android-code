@@ -20,7 +20,7 @@ class ContentViewModel : CoroutineViewModel() {
     fun loadData(@LoadStatus status: Int) {
         launchMain {
             delay(500)
-            dataLive.pageLaunch(status, networkBlock = { page ->
+            dataLive.pageLaunch(status, requestBlock = { page ->
                 repository.getContent(page)
             })
         }
