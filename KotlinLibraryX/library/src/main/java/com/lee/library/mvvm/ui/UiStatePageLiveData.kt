@@ -7,7 +7,7 @@ import com.lee.library.utils.LogUtil
 /**
  * @author jv.lee
  * @data 2021/10/21
- * @description
+ * @description uiState 类型 LiveData分页处理
  */
 class UiStatePageLiveData(internal val initPage: Int = 0) : LiveData<UiState>() {
     private var page = initPage
