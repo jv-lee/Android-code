@@ -416,6 +416,7 @@ class BannerView : RelativeLayout {
      * @param createHolder bannerView构建样式
      */
     fun <T> bindDataCreate(data: List<T>, createHolder: CreateHolder<T>) {
+        removeCallbacks(mLoopRunnable)
         mAdapter = BannerAdapter(data, createHolder)
 
         post {
