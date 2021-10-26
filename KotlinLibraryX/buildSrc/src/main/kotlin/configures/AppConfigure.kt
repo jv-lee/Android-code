@@ -9,6 +9,7 @@ import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.*
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import configures.core.freeCompilerArgs
 import testImplementation
 
 /**
@@ -47,6 +48,7 @@ fun Project.appConfigure(
 
         tasks.withType<KotlinCompile> {
             kotlinOptions.jvmTarget = "1.8"
+            kotlinOptions.freeCompilerArgs += freeCompilerArgs
         }
 
         compileOptions {

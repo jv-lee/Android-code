@@ -12,6 +12,7 @@ import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import commonProcessors
 import commonDependencies
+import configures.core.freeCompilerArgs
 
 /**
  * @author jv.lee
@@ -39,6 +40,7 @@ fun Project.libraryConfigure(
 
         tasks.withType<KotlinCompile> {
             kotlinOptions.jvmTarget = "1.8"
+            kotlinOptions.freeCompilerArgs += freeCompilerArgs
         }
 
         compileOptions {
