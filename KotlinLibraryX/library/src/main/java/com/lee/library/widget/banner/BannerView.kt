@@ -436,6 +436,11 @@ class BannerView : RelativeLayout {
     }
 
     /**
+     * 查看当前启动状态
+     */
+    fun isStart() = isStart
+
+    /**
      * 设置是否支持自动播放
      * @param enable
      */
