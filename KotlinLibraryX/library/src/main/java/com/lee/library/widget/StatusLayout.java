@@ -7,7 +7,7 @@ import android.graphics.PorterDuff;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 
 import androidx.core.widget.ContentLoadingProgressBar;
 
@@ -17,7 +17,7 @@ import com.lee.library.R;
  * @author jv.lee
  * @description 状态栏Layout
  */
-public class StatusLayout extends FrameLayout {
+public class StatusLayout extends RelativeLayout {
 
     /**
      * 状态：加载状态
@@ -97,10 +97,12 @@ public class StatusLayout extends FrameLayout {
         loadingProgressBar = loadingView.findViewById(R.id.progress);
         errorRestart = errorView.findViewById(R.id.btn_restart);
         networkRestart = networkView.findViewById(R.id.btn_restart);
-        addView(loadingView);
-        addView(errorView);
-        addView(networkView);
-        addView(emptyView);
+
+        LayoutParams layoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+        addView(loadingView, layoutParams);
+        addView(errorView, layoutParams);
+        addView(networkView, layoutParams);
+        addView(emptyView, layoutParams);
     }
 
     private void initListener() {
