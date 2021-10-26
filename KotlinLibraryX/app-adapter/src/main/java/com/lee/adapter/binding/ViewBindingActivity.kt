@@ -18,7 +18,7 @@ import com.lee.library.extensions.binding
 import com.lee.library.extensions.inflate
 import com.lee.library.extensions.toast
 import com.lee.library.mvvm.livedata.LoadStatus
-import com.lee.library.mvvm.ui.observe
+import com.lee.library.mvvm.ui.observeState
 
 class ViewBindingActivity : BaseActivity() {
 
@@ -70,7 +70,7 @@ class ViewBindingActivity : BaseActivity() {
     }
 
     override fun bindData() {
-        viewModel.dataLive.observe<PageData<ContentData>>(this, success = {
+        viewModel.dataLive.observeState<PageData<ContentData>>(this, success = {
             mAdapter.submitData(it)
         }, error = {
             toast(it.message)

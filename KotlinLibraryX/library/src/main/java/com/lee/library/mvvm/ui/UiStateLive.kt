@@ -10,7 +10,7 @@ import androidx.lifecycle.liveData
  * @data 2021/10/22
  * @description UiState LiveData扩展
  */
-inline fun <reified T> LiveData<UiState>.observe(
+inline fun <reified T> LiveData<UiState>.observeState(
     owner: LifecycleOwner,
     crossinline success: (T) -> Unit,
     crossinline error: (Throwable) -> Unit,
