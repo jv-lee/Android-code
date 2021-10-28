@@ -3,7 +3,7 @@ package com.lee.library.tools
 import android.content.Context
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
-import com.lee.library.widget.WebViewEx
+import com.lee.library.widget.AppWebView
 
 /**
  * @author jv.lee
@@ -12,10 +12,10 @@ import com.lee.library.widget.WebViewEx
  */
 class WebViewTools constructor(context: Context) {
 
-    private var web: WebViewEx? = null
+    private var web: AppWebView? = null
 
     init {
-        WebViewEx(context).also {
+        AppWebView(context).also {
             web = it
             web?.run {
                 layoutParams = ViewGroup.LayoutParams(MATCH_PARENT, MATCH_PARENT)

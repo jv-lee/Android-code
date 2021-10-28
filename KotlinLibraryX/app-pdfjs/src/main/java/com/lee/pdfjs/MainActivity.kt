@@ -5,18 +5,16 @@ import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.webkit.JavascriptInterface
 import android.widget.ProgressBar
-import android.widget.Toast
 import androidx.core.content.FileProvider
-import com.lee.library.widget.WebViewEx
+import com.lee.library.widget.AppWebView
 import java.io.File
 
 class MainActivity : AppCompatActivity() {
 
-    private val web by lazy { findViewById<WebViewEx>(R.id.web) }
+    private val web by lazy { findViewById<AppWebView>(R.id.web) }
     private val progress by lazy { findViewById<ProgressBar>(R.id.progress) }
 
     @SuppressLint("SetJavaScriptEnabled")

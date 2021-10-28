@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <com.lee.library.widget.WebViewEx
+    <com.lee.library.widget.AppWebView
         android:id="@+id/web"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

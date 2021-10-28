@@ -24,18 +24,24 @@ import com.lee.library.lifecycle.ObservableLifecycle
 /**
  * @author jv.lee
  */
-class WebViewEx : WebView, ObservableLifecycle {
+class AppWebView : WebView, ObservableLifecycle {
     private var lifecycleOwner: LifecycleOwner? = null
     private var isFailed = false
     private var isPause = false
     private var time: Long = 0
     private var firstUrl: String? = null
 
+    private var webStatusListenerAdapter: WebStatusListenerAdapter? = null
+    private var webStatusCallBack: WebStatusCallBack? = null
+
     constructor(context: Context) : super(context) {
         init()
     }
 
-    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
+    constructor(context: Context, attrs: AttributeSet?) : super(
+        context,
+        attrs
+    ) {
         init()
     }
 
@@ -54,7 +60,7 @@ class WebViewEx : WebView, ObservableLifecycle {
         settings.cacheMode = WebSettings.LOAD_DEFAULT
         settings.domStorageEnabled = true
         settings.javaScriptCanOpenWindowsAutomatically = true
-
+        settings.savePassword = false
         setWebContentsDebuggingEnabled(true)
         webViewClient = object : WebViewClient() {
             override fun onReceivedSslError(
@@ -67,13 +73,9 @@ class WebViewEx : WebView, ObservableLifecycle {
                 val builder = AlertDialog.Builder(lifecycleOwner as Activity)
                 builder.setMessage(context.getString(R.string.str_ssl_error))
                 //不校验https证书
-                builder.setPositiveButton(
-                    context.getString(R.string.str_continue)
-                ) { _: DialogInterface?, _: Int -> mHandler.proceed() }
+                builder.setPositiveButton(context.getString(R.string.str_continue)) { _: DialogInterface?, _: Int -> mHandler.proceed() }
                 //校验证书
-                builder.setNegativeButton(
-                    context.getString(R.string.str_cancel)
-                ) { _: DialogInterface?, _: Int -> mHandler.cancel() }
+                builder.setNegativeButton(context.getString(R.string.str_cancel)) { _: DialogInterface?, _: Int -> mHandler.cancel() }
                 builder.setOnKeyListener { dialog: DialogInterface, keyCode: Int, event: KeyEvent ->
                     if (event.action == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
                         mHandler.cancel()
@@ -119,10 +121,7 @@ class WebViewEx : WebView, ObservableLifecycle {
              * @param url
              * @return
              */
-            override fun shouldOverrideUrlLoading(
-                view: WebView,
-                url: String
-            ): Boolean {
+            override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
                 if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
                     try {
                         val uri = Uri.parse(url)
@@ -149,21 +148,12 @@ class WebViewEx : WebView, ObservableLifecycle {
             }
 
             //开始加载网页
-            override fun onPageStarted(
-                view: WebView,
-                url: String,
-                favicon: Bitmap?
-            ) {
+            override fun onPageStarted(view: WebView, url: String, favicon: Bitmap?) {
                 super.onPageStarted(view, url, favicon)
                 getSettings().blockNetworkImage = true
                 isFailed = true
-                if (webStatusListenerAdapter != null) {
-                    webStatusListenerAdapter!!.callStart()
-                    return
-                }
-                if (webStatusCallBack != null) {
-                    webStatusCallBack!!.callStart()
-                }
+                webStatusListenerAdapter?.callStart()
+                webStatusCallBack?.callStart()
             }
 
             //加载网页成功
@@ -175,13 +165,8 @@ class WebViewEx : WebView, ObservableLifecycle {
                     getSettings().blockNetworkImage = false
                     getSettings().loadsImagesAutomatically = true
                 }
-                if (webStatusListenerAdapter != null && isFailed) {
-                    webStatusListenerAdapter!!.callSuccess()
-                    return
-                }
-                if (webStatusCallBack != null && isFailed) {
-                    webStatusCallBack!!.callSuccess()
-                }
+                webStatusListenerAdapter?.callSuccess()
+                webStatusCallBack?.callSuccess()
             }
 
             override fun onReceivedError(
@@ -191,25 +176,15 @@ class WebViewEx : WebView, ObservableLifecycle {
             ) {
                 super.onReceivedError(view, request, error)
                 isFailed = false
-                if (webStatusListenerAdapter != null) {
-                    webStatusListenerAdapter!!.callFailed()
-                    return
-                }
-                if (webStatusCallBack != null) {
-                    webStatusCallBack!!.callFailed()
-                }
+                webStatusListenerAdapter?.callFailed()
+                webStatusCallBack?.callFailed()
             }
         }
         webChromeClient = object : WebChromeClient() {
             override fun onProgressChanged(view: WebView, newProgress: Int) {
                 super.onProgressChanged(view, newProgress)
-                if (webStatusListenerAdapter != null) {
-                    webStatusListenerAdapter!!.callProgress(newProgress)
-                    return
-                }
-                if (webStatusCallBack != null) {
-                    webStatusCallBack!!.callProgress(newProgress)
-                }
+                webStatusListenerAdapter?.callProgress(newProgress)
+                webStatusCallBack?.callProgress(newProgress)
             }
         }
     }
@@ -217,14 +192,13 @@ class WebViewEx : WebView, ObservableLifecycle {
     override fun onScrollChanged(l: Int, t: Int, oldl: Int, oldt: Int) {
         super.onScrollChanged(l, t, oldl, oldt)
         if (System.currentTimeMillis() - time >= 1000) {
-            if (webStatusListenerAdapter != null) {
+            webStatusListenerAdapter?.apply {
                 time = System.currentTimeMillis()
-                webStatusListenerAdapter!!.callScroll()
-                return
+                callScroll()
             }
-            if (webStatusCallBack != null) {
+            webStatusCallBack?.apply {
                 time = System.currentTimeMillis()
-                webStatusCallBack!!.callScroll()
+                callScroll()
             }
         }
     }
@@ -288,9 +262,12 @@ class WebViewEx : WebView, ObservableLifecycle {
         loadDataWithBaseURL(null, "", "text/html", "utf-8", null)
     }
 
-    private var webStatusListenerAdapter: WebStatusListenerAdapter? = null
-    fun addWebStatusListenerAdapter(webStatusListenerAdapter: WebStatusListenerAdapter?) {
-        this.webStatusListenerAdapter = webStatusListenerAdapter
+    interface WebStatusCallBack {
+        fun callStart()
+        fun callSuccess()
+        fun callFailed()
+        fun callProgress(progress: Int)
+        fun callScroll()
     }
 
     abstract class WebStatusListenerAdapter : WebStatusCallBack {
@@ -301,16 +278,12 @@ class WebViewEx : WebView, ObservableLifecycle {
         override fun callScroll() {}
     }
 
-    interface WebStatusCallBack {
-        fun callStart()
-        fun callSuccess()
-        fun callFailed()
-        fun callProgress(progress: Int)
-        fun callScroll()
-    }
-
-    private var webStatusCallBack: WebStatusCallBack? = null
     fun setWebStatusCallBack(webStatusCallBack: WebStatusCallBack?) {
         this.webStatusCallBack = webStatusCallBack
     }
+
+    fun addWebStatusListenerAdapter(webStatusListenerAdapter: WebStatusListenerAdapter?) {
+        this.webStatusListenerAdapter = webStatusListenerAdapter
+    }
+
 }
