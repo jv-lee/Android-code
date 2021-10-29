@@ -3,7 +3,6 @@ import dependencies.ProcessorsDependencies
 import dependencies.TestDependencies
 import org.gradle.kotlin.dsl.DependencyHandlerScope
 import org.gradle.kotlin.dsl.exclude
-import org.gradle.kotlin.dsl.project
 
 //app依赖扩展配置
 fun DependencyHandlerScope.appDependencies() {
@@ -33,7 +32,6 @@ fun DependencyHandlerScope.commonDependencies() {
     api(Dependencies.coreKtx)
 
     api(Dependencies.coroutines)
-    api(Dependencies.coroutinesAndroid)
 
     api(Dependencies.lifecycle)
     api(Dependencies.lifecycleLivedata)
@@ -45,11 +43,11 @@ fun DependencyHandlerScope.commonDependencies() {
     api(Dependencies.multidex)
 
     api(Dependencies.appcompat)
-    api(Dependencies.support)
+    api(Dependencies.material)
     api(Dependencies.recyclerview)
     api(Dependencies.constraint)
     api(Dependencies.viewpager2)
-    api(Dependencies.material)
+    api(Dependencies.swipeRefreshLayout)
 
     api(Dependencies.navigationFragment)
     api(Dependencies.navigationUi)
