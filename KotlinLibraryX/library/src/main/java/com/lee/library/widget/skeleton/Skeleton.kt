@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.ColorRes
 import androidx.annotation.LayoutRes
+import androidx.core.view.contains
 
 /**
  * @author jv.lee
@@ -34,13 +35,19 @@ class Skeleton private constructor(builder: Builder) {
     }
 
     fun bind() {
-        viewGroup.addView(shimmerLayout)
+        if (!viewGroup.contains(shimmerLayout)) {
+            viewGroup.addView(shimmerLayout)
+        }
+
         shimmerLayout.startShimmerAnimation()
     }
 
     fun unBind() {
         shimmerLayout.stopShimmerAnimation()
-        viewGroup.removeView(shimmerLayout)
+
+        if (viewGroup.contains(shimmerLayout)) {
+            viewGroup.removeView(shimmerLayout)
+        }
     }
 
     class Builder(internal var view: View) {
