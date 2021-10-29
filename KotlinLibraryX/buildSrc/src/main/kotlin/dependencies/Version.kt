@@ -17,12 +17,12 @@ object Version {
     const val fragment = "1.3.6"
     const val navigation = "2.4.0-alpha06"
     const val lifecycle = "2.4.0-alpha03"
-    const val room = "2.2.2"
+    const val room = "2.3.0"
     const val glide = "4.11.0"
-    const val retrofit = "2.6.0"
+    const val retrofit = "2.9.0"
     const val gson = "2.8.8"
     const val protobuf = "3.10.0"
-    const val autoService = "1.0-rc7"
+    const val autoService = "1.0"
 
     //Test
     const val junit = "4.13.2"
