@@ -6,6 +6,7 @@ import com.google.gson.GsonBuilder
 import com.google.gson.JsonParser
 import com.lee.library.base.BaseApplication
 import com.lee.library.net.adapter.DoubleDefaultAdapter
+import com.lee.library.net.adapter.GsonDefaultAdapterFactory
 import com.lee.library.net.adapter.IntegerDefaultAdapter
 import com.lee.library.net.adapter.LongDefaultAdapter
 import com.lee.library.net.client.OkHttpClientBuilder
@@ -44,6 +45,7 @@ class HttpManager private constructor() {
             }
 
         fun getGson() = gson ?: GsonBuilder()
+            .registerTypeAdapterFactory(GsonDefaultAdapterFactory())
             .registerTypeAdapter(Int::class.java, IntegerDefaultAdapter())
             .registerTypeAdapter(Double::class.java, DoubleDefaultAdapter())
             .registerTypeAdapter(Long::class.java, LongDefaultAdapter())
