@@ -15,9 +15,9 @@
         android:title="@string/nav_shadow" />
 
     <item
-        android:id="@+id/toolbar"
+        android:id="@+id/shimmer"
         android:icon="@drawable/vector_icon"
-        android:title="@string/nav_toolbar" />
+        android:title="@string/nav_shimmer" />
 
     <item
         android:id="@+id/banner"

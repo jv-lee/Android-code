@@ -18,8 +18,8 @@ class MainActivity : BaseActivity() {
             SelectorFragment(),
             WheelFragment(),
             ShadowFragment(),
-            ToolbarFragment(),
-            BannerFragment()
+            ShimmerFragment(),
+            BannerFragment(),
         )
     }
     private val titles by lazy {
@@ -27,7 +27,7 @@ class MainActivity : BaseActivity() {
             getString(R.string.nav_selector),
             getString(R.string.nav_wheel),
             getString(R.string.nav_shadow),
-            getString(R.string.nav_toolbar),
+            getString(R.string.nav_shimmer),
             getString(R.string.nav_banner)
         )
     }
