@@ -62,7 +62,9 @@ class GsonDefaultAdapterFactory : TypeAdapterFactory {
                 reader.beginArray()
                 while (reader.hasNext()) {
                     val element = elementTypeAdapter.read(reader)
-                    list.add(element)
+                    if (element != null) {
+                        list.add(element)
+                    }
                 }
                 reader.endArray()
                 return list
