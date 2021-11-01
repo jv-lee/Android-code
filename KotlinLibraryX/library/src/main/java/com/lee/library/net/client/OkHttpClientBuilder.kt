@@ -1,5 +1,6 @@
 package com.lee.library.net.client
 
+import com.lee.library.net.interceptor.RetryInterceptor
 import okhttp3.*
 import java.io.IOException
 import java.security.KeyManagementException
@@ -97,27 +98,6 @@ class OkHttpClientBuilder {
             e.printStackTrace()
         }
         return null
-    }
-
-    /**
-     * 重试拦截器
-     */
-    internal class RetryInterceptor(
-        var maxRetry: Int
-    ) : Interceptor {
-
-        @Throws(IOException::class)
-        override fun intercept(chain: Interceptor.Chain): Response {
-            val request = chain.request()
-            var response = chain.proceed(request)
-            var retryNum = 0
-            while (!response.isSuccessful && retryNum < maxRetry) {
-                retryNum++
-                response = chain.proceed(request)
-            }
-            return response
-        }
-
     }
 
 }
