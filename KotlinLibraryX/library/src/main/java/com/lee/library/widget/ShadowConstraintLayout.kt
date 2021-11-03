@@ -13,6 +13,7 @@ import android.graphics.drawable.shapes.RectShape
 import android.os.Build
 import android.util.AttributeSet
 import android.view.View
+import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.graphics.toRect
 import com.lee.library.R
@@ -220,6 +221,7 @@ class ShadowConstraintLayout(context: Context, attributeSet: AttributeSet) :
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.M)
     private fun createRippleDrawable(): Drawable {
         val stateList = arrayOf(
             intArrayOf(android.R.attr.state_pressed),
@@ -228,9 +230,9 @@ class ShadowConstraintLayout(context: Context, attributeSet: AttributeSet) :
             intArrayOf()
         )
 
-        val attri = context.theme.obtainStyledAttributes(intArrayOf(R.attr.colorControlHighlight))
-        val color = attri.getColor(0, Color.TRANSPARENT)
-        attri.recycle()
+        val attr = context.theme.obtainStyledAttributes(intArrayOf(android.R.attr.colorControlHighlight))
+        val color = attr.getColor(0, Color.TRANSPARENT)
+        attr.recycle()
 
         val stateColorList = intArrayOf(color, color, color, color)
         val colorStateList = ColorStateList(stateList, stateColorList)
@@ -238,6 +240,7 @@ class ShadowConstraintLayout(context: Context, attributeSet: AttributeSet) :
         return RippleDrawable(colorStateList, null, getShape())
     }
 
+    @RequiresApi(Build.VERSION_CODES.M)
     private fun getShape(): Drawable {
         return ShapeDrawable(object : RectShape() {
             override fun draw(canvas: Canvas, paint: Paint) {
