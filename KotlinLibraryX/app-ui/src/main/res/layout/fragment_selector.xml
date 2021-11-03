@@ -116,6 +116,27 @@
 
         </com.lee.library.widget.ShadowConstraintLayout>
 
+
+        <com.lee.library.widget.ShadowConstraintLayout
+            android:layout_width="200dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="10dp"
+            app:shadowBlur="10dp"
+            app:shadowColor="#000000"
+            app:shadowOffsetX="0dp"
+            app:shadowOffsetY="0dp"
+            app:shadowRound="23dp"
+            android:padding="10dp">
+
+            <TextView
+                android:text="this is content "
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+
+        </com.lee.library.widget.ShadowConstraintLayout>
+
+
         <TextView
             android:id="@+id/tv_text"
             android:layout_width="wrap_content"

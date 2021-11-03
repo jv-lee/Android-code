@@ -70,10 +70,10 @@ class ShadowConstraintLayout(context: Context, attributeSet: AttributeSet) :
         initPaddingSize()
         initRoundSize()
         super.setPadding(
-            offsetLeftPadding,
-            offsetTopPadding,
-            offsetRightPadding,
-            offsetBottomPadding
+            paddingLeft + offsetLeftPadding,
+            paddingTop + offsetTopPadding,
+            paddingRight + offsetRightPadding,
+            paddingBottom + offsetBottomPadding
         )
         setLayerType(View.LAYER_TYPE_SOFTWARE, null)
     }
