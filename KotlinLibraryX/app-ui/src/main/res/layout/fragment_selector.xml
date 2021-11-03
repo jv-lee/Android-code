@@ -116,26 +116,27 @@
 
         </com.lee.library.widget.ShadowConstraintLayout>
 
-
         <com.lee.library.widget.ShadowConstraintLayout
+            android:id="@+id/shadow_layout"
             android:layout_width="200dp"
             android:layout_height="100dp"
             android:layout_marginTop="10dp"
+            android:padding="10dp"
+            app:outLineColor="@color/colorPrimary"
+            app:outLineWidth="1dp"
+            app:rippleEnable="true"
             app:shadowBlur="10dp"
             app:shadowColor="#000000"
             app:shadowOffsetX="0dp"
             app:shadowOffsetY="0dp"
-            app:shadowRound="23dp"
-            android:padding="10dp">
+            app:shadowRound="23dp">
 
             <TextView
-                android:text="this is content "
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
+                android:layout_height="wrap_content"
+                android:text="this is content " />
 
         </com.lee.library.widget.ShadowConstraintLayout>
-
 
         <TextView
             android:id="@+id/tv_text"
@@ -148,7 +149,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
     </LinearLayout>
 
 </ScrollView>

@@ -1,16 +1,24 @@
 package com.lee.library.widget
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.RectF
+import android.graphics.drawable.Drawable
+import android.graphics.drawable.RippleDrawable
+import android.graphics.drawable.ShapeDrawable
+import android.graphics.drawable.shapes.RectShape
+import android.os.Build
 import android.util.AttributeSet
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.graphics.toRect
 import com.lee.library.R
 import com.lee.library.extensions.dp2px
 import kotlin.math.abs
+
 
 /**
  * @author jv.lee
@@ -52,6 +60,8 @@ class ShadowConstraintLayout(context: Context, attributeSet: AttributeSet) :
     private var roundSize = 0F
     private var roundLineSize = 0F
 
+    private var rippleEnable = false
+
     init {
         context.obtainStyledAttributes(attributeSet, R.styleable.ShadowConstraintLayout).run {
             outLineWidth = getDimension(R.styleable.ShadowConstraintLayout_outLineWidth, 0f)
@@ -63,6 +73,7 @@ class ShadowConstraintLayout(context: Context, attributeSet: AttributeSet) :
                 getColor(R.styleable.ShadowConstraintLayout_shadowFillColor, Color.WHITE)
             shadowOffsetX = getDimension(R.styleable.ShadowConstraintLayout_shadowOffsetX, 0F)
             shadowOffsetY = getDimension(R.styleable.ShadowConstraintLayout_shadowOffsetY, 0F)
+            rippleEnable = getBoolean(R.styleable.ShadowConstraintLayout_rippleEnable, false)
             recycle()
         }
         setWillNotDraw(false)
@@ -76,6 +87,11 @@ class ShadowConstraintLayout(context: Context, attributeSet: AttributeSet) :
             paddingBottom + offsetBottomPadding
         )
         setLayerType(View.LAYER_TYPE_SOFTWARE, null)
+
+        //设置前景
+        if (rippleEnable && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            super.setForeground(createRippleDrawable())
+        }
     }
 
     /**
@@ -189,6 +205,45 @@ class ShadowConstraintLayout(context: Context, attributeSet: AttributeSet) :
     fun setShadowColor(color: Int) {
         shadowColor = color
         invalidate()
+    }
+
+    override fun setForeground(foreground: Drawable?) {
+    }
+
+    override fun onDrawForeground(canvas: Canvas?) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val foreground = foreground
+            if (foreground != null && canvas != null) {
+                foreground.bounds = mRectF.toRect()
+                foreground.draw(canvas)
+            }
+        }
+    }
+
+    private fun createRippleDrawable(): Drawable {
+        val stateList = arrayOf(
+            intArrayOf(android.R.attr.state_pressed),
+            intArrayOf(android.R.attr.state_focused),
+            intArrayOf(android.R.attr.state_activated),
+            intArrayOf()
+        )
+
+        val attri = context.theme.obtainStyledAttributes(intArrayOf(R.attr.colorControlHighlight))
+        val color = attri.getColor(0, Color.TRANSPARENT)
+        attri.recycle()
+
+        val stateColorList = intArrayOf(color, color, color, color)
+        val colorStateList = ColorStateList(stateList, stateColorList)
+
+        return RippleDrawable(colorStateList, null, getShape())
+    }
+
+    private fun getShape(): Drawable {
+        return ShapeDrawable(object : RectShape() {
+            override fun draw(canvas: Canvas, paint: Paint) {
+                canvas.drawRoundRect(0f, 0f, width, height, roundSize, roundSize, paint)
+            }
+        })
     }
 
 }
