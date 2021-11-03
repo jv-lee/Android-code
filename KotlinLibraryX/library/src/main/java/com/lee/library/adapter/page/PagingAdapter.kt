@@ -16,6 +16,11 @@ fun <T> BaseViewAdapter<T>.submitData(
     refreshBlock: () -> Unit = {},
     emptyBlock: () -> Unit = {}
 ) {
+    //数据源相同不做任何操作
+    if (data == pageData.getDataSource()) {
+        return
+    }
+
     //首页加载逻辑
     if (pageData.getPageNumber() == limit) {
         //设置空页面
@@ -24,10 +29,7 @@ fun <T> BaseViewAdapter<T>.submitData(
             emptyBlock()
             return
         }
-        //数据源相同不做任何操作
-        if (data == pageData.getDataSource()) {
-            return
-        }
+
         //正常情况第一页加载数据状态
         updateData(pageData.getDataSource())
         pageCompleted()
@@ -66,6 +68,11 @@ fun <T> BaseViewAdapter<T>.submitData(
     refreshBlock: () -> Unit = {},
     emptyBlock: () -> Unit = {}
 ) {
+    //数据源相同不做任何操作
+    if (data == pageData.getDataSource()) {
+        return
+    }
+
     //首页加载逻辑
     if (pageData.isFirstPage()) {
         //设置空页面
@@ -74,10 +81,7 @@ fun <T> BaseViewAdapter<T>.submitData(
             emptyBlock()
             return
         }
-        //数据源相同不做任何操作
-        if (data == pageData.getDataSource()) {
-            return
-        }
+
         //正常情况第一页加载数据状态
         updateData(pageData.getDataSource())
         pageCompleted()
