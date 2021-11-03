@@ -49,7 +49,9 @@ open class CustomToolbarLayout : ConstraintLayout {
      * 设置默认背景色
      */
     open fun initBackground() {
-        setBackgroundColor(ContextCompat.getColor(context, R.color.colorThemeItem))
+        background ?: kotlin.run {
+            setBackgroundColor(ContextCompat.getColor(context, R.color.colorThemeItem))
+        }
     }
 
     /**
