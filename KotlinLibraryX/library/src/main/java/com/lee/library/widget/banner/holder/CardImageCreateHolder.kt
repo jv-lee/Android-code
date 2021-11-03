@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.cardview.widget.CardView
 import androidx.core.view.ViewCompat
 import com.lee.library.widget.banner.BannerView
 
@@ -12,9 +13,14 @@ import com.lee.library.widget.banner.BannerView
  * @data 2021/9/23
  * @description
  */
-abstract class ImageCreateHolder<T> : BannerView.CreateHolder<T> {
-    protected val ivID = ViewCompat.generateViewId()
+abstract class CardImageCreateHolder<T> : ImageCreateHolder<T>() {
+
     override fun createView(context: Context): View {
+        val cardView = CardView(context)
+        cardView.layoutParams = ViewGroup.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.MATCH_PARENT
+        )
         val imageView = ImageView(context)
         imageView.layoutParams = ViewGroup.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT,
@@ -22,17 +28,10 @@ abstract class ImageCreateHolder<T> : BannerView.CreateHolder<T> {
         )
         imageView.id = ivID
         imageView.scaleType = ImageView.ScaleType.CENTER_CROP
-        return imageView
+        cardView.addView(imageView)
+        cardView.radius = 30f
+        cardView.useCompatPadding = true
+        return cardView
     }
 
-    override fun onBind(
-        holder: BannerView.BannerAdapter<T>.BannerViewHolder,
-        position: Int,
-        item: T
-    ) {
-        val imageView = holder.itemView.findViewById<ImageView>(ivID)
-        bindItem(imageView, item)
-    }
-
-    abstract fun bindItem(imageView: ImageView, data: T)
 }

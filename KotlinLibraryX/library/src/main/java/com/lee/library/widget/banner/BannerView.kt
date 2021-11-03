@@ -27,6 +27,7 @@ import com.lee.library.R
 import com.lee.library.extensions.dp2px
 import com.lee.library.extensions.setMargin
 import com.lee.library.widget.banner.BannerView.BannerMode.Companion.MODE_CLIP
+import com.lee.library.widget.banner.BannerView.BannerMode.Companion.MODE_CLIP_SCALE
 import com.lee.library.widget.banner.BannerView.BannerMode.Companion.MODE_DEFAULT
 import com.lee.library.widget.banner.transformer.ClipTransformer
 import java.util.*
@@ -77,11 +78,12 @@ class BannerView : RelativeLayout {
     private val mIndicatorRes =
         intArrayOf(R.drawable.shape_indicator_normal, R.drawable.shape_indicator_selected)
 
-    @IntDef(MODE_DEFAULT, MODE_CLIP)
+    @IntDef(MODE_DEFAULT, MODE_CLIP, MODE_CLIP_SCALE)
     annotation class BannerMode {
         companion object {
             const val MODE_DEFAULT = 0x0
             const val MODE_CLIP = 0x1
+            const val MODE_CLIP_SCALE = 0X2
         }
     }
 
@@ -129,7 +131,7 @@ class BannerView : RelativeLayout {
         mViewPager.isSaveEnabled = true
         mViewPager.isSaveFromParentEnabled = true
         mViewPager.offscreenPageLimit = 3
-        setBannerClipMode(bannerMode == MODE_CLIP)
+        setBannerClipMode(bannerMode == MODE_CLIP || bannerMode == MODE_CLIP_SCALE)
         mViewPager.setOnTouchListener { _, event ->
             isAutoPlay = event.action == MotionEvent.ACTION_UP
             true
@@ -202,7 +204,9 @@ class BannerView : RelativeLayout {
         clipChildren = !enable
         mViewPager.clipChildren = !enable
         if (enable) {
-            mViewPager.setPageTransformer(ClipTransformer())
+            if (bannerMode == MODE_CLIP_SCALE) {
+                mViewPager.setPageTransformer(ClipTransformer())
+            }
             mViewPager.setMargin(
                 left = context.dp2px(30).toInt(),
                 right = context.dp2px(30).toInt()
