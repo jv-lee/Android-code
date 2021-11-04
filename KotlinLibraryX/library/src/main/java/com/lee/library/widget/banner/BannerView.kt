@@ -74,6 +74,9 @@ class BannerView : RelativeLayout {
     private var indicatorPadding: Float = 0F
     private var indicatorChildPadding: Float = 0F
 
+    //clip距离参数
+    private var clipMargin: Float = 0F
+
     //mIndicatorRes[0] 为为选中，mIndicatorRes[1]为选中
     private val mIndicatorRes =
         intArrayOf(R.drawable.shape_indicator_normal, R.drawable.shape_indicator_selected)
@@ -106,6 +109,7 @@ class BannerView : RelativeLayout {
             isAutoPlay = getBoolean(R.styleable.BannerView_autoPlay, true)
             delayTime = getInteger(R.styleable.BannerView_delayTime, 3000).toLong()
             moveDuration = getInteger(R.styleable.BannerView_moveDuration, 500).toLong()
+            clipMargin = getDimension(R.styleable.BannerView_clipMargin, context.dp2px(30))
             indicatorPadding = getDimension(R.styleable.BannerView_indicatorPadding, 10F)
             indicatorChildPadding = getDimension(R.styleable.BannerView_indicatorChildPadding, 10F)
             indicatorGravity = getInt(
@@ -207,10 +211,7 @@ class BannerView : RelativeLayout {
             if (bannerMode == MODE_CLIP_SCALE) {
                 mViewPager.setPageTransformer(ClipTransformer())
             }
-            mViewPager.setMargin(
-                left = context.dp2px(30).toInt(),
-                right = context.dp2px(30).toInt()
-            )
+            mViewPager.setMargin(left = clipMargin.toInt(), right = clipMargin.toInt())
         } else {
             mViewPager.setPageTransformer(null)
             mViewPager.setMargin(0, 0, 0, 0)
@@ -387,7 +388,6 @@ class BannerView : RelativeLayout {
         super.onRestoreInstanceState(saveState.superState)
         saveIndex = saveState.currentItem
         mViewPager.setCurrentItem(saveState.currentItem, false)
-
     }
 
     class SaveState : BaseSavedState {
