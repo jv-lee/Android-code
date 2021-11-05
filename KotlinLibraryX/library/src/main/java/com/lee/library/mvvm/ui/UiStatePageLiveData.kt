@@ -9,9 +9,11 @@ import com.lee.library.utils.LogUtil
  * @data 2021/10/21
  * @description uiState 类型 LiveData分页处理
  */
-class UiStatePageLiveData(internal val initPage: Int = 0) : LiveData<UiState>() {
+class UiStatePageLiveData(private val initPage: Int = 0) : LiveData<UiState>() {
     private var page = initPage
     private var firstCache = true
+
+    fun getInitPage() = initPage
 
     fun <T> getValueData(): T? {
         val value = this.value
@@ -59,7 +61,7 @@ class UiStatePageLiveData(internal val initPage: Int = 0) : LiveData<UiState>() 
             }
 
             //网络数据设置
-            response = requestBlock(page).also {
+            response = requestBlock(page)?.also {
                 if (response != it) {
                     postValue(UiState.Success(it))
                 }
