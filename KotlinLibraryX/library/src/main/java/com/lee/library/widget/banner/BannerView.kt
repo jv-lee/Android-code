@@ -40,7 +40,10 @@ import java.util.*
 class BannerView : RelativeLayout {
 
     //记录初始化启动状态
-    private var isStart = false
+    private var isLoop = false
+
+    //首次初始化状态
+    private var isInit = false
 
     //是否支持自动轮播
     private var isAutoPlay: Boolean = false
@@ -263,13 +266,18 @@ class BannerView : RelativeLayout {
 
     override fun onWindowVisibilityChanged(visibility: Int) {
         super.onWindowVisibilityChanged(visibility)
-        if (!isAutoPlay) return
+        //当前可以自动轮播或构建初始化未完成不做处理以免重复发起轮播任务
+        if (!isAutoPlay || !isInit) return
+
         if (visibility == VISIBLE) {
-            if (isStart) {
+            //当前未轮播状态重新发起轮播任务
+            if (!isLoop) {
                 removeCallbacks(mLoopRunnable)
                 postDelayed(mLoopRunnable, delayTime)
             }
         } else {
+            //当前在轮播状态，移除轮播状态
+            if (isLoop) isLoop = false
             removeCallbacks(mLoopRunnable)
         }
     }
@@ -294,13 +302,19 @@ class BannerView : RelativeLayout {
      */
     private val mLoopRunnable = object : Runnable {
         override fun run() {
-            if (isAutoPlay) {
-                var itemIndex = mViewPager.currentItem
-                if (itemIndex == mAdapter.itemCount - 1) {
-                    mViewPager.setCurrentItem(mAdapter.getStartSelectItem(), false)
-                } else {
-                    mViewPager.moveToItem(++itemIndex, moveDuration)
-                }
+            if (!isAutoPlay) return
+
+            //开启轮播状态
+            isLoop = true
+
+            //设置当前轮训下标
+            var itemIndex = mViewPager.currentItem
+            if (itemIndex == mAdapter.itemCount - 1) {
+                val startIndex = mAdapter.getStartSelectItem()
+                mViewPager.setCurrentItem(startIndex, false)
+            } else {
+                ++itemIndex
+                mViewPager.moveToItem(itemIndex, moveDuration)
             }
             postDelayed(this, delayTime)
         }
@@ -420,9 +434,12 @@ class BannerView : RelativeLayout {
      * @param createHolder bannerView构建样式
      */
     fun <T> bindDataCreate(data: List<T>, createHolder: CreateHolder<T>) {
+        //相同数据重复构建过滤
+        if (isInit && mAdapter.data == data) return
+        isInit = false
+
         removeCallbacks(mLoopRunnable)
         mAdapter = BannerAdapter(data, createHolder)
-        isStart = true
 
         post {
             if (bannerMode == MODE_CLIP && data.size < 3) {
@@ -433,6 +450,7 @@ class BannerView : RelativeLayout {
             mViewPager.registerOnPageChangeCallback(mPagerChange)
             buildIndicatorView()
 
+            isInit = true
             if (isAutoPlay) {
                 postDelayed(mLoopRunnable, delayTime)
             }
@@ -442,7 +460,7 @@ class BannerView : RelativeLayout {
     /**
      * 查看当前启动状态
      */
-    fun isStart() = isStart
+    fun isLoop() = isLoop
 
     /**
      * 设置是否支持自动播放
