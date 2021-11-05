@@ -2,23 +2,22 @@ package com.lee.library.widget
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.app.AlertDialog
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.Color
 import android.net.Uri
 import android.net.http.SslError
 import android.os.Build
 import android.text.TextUtils
 import android.util.AttributeSet
-import android.view.KeyEvent
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.*
 import androidx.lifecycle.LifecycleOwner
 import com.lee.library.R
+import com.lee.library.dialog.ChoiceDialog
+import com.lee.library.dialog.core.CancelListener
+import com.lee.library.dialog.core.ConfirmListener
 import com.lee.library.lifecycle.ObservableLifecycle
 
 /**
@@ -70,22 +69,20 @@ class AppWebView : WebView, ObservableLifecycle {
             ) {
                 lifecycleOwner ?: return
                 val mHandler: SslErrorHandler = handler
-                val builder = AlertDialog.Builder(lifecycleOwner as Activity)
-                builder.setMessage(context.getString(R.string.str_ssl_error))
-                //不校验https证书
-                builder.setPositiveButton(context.getString(R.string.str_continue)) { _: DialogInterface?, _: Int -> mHandler.proceed() }
-                //校验证书
-                builder.setNegativeButton(context.getString(R.string.str_cancel)) { _: DialogInterface?, _: Int -> mHandler.cancel() }
-                builder.setOnKeyListener { dialog: DialogInterface, keyCode: Int, event: KeyEvent ->
-                    if (event.action == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
-                        mHandler.cancel()
-                        dialog.dismiss()
-                        return@setOnKeyListener true
+                ChoiceDialog(lifecycleOwner as Activity).apply {
+                    setTitle(context.getString(R.string.str_ssl_error))
+                    setCancelable(true)
+                    //不校验https证书
+                    confirmListener = ConfirmListener {
+                        mHandler.proceed()
+                        dismiss()
                     }
-                    false
-                }
-                val dialog = builder.create()
-                dialog.show()
+                    //校验证书
+                    cancelListener = CancelListener {
+                        mHandler.cancel()
+                        dismiss()
+                    }
+                }.show()
             }
 
             /**
@@ -122,22 +119,20 @@ class AppWebView : WebView, ObservableLifecycle {
              * @return
              */
             override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
-                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                return if (url.startsWith("https://") || url.startsWith("https://")) {
+                    view.loadUrl(url)
+                    false
+                } else {
                     try {
-                        val uri = Uri.parse(url)
-                        val scheme = uri.scheme
-                        if (!TextUtils.isEmpty(scheme) && scheme != "http" && scheme != "https") {
-                            val intent = Intent(Intent.ACTION_VIEW, uri)
-                            intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
-                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                            view.context.applicationContext.startActivity(intent)
-                            return true
-                        }
+                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        view.context.applicationContext.startActivity(intent)
                     } catch (e: Exception) {
-                        return super.shouldOverrideUrlLoading(view, url)
+                        e.printStackTrace()
                     }
+                    true
                 }
-                return super.shouldOverrideUrlLoading(view, url)
             }
 
             override fun shouldInterceptRequest(
