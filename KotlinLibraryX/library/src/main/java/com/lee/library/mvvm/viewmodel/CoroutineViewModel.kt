@@ -12,21 +12,21 @@ import java.util.concurrent.CancellationException
  */
 open class CoroutineViewModel : BaseViewModel() {
 
-    private fun launchOnUI(block: suspend CoroutineScope.() -> Unit) {
+    fun launchMain(tryBlock: suspend CoroutineScope.() -> Unit) {
         viewModelScope.launch {
-            block()
+            tryCatch(tryBlock, {}, {}, true)
         }
     }
 
-    suspend fun <T> launchIO(block: suspend CoroutineScope.() -> T): T {
+    fun launchIO(tryBlock: suspend CoroutineScope.() -> Unit) {
+        viewModelScope.launch(Dispatchers.IO) {
+            tryCatch(tryBlock, {}, {}, true)
+        }
+    }
+
+    suspend fun <T> withIO(block: suspend CoroutineScope.() -> T): T {
         return withContext(Dispatchers.IO) {
             block()
-        }
-    }
-
-    fun launchMain(tryBlock: suspend CoroutineScope.() -> Unit) {
-        launchOnUI {
-            tryCatch(tryBlock, {}, {}, true)
         }
     }
 
@@ -36,7 +36,7 @@ open class CoroutineViewModel : BaseViewModel() {
         finallyBlock: suspend CoroutineScope.() -> Unit,
         handleCancellationExceptionManually: Boolean
     ) {
-        launchOnUI {
+        viewModelScope.launch {
             tryCatch(tryBlock, catchBlock, finallyBlock, handleCancellationExceptionManually)
         }
     }
@@ -45,7 +45,7 @@ open class CoroutineViewModel : BaseViewModel() {
         tryBlock: suspend CoroutineScope.() -> Unit,
         handleCancellationExceptionManually: Boolean = false
     ) {
-        launchOnUI {
+        viewModelScope.launch {
             tryCatch(tryBlock, {}, {}, handleCancellationExceptionManually)
         }
     }
