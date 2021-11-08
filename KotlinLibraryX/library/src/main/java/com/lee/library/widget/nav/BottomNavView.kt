@@ -62,7 +62,6 @@ class BottomNavView @JvmOverloads constructor(
             }
         }
         isHorizontalFadingEdgeEnabled = false
-        labelVisibilityMode = LABEL_VISIBILITY_LABELED
         setOnItemSelectedListener(this)
         post {
             createNumberDotViews()

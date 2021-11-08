@@ -26,6 +26,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.lee.library.R
 import com.lee.library.extensions.dp2px
 import com.lee.library.extensions.setMargin
+import com.lee.library.utils.LogUtil
 import com.lee.library.widget.banner.BannerView.BannerMode.Companion.MODE_CLIP
 import com.lee.library.widget.banner.BannerView.BannerMode.Companion.MODE_CLIP_SCALE
 import com.lee.library.widget.banner.BannerView.BannerMode.Companion.MODE_DEFAULT
@@ -107,6 +108,38 @@ class BannerView : RelativeLayout {
         initIndicator()
     }
 
+    override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
+        when (ev.action) {
+            MotionEvent.ACTION_UP -> {
+                startLoop()
+            }
+            else -> {
+                stopLoop()
+            }
+        }
+        return super.dispatchTouchEvent(ev)
+    }
+
+    override fun onWindowVisibilityChanged(visibility: Int) {
+        super.onWindowVisibilityChanged(visibility)
+        //当前可以自动轮播或构建初始化未完成不做处理以免重复发起轮播任务
+        if (!isAutoPlay || !isInit) return
+
+        if (visibility == VISIBLE) {
+            //当前未轮播状态重新发起轮播任务
+            if (!isLoop) {
+                removeCallbacks(mLoopRunnable)
+                stopLoop()
+                startLoop()
+            }
+        } else {
+            //当前在轮播状态，移除轮播状态
+            if (isLoop) isLoop = false
+            stopLoop()
+            removeCallbacks(mLoopRunnable)
+        }
+    }
+
     private fun initAttributes(attributeSet: AttributeSet?) {
         context.obtainStyledAttributes(attributeSet, R.styleable.BannerView).run {
             isAutoPlay = getBoolean(R.styleable.BannerView_autoPlay, true)
@@ -139,10 +172,6 @@ class BannerView : RelativeLayout {
         mViewPager.isSaveFromParentEnabled = true
         mViewPager.offscreenPageLimit = 3
         setBannerClipMode(bannerMode == MODE_CLIP || bannerMode == MODE_CLIP_SCALE)
-        mViewPager.setOnTouchListener { _, event ->
-            isAutoPlay = event.action == MotionEvent.ACTION_UP
-            true
-        }
 
         addView(mViewPager)
     }
@@ -264,24 +293,6 @@ class BannerView : RelativeLayout {
         return index
     }
 
-    override fun onWindowVisibilityChanged(visibility: Int) {
-        super.onWindowVisibilityChanged(visibility)
-        //当前可以自动轮播或构建初始化未完成不做处理以免重复发起轮播任务
-        if (!isAutoPlay || !isInit) return
-
-        if (visibility == VISIBLE) {
-            //当前未轮播状态重新发起轮播任务
-            if (!isLoop) {
-                removeCallbacks(mLoopRunnable)
-                postDelayed(mLoopRunnable, delayTime)
-            }
-        } else {
-            //当前在轮播状态，移除轮播状态
-            if (isLoop) isLoop = false
-            removeCallbacks(mLoopRunnable)
-        }
-    }
-
     private val mPagerChange = object : ViewPager2.OnPageChangeCallback() {
         override fun onPageSelected(position: Int) {
             val index = getRealIndex(position)
@@ -302,6 +313,7 @@ class BannerView : RelativeLayout {
      */
     private val mLoopRunnable = object : Runnable {
         override fun run() {
+            LogUtil.i("Loop run.")
             if (!isAutoPlay) return
 
             //开启轮播状态
@@ -318,6 +330,16 @@ class BannerView : RelativeLayout {
             }
             postDelayed(this, delayTime)
         }
+    }
+
+    private fun startLoop() {
+        if (isAutoPlay) {
+            postDelayed(mLoopRunnable, delayTime)
+        }
+    }
+
+    private fun stopLoop() {
+        removeCallbacks(mLoopRunnable)
     }
 
     /**
@@ -439,6 +461,7 @@ class BannerView : RelativeLayout {
         isInit = false
 
         removeCallbacks(mLoopRunnable)
+        stopLoop()
         mAdapter = BannerAdapter(data, createHolder)
 
         post {
@@ -451,9 +474,7 @@ class BannerView : RelativeLayout {
             buildIndicatorView()
 
             isInit = true
-            if (isAutoPlay) {
-                postDelayed(mLoopRunnable, delayTime)
-            }
+            startLoop()
         }
     }
 
