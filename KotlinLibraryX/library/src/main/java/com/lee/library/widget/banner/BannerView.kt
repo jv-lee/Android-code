@@ -26,7 +26,6 @@ import androidx.viewpager2.widget.ViewPager2
 import com.lee.library.R
 import com.lee.library.extensions.dp2px
 import com.lee.library.extensions.setMargin
-import com.lee.library.utils.LogUtil
 import com.lee.library.widget.banner.BannerView.BannerMode.Companion.MODE_CLIP
 import com.lee.library.widget.banner.BannerView.BannerMode.Companion.MODE_CLIP_SCALE
 import com.lee.library.widget.banner.BannerView.BannerMode.Companion.MODE_DEFAULT
@@ -110,7 +109,7 @@ class BannerView : RelativeLayout {
 
     override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
         when (ev.action) {
-            MotionEvent.ACTION_UP -> {
+            MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
                 startLoop()
             }
             else -> {
@@ -128,15 +127,12 @@ class BannerView : RelativeLayout {
         if (visibility == VISIBLE) {
             //当前未轮播状态重新发起轮播任务
             if (!isLoop) {
-                removeCallbacks(mLoopRunnable)
-                stopLoop()
                 startLoop()
             }
         } else {
             //当前在轮播状态，移除轮播状态
             if (isLoop) isLoop = false
             stopLoop()
-            removeCallbacks(mLoopRunnable)
         }
     }
 
@@ -313,7 +309,6 @@ class BannerView : RelativeLayout {
      */
     private val mLoopRunnable = object : Runnable {
         override fun run() {
-            LogUtil.i("Loop run.")
             if (!isAutoPlay) return
 
             //开启轮播状态
@@ -334,6 +329,7 @@ class BannerView : RelativeLayout {
 
     private fun startLoop() {
         if (isAutoPlay) {
+            removeCallbacks(mLoopRunnable)
             postDelayed(mLoopRunnable, delayTime)
         }
     }
@@ -460,8 +456,6 @@ class BannerView : RelativeLayout {
         if (isInit && mAdapter.data == data) return
         isInit = false
 
-        removeCallbacks(mLoopRunnable)
-        stopLoop()
         mAdapter = BannerAdapter(data, createHolder)
 
         post {
