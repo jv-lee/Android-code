@@ -140,8 +140,8 @@ public class RoundImageView extends ImageView {
         path.addRoundRect(mRect, new float[]{
                         mTopLeftRoundRadius, mTopLeftRoundRadius,
                         mTopRightRoundRadius, mTopRightRoundRadius,
-                        mBottomLeftRoundRadius, mBottomLeftRoundRadius,
-                        mBottomRightRoundRadius, mBottomRightRoundRadius},
+                        mBottomRightRoundRadius, mBottomRightRoundRadius,
+                        mBottomLeftRoundRadius, mBottomLeftRoundRadius},
                 Path.Direction.CW);
         canvas.drawPath(path, mPaint);
         if (mLineWidth != 0F)
