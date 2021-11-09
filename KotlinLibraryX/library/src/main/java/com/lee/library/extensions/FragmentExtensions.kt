@@ -20,10 +20,12 @@ import kotlinx.coroutines.launch
  */
 fun Fragment.toast(message: CharSequence?, duration: Int = Toast.LENGTH_SHORT) {
     message ?: return
-    Toast.makeText(requireContext().applicationContext, message, duration).show()
+    if (isDetached) return
+    Toast.makeText(requireContext(), message, duration).show()
 }
 
 fun Fragment.show(dialog: Dialog) {
+    if (isDetached) return
     if (ActivityUtil.assertActivityDestroyed(requireActivity())) return
     try {
         dialog.show()
@@ -32,6 +34,7 @@ fun Fragment.show(dialog: Dialog) {
 }
 
 fun Fragment.dismiss(dialog: Dialog) {
+    if (isDetached) return
     if (ActivityUtil.assertActivityDestroyed(requireActivity())) return
     try {
         dialog.dismiss()
@@ -40,6 +43,7 @@ fun Fragment.dismiss(dialog: Dialog) {
 }
 
 fun Fragment.show(dialog: DialogFragment) {
+    if (isDetached) return
     if (ActivityUtil.assertActivityDestroyed(requireActivity())) return
     try {
         dialog.show(childFragmentManager, dialog::class.java.simpleName)
@@ -48,6 +52,7 @@ fun Fragment.show(dialog: DialogFragment) {
 }
 
 fun Fragment.dismiss(dialog: DialogFragment) {
+    if (isDetached) return
     if (ActivityUtil.assertActivityDestroyed(requireActivity())) return
     try {
         dialog.dismiss()
@@ -88,7 +93,7 @@ inline fun Fragment.delayBackEvent(
  */
 inline fun Fragment.launchAndRepeatWithViewLifecycle(
     minActiveState: Lifecycle.State = Lifecycle.State.STARTED,
-    crossinline block:suspend CoroutineScope.() -> Unit
+    crossinline block: suspend CoroutineScope.() -> Unit
 ) {
     viewLifecycleOwner.lifecycleScope.launch {
         viewLifecycleOwner.lifecycle.repeatOnLifecycle(minActiveState) {
