@@ -3,6 +3,7 @@ package com.lee.library.widget.toolbar
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
+import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.Gravity
@@ -136,6 +137,7 @@ open class TitleToolbar : CustomToolbarLayout {
             setTextColor(ContextCompat.getColor(context, R.color.colorAccent))
             text = titleText
             setTextColor(titleColor)
+            typeface = Typeface.DEFAULT_BOLD
             visibility = titleEnable
             textSize = context.px2sp(resources.getDimension(R.dimen.font_size_medium).toInt())
             addView(this)

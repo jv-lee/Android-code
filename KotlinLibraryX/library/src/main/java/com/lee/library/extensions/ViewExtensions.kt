@@ -12,6 +12,8 @@ import androidx.annotation.IdRes
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.view.ViewCompat
+import androidx.core.view.children
+import androidx.core.view.size
 import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -507,5 +509,31 @@ fun ViewPager2.increaseOffscreenPageLimit() {
             }
         }
     })
+}
+
+/**
+ * ViewPager2 联动RadioGroup
+ * @param radioGroup 联动的View
+ */
+fun ViewPager2.bindRadioGroup(radioGroup: RadioGroup) {
+    registerOnPageChangeCallback(object :
+        ViewPager2.OnPageChangeCallback() {
+        override fun onPageSelected(position: Int) {
+            if (radioGroup.size <= position) return
+
+            val button = (radioGroup.getChildAt(position) as RadioButton)
+
+            if (!button.isChecked) button.isChecked = true
+        }
+    })
+    radioGroup.setOnCheckedChangeListener { group, checkedId ->
+        val button = group.findViewById<RadioButton>(checkedId)
+
+        group.children.forEachIndexed { index, view ->
+            if (button == view && index != currentItem) {
+                setCurrentItem(index, false)
+            }
+        }
+    }
 }
 
