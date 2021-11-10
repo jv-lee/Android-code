@@ -18,6 +18,10 @@ fun <T> BaseViewAdapter<T>.submitData(
 ) {
     //数据源相同不做任何操作
     if (data == pageData.getDataSource()) {
+        if (data.isEmpty()) {
+            pageEmpty()
+            emptyBlock()
+        }
         return
     }
 
@@ -70,6 +74,10 @@ fun <T> BaseViewAdapter<T>.submitData(
 ) {
     //数据源相同不做任何操作
     if (data == pageData.getDataSource()) {
+        if (data.isEmpty()) {
+            pageEmpty()
+            emptyBlock()
+        }
         return
     }
 
