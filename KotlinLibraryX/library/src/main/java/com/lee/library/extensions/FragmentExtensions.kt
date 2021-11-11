@@ -1,5 +1,6 @@
 package com.lee.library.extensions
 
+import android.app.Activity
 import android.app.Dialog
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
@@ -62,6 +63,40 @@ fun Fragment.dismiss(dialog: DialogFragment) {
 }
 
 /**
+ * 根据泛型直接获取父Fragment
+ */
+inline fun <reified T : Fragment> Fragment.findParentFragment(): T? {
+    if (parentFragment is T) {
+        return parentFragment as T
+    }
+    return null
+}
+
+/**
+ * 根据泛型直接获取Activity容器
+ */
+inline fun <reified T : Activity> Fragment.findParentActivity(): T? {
+    if (requireActivity() is T) {
+        return requireActivity() as T
+    }
+    return null
+}
+
+/**
+ * 携程flow fragment生命周期绑定
+ */
+inline fun Fragment.launchAndRepeatWithViewLifecycle(
+    minActiveState: Lifecycle.State = Lifecycle.State.STARTED,
+    crossinline block: suspend CoroutineScope.() -> Unit
+) {
+    viewLifecycleOwner.lifecycleScope.launch {
+        viewLifecycleOwner.lifecycle.repeatOnLifecycle(minActiveState) {
+            block()
+        }
+    }
+}
+
+/**
  * 设置双击back关闭Activity
  * @param backExitTime  两次back事件间隔 默认2秒
  * @param alertCall 两次back事件间隔时间不满足条件 call回调
@@ -86,19 +121,5 @@ inline fun Fragment.delayBackEvent(
         }
     }.apply {
         requireActivity().onBackPressedDispatcher.addCallback(this@delayBackEvent, this)
-    }
-}
-
-/**
- * 携程flow fragment生命周期绑定
- */
-inline fun Fragment.launchAndRepeatWithViewLifecycle(
-    minActiveState: Lifecycle.State = Lifecycle.State.STARTED,
-    crossinline block: suspend CoroutineScope.() -> Unit
-) {
-    viewLifecycleOwner.lifecycleScope.launch {
-        viewLifecycleOwner.lifecycle.repeatOnLifecycle(minActiveState) {
-            block()
-        }
     }
 }
