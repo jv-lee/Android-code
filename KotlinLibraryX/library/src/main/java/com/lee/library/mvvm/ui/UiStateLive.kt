@@ -17,8 +17,13 @@ inline fun <reified T> LiveData<UiState>.observeState(
     crossinline loading: () -> Unit = {},
     crossinline default: () -> Unit = {},
 ) {
-    observe(owner, Observer {
-        it.call(success, error, loading, default)
+    observe(owner, {
+        try {
+            it.call(success, error, loading, default)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            error(e)
+        }
     })
 }
 

@@ -14,7 +14,12 @@ suspend inline fun <reified T> Flow<UiState>.collectState(
     crossinline default: () -> Unit = {},
 ) {
     collect {
-        it.call(success, error, loading, default)
+        try {
+            it.call(success, error, loading, default)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            error(e)
+        }
     }
 }
 
@@ -57,7 +62,6 @@ inline fun <reified T> stateCacheFlow(
         emit(UiState.Failure(data, e))
     }
 }
-
 
 inline fun <reified T> Flow<T>.uiState(): Flow<UiState> {
     var data: T? = null
