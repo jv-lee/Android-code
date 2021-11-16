@@ -29,6 +29,7 @@ class AppWebView : WebView, ObservableLifecycle {
     private var isPause = false
     private var time: Long = 0
     private var firstUrl: String? = null
+    private var firstOverrideUrl: String? = null
 
     private var webStatusListenerAdapter: WebStatusListenerAdapter? = null
     private var webStatusCallBack: WebStatusCallBack? = null
@@ -120,8 +121,8 @@ class AppWebView : WebView, ObservableLifecycle {
              */
             override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
                 //重定向时更新初始URL
-                if (view.url == firstUrl) {
-                    firstUrl = url
+                if (view.url == firstUrl || view.url == firstOverrideUrl) {
+                    firstOverrideUrl = url
                 }
                 return if (url.startsWith("https://") || url.startsWith("https://")) {
                     view.loadUrl(url)
@@ -203,7 +204,7 @@ class AppWebView : WebView, ObservableLifecycle {
     }
 
     override fun canGoBack(): Boolean {
-        return if (url == firstUrl) {
+        return if (url == firstUrl || url == firstOverrideUrl) {
             false
         } else {
             super.canGoBack()
@@ -217,6 +218,7 @@ class AppWebView : WebView, ObservableLifecycle {
      */
     fun initUrl(url: String) {
         firstUrl = url
+        firstOverrideUrl = url
         loadUrl(url)
     }
 
