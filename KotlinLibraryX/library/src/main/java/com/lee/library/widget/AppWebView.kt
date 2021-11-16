@@ -119,6 +119,10 @@ class AppWebView : WebView, ObservableLifecycle {
              * @return
              */
             override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
+                //重定向时更新初始URL
+                if (view.url == firstUrl) {
+                    firstUrl = url
+                }
                 return if (url.startsWith("https://") || url.startsWith("https://")) {
                     view.loadUrl(url)
                     false
