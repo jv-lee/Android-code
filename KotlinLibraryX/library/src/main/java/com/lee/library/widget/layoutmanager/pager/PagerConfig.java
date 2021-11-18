@@ -1,4 +1,4 @@
-package com.lee.library.widget.layoutmanager;
+package com.lee.library.widget.layoutmanager.pager;
 
 /**
  * 作用：Pager配置

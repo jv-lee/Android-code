@@ -1,4 +1,4 @@
-package com.lee.library.widget;
+package com.lee.library.widget.layoutmanager;
 
 import android.content.Context;
 import android.util.AttributeSet;
