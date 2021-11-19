@@ -8,7 +8,7 @@ package build
 object BuildConfig {
     const val applicationId = "com.core.lee"
 
-    const val compileSdk = 30
+    const val compileSdk = 31
     const val minSdk = 21
     const val targetSdk = 30
     const val versionCode = 1
