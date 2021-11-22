@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Context
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
+import android.text.TextUtils
 import android.util.AttributeSet
 import android.view.Gravity
 import android.view.View
@@ -137,6 +138,9 @@ open class TitleToolbar : CustomToolbarLayout {
             setTextColor(ContextCompat.getColor(context, R.color.colorAccent))
             text = titleText
             setTextColor(titleColor)
+            maxLines = 1
+            maxEms = 10
+            ellipsize = TextUtils.TruncateAt.END
             typeface = Typeface.DEFAULT_BOLD
             visibility = titleEnable
             textSize = context.px2sp(resources.getDimension(R.dimen.font_size_medium).toInt())
