@@ -16,7 +16,7 @@ import java.io.IOException
 class CacheControlInterceptor :Interceptor {
 
     @Throws(IOException::class)
-    override fun intercept(@NonNull chain: Interceptor.Chain): Response? {
+    override fun intercept(@NonNull chain: Interceptor.Chain): Response {
         var request = chain.request()
         if (!NetworkUtil.isNetworkConnected(BaseApplication.getContext())) {
             request = request.newBuilder()

@@ -187,7 +187,7 @@ class HttpManager private constructor() {
         if (throwable is HttpException) {
             try {
                 throwable.response()?.errorBody()?.let {
-                    val json = JsonParser().parse(it.string())
+                    val json = JsonParser.parseString(it.string())
                     val msg = json.asJsonObject.get(filedName).asString
                     return if (TextUtils.isEmpty(msg)) {
                         throwable.message ?: throwable.toString()
