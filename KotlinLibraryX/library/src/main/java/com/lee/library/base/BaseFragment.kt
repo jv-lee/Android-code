@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.OneShotPreDrawListener
 import androidx.fragment.app.Fragment
 
 /**
@@ -25,8 +26,14 @@ abstract class BaseFragment(private val resourceId: Int? = 0) : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        postponeEnterTransition()
         bindView()
         bindData()
+        (view.parent as? ViewGroup)?.apply {
+            OneShotPreDrawListener.add(this) {
+                startPostponedEnterTransition()
+            }
+        }
     }
 
     override fun onResume() {

@@ -504,7 +504,7 @@ fun ViewPager2.increaseOffscreenPageLimit() {
             positionOffsetPixels: Int
         ) {
             if (position == 0) return
-            if (offscreenPageLimit <= position) {
+            if (offscreenPageLimit < position) {
                 offscreenPageLimit = position
             }
         }
