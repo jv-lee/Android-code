@@ -25,6 +25,7 @@ class PreferencesTools {
          * @param key    键名
          * @param values Object类型数据 但仅限于(String/int/float/boolean/long)
          */
+        @Synchronized
         fun <T> put(key: String, values: T) {
             val editor = preferences.edit()
             when (values) {
@@ -53,6 +54,7 @@ class PreferencesTools {
          * @param key          键名
          * @param defaultValue 根据key获取不到是默认值仅限于(String/int/float/boolean/long)
          */
+        @Synchronized
         fun <T> get(key: String, defaultValue: T): T {
             when (defaultValue) {
                 is String -> {
@@ -77,6 +79,7 @@ class PreferencesTools {
         /**
          * 清除保存的数据
          */
+        @Synchronized
         fun clear() {
             val editor = preferences.edit()
             editor.clear().apply()
@@ -86,6 +89,7 @@ class PreferencesTools {
          * 根据key删除value
          * @param key 被删除的key
          */
+        @Synchronized
         fun remove(key: String) {
             val editor = preferences.edit()
             editor.remove(key).apply()
