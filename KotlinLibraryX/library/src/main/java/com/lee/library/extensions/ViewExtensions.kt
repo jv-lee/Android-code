@@ -465,6 +465,22 @@ inline fun Window.keyboardObserver(
 }
 
 /**
+ * 监听键盘弹起
+ */
+inline fun Window.keyboardObserver(
+    crossinline keyboardObserver: (Int) -> Unit = {}) {
+    decorView.viewTreeObserver.addOnGlobalLayoutListener {
+        val rect = android.graphics.Rect()
+        decorView.getWindowVisibleDisplayFrame(rect)
+
+        val height: Int = context.resources.displayMetrics.heightPixels
+        // 获取键盘抬高的高度
+        val diff: Int = height - rect.height()
+        keyboardObserver(diff)
+    }
+}
+
+/**
  * webView设置back事件拦截
  */
 fun WebView.setWebBackEvent() {
