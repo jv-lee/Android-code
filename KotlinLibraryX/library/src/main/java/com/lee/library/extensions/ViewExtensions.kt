@@ -441,15 +441,15 @@ fun RecyclerView.smoothScrollToTop() {
 /**
  * 监听键盘弹起
  */
-inline fun Window.keyboardObserver(
+inline fun View.keyboardObserver(
     crossinline openObserver: () -> Unit = {},
     crossinline closeObserver: () -> Unit = {}
 ) {
     var isOpen = false
     val keyboardHeight = 200
-    decorView.viewTreeObserver.addOnGlobalLayoutListener {
+    viewTreeObserver.addOnGlobalLayoutListener {
         val rect = android.graphics.Rect()
-        decorView.getWindowVisibleDisplayFrame(rect)
+        getWindowVisibleDisplayFrame(rect)
 
         val height: Int = context.resources.displayMetrics.heightPixels
         // 获取键盘抬高的高度
@@ -467,11 +467,11 @@ inline fun Window.keyboardObserver(
 /**
  * 监听键盘弹起
  */
-inline fun Window.keyboardObserver(
+inline fun View.keyboardObserver(
     crossinline keyboardObserver: (Int) -> Unit = {}) {
-    decorView.viewTreeObserver.addOnGlobalLayoutListener {
+    viewTreeObserver.addOnGlobalLayoutListener {
         val rect = android.graphics.Rect()
-        decorView.getWindowVisibleDisplayFrame(rect)
+        getWindowVisibleDisplayFrame(rect)
 
         val height: Int = context.resources.displayMetrics.heightPixels
         // 获取键盘抬高的高度
