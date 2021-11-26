@@ -13,17 +13,18 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.*
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import com.lee.library.R
 import com.lee.library.dialog.ChoiceDialog
 import com.lee.library.dialog.core.CancelListener
 import com.lee.library.dialog.core.ConfirmListener
-import com.lee.library.lifecycle.ObservableLifecycle
 
 /**
  * @author jv.lee
  */
-class AppWebView : WebView, ObservableLifecycle {
+class AppWebView : WebView, LifecycleEventObserver {
     private var lifecycleOwner: LifecycleOwner? = null
     private var isFailed = false
     private var isPause = false
@@ -227,30 +228,32 @@ class AppWebView : WebView, ObservableLifecycle {
         lifecycleOwner.lifecycle.addObserver(this)
     }
 
-    override fun onLifecycleResume() {
-        super.onLifecycleResume()
-        if (isPause) {
-            onResume()
+
+    override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
+        when (event) {
+            Lifecycle.Event.ON_RESUME -> {
+                if (isPause) {
+                    onResume()
+                }
+                isPause = false
+            }
+            Lifecycle.Event.ON_PAUSE -> {
+                onPause()
+                isPause = true
+            }
+            Lifecycle.Event.ON_DESTROY -> {
+                visibility = View.GONE
+                clearCache(true)
+                clearHistory()
+                removeAllViews()
+                destroy()
+                isPause = false
+                //取消生命周期监听
+                lifecycleOwner?.lifecycle?.removeObserver(this)
+            }
+            else -> {
+            }
         }
-        isPause = false
-    }
-
-    override fun onLifecyclePause() {
-        super.onLifecyclePause()
-        onPause()
-        isPause = true
-    }
-
-    override fun onLifecycleDestroy() {
-        super.onLifecycleDestroy()
-        visibility = View.GONE
-        clearCache(true)
-        clearHistory()
-        removeAllViews()
-        destroy()
-        isPause = false
-        //取消生命周期监听
-        lifecycleOwner?.lifecycle?.removeObserver(this)
     }
 
     fun destroyView() {

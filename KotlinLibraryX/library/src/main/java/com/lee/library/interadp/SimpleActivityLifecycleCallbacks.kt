@@ -1,4 +1,4 @@
-package com.lee.library.lifecycle
+package com.lee.library.interadp
 
 import android.app.Activity
 import android.app.Application
