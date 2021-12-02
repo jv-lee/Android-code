@@ -48,7 +48,6 @@ abstract class BaseVMNavigationFragment<V : ViewDataBinding, VM : BaseViewModel>
             }
             bindView()
             bindData()
-            initFailedViewModel()
             isNavigationViewInit = true
         }
     }

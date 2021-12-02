@@ -30,13 +30,6 @@ abstract class BaseVMActivity<V : ViewDataBinding, VM : BaseViewModel>(var layou
         } catch (e: Exception) {
         }
         super.onCreate(savedInstanceState)
-        initFailedViewModel()
-    }
-
-    private fun initFailedViewModel() {
-        viewModel.failedEvent.observe(this, Observer {
-            toast(it.message)
-        })
     }
 
 }
