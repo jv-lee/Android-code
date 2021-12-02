@@ -26,14 +26,8 @@ abstract class BaseFragment(private val resourceId: Int? = 0) : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        postponeEnterTransition()
         bindView()
         bindData()
-        (view.parent as? ViewGroup)?.apply {
-            OneShotPreDrawListener.add(this) {
-                startPostponedEnterTransition()
-            }
-        }
     }
 
     override fun onResume() {

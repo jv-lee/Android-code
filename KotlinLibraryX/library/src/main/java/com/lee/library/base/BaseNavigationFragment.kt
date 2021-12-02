@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.OneShotPreDrawListener
 
 /**
  * @author jv.lee
@@ -36,20 +35,14 @@ abstract class BaseNavigationFragment(val layoutId: Int) :
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        if (!isNavigationViewInit) {
-            navigationInit(view, savedInstanceState)
-        }
+        navigationInit(view, savedInstanceState)
     }
 
     open fun navigationInit(view: View, savedInstanceState: Bundle?) {
-        postponeEnterTransition()
-        bindView()
-        bindData()
-        isNavigationViewInit = true
-        (view.parent as? ViewGroup)?.apply {
-            OneShotPreDrawListener.add(this) {
-                startPostponedEnterTransition()
-            }
+        if (!isNavigationViewInit) {
+            bindView()
+            bindData()
+            isNavigationViewInit = true
         }
     }
 
