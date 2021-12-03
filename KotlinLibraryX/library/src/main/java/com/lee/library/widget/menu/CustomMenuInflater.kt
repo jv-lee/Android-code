@@ -6,6 +6,7 @@ import android.content.res.TypedArray
 import android.content.res.XmlResourceParser
 import android.util.AttributeSet
 import android.util.Xml
+import android.view.Gravity
 import android.view.InflateException
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +15,7 @@ import androidx.annotation.MenuRes
 import androidx.core.content.ContextCompat
 import com.lee.library.R
 import com.lee.library.extensions.dp2px
-import com.lee.library.extensions.setImageTintCompat
+import com.lee.library.extensions.setDrawableCompat
 import org.xmlpull.v1.XmlPullParser
 import org.xmlpull.v1.XmlPullParserException
 import java.io.IOException
@@ -43,6 +44,7 @@ class CustomMenuInflater(var context: Context) {
             )
             setBackgroundResource(R.drawable.shape_theme_menu)
             orientation = LinearLayout.VERTICAL
+            gravity = Gravity.CENTER_HORIZONTAL
         }
     }
 
@@ -119,13 +121,13 @@ class CustomMenuInflater(var context: Context) {
         val itemIconTint =
             typed.getColor(
                 R.styleable.CustomMenuItem_android_iconTint,
-                ContextCompat.getColor(context, R.color.colorAccent)
+                ContextCompat.getColor(context, R.color.colorThemeAccent)
             )
 
         val view = CustomMenuItemView(context)
         view.id = itemId
         view.getTitle().text = itemTitleText
-        view.getIcon().setImageTintCompat(itemIconId, itemIconTint)
+        view.getTitle().setDrawableCompat(left = itemIconId, tint = itemIconTint)
         rootView.addView(view)
 
         typed.recycle()

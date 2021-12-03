@@ -1,5 +1,6 @@
 package com.lee.library.extensions
 
+import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.StateListDrawable
@@ -132,15 +133,46 @@ fun TextView.setTextColorCompat(color: Int) {
 }
 
 /**
+ * TextView设置 四个位置drawable
+ */
+fun TextView.setDrawableCompat(
+    left: Int = 0,
+    top: Int = 0,
+    right: Int = 0,
+    bottom: Int = 0,
+    tint: Int = 0
+) {
+    val leftDrawable = if (left == 0) null else getTintDrawableCompat(context, left, tint)
+    leftDrawable?.setBounds(0, 0, leftDrawable.minimumWidth, leftDrawable.minimumHeight)
+
+    val topDrawable = if (top == 0) null else getTintDrawableCompat(context, top, tint)
+    topDrawable?.setBounds(0, 0, topDrawable.minimumWidth, topDrawable.minimumHeight)
+
+    val rightDrawable = if (right == 0) null else getTintDrawableCompat(context, right, tint)
+    rightDrawable?.setBounds(0, 0, rightDrawable.minimumWidth, rightDrawable.minimumHeight)
+
+    val bottomDrawable = if (bottom == 0) null else getTintDrawableCompat(context, bottom, tint)
+    bottomDrawable?.setBounds(0, 0, bottomDrawable.minimumWidth, bottomDrawable.minimumHeight)
+
+    setCompoundDrawables(leftDrawable, topDrawable, rightDrawable, bottomDrawable)
+}
+
+/**
  * ImageView扩展函数 向下兼容Tint着色器
  */
 fun ImageView.setImageTintCompat(drawableId: Int, color: Int = 0) {
-    if (color == 0) {
-        setImageResource(drawableId)
-        return
+    val drawable = getTintDrawableCompat(context, drawableId, color)
+    setImageDrawable(drawable)
+}
+
+private fun getTintDrawableCompat(context: Context, drawableId: Int, color: Int = 0): Drawable? {
+    if (drawableId == 0) {
+        return null
     }
-    var drawable =
-        ContextCompat.getDrawable(context, drawableId)
+    var drawable = ContextCompat.getDrawable(context, drawableId)
+    if (color == 0) {
+        return drawable
+    }
     val colors = intArrayOf(color, color)
     val states = arrayOfNulls<IntArray>(2)
     states[0] = intArrayOf(android.R.attr.state_pressed)
@@ -151,11 +183,9 @@ fun ImageView.setImageTintCompat(drawableId: Int, color: Int = 0) {
 
     stateListDrawable.addState(states[1], drawable)
     val state = stateListDrawable.constantState
-    drawable =
-        DrawableCompat.wrap(state?.newDrawable() ?: stateListDrawable)
-            .mutate()
+    drawable = DrawableCompat.wrap(state?.newDrawable() ?: stateListDrawable).mutate()
     DrawableCompat.setTintList(drawable, colorList)
-    setImageDrawable(drawable)
+    return drawable
 }
 
 /**
@@ -468,7 +498,8 @@ inline fun View.keyboardObserver(
  * 监听键盘弹起
  */
 inline fun View.keyboardObserver(
-    crossinline keyboardObserver: (Int) -> Unit = {}) {
+    crossinline keyboardObserver: (Int) -> Unit = {}
+) {
     viewTreeObserver.addOnGlobalLayoutListener {
         val rect = android.graphics.Rect()
         getWindowVisibleDisplayFrame(rect)
