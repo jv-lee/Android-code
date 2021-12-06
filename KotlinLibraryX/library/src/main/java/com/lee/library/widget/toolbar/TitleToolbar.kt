@@ -58,7 +58,7 @@ open class TitleToolbar : CustomToolbarLayout {
         titleText = typeArray.getString(R.styleable.TitleToolbar_titleText) ?: ""
         titleColor = typeArray.getColor(
             R.styleable.TitleToolbar_titleColor,
-            ContextCompat.getColor(context, R.color.colorAccent)
+            ContextCompat.getColor(context, R.color.colorThemeAccent)
         )
         backIcon =
             typeArray.getResourceId(R.styleable.TitleToolbar_backIcon, R.drawable.vector_back)
@@ -135,7 +135,7 @@ open class TitleToolbar : CustomToolbarLayout {
                     bottomToBottom = 0
                     gravity = Gravity.CENTER
                 }
-            setTextColor(ContextCompat.getColor(context, R.color.colorAccent))
+            setTextColor(ContextCompat.getColor(context, R.color.colorThemeAccent))
             text = titleText
             setTextColor(titleColor)
             maxLines = 1
@@ -195,6 +195,13 @@ open class TitleToolbar : CustomToolbarLayout {
      */
     fun setBackDrawable(drawable: Drawable) {
         ivBack.setImageDrawable(drawable)
+    }
+
+    /**
+     * 设置Back按键资源
+     */
+    fun setBackDrawableRes(drawable: Int, tint: Int = R.color.colorThemeAccent) {
+        ivBack.setImageTintCompat(drawable, ContextCompat.getColor(context, tint))
     }
 
     fun setTitleColor(color: Int) {
