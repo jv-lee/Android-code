@@ -77,7 +77,7 @@ open class TitleToolbar : CustomToolbarLayout {
         menuRes = typeArray.getResourceId(R.styleable.TitleToolbar_menuRes, 0)
         titleEnable = typeArray.getInt(R.styleable.TitleToolbar_titleEnable, View.VISIBLE)
         backEnable = typeArray.getInt(R.styleable.TitleToolbar_backEnable, View.VISIBLE)
-        menuEnable = typeArray.getInt(R.styleable.TitleToolbar_menuEnable, View.VISIBLE)
+        menuEnable = typeArray.getInt(R.styleable.TitleToolbar_menuEnable, View.GONE)
         typeArray.recycle()
         initView()
     }
