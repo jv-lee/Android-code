@@ -1,9 +1,6 @@
 package com.lee.library.tools
 
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.OnLifecycleEvent
+import androidx.lifecycle.*
 
 /**
  * @author jv.lee
@@ -17,11 +14,12 @@ object DarkViewUpdateTools {
 
     fun bindViewCallback(owner: LifecycleOwner, view: ViewCallback) {
         viewCallbackMap[owner] = view
-        owner.lifecycle.addObserver(object : LifecycleObserver {
-            @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-            fun onDestroy() {
-                viewCallbackMap.remove(owner)
-                owner.lifecycle.removeObserver(this)
+        owner.lifecycle.addObserver(object : LifecycleEventObserver {
+            override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
+                if (event == Lifecycle.Event.ON_DESTROY) {
+                    viewCallbackMap.remove(owner)
+                    owner.lifecycle.removeObserver(this)
+                }
             }
         })
     }
@@ -30,7 +28,7 @@ object DarkViewUpdateTools {
         val isDark = DarkModeTools.get().isDarkTheme()
         if (mIsDark == isDark) return
         for (entry in viewCallbackMap) {
-            if (entry.key.lifecycle.currentState != Lifecycle.State.DESTROYED) {
+            if (entry.key.lifecycle.currentState == Lifecycle.State.RESUMED) {
                 entry.value.updateDarkView()
             }
         }
