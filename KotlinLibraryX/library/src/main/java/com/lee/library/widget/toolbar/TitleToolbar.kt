@@ -31,7 +31,7 @@ open class TitleToolbar : CustomToolbarLayout {
     private lateinit var ivBack: ImageView
     private lateinit var ivMenu: ImageView
     private lateinit var tvTitle: TextView
-    private lateinit var menuPopupHelper: CustomPopupMenuHelper
+    private var menuPopupHelper: CustomPopupMenuHelper? = null
 
     private var titleText: String
     private var titleColor: Int
@@ -176,11 +176,11 @@ open class TitleToolbar : CustomToolbarLayout {
     }
 
     fun showMenu() {
-        menuPopupHelper.menuPW.showAsDropDown(ivMenu)
+        menuPopupHelper?.menuPW?.showAsDropDown(ivMenu)
     }
 
     fun showMenu(offsetX: Int, offsetY: Int) {
-        menuPopupHelper.menuPW.showAsDropDown(ivMenu, offsetX, offsetY)
+        menuPopupHelper?.menuPW?.showAsDropDown(ivMenu, offsetX, offsetY)
     }
 
     /**
@@ -223,7 +223,7 @@ open class TitleToolbar : CustomToolbarLayout {
 
     fun setClickListener(clickListener: ClickListener) {
         this.clickListener = clickListener
-        menuPopupHelper.toolbarClickListener = clickListener
+        menuPopupHelper?.toolbarClickListener = clickListener
     }
 
 }
