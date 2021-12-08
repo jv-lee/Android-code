@@ -18,6 +18,11 @@ fun <T> BaseViewAdapter<T>.submitData(
 ) {
     //首页加载逻辑
     if (pageData.getPageNumber() == limit) {
+        // 过滤首页重复数据
+        if (data == pageData.getDataSource()) {
+            return
+        }
+
         //设置空页面
         if (pageData.getDataSource().isNullOrEmpty()) {
             pageEmpty()
@@ -68,6 +73,11 @@ fun <T> BaseViewAdapter<T>.submitData(
 ) {
     //首页加载逻辑
     if (pageData.isFirstPage()) {
+        // 过滤首页重复数据
+        if (data == pageData.getDataSource()) {
+            return
+        }
+
         //设置空页面
         if (pageData.getDataSource().isNullOrEmpty()) {
             pageEmpty()
