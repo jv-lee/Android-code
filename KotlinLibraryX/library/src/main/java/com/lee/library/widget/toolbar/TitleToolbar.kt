@@ -29,7 +29,7 @@ import com.lee.library.widget.menu.CustomPopupMenuHelper
 open class TitleToolbar : CustomToolbarLayout {
 
     private lateinit var ivBack: ImageView
-    private lateinit var ivMenu: ImageView
+    private lateinit var ivMore: ImageView
     private lateinit var tvTitle: TextView
     private var menuPopupHelper: CustomPopupMenuHelper? = null
 
@@ -37,12 +37,12 @@ open class TitleToolbar : CustomToolbarLayout {
     private var titleColor: Int
     private var backIcon: Int
     private var backIconTint: Int
-    private var menuIcon: Int
-    private var menuIconTint: Int
-    private var menuRes: Int
+    private var moreIcon: Int
+    private var moreIconTint: Int
     private var titleEnable: Int
     private var backEnable: Int
-    private var menuEnable: Int
+    private var moreEnable: Int
+    private var menuRes: Int
 
     private var clickListener: ClickListener? = null
 
@@ -67,17 +67,17 @@ open class TitleToolbar : CustomToolbarLayout {
                 R.styleable.TitleToolbar_backIconTint,
                 ContextCompat.getColor(context, R.color.colorThemeAccent)
             )
-        menuIcon =
-            typeArray.getResourceId(R.styleable.TitleToolbar_menuIcon, R.drawable.vector_menu)
-        menuIconTint =
+        moreIcon =
+            typeArray.getResourceId(R.styleable.TitleToolbar_moreIcon, R.drawable.vector_more)
+        moreIconTint =
             typeArray.getColor(
-                R.styleable.TitleToolbar_menuIconTint,
+                R.styleable.TitleToolbar_moreIconTint,
                 ContextCompat.getColor(context, R.color.colorThemeAccent)
             )
         menuRes = typeArray.getResourceId(R.styleable.TitleToolbar_menuRes, 0)
         titleEnable = typeArray.getInt(R.styleable.TitleToolbar_titleEnable, View.VISIBLE)
         backEnable = typeArray.getInt(R.styleable.TitleToolbar_backEnable, View.VISIBLE)
-        menuEnable = typeArray.getInt(R.styleable.TitleToolbar_menuEnable, View.GONE)
+        moreEnable = typeArray.getInt(R.styleable.TitleToolbar_moreEnable, View.GONE)
         typeArray.recycle()
         initView()
     }
@@ -89,7 +89,7 @@ open class TitleToolbar : CustomToolbarLayout {
     private fun initView() {
         buildTitleText()
         buildBackImage()
-        buildMenuImage()
+        buildMoreImage()
         buildMenuWindow()
     }
 
@@ -149,10 +149,10 @@ open class TitleToolbar : CustomToolbarLayout {
     }
 
     @SuppressLint("RestrictedApi")
-    private fun buildMenuImage() {
-        ivMenu = ImageView(context)
-        ivMenu.run {
-            id = R.id.toolbar_menu
+    private fun buildMoreImage() {
+        ivMore = ImageView(context)
+        ivMore.run {
+            id = R.id.toolbar_more
             layoutParams =
                 LayoutParams(
                     resources.getDimension(R.dimen.toolbar_button_width).toInt(),
@@ -160,10 +160,10 @@ open class TitleToolbar : CustomToolbarLayout {
                 ).apply { endToEnd = 0 }
             scaleType = ImageView.ScaleType.CENTER
             setSelectableItemForeground()
-            setImageTintCompat(menuIcon, menuIconTint)
-            visibility = menuEnable
+            setImageTintCompat(moreIcon, moreIconTint)
+            visibility = moreEnable
             setOnClickListener {
-                clickListener?.menuClick()
+                clickListener?.moreClick()
             }
             addView(this)
         }
@@ -176,11 +176,11 @@ open class TitleToolbar : CustomToolbarLayout {
     }
 
     fun showMenu() {
-        menuPopupHelper?.menuPW?.showAsDropDown(ivMenu)
+        menuPopupHelper?.menuPW?.showAsDropDown(ivMore)
     }
 
     fun showMenu(offsetX: Int, offsetY: Int) {
-        menuPopupHelper?.menuPW?.showAsDropDown(ivMenu, offsetX, offsetY)
+        menuPopupHelper?.menuPW?.showAsDropDown(ivMore, offsetX, offsetY)
     }
 
     /**
@@ -211,8 +211,15 @@ open class TitleToolbar : CustomToolbarLayout {
     /**
      * 设置Menu按键资源文件
      */
-    fun setMenuDrawable(drawable: Drawable) {
-        ivMenu.setImageDrawable(drawable)
+    fun setMoreDrawable(drawable: Drawable) {
+        ivMore.setImageDrawable(drawable)
+    }
+
+    /**
+     * 设置More按键资源
+     */
+    fun setMoreDrawableRes(drawable: Int, tint: Int = R.color.colorThemeAccent) {
+        ivMore.setImageTintCompat(drawable, ContextCompat.getColor(context, tint))
     }
 
     /**
@@ -232,13 +239,13 @@ open class TitleToolbar : CustomToolbarLayout {
     /**
      * 设置menu显示状态
      */
-    fun setMenuEnable(enable: Boolean) {
-        ivMenu.visibility = if (enable) View.VISIBLE else View.GONE
+    fun setMoreEnable(enable: Boolean) {
+        ivMore.visibility = if (enable) View.VISIBLE else View.GONE
     }
 
     open class ClickListener {
         open fun backClick() {}
-        open fun menuClick() {}
+        open fun moreClick() {}
         open fun menuItemClick(view: View) {}
     }
 

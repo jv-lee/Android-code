@@ -7,5 +7,5 @@
     <item name="toolbar_line" type="id"/>
     <item name="toolbar_back" type="id"/>
     <item name="toolbar_title" type="id"/>
-    <item name="toolbar_menu" type="id"/>
+    <item name="toolbar_more" type="id"/>
 </resources>

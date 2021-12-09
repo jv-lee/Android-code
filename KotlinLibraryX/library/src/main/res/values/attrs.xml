@@ -76,10 +76,10 @@
         <attr name="titleText" format="string" />
         <attr name="titleColor" format="color" />
         <attr name="backIcon" format="reference" />
-        <attr name="menuIcon" format="reference" />
-        <attr name="menuRes" format="reference" />
+        <attr name="moreIcon" format="reference" />
         <attr name="backIconTint" format="color" />
-        <attr name="menuIconTint" format="color" />
+        <attr name="moreIconTint" format="color" />
+        <attr name="menuRes" format="reference" />
 
         <attr name="titleEnable" format="enum">
             <enum name="visible" value="0x00000000" />
@@ -93,7 +93,7 @@
             <enum name="gone" value="0x00000008" />
         </attr>
 
-        <attr name="menuEnable" format="enum">
+        <attr name="moreEnable" format="enum">
             <enum name="visible" value="0x00000000" />
             <enum name="invisible" value="0x00000004" />
             <enum name="gone" value="0x00000008" />
