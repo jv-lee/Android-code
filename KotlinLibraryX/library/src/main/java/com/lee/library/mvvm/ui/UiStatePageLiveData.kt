@@ -1,6 +1,7 @@
 package com.lee.library.mvvm.ui
 
 import androidx.lifecycle.LiveData
+import com.lee.library.adapter.page.PagingData
 import com.lee.library.mvvm.livedata.LoadStatus
 import com.lee.library.utils.LogUtil
 
@@ -85,9 +86,10 @@ class UiStatePageLiveData(private val initPage: Int = 0) : LiveData<UiState>() {
     }
 
     //分页数据合并
-    fun <T> applyData(oldData: MutableList<T>?, newData: MutableList<T>) {
+    fun <T> applyData(oldData: MutableList<T>?, newPaging: PagingData<T>) {
         oldData ?: return
-        if (page != initPage) newData.addAll(0, oldData)
+
+        if (newPaging.getPageNumber() != initPage) newPaging.getDataSource().addAll(0, oldData)
     }
 
 }

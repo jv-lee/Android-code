@@ -8,5 +8,5 @@ package com.lee.library.adapter.page
 interface PagingData<T> {
     fun getPageNumber():Int
     fun getPageTotalNumber():Int
-    fun getDataSource(): List<T>
+    fun getDataSource(): MutableList<T>
 }

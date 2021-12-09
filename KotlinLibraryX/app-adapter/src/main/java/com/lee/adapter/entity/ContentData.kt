@@ -17,7 +17,7 @@ annotation class ViewType {
     }
 }
 
-data class PageData<T>(val page: Int, val pageTotal: Int, val data: List<T>) : PagingData<T> {
+data class PageData<T>(val page: Int, val pageTotal: Int, val data: MutableList<T>) : PagingData<T> {
 
     override fun getPageNumber() = page
 

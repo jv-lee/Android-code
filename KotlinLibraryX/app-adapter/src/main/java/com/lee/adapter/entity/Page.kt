@@ -16,7 +16,7 @@ data class Page<T>(
         return page_count
     }
 
-    override fun getDataSource(): List<T> {
+    override fun getDataSource(): MutableList<T> {
         return data
     }
 
