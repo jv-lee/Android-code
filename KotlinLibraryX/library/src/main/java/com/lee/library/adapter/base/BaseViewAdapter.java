@@ -79,8 +79,6 @@ public abstract class BaseViewAdapter<T> extends RecyclerView.Adapter<BaseViewHo
     public static final int STATUS_ITEM_END = 6;
     public static final int STATUS_ITEM_ERROR = 7;
 
-    private boolean isPageCompleted = false;
-
     /**
      * item类型管理器
      */
@@ -378,7 +376,6 @@ public abstract class BaseViewAdapter<T> extends RecyclerView.Adapter<BaseViewHo
                 break;
             case STATUS_PAGE_COMPLETED:
                 currentPageStatus = status;
-                isPageCompleted = true;
                 removeFooter(pageLayout);
                 break;
             case STATUS_ITEM_MORE:
@@ -388,7 +385,7 @@ public abstract class BaseViewAdapter<T> extends RecyclerView.Adapter<BaseViewHo
             case STATUS_ITEM_END:
                 currentItemStatus = status;
                 loadEndView.setVisibility(View.VISIBLE);
-                if (!isPageCompleted) {
+                if (!isPageCompleted()) {
                     removeFooter(pageLayout);
                 }
                 break;
@@ -404,8 +401,6 @@ public abstract class BaseViewAdapter<T> extends RecyclerView.Adapter<BaseViewHo
     }
 
     public void initStatusView() {
-        //将加载成功设置为false  可以再次初始列表加载
-        isPageCompleted = false;
         //开启loadMore模式
         hasLoadMore = true;
         if (mLoadResource == null) {
@@ -533,6 +528,34 @@ public abstract class BaseViewAdapter<T> extends RecyclerView.Adapter<BaseViewHo
         updateStatus(STATUS_ITEM_ERROR);
     }
 
+    public boolean isPageCompleted() {
+        return currentPageStatus == STATUS_PAGE_COMPLETED;
+    }
+
+    public boolean isPageError() {
+        return currentPageStatus == STATUS_PAGE_ERROR;
+    }
+
+    public boolean isPageEmpty() {
+        return currentPageStatus == STATUS_PAGE_EMPTY;
+    }
+
+    public boolean isPageLoading() {
+        return currentPageStatus == STATUS_PAGE_LOADING;
+    }
+
+    public boolean isItemEnd() {
+        return currentItemStatus == STATUS_ITEM_END;
+    }
+
+    public boolean isItemError() {
+        return currentItemStatus == STATUS_ITEM_ERROR;
+    }
+
+    public boolean isItemMore() {
+        return currentItemStatus == STATUS_ITEM_MORE;
+    }
+
     /**
      * 设置加载更多最低阈值
      *
@@ -545,10 +568,6 @@ public abstract class BaseViewAdapter<T> extends RecyclerView.Adapter<BaseViewHo
     @Override
     public int getItemCount() {
         return mData == null ? 0 : mData.size();
-    }
-
-    public boolean isPageCompleted() {
-        return isPageCompleted;
     }
 
     /**
