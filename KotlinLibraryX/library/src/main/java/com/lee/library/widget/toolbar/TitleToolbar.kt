@@ -215,6 +215,27 @@ open class TitleToolbar : CustomToolbarLayout {
         ivMenu.setImageDrawable(drawable)
     }
 
+    /**
+     * 设置标题显示状态
+     */
+    fun setTitleEnable(enable: Boolean) {
+        tvTitle.visibility = if (enable) View.VISIBLE else View.GONE
+    }
+
+    /**
+     * 设置back显示状态
+     */
+    fun setBackEnable(enable: Boolean) {
+        ivBack.visibility = if (enable) View.VISIBLE else View.GONE
+    }
+
+    /**
+     * 设置menu显示状态
+     */
+    fun setMenuEnable(enable: Boolean) {
+        ivMenu.visibility = if (enable) View.VISIBLE else View.GONE
+    }
+
     open class ClickListener {
         open fun backClick() {}
         open fun menuClick() {}
