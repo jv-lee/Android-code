@@ -86,10 +86,10 @@ class UiStatePageLiveData(private val initPage: Int = 0) : LiveData<UiState>() {
     }
 
     //分页数据合并
-    fun <T> applyData(oldData: MutableList<T>?, newPaging: PagingData<T>) {
+    fun <T> applyData(oldData: MutableList<T>?, newData: MutableList<T>) {
         oldData ?: return
-
-        if (newPaging.getPageNumber() != initPage) newPaging.getDataSource().addAll(0, oldData)
+        if (oldData == newData) return
+        if (page != initPage) newData.addAll(0, oldData)
     }
 
 }
