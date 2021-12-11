@@ -63,7 +63,7 @@ class UiStatePageLiveData(
             //首次加载缓存数据
             if (firstCache) {
                 firstCache = false
-                cacheBlock()?.also {
+                response = cacheBlock()?.also {
                     postValue(UiState.Success(it))
                 }
             }
@@ -72,13 +72,11 @@ class UiStatePageLiveData(
             response = requestBlock(page)?.also {
                 if (response != it) {
                     postValue(UiState.Success(it))
-                }
-            }
 
-            //首页将网络数据设置缓存
-            if (page == requestFirstPage) {
-                response?.run {
-                    cacheSaveBlock(this)
+                    //首页将网络数据设置缓存
+                    if (page == requestFirstPage) {
+                        cacheSaveBlock(it)
+                    }
                 }
             }
         } catch (e: Exception) {
