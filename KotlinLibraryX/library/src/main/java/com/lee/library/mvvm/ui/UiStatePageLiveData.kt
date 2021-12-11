@@ -9,14 +9,19 @@ import com.lee.library.utils.LogUtil
  * @author jv.lee
  * @date 2021/10/21
  * @description uiState 类型 LiveData分页处理
+ * @param requestFirstPage 分页初始请求页码
+ * @param responseFirstPage 分页数据返回首页页码
  */
-class UiStatePageLiveData(private val initPage: Int = 0, private val limitedPage: Int = 1) :
+class UiStatePageLiveData(
+    private val requestFirstPage: Int = 0,
+    private val responseFirstPage: Int = 1
+) :
     LiveData<UiState>() {
 
-    private var page = initPage
+    private var page = requestFirstPage
     private var firstCache = true
 
-    fun getInitPage() = initPage
+    fun getInitPage() = requestFirstPage
 
     fun <T> getValueData(): T? {
         val value = this.value
@@ -46,7 +51,7 @@ class UiStatePageLiveData(private val initPage: Int = 0, private val limitedPage
                 value?.let { return }
                 //刷新状态 重置页码
             } else if (status == LoadStatus.REFRESH) {
-                page = initPage
+                page = requestFirstPage
                 //加载更多状态 增加页码
             } else if (status == LoadStatus.LOAD_MORE) {
                 page++
@@ -71,7 +76,7 @@ class UiStatePageLiveData(private val initPage: Int = 0, private val limitedPage
             }
 
             //首页将网络数据设置缓存
-            if (page == initPage) {
+            if (page == requestFirstPage) {
                 response?.run {
                     cacheSaveBlock(this)
                 }
@@ -93,7 +98,7 @@ class UiStatePageLiveData(private val initPage: Int = 0, private val limitedPage
 
         if (oldItem.getDataSource() == newItem.getDataSource()) return
 
-        if (newItem.getPageNumber() != limitedPage) {
+        if (newItem.getPageNumber() != responseFirstPage) {
             newItem.getDataSource().addAll(0, oldItem.getDataSource())
         }
     }
