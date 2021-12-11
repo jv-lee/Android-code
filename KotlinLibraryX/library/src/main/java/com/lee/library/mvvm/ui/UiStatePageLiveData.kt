@@ -63,7 +63,7 @@ class UiStatePageLiveData(
             //首次加载缓存数据
             if (firstCache) {
                 firstCache = false
-                response = cacheBlock()?.also {
+                cacheBlock()?.also {
                     postValue(UiState.Success(it))
                 }
             }
