@@ -13,7 +13,7 @@ import com.lee.library.utils.LogUtil
  * @param responseFirstPage 分页数据返回首页页码
  */
 class UiStatePageLiveData(
-    private val requestFirstPage: Int = 0,
+    private val requestFirstPage: Int = 1,
     private val responseFirstPage: Int = 1
 ) :
     LiveData<UiState>() {
