@@ -6,13 +6,11 @@ import android.app.Activity
 import android.content.Context
 import android.graphics.Rect
 import android.os.Build
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
-import com.lee.library.tools.StatusTools
 import kotlin.math.abs
 
 /**
@@ -90,7 +88,7 @@ object KeyboardTools {
      */
     @SuppressLint("ClickableViewAccessibility")
     fun parentTouchHideSoftInput(activity: Activity, view: View) {
-        view.setOnTouchListener { _, _ ->
+        view.setOnTouchListener { view, _ ->
             view.isFocusable = true
             view.isFocusableInTouchMode = true
             view.requestFocus()
@@ -143,43 +141,14 @@ object KeyboardTools {
     }
 
     /**
-     * 点击屏幕空白区域隐藏软键盘（方法2）
-     *
-     * 根据EditText所在坐标和用户点击的坐标相对比，来判断是否隐藏键盘
-     *
-     * 需重写dispatchTouchEvent
-     *
-     * 参照以下注释代码
+     * 判断软键盘是否弹出
      */
-    fun clickBlankArea2HideSoftInput() {
-        Log.d("tips", "U should copy the following code.")
-        /*
-        @Override
-        public boolean dispatchTouchEvent(MotionEvent ev) {
-            if (ev.getAction() == MotionEvent.ACTION_DOWN) {
-                View v = getCurrentFocus();
-                if (isShouldHideKeyboard(v, ev)) {
-                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(v.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-                }
-            }
-            return super.dispatchTouchEvent(ev);
+    fun keyboardIsShow(view: View): Boolean {
+        view.apply {
+            val inputMethodManager =
+                context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            return inputMethodManager.hideSoftInputFromWindow(windowToken, 0)
         }
-        // 根据EditText所在坐标和用户点击的坐标相对比，来判断是否隐藏键盘
-        private boolean isShouldHideKeyboard(View v, MotionEvent event) {
-            if (v != null && (v instanceof EditText)) {
-                int[] l = {0, 0};
-                v.getLocationInWindow(l);
-                int left = l[0],
-                        top = l[1],
-                        bottom = top + v.getHeight(),
-                        right = left + v.getWidth();
-                return !(event.getX() > left && event.getX() < right
-                        && event.getY() > top && event.getY() < bottom);
-            }
-            return false;
-        }
-        */
     }
 
 }
