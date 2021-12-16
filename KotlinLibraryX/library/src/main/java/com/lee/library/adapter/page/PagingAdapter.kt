@@ -16,6 +16,12 @@ fun <T> BaseViewAdapter<T>.submitData(
     refreshBlock: () -> Unit = {},
     emptyBlock: () -> Unit = {}
 ) {
+    if (data.isEmpty() && pageData.getDataSource().isNullOrEmpty()) {
+        pageEmpty()
+        emptyBlock()
+        return
+    }
+
     //首页加载逻辑
     if (pageData.getPageNumber() == limit) {
         // 过滤首页重复数据
@@ -71,6 +77,12 @@ fun <T> BaseViewAdapter<T>.submitData(
     refreshBlock: () -> Unit = {},
     emptyBlock: () -> Unit = {}
 ) {
+    if (data.isEmpty() && pageData.getDataSource().isNullOrEmpty()) {
+        pageEmpty()
+        emptyBlock()
+        return
+    }
+
     //首页加载逻辑
     if (pageData.isFirstPage()) {
         // 过滤首页重复数据
