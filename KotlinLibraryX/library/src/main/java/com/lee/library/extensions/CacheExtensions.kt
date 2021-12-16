@@ -26,3 +26,10 @@ inline fun <reified T> CacheManager.putCache(key: String, data: T) {
     put(key, data)
 }
 
+/**
+ * 清除缓存
+ * @param key 缓存key
+ */
+fun CacheManager.clearCache(key: String) {
+    put(key, "")
+}
