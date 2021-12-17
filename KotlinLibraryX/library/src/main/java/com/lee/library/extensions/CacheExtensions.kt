@@ -1,6 +1,7 @@
 package com.lee.library.extensions
 
 import com.google.gson.reflect.TypeToken
+import com.lee.library.adapter.page.PagingData
 import com.lee.library.cache.CacheManager
 import kotlinx.coroutines.CompletableDeferred
 
@@ -24,6 +25,17 @@ inline fun <reified T> CacheManager.getCache(key: String): T? {
  */
 inline fun <reified T> CacheManager.putCache(key: String, data: T) {
     put(key, data)
+}
+
+/**
+ * @param key 存储key
+ * @param data 存储数据源
+ * 对分页数据扩展可控空数据不进行存储
+ */
+inline fun <reified T : PagingData<*>> CacheManager.putPageCache(key: String, data: T) {
+    if (!data.getDataSource().isNullOrEmpty()) {
+        put(key, data)
+    }
 }
 
 /**
