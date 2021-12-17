@@ -20,6 +20,11 @@ fun <T> BaseViewAdapter<T>.submitData(
     if (pageData.getPageNumber() == limit) {
         // 过滤首页重复数据
         if (data == pageData.getDataSource()) {
+            // 重复数据空数据校验
+            if (pageData.getDataSource().isNullOrEmpty()) {
+                pageEmpty()
+                emptyBlock()
+            }
             return
         }
 
@@ -75,6 +80,11 @@ fun <T> BaseViewAdapter<T>.submitData(
     if (pageData.isFirstPage()) {
         // 过滤首页重复数据
         if (data == pageData.getDataSource()) {
+            // 重复数据空数据校验
+            if (pageData.getDataSource().isNullOrEmpty()) {
+                pageEmpty()
+                emptyBlock()
+            }
             return
         }
 
