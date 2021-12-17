@@ -7,7 +7,7 @@ import java.util.concurrent.CancellationException
 
 /**
  * @author jv.lee
- * @data 2021/9/22
+ * @date 2021/9/22
  * @description
  */
 open class CoroutineViewModel : BaseViewModel() {

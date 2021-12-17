@@ -8,7 +8,7 @@ import com.simple.vm.constants.USER_ID_KEY
 
 /**
  * @author jv.lee
- * @data 8/19/21
+ * @date 8/19/21
  * @description 通过构造函数传递请求参数 的ViewModel实现
  */
 class HandleViewModel(handle: SavedStateHandle) : ViewModel() {

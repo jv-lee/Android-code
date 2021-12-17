@@ -4,7 +4,7 @@ import android.view.animation.Animation
 
 /**
  * @author jv.lee
- * @data 2021/9/10
+ * @date 2021/9/10
  * @description
  */
 abstract class AnimationAdapter : Animation.AnimationListener {

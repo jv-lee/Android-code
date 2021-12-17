@@ -14,7 +14,7 @@ import testImplementation
 
 /**
  * @author jv.lee
- * @data 2021/10/1
+ * @date 2021/10/1
  * @description app模块配置依赖扩展
  */
 @Suppress("MISSING_DEPENDENCY_SUPERCLASS", "MISSING_DEPENDENCY_CLASS")

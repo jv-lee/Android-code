@@ -9,7 +9,7 @@ import org.gradle.api.Project
 
 /**
  * @author jv.lee
- * @data 2021/10/15
+ * @date 2021/10/15
  * @description protobuf 编译基础配置
  */
 fun Project.protobufConfigure() {

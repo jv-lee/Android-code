@@ -7,7 +7,7 @@ import java.util.concurrent.atomic.AtomicBoolean
 
 /**
  * @author jv.lee
- * @data 9/16/21
+ * @date 9/16/21
  * @description
  */
 class SingleLiveData<T> : MutableLiveData<T>() {

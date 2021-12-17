@@ -7,7 +7,7 @@ import com.lee.library.utils.LogUtil
 
 /**
  * @author jv.lee
- * @data 8/19/21
+ * @date 8/19/21
  * @description 通过构造函数传递请求参数 的ViewModel实现
  */
 class ParamsViewModel(private val userID: String) : ViewModel() {

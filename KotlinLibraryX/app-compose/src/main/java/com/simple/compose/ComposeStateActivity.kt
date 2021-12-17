@@ -25,7 +25,7 @@ import kotlinx.coroutines.flow.StateFlow
 
 /**
  * @author jv.lee
- * @data 2021/10/20
+ * @date 2021/10/20
  * @description
  */
 class ComposeStateActivity : ComponentActivity() {

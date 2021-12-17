@@ -6,7 +6,7 @@ import androidx.lifecycle.OnLifecycleEvent
 
 /**
  * @author jv.lee
- * @data 2021/8/26
+ * @date 2021/8/26
  * @description
  */
 inline fun Lifecycle.destroy(crossinline call: () -> Unit) {

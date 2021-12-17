@@ -4,7 +4,7 @@ import kotlinx.coroutines.flow.*
 
 /**
  * @author jv.lee
- * @data 2021/10/22
+ * @date 2021/10/22
  * @description UiState Flow扩展
  */
 suspend inline fun <reified T> Flow<UiState>.collectState(

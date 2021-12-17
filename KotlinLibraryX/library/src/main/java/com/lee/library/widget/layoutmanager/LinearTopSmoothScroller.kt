@@ -5,7 +5,7 @@ import androidx.recyclerview.widget.LinearSmoothScroller
 
 /**
  * @author jv.lee
- * @data 2021/11/18
+ * @date 2021/11/18
  * @description recyclerView滑动到指定position ，并将该item滚动到顶部
  */
 class LinearTopSmoothScroller(context: Context, targetPosition: Int = 0) :

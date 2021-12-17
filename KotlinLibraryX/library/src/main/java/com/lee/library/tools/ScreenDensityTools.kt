@@ -17,7 +17,7 @@ import java.util.*
 
 /**
  * @author jv.lee
- * @data 2021/9/2
+ * @date 2021/9/2
  * @description
  */
 object ScreenDensityUtil : ComponentCallbacks {

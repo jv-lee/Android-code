@@ -19,7 +19,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 /**
  * @author jv.lee
- * @data 2021/8/19
+ * @date 2021/8/19
  * @description
  */
 @AndroidEntryPoint //使用hilt 为ViewModel注入savedStateHandler

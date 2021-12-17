@@ -8,7 +8,7 @@ import com.lee.library.dialog.intercept.DialogIntercept
 
 /**
  * @author jv.lee
- * @data 2021/8/26
+ * @date 2021/8/26
  * @description
  */
 class ThreeDialogIntercept : DialogIntercept<DialogCreateConfig>() {

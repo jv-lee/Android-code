@@ -10,7 +10,7 @@ import javax.inject.Inject
 
 /**
  * @author jv.lee
- * @data 2021/8/19
+ * @date 2021/8/19
  * @description
  */
 @HiltViewModel

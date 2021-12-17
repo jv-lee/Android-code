@@ -7,7 +7,7 @@ import androidx.lifecycle.liveData
 
 /**
  * @author jv.lee
- * @data 2021/10/22
+ * @date 2021/10/22
  * @description UiState LiveData扩展
  */
 inline fun <reified T> LiveData<UiState>.observeState(

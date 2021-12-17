@@ -9,7 +9,7 @@ import com.lee.library.extensions.destroy
 
 /**
  * @author jv.lee
- * @data 2021/8/27
+ * @date 2021/8/27
  * @description 权限申请启动器
  */
 @SuppressLint("NewApi")

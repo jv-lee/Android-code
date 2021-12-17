@@ -7,7 +7,7 @@ import com.lee.library.extensions.destroy
 
 /**
  * @author jv.lee
- * @data 2021/8/26
+ * @date 2021/8/26
  * @description
  */
 class OneDialogIntercept : DialogIntercept<DialogCreateConfig>() {

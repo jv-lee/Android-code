@@ -10,7 +10,7 @@ import com.lee.library.widget.banner.BannerView
 
 /**
  * @author jv.lee
- * @data 2021/9/23
+ * @date 2021/9/23
  * @description
  */
 abstract class CardImageCreateHolder<T> : ImageCreateHolder<T>() {

@@ -34,7 +34,7 @@ import java.util.*
 
 /**
  * @author jv.lee
- * @data 2021/9/23
+ * @date 2021/9/23
  * @description 使用ViewPager2实现的BannerView
  */
 class BannerView : RelativeLayout {

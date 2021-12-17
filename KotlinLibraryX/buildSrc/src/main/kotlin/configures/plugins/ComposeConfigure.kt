@@ -7,7 +7,7 @@ import org.gradle.kotlin.dsl.configure
 
 /**
  * @author jv.lee
- * @data 2021/10/1
+ * @date 2021/10/1
  * @description 组建支持compose配置依赖扩展
  */
 fun Project.composeConfigure() {

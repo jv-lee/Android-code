@@ -2,7 +2,7 @@ package com.simple.compose.source
 
 /**
  * @author jv.lee
- * @data 2021/10/19
+ * @date 2021/10/19
  * @description
  */
 object SampleData {

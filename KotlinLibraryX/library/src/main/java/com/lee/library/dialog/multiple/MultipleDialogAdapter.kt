@@ -9,7 +9,7 @@ import androidx.lifecycle.OnLifecycleEvent
 
 /**
  * @author jv.lee
- * @data 2021/8/23
+ * @date 2021/8/23
  * @description
  */
 internal class MultipleDialogAdapter(private val fragmentManager: FragmentManager,private val nextCall:()->Unit) {

@@ -12,7 +12,7 @@ import java.lang.reflect.Type
 
 /**
  * @author jv.lee
- * @data 2021/10/29
+ * @date 2021/10/29
  * @description 处理空字符串/数组转换为null的情况
  */
 class GsonDefaultAdapterFactory : TypeAdapterFactory {

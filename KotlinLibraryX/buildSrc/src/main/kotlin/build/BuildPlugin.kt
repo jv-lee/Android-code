@@ -2,7 +2,7 @@ package build
 
 /**
  * @author jv.lee
- * @data 2021/10/1
+ * @date 2021/10/1
  * @description 项目插件配置信息
  */
 object BuildPlugin {

@@ -2,7 +2,7 @@ package com.lee.library.mvvm.ui
 
 /**
  * @author jv.lee
- * @data 2021/9/18
+ * @date 2021/9/18
  * @description
  */
 

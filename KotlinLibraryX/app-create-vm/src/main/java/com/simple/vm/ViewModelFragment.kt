@@ -17,7 +17,7 @@ import com.simple.vm.viewmodel.SimpleViewModel
 
 /**
  * @author jv.lee
- * @data 2021/8/19
+ * @date 2021/8/19
  * @description
  */
 class ViewModelFragment : Fragment(R.layout.fragment_view_model) {

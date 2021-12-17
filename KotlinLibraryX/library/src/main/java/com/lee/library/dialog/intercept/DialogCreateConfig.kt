@@ -6,7 +6,7 @@ import androidx.fragment.app.FragmentManager
 
 /**
  * @author jv.lee
- * @data 2021/8/26
+ * @date 2021/8/26
  * @description
  */
 data class DialogCreateConfig(

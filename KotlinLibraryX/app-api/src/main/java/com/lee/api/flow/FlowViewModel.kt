@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.*
 
 /**
  * @author jv.lee
- * @data 2021/10/25
+ * @date 2021/10/25
  * @description
  */
 class FlowViewModel : CoroutineViewModel() {

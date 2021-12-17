@@ -9,7 +9,7 @@ import com.lee.library.utils.LogUtil
 
 /**
  * @author jv.lee
- * @data 2021/10/29
+ * @date 2021/10/29
  * @description 监听应用前后台切换 "无法监听到应用被杀死"
  */
 class App : BaseApplication() {
