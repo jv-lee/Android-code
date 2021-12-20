@@ -1,35 +1,30 @@
 package com.lee.library.widget.banner
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
-import android.animation.TimeInterpolator
-import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.os.Parcel
 import android.os.Parcelable
 import android.util.AttributeSet
+import android.util.DisplayMetrics
 import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import androidx.annotation.DrawableRes
 import androidx.annotation.IntDef
 import androidx.core.view.setPadding
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearSmoothScroller
+import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager2.widget.ViewPager2
 import com.lee.library.R
 import com.lee.library.extensions.dp2px
-import com.lee.library.extensions.setMargin
 import com.lee.library.widget.banner.BannerView.BannerMode.Companion.MODE_CLIP
-import com.lee.library.widget.banner.BannerView.BannerMode.Companion.MODE_CLIP_SCALE
 import com.lee.library.widget.banner.BannerView.BannerMode.Companion.MODE_DEFAULT
-import com.lee.library.widget.banner.transformer.ClipTransformer
 import java.util.*
 
 /**
@@ -38,6 +33,9 @@ import java.util.*
  * @description 使用ViewPager2实现的BannerView
  */
 class BannerView : RelativeLayout {
+
+    // 当前banner下标位置
+    private var mCurrentIndex = 0
 
     //记录初始化启动状态
     private var isLoop = false
@@ -64,10 +62,13 @@ class BannerView : RelativeLayout {
     private lateinit var mAdapter: BannerAdapter<*>
 
     //banner容器
-    private var mViewPager = ViewPager2(context)
+    private var mRecyclerView = RecyclerView(context)
 
     //indicator容器
     private val mIndicatorContainer = LinearLayout(context)
+
+    // pagerSnapHelp
+    val mPagerSnapHelp = PagerSnapHelper()
 
     //indicatorView数据集合
     private val mIndicators = ArrayList<ImageView>()
@@ -84,12 +85,11 @@ class BannerView : RelativeLayout {
     private val mIndicatorRes =
         intArrayOf(R.drawable.shape_indicator_normal, R.drawable.shape_indicator_selected)
 
-    @IntDef(MODE_DEFAULT, MODE_CLIP, MODE_CLIP_SCALE)
+    @IntDef(MODE_DEFAULT, MODE_CLIP)
     annotation class BannerMode {
         companion object {
             const val MODE_DEFAULT = 0x0
             const val MODE_CLIP = 0x1
-            const val MODE_CLIP_SCALE = 0X2
         }
     }
 
@@ -103,8 +103,8 @@ class BannerView : RelativeLayout {
         defStyle
     ) {
         initAttributes(attributeSet)
-        initViewPager()
-        initIndicator()
+        initBannerContainer()
+        initBannerIndicator()
     }
 
     override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
@@ -162,17 +162,21 @@ class BannerView : RelativeLayout {
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    private fun initViewPager() {
-        mViewPager.layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
-        mViewPager.isSaveEnabled = true
-        mViewPager.isSaveFromParentEnabled = true
-        mViewPager.offscreenPageLimit = 3
-        setBannerClipMode(bannerMode == MODE_CLIP || bannerMode == MODE_CLIP_SCALE)
+    private fun initBannerContainer() {
+        mRecyclerView.layoutManager = layoutManager
+        mRecyclerView.layoutParams =
+            LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
+        mRecyclerView.isSaveEnabled = true
+        mRecyclerView.isSaveFromParentEnabled = true
 
-        addView(mViewPager)
+        mPagerSnapHelp.attachToRecyclerView(mRecyclerView)
+
+        setBannerClipMode(bannerMode == MODE_CLIP)
+
+        addView(mRecyclerView)
     }
 
-    private fun initIndicator() {
+    private fun initBannerIndicator() {
         mIndicatorContainer.layoutParams =
             LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT).also {
                 setLayoutGravity(it)
@@ -220,7 +224,7 @@ class BannerView : RelativeLayout {
                 LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
             imageView.setPadding(indicatorChildPadding.toInt())
 
-            if (index == getRealIndex(mViewPager.currentItem)) {
+            if (index == getRealIndex(mCurrentIndex)) {
                 imageView.setImageResource(mIndicatorRes[1])
             } else {
                 imageView.setImageResource(mIndicatorRes[0])
@@ -233,45 +237,12 @@ class BannerView : RelativeLayout {
     }
 
     private fun setBannerClipMode(enable: Boolean) {
-        clipChildren = !enable
-        mViewPager.clipChildren = !enable
+        mRecyclerView.clipToPadding = !enable
         if (enable) {
-            if (bannerMode == MODE_CLIP_SCALE) {
-                mViewPager.setPageTransformer(ClipTransformer())
-            }
-            mViewPager.setMargin(left = clipMargin.toInt(), right = clipMargin.toInt())
+            mRecyclerView.setPadding(clipMargin.toInt(), 0, clipMargin.toInt(), 0)
         } else {
-            mViewPager.setPageTransformer(null)
-            mViewPager.setMargin(0, 0, 0, 0)
+            mRecyclerView.setPadding(0, 0, 0, 0)
         }
-    }
-
-    private fun ViewPager2.moveToItem(
-        itemIndex: Int,
-        duration: Long = 500,
-        interpolator: TimeInterpolator = AccelerateDecelerateInterpolator(),
-    ) {
-        val pxToDrag: Int = width * (itemIndex - currentItem)
-        val animator = ValueAnimator.ofInt(0, pxToDrag)
-        var previousValue = 0
-        animator.addUpdateListener { valueAnimator ->
-            val currentValue = valueAnimator.animatedValue as Int
-            val currentPxToDrag = (currentValue - previousValue).toFloat()
-            fakeDragBy(-currentPxToDrag)
-            previousValue = currentValue
-        }
-        animator.addListener(object : AnimatorListenerAdapter() {
-            override fun onAnimationStart(animation: Animator?) {
-                beginFakeDrag()
-            }
-
-            override fun onAnimationEnd(animation: Animator?) {
-                endFakeDrag()
-            }
-        })
-        animator.interpolator = interpolator
-        animator.duration = duration
-        animator.start()
     }
 
     private fun getRealIndex(position: Int): Int {
@@ -289,16 +260,46 @@ class BannerView : RelativeLayout {
         return index
     }
 
-    private val mPagerChange = object : ViewPager2.OnPageChangeCallback() {
-        override fun onPageSelected(position: Int) {
-            val index = getRealIndex(position)
+    val layoutManager = object : LinearLayoutManager(context, HORIZONTAL, false) {
+        override fun smoothScrollToPosition(
+            recyclerView: RecyclerView,
+            state: RecyclerView.State?,
+            position: Int
+        ) {
+            val smoothScroller: LinearSmoothScroller = object : LinearSmoothScroller(
+                recyclerView.context
+            ) {
+                // 返回：滑过1px时经历的时间(ms)。
+                override fun calculateSpeedPerPixel(displayMetrics: DisplayMetrics): Float {
+                    return 50f / displayMetrics.densityDpi
+                }
+            }
 
-            // 切换indicator
-            for (i in mIndicators.indices) {
-                if (i == index) {
-                    mIndicators[i].setImageResource(mIndicatorRes[1])
-                } else {
-                    mIndicators[i].setImageResource(mIndicatorRes[0])
+            smoothScroller.targetPosition = position
+            startSmoothScroll(smoothScroller)
+        }
+    }
+
+    private val mPagerChange = object : RecyclerView.OnScrollListener() {
+        override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+            super.onScrollStateChanged(recyclerView, newState)
+            if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                val position = mPagerSnapHelp.findTargetSnapPosition(
+                    mRecyclerView.layoutManager,
+                    mRecyclerView.scrollX,
+                    mRecyclerView.scrollY
+                )
+                mCurrentIndex = position
+
+                val index = getRealIndex(position)
+
+                // 切换indicator
+                for (i in mIndicators.indices) {
+                    if (i == index) {
+                        mIndicators[i].setImageResource(mIndicatorRes[1])
+                    } else {
+                        mIndicators[i].setImageResource(mIndicatorRes[0])
+                    }
                 }
             }
         }
@@ -315,13 +316,14 @@ class BannerView : RelativeLayout {
             isLoop = true
 
             //设置当前轮训下标
-            var itemIndex = mViewPager.currentItem
+            var itemIndex = mCurrentIndex
             if (itemIndex == mAdapter.itemCount - 1) {
                 val startIndex = mAdapter.getStartSelectItem()
-                mViewPager.setCurrentItem(startIndex, false)
+                mCurrentIndex = startIndex
+                mRecyclerView.scrollToPosition(startIndex)
             } else {
                 ++itemIndex
-                mViewPager.moveToItem(itemIndex, moveDuration)
+                mRecyclerView.smoothScrollToPosition(itemIndex)
             }
             postDelayed(this, delayTime)
         }
@@ -411,7 +413,7 @@ class BannerView : RelativeLayout {
     override fun onSaveInstanceState(): Parcelable {
         val parcelable = super.onSaveInstanceState()
         val saveState = SaveState(parcelable)
-        saveState.currentItem = mViewPager.currentItem
+        saveState.currentItem = mCurrentIndex
         return saveState
     }
 
@@ -419,7 +421,8 @@ class BannerView : RelativeLayout {
         val saveState = state as SaveState
         super.onRestoreInstanceState(saveState.superState)
         saveIndex = saveState.currentItem
-        mViewPager.setCurrentItem(saveState.currentItem, false)
+        mCurrentIndex = saveState.currentItem
+        mRecyclerView.scrollToPosition(saveState.currentItem)
     }
 
     class SaveState : BaseSavedState {
@@ -462,9 +465,11 @@ class BannerView : RelativeLayout {
             if (bannerMode == MODE_CLIP && data.size < 3) {
                 setBannerClipMode(false)
             }
-            mViewPager.adapter = mAdapter
-            mViewPager.setCurrentItem(getStartIndex(), false)
-            mViewPager.registerOnPageChangeCallback(mPagerChange)
+
+            mCurrentIndex = getStartIndex()
+            mRecyclerView.adapter = mAdapter
+            mRecyclerView.scrollToPosition(mCurrentIndex)
+            mRecyclerView.addOnScrollListener(mPagerChange)
             buildIndicatorView()
 
             isInit = true
@@ -541,7 +546,7 @@ class BannerView : RelativeLayout {
      * 手动在fragment中调用该方法恢复状态
      */
     fun onSaveInstanceState(outState: Bundle) {
-        outState.putInt(BannerView::class.java.simpleName, mViewPager.currentItem)
+        outState.putInt(BannerView::class.java.simpleName, mCurrentIndex)
     }
 
     /**
@@ -551,7 +556,8 @@ class BannerView : RelativeLayout {
         savedInstanceState?.run {
             val currentIndex = getInt(BannerView::class.java.simpleName, -1)
             saveIndex = currentIndex
-            mViewPager.setCurrentItem(currentIndex, false)
+            mCurrentIndex = saveIndex
+            mRecyclerView.scrollToPosition(currentIndex)
         }
     }
 
