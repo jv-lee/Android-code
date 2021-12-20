@@ -10,6 +10,7 @@ import com.lee.library.cache.impl.MemoryCache;
 
 import java.io.File;
 import java.lang.reflect.Type;
+import java.util.Objects;
 
 /**
  * @author jv.lee
@@ -28,6 +29,11 @@ public class CacheManager {
      * 磁盘存储地址
      */
     private static final String DISK_LRU_CACHE_DIR = "disk_lru_cache_dir";
+
+    /**
+     * LruCache生成的空字符串
+     */
+    private static final String EMPTY_STRING = "\"\"";
 
     /**
      * app版本，每次只缓存当前版本，修改后之前的缓存失效
@@ -93,23 +99,23 @@ public class CacheManager {
     public synchronized <T> T get(String key, Class<T> clazz) {
         try {
             String data = memoryCache.get(key);
-            if (!TextUtils.isEmpty(data)) {
-                Log.i(TAG, "get: from memory cacheData");
+            if (!TextUtils.isEmpty(data) && !Objects.equals(data, EMPTY_STRING)) {
+                Log.i(TAG, "get: key - " + key + " from memory, data:" + data);
                 return readJsonToObject(data, clazz);
             }
 
             if (!isDisk) return null;
 
             data = diskCache.get(key);
-            if (!TextUtils.isEmpty(data)) {
+            if (!TextUtils.isEmpty(data) && !Objects.equals(data, EMPTY_STRING)) {
                 memoryCache.put(key, data);
-                Log.i(TAG, "get: from disk cacheData");
+                Log.i(TAG, "get: key - " + key + " from disk, data:" + data);
                 return readJsonToObject(data, clazz);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Log.i(TAG, "get: local not cache, request network data.");
+        Log.i(TAG, "get: key - " + key + " local not cache, request network data.");
         return null;
     }
 
@@ -122,23 +128,23 @@ public class CacheManager {
     public synchronized <T> T get(String key, Type type) {
         try {
             String data = memoryCache.get(key);
-            if (!TextUtils.isEmpty(data)) {
-                Log.i(TAG, "get: from memory cacheData");
+            if (!TextUtils.isEmpty(data) && !Objects.equals(data, EMPTY_STRING)) {
+                Log.i(TAG, "get: key - " + key + " from memory, data:" + data);
                 return readJsonToObject(data, type);
             }
 
             if (!isDisk) return null;
 
             data = diskCache.get(key);
-            if (!TextUtils.isEmpty(data)) {
+            if (!TextUtils.isEmpty(data) && !Objects.equals(data, EMPTY_STRING)) {
                 memoryCache.put(key, data);
-                Log.i(TAG, "get: from disk cacheData");
+                Log.i(TAG, "get: key - " + key + " from disk, data:" + data);
                 return readJsonToObject(data, type);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Log.i(TAG, "get: local not cache, request network data.");
+        Log.i(TAG, "get: key - " + key + " local not cache, request network data.");
         return null;
     }
 
@@ -148,6 +154,7 @@ public class CacheManager {
      * @param <T>   泛型
      */
     public synchronized <T> void put(String key, T value) {
+        Log.i(TAG, "put: key - " + key + " , value:" + value);
         String json = readObjectToJson(value);
         memoryCache.put(key, json);
         if (isDisk) {
