@@ -93,7 +93,7 @@ public class CacheManager {
     public synchronized <T> T get(String key, Class<T> clazz) {
         try {
             String data = memoryCache.get(key);
-            if (null != data) {
+            if (!TextUtils.isEmpty(data)) {
                 Log.i(TAG, "get: from memory cacheData");
                 return readJsonToObject(data, clazz);
             }
@@ -101,7 +101,7 @@ public class CacheManager {
             if (!isDisk) return null;
 
             data = diskCache.get(key);
-            if (null != data) {
+            if (!TextUtils.isEmpty(data)) {
                 memoryCache.put(key, data);
                 Log.i(TAG, "get: from disk cacheData");
                 return readJsonToObject(data, clazz);
@@ -122,7 +122,7 @@ public class CacheManager {
     public synchronized <T> T get(String key, Type type) {
         try {
             String data = memoryCache.get(key);
-            if (null != data) {
+            if (!TextUtils.isEmpty(data)) {
                 Log.i(TAG, "get: from memory cacheData");
                 return readJsonToObject(data, type);
             }
@@ -130,7 +130,7 @@ public class CacheManager {
             if (!isDisk) return null;
 
             data = diskCache.get(key);
-            if (null != data) {
+            if (!TextUtils.isEmpty(data)) {
                 memoryCache.put(key, data);
                 Log.i(TAG, "get: from disk cacheData");
                 return readJsonToObject(data, type);
