@@ -91,44 +91,52 @@ public class CacheManager {
      * @return 具体类型数据实体
      */
     public synchronized <T> T get(String key, Class<T> clazz) {
-        String data = memoryCache.get(key);
-        if (TextUtils.isEmpty(data)) {
-            Log.i(TAG, "get: from memory cacheData" );
-            return readJsonToObject(data, clazz);
-        }
+        try {
+            String data = memoryCache.get(key);
+            if (null == data) {
+                Log.i(TAG, "get: from memory cacheData");
+                return readJsonToObject(data, clazz);
+            }
 
-        if (!isDisk) return null;
+            if (!isDisk) return null;
 
-        data = diskCache.get(key);
-        if (TextUtils.isEmpty(data)) {
-            memoryCache.put(key, data);
-            Log.i(TAG, "get: from disk cacheData");
-            return readJsonToObject(data, clazz);
+            data = diskCache.get(key);
+            if (null == data) {
+                memoryCache.put(key, data);
+                Log.i(TAG, "get: from disk cacheData");
+                return readJsonToObject(data, clazz);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         Log.i(TAG, "get: local not cache, request network data.");
         return null;
     }
 
     /**
-     * @param key   [a-zA-Z0-9+_/-]{1,120}
+     * @param key  [a-zA-Z0-9+_/-]{1,120}
      * @param type 具体类型
-     * @param <T>   泛型
+     * @param <T>  泛型
      * @return 具体类型数据实体
      */
     public synchronized <T> T get(String key, Type type) {
-        String data = memoryCache.get(key);
-        if (TextUtils.isEmpty(data)) {
-            Log.i(TAG, "get: from memory cacheData");
-            return readJsonToObject(data, type);
-        }
+        try {
+            String data = memoryCache.get(key);
+            if (null == data) {
+                Log.i(TAG, "get: from memory cacheData");
+                return readJsonToObject(data, type);
+            }
 
-        if (!isDisk) return null;
+            if (!isDisk) return null;
 
-        data = diskCache.get(key);
-        if (TextUtils.isEmpty(data)) {
-            memoryCache.put(key, data);
-            Log.i(TAG, "get: from disk cacheData");
-            return readJsonToObject(data, type);
+            data = diskCache.get(key);
+            if (null == data) {
+                memoryCache.put(key, data);
+                Log.i(TAG, "get: from disk cacheData");
+                return readJsonToObject(data, type);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         Log.i(TAG, "get: local not cache, request network data.");
         return null;
@@ -139,7 +147,7 @@ public class CacheManager {
      * @param value 具体对象数据
      * @param <T>   泛型
      */
-    public synchronized  <T> void put(String key, T value) {
+    public synchronized <T> void put(String key, T value) {
         String json = readObjectToJson(value);
         memoryCache.put(key, json);
         if (isDisk) {
