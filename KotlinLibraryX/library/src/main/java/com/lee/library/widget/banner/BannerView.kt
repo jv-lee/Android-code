@@ -81,6 +81,9 @@ class BannerView : RelativeLayout {
     //clip距离参数
     private var clipMargin: Float = 0F
 
+    //基础像素速度值
+    private var baseSpeedPixel: Float = 100f
+
     //mIndicatorRes[0] 为为选中，mIndicatorRes[1]为选中
     private val mIndicatorRes =
         intArrayOf(R.drawable.shape_indicator_normal, R.drawable.shape_indicator_selected)
@@ -142,6 +145,7 @@ class BannerView : RelativeLayout {
             delayTime = getInteger(R.styleable.BannerView_delayTime, 3000).toLong()
             moveDuration = getInteger(R.styleable.BannerView_moveDuration, 500).toLong()
             clipMargin = getDimension(R.styleable.BannerView_clipMargin, context.dp2px(30))
+            baseSpeedPixel = getFloat(R.styleable.BannerView_baseSpeedPixel, 100F)
             indicatorPadding = getDimension(R.styleable.BannerView_indicatorPadding, 10F)
             indicatorChildPadding = getDimension(R.styleable.BannerView_indicatorChildPadding, 10F)
             indicatorGravity = getInt(
@@ -271,7 +275,7 @@ class BannerView : RelativeLayout {
             ) {
                 // 返回：滑过1px时经历的时间(ms)。
                 override fun calculateSpeedPerPixel(displayMetrics: DisplayMetrics): Float {
-                    return 50f / displayMetrics.densityDpi
+                    return baseSpeedPixel / displayMetrics.densityDpi
                 }
             }
 

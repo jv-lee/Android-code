@@ -23,6 +23,7 @@
         <attr name="delayTime" format="integer" />
         <attr name="moveDuration" format="integer" />
         <attr name="clipMargin" format="dimension" />
+        <attr name="baseSpeedPixel" format="float" />
         <attr name="indicatorPadding" format="dimension" />
         <attr name="indicatorChildPadding" format="dimension" />
         <attr name="indicatorNormalDrawable" format="reference" />
