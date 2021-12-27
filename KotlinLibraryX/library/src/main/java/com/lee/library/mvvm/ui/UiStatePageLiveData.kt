@@ -101,9 +101,10 @@ class UiStatePageLiveData(
         }
     }
 
-    suspend fun <T> applyData(dataResponse: suspend () -> PagingData<T>): PagingData<T> {
+    //新旧数据根据页码合并 扩展作用域,直接接收请求数据合并返回请求数据
+    suspend fun <T : PagingData<*>> applyData(dataResponse: suspend () -> T): T {
         return dataResponse().also { newData ->
-            applyData(getValueData(), newData)
+            applyData(getValueData<Nothing>(), newData)
         }
     }
 
