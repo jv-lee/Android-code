@@ -744,6 +744,24 @@ public abstract class BaseViewAdapter<T> extends RecyclerView.Adapter<BaseViewHo
     }
 
     /**
+     * 设置item子view点击id组
+     *
+     * @param childClickIds
+     */
+    public void addItemChildIds(Integer... childClickIds) {
+        this.childClickIds = Arrays.asList(childClickIds);
+    }
+
+    /**
+     * 设置item子view点击事件
+     *
+     * @param onItemChildView item子view点击事件监听接口
+     */
+    public void setOnItemChildClickListener(OnItemChildView<T> onItemChildView) {
+        this.mOnItemChildChange = onItemChildView;
+    }
+
+    /**
      * 设置item子view点击事件
      *
      * @param onItemChildView item子view点击事件监听接口
