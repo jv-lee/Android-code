@@ -20,7 +20,6 @@ class UiStatePageLiveData(
 
     private var page = requestFirstPage
     private var firstCache = true
-    private var firstPageCacheData: Any? = null
 
     fun getInitPage() = requestFirstPage
 
@@ -36,10 +35,6 @@ class UiStatePageLiveData(
                 null
             }
         }
-    }
-
-    fun <T> getCacheValueData(): T? {
-        return firstPageCacheData as? T
     }
 
     suspend fun <T> pageLaunch(
@@ -69,7 +64,6 @@ class UiStatePageLiveData(
             if (firstCache) {
                 firstCache = false
                 response = cacheBlock()?.also {
-                    firstPageCacheData = it
                     postValue(UiState.Success(it))
                 }
             }
@@ -104,6 +98,12 @@ class UiStatePageLiveData(
 
         if (newItem.getPageNumber() != responseFirstPage) {
             newItem.getDataSource().addAll(0, oldItem.getDataSource())
+        }
+    }
+
+    suspend fun <T> applyData(dataResponse: suspend () -> PagingData<T>): PagingData<T> {
+        return dataResponse().also { newData ->
+            applyData(getValueData(), newData)
         }
     }
 
