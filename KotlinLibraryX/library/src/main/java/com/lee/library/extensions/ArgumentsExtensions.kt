@@ -1,6 +1,7 @@
 package com.lee.library.extensions
 
 import android.app.Activity
+import android.os.Bundle
 import androidx.annotation.MainThread
 import androidx.fragment.app.Fragment
 
@@ -28,9 +29,7 @@ inline fun <reified P : Any> Activity.getIntentParams(
 ): Lazy<P> {
     return ParamsLazy {
         checkNotNull(intent.extras) { "activity intent.extras is null." }
-        val value = intent.extras?.get(key)
-        checkNotNull(value) { "activity intent.extras query $key value is not found." }
-        value as P
+        intent.extras?.getValue(key) as P
     }
 }
 
@@ -38,9 +37,7 @@ inline fun <reified P : Any> Activity.getIntentParams(
 inline fun <reified P : Any> Fragment.getActivityIntentParams(key: String): Lazy<P> {
     return ParamsLazy {
         checkNotNull(requireActivity().intent.extras) { "requestActivity().intent.extras is null." }
-        val value = requireActivity().intent.extras?.get(key)
-        checkNotNull(value) { "requestActivity().intent.extras query $key value is not found." }
-        value as P
+        requireActivity().intent.extras?.getValue(key) as P
     }
 }
 
@@ -50,9 +47,7 @@ inline fun <reified P : Any> Fragment.getArgumentsParams(
 ): Lazy<P> {
     return ParamsLazy {
         checkNotNull(arguments) { "fragment arguments is null." }
-        val value = arguments?.get(key)
-        checkNotNull(value) { "fragment arguments query $key value is not found." }
-        value as P
+        arguments?.getValue(key) as P
     }
 }
 
@@ -71,4 +66,15 @@ class ParamsLazy<P : Any>(
         }
 
     override fun isInitialized(): Boolean = cached != null
+}
+
+inline fun <reified T> Bundle.getValue(key: String): T {
+    return when (T::class.java) {
+        java.lang.Integer::class.java -> getInt(key, 0) as T
+        java.lang.Long::class.java -> getLong(key, 0L) as T
+        java.lang.String::class.java -> getString(key, "") as T
+        java.lang.Boolean::class.java -> getBoolean(key, false) as T
+        java.lang.Float::class.java -> getFloat(key, 0f) as T
+        else -> throw RuntimeException("not type support.")
+    }
 }
