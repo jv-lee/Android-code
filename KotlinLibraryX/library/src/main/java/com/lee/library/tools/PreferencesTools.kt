@@ -15,7 +15,7 @@ class PreferencesTools {
 
         private const val SP_NAME = "share_data"
 
-        private val preferences: SharedPreferences by lazy {
+        val preferences: SharedPreferences by lazy {
             BaseApplication.getContext().getSharedPreferences(SP_NAME, Context.MODE_PRIVATE)
         }
 
@@ -73,6 +73,22 @@ class PreferencesTools {
                     return preferences.getFloat(key, defaultValue) as T
                 }
                 else -> return defaultValue
+            }
+        }
+
+        /**
+         * 获取Object类型数据 根据接收类型自动拆箱
+         * @param key          键名
+         */
+        @Synchronized
+        inline fun <reified T> get(key: String): T {
+            return when (T::class.java) {
+                java.lang.String::class.java -> preferences.getString(key, "") as T
+                java.lang.Integer::class.java -> preferences.getInt(key, 0) as T
+                java.lang.Long::class.java -> preferences.getLong(key, 0L) as T
+                java.lang.Boolean::class.java -> preferences.getBoolean(key, false) as T
+                java.lang.Float::class.java -> preferences.getFloat(key, 0F) as T
+                else -> throw RuntimeException("not type support.")
             }
         }
 
