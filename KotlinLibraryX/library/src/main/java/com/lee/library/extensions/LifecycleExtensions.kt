@@ -1,8 +1,6 @@
 package com.lee.library.extensions
 
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.OnLifecycleEvent
+import androidx.lifecycle.*
 
 /**
  * @author jv.lee
@@ -10,11 +8,12 @@ import androidx.lifecycle.OnLifecycleEvent
  * @description
  */
 inline fun Lifecycle.destroy(crossinline call: () -> Unit) {
-    addObserver(object : LifecycleObserver {
-        @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-        fun destroy() {
-            removeObserver(this)
-            call()
+    addObserver(object : LifecycleEventObserver {
+        override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
+            if (event == Lifecycle.Event.ON_DESTROY) {
+                removeObserver(this)
+                call()
+            }
         }
     })
 }
