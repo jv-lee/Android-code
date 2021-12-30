@@ -29,16 +29,14 @@ object KeyboardTools {
 
     /**
      * 动态隐藏软键盘
-     *
-     * @param activity activity
      */
     @TargetApi(Build.VERSION_CODES.CUPCAKE)
-    fun hideSoftInput(activity: Activity) {
-        var view = activity.currentFocus
+    fun Context.hideSoftInput() {
+        var view = (this as? Activity)?.currentFocus
         if (view == null) {
-            view = View(activity)
+            view = View(this)
         }
-        val imm = activity.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        val imm = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
@@ -49,11 +47,11 @@ object KeyboardTools {
      * @param edit    输入框
      */
     @TargetApi(Build.VERSION_CODES.CUPCAKE)
-    fun showSoftInput(context: Context, edit: EditText) {
+    fun Context.showSoftInput(edit: EditText) {
         edit.isFocusable = true
         edit.isFocusableInTouchMode = true
         edit.requestFocus()
-        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.showSoftInput(edit, 0)
     }
 
@@ -63,9 +61,9 @@ object KeyboardTools {
      * @param context 上下文
      */
     @TargetApi(Build.VERSION_CODES.CUPCAKE)
-    fun toggleSoftInput(context: Context, editText: EditText) {
+    fun Context.toggleSoftInput(editText: EditText) {
         editText.requestFocus()
-        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.toggleSoftInput(
             InputMethodManager.SHOW_FORCED,
             InputMethodManager.HIDE_IMPLICIT_ONLY
@@ -78,9 +76,9 @@ object KeyboardTools {
      * @param context 上下文
      */
     @TargetApi(Build.VERSION_CODES.CUPCAKE)
-    fun toggleSoftInput(context: Context) {
+    fun Context.toggleSoftInput() {
         val imm: InputMethodManager?
-        imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
     }
 
@@ -88,12 +86,14 @@ object KeyboardTools {
      * 点击任意view隐藏输入法
      */
     @SuppressLint("ClickableViewAccessibility")
-    fun parentTouchHideSoftInput(activity: Activity, view: View) {
+    fun Context.parentTouchHideSoftInput(view: View) {
         view.setOnTouchListener { view, _ ->
             view.isFocusable = true
             view.isFocusableInTouchMode = true
             view.requestFocus()
-            hideSoftInput(activity)
+            if (view.keyboardIsShow()) {
+                hideSoftInput()
+            }
             false
         }
     }
@@ -102,8 +102,8 @@ object KeyboardTools {
      * 打开键盘后移动rootView 该方式可使toolbar不动 ，只设置根View的marginBottom值来偏移
      * 只需给activity设置 android:windowSoftInputMode="stateHidden|adjustResize"
      */
-    fun keyboardOpenMoveView(window: Window, rootView: ViewGroup) {
-        val decorView = window.decorView
+    fun Window.keyboardOpenMoveView(rootView: ViewGroup) {
+        val decorView = decorView
         val statusBarHeight = decorView.context.statusBarHeight()
         var isStatusDiff = false
         var statusDiff = 0
@@ -144,12 +144,10 @@ object KeyboardTools {
     /**
      * 判断软键盘是否弹出
      */
-    fun keyboardIsShow(view: View): Boolean {
-        view.apply {
-            val inputMethodManager =
-                context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            return inputMethodManager.hideSoftInputFromWindow(windowToken, 0)
-        }
+    fun View.keyboardIsShow(): Boolean {
+        val inputMethodManager =
+            context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        return inputMethodManager.hideSoftInputFromWindow(windowToken, 0)
     }
 
 }
