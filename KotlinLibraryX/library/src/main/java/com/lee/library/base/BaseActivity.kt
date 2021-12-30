@@ -3,7 +3,7 @@ package com.lee.library.base
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.lee.library.tools.StatusTools
+import com.lee.library.tools.StatusTools.statusBar
 
 /**
  * @author jv.lee
@@ -13,7 +13,7 @@ import com.lee.library.tools.StatusTools
 abstract class BaseActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        StatusTools.statusBar(window, false)
+        window.statusBar()
         super.onCreate(savedInstanceState)
 
         initSavedState(intent, savedInstanceState)

@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.lee.library.extensions.smoothScrollToTop
 import com.lee.library.tools.StatusTools
+import com.lee.library.tools.StatusTools.statusBarHeight
 import kotlin.math.abs
 
 /**
@@ -41,7 +42,7 @@ class KeyboardHelper(
 
     @TargetApi(Build.VERSION_CODES.KITKAT)
     fun enable() {
-        statusBarHeight = StatusTools.getStatusBarHeight(decorView.context)
+        statusBarHeight = decorView.context.statusBarHeight()
         decorView.viewTreeObserver.addOnGlobalLayoutListener(onGlobalLayoutListener)
         recyclerView?.addOnScrollListener(onScrollListener)
     }

@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.view.Window
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import com.lee.library.tools.StatusTools.statusBarHeight
 import kotlin.math.abs
 
 /**
@@ -103,7 +104,7 @@ object KeyboardTools {
      */
     fun keyboardOpenMoveView(window: Window, rootView: ViewGroup) {
         val decorView = window.decorView
-        val statusBarHeight = StatusTools.getStatusBarHeight(decorView.context)
+        val statusBarHeight = decorView.context.statusBarHeight()
         var isStatusDiff = false
         var statusDiff = 0
         decorView.viewTreeObserver.addOnGlobalLayoutListener {

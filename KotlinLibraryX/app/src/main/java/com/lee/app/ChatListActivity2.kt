@@ -10,6 +10,7 @@ import com.lee.library.extensions.reverseLayout
 import com.lee.library.extensions.smoothScrollToTop
 import com.lee.library.mvvm.base.BaseViewModel
 import com.lee.library.tools.StatusTools
+import com.lee.library.tools.StatusTools.setDarkStatusIcon
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -32,7 +33,7 @@ class ChatListActivity2 :
     private val adapter by lazy { ChatAdapter(this, ArrayList()) }
 
     override fun bindView() {
-        StatusTools.setDarkStatusIcon(this)
+        setDarkStatusIcon()
 
         //适配沉浸式状态栏顶部弹起设置
         binding.constRoot.adjustResizeStatusBar(window, binding.toolbar.getStatusBarHeight())

@@ -7,6 +7,7 @@ import com.lee.library.mvvm.base.BaseViewModel
 import com.lee.library.tools.KeyboardHelper
 import com.lee.library.tools.KeyboardTools
 import com.lee.library.tools.StatusTools
+import com.lee.library.tools.StatusTools.setDarkStatusIcon
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 /**
@@ -27,7 +28,7 @@ class FormTableActivity :
     private val keyboardHelper by lazy { KeyboardHelper(window.decorView, binding.root) }
 
     override fun bindView() {
-        StatusTools.setDarkStatusIcon(this)
+        setDarkStatusIcon()
 //        keyboardHelper.enable()
         KeyboardTools.keyboardOpenMoveView(window, binding.constRoot)
 

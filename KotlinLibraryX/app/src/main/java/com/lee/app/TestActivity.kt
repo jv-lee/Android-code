@@ -12,10 +12,12 @@ import com.lee.library.dialog.WarnDialog
 import com.lee.library.dialog.core.ConfirmListener
 import com.lee.library.extensions.binding
 import com.lee.library.tools.StatusTools
+import com.lee.library.tools.StatusTools.setDarkStatusIcon
+import com.lee.library.tools.StatusTools.statusBar
 import com.lee.library.utils.DensityUtil
 import com.lee.library.utils.LogUtil
 import com.lee.library.widget.StatusLayout
-import com.lee.library.widget.StatusLayout.STATUS_LOADING
+import com.lee.library.widget.StatusLayout.Companion.STATUS_LOADING
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -60,8 +62,8 @@ class TestActivity : BaseActivity() {
 
     override fun bindView() {
         DensityUtil.setDensity(this)
-        StatusTools.statusBar(window, false)
-        StatusTools.setDarkStatusIcon(this)
+        window.statusBar()
+        setDarkStatusIcon()
         testDialog()
 //        testNetwork()
         findViewById<StatusLayout>(R.id.status).setStatus(STATUS_LOADING)

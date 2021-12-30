@@ -9,6 +9,7 @@ import com.lee.library.extensions.reverseLayout
 import com.lee.library.mvvm.base.BaseViewModel
 import com.lee.library.tools.KeyboardHelper
 import com.lee.library.tools.StatusTools
+import com.lee.library.tools.StatusTools.setDarkStatusIcon
 import kotlinx.coroutines.*
 
 /**
@@ -26,7 +27,7 @@ class ChatListActivity :
     private val keyboardHelper by lazy { KeyboardHelper(window.decorView, binding.root) }
 
     override fun bindView() {
-        StatusTools.setDarkStatusIcon(this)
+        setDarkStatusIcon()
 
         //设置recyclerView基础参数
         binding.rvContainer.adapter = adapter.proxy
