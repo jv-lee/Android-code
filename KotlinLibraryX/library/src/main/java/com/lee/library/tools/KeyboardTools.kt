@@ -10,7 +10,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
 import com.lee.library.tools.StatusTools.statusBarHeight
 import kotlin.math.abs
 
@@ -42,44 +41,52 @@ object KeyboardTools {
 
     /**
      * 动态显示软键盘
-     *
-     * @param context 上下文
-     * @param edit    输入框
      */
     @TargetApi(Build.VERSION_CODES.CUPCAKE)
-    fun Context.showSoftInput(edit: EditText) {
-        edit.isFocusable = true
-        edit.isFocusableInTouchMode = true
-        edit.requestFocus()
+    fun Context.showSoftInput() {
+        val activity = (this as? Activity) ?: return
+        val view = activity.window.decorView
+        view.isFocusable = true
+        view.isFocusableInTouchMode = true
+        view.requestFocus()
         val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.showSoftInput(edit, 0)
+        imm.showSoftInput(view, 0)
     }
 
     /**
-     * 切换键盘显示与否状态
-     *
-     * @param context 上下文
+     * 动态显示软键盘
+     * @param view 触发的view
      */
     @TargetApi(Build.VERSION_CODES.CUPCAKE)
-    fun Context.toggleSoftInput(editText: EditText) {
-        editText.requestFocus()
+    fun Context.showSoftInput(view: View) {
+        view.isFocusable = true
+        view.isFocusableInTouchMode = true
+        view.requestFocus()
         val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.toggleSoftInput(
-            InputMethodManager.SHOW_FORCED,
-            InputMethodManager.HIDE_IMPLICIT_ONLY
-        )
+        imm.showSoftInput(view, 0)
     }
+
 
     /**
      * 切换键盘显示与否状态
-     *
-     * @param context 上下文
      */
     @TargetApi(Build.VERSION_CODES.CUPCAKE)
     fun Context.toggleSoftInput() {
-        val imm: InputMethodManager?
-        imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
+        if (keyboardIsShow()) {
+            hideSoftInput()
+        } else {
+            showSoftInput()
+        }
+    }
+
+    /**
+     * 判断软键盘是否弹出
+     */
+    fun Context.keyboardIsShow(): Boolean {
+        val inputMethodManager =
+            getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val windowToken = (this as? Activity)?.window?.decorView?.windowToken ?: return false
+        return inputMethodManager.hideSoftInputFromWindow(windowToken, 0)
     }
 
     /**
@@ -87,11 +94,11 @@ object KeyboardTools {
      */
     @SuppressLint("ClickableViewAccessibility")
     fun Context.parentTouchHideSoftInput(view: View) {
-        view.setOnTouchListener { view, _ ->
+        view.setOnTouchListener { _, _ ->
             view.isFocusable = true
             view.isFocusableInTouchMode = true
             view.requestFocus()
-            if (view.keyboardIsShow()) {
+            if (keyboardIsShow()) {
                 hideSoftInput()
             }
             false
@@ -139,15 +146,6 @@ object KeyboardTools {
                 }
             }
         }
-    }
-
-    /**
-     * 判断软键盘是否弹出
-     */
-    fun View.keyboardIsShow(): Boolean {
-        val inputMethodManager =
-            context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        return inputMethodManager.hideSoftInputFromWindow(windowToken, 0)
     }
 
 }
