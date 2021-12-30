@@ -2,6 +2,7 @@ package com.lee.library.tools
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.lee.library.base.ApplicationExtensions.app
 import com.lee.library.base.BaseApplication
 
 /**
@@ -16,7 +17,7 @@ class PreferencesTools {
         private const val SP_NAME = "share_data"
 
         val preferences: SharedPreferences by lazy {
-            BaseApplication.getContext().getSharedPreferences(SP_NAME, Context.MODE_PRIVATE)
+            app.getSharedPreferences(SP_NAME, Context.MODE_PRIVATE)
         }
 
         /**

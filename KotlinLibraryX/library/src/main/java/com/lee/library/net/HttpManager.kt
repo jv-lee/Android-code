@@ -4,6 +4,7 @@ import android.text.TextUtils
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonParser
+import com.lee.library.base.ApplicationExtensions.app
 import com.lee.library.base.BaseApplication
 import com.lee.library.net.adapter.DoubleDefaultAdapter
 import com.lee.library.net.adapter.GsonDefaultAdapterFactory
@@ -145,7 +146,7 @@ class HttpManager private constructor() {
         }
 
         //cache
-        val httpCacheDirectory = File(BaseApplication.getContext().cacheDir, "OkHttpCache")
+        val httpCacheDirectory = File(app.cacheDir, "OkHttpCache")
         builder.cache(Cache(httpCacheDirectory, 10 * 1024 * 1024))
 
         mInterceptors.map {

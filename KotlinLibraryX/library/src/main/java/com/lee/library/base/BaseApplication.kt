@@ -1,7 +1,6 @@
 package com.lee.library.base
 
-import android.annotation.SuppressLint
-import android.content.Context
+import android.app.Application
 import androidx.multidex.MultiDexApplication
 
 /**
@@ -11,18 +10,9 @@ import androidx.multidex.MultiDexApplication
  */
 abstract class BaseApplication : MultiDexApplication() {
 
-    companion object {
-        @SuppressLint("StaticFieldLeak")
-        private lateinit var sContext: Context
-
-        fun getContext(): Context {
-            return sContext
-        }
-    }
-
     override fun onCreate() {
         super.onCreate()
-        sContext = this
+        ApplicationExtensions.app = this
         init()
     }
 
@@ -34,4 +24,8 @@ abstract class BaseApplication : MultiDexApplication() {
     protected abstract fun init()
     protected abstract fun unInit()
 
+}
+
+object ApplicationExtensions {
+    lateinit var app: Application
 }
