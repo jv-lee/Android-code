@@ -39,9 +39,9 @@ class UiStatePageLiveData(
 
     suspend fun <T> pageLaunch(
         @LoadStatus status: Int,
-        requestBlock: suspend (Int) -> T? = { null },
-        cacheBlock: suspend () -> T? = { null },
-        cacheSaveBlock: suspend (T) -> Unit = {}
+        requestBlock: suspend UiStatePageLiveData.(Int) -> T? = { null },
+        cacheBlock: suspend UiStatePageLiveData.() -> T? = { null },
+        cacheSaveBlock: suspend UiStatePageLiveData.(T) -> Unit = {}
     ) {
         var response: T? = null
         try {
