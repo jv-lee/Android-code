@@ -1,8 +1,16 @@
 package com.lee.library.extensions
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.content.res.Configuration
+import android.graphics.Point
+import android.os.Build
+import android.util.DisplayMetrics
 import android.util.TypedValue
+import android.view.WindowManager
+import com.lee.library.base.ApplicationExtensions.app
 import com.lee.library.tools.StatusTools.checkHasNavigationBar
+
 
 /**
  * 状态栏高度
@@ -27,6 +35,74 @@ val Context.navigationBarHeight: Int
             resources.getDimensionPixelSize(resId)
         } else 0
     }
+
+/**
+ * 判断设备是否处于竖屏状态
+ * Check if the device orientation is portrait.
+ */
+val Context.isPortrait get() = this.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT
+
+/**
+ * 判断设备是否处于横屏状态
+ * Check if the device orientation is landscape.
+ */
+val Context.isLandscape get() = this.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
+
+val Context.windowManager get() = this.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+
+fun width(navigation: Boolean = true): Int = if (navigation) Screen().width else Display().width
+
+fun height(hasStatus: Boolean = true, navigation: Boolean = true): Int {
+    val screen = Screen()
+    val display = Display()
+    return when {
+        hasStatus && navigation -> screen.height
+        navigation -> screen.height - app.statusBarHeight
+        hasStatus -> display.height()
+        else -> display.height
+    }
+}
+
+internal data class Screen(private val display: android.view.Display = app.windowManager.defaultDisplay) {
+
+    @SuppressLint("ObsoleteSdkInt")
+    private val point = Point().apply {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            display.getRealSize(this)
+        } else {
+            display.getSize(this)
+        }
+    }
+
+    /**
+     * 屏幕宽度，包含虚拟键，单位px
+     */
+    val width: Int = point.x
+
+    /**
+     * 屏幕高度，包含虚拟键和状态栏，单位px
+     */
+    val height: Int = point.y
+}
+
+internal data class Display(private val metrics: DisplayMetrics = app.resources.displayMetrics) {
+
+    /**
+     * 展示宽度，不包含虚拟键，单位px
+     */
+    val width: Int = metrics.widthPixels
+
+    /**
+     * 展示高度，不包含虚拟键与状态栏，单位px
+     */
+    val height: Int = height() - app.statusBarHeight
+
+    /**
+     * 展示高度，包含状态栏，不包含虚拟键，单位px
+     */
+    fun height(): Int = metrics.heightPixels
+
+}
 
 
 /**
@@ -89,7 +165,7 @@ fun Context.dimensToSp(dimens: Float): Float {
  * @param value   值
  * @return 转换结果
  */
-fun Context.applyDimension(value: Float,unit: Int): Float {
+fun Context.applyDimension(value: Float, unit: Int): Float {
     val metrics = resources.displayMetrics
     when (unit) {
         TypedValue.COMPLEX_UNIT_PX -> return value
