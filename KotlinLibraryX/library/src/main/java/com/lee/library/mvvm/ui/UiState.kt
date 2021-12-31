@@ -1,5 +1,8 @@
 package com.lee.library.mvvm.ui
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+
 /**
  * @author jv.lee
  * @date 2021/9/18
@@ -13,6 +16,9 @@ sealed class UiState {
     object Loading : UiState()
     object Default : UiState()
 }
+
+typealias UiStateLiveData = LiveData<UiState>
+typealias UiStateMutableLiveData = MutableLiveData<UiState>
 
 inline fun <reified T> UiState.call(
     crossinline success: (T) -> Unit,
