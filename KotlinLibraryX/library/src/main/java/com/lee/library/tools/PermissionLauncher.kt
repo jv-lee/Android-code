@@ -6,6 +6,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.lee.library.extensions.destroy
+import java.util.*
 
 /**
  * @author jv.lee
@@ -40,7 +41,7 @@ class PermissionLauncher {
     private var permissionDisableCall: ((String) -> Unit)? = null
 
     private var permissionLauncher: ActivityResultLauncher<String>? = null
-    private var permissionsLauncher: ActivityResultLauncher<Array<out String>>? = null
+    private var permissionsLauncher: ActivityResultLauncher<Array<String>>? = null
 
     @SuppressLint("NewApi")
     private fun createLauncher(thisClass: Any) {
@@ -116,13 +117,13 @@ class PermissionLauncher {
 
     /**
      * 多个权限申请
-     * @param permission 被申请的权限常量(可变长变量 array<String>)
+     * @param permissions 被申请的权限常量
      * @param successCall 权限申请成功回调
      * @param cancelCall 用户点击取消回调
      * @param disableCall 用户勾选禁止提示申请权限并拒绝回调
      */
     fun requestPermissions(
-        vararg permission: String,
+        permissions: Array<String>,
         successCall: () -> Unit,
         cancelCall: (String) -> Unit = {},
         disableCall: (String) -> Unit = {}
@@ -130,7 +131,7 @@ class PermissionLauncher {
         permissionSuccessCall = successCall
         permissionCancelCall = cancelCall
         permissionDisableCall = disableCall
-        permissionsLauncher?.launch(permission)
+        permissionsLauncher?.launch(permissions)
     }
 }
 
