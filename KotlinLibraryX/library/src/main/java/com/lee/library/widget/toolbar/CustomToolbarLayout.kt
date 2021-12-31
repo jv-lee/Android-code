@@ -2,17 +2,14 @@ package com.lee.library.widget.toolbar
 
 import android.content.Context
 import android.util.AttributeSet
-import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
-import android.widget.FrameLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import com.lee.library.R
 import com.lee.library.extensions.dp2px
 import com.lee.library.extensions.px2dp
-import com.lee.library.tools.StatusTools
-import com.lee.library.tools.StatusTools.statusBarHeight
+import com.lee.library.extensions.statusBarHeight
 
 
 /**
@@ -22,7 +19,7 @@ import com.lee.library.tools.StatusTools.statusBarHeight
  */
 open class CustomToolbarLayout : ConstraintLayout {
 
-    private var statusBarHeight = context.statusBarHeight()
+    private var statusBarHeight = context.statusBarHeight
     private var toolbarLayoutHeight = initLayoutHeight()
 
     constructor(context: Context) : this(context, null, 0)

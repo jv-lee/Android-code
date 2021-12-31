@@ -2,6 +2,32 @@ package com.lee.library.extensions
 
 import android.content.Context
 import android.util.TypedValue
+import com.lee.library.tools.StatusTools.checkHasNavigationBar
+
+/**
+ * 状态栏高度
+ */
+val Context.statusBarHeight: Int
+    get() {
+        val resId: Int =
+            resources.getIdentifier("status_bar_height", "dimen", "android")
+        return if (resId > 0) {
+            resources.getDimensionPixelSize(resId)
+        } else 0
+    }
+
+/**
+ * 导航栏高度
+ */
+val Context.navigationBarHeight: Int
+    get() {
+        val resId =
+            resources.getIdentifier("navigation_bar_height", "dimen", "android")
+        return if (resId > 0 && checkHasNavigationBar()) {
+            resources.getDimensionPixelSize(resId)
+        } else 0
+    }
+
 
 /**
  * dp转px
