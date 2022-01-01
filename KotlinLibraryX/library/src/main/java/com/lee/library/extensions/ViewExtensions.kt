@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.lee.library.R
+import com.lee.library.tools.ReflexTools
 import kotlin.math.abs
 
 /**
@@ -581,5 +582,13 @@ fun ViewPager2.bindRadioGroup(radioGroup: RadioGroup) {
             }
         }
     }
+}
+
+/**
+ * 通过反射设置viewPager2阴影
+ */
+fun ViewPager2.overScrollNever(){
+    val recyclerView = ReflexTools.reflexField<RecyclerView>(this,"mRecyclerView")
+    recyclerView?.overScrollMode = RecyclerView.OVER_SCROLL_NEVER
 }
 
