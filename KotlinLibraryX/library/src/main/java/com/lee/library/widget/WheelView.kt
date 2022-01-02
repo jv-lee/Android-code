@@ -4,7 +4,6 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.Rect
 import android.util.AttributeSet
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -122,16 +121,16 @@ class WheelView : RecyclerView {
     }
 
 
-    fun <T> bindData(data: List<T>, dataFormat: DataFormat<T>) {
+    fun <T> bindData(
+        data: List<T>,
+        dataFormat: DataFormat<T>,
+        selectedListener: SelectedListener<T>
+    ) {
         layoutManager = linearLayoutManager
         linearSnapHelper.attachToRecyclerView(this)
         adapter = SelectAdapter(data, dataFormat)
         addItemDecoration(PaddingDecoration())
-    }
-
-    @Suppress("UNCHECKED_CAST")
-    fun <T> setSelectedListener(selectedListener: SelectedListener<T>) {
-        (adapter as SelectAdapter<T>).mSelectedListener = selectedListener
+        (adapter as? SelectAdapter<T>)?.mSelectedListener = selectedListener
     }
 
 }
