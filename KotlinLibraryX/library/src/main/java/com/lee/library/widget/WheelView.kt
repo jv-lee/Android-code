@@ -45,9 +45,11 @@ class WheelView : RecyclerView {
 
     override fun onScrolled(dx: Int, dy: Int) {
         super.onScrolled(dx, dy)
-        mScrollY += dy
         oldSelectPosition = selectPosition
+
+        mScrollY += dy
         selectPosition = (mScrollY / dp2px(DEFAULT_ITEM_HEIGHT)).roundToInt()
+
         if (oldSelectPosition != selectPosition) {
             adapter?.notifyDataSetChanged()
         }
@@ -124,13 +126,15 @@ class WheelView : RecyclerView {
     fun <T> bindData(
         data: List<T>,
         dataFormat: DataFormat<T>,
-        selectedListener: SelectedListener<T>
+        selectedListener: SelectedListener<T>,
+        startPosition: Int = 0
     ) {
         layoutManager = linearLayoutManager
         linearSnapHelper.attachToRecyclerView(this)
         adapter = SelectAdapter(data, dataFormat)
         addItemDecoration(PaddingDecoration())
         (adapter as? SelectAdapter<T>)?.mSelectedListener = selectedListener
+        smoothScrollToPosition(startPosition)
     }
 
 }

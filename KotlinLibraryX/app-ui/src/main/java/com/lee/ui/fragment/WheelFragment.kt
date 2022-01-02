@@ -59,8 +59,7 @@ class WheelFragment : BaseFragment(R.layout.fragment_wheel) {
             }
         }, object : WheelView.DataFormat<String> {
             override fun format(item: String) = item
-        })
-        binding.wheelView.setSelectedListener(object : WheelView.SelectedListener<String> {
+        },object : WheelView.SelectedListener<String> {
             override fun selected(item: String) {
                 Log.i("UI", "selected: $item")
             }
