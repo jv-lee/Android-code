@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.lee.library.R
+import com.lee.library.utils.LogUtil
 import kotlin.math.roundToInt
 
 /**
@@ -36,6 +37,8 @@ class WheelView : RecyclerView {
 
     private var selectedTextSize: Float = 0F
     private var unSelectedTextSize: Float = 0F
+
+    private val itemHeight = dp2px(DEFAULT_ITEM_HEIGHT)
 
     constructor(context: Context) : this(context, null, 0)
     constructor(context: Context, attributeSet: AttributeSet?) : this(context, attributeSet, 0)
@@ -64,17 +67,18 @@ class WheelView : RecyclerView {
         typeArray.recycle()
     }
 
-    init {
-        overScrollMode = View.OVER_SCROLL_NEVER
-    }
-
     @SuppressLint("NotifyDataSetChanged")
     override fun onScrolled(dx: Int, dy: Int) {
         super.onScrolled(dx, dy)
         oldSelectPosition = selectPosition
 
         mScrollY += dy
-        selectPosition = (mScrollY / dp2px(DEFAULT_ITEM_HEIGHT)).roundToInt()
+        selectPosition = (mScrollY / itemHeight).roundToInt()
+
+        LogUtil.i("itemHeight:$itemHeight")
+        LogUtil.i("dy:$dy")
+        LogUtil.i("scrollY:$mScrollY")
+        LogUtil.i("selectPosition:$selectPosition")
 
         if (oldSelectPosition != selectPosition) {
             adapter?.notifyDataSetChanged()
@@ -125,12 +129,11 @@ class WheelView : RecyclerView {
             state: RecyclerView.State
         ) {
             super.getItemOffsets(outRect, view, parent, state)
-            val itemHeight = dp2px(DEFAULT_ITEM_HEIGHT).toInt()
             val position = parent.getChildAdapterPosition(view)
-            if (position == 0) outRect.top = itemHeight
+            if (position == 0) outRect.top = itemHeight.toInt()
 
             val itemCount = parent.adapter?.itemCount ?: return
-            if (position == itemCount - 1) outRect.bottom = itemHeight
+            if (position == itemCount - 1) outRect.bottom = itemHeight.toInt()
         }
 
     }
@@ -160,7 +163,11 @@ class WheelView : RecyclerView {
         adapter = SelectAdapter(data, dataFormat)
         addItemDecoration(PaddingDecoration())
         (adapter as? SelectAdapter<T>)?.mSelectedListener = selectedListener
-        smoothScrollToPosition(startPosition)
+        smoothScrollBy(0, (startPosition * itemHeight).toInt())
+    }
+
+    init {
+        overScrollMode = View.OVER_SCROLL_NEVER
     }
 
 }
