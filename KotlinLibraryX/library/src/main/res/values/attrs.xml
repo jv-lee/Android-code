@@ -190,4 +190,11 @@
         <attr name="shimmer_reverse_animation" format="boolean|reference" />
     </declare-styleable>
 
+    <declare-styleable name="WheelView">
+        <attr name="selected_text_color" format="color" />
+        <attr name="unSelected_text_color" format="color" />
+        <attr name="selected_text_size" format="dimension"/>
+        <attr name="unSelected_text_size" format="dimension"/>
+    </declare-styleable>
+
 </resources>

@@ -1,13 +1,14 @@
 package com.lee.library.widget
 
+import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Color
 import android.graphics.Rect
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -29,20 +30,45 @@ class WheelView : RecyclerView {
     private var selectPosition = 0
     private var oldSelectPosition = 0
     private val linearSnapHelper = LinearSnapHelper()
-    private val linearLayoutManager by lazy { LinearLayoutManager(context) }
 
-    constructor(context: Context) : super(context, null, 0)
-    constructor(context: Context, attributeSet: AttributeSet) : super(context, attributeSet, 0)
-    constructor(context: Context, attributeSet: AttributeSet, defStyle: Int) : super(
+    private var selectedTextColor: Int = 0
+    private var unSelectedTextColor: Int = 0
+
+    private var selectedTextSize: Float = 0F
+    private var unSelectedTextSize: Float = 0F
+
+    constructor(context: Context) : this(context, null, 0)
+    constructor(context: Context, attributeSet: AttributeSet?) : this(context, attributeSet, 0)
+    constructor(context: Context, attributeSet: AttributeSet?, defStyle: Int) : super(
         context,
         attributeSet,
         defStyle
-    )
+    ) {
+        val typeArray = context.obtainStyledAttributes(attributeSet, R.styleable.WheelView)
+
+        selectedTextColor = typeArray.getColor(
+            R.styleable.WheelView_selected_text_color,
+            ContextCompat.getColor(context, R.color.colorThemeAccent)
+        )
+
+        unSelectedTextColor = typeArray.getColor(
+            R.styleable.WheelView_unSelected_text_color,
+            ContextCompat.getColor(context, R.color.colorThemePrimary)
+        )
+
+        selectedTextSize =
+            typeArray.getDimension(R.styleable.WheelView_selected_text_size, 18F)
+        unSelectedTextSize =
+            typeArray.getDimension(R.styleable.WheelView_unSelected_text_size, 16F)
+
+        typeArray.recycle()
+    }
 
     init {
         overScrollMode = View.OVER_SCROLL_NEVER
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onScrolled(dx: Int, dy: Int) {
         super.onScrolled(dx, dy)
         oldSelectPosition = selectPosition
@@ -77,12 +103,12 @@ class WheelView : RecyclerView {
                 val textView = itemView.findViewById<TextView>(R.id.tv_text)
                 textView.text = dataFormat.format(item)
                 if (selectPosition == position) {
-                    textView.textSize = 20f
-                    textView.setTextColor(Color.BLACK)
+                    textView.textSize = selectedTextSize
+                    textView.setTextColor(selectedTextColor)
                     mSelectedListener?.selected(item)
                 } else {
-                    textView.textSize = 18f
-                    textView.setTextColor(Color.GRAY)
+                    textView.textSize = unSelectedTextSize
+                    textView.setTextColor(unSelectedTextColor)
                 }
 
             }
@@ -129,7 +155,7 @@ class WheelView : RecyclerView {
         selectedListener: SelectedListener<T>,
         startPosition: Int = 0
     ) {
-        layoutManager = linearLayoutManager
+        layoutManager = LinearLayoutManager(context)
         linearSnapHelper.attachToRecyclerView(this)
         adapter = SelectAdapter(data, dataFormat)
         addItemDecoration(PaddingDecoration())
