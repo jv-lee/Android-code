@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.lee.library.R
-import com.lee.library.utils.LogUtil
 import kotlin.math.roundToInt
 
 /**
@@ -74,11 +73,6 @@ class WheelView : RecyclerView {
 
         mScrollY += dy
         selectPosition = (mScrollY / itemHeight).roundToInt()
-
-        LogUtil.i("itemHeight:$itemHeight")
-        LogUtil.i("dy:$dy")
-        LogUtil.i("scrollY:$mScrollY")
-        LogUtil.i("selectPosition:$selectPosition")
 
         if (oldSelectPosition != selectPosition) {
             adapter?.notifyDataSetChanged()
