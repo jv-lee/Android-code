@@ -5,8 +5,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.cardview.widget.CardView
-import androidx.core.view.ViewCompat
-import com.lee.library.widget.banner.BannerView
+import com.google.android.material.imageview.ShapeableImageView
+import com.google.android.material.shape.ShapeAppearanceModel
 
 /**
  * @author jv.lee
@@ -16,22 +16,30 @@ import com.lee.library.widget.banner.BannerView
 abstract class CardImageCreateHolder<T> : ImageCreateHolder<T>() {
 
     override fun createView(context: Context): View {
+        val radius = 30f
+
         val cardView = CardView(context)
         cardView.layoutParams = ViewGroup.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.MATCH_PARENT
         )
-        val imageView = ImageView(context)
+        cardView.radius = radius
+        cardView.useCompatPadding = true
+
+        val imageView = ShapeableImageView(context)
         imageView.layoutParams = ViewGroup.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.MATCH_PARENT
         )
+        imageView.shapeAppearanceModel = ShapeAppearanceModel.Builder()
+            .setAllCornerSizes(radius)
+            .build()
         imageView.id = ivID
         imageView.scaleType = ImageView.ScaleType.CENTER_CROP
-        cardView.addView(imageView)
-        cardView.radius = 30f
-        cardView.useCompatPadding = true
-        return cardView
+
+        return cardView.apply {
+            addView(imageView)
+        }
     }
 
 }
