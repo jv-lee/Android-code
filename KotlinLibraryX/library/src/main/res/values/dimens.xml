@@ -15,7 +15,6 @@
     <!--    系统控件高度值使用dp原始适配高度-->
     <dimen name="status_item_height">102dp</dimen>
     <dimen name="navigation_bar_height">56dp</dimen>
-    <dimen name="toolbar_height">56dp</dimen>
-    <dimen name="toolbar_button_width">56dp</dimen>
+    <dimen name="toolbar_height">46dp</dimen>
 
 </resources>

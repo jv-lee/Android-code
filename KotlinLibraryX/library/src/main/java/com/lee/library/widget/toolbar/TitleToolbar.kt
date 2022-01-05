@@ -99,8 +99,8 @@ open class TitleToolbar : CustomToolbarLayout {
             id = R.id.toolbar_back
             layoutParams =
                 LayoutParams(
-                    resources.getDimension(R.dimen.toolbar_button_width).toInt(),
-                    resources.getDimension(R.dimen.toolbar_button_width).toInt()
+                    resources.getDimension(R.dimen.toolbar_height).toInt(),
+                    resources.getDimension(R.dimen.toolbar_height).toInt()
                 ).apply {
                     startToStart = 0
                 }
@@ -127,7 +127,7 @@ open class TitleToolbar : CustomToolbarLayout {
             layoutParams =
                 LayoutParams(
                     WRAP_CONTENT,
-                    resources.getDimension(R.dimen.toolbar_button_width).toInt()
+                    resources.getDimension(R.dimen.toolbar_height).toInt()
                 ).apply {
                     startToStart = 0
                     endToEnd = 0
@@ -135,7 +135,6 @@ open class TitleToolbar : CustomToolbarLayout {
                     bottomToBottom = 0
                     gravity = Gravity.CENTER
                 }
-            setTextColor(ContextCompat.getColor(context, R.color.colorThemeAccent))
             text = titleText
             setTextColor(titleColor)
             maxLines = 1
@@ -155,8 +154,8 @@ open class TitleToolbar : CustomToolbarLayout {
             id = R.id.toolbar_more
             layoutParams =
                 LayoutParams(
-                    resources.getDimension(R.dimen.toolbar_button_width).toInt(),
-                    resources.getDimension(R.dimen.toolbar_button_width).toInt()
+                    resources.getDimension(R.dimen.toolbar_height).toInt(),
+                    resources.getDimension(R.dimen.toolbar_height).toInt()
                 ).apply { endToEnd = 0 }
             scaleType = ImageView.ScaleType.CENTER
             setSelectableItemForeground()
