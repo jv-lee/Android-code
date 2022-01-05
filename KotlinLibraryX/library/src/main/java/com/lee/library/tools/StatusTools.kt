@@ -31,13 +31,9 @@ object StatusTools {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
             addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-            //设置状态栏颜色调整
-            statusBarColor = Color.TRANSPARENT
             var visibility = decorView.systemUiVisibility
             //布局内容全屏展示
             visibility = visibility or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-            //隐藏虚拟导航栏
-//            visibility |= View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
             //设置沉浸式 导航栏
             if (navigationBarTranslucent) {
                 addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
@@ -53,6 +49,20 @@ object StatusTools {
             if (navigationBarTranslucent) {
                 addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
             }
+        }
+    }
+
+    /**
+     * 兼容状态栏颜色控制
+     * 高版本可动态修改状态栏图标样式无需处理
+     * 5.0 5.1版本无法设置深色状态栏图标，所以设置一个半透明状态栏背景兼容。
+     * 4.4有黑边阴影且无法设置状态栏颜色所以无视。
+     */
+    fun Window.compatStatusBar() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            statusBarColor = Color.TRANSPARENT
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            statusBarColor = Color.parseColor("#33000000")
         }
     }
 
@@ -196,4 +206,5 @@ object StatusTools {
         val statusHeight = statusBarHeight
         view.setPadding(0, statusHeight, 0, 0)
     }
+
 }
