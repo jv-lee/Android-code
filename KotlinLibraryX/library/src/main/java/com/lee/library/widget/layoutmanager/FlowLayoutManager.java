@@ -17,6 +17,8 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.lee.library.widget.layoutmanager.core.Dispatch;
+
 import java.util.stream.Stream;
 
 
@@ -248,6 +250,47 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager implements
         final Point point = new Point();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             Stream.iterate(0, index -> ++index).limit(mItemCount).forEach(position -> {
+                View scrap = recycler.getViewForPosition(position);
+
+                addView(scrap);
+                measureChildWithMargins(scrap, 0, 0);
+
+                final int width = getDecoratedMeasurementHorizontal(scrap);
+                final int height = getDecoratedMeasurementVertical(scrap);
+
+                if (mOffsetX + width + mHorizontalSpace > mWidth - mRight) {
+                    mOffsetX = mLeft;
+                    mOffsetY += maxRowHeight[0] + (position == 0 ? 0 : mVerticalSpace);
+                    maxRowHeight[0] = 0;
+                    point.x = 0;
+                    point.y++;
+                }
+                maxRowHeight[0] = Math.max(height, maxRowHeight[0]);
+
+                LayoutParams lp = (LayoutParams) scrap.getLayoutParams();
+                lp.column = point.x++;
+                lp.row = point.y;
+
+                if (lp.column != 0) {
+                    mOffsetX += mHorizontalSpace;
+                }
+
+                mScrapSites.put(position, lp);
+                mColumnCountOfRow.put(lp.row, lp.column + 1);
+
+                Rect frame = mScrapRects.get(position);
+                if (frame == null) {
+                    frame = new Rect();
+                }
+                frame.set(mOffsetX, mOffsetY, mOffsetX = mOffsetX + width, mOffsetY + height);
+                mScrapRects.put(position, frame);
+
+                totalHeight[0] = Math.max(totalHeight[0], mOffsetY + height);
+
+                layoutDecoratedWithMargins(scrap, frame.left, frame.top, frame.right, frame.bottom);
+            });
+        } else {
+            Dispatch.iterate(0, index -> ++index, mItemCount).forEach(position -> {
                 View scrap = recycler.getViewForPosition(position);
 
                 addView(scrap);
