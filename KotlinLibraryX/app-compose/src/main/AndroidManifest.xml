@@ -30,6 +30,26 @@
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.KotlinLibraryX.NoActionBar">
+
+        </activity>
+
+        <activity
+            android:name=".ComponseListActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.KotlinLibraryX.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".ViewListActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.KotlinLibraryX.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
