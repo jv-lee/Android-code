@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
@@ -70,12 +71,21 @@ class ComposeStateActivity : ComponentActivity() {
     ) {
         Surface(color = Color.White) {
             Column(modifier = Modifier.padding(16.dp)) {
-                if (name.isNotEmpty()) {
-                    Text(
-                        text = "Hello, $name! email:$email.",
-                        modifier = Modifier.padding(bottom = 8.dp),
-                        style = MaterialTheme.typography.h5
-                    )
+                Row {
+                    if (name.isNotEmpty()) {
+                        Text(
+                            text = "Hello, $name!",
+                            modifier = Modifier.padding(bottom = 8.dp),
+                            style = MaterialTheme.typography.h5
+                        )
+                    }
+                    if (email.isNotEmpty()) {
+                        Text(
+                            text = "email:$email.",
+                            modifier = Modifier.padding(bottom = 8.dp),
+                            style = MaterialTheme.typography.h5
+                        )
+                    }
                 }
 
                 OutlinedTextField(
@@ -89,7 +99,5 @@ class ComposeStateActivity : ComponentActivity() {
                     label = { Text(text = ("Email")) })
             }
         }
-
     }
-
 }
