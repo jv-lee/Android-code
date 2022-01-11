@@ -31,12 +31,14 @@ inline fun <reified A : ComponentActivity, reified V : ViewBinding> ComponentAct
             .apply { setContentView(root) }
     }
 
-    lifecycle.addObserver(object : LifecycleObserver {
-        @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
-        fun initLazyProperty() {
-            lifecycle.removeObserver(this)
-            createBinding(this@binding)
+    lifecycle.addObserver(object:LifecycleEventObserver{
+        override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
+            if (event == Lifecycle.Event.ON_CREATE) {
+                lifecycle.removeObserver(this)
+                createBinding(this@binding)
+            }
         }
+
     })
 
     return ActivityViewBindingProperty { activity: A ->
@@ -120,17 +122,18 @@ abstract class LifecycleViewBindingProperty<in R : Any, out V : ViewBinding>(
 
     private class ClearOnDestroyLifecycleObserver(
         private val property: LifecycleViewBindingProperty<*, *>
-    ) : LifecycleObserver {
+    ) : LifecycleEventObserver {
 
         private companion object {
             private val mainHandler = Handler(Looper.getMainLooper())
         }
 
         @MainThread
-        @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-        fun onDestroy(owner: LifecycleOwner) {
-            mainHandler.post {
-                property.clear()
+        override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
+            if (event == Lifecycle.Event.ON_DESTROY) {
+                mainHandler.post {
+                    property.clear()
+                }
             }
         }
     }
