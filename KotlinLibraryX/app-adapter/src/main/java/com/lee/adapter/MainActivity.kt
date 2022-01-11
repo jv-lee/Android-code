@@ -8,7 +8,6 @@ import com.lee.adapter.entity.ContentData
 import com.lee.adapter.entity.PageData
 import com.lee.adapter.viewmodel.ContentViewModel
 import com.lee.library.adapter.base.BaseViewAdapter
-import com.lee.library.adapter.listener.LoadErrorListener
 import com.lee.library.adapter.page.submitData
 import com.lee.library.adapter.page.submitFailed
 import com.lee.library.base.BaseVMActivity
@@ -48,7 +47,7 @@ class MainActivity : BaseVMActivity<ActivityMainBinding, ContentViewModel>(R.lay
         mAdapter.setAutoLoadMoreListener {
             viewModel.loadData(LoadStatus.LOAD_MORE)
         }
-        mAdapter.setLoadErrorListener(object : LoadErrorListener {
+        mAdapter.setLoadErrorListener(object : BaseViewAdapter.LoadErrorListener {
             override fun itemReload() {
                 viewModel.loadData(LoadStatus.RELOAD)
             }

@@ -12,11 +12,8 @@ import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewbinding.ViewBinding;
 
-import com.lee.library.adapter.binding.ViewBindingHolder;
 import com.lee.library.adapter.core.ProxyAdapter;
-import com.lee.library.adapter.listener.LoadErrorListener;
 import com.lee.library.adapter.listener.LoadResource;
 import com.lee.library.adapter.listener.LoadStatusListener;
 import com.lee.library.adapter.manager.ViewItemManager;
@@ -723,6 +720,20 @@ public abstract class BaseViewAdapter<T> extends RecyclerView.Adapter<BaseViewHo
          * 回调需要加载更多
          */
         void autoLoadMore();
+    }
+
+    public interface LoadErrorListener {
+
+        /**
+         * 初始页面错误状态重试 （适用于刷新页面失败）
+         */
+        void pageReload();
+
+        /**
+         * 列表数据错误状态重试 ( 适用于分页失败 )
+         *
+         */
+        void itemReload();
     }
 
     /**
