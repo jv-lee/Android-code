@@ -32,7 +32,7 @@ class MainActivity : BaseVMActivity<ActivityMainBinding, BaseViewModel>(R.layout
         }
         binding.btnRequestPermission.setOnClickListener {
             permissionLauncher.requestPermissions(
-                Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE,
+                arrayOf(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE),
                 successCall = {
                     toast("request 成功")
                 }, cancelCall = {

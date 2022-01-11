@@ -8,8 +8,13 @@ import kotlin.reflect.KProperty
  * @description
  */
 class DelegateProperty {
-    var name: String = "默认名字"
+    var name: String = "Delegate开发者"
 
+    /**
+     * @param thisRef 代表委托属性所属对象，因此thisDef类型需要于委托属性所属对象类型一致，或者是其父类
+     * @param property 代表目标属性，该属性必须是KProperty<*>类型或其父类类型
+     * @param value 为目标属性设置新的值
+     */
     operator fun setValue(thisRef: SoftWareDev, property: KProperty<*>, value: String) {
         this.name = value
     }
