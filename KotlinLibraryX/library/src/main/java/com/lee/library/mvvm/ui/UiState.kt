@@ -2,6 +2,7 @@ package com.lee.library.mvvm.ui
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
@@ -19,8 +20,9 @@ sealed class UiState {
     object Default : UiState()
 }
 
-typealias UiStateFlow = StateFlow<UiState>
-typealias UiStateMutableFlow = MutableStateFlow<UiState>
+typealias UiStateFlow = Flow<UiState>
+typealias UiStateStateFlow = StateFlow<UiState>
+typealias UiStateMutableStateFlow = MutableStateFlow<UiState>
 
 typealias UiStateLiveData = LiveData<UiState>
 typealias UiStateMutableLiveData = MutableLiveData<UiState>
