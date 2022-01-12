@@ -1,114 +1,69 @@
-package com.lee.library.adapter.core;
+package com.lee.library.adapter.core
 
-
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentStatePagerAdapter;
-
-import java.util.List;
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentStatePagerAdapter
 
 /**
  * @author jv.lee
  * description：PageFragment适配器 -> 适用于viewPager
  */
-public class UiPagerAdapter extends FragmentStatePagerAdapter {
-    private List<Fragment> fragmentList;
-    private List<String> tabList;
-    private Fragment[] fragments;
-    private String[] titles;
+class UiPagerAdapter : FragmentStatePagerAdapter {
 
-    public UiPagerAdapter(FragmentManager fm, Fragment[] fragments) {
-        super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-        this.fragments = fragments;
+    private lateinit var fragmentList: List<Fragment>
+    private lateinit var tabList: List<String>
+
+    constructor(fm: FragmentManager, fragmentList: List<Fragment>) :
+            super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+        this.fragmentList = fragmentList
     }
 
-    public UiPagerAdapter(FragmentManager fm, List<Fragment> fragmentList, List<String> tabList) {
-        super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-        this.fragmentList = fragmentList;
-        this.tabList = tabList;
-    }
-
-    public UiPagerAdapter(FragmentManager fm, List<Fragment> fragmentList, String[] titles) {
-        super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-        this.fragmentList = fragmentList;
-        this.titles = titles;
-    }
-
-    public UiPagerAdapter(FragmentManager fm, Fragment[] fragments, String[] titles) {
-        super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-        this.fragments = fragments;
-        this.titles = titles;
-    }
-
-    public void update(List<Fragment> fragmentList, List<String> tabList) {
-        this.fragmentList = fragmentList;
-        this.tabList = tabList;
-        notifyDataSetChanged();
-    }
-
-    public void update(List<Fragment> fragmentList, String[] titles) {
-        this.fragmentList = fragmentList;
-        this.titles = titles;
-        notifyDataSetChanged();
-    }
-
-    public void update(Fragment[] fragments, String[] titles) {
-        this.fragments = fragments;
-        this.titles = titles;
-        notifyDataSetChanged();
+    constructor(
+        fm: FragmentManager,
+        fragmentList: List<Fragment>,
+        tabList: List<String>
+    ) : super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+        this.fragmentList = fragmentList
+        this.tabList = tabList
     }
 
 
-    @Override
-    public Fragment getItem(int position) {
-        return fragmentList == null ? fragments[position] : fragmentList.get(position);
+    fun update(fragmentList: List<Fragment>, tabList: List<String>) {
+        this.fragmentList = fragmentList
+        this.tabList = tabList
+        notifyDataSetChanged()
     }
 
-    @Override
-    public int getCount() {
-        return fragmentList == null ? fragments.length : fragmentList.size();
+    override fun getItem(position: Int): Fragment {
+        return fragmentList[position]
     }
 
-    @Override
-    public CharSequence getPageTitle(int position) {
-        if (titles != null && titles.length > position) {
-            return titles[position];
+    override fun getCount(): Int {
+        return fragmentList.size
+    }
+
+    override fun getPageTitle(position: Int): CharSequence {
+        if (!tabList.isNullOrEmpty() && tabList.size > position) {
+            return tabList[position]
         }
-        if (tabList != null && tabList.size() > position) {
-            return tabList.get(position);
-        }
-        return "";
+        return ""
     }
 
-    public List<Fragment> getFragmentList() {
-        return fragmentList;
+    fun getFragmentList(): List<Fragment> {
+        return fragmentList
     }
 
-    public void setFragmentList(List<Fragment> fragmentList) {
-        this.fragmentList = fragmentList;
+    fun setFragmentList(fragmentList: List<Fragment>) {
+        this.fragmentList = fragmentList
     }
 
-    public List<String> getTabList() {
-        return tabList;
+    fun getTabList(): List<String> {
+        return tabList
     }
 
-    public void setTabList(List<String> tabList) {
-        this.tabList = tabList;
+    fun setTabList(tabList: List<String>) {
+        this.tabList = tabList
     }
 
-    public Fragment[] getFragments() {
-        return fragments;
-    }
 
-    public void setFragments(Fragment[] fragments) {
-        this.fragments = fragments;
-    }
-
-    public String[] getTitles() {
-        return titles;
-    }
-
-    public void setTitles(String[] titles) {
-        this.titles = titles;
-    }
 }
