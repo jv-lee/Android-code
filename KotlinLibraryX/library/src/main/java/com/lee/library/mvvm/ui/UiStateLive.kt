@@ -1,15 +1,15 @@
 package com.lee.library.mvvm.ui
 
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
-import androidx.lifecycle.liveData
+import androidx.lifecycle.*
 
 /**
  * @author jv.lee
  * @date 2021/10/22
  * @description UiState LiveData扩展
  */
+typealias UiStateLiveData = LiveData<UiState>
+typealias UiStateMutableLiveData = MutableLiveData<UiState>
+
 inline fun <reified T> LiveData<UiState>.observeState(
     owner: LifecycleOwner,
     crossinline success: (T) -> Unit,
