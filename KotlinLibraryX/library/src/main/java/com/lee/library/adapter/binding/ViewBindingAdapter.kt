@@ -20,8 +20,10 @@ open class ViewBindingAdapter<T> : BaseViewAdapter<T> {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
         //根据布局的类型 创建不同的ViewHolder
-        val item = itemStyle.getViewItem(viewType) ?: throw RuntimeException("itemStyle.getViewItem is null.")
-        val viewBinding = item.getItemViewAny(parent.context, parent) as ViewBinding
+        val item = itemStyle.getViewItem(viewType)
+            ?: throw RuntimeException("itemStyle.getViewItem is null.")
+        val viewBinding = item.getItemViewAny(parent.context, parent) as? ViewBinding
+            ?: throw RuntimeException("itemStyle.getItemViewAny is null.")
 
         val viewHolder = ViewBindingHolder(viewBinding)
 
