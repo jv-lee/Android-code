@@ -19,11 +19,20 @@
         android:id="@+id/bottom_nav"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:dotBackground="@color/colorThemeAccent"
         android:background="@color/colorThemeItem"
+        app:dotBackground="@color/colorThemeAccent"
         app:itemIconTint="@drawable/main_selector"
         app:itemTextColor="@drawable/main_selector"
         app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/main_menu" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floating_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="26dp"
+        android:src="@mipmap/ic_launcher_round"
+        app:layout_constraintBottom_toTopOf="@id/bottom_nav"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

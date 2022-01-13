@@ -1,5 +1,6 @@
 package com.lee.ui
 
+import android.content.Intent
 import android.view.View
 import com.lee.library.adapter.core.UiPagerAdapter
 import com.lee.library.base.BaseActivity
@@ -43,6 +44,10 @@ class MainActivity : BaseActivity() {
             setNumberDot(2, 7)
             postDelayed({ setNumberDot(2, 0) }, 2000)
             postDelayed({ setNumberDot(2, 17) }, 5000)
+        }
+
+        binding.floatingButton.setOnClickListener {
+            startActivity(Intent(this, NewGoogleViewActivity::class.java))
         }
 
     }
