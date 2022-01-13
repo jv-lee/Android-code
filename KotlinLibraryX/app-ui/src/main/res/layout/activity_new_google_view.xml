@@ -4,13 +4,24 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorThemePrimary"
+        android:fitsSystemWindows="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:menu="@menu/main_menu"
+        app:navigationIcon="@drawable/vector_back"
+        app:title="Toolbar"
+        app:titleCentered="true" />
+
     <com.google.android.material.chip.ChipGroup
         android:layout_width="300dp"
         android:layout_height="300dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
 
         <com.google.android.material.chip.Chip
             android:layout_width="wrap_content"
