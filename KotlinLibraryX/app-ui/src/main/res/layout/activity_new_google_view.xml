@@ -67,4 +67,38 @@
 
     </com.google.android.material.chip.ChipGroup>
 
+    <com.lee.library.widget.FloatingLayout
+        android:id="@+id/floating_layout"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginBottom="100dp"
+        android:background="@color/colorThemeAccent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:reindex_type="reindex_side">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@mipmap/header" />
+
+    </com.lee.library.widget.FloatingLayout>
+
+    <com.lee.library.widget.FloatingLayout
+        android:id="@+id/floating_layout2"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginBottom="100dp"
+        android:background="@color/colorThemeAccent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:reindex_type="reindex_xy">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@mipmap/header" />
+
+    </com.lee.library.widget.FloatingLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -193,8 +193,17 @@
     <declare-styleable name="WheelView">
         <attr name="selected_text_color" format="color" />
         <attr name="unSelected_text_color" format="color" />
-        <attr name="selected_text_size" format="dimension"/>
-        <attr name="unSelected_text_size" format="dimension"/>
+        <attr name="selected_text_size" format="dimension" />
+        <attr name="unSelected_text_size" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="FloatingLayout">
+        <attr name="reindex_type">
+            <enum name="reindex_xy" value="0" />
+            <enum name="reindex_x" value="1" />
+            <enum name="reindex_y" value="2" />
+            <enum name="reindex_side" value="3" />
+        </attr>
     </declare-styleable>
 
 </resources>
