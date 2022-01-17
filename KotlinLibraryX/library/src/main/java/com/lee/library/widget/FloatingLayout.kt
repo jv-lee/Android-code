@@ -27,12 +27,6 @@ class FloatingLayout : FrameLayout {
     private var mEndX = 0
     private var mEndY = 0
 
-    //有效滑动距离阈值
-    private var mTouchSlop = 5
-
-    //实时移动时间戳
-    private var mMoveMillis = 0L
-
     //是否处于拖拽状态
     private var isDrag = false
 
@@ -131,17 +125,8 @@ class FloatingLayout : FrameLayout {
                 //设置当前偏移量实现拖动
                 setDragTranslationX(currX)
                 setDragTranslationY(currY)
-                if (currX != 0 && currY != 0) {
-                    isClickable = false
-                }
-
-                //记录最后移动时间
-                if (currY > mTouchSlop) {
-                    mMoveMillis = System.currentTimeMillis()
-                }
             }
             MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
-                isClickable = true
                 if (isDrag) {
                     isDrag = false
                     mCallback?.onDargEnd()
@@ -158,15 +143,15 @@ class FloatingLayout : FrameLayout {
 
     private fun setDragTranslationY(y: Int) {
         val parentGroup = parent as ViewGroup
-        val dargTopLimit = top - parentGroup.top
-        val dargBottomLimit = parentGroup.bottom - bottom
+        val dragTopLimit = top - parentGroup.top
+        val dragBottomLimit = parentGroup.bottom - bottom
 
         when {
-            (translationY + y) <= -dargTopLimit -> {
-                translationY = -dargTopLimit.toFloat()
+            (translationY + y) <= -dragTopLimit -> {
+                translationY = -dragTopLimit.toFloat()
             }
-            (translationY + y) >= dargBottomLimit -> {
-                translationY = dargBottomLimit.toFloat()
+            (translationY + y) >= dragBottomLimit -> {
+                translationY = dragBottomLimit.toFloat()
             }
             else -> {
                 this.translationY = this.translationY + y
