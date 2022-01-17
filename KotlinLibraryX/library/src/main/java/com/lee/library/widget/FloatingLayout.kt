@@ -400,13 +400,6 @@ class FloatingLayout : FrameLayout {
             return if (translation >= 0) -translation else abs(translation)
         }
 
-        /**
-         * 根据平移值切换上下左右移动最终计算值
-         */
-        private fun formatTranslationValue(translation: Float, size: Float): Float {
-            return if (translation >= 0) size else -size
-        }
-
     }
 
     annotation class ReIndexType {
