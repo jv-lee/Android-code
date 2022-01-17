@@ -200,15 +200,6 @@ class FloatingLayout : FrameLayout {
         startAnimation(mAnimation)
     }
 
-    annotation class ReIndexType {
-        companion object {
-            const val MOVE = 0 // 不限制复位自由摆放
-            const val REINDEX_XY = 1 // x，y轴同时开启复位
-            const val REINDEX_X = 2 // x轴开启复位
-            const val REINDEX_Y = 3 // y轴开启复位
-        }
-    }
-
     private inner class ReIndexAnimation(@ReIndexType private val reIndexType: Int) : Animation() {
 
         private var targetTranslationX = 0F
@@ -416,6 +407,15 @@ class FloatingLayout : FrameLayout {
             return if (translation >= 0) size else -size
         }
 
+    }
+
+    annotation class ReIndexType {
+        companion object {
+            const val MOVE = 0 // 不限制复位自由摆放
+            const val REINDEX_XY = 1 // x，y轴同时开启复位
+            const val REINDEX_X = 2 // x轴开启复位
+            const val REINDEX_Y = 3 // y轴开启复位
+        }
     }
 
     open class EventCallback {
