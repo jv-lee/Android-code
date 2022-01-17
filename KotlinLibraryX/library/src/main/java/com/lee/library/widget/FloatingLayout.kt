@@ -9,6 +9,7 @@ import android.view.animation.Animation
 import android.view.animation.Transformation
 import android.widget.FrameLayout
 import com.lee.library.R
+import com.lee.library.utils.LogUtil
 import kotlin.math.abs
 
 
@@ -147,9 +148,9 @@ class FloatingLayout : FrameLayout {
 
     private fun setDragTranslationY(y: Int) {
         if (limitBound) {
-            val parentGroup = parent as ViewGroup
-            val dragTopLimit = top - parentGroup.top
-            val dragBottomLimit = parentGroup.bottom - bottom
+            val parentWindow = ParentWindow(parent as ViewGroup)
+            val dragTopLimit = top - parentWindow.top
+            val dragBottomLimit = parentWindow.bottom - bottom
 
             when {
                 (translationY + y) <= -dragTopLimit -> {
@@ -170,9 +171,9 @@ class FloatingLayout : FrameLayout {
 
     private fun setDragTranslationX(x: Int) {
         if (limitBound) {
-            val parentGroup = parent as ViewGroup
-            val dragLeftLimit = left - parentGroup.left
-            val dragRightLimit = parentGroup.right - right
+            val parentWindow = ParentWindow(parent as ViewGroup)
+            val dragLeftLimit = left - parentWindow.left
+            val dragRightLimit = parentWindow.right - right
 
             when {
                 (translationX + x) <= -dragLeftLimit -> {
@@ -274,9 +275,9 @@ class FloatingLayout : FrameLayout {
          * X轴限制边界变化值
          */
         private fun changeTranslationX(): Float {
-            val viewGroup = parent as ViewGroup
-            val leftOffset = left - viewGroup.left
-            val rightOffset = viewGroup.right - right
+            val parentWindow = ParentWindow(parent as ViewGroup)
+            val leftOffset = left - parentWindow.left
+            val rightOffset = parentWindow.right - right
             if (translationX >= 0) {
                 if (abs(translationX) >= rightOffset) return -(abs(translationX) - rightOffset)
             } else {
@@ -289,9 +290,9 @@ class FloatingLayout : FrameLayout {
          * X轴限制边界目标值
          */
         private fun targetTranslationX(): Float {
-            val viewGroup = parent as ViewGroup
-            val leftOffset = left - viewGroup.left
-            val rightOffset = viewGroup.right - right
+            val parentWindow = ParentWindow(parent as ViewGroup)
+            val leftOffset = left - parentWindow.left
+            val rightOffset = parentWindow.right - right
             if (translationX >= 0) {
                 if (abs(translationX) >= rightOffset) return rightOffset.toFloat()
             } else {
@@ -305,9 +306,9 @@ class FloatingLayout : FrameLayout {
          * Y轴限制边界变化值
          */
         private fun changeTranslationY(): Float {
-            val viewGroup = parent as ViewGroup
-            val topOffset = top - viewGroup.top
-            val bottomOffset = viewGroup.bottom - bottom
+            val parentWindow = ParentWindow(parent as ViewGroup)
+            val topOffset = top - parentWindow.top
+            val bottomOffset = parentWindow.bottom - bottom
             if (translationY >= 0) {
                 if (abs(translationY) >= bottomOffset) return -(abs(translationY) - bottomOffset)
             } else {
@@ -320,9 +321,9 @@ class FloatingLayout : FrameLayout {
          * Y轴限制边界目标值
          */
         private fun targetTranslationY(): Float {
-            val viewGroup = parent as ViewGroup
-            val topOffset = top - viewGroup.top
-            val bottomOffset = viewGroup.bottom - bottom
+            val parentWindow = ParentWindow(parent as ViewGroup)
+            val topOffset = top - parentWindow.top
+            val bottomOffset = parentWindow.bottom - bottom
             if (translationY >= 0) {
                 if (abs(translationY) >= bottomOffset) return bottomOffset.toFloat()
             } else {
@@ -335,9 +336,9 @@ class FloatingLayout : FrameLayout {
          * X轴回弹复位限制边界目标值
          */
         private fun sideTargetTranslationX(): Float {
-            val viewGroup = parent as ViewGroup
-            return if (abs(translationX) + (width / 2) > (viewGroup.width / 2)) {
-                val maxTranslationX = viewGroup.width - width
+            val parentWindow = ParentWindow(parent as ViewGroup)
+            return if (abs(translationX) + (width / 2) > (parentWindow.width / 2)) {
+                val maxTranslationX = parentWindow.width - width
                 val offset = maxTranslationX - abs(translationX)
 
                 val tagOffset = if (offset <= 0) maxTranslationX.toFloat()
@@ -353,9 +354,9 @@ class FloatingLayout : FrameLayout {
          * X轴回弹复位限制边界变化值
          */
         private fun sideChangeTranslationX(): Float {
-            val viewGroup = parent as ViewGroup
-            return if (abs(translationX) + (width / 2) > (viewGroup.width / 2)) {
-                val changeOffset = (viewGroup.width - width - abs(translationX))
+            val parentWindow = ParentWindow(parent as ViewGroup)
+            return if (abs(translationX) + (width / 2) > (parentWindow.width / 2)) {
+                val changeOffset = (parentWindow.width - width - abs(translationX))
                 formatTranslationValue(translationX, changeOffset)
             } else {
                 targetTranslationX - currentTranslationX
@@ -366,9 +367,9 @@ class FloatingLayout : FrameLayout {
          * Y轴回弹复位限制边界目标值
          */
         private fun sideTargetTranslationY(): Float {
-            val viewGroup = parent as ViewGroup
-            return if (abs(translationY) + (height / 2) > (viewGroup.height / 2)) {
-                val maxTranslationY = viewGroup.height - height
+            val parentWindow = ParentWindow(parent as ViewGroup)
+            return if (abs(translationY) + (height / 2) > (parentWindow.height / 2)) {
+                val maxTranslationY = parentWindow.height - height
                 val offset = maxTranslationY - abs(translationY)
 
                 val tagOffset = if (offset <= 0) maxTranslationY.toFloat()
@@ -384,9 +385,9 @@ class FloatingLayout : FrameLayout {
          * Y轴回弹复位限制边界变化值
          */
         private fun sideChangeTranslationY(): Float {
-            val viewGroup = parent as ViewGroup
-            return if (abs(translationY) + (height / 2) > (viewGroup.height / 2)) {
-                val changeOffset = (viewGroup.height - height - abs(translationY))
+            val parentWindow = ParentWindow(parent as ViewGroup)
+            return if (abs(translationY) + (height / 2) > (parentWindow.height / 2)) {
+                val changeOffset = (parentWindow.height - height - abs(translationY))
                 formatTranslationValue(translationY, changeOffset)
             } else {
                 targetTranslationY - currentTranslationY
@@ -422,6 +423,20 @@ class FloatingLayout : FrameLayout {
         open fun onClicked() {}
         open fun onDragStart() {}
         open fun onDragEnd() {}
+    }
+
+    internal data class ParentWindow(val parent: ViewGroup) {
+        val left: Int = 0
+
+        val right: Int = parent.right - parent.left
+
+        val top: Int = 0
+
+        val bottom: Int = parent.bottom - parent.top
+
+        val width: Int = right
+
+        val height: Int = bottom
     }
 
     fun setEventCallback(callback: EventCallback) {
