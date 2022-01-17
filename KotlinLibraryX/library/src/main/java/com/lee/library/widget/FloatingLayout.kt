@@ -161,6 +161,22 @@ class FloatingLayout : FrameLayout {
 
     private fun setDragTranslationX(x: Int) {
         this.translationX = this.translationX + x
+
+//        val parentGroup = parent as ViewGroup
+//        val dragLeftLimit = left - parentGroup.left
+//        val dragRightLimit = parentGroup.right - right
+//
+//        when {
+//            (translationX + x) <= -dragLeftLimit -> {
+//                translationX = -dragLeftLimit.toFloat()
+//            }
+//            (translationX + x) >= dragRightLimit -> {
+//                translationX = dragRightLimit.toFloat()
+//            }
+//            else -> {
+//                this.translationX = this.translationX + x
+//            }
+//        }
     }
 
     /**
