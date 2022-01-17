@@ -92,7 +92,7 @@
         android:background="@color/colorThemeAccent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:reindex_type="reindex_xy">
+        app:reindex_type="reindex_side">
 
         <ImageView
             android:layout_width="match_parent"

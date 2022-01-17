@@ -33,12 +33,16 @@ class FloatingLayout : FrameLayout {
     //实时移动时间戳
     private var mMoveMillis = 0L
 
+    //是否处于拖拽状态
     private var isDrag = false
 
+    //事件回调
     private var mCallback: EventCallback? = null
 
+    //复位类型
     private var reindexType: Int = ReIndexType.REINDEX_XY
 
+    //复位动画
     private var mAnimation: ReIndexAnimation
 
     constructor(context: Context) : this(context, null, 0)
@@ -125,7 +129,8 @@ class FloatingLayout : FrameLayout {
                 val currX: Int = x - mEndX
                 val currY: Int = y - mEndY
                 //设置当前偏移量实现拖动
-                setDragTranslation(currX, currY)
+                setDragTranslationX(currX)
+                setDragTranslationY(currY)
                 if (currX != 0 && currY != 0) {
                     isClickable = false
                 }
@@ -151,9 +156,26 @@ class FloatingLayout : FrameLayout {
         return true
     }
 
-    private fun setDragTranslation(x: Int, y: Int) {
+    private fun setDragTranslationY(y: Int) {
+        val parentGroup = parent as ViewGroup
+        val dargTopLimit = top - parentGroup.top
+        val dargBottomLimit = parentGroup.bottom - bottom
+
+        when {
+            (translationY + y) <= -dargTopLimit -> {
+                translationY = -dargTopLimit.toFloat()
+            }
+            (translationY + y) >= dargBottomLimit -> {
+                translationY = dargBottomLimit.toFloat()
+            }
+            else -> {
+                this.translationY = this.translationY + y
+            }
+        }
+    }
+
+    private fun setDragTranslationX(x: Int) {
         this.translationX = this.translationX + x
-        this.translationY = this.translationY + y
     }
 
     /**
@@ -168,10 +190,10 @@ class FloatingLayout : FrameLayout {
 
     annotation class ReIndexType {
         companion object {
-            const val REINDEX_XY = 0
-            const val REINDEX_X = 1
-            const val REINDEX_Y = 2
-            const val REINDEX_SIDE = 3
+            const val REINDEX_XY = 0 // x，y轴同时开启复位
+            const val REINDEX_X = 1 // x轴开启复位
+            const val REINDEX_Y = 2 // y轴开启复位
+            const val REINDEX_SIDE = 3 // 任意移动，松开后左右边界自动吸附
         }
     }
 
@@ -247,8 +269,10 @@ class FloatingLayout : FrameLayout {
         private fun getSideTranslationTag(): Float {
             val viewGroup = parent as ViewGroup
             return if (abs(translationX) + (width / 2) > (viewGroup.width / 2)) {
-                val offset = viewGroup.width - width - abs(translationX)
-                val tagOffset = (abs(offset) + abs(currentTranslationX))
+                val maxTranslationX = viewGroup.width - width
+                val offset = maxTranslationX - abs(translationX)
+                val tagOffset = if (offset <= 0) maxTranslationX.toFloat()
+                else (abs(offset) + abs(currentTranslationX))
                 updateLeftRightValue(tagOffset)
             } else {
                 0F
