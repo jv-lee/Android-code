@@ -198,11 +198,12 @@
     </declare-styleable>
 
     <declare-styleable name="FloatingLayout">
+        <attr name="limitBound" format="boolean" />
         <attr name="reindex_type">
-            <enum name="reindex_xy" value="0" />
-            <enum name="reindex_x" value="1" />
-            <enum name="reindex_y" value="2" />
-            <enum name="reindex_side" value="3" />
+            <enum name="move" value="0" />
+            <enum name="reindex_xy" value="1" />
+            <enum name="reindex_x" value="2" />
+            <enum name="reindex_y" value="3" />
         </attr>
     </declare-styleable>
 

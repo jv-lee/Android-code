@@ -34,10 +34,13 @@ class FloatingLayout : FrameLayout {
     private var mCallback: EventCallback? = null
 
     //复位类型
-    private var reindexType: Int = ReIndexType.REINDEX_XY
+    private var reindexType: Int = ReIndexType.MOVE
 
     //复位动画
     private var mAnimation: ReIndexAnimation
+
+    //是否限制边界拖动
+    private var limitBound: Boolean = false
 
     constructor(context: Context) : this(context, null, 0)
 
@@ -49,7 +52,8 @@ class FloatingLayout : FrameLayout {
         defStyle
     ) {
         context.obtainStyledAttributes(attributes, R.styleable.FloatingLayout).run {
-            reindexType = getInt(R.styleable.FloatingLayout_reindex_type, ReIndexType.REINDEX_XY)
+            reindexType = getInt(R.styleable.FloatingLayout_reindex_type, ReIndexType.MOVE)
+            limitBound = getBoolean(R.styleable.FloatingLayout_limitBound, false)
             recycle()
         }
         mAnimation = ReIndexAnimation(reindexType)
@@ -115,7 +119,7 @@ class FloatingLayout : FrameLayout {
                     return true
                 }
                 isDrag = true
-                mCallback?.onDargStart()
+                mCallback?.onDragStart()
 
                 //当前view拖动时拦截父容器处理事件
                 parent.requestDisallowInterceptTouchEvent(true)
@@ -129,7 +133,7 @@ class FloatingLayout : FrameLayout {
             MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
                 if (isDrag) {
                     isDrag = false
-                    mCallback?.onDargEnd()
+                    mCallback?.onDragEnd()
                 } else {
                     mCallback?.onClicked()
                 }
@@ -142,41 +146,48 @@ class FloatingLayout : FrameLayout {
     }
 
     private fun setDragTranslationY(y: Int) {
-        val parentGroup = parent as ViewGroup
-        val dragTopLimit = top - parentGroup.top
-        val dragBottomLimit = parentGroup.bottom - bottom
+        if (limitBound) {
+            val parentGroup = parent as ViewGroup
+            val dragTopLimit = top - parentGroup.top
+            val dragBottomLimit = parentGroup.bottom - bottom
 
-        when {
-            (translationY + y) <= -dragTopLimit -> {
-                translationY = -dragTopLimit.toFloat()
+            when {
+                (translationY + y) <= -dragTopLimit -> {
+                    translationY = -dragTopLimit.toFloat()
+                }
+                (translationY + y) >= dragBottomLimit -> {
+                    translationY = dragBottomLimit.toFloat()
+                }
+                else -> {
+                    this.translationY = this.translationY + y
+                }
             }
-            (translationY + y) >= dragBottomLimit -> {
-                translationY = dragBottomLimit.toFloat()
-            }
-            else -> {
-                this.translationY = this.translationY + y
-            }
+
+        } else {
+            this.translationY = this.translationY + y
         }
     }
 
     private fun setDragTranslationX(x: Int) {
-        this.translationX = this.translationX + x
+        if (limitBound) {
+            val parentGroup = parent as ViewGroup
+            val dragLeftLimit = left - parentGroup.left
+            val dragRightLimit = parentGroup.right - right
 
-//        val parentGroup = parent as ViewGroup
-//        val dragLeftLimit = left - parentGroup.left
-//        val dragRightLimit = parentGroup.right - right
-//
-//        when {
-//            (translationX + x) <= -dragLeftLimit -> {
-//                translationX = -dragLeftLimit.toFloat()
-//            }
-//            (translationX + x) >= dragRightLimit -> {
-//                translationX = dragRightLimit.toFloat()
-//            }
-//            else -> {
-//                this.translationX = this.translationX + x
-//            }
-//        }
+            when {
+                (translationX + x) <= -dragLeftLimit -> {
+                    translationX = -dragLeftLimit.toFloat()
+                }
+                (translationX + x) >= dragRightLimit -> {
+                    translationX = dragRightLimit.toFloat()
+                }
+                else -> {
+                    this.translationX = this.translationX + x
+                }
+            }
+        } else {
+            this.translationX = this.translationX + x
+        }
     }
 
     /**
@@ -191,10 +202,10 @@ class FloatingLayout : FrameLayout {
 
     annotation class ReIndexType {
         companion object {
-            const val REINDEX_XY = 0 // x，y轴同时开启复位
-            const val REINDEX_X = 1 // x轴开启复位
-            const val REINDEX_Y = 2 // y轴开启复位
-            const val REINDEX_SIDE = 3 // 任意移动，松开后左右边界自动吸附
+            const val MOVE = 0 // 不限制复位自由摆放
+            const val REINDEX_XY = 1 // x，y轴同时开启复位
+            const val REINDEX_X = 2 // x轴开启复位
+            const val REINDEX_Y = 3 // y轴开启复位
         }
     }
 
@@ -206,60 +217,61 @@ class FloatingLayout : FrameLayout {
         private var currentTranslationX = 0F
         private var currentTranslationY = 0F
 
-        private var translationXChange = 0F
-        private var translationYChange = 0F
+        private var changeTranslationX = 0F
+        private var changeTranslationY = 0F
 
         fun initValue() {
-            if (reIndexType == ReIndexType.REINDEX_SIDE) {
-                this.currentTranslationY = translationY
-                translationYChange = targetTranslationY - currentTranslationY
+            when (reIndexType) {
+                ReIndexType.REINDEX_X -> {
+                    this.currentTranslationX = translationX
+                    targetTranslationX = sideTargetTranslationX()
+                    changeTranslationX = sideChangeTranslationX()
 
-                this.currentTranslationX = translationX
-                targetTranslationX = getSideTranslationTag()
-                translationXChange = getSideTranslationChange()
-            } else {
-                this.currentTranslationX = translationX
-                translationXChange = targetTranslationX - currentTranslationX
+                    this.currentTranslationY = translationY
+                    targetTranslationY = targetTranslationY()
+                    changeTranslationY = changeTranslationY()
+                }
+                ReIndexType.REINDEX_Y -> {
+                    this.currentTranslationX = translationX
+                    targetTranslationX = targetTranslationX()
+                    changeTranslationX = changeTranslationX()
 
-                this.currentTranslationY = translationY
-                translationYChange = targetTranslationY - currentTranslationY
+                    this.currentTranslationY = translationY
+                    targetTranslationY = sideTargetTranslationY()
+                    changeTranslationY = sideChangeTranslationY()
+                }
+                ReIndexType.REINDEX_XY -> {
+                    this.currentTranslationX = translationX
+                    targetTranslationX = 0f
+                    changeTranslationX = reindexTranslationValue(translationX)
+
+                    this.currentTranslationY = translationY
+                    targetTranslationY = 0f
+                    changeTranslationY = reindexTranslationValue(translationY)
+                }
+                ReIndexType.MOVE -> {
+                    this.currentTranslationX = translationX
+                    targetTranslationX = targetTranslationX()
+                    changeTranslationX = changeTranslationX()
+
+                    this.currentTranslationY = translationY
+                    targetTranslationY = targetTranslationY()
+                    changeTranslationY = changeTranslationY()
+                }
             }
 
             duration = 200
         }
 
-
         override fun applyTransformation(interpolatedTime: Float, t: Transformation?) {
             if (interpolatedTime >= 1) {
-                when (reIndexType) {
-                    ReIndexType.REINDEX_XY -> {
-                        translationX = targetTranslationX
-                        translationY = targetTranslationY
-                    }
-                    ReIndexType.REINDEX_X, ReIndexType.REINDEX_SIDE -> {
-                        translationX = targetTranslationX
-                    }
-                    ReIndexType.REINDEX_Y -> {
-                        translationY = targetTranslationY
-                    }
-                }
+                translationX = targetTranslationX
+                translationY = targetTranslationY
             } else {
-                when (reIndexType) {
-                    ReIndexType.REINDEX_XY -> {
-                        val stepX = (translationXChange * interpolatedTime)
-                        val stepY = (translationYChange * interpolatedTime)
-                        translationX = currentTranslationX + stepX
-                        translationY = currentTranslationY + stepY
-                    }
-                    ReIndexType.REINDEX_X, ReIndexType.REINDEX_SIDE -> {
-                        val stepX = (translationXChange * interpolatedTime)
-                        translationX = currentTranslationX + stepX
-                    }
-                    ReIndexType.REINDEX_Y -> {
-                        val stepY = (translationYChange * interpolatedTime)
-                        translationY = currentTranslationY + stepY
-                    }
-                }
+                val stepX = (changeTranslationX * interpolatedTime)
+                val stepY = (changeTranslationY * interpolatedTime)
+                translationX = currentTranslationX + stepX
+                translationY = currentTranslationY + stepY
             }
         }
 
@@ -267,39 +279,149 @@ class FloatingLayout : FrameLayout {
             return true
         }
 
-        private fun getSideTranslationTag(): Float {
+        /**
+         * X轴限制边界变化值
+         */
+        private fun changeTranslationX(): Float {
+            val viewGroup = parent as ViewGroup
+            val leftOffset = left - viewGroup.left
+            val rightOffset = viewGroup.right - right
+            if (translationX >= 0) {
+                if (abs(translationX) >= rightOffset) return -(abs(translationX) - rightOffset)
+            } else {
+                if (abs(translationX) >= leftOffset) return abs(translationX) - leftOffset
+            }
+            return 0F
+        }
+
+        /**
+         * X轴限制边界目标值
+         */
+        private fun targetTranslationX(): Float {
+            val viewGroup = parent as ViewGroup
+            val leftOffset = left - viewGroup.left
+            val rightOffset = viewGroup.right - right
+            if (translationX >= 0) {
+                if (abs(translationX) >= rightOffset) return rightOffset.toFloat()
+            } else {
+                if (abs(translationX) >= leftOffset) return -leftOffset.toFloat()
+            }
+            return translationX
+        }
+
+
+        /**
+         * Y轴限制边界变化值
+         */
+        private fun changeTranslationY(): Float {
+            val viewGroup = parent as ViewGroup
+            val topOffset = top - viewGroup.top
+            val bottomOffset = viewGroup.bottom - bottom
+            if (translationY >= 0) {
+                if (abs(translationY) >= bottomOffset) return -(abs(translationY) - bottomOffset)
+            } else {
+                if (abs(translationY) >= topOffset) return abs(translationY) - topOffset
+            }
+            return 0F
+        }
+
+        /**
+         * Y轴限制边界目标值
+         */
+        private fun targetTranslationY(): Float {
+            val viewGroup = parent as ViewGroup
+            val topOffset = top - viewGroup.top
+            val bottomOffset = viewGroup.bottom - bottom
+            if (translationY >= 0) {
+                if (abs(translationY) >= bottomOffset) return bottomOffset.toFloat()
+            } else {
+                if (abs(translationY) >= topOffset) return -topOffset.toFloat()
+            }
+            return translationY
+        }
+
+        /**
+         * X轴回弹复位限制边界目标值
+         */
+        private fun sideTargetTranslationX(): Float {
             val viewGroup = parent as ViewGroup
             return if (abs(translationX) + (width / 2) > (viewGroup.width / 2)) {
                 val maxTranslationX = viewGroup.width - width
                 val offset = maxTranslationX - abs(translationX)
+
                 val tagOffset = if (offset <= 0) maxTranslationX.toFloat()
                 else (abs(offset) + abs(currentTranslationX))
-                updateLeftRightValue(tagOffset)
+
+                formatTranslationValue(translationX, tagOffset)
             } else {
                 0F
             }
         }
 
-        private fun getSideTranslationChange(): Float {
+        /**
+         * X轴回弹复位限制边界变化值
+         */
+        private fun sideChangeTranslationX(): Float {
             val viewGroup = parent as ViewGroup
             return if (abs(translationX) + (width / 2) > (viewGroup.width / 2)) {
                 val changeOffset = (viewGroup.width - width - abs(translationX))
-                updateLeftRightValue(changeOffset)
+                formatTranslationValue(translationX, changeOffset)
             } else {
                 targetTranslationX - currentTranslationX
             }
         }
 
-        private fun updateLeftRightValue(size: Float): Float {
-            return if (translationX > 0) size else -size
+        /**
+         * Y轴回弹复位限制边界目标值
+         */
+        private fun sideTargetTranslationY(): Float {
+            val viewGroup = parent as ViewGroup
+            return if (abs(translationY) + (height / 2) > (viewGroup.height / 2)) {
+                val maxTranslationY = viewGroup.height - height
+                val offset = maxTranslationY - abs(translationY)
+
+                val tagOffset = if (offset <= 0) maxTranslationY.toFloat()
+                else (abs(offset) + abs(currentTranslationY))
+
+                formatTranslationValue(translationY, tagOffset)
+            } else {
+                0F
+            }
+        }
+
+        /**
+         * Y轴回弹复位限制边界变化值
+         */
+        private fun sideChangeTranslationY(): Float {
+            val viewGroup = parent as ViewGroup
+            return if (abs(translationY) + (height / 2) > (viewGroup.height / 2)) {
+                val changeOffset = (viewGroup.height - height - abs(translationY))
+                formatTranslationValue(translationY, changeOffset)
+            } else {
+                targetTranslationY - currentTranslationY
+            }
+        }
+
+        /**
+         * 平移复位数值转化
+         */
+        private fun reindexTranslationValue(translation: Float): Float {
+            return if (translation >= 0) -translation else abs(translation)
+        }
+
+        /**
+         * 根据平移值切换上下左右移动最终计算值
+         */
+        private fun formatTranslationValue(translation: Float, size: Float): Float {
+            return if (translation >= 0) size else -size
         }
 
     }
 
     open class EventCallback {
         open fun onClicked() {}
-        open fun onDargStart() {}
-        open fun onDargEnd() {}
+        open fun onDragStart() {}
+        open fun onDragEnd() {}
     }
 
     fun setEventCallback(callback: EventCallback) {

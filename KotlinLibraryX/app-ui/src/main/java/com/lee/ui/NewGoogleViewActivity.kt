@@ -21,10 +21,10 @@ class NewGoogleViewActivity : BaseActivity() {
                 toast("click")
             }
 
-            override fun onDargStart() {
+            override fun onDragStart() {
             }
 
-            override fun onDargEnd() {
+            override fun onDragEnd() {
             }
 
         })
