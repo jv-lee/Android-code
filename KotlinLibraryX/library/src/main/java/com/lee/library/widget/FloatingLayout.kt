@@ -9,7 +9,6 @@ import android.view.animation.Animation
 import android.view.animation.Transformation
 import android.widget.FrameLayout
 import com.lee.library.R
-import com.lee.library.utils.LogUtil
 import kotlin.math.abs
 
 
@@ -337,30 +336,30 @@ class FloatingLayout : FrameLayout {
          */
         private fun sideTargetTranslationX(): Float {
             val parentWindow = ParentWindow(parent as ViewGroup)
-            return if (abs(translationX) + (width / 2) > (parentWindow.width / 2)) {
-                val maxTranslationX = parentWindow.width - width
-                val offset = maxTranslationX - abs(translationX)
+            val viewCenterX = width / 2
 
-                val tagOffset = if (offset <= 0) maxTranslationX.toFloat()
-                else (abs(offset) + abs(currentTranslationX))
-
-                formatTranslationValue(translationX, tagOffset)
-            } else {
-                0F
+            // 向右拖动起始点为左边
+            if (translationX >= 0 && viewCenterX < parentWindow.centerX) {
+                // 移动view中心超过父容器中心 位置移至右边吸附
+                if ((translationX + viewCenterX) > parentWindow.centerX) {
+                    return (parentWindow.width - right).toFloat()
+                }
+                // 向左拖动起始点为右
+            } else if (translationX <= 0) {
+                // 移动view中心超过父容器中心 位置移至左边吸附
+                if ((translationX + viewCenterX) < parentWindow.centerX) {
+                    return -left.toFloat()
+                }
             }
+
+            return 0F
         }
 
         /**
          * X轴回弹复位限制边界变化值
          */
         private fun sideChangeTranslationX(): Float {
-            val parentWindow = ParentWindow(parent as ViewGroup)
-            return if (abs(translationX) + (width / 2) > (parentWindow.width / 2)) {
-                val changeOffset = (parentWindow.width - width - abs(translationX))
-                formatTranslationValue(translationX, changeOffset)
-            } else {
-                targetTranslationX - currentTranslationX
-            }
+            return targetTranslationX - currentTranslationX
         }
 
         /**
@@ -368,30 +367,30 @@ class FloatingLayout : FrameLayout {
          */
         private fun sideTargetTranslationY(): Float {
             val parentWindow = ParentWindow(parent as ViewGroup)
-            return if (abs(translationY) + (height / 2) > (parentWindow.height / 2)) {
-                val maxTranslationY = parentWindow.height - height
-                val offset = maxTranslationY - abs(translationY)
+            val viewCenterY = height / 2
 
-                val tagOffset = if (offset <= 0) maxTranslationY.toFloat()
-                else (abs(offset) + abs(currentTranslationY))
-
-                formatTranslationValue(translationY, tagOffset)
-            } else {
-                0F
+            // 向下拖动起始点为上边
+            if (translationY >= 0 && viewCenterY < parentWindow.centerY) {
+                // 移动view中心超过父容器中心 位置移至右边吸附
+                if ((translationY + viewCenterY) > parentWindow.centerY) {
+                    return (parentWindow.height - bottom).toFloat()
+                }
+                // 向上拖动起始点为下
+            } else if (translationY <= 0) {
+                // 移动view中心超过父容器中心 位置移至左边吸附
+                if ((translationY + viewCenterY) < parentWindow.centerY) {
+                    return -top.toFloat()
+                }
             }
+
+            return 0F
         }
 
         /**
          * Y轴回弹复位限制边界变化值
          */
         private fun sideChangeTranslationY(): Float {
-            val parentWindow = ParentWindow(parent as ViewGroup)
-            return if (abs(translationY) + (height / 2) > (parentWindow.height / 2)) {
-                val changeOffset = (parentWindow.height - height - abs(translationY))
-                formatTranslationValue(translationY, changeOffset)
-            } else {
-                targetTranslationY - currentTranslationY
-            }
+            return targetTranslationY - currentTranslationY
         }
 
         /**
@@ -437,6 +436,10 @@ class FloatingLayout : FrameLayout {
         val width: Int = right
 
         val height: Int = bottom
+
+        val centerX: Int = width / 2
+
+        val centerY: Int = height / 2
     }
 
     fun setEventCallback(callback: EventCallback) {
