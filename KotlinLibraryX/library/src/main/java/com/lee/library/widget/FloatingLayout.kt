@@ -347,7 +347,7 @@ class FloatingLayout : FrameLayout {
                 // 向左拖动起始点为右
             } else if (translationX <= 0) {
                 // 移动view中心超过父容器中心 位置移至左边吸附
-                if ((translationX + viewCenterX) < parentWindow.centerX) {
+                if ((abs(translationX) + viewCenterX) > parentWindow.centerX) {
                     return -left.toFloat()
                 }
             }
@@ -378,7 +378,7 @@ class FloatingLayout : FrameLayout {
                 // 向上拖动起始点为下
             } else if (translationY <= 0) {
                 // 移动view中心超过父容器中心 位置移至左边吸附
-                if ((translationY + viewCenterY) < parentWindow.centerY) {
+                if ((abs(translationY) + viewCenterY) > parentWindow.centerY) {
                     return -top.toFloat()
                 }
             }
