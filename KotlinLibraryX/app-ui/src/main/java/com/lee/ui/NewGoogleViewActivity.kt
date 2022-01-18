@@ -16,18 +16,7 @@ class NewGoogleViewActivity : BaseActivity() {
     private val binding by binding(ActivityNewGoogleViewBinding::inflate)
 
     override fun bindView() {
-        binding.floatingLayout.setEventCallback(object : FloatingLayout.EventCallback() {
-            override fun onClicked() {
-                toast("click")
-            }
 
-            override fun onDragStart() {
-            }
-
-            override fun onDragEnd() {
-            }
-
-        })
     }
 
     override fun bindData() {
