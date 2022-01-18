@@ -9,6 +9,7 @@ import android.view.animation.Animation
 import android.view.animation.Transformation
 import android.widget.FrameLayout
 import com.lee.library.R
+import com.lee.library.utils.LogUtil
 import kotlin.math.abs
 
 
@@ -84,6 +85,11 @@ class FloatingLayout : FrameLayout {
                 ) {
                     parent.requestDisallowInterceptTouchEvent(true)
                     return super.dispatchTouchEvent(ev)
+                }
+
+                //当前是否被拖动
+                if (distanceX == 0F && distanceY == 0F) {
+                    return false
                 }
             }
             MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
