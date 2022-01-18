@@ -9,7 +9,6 @@ import android.view.animation.Animation
 import android.view.animation.Transformation
 import android.widget.FrameLayout
 import com.lee.library.R
-import com.lee.library.utils.LogUtil
 import kotlin.math.abs
 
 
