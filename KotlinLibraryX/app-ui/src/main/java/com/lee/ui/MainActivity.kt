@@ -5,6 +5,7 @@ import android.view.View
 import com.lee.library.adapter.core.UiPagerAdapter
 import com.lee.library.base.BaseActivity
 import com.lee.library.extensions.binding
+import com.lee.library.tools.StatusTools.setDarkStatusIcon
 import com.lee.ui.databinding.ActivityMainBinding
 import com.lee.ui.fragment.*
 
@@ -34,6 +35,7 @@ class MainActivity : BaseActivity() {
     }
 
     override fun bindView() {
+        setDarkStatusIcon()
         binding.vpContainer.adapter = vpAdapter
         binding.vpContainer.setNoScroll(true)
 
