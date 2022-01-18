@@ -145,7 +145,11 @@ class FloatingLayout : FrameLayout {
         return true
     }
 
+    /**
+     * 设置拖动平移Y值
+     */
     private fun setDragTranslationY(y: Int) {
+        // 是否限制拖动限制边界
         if (limitBound) {
             val parentWindow = ParentWindow(parent as ViewGroup)
             val dragTopLimit = top - parentWindow.top
@@ -168,7 +172,11 @@ class FloatingLayout : FrameLayout {
         }
     }
 
+    /**
+     * 设置拖动平移X值
+     */
     private fun setDragTranslationX(x: Int) {
+        // 是否限制拖动限制边界
         if (limitBound) {
             val parentWindow = ParentWindow(parent as ViewGroup)
             val dragLeftLimit = left - parentWindow.left
@@ -200,54 +208,56 @@ class FloatingLayout : FrameLayout {
         startAnimation(mAnimation)
     }
 
+    /**
+     * 拖拽复位动画
+     * @param reIndexType 复位动画属性
+     * @see ReIndexType
+     */
     private inner class ReIndexAnimation(@ReIndexType private val reIndexType: Int) : Animation() {
 
+        // 目标平移值
         private var targetTranslationX = 0F
         private var targetTranslationY = 0F
 
+        // 当前平移值
         private var currentTranslationX = 0F
         private var currentTranslationY = 0F
 
+        // 变化过度平移值
         private var changeTranslationX = 0F
         private var changeTranslationY = 0F
 
         fun initValue() {
+            // 初始化复位动画属性
+            this.currentTranslationX = translationX
+            targetTranslationX = targetTranslationX()
+            changeTranslationX = changeTranslationX()
+
+            this.currentTranslationY = translationY
+            targetTranslationY = targetTranslationY()
+            changeTranslationY = changeTranslationY()
+
             when (reIndexType) {
+                // 设置X轴吸附效果
                 ReIndexType.REINDEX_X -> {
-                    this.currentTranslationX = translationX
                     targetTranslationX = sideTargetTranslationX()
                     changeTranslationX = sideChangeTranslationX()
-
-                    this.currentTranslationY = translationY
-                    targetTranslationY = targetTranslationY()
-                    changeTranslationY = changeTranslationY()
                 }
+                // 设置Y轴吸附效果
                 ReIndexType.REINDEX_Y -> {
-                    this.currentTranslationX = translationX
-                    targetTranslationX = targetTranslationX()
-                    changeTranslationX = changeTranslationX()
-
-                    this.currentTranslationY = translationY
                     targetTranslationY = sideTargetTranslationY()
                     changeTranslationY = sideChangeTranslationY()
                 }
+                // 设置XY轴回弹复位
                 ReIndexType.REINDEX_XY -> {
-                    this.currentTranslationX = translationX
                     targetTranslationX = 0f
                     changeTranslationX = reindexTranslationValue(translationX)
 
-                    this.currentTranslationY = translationY
                     targetTranslationY = 0f
                     changeTranslationY = reindexTranslationValue(translationY)
                 }
+                // 默认为move属性
                 ReIndexType.MOVE -> {
-                    this.currentTranslationX = translationX
-                    targetTranslationX = targetTranslationX()
-                    changeTranslationX = changeTranslationX()
-
-                    this.currentTranslationY = translationY
-                    targetTranslationY = targetTranslationY()
-                    changeTranslationY = changeTranslationY()
                 }
             }
 
@@ -402,6 +412,9 @@ class FloatingLayout : FrameLayout {
 
     }
 
+    /**
+     * 复位类型
+     */
     annotation class ReIndexType {
         companion object {
             const val MOVE = 0 // 不限制复位自由摆放
@@ -411,12 +424,18 @@ class FloatingLayout : FrameLayout {
         }
     }
 
+    /**
+     * 事件回调
+     */
     open class EventCallback {
         open fun onClicked() {}
         open fun onDragStart() {}
         open fun onDragEnd() {}
     }
 
+    /**
+     * 父容器属性
+     */
     internal data class ParentWindow(val parent: ViewGroup) {
         val left: Int = 0
 
