@@ -27,6 +27,16 @@
         app:menu="@menu/main_menu" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/floating_motion_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="26dp"
+        android:text="Motion"
+        app:icon="@drawable/vector_icon"
+        app:layout_constraintBottom_toTopOf="@id/floating_google_button"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/floating_google_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -52,6 +52,9 @@ class MainActivity : BaseActivity() {
         binding.floatingGoogleButton.setOnClickListener {
             startActivity(Intent(this, NewGoogleViewActivity::class.java))
         }
+        binding.floatingMotionButton.setOnClickListener {
+            startActivity(Intent(this, MotionLayoutActivity::class.java))
+        }
 
     }
 
