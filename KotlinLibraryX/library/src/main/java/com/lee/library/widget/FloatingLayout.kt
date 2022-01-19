@@ -207,8 +207,9 @@ class FloatingLayout : FrameLayout {
      * 位置重置
      */
     private fun onReIndex() {
+        if (translationX == 0F && translationY == 0F) return
+
         //平移回到该view水平方向的初始点
-        if (scaleX == 1.0F && translationX == 0F && translationY == 0F) return
         mAnimation.initValue()
         startAnimation(mAnimation)
     }
