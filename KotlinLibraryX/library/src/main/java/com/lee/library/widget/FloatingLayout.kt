@@ -445,9 +445,9 @@ class FloatingLayout : FrameLayout {
     internal data class ParentWindow(val parent: ViewGroup) {
         val left: Int = 0
 
-        val right: Int = parent.right - parent.left
-
         val top: Int = 0
+
+        val right: Int = parent.right - parent.left
 
         val bottom: Int = parent.bottom - parent.top
 
