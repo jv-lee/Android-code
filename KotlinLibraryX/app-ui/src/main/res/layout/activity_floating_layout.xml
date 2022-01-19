@@ -17,6 +17,12 @@
             android:id="@+id/floatingClick"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:foregroundColor="#000000"
+            app:foregroundMarginBottom="13dp"
+            app:foregroundMarginLeft="13dp"
+            app:foregroundMarginRight="13dp"
+            app:foregroundMarginTop="10dp"
+            app:foregroundRadius="23dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -26,26 +32,17 @@
                 android:layout_margin="10dp"
                 app:shadowBlur="3dp"
                 app:shadowColor="#000000"
+                app:shadowFillColor="@color/colorPrimary"
                 app:shadowOffsetX="0dp"
                 app:shadowOffsetY="3dp"
                 app:shadowRound="23dp">
 
-                <com.lee.library.widget.SelectorTextView
-                    android:id="@+id/btn_selector"
+                <TextView
                     android:layout_width="200dp"
                     android:layout_height="46dp"
-                    android:layout_marginTop="10dp"
+                    android:gravity="center"
                     android:text="show Warn Dialog"
-                    app:buttonDisable="true"
-                    app:buttonRadius="23dp"
-                    app:disableBackgroundColor="@color/colorPrimary"
-                    app:disableStrokeColor="@android:color/holo_red_dark"
-                    app:disableTextColor="@android:color/white"
-                    app:normalBackgroundColor="@color/colorPrimary"
-                    app:normalTextColor="@android:color/black"
-                    app:pressedBackgroundColor="@color/colorThemeAccent"
-                    app:pressedTextColor="@android:color/white"
-                    app:rippleMode="defaultMode" />
+                    android:textColor="@android:color/white" />
 
             </com.lee.library.widget.ShadowConstraintLayout>
 
@@ -63,6 +60,7 @@
             android:layout_height="100dp"
             android:layout_marginBottom="100dp"
             android:background="@color/colorThemeAccent"
+            app:foregroundColor="#000000"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:reindex_type="reindex_xy">
@@ -87,6 +85,7 @@
             android:layout_height="100dp"
             android:layout_marginBottom="100dp"
             android:background="@color/colorThemeAccent"
+            app:foregroundColor="#000000"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:reindex_type="move">
@@ -110,6 +109,7 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:background="@color/colorThemeAccent"
+            app:foregroundColor="#000000"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:reindex_type="reindex_x">
@@ -133,6 +133,7 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:background="@color/colorThemeAccent"
+            app:foregroundColor="#000000"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:reindex_type="reindex_y">
@@ -158,6 +159,7 @@
             android:layout_height="100dp"
             android:layout_marginTop="200dp"
             android:background="@color/colorThemeAccent"
+            app:foregroundColor="#000000"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:limitBound="true"

@@ -2,6 +2,17 @@ package com.lee.library.widget
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.res.ColorStateList
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.RectF
+import android.graphics.drawable.Drawable
+import android.graphics.drawable.GradientDrawable
+import android.graphics.drawable.RippleDrawable
+import android.graphics.drawable.ShapeDrawable
+import android.graphics.drawable.shapes.RectShape
+import android.os.Build
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.ViewGroup
@@ -42,6 +53,13 @@ class FloatingLayout : FrameLayout {
     //是否限制边界拖动
     private var limitBound: Boolean = false
 
+    private var foregroundColor: Int = 0
+    private var foregroundRadius: Float = 0F
+    private var foregroundMarginLeft: Float = 0F
+    private var foregroundMarginTop: Float = 0F
+    private var foregroundMarginRight: Float = 0F
+    private var foregroundMarginBottom: Float = 0F
+
     constructor(context: Context) : this(context, null, 0)
 
     constructor(context: Context, attributes: AttributeSet?) : this(context, attributes, 0)
@@ -54,9 +72,48 @@ class FloatingLayout : FrameLayout {
         context.obtainStyledAttributes(attributes, R.styleable.FloatingLayout).run {
             reindexType = getInt(R.styleable.FloatingLayout_reindex_type, ReIndexType.MOVE)
             limitBound = getBoolean(R.styleable.FloatingLayout_limitBound, false)
+            foregroundColor =
+                getColor(R.styleable.FloatingLayout_foregroundColor, Color.TRANSPARENT)
+            foregroundRadius = getDimension(R.styleable.FloatingLayout_foregroundRadius, 0F)
+            foregroundMarginLeft = getDimension(R.styleable.FloatingLayout_foregroundMarginLeft, 0f)
+            foregroundMarginTop = getDimension(R.styleable.FloatingLayout_foregroundMarginTop, 0f)
+            foregroundMarginRight =
+                getDimension(R.styleable.FloatingLayout_foregroundMarginRight, 0f)
+            foregroundMarginBottom =
+                getDimension(R.styleable.FloatingLayout_foregroundMarginBottom, 0f)
             recycle()
         }
         mAnimation = ReIndexAnimation(reindexType)
+        initForeground()
+    }
+
+
+    private fun initForeground() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && foregroundColor != Color.TRANSPARENT) {
+            foreground = RippleDrawable(
+                ColorStateList.valueOf(foregroundColor),
+                createRippleContentDrawable(),
+                getShape()
+            )
+            isClickable = true
+        }
+    }
+
+    private fun createRippleContentDrawable() =
+        GradientDrawable().apply { setColor(Color.TRANSPARENT) }
+
+    private fun getShape(): Drawable {
+        return ShapeDrawable(object : RectShape() {
+            override fun draw(canvas: Canvas, paint: Paint) {
+                val rect = RectF(
+                    0F + foregroundMarginLeft,
+                    0F + foregroundMarginTop,
+                    width - foregroundMarginRight,
+                    height - foregroundMarginBottom
+                )
+                canvas.drawRoundRect(rect, foregroundRadius, foregroundRadius, paint)
+            }
+        })
     }
 
     override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
