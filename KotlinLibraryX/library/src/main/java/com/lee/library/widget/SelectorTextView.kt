@@ -10,6 +10,7 @@ import android.graphics.drawable.shapes.RectShape
 import android.os.Build
 import android.util.AttributeSet
 import android.view.Gravity
+import android.view.MotionEvent
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import com.lee.library.R
@@ -244,6 +245,23 @@ class SelectorTextView(context: Context, attributeSet: AttributeSet) :
     fun setDisableStrokeColor(color: Int) {
         disableStrokeColor = ContextCompat.getColor(context, color)
         initBackground()
+    }
+
+    fun performPressed() {
+        preformPressed(true)
+        postDelayed({
+            preformPressed(false)
+        }, 300)
+    }
+
+    fun preformPressed(enable: Boolean) {
+        if (enable) {
+            setButtonDisable(false)
+            isPressed = true
+        } else {
+            isPressed = false
+            setButtonDisable(true)
+        }
     }
 
 }
