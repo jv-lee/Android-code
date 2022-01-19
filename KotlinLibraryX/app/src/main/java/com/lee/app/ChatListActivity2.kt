@@ -4,12 +4,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.lee.app.adapter.ChatAdapter
 import com.lee.app.databinding.ActivityChatListBinding
 import com.lee.library.base.BaseVMActivity
-import com.lee.library.extensions.adjustResizeStatusBar
-import com.lee.library.extensions.keyboardObserver
 import com.lee.library.extensions.reverseLayout
 import com.lee.library.extensions.smoothScrollToTop
 import com.lee.library.mvvm.base.BaseViewModel
-import com.lee.library.tools.StatusTools
+import com.lee.library.tools.KeyboardTools.adjustResizeStatusBar
+import com.lee.library.tools.KeyboardTools.keyboardObserver
 import com.lee.library.tools.StatusTools.setDarkStatusIcon
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

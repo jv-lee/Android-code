@@ -430,18 +430,6 @@ fun ViewGroup.setMargin(left: Int = 0, top: Int = 0, right: Int = 0, bottom: Int
 }
 
 /**
- * 沉浸式状态栏 设置adjustResize 后 解决软键盘无法正常顶起解决方式
- */
-fun ViewGroup.adjustResizeStatusBar(
-    window: Window,
-    marginValue: Int = context.statusBarHeight
-) {
-    window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
-    fitsSystemWindows = true
-    setMargin(top = -marginValue)
-}
-
-/**
  * RecyclerView 反转布局方向
  */
 fun RecyclerView.reverseLayout() {
@@ -466,49 +454,6 @@ fun RecyclerView.smoothScrollToTop() {
 
     scrollToPosition(5)
     postDelayed({ smoothScrollToPosition(0) }, 50)
-}
-
-/**
- * 监听键盘弹起
- */
-inline fun View.keyboardObserver(
-    crossinline openObserver: () -> Unit = {},
-    crossinline closeObserver: () -> Unit = {}
-) {
-    var isOpen = false
-    val keyboardHeight = 200
-    viewTreeObserver.addOnGlobalLayoutListener {
-        val rect = android.graphics.Rect()
-        getWindowVisibleDisplayFrame(rect)
-
-        val height: Int = context.resources.displayMetrics.heightPixels
-        // 获取键盘抬高的高度
-        val diff: Int = height - rect.height()
-        if (diff > keyboardHeight && !isOpen) {
-            isOpen = true
-            openObserver()
-        } else if (diff < keyboardHeight && isOpen) {
-            isOpen = false
-            closeObserver()
-        }
-    }
-}
-
-/**
- * 监听键盘弹起
- */
-inline fun View.keyboardObserver(
-    crossinline keyboardObserver: (Int) -> Unit = {}
-) {
-    viewTreeObserver.addOnGlobalLayoutListener {
-        val rect = android.graphics.Rect()
-        getWindowVisibleDisplayFrame(rect)
-
-        val height: Int = context.resources.displayMetrics.heightPixels
-        // 获取键盘抬高的高度
-        val diff: Int = height - rect.height()
-        keyboardObserver(diff)
-    }
 }
 
 /**

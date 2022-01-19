@@ -9,7 +9,9 @@ import android.os.Build
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
+import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
+import com.lee.library.extensions.setMargin
 import com.lee.library.extensions.statusBarHeight
 import kotlin.math.abs
 
@@ -102,6 +104,61 @@ object KeyboardTools {
                 hideSoftInput()
             }
             false
+        }
+    }
+
+    /**
+     * 沉浸式状态栏 设置adjustResize 后 解决软键盘无法正常顶起解决方式
+     */
+    fun ViewGroup.adjustResizeStatusBar(
+        window: Window,
+        marginValue: Int = context.statusBarHeight
+    ) {
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+        fitsSystemWindows = true
+        setMargin(top = -marginValue)
+    }
+
+    /**
+     * 监听键盘弹起
+     */
+    inline fun View.keyboardObserver(
+        crossinline openObserver: () -> Unit = {},
+        crossinline closeObserver: () -> Unit = {}
+    ) {
+        var isOpen = false
+        val keyboardHeight = 200
+        viewTreeObserver.addOnGlobalLayoutListener {
+            val rect = android.graphics.Rect()
+            getWindowVisibleDisplayFrame(rect)
+
+            val height: Int = context.resources.displayMetrics.heightPixels
+            // 获取键盘抬高的高度
+            val diff: Int = height - rect.height()
+            if (diff > keyboardHeight && !isOpen) {
+                isOpen = true
+                openObserver()
+            } else if (diff < keyboardHeight && isOpen) {
+                isOpen = false
+                closeObserver()
+            }
+        }
+    }
+
+    /**
+     * 监听键盘弹起
+     */
+    inline fun View.keyboardObserver(
+        crossinline keyboardObserver: (Int) -> Unit = {}
+    ) {
+        viewTreeObserver.addOnGlobalLayoutListener {
+            val rect = android.graphics.Rect()
+            getWindowVisibleDisplayFrame(rect)
+
+            val height: Int = context.resources.displayMetrics.heightPixels
+            // 获取键盘抬高的高度
+            val diff: Int = height - rect.height()
+            keyboardObserver(diff)
         }
     }
 
