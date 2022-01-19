@@ -35,17 +35,6 @@ class FloatingLayoutActivity : BaseActivity() {
         binding.floatingClick.setEventCallback(object : FloatingLayout.EventCallback() {
             override fun onClicked() {
                 LogUtil.i("click")
-//                binding.btnSelector.performPressed()
-            }
-
-            override fun onDragEnd() {
-                super.onDragEnd()
-//                binding.btnSelector.preformPressed(false)
-            }
-
-            override fun onDragStart() {
-                super.onDragStart()
-//                binding.btnSelector.preformPressed(true)
             }
         })
 
