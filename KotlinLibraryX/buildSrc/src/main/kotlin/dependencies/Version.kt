@@ -7,7 +7,7 @@ object Version {
     const val coroutines = "1.3.9"
     const val multidex = "2.0.1"
     const val appcompat = "1.4.0"
-    const val material = "1.1.0"
+    const val material = "1.3.0"
     const val recyclerview = "1.2.1"
     const val constraintLayout = "2.1.1"
     const val viewpager2 = "1.0.0"
