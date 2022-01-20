@@ -15,6 +15,7 @@ import java.lang.reflect.Type
  * @date 2021/10/29
  * @description 处理空字符串/数组转换为null的情况
  */
+@Suppress("UNCHECKED_CAST")
 class GsonDefaultAdapterFactory : TypeAdapterFactory {
 
     override fun <T : Any> create(gson: Gson, type: TypeToken<T>): TypeAdapter<T>? {

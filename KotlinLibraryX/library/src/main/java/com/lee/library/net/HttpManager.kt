@@ -5,7 +5,6 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonParser
 import com.lee.library.base.ApplicationExtensions.app
-import com.lee.library.base.BaseApplication
 import com.lee.library.net.adapter.DoubleDefaultAdapter
 import com.lee.library.net.adapter.GsonDefaultAdapterFactory
 import com.lee.library.net.adapter.IntegerDefaultAdapter
@@ -35,6 +34,8 @@ import java.io.File
 class HttpManager private constructor() {
 
     companion object {
+        private const val MAX_CACHE: Long = 10 * 1024 * 1024
+
         @Volatile
         private var instance: HttpManager? = null
         private var gson: Gson? = null
@@ -72,6 +73,7 @@ class HttpManager private constructor() {
         return getOkHttpClient(Request("https://android.cn", IRequest.ConverterType.JSON))
     }
 
+    @Suppress("UNCHECKED_CAST")
     fun <T> getService(serviceClass: Class<T>, request: Request): T {
         if (request.isDownload) {
             return createService(serviceClass, request)
@@ -85,6 +87,7 @@ class HttpManager private constructor() {
         }
     }
 
+    @Suppress("UNCHECKED_CAST")
     fun <T> getService(serviceClass: Class<T>, request: Request, client: OkHttpClient): T {
         if (request.isDownload) {
             return createService(serviceClass, request, client)
@@ -147,7 +150,7 @@ class HttpManager private constructor() {
 
         //cache
         val httpCacheDirectory = File(app.cacheDir, "OkHttpCache")
-        builder.cache(Cache(httpCacheDirectory, 10 * 1024 * 1024))
+        builder.cache(Cache(httpCacheDirectory, MAX_CACHE))
 
         mInterceptors.map {
             builder.addInterceptor(it)

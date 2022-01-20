@@ -145,7 +145,7 @@ class WheelView : RecyclerView {
         fun selected(item: T)
     }
 
-
+    @Suppress("UNCHECKED_CAST")
     fun <T> bindData(
         data: List<T>,
         dataFormat: DataFormat<T>,

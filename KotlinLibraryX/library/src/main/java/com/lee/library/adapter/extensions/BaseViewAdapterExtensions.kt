@@ -9,11 +9,12 @@ import com.lee.library.adapter.listener.LoadResource
  * @description
  */
 
-fun <T> BaseViewAdapter<T>.bindAllListener(cThis: Any) {
-    setOnItemClickListener(cThis as? BaseViewAdapter.OnItemClickListener<T>)
-    setOnItemLongClickListener(cThis as? BaseViewAdapter.OnItemLongClickListener<T>)
-    setOnItemChildClickListener(cThis as? BaseViewAdapter.OnItemChildView<T>)
-    setLoadErrorListener(cThis as? BaseViewAdapter.LoadErrorListener)
-    setAutoLoadMoreListener(cThis as? BaseViewAdapter.AutoLoadMoreListener)
-    setLoadResource(cThis as? LoadResource)
+@Suppress("UNCHECKED_CAST")
+inline fun <reified T> BaseViewAdapter<T>.bindAllListener(cThis: Any) {
+    (cThis as? BaseViewAdapter.OnItemClickListener<T>)?.run(this::setOnItemClickListener)
+    (cThis as? BaseViewAdapter.OnItemLongClickListener<T>)?.run(this::setOnItemLongClickListener)
+    (cThis as? BaseViewAdapter.OnItemChildView<T>)?.run(this::setOnItemChildClickListener)
+    (cThis as? BaseViewAdapter.LoadErrorListener)?.run(this::setLoadErrorListener)
+    (cThis as? BaseViewAdapter.AutoLoadMoreListener)?.run(this::setAutoLoadMoreListener)
+    (cThis as? LoadResource)?.run(this::setLoadResource)
 }

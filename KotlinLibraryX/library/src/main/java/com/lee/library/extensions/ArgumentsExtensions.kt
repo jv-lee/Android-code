@@ -2,6 +2,7 @@ package com.lee.library.extensions
 
 import android.app.Activity
 import android.os.Bundle
+import android.os.Parcelable
 import androidx.annotation.MainThread
 import androidx.fragment.app.Fragment
 import java.util.*
@@ -21,7 +22,7 @@ inline fun <reified P : Any> Activity.argumentsOrNull(key: String): Lazy<P?> =
     getIntentParamsOrNull(key)
 
 @MainThread
-inline fun <reified P : Any> Activity.argumentsList(key: String): Lazy<ArrayList<P>> =
+inline fun <reified P : Parcelable> Activity.argumentsList(key: String): Lazy<ArrayList<P>> =
     getIntentParamsList(key)
 
 @MainThread
@@ -33,7 +34,7 @@ inline fun <reified P : Any> Fragment.argumentsOrNull(key: String): Lazy<P?> =
     getArgumentsOrNullParams(key)
 
 @MainThread
-inline fun <reified P : Any> Fragment.argumentsList(key: String): Lazy<ArrayList<P>> =
+inline fun <reified P : Parcelable> Fragment.argumentsList(key: String): Lazy<ArrayList<P>> =
     getArgumentsParamsList(key)
 
 @MainThread
@@ -45,7 +46,7 @@ inline fun <reified P : Any> Fragment.activityArgumentsOrNull(key: String): Lazy
     getActivityIntentParamsOrNull(key)
 
 @MainThread
-inline fun <reified P : Any> Fragment.activityArgumentsList(key: String): Lazy<ArrayList<P>> =
+inline fun <reified P : Parcelable> Fragment.activityArgumentsList(key: String): Lazy<ArrayList<P>> =
     getActivityIntentParamsList(key)
 
 @MainThread
@@ -69,7 +70,7 @@ inline fun <reified P : Any> Activity.getIntentParamsOrNull(
 }
 
 @MainThread
-inline fun <reified P : Any> Activity.getIntentParamsList(key: String): Lazy<ArrayList<P>> {
+inline fun <reified P : Parcelable> Activity.getIntentParamsList(key: String): Lazy<ArrayList<P>> {
     return ParamsListLazy {
         checkNotNull(intent.extras) { "activity intent.extras is null." }
         intent.extras?.getValueList<P>(key) as ArrayList<P>
@@ -93,7 +94,7 @@ inline fun <reified P : Any> Fragment.getActivityIntentParamsOrNull(key: String)
 }
 
 @MainThread
-inline fun <reified P : Any> Fragment.getActivityIntentParamsList(key: String): Lazy<ArrayList<P>> {
+inline fun <reified P : Parcelable> Fragment.getActivityIntentParamsList(key: String): Lazy<ArrayList<P>> {
     return ParamsListLazy {
         checkNotNull(requireActivity().intent.extras) { "requestActivity().intent.extras is null." }
         requireActivity().intent.extras?.getValueList<P>(key) as ArrayList<P>
@@ -119,7 +120,7 @@ inline fun <reified P : Any> Fragment.getArgumentsOrNullParams(key: String): Laz
 }
 
 @MainThread
-inline fun <reified P : Any> Fragment.getArgumentsParamsList(
+inline fun <reified P : Parcelable> Fragment.getArgumentsParamsList(
     key: String
 ): Lazy<ArrayList<P>> {
     return ParamsListLazy {
@@ -212,9 +213,9 @@ inline fun <reified T> Bundle.getValueOrNull(key: String): T? {
     }
 }
 
-inline fun <reified T> Bundle.getValueList(key: String): ArrayList<T> {
+inline fun <reified T : Parcelable> Bundle.getValueList(key: String): ArrayList<T> {
     if (T::class.java.interfaces.contains(android.os.Parcelable::class.java)) {
-        return getParcelableArrayList<Nothing>(key) as? ArrayList<T> ?: arrayListOf<T>()
+        return getParcelableArrayList<T>(key) as? ArrayList<T> ?: arrayListOf()
     } else {
         throw RuntimeException("not type support.")
     }

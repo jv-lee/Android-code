@@ -23,13 +23,14 @@ class UiStatePageLiveData(
 
     fun getInitPage() = requestFirstPage
 
+    @Suppress("UNCHECKED_CAST")
     fun <T> getValueData(): T? {
         val value = this.value
         value ?: return null
         return when (value) {
-            is UiState.Success<*> -> value.data as T
+            is UiState.Success<*> -> value.data as? T
             is UiState.Failure<*> -> {
-                value.data as T?
+                value.data as? T
             }
             else -> {
                 null

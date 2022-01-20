@@ -94,7 +94,7 @@ open class WrappingViewPager(context:Context,attrs: AttributeSet?,private var is
     private fun clearVerticalViewEmptyPadding(){
         if (!isVertical)return
         val view = findViewById<View>(currentItem + 1)
-        view?.run {
+        view?.let {
             val paddingTop = view.paddingTop
             if (paddingTop >= diffPadding) {
                 view.setPadding(

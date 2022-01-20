@@ -3,9 +3,7 @@ package com.lee.library.dialog.multiple
 import android.app.Dialog
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.OnLifecycleEvent
+import androidx.lifecycle.*
 
 /**
  * @author jv.lee
@@ -35,12 +33,14 @@ internal class MultipleDialogAdapter(private val fragmentManager: FragmentManage
     private fun showDialogFragment(
         dialogFragment: DialogFragment
     ) {
-        dialogFragment.lifecycle.addObserver(object : LifecycleObserver {
-            @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-            fun onLifecycleCancel() {
-                dialogFragment.lifecycle.removeObserver(this)
-                nextCall.invoke()
+        dialogFragment.lifecycle.addObserver(object: LifecycleEventObserver{
+            override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
+                if (event == Lifecycle.Event.ON_DESTROY) {
+                    dialogFragment.lifecycle.removeObserver(this)
+                    nextCall.invoke()
+                }
             }
+
         })
 
         dialogFragment.show(fragmentManager, dialogFragment::class.java.simpleName)
