@@ -10,7 +10,7 @@ import android.graphics.drawable.shapes.RectShape
 import android.os.Build
 import android.util.AttributeSet
 import android.view.Gravity
-import android.view.MotionEvent
+import androidx.annotation.Keep
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import com.lee.library.R
@@ -38,29 +38,37 @@ import com.lee.library.extensions.dp2px
  * buttonDisable：是否可点击状态
  * rippleMode：点击扩散效果 noneMode：无 stateMode：扩散并且保持点击颜色变更 defaultMode：默认扩散效果
  */
-class SelectorTextView(context: Context, attributeSet: AttributeSet) :
-    AppCompatTextView(context, attributeSet) {
+@Keep
+class SelectorTextView : AppCompatTextView {
 
-    private var pressedBackgroundColor: Int
-    private var normalBackgroundColor: Int
-    private var disableBackgroundColor: Int
-    private var pressedTextColor: Int
-    private var normalTextColor: Int
-    private var disableTextColor: Int
-    private var pressedStrokeColor: Int
-    private var normalStrokeColor: Int
-    private var disableStrokeColor: Int
-    private var rippleMode: Int
-    private var strokeWidth: Float
-    private var buttonRadius: Float
-    private var buttonDisable: Boolean
+    private var pressedBackgroundColor: Int = 0
+    private var normalBackgroundColor: Int = 0
+    private var disableBackgroundColor: Int = 0
+    private var pressedTextColor: Int = 0
+    private var normalTextColor: Int = 0
+    private var disableTextColor: Int = 0
+    private var pressedStrokeColor: Int = 0
+    private var normalStrokeColor: Int = 0
+    private var disableStrokeColor: Int = 0
+    private var rippleMode: Int = 0
+    private var strokeWidth: Float = 0F
+    private var buttonRadius: Float = 0F
+    private var buttonDisable: Boolean = false
     private var disableBackgroundDrawable: GradientDrawable? = null
     private var stateBackgroundDrawable: StateListDrawable? = null
-    private var rippleBackgroundDrawable: RippleDrawable? = null
+    private var rippleBackgroundDrawable: Drawable? = null
     private var stateTextColorDrawable: ColorStateList? = null
 
-    init {
-        context.obtainStyledAttributes(attributeSet, R.styleable.SelectorTextView).run {
+    constructor(context: Context) : this(context, null, 0)
+
+    constructor(context: Context, attributes: AttributeSet?) : this(context, attributes, 0)
+
+    constructor(context: Context, attributes: AttributeSet?, defStyle: Int) : super(
+        context,
+        attributes,
+        defStyle
+    ){
+        context.obtainStyledAttributes(attributes, R.styleable.SelectorTextView).run {
             pressedBackgroundColor = getColor(
                 R.styleable.SelectorTextView_pressedBackgroundColor,
                 ContextCompat.getColor(context, android.R.color.transparent)
