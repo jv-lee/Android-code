@@ -1,11 +1,6 @@
 package com.lee.library.dialog.multiple
 
-import android.app.Dialog
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.OnLifecycleEvent
 import java.util.*
 
 /**

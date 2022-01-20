@@ -10,7 +10,7 @@ import androidx.fragment.app.FragmentStatePagerAdapter
  */
 class UiPagerAdapter : FragmentStatePagerAdapter {
 
-    private lateinit var fragmentList: List<Fragment>
+    private var fragmentList: List<Fragment>
     private lateinit var tabList: List<String>
 
     constructor(fm: FragmentManager, fragmentList: List<Fragment>) :

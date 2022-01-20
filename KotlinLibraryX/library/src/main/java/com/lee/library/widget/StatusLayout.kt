@@ -12,7 +12,7 @@ import com.lee.library.R
 
 /**
  * @author jv.lee
- * @description 状态栏Layout
+ * @description 状态切换视图Layout
  */
 class StatusLayout @JvmOverloads constructor(
     context: Context,
@@ -84,10 +84,10 @@ class StatusLayout @JvmOverloads constructor(
     }
 
     private fun initListener() {
-        errorRestart?.setOnClickListener { v: View? ->
+        errorRestart?.setOnClickListener {
             onReloadListener?.onReload()
         }
-        networkRestart?.setOnClickListener { v: View? ->
+        networkRestart?.setOnClickListener {
             onReloadListener?.onReload()
         }
     }
