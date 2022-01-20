@@ -207,6 +207,7 @@
         </attr>
         <attr name="foregroundColor" format="color" />
         <attr name="foregroundRadius" format="dimension" />
+        <attr name="foregroundMargin" format="dimension" />
         <attr name="foregroundMarginLeft" format="dimension" />
         <attr name="foregroundMarginTop" format="dimension" />
         <attr name="foregroundMarginRight" format="dimension" />

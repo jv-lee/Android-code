@@ -28,10 +28,7 @@ import kotlin.math.abs
  * @see FloatingLayout.limitBound  是否限制边界拖动
  * @see FloatingLayout.foregroundColor 点击前景颜色
  * @see FloatingLayout.foregroundRadius 点击前景圆角
- * @see FloatingLayout.foregroundMarginLeft 点击前景marginLeft值
- * @see FloatingLayout.foregroundMarginTop 点击前景marginTop值
- * @see FloatingLayout.foregroundMarginRight 点击前景marginRight值
- * @see FloatingLayout.foregroundMarginBottom 点击前景marginBottom值
+ * @see FloatingLayout.foregroundMargin 点击前景margin值
  */
 class FloatingLayout : FrameLayout {
 
@@ -60,6 +57,7 @@ class FloatingLayout : FrameLayout {
 
     private var foregroundColor: Int = 0
     private var foregroundRadius: Float = 0F
+    private var foregroundMargin: Float = 0F
     private var foregroundMarginLeft: Float = 0F
     private var foregroundMarginTop: Float = 0F
     private var foregroundMarginRight: Float = 0F
@@ -80,12 +78,15 @@ class FloatingLayout : FrameLayout {
             foregroundColor =
                 getColor(R.styleable.FloatingLayout_foregroundColor, Color.TRANSPARENT)
             foregroundRadius = getDimension(R.styleable.FloatingLayout_foregroundRadius, 0F)
-            foregroundMarginLeft = getDimension(R.styleable.FloatingLayout_foregroundMarginLeft, 0f)
-            foregroundMarginTop = getDimension(R.styleable.FloatingLayout_foregroundMarginTop, 0f)
+            foregroundMargin = getDimension(R.styleable.FloatingLayout_foregroundMargin, 0F)
+            foregroundMarginLeft =
+                getDimension(R.styleable.FloatingLayout_foregroundMarginLeft, foregroundMargin)
+            foregroundMarginTop =
+                getDimension(R.styleable.FloatingLayout_foregroundMarginTop, foregroundMargin)
             foregroundMarginRight =
-                getDimension(R.styleable.FloatingLayout_foregroundMarginRight, 0f)
+                getDimension(R.styleable.FloatingLayout_foregroundMarginRight, foregroundMargin)
             foregroundMarginBottom =
-                getDimension(R.styleable.FloatingLayout_foregroundMarginBottom, 0f)
+                getDimension(R.styleable.FloatingLayout_foregroundMarginBottom, foregroundMargin)
             recycle()
         }
         mAnimation = ReIndexAnimation(reindexType)
