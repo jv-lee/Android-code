@@ -3,7 +3,6 @@ package com.lee.library.tools
 import android.content.Context
 import android.content.SharedPreferences
 import com.lee.library.base.ApplicationExtensions.app
-import com.lee.library.base.BaseApplication
 
 /**
  * @author jv.lee
@@ -55,25 +54,26 @@ class PreferencesTools {
          * @param key          键名
          * @param defaultValue 根据key获取不到是默认值仅限于(String/int/float/boolean/long)
          */
-        @Synchronized
-        fun <T> get(key: String, defaultValue: T): T {
-            when (defaultValue) {
-                is String -> {
-                    return preferences.getString(key, defaultValue) as T
+        inline fun <reified T> get(key: String, defaultValue: T): T {
+            synchronized(preferences) {
+                when (defaultValue) {
+                    is String -> {
+                        return preferences.getString(key, defaultValue) as T
+                    }
+                    is Int -> {
+                        return preferences.getInt(key, defaultValue) as T
+                    }
+                    is Long -> {
+                        return preferences.getLong(key, defaultValue) as T
+                    }
+                    is Boolean -> {
+                        return preferences.getBoolean(key, defaultValue) as T
+                    }
+                    is Float -> {
+                        return preferences.getFloat(key, defaultValue) as T
+                    }
+                    else -> return defaultValue
                 }
-                is Int -> {
-                    return preferences.getInt(key, defaultValue) as T
-                }
-                is Long -> {
-                    return preferences.getLong(key, defaultValue) as T
-                }
-                is Boolean -> {
-                    return preferences.getBoolean(key, defaultValue) as T
-                }
-                is Float -> {
-                    return preferences.getFloat(key, defaultValue) as T
-                }
-                else -> return defaultValue
             }
         }
 
@@ -81,15 +81,16 @@ class PreferencesTools {
          * 获取Object类型数据 根据接收类型自动拆箱
          * @param key          键名
          */
-        @Synchronized
         inline fun <reified T> get(key: String): T {
-            return when (T::class.java) {
-                java.lang.String::class.java -> preferences.getString(key, "") as T
-                java.lang.Integer::class.java -> preferences.getInt(key, 0) as T
-                java.lang.Long::class.java -> preferences.getLong(key, 0L) as T
-                java.lang.Boolean::class.java -> preferences.getBoolean(key, false) as T
-                java.lang.Float::class.java -> preferences.getFloat(key, 0F) as T
-                else -> throw RuntimeException("not type support.")
+            synchronized(preferences) {
+                return when (T::class.java) {
+                    java.lang.String::class.java -> preferences.getString(key, "") as T
+                    java.lang.Integer::class.java -> preferences.getInt(key, 0) as T
+                    java.lang.Long::class.java -> preferences.getLong(key, 0L) as T
+                    java.lang.Boolean::class.java -> preferences.getBoolean(key, false) as T
+                    java.lang.Float::class.java -> preferences.getFloat(key, 0F) as T
+                    else -> throw RuntimeException("not type support.")
+                }
             }
         }
 
