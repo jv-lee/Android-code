@@ -26,16 +26,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-
-            <!--            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton-->
-            <!--                android:clickable="false"-->
-            <!--                app:icon="@drawable/vector_icon"-->
-            <!--                android:layout_width="wrap_content"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:layout_margin="10dp"-->
-            <!--                android:text="content" />-->
-
-
             <com.lee.library.widget.ShadowConstraintLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

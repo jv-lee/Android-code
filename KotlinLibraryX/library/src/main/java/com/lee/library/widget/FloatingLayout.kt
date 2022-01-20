@@ -7,10 +7,7 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.RectF
-import android.graphics.drawable.Drawable
-import android.graphics.drawable.GradientDrawable
-import android.graphics.drawable.RippleDrawable
-import android.graphics.drawable.ShapeDrawable
+import android.graphics.drawable.*
 import android.graphics.drawable.shapes.RectShape
 import android.os.Build
 import android.util.AttributeSet
@@ -27,6 +24,14 @@ import kotlin.math.abs
  * @author jv.lee
  * @date 2022/1/14
  * @description 可拖动Layout布局
+ * @see FloatingLayout.ReIndexType
+ * @see FloatingLayout.limitBound  是否限制边界拖动
+ * @see FloatingLayout.foregroundColor 点击前景颜色
+ * @see FloatingLayout.foregroundRadius 点击前景圆角
+ * @see FloatingLayout.foregroundMarginLeft 点击前景marginLeft值
+ * @see FloatingLayout.foregroundMarginTop 点击前景marginTop值
+ * @see FloatingLayout.foregroundMarginRight 点击前景marginRight值
+ * @see FloatingLayout.foregroundMarginBottom 点击前景marginBottom值
  */
 class FloatingLayout : FrameLayout {
 
@@ -89,20 +94,44 @@ class FloatingLayout : FrameLayout {
 
 
     private fun initForeground() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && foregroundColor != Color.TRANSPARENT) {
-            foreground = RippleDrawable(
+        if (foregroundColor == Color.TRANSPARENT) return
+
+        foreground = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            RippleDrawable(
                 ColorStateList.valueOf(foregroundColor),
                 createRippleContentDrawable(),
-                getShape()
+                getRippleShape()
             )
-            isClickable = true
+        } else {
+            StateListDrawable().apply {
+                addState(intArrayOf(android.R.attr.state_pressed), getCompatShape())
+            }
         }
+
+        isClickable = true
     }
 
     private fun createRippleContentDrawable() =
         GradientDrawable().apply { setColor(Color.TRANSPARENT) }
 
-    private fun getShape(): Drawable {
+    private fun getCompatShape(): Drawable {
+        return ShapeDrawable(object : RectShape() {
+            override fun draw(canvas: Canvas, paint: Paint) {
+                paint.style = Paint.Style.FILL
+                paint.color = foregroundColor
+                paint.alpha = 100
+                val rect = RectF(
+                    0F + foregroundMarginLeft,
+                    0F + foregroundMarginTop,
+                    width - foregroundMarginRight,
+                    height - foregroundMarginBottom
+                )
+                canvas.drawRoundRect(rect, foregroundRadius, foregroundRadius, paint)
+            }
+        })
+    }
+
+    private fun getRippleShape(): Drawable {
         return ShapeDrawable(object : RectShape() {
             override fun draw(canvas: Canvas, paint: Paint) {
                 val rect = RectF(
