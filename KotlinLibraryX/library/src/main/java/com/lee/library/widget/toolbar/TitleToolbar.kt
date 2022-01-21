@@ -142,7 +142,7 @@ open class TitleToolbar : CustomToolbarLayout {
             ellipsize = TextUtils.TruncateAt.END
             typeface = Typeface.DEFAULT_BOLD
             visibility = titleEnable
-            textSize = context.px2sp(resources.getDimension(R.dimen.font_size_medium).toInt())
+            textSize = context.px2sp(16)
             addView(this)
         }
     }

@@ -19,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/baseDarkColor"
-            android:textSize="@dimen/font_size_small"
+            android:textSize="14sp"
             app:layout_constraintBottom_toTopOf="@id/line1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -32,7 +32,7 @@
             android:gravity="center"
             android:text="@string/str_cancel"
             android:textColor="#0C5FC0"
-            android:textSize="@dimen/font_size_medium"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -43,7 +43,7 @@
             android:gravity="center"
             android:text="@string/str_confirm"
             android:textColor="#0C5FC0"
-            android:textSize="@dimen/font_size_medium"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
