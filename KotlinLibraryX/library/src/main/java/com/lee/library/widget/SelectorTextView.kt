@@ -3,6 +3,7 @@ package com.lee.library.widget
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.RectF
 import android.graphics.drawable.*
@@ -67,43 +68,43 @@ class SelectorTextView : AppCompatTextView {
         context,
         attributes,
         defStyle
-    ){
+    ) {
         context.obtainStyledAttributes(attributes, R.styleable.SelectorTextView).run {
             pressedBackgroundColor = getColor(
                 R.styleable.SelectorTextView_pressedBackgroundColor,
-                ContextCompat.getColor(context, android.R.color.transparent)
+                Color.TRANSPARENT
             )
             normalBackgroundColor = getColor(
                 R.styleable.SelectorTextView_normalBackgroundColor,
-                ContextCompat.getColor(context, android.R.color.transparent)
+                Color.TRANSPARENT
             )
             pressedTextColor = getColor(
                 R.styleable.SelectorTextView_pressedTextColor,
-                ContextCompat.getColor(context, android.R.color.black)
+                ContextCompat.getColor(context,R.color.baseDarkColor)
             )
             normalTextColor = getColor(
                 R.styleable.SelectorTextView_normalTextColor,
-                ContextCompat.getColor(context, android.R.color.black)
+                ContextCompat.getColor(context,R.color.baseDarkColor)
             )
             disableBackgroundColor = getColor(
                 R.styleable.SelectorTextView_disableBackgroundColor,
-                ContextCompat.getColor(context, android.R.color.transparent)
+                Color.TRANSPARENT
             )
             disableTextColor = getColor(
                 R.styleable.SelectorTextView_disableTextColor,
-                ContextCompat.getColor(context, android.R.color.black)
+                ContextCompat.getColor(context,R.color.baseDarkColor)
             )
             pressedStrokeColor = getColor(
                 R.styleable.SelectorTextView_pressedStrokeColor,
-                ContextCompat.getColor(context, android.R.color.transparent)
+                Color.TRANSPARENT
             )
             normalStrokeColor = getColor(
                 R.styleable.SelectorTextView_normalStrokeColor,
-                ContextCompat.getColor(context, android.R.color.transparent)
+                Color.TRANSPARENT
             )
             disableStrokeColor = getColor(
                 R.styleable.SelectorTextView_disableStrokeColor,
-                ContextCompat.getColor(context, android.R.color.transparent)
+                Color.TRANSPARENT
             )
             strokeWidth = getDimension(R.styleable.SelectorTextView_strokeWidth, 0f)
             buttonRadius =

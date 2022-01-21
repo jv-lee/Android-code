@@ -58,21 +58,21 @@ open class TitleToolbar : CustomToolbarLayout {
         titleText = typeArray.getString(R.styleable.TitleToolbar_titleText) ?: ""
         titleColor = typeArray.getColor(
             R.styleable.TitleToolbar_titleColor,
-            ContextCompat.getColor(context, R.color.colorThemeAccent)
+            ContextCompat.getColor(context, R.color.baseDarkColor)
         )
         backIcon =
             typeArray.getResourceId(R.styleable.TitleToolbar_backIcon, R.drawable.vector_back)
         backIconTint =
             typeArray.getColor(
                 R.styleable.TitleToolbar_backIconTint,
-                ContextCompat.getColor(context, R.color.colorThemeAccent)
+                ContextCompat.getColor(context, R.color.baseDarkColor)
             )
         moreIcon =
             typeArray.getResourceId(R.styleable.TitleToolbar_moreIcon, R.drawable.vector_more)
         moreIconTint =
             typeArray.getColor(
                 R.styleable.TitleToolbar_moreIconTint,
-                ContextCompat.getColor(context, R.color.colorThemeAccent)
+                ContextCompat.getColor(context, R.color.baseDarkColor)
             )
         menuRes = typeArray.getResourceId(R.styleable.TitleToolbar_menuRes, 0)
         titleEnable = typeArray.getInt(R.styleable.TitleToolbar_titleEnable, View.VISIBLE)
@@ -199,7 +199,7 @@ open class TitleToolbar : CustomToolbarLayout {
     /**
      * 设置Back按键资源
      */
-    fun setBackDrawableRes(drawable: Int, tint: Int = R.color.colorThemeAccent) {
+    fun setBackDrawableRes(drawable: Int, tint: Int = R.color.baseDarkColor) {
         ivBack.setImageTintCompat(drawable, ContextCompat.getColor(context, tint))
     }
 
@@ -217,7 +217,7 @@ open class TitleToolbar : CustomToolbarLayout {
     /**
      * 设置More按键资源
      */
-    fun setMoreDrawableRes(drawable: Int, tint: Int = R.color.colorThemeAccent) {
+    fun setMoreDrawableRes(drawable: Int, tint: Int = R.color.baseDarkColor) {
         ivMore.setImageTintCompat(drawable, ContextCompat.getColor(context, tint))
     }
 

@@ -54,7 +54,7 @@
                 app:disableTextColor="@android:color/white"
                 app:normalBackgroundColor="@color/colorPrimary"
                 app:normalTextColor="@android:color/black"
-                app:pressedBackgroundColor="@color/colorThemeAccent"
+                app:pressedBackgroundColor="@color/colorAccent"
                 app:pressedTextColor="@android:color/white"
                 app:rippleMode="defaultMode" />
 
@@ -73,7 +73,7 @@
             app:disableTextColor="@android:color/white"
             app:normalBackgroundColor="@color/colorPrimary"
             app:normalTextColor="@android:color/black"
-            app:pressedBackgroundColor="@color/colorThemeAccent"
+            app:pressedBackgroundColor="@color/colorAccent"
             app:pressedTextColor="@android:color/white"
             app:rippleMode="stateMode"
             app:strokeWidth="2dp" />
@@ -91,7 +91,7 @@
             app:disableTextColor="@android:color/white"
             app:normalBackgroundColor="@color/colorPrimary"
             app:normalTextColor="@android:color/black"
-            app:pressedBackgroundColor="@color/colorThemeAccent"
+            app:pressedBackgroundColor="@color/colorAccent"
             app:pressedTextColor="@android:color/white"
             app:strokeWidth="2dp" />
 
@@ -120,8 +120,8 @@
                 app:normalBackgroundColor="@color/colorPrimary"
                 app:normalStrokeColor="@color/colorPrimary"
                 app:normalTextColor="@android:color/black"
-                app:pressedBackgroundColor="@color/colorThemeAccent"
-                app:pressedStrokeColor="@color/colorThemeAccent"
+                app:pressedBackgroundColor="@color/colorAccent"
+                app:pressedStrokeColor="@color/colorAccent"
                 app:pressedTextColor="@android:color/white"
                 app:strokeWidth="2dp" />
 

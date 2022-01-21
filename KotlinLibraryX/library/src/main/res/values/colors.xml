@@ -1,18 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--  系统颜色  -->
-    <color name="colorPrimary">#9B9B9B</color>
-    <color name="colorPrimaryDark">#414141</color>
-    <color name="colorAccent">#191919</color>
-
-    <!--  主题颜色  -->
-    <color name="colorThemePrimary">#9B9B9B</color>
-    <color name="colorThemePrimaryDark">#414141</color>
-    <color name="colorThemeAccent">#191919</color>
-    <color name="colorThemeWindow">#FFFFFF</color>
-    <color name="colorThemeBackground">#F6F6F6</color>
-    <color name="colorThemeItem">#FFFFFF</color>
-    <color name="colorThemeSearch">#F0F0F0</color>
-    <color name="colorThemePlaceholder">#F9F9F9</color>
-
+    <color name="baseBackgroundColor">#FFFFFF</color>
+    <color name="baseItemColor">#FFFFFF</color>
+    <color name="baseDarkColor">#191919</color>
+    <color name="baseLightColor">#9B9B9B</color>
 </resources>

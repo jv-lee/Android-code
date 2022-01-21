@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:textColor="@color/colorThemePrimary"
+            android:textColor="@color/baseLightColor"
             android:text="@string/page_load_empty" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="70dp"
             android:text="@string/page_load_error"
-            android:textColor="@color/colorThemePrimary"
+            android:textColor="@color/baseLightColor"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"

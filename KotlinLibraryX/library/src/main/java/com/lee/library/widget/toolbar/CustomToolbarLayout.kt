@@ -48,7 +48,7 @@ open class CustomToolbarLayout : ConstraintLayout {
      */
     open fun initBackground() {
         background ?: kotlin.run {
-            setBackgroundColor(ContextCompat.getColor(context, R.color.colorThemeItem))
+            setBackgroundColor(ContextCompat.getColor(context, R.color.baseItemColor))
         }
     }
 
@@ -79,7 +79,7 @@ open class CustomToolbarLayout : ConstraintLayout {
             lineView.setBackgroundColor(
                 ContextCompat.getColor(
                     context,
-                    R.color.colorThemeBackground
+                    R.color.baseBackgroundColor
                 )
             )
         }

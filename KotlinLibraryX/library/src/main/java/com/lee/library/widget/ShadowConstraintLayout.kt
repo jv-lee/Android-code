@@ -18,6 +18,10 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.graphics.toRect
 import com.lee.library.R
 import com.lee.library.extensions.dp2px
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlin.math.abs
 
 
@@ -66,12 +70,12 @@ class ShadowConstraintLayout(context: Context, attributeSet: AttributeSet) :
     init {
         context.obtainStyledAttributes(attributeSet, R.styleable.ShadowConstraintLayout).run {
             outLineWidth = getDimension(R.styleable.ShadowConstraintLayout_outLineWidth, 0f)
-            outLineColor = getColor(R.styleable.ShadowConstraintLayout_outLineColor, Color.BLACK)
+            outLineColor = getColor(R.styleable.ShadowConstraintLayout_outLineColor, Color.TRANSPARENT)
             shadowRound = getDimension(R.styleable.ShadowConstraintLayout_shadowRound, 10F)
             shadowBlur = getDimension(R.styleable.ShadowConstraintLayout_shadowBlur, 10F)
-            shadowColor = getColor(R.styleable.ShadowConstraintLayout_shadowColor, Color.BLACK)
+            shadowColor = getColor(R.styleable.ShadowConstraintLayout_shadowColor, Color.TRANSPARENT)
             shadowFillColor =
-                getColor(R.styleable.ShadowConstraintLayout_shadowFillColor, Color.WHITE)
+                getColor(R.styleable.ShadowConstraintLayout_shadowFillColor, Color.TRANSPARENT)
             shadowOffsetX = getDimension(R.styleable.ShadowConstraintLayout_shadowOffsetX, 0F)
             shadowOffsetY = getDimension(R.styleable.ShadowConstraintLayout_shadowOffsetY, 0F)
             rippleEnable = getBoolean(R.styleable.ShadowConstraintLayout_rippleEnable, false)
@@ -91,7 +95,10 @@ class ShadowConstraintLayout(context: Context, attributeSet: AttributeSet) :
 
         //设置前景
         if (rippleEnable && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            super.setForeground(createRippleDrawable())
+            CoroutineScope(Dispatchers.Main).launch {
+                val drawable = withContext(Dispatchers.IO) { createRippleDrawable() }
+                super.setForeground(drawable)
+            }
         }
     }
 
@@ -230,7 +237,8 @@ class ShadowConstraintLayout(context: Context, attributeSet: AttributeSet) :
             intArrayOf()
         )
 
-        val attr = context.theme.obtainStyledAttributes(intArrayOf(android.R.attr.colorControlHighlight))
+        val attr =
+            context.theme.obtainStyledAttributes(intArrayOf(android.R.attr.colorControlHighlight))
         val color = attr.getColor(0, Color.TRANSPARENT)
         attr.recycle()
 

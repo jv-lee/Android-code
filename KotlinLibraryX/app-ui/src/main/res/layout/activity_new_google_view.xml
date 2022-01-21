@@ -8,8 +8,8 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorThemePrimary"
         android:fitsSystemWindows="true"
+        android:elevation="1dp"
         app:layout_constraintTop_toTopOf="parent"
         app:menu="@menu/main_menu"
         app:navigationIcon="@drawable/vector_back"
@@ -27,42 +27,42 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="chip"
-            app:chipBackgroundColor="@color/colorThemePrimary"
+            app:chipBackgroundColor="@color/colorPrimary"
             app:chipCornerRadius="10dp" />
 
         <com.google.android.material.chip.Chip
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="chip"
-            app:chipBackgroundColor="@color/colorThemePrimary"
+            app:chipBackgroundColor="@color/colorPrimary"
             app:chipCornerRadius="10dp" />
 
         <com.google.android.material.chip.Chip
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="chipsssss"
-            app:chipBackgroundColor="@color/colorThemePrimary"
+            app:chipBackgroundColor="@color/colorPrimary"
             app:chipCornerRadius="10dp" />
 
         <com.google.android.material.chip.Chip
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="chips"
-            app:chipBackgroundColor="@color/colorThemePrimary"
+            app:chipBackgroundColor="@color/colorPrimary"
             app:chipCornerRadius="10dp" />
 
         <com.google.android.material.chip.Chip
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="chips"
-            app:chipBackgroundColor="@color/colorThemePrimary"
+            app:chipBackgroundColor="@color/colorPrimary"
             app:chipCornerRadius="10dp" />
 
         <com.google.android.material.chip.Chip
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="chip"
-            app:chipBackgroundColor="@color/colorThemePrimary"
+            app:chipBackgroundColor="@color/colorPrimary"
             app:chipCornerRadius="10dp" />
 
     </com.google.android.material.chip.ChipGroup>

@@ -8,6 +8,8 @@ import android.os.Build
 import android.util.DisplayMetrics
 import android.util.TypedValue
 import android.view.WindowManager
+import androidx.annotation.ColorRes
+import androidx.core.content.ContextCompat
 import com.lee.library.base.ApplicationExtensions.app
 import com.lee.library.tools.StatusTools.checkHasNavigationBar
 
@@ -178,4 +180,28 @@ fun Context.applyDimension(value: Float, unit: Int): Float {
         }
     }
     return 0F
+}
+
+/**
+ * 获取当前主题颜色属性值
+ * @param attrId 属性值
+ */
+fun Context.getThemeColor(
+    attrId: Int,
+    @ColorRes defaultId: Int = android.R.color.transparent
+): Int {
+    return theme.obtainStyledAttributes(intArrayOf(attrId))
+        .getColor(0, ContextCompat.getColor(this, defaultId))
+}
+
+/**
+ * 获取当前主题像素值属性值
+ * @param attrId 属性值
+ */
+fun Context.getThemeDimension(
+    attrId: Int,
+    defaultValue: Float = 0F
+): Float {
+    return theme.obtainStyledAttributes(intArrayOf(attrId))
+        .getDimension(0, defaultValue)
 }

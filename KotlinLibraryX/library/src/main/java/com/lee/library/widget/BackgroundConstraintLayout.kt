@@ -1,10 +1,10 @@
 package com.lee.library.widget
 
 import android.content.Context
+import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.util.AttributeSet
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
 import com.lee.library.R
 
 /**
@@ -26,11 +26,11 @@ class BackgroundConstraintLayout constructor(
         context.obtainStyledAttributes(attributeSet, R.styleable.BackgroundConstraintLayout).run {
             layoutBackgroundColor = getColor(
                 R.styleable.BackgroundConstraintLayout_layoutBackgroundColor,
-                ContextCompat.getColor(context, android.R.color.black)
+                Color.TRANSPARENT
             )
             layoutStrokeColor = getColor(
                 R.styleable.BackgroundConstraintLayout_layoutStrokeColor,
-                ContextCompat.getColor(context, android.R.color.black)
+                Color.TRANSPARENT
             )
             layoutStrokeWidth =
                 getDimension(R.styleable.BackgroundConstraintLayout_layoutStrokeWidth, 0f)

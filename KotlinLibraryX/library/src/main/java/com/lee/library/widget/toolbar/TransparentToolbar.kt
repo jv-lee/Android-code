@@ -1,6 +1,7 @@
 package com.lee.library.widget.toolbar
 
 import android.content.Context
+import android.graphics.Color
 import android.util.AttributeSet
 import androidx.core.content.ContextCompat
 import com.lee.library.widget.toolbar.TitleToolbar
@@ -20,7 +21,7 @@ class TransparentToolbar : TitleToolbar {
     )
 
     override fun initBackground() {
-        setBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent))
+        setBackgroundColor(Color.TRANSPARENT)
     }
 
 }

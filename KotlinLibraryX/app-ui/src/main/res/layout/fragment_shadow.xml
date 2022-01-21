@@ -288,11 +288,11 @@
             android:layout_width="match_parent"
             android:layout_height="168dp"
             android:layout_marginTop="16dp"
-            app:outLineColor="@color/colorThemeAccent"
+            app:outLineColor="@color/colorAccent"
             app:outLineWidth="2dp"
             app:shadowBlur="4dp"
             app:shadowColor="@color/colorPrimaryDark"
-            app:shadowFillColor="@color/colorThemePrimary"
+            app:shadowFillColor="@color/colorPrimaryDark"
             app:shadowOffsetX="0dp"
             app:shadowOffsetY="0dp"
             app:shadowRound="12dp">

@@ -57,7 +57,7 @@ class CustomPopupMenuHelper(var context: Context, var menuResId: Int) : View.OnC
             ViewGroup.LayoutParams.WRAP_CONTENT
         )
         radius = context.dp2px(6)
-        setCardBackgroundColor(ContextCompat.getColor(context, R.color.colorThemeItem))
+        setCardBackgroundColor(ContextCompat.getColor(context, R.color.baseItemColor))
     }
 
 }
