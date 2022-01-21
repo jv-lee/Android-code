@@ -3,14 +3,19 @@ package com.lee.library.widget.menu
 import android.content.Context
 import android.graphics.drawable.ColorDrawable
 import android.view.View
+import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.PopupWindow
+import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
+import com.lee.library.R
+import com.lee.library.extensions.dp2px
 import com.lee.library.widget.toolbar.TitleToolbar
 
 /**
  * @author jv.lee
  * @date 2020/4/22
- * @description
+ * @description 自定义popupMenu弹窗帮助类
  */
 class CustomPopupMenuHelper(var context: Context, var menuResId: Int) : View.OnClickListener {
 
@@ -19,10 +24,12 @@ class CustomPopupMenuHelper(var context: Context, var menuResId: Int) : View.OnC
     private val menuInflater by lazy { CustomMenuInflater(context) }
 
     private val rootView: View by lazy {
-        menuInflater.apply { inflate(menuResId) }.buildMenuView().also {
-            for (index in 0..it.childCount) {
-                it.getChildAt(index)?.setOnClickListener(this)
-            }
+        createCardView().also { card ->
+            card.addView(menuInflater.apply { inflate(menuResId) }.buildMenuView().also {
+                for (index in 0..it.childCount) {
+                    it.getChildAt(index)?.setOnClickListener(this)
+                }
+            })
         }
     }
 
@@ -37,7 +44,6 @@ class CustomPopupMenuHelper(var context: Context, var menuResId: Int) : View.OnC
         }
     }
 
-
     override fun onClick(v: View?) {
         v?.let {
             menuPW.dismiss()
@@ -45,5 +51,13 @@ class CustomPopupMenuHelper(var context: Context, var menuResId: Int) : View.OnC
         }
     }
 
+    private fun createCardView() = CardView(context).apply {
+        layoutParams = ViewGroup.LayoutParams(
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        radius = context.dp2px(6)
+        setCardBackgroundColor(ContextCompat.getColor(context, R.color.colorThemeItem))
+    }
 
 }

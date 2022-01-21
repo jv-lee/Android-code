@@ -42,7 +42,6 @@ class CustomMenuInflater(var context: Context) {
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT
             )
-            setBackgroundResource(R.drawable.shape_theme_menu)
             orientation = LinearLayout.VERTICAL
             gravity = Gravity.CENTER_HORIZONTAL
         }
