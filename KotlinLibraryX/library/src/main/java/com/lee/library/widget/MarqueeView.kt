@@ -14,7 +14,6 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.TextView
 import com.lee.library.R
-import com.lee.library.extensions.px2sp
 
 /**
  * @author jv.lee
@@ -42,7 +41,7 @@ class MarqueeView @JvmOverloads constructor(
     ) {
         val typedArray = context.obtainStyledAttributes(attrs, R.styleable.MarqueeView)
         fontColor = typedArray.getColor(R.styleable.MarqueeView_font_color, Color.WHITE)
-        fontSize = typedArray.getDimension(R.styleable.MarqueeView_font_size, context.px2sp(16))
+        fontSize = typedArray.getDimension(R.styleable.MarqueeView_font_size, 16f)
         leftDrawable = typedArray.getDrawable(R.styleable.MarqueeView_left_drawable)
         typedArray.recycle()
     }
@@ -67,7 +66,7 @@ class MarqueeView @JvmOverloads constructor(
                 ViewGroup.LayoutParams.MATCH_PARENT
             )
             gravity = Gravity.CENTER_VERTICAL
-            textSize = context.px2sp(fontSize.toInt())
+            textSize = fontSize
             setTextColor(fontColor)
             setCompoundDrawables(leftDrawable?.apply {
                 setBounds(

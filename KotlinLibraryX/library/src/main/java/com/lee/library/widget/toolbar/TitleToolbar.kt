@@ -15,7 +15,6 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
 import com.lee.library.R
-import com.lee.library.extensions.px2sp
 import com.lee.library.extensions.setImageTintCompat
 import com.lee.library.extensions.setSelectableItemForeground
 import com.lee.library.extensions.setTextColorCompat
@@ -142,7 +141,7 @@ open class TitleToolbar : CustomToolbarLayout {
             ellipsize = TextUtils.TruncateAt.END
             typeface = Typeface.DEFAULT_BOLD
             visibility = titleEnable
-            textSize = context.px2sp(16)
+            textSize = 16f
             addView(this)
         }
     }

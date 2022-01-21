@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.lee.library.R
-import com.lee.library.extensions.px2sp
 import kotlin.math.roundToInt
 
 /**
@@ -60,9 +59,9 @@ class WheelView : RecyclerView {
         )
 
         selectedTextSize =
-            typeArray.getDimension(R.styleable.WheelView_selected_text_size, context.px2sp(18))
+            typeArray.getDimension(R.styleable.WheelView_selected_text_size, 18f)
         unSelectedTextSize =
-            typeArray.getDimension(R.styleable.WheelView_unSelected_text_size, context.px2sp(16))
+            typeArray.getDimension(R.styleable.WheelView_unSelected_text_size, 16f)
 
         typeArray.recycle()
     }
