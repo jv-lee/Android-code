@@ -6,9 +6,7 @@ import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
+import androidx.lifecycle.*
 import com.lee.library.R
 import com.lee.library.utils.ActivityUtil
 import kotlinx.coroutines.CoroutineScope
@@ -111,5 +109,15 @@ inline fun Fragment.delayBackEvent(
         }
     }.apply {
         requireActivity().onBackPressedDispatcher.addCallback(this@delayBackEvent, this)
+
+        // 生命周期解绑
+        viewLifecycleOwner.lifecycle.addObserver(object : LifecycleEventObserver {
+            override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
+                if (event == Lifecycle.Event.ON_DESTROY) {
+                    remove()
+                    viewLifecycleOwner.lifecycle.removeObserver(this)
+                }
+            }
+        })
     }
 }

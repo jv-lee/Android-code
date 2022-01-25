@@ -9,9 +9,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
+import androidx.lifecycle.*
 import com.lee.library.R
 import com.lee.library.utils.ActivityUtil
 import kotlinx.coroutines.CoroutineScope
@@ -72,6 +70,16 @@ inline fun FragmentActivity.banBackEvent(crossinline handler: () -> Unit = {}): 
         }
     }.apply {
         onBackPressedDispatcher.addCallback(this@banBackEvent, this)
+
+        // 生命周期解绑
+        lifecycle.addObserver(object : LifecycleEventObserver {
+            override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
+                if (event == Lifecycle.Event.ON_DESTROY) {
+                    remove()
+                    lifecycle.removeObserver(this)
+                }
+            }
+        })
     }
 }
 
@@ -100,6 +108,16 @@ inline fun FragmentActivity.delayBackEvent(
         }
     }.apply {
         onBackPressedDispatcher.addCallback(this@delayBackEvent, this)
+
+        // 生命周期解绑
+        lifecycle.addObserver(object : LifecycleEventObserver {
+            override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
+                if (event == Lifecycle.Event.ON_DESTROY) {
+                    remove()
+                    lifecycle.removeObserver(this)
+                }
+            }
+        })
     }
 }
 
@@ -148,7 +166,7 @@ fun Activity.unbindFragmentLifecycle(@NonNull cb: FragmentManager.FragmentLifecy
  */
 inline fun FragmentActivity.launchAndRepeatWithViewLifecycle(
     minActiveState: Lifecycle.State = Lifecycle.State.STARTED,
-    crossinline block:suspend CoroutineScope.() -> Unit
+    crossinline block: suspend CoroutineScope.() -> Unit
 ) {
     lifecycleScope.launch {
         lifecycle.repeatOnLifecycle(minActiveState) {
