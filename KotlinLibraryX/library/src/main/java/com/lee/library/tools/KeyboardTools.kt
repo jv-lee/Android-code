@@ -11,6 +11,10 @@ import android.view.ViewGroup
 import android.view.Window
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.findViewTreeLifecycleOwner
 import com.lee.library.extensions.setMargin
 import com.lee.library.extensions.statusBarHeight
 import kotlin.math.abs
@@ -124,12 +128,13 @@ object KeyboardTools {
      */
     inline fun View.keyboardObserver(
         crossinline openObserver: () -> Unit = {},
-        crossinline closeObserver: () -> Unit = {}
+        crossinline closeObserver: () -> Unit = {},
+        lifecycle: Lifecycle? = findViewTreeLifecycleOwner()?.lifecycle
     ) {
         var isOpen = false
         val keyboardHeight = 200
-        viewTreeObserver.addOnGlobalLayoutListener {
-            val rect = android.graphics.Rect()
+        val listener = {
+            val rect = Rect()
             getWindowVisibleDisplayFrame(rect)
 
             val height: Int = context.resources.displayMetrics.heightPixels
@@ -143,35 +148,60 @@ object KeyboardTools {
                 closeObserver()
             }
         }
+        viewTreeObserver.addOnGlobalLayoutListener(listener)
+
+        lifecycle?.addObserver(object : LifecycleEventObserver {
+            override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
+                if (event == Lifecycle.Event.ON_DESTROY) {
+                    viewTreeObserver.removeOnGlobalLayoutListener(listener)
+                }
+            }
+        })
     }
 
     /**
      * 监听键盘弹起
      */
     inline fun View.keyboardObserver(
-        crossinline keyboardObserver: (Int) -> Unit = {}
+        crossinline keyboardObserver: (Int) -> Unit = {},
+        lifecycle: Lifecycle? = findViewTreeLifecycleOwner()?.lifecycle
     ) {
-        viewTreeObserver.addOnGlobalLayoutListener {
-            val rect = android.graphics.Rect()
+        val listener = {
+            val rect = Rect()
             getWindowVisibleDisplayFrame(rect)
 
             val height: Int = context.resources.displayMetrics.heightPixels
             // 获取键盘抬高的高度
             val diff: Int = height - rect.height()
             keyboardObserver(diff)
+
+
         }
+        viewTreeObserver.addOnGlobalLayoutListener(listener)
+
+        lifecycle?.addObserver(object : LifecycleEventObserver {
+            override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
+                if (event == Lifecycle.Event.ON_DESTROY) {
+                    viewTreeObserver.removeOnGlobalLayoutListener(listener)
+                }
+            }
+        })
     }
 
     /**
      * 打开键盘后移动rootView 该方式可使toolbar不动 ，只设置根View的marginBottom值来偏移
      * 只需给activity设置 android:windowSoftInputMode="stateHidden|adjustResize"
      */
-    fun Window.keyboardOpenMoveView(rootView: ViewGroup) {
+    fun Window.keyboardOpenMoveView(
+        rootView: ViewGroup,
+        lifecycle: Lifecycle? = null
+    ) {
         val decorView = decorView
         val statusBarHeight = decorView.context.statusBarHeight
         var isStatusDiff = false
         var statusDiff = 0
-        decorView.viewTreeObserver.addOnGlobalLayoutListener {
+
+        val listener = {
             val r = Rect()
             //r will be populated with the coordinates of your view that area still visible.
             decorView.getWindowVisibleDisplayFrame(r)
@@ -203,6 +233,16 @@ object KeyboardTools {
                 }
             }
         }
+        decorView.viewTreeObserver.addOnGlobalLayoutListener(listener)
+
+
+        lifecycle?.addObserver(object : LifecycleEventObserver {
+            override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
+                if (event == Lifecycle.Event.ON_DESTROY) {
+                    decorView.viewTreeObserver.removeOnGlobalLayoutListener(listener)
+                }
+            }
+        })
     }
 
 }
