@@ -5,7 +5,7 @@ import com.lee.app.databinding.ActivityFormTableBinding
 import com.lee.library.base.BaseVMActivity
 import com.lee.library.mvvm.base.BaseViewModel
 import com.lee.library.tools.KeyboardHelper
-import com.lee.library.tools.KeyboardTools.keyboardOpenMoveView
+import com.lee.library.tools.KeyboardTools.keyboardPaddingBottom
 import com.lee.library.tools.StatusTools.setDarkStatusIcon
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
@@ -29,8 +29,8 @@ class FormTableActivity :
     override fun bindView() {
         setDarkStatusIcon()
 //        keyboardHelper.enable()
-        window.keyboardOpenMoveView(binding.constRoot)
 
+        window.decorView.keyboardPaddingBottom()
 //        binding.rvContainer.layoutManager = LinearLayoutManager(this)
 //        binding.rvContainer.adapter = adapter
     }
