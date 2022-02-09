@@ -2,13 +2,13 @@ package com.lee.library.widget
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Color
 import android.graphics.Rect
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -48,18 +48,12 @@ class WheelView : RecyclerView {
     ) {
         val typeArray = context.obtainStyledAttributes(attributeSet, R.styleable.WheelView)
 
-        selectedTextColor = typeArray.getColor(
-            R.styleable.WheelView_selected_text_color,
-            ContextCompat.getColor(context,R.color.baseDarkColor)
-        )
-
-        unSelectedTextColor = typeArray.getColor(
-            R.styleable.WheelView_unSelected_text_color,
-            ContextCompat.getColor(context,R.color.baseLightColor)
-        )
-
+        selectedTextColor =
+            typeArray.getColor(R.styleable.WheelView_selected_text_color, Color.BLACK)
+        unSelectedTextColor =
+            typeArray.getColor(R.styleable.WheelView_unSelected_text_color, Color.GRAY)
         selectedTextSize =
-            typeArray.getDimension(R.styleable.WheelView_selected_text_size, 18f)
+            typeArray.getDimension(R.styleable.WheelView_selected_text_size, 20f)
         unSelectedTextSize =
             typeArray.getDimension(R.styleable.WheelView_unSelected_text_size, 16f)
 
