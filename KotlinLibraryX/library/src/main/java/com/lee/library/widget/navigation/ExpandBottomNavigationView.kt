@@ -1,4 +1,4 @@
-package com.lee.library.widget.nav
+package com.lee.library.widget.navigation
 
 import android.content.Context
 import android.graphics.Color
@@ -28,7 +28,7 @@ import com.lee.library.tools.ReflexTools.reflexField
  * @description 使用png 等多色彩图片时 需要动态设置 itemIconTintList = null
  */
 @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
-class BottomNavView @JvmOverloads constructor(
+class ExpandBottomNavigationView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
@@ -50,14 +50,14 @@ class BottomNavView @JvmOverloads constructor(
 
     init {
         attrs?.let {
-            context.obtainStyledAttributes(it, R.styleable.BottomNavView).apply {
-                dotNumberTextSize = getDimension(R.styleable.BottomNavView_dotNumberTextSize, 12f)
+            context.obtainStyledAttributes(it, R.styleable.ExpandBottomNavigationView).apply {
+                dotNumberTextSize = getDimension(R.styleable.ExpandBottomNavigationView_dotNumberTextSize, 12f)
                 dotBackground =
-                    getColor(R.styleable.BottomNavView_dotBackground, Color.RED)
+                    getColor(R.styleable.ExpandBottomNavigationView_dotBackground, Color.RED)
                 dotNumberTextColor =
-                    getColor(R.styleable.BottomNavView_dotNumberTextColor, Color.WHITE)
-                dotLineColor = getColor(R.styleable.BottomNavView_dotLineColor, Color.WHITE)
-                dotSize = getDimension(R.styleable.BottomNavView_dotSize, 6f).toInt()
+                    getColor(R.styleable.ExpandBottomNavigationView_dotNumberTextColor, Color.WHITE)
+                dotLineColor = getColor(R.styleable.ExpandBottomNavigationView_dotLineColor, Color.WHITE)
+                dotSize = getDimension(R.styleable.ExpandBottomNavigationView_dotSize, 6f).toInt()
                 recycle()
             }
         }

@@ -15,12 +15,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.lee.library.widget.nav.BottomNavView
+    <com.lee.library.widget.navigation.ExpandBottomNavigationView
         android:id="@+id/bottom_nav"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/baseItemColor"
-        app:dotBackground="@color/baseDarkColor"
+        app:dotBackground="@android:color/holo_red_dark"
+        app:dotLineColor="@android:color/transparent"
         app:itemIconTint="@drawable/main_selector"
         app:itemTextColor="@drawable/main_selector"
         app:layout_constraintBottom_toBottomOf="parent"

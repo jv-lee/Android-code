@@ -13,12 +13,12 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <com.lee.library.widget.nav.DotView
+        <com.lee.library.widget.navigation.DotView
             android:id="@+id/dotView"
             android:layout_width="50dp"
             android:layout_height="50dp" />
 
-        <com.lee.library.widget.nav.NumberDotView
+        <com.lee.library.widget.navigation.NumberDotView
             android:id="@+id/numberDotView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

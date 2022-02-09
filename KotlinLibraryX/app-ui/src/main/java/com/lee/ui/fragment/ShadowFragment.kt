@@ -8,7 +8,7 @@ import androidx.core.content.ContextCompat
 import com.google.android.material.shape.*
 import com.lee.library.base.BaseFragment
 import com.lee.library.extensions.binding
-import com.lee.library.widget.nav.NumberDotView
+import com.lee.library.widget.navigation.NumberDotView
 import com.lee.ui.R
 import com.lee.ui.databinding.FragmentShadowBinding
 

@@ -164,7 +164,7 @@
 
     <attr name="dotBackground" format="color" />
 
-    <declare-styleable name="BottomNavView">
+    <declare-styleable name="ExpandBottomNavigationView">
         <attr name="dotNumberTextSize" format="dimension" />
         <attr name="dotBackground" />
         <attr name="dotNumberTextColor" format="color" />
