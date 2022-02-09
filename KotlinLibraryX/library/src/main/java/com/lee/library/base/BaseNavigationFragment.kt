@@ -1,49 +1,37 @@
 package com.lee.library.base
 
-import android.content.Context
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import androidx.annotation.NonNull
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleRegistry
 
 /**
  * @author jv.lee
  * @date 2020/3/30
- * @description
+ * @description navigationFragment 处理show/hide未响应生命周期问题
  */
-abstract class BaseNavigationFragment(val layoutId: Int) :
-    BaseFragment(layoutId) {
+abstract class BaseNavigationFragment(val layoutId: Int) : BaseFragment(layoutId) {
 
-    private var isNavigationViewInit = false // 记录是否初始化view
-    private var rootView: View? = null
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        rootView = LayoutInflater.from(context).inflate(layoutId, null, false)
-    }
-
-    override fun createView(inflater: LayoutInflater, container: ViewGroup?): View {
-        return super.createView(inflater, container)!!
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return rootView
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        navigationInit(view, savedInstanceState)
-    }
-
-    open fun navigationInit(view: View, savedInstanceState: Bundle?) {
-        if (!isNavigationViewInit) {
-            bindView()
-            bindData()
-            isNavigationViewInit = true
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        if (hidden) {
+            onPause()
+            onStop()
+            handleViewLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+            handleViewLifecycleEvent(Lifecycle.Event.ON_STOP)
+        } else {
+            onStart()
+            onResume()
+            handleViewLifecycleEvent(Lifecycle.Event.ON_START)
+            handleViewLifecycleEvent(Lifecycle.Event.ON_RESUME)
         }
+    }
+
+    private fun getViewLifecycleRegistry(): LifecycleRegistry? {
+        return viewLifecycleOwner.lifecycle as? LifecycleRegistry
+    }
+
+    private fun handleViewLifecycleEvent(@NonNull event: Lifecycle.Event) {
+        getViewLifecycleRegistry()?.handleLifecycleEvent(event)
     }
 
 }
