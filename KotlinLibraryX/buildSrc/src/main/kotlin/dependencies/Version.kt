@@ -14,7 +14,7 @@ object Version {
     const val swipeRefreshLayout = "1.1.0"
     const val activity = "1.4.0"
     const val fragment = "1.4.0"
-    const val navigation = "2.4.0-beta01"
+    const val navigation = "2.4.0"
     const val lifecycle = "2.4.0"
     const val room = "2.4.0"
     const val glide = "4.11.0"
@@ -27,5 +27,6 @@ object Version {
     const val junit = "4.13.2"
     const val junitAndroid = "1.1.2"
     const val espressoAndroid = "3.3.0"
-    const val leakcanary = "1.6.2"
+    const val leakcanary = "2.3"
+    const val blockCanary = "1.5.0"
 }
