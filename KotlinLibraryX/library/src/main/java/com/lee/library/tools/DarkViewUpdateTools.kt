@@ -28,7 +28,7 @@ object DarkViewUpdateTools {
         val isDark = DarkModeTools.get().isDarkTheme()
         if (mIsDark == isDark) return
         for (entry in viewCallbackMap) {
-            if (entry.key.lifecycle.currentState == Lifecycle.State.RESUMED) {
+            if (entry.key.lifecycle.currentState != Lifecycle.State.DESTROYED) {
                 entry.value.updateDarkView()
             }
         }
