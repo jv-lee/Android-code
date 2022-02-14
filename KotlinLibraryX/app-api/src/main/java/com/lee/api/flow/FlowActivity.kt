@@ -5,7 +5,7 @@ import com.lee.api.databinding.ActivityFlowBinding
 import com.lee.library.base.BaseActivity
 import com.lee.library.extensions.binding
 import com.lee.library.extensions.launchAndRepeatWithViewLifecycle
-import com.lee.library.mvvm.ui.collectState
+import com.lee.library.mvvm.ui.stateCollect
 import com.lee.library.utils.LogUtil
 
 /**
@@ -26,7 +26,7 @@ class FlowActivity : BaseActivity() {
 
     override fun bindData() {
         launchAndRepeatWithViewLifecycle {
-            viewModel.contentFlow.collectState<String>(success = {
+            viewModel.contentFlow.stateCollect<String>(success = {
                 LogUtil.i("success -> $it")
             }, error = {
                 LogUtil.i("error -> $it")
