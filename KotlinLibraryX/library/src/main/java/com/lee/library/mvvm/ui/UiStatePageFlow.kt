@@ -4,6 +4,7 @@ import com.lee.library.adapter.page.PagingData
 import com.lee.library.mvvm.livedata.LoadStatus
 import com.lee.library.utils.LogUtil
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.update
 import kotlin.random.Random
@@ -56,7 +57,7 @@ sealed class PageUiState(
 /**
  * uiStateFlow数据collect扩展
  */
-suspend inline fun <reified T> MutableStateFlow<PageUiState>.stateCollect(
+suspend inline fun <reified T> StateFlow<PageUiState>.stateCollect(
     crossinline success: (T) -> Unit,
     crossinline error: (Throwable) -> Unit,
     crossinline loading: () -> Unit = {},
