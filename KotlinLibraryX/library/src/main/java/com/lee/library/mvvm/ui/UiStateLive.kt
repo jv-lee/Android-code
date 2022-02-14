@@ -10,7 +10,7 @@ import androidx.lifecycle.*
 typealias UiStateLiveData = LiveData<UiState>
 typealias UiStateMutableLiveData = MutableLiveData<UiState>
 
-inline fun <reified T> LiveData<UiState>.observeState(
+inline fun <reified T> LiveData<UiState>.stateObserve(
     owner: LifecycleOwner,
     crossinline success: (T) -> Unit,
     crossinline error: (Throwable) -> Unit,

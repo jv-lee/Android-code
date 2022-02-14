@@ -13,7 +13,7 @@ import com.lee.library.adapter.page.submitFailed
 import com.lee.library.base.BaseVMActivity
 import com.lee.library.extensions.toast
 import com.lee.library.mvvm.livedata.LoadStatus
-import com.lee.library.mvvm.ui.observeState
+import com.lee.library.mvvm.ui.stateObserve
 
 class MainActivity : BaseVMActivity<ActivityMainBinding, ContentViewModel>(R.layout.activity_main) {
 
@@ -71,7 +71,7 @@ class MainActivity : BaseVMActivity<ActivityMainBinding, ContentViewModel>(R.lay
     }
 
     override fun bindData() {
-        viewModel.dataLive.observeState<PageData<ContentData>>(this, success = {
+        viewModel.dataLive.stateObserve<PageData<ContentData>>(this, success = {
             mAdapter.submitData(it)
         }, error = {
             toast(it.message)
