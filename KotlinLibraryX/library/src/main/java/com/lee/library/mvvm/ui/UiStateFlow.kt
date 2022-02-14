@@ -33,7 +33,7 @@ suspend inline fun <T> MutableStateFlow<UiState>.stateUpdate(
  * @param cacheBlock 缓存数据获取函数
  * @param completedBlock 数据获取结果回调函数
  */
-suspend fun <T> MutableStateFlow<UiState>.stateUpdate(
+suspend fun <T> MutableStateFlow<UiState>.stateCacheUpdate(
     requestBlock: suspend () -> T? = { null },
     cacheBlock: suspend () -> T? = { null },
     completedBlock: suspend (T) -> Unit = {}
@@ -84,7 +84,7 @@ inline fun <reified T> stateFlow(crossinline block: suspend () -> T) = flow {
  * @param cacheBlock 缓存数据获取函数
  * @param completedBlock 数据获取结果回调函数
  */
-inline fun <reified T> stateFlow(
+inline fun <reified T> stateCacheFlow(
     crossinline requestBlock: suspend () -> T? = { null },
     crossinline cacheBlock: suspend () -> T? = { null },
     crossinline completedBlock: suspend (T) -> Unit = {}
