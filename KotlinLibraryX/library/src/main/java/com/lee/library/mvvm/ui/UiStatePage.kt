@@ -16,7 +16,7 @@ sealed class UiStatePage(
     var page = requestFirstPage
     var firstCache = true
 
-    class Loading constructor(
+    class Default constructor(
         requestFirstPage: Int = 1,
         responseFirstPage: Int = 1,
     ) : UiStatePage(requestFirstPage, responseFirstPage)
@@ -48,7 +48,7 @@ fun UiStatePage.copy(data: UiStatePage): UiStatePage {
 inline fun <reified T> UiStatePage.call(
     crossinline success: (T) -> Unit,
     crossinline error: (Throwable) -> Unit,
-    crossinline loading: () -> Unit = {},
+    crossinline default: () -> Unit = {},
 ) {
     when (this) {
         is UiStatePage.Success<*> -> success(this.data as T)
@@ -58,7 +58,7 @@ inline fun <reified T> UiStatePage.call(
             error(this.exception)
         }
         else -> {
-            loading()
+            default()
         }
     }
 }

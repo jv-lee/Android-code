@@ -29,11 +29,11 @@ inline fun <reified T> LiveData<UiStatePage>.stateObserve(
     owner: LifecycleOwner,
     crossinline success: (T) -> Unit,
     crossinline error: (Throwable) -> Unit,
-    crossinline loading: () -> Unit = {},
+    crossinline default: () -> Unit = {},
 ) {
     observe(owner, Observer {
         try {
-            it.call(success, error, loading)
+            it.call(success, error, default)
         } catch (e: Exception) {
             e.printStackTrace()
             error(e)

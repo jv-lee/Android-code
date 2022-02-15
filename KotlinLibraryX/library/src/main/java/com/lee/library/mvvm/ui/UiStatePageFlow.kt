@@ -26,11 +26,11 @@ val StateFlow<UiStatePage>.responseFirstPage: Int
 suspend inline fun <reified T> StateFlow<UiStatePage>.stateCollect(
     crossinline success: (T) -> Unit,
     crossinline error: (Throwable) -> Unit,
-    crossinline loading: () -> Unit = {},
+    crossinline default: () -> Unit = {},
 ) {
     collect {
         try {
-            it.call(success, error, loading)
+            it.call(success, error, default)
         } catch (e: Exception) {
             e.printStackTrace()
             error(e)
