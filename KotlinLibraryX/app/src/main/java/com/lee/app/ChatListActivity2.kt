@@ -1,12 +1,12 @@
 package com.lee.app
 
+import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lee.app.adapter.ChatAdapter
 import com.lee.app.databinding.ActivityChatListBinding
 import com.lee.library.base.BaseVMActivity
 import com.lee.library.extensions.reverseLayout
 import com.lee.library.extensions.smoothScrollToTop
-import com.lee.library.mvvm.base.BaseViewModel
 import com.lee.library.tools.KeyboardTools.adjustResizeStatusBar
 import com.lee.library.tools.KeyboardTools.keyboardObserver
 import com.lee.library.tools.StatusTools.setDarkStatusIcon
@@ -25,7 +25,7 @@ import kotlinx.coroutines.launch
  * 方案二兼容性更佳。
  */
 class ChatListActivity2 :
-    BaseVMActivity<ActivityChatListBinding, BaseViewModel>(R.layout.activity_chat_list) {
+    BaseVMActivity<ActivityChatListBinding, ViewModel>(R.layout.activity_chat_list) {
 
     private var page = 0
 

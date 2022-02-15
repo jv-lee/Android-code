@@ -7,15 +7,15 @@ import android.net.Uri
 import android.os.Build
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
+import androidx.lifecycle.ViewModel
 import com.lee.api.R
 import com.lee.api.databinding.ActivityStartResultBinding
 import com.lee.library.base.BaseVMActivity
 import com.lee.library.extensions.toast
-import com.lee.library.mvvm.base.BaseViewModel
 import java.io.File
 
 class StartResultActivity :
-    BaseVMActivity<ActivityStartResultBinding, BaseViewModel>(R.layout.activity_start_result) {
+    BaseVMActivity<ActivityStartResultBinding, ViewModel>(R.layout.activity_start_result) {
 
     private val dataResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {

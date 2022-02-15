@@ -1,6 +1,7 @@
 package com.lee.basedialog
 
 import android.view.WindowManager
+import androidx.lifecycle.ViewModel
 import com.lee.basedialog.databinding.ActivityMainBinding
 import com.lee.basedialog.dialog.BaseAlertDialogImpl
 import com.lee.basedialog.dialog.BaseBottomDialogImpl
@@ -10,9 +11,8 @@ import com.lee.basedialog.fragment.BaseDialogFragmentImpl
 import com.lee.basedialog.fragment.BaseSheetDialogFragmentImpl
 import com.lee.library.base.BaseVMActivity
 import com.lee.library.extensions.show
-import com.lee.library.mvvm.base.BaseViewModel
 
-class MainActivity : BaseVMActivity<ActivityMainBinding, BaseViewModel>(R.layout.activity_main) {
+class MainActivity : BaseVMActivity<ActivityMainBinding, ViewModel>(R.layout.activity_main) {
 
     //dialogFragment
     private val baseDialogFragmentImpl by lazy { BaseDialogFragmentImpl() }
