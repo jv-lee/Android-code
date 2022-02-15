@@ -1,37 +1,38 @@
 package com.lee.library.mvvm.ui
 
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import com.lee.library.adapter.page.PagingData
 import com.lee.library.mvvm.livedata.LoadStatus
 import com.lee.library.utils.LogUtil
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.update
 
 /**
  * @author jv.lee
  * @date 2022/2/15
- * @description UiStatePage Flow扩展
+ * @description UiStatePage LiveData扩展
  */
 
-// PageUiStateFlow数据collect扩展
-suspend inline fun <reified T> StateFlow<PageUiState>.stateCollect(
+// PageUiStateLiveData数据observe扩展
+inline fun <reified T> LiveData<PageUiState>.stateObserve(
+    owner: LifecycleOwner,
     crossinline success: (T) -> Unit,
     crossinline error: (Throwable) -> Unit,
     crossinline loading: () -> Unit = {},
 ) {
-    collect {
+    observe(owner, Observer {
         try {
             it.call(success, error, loading)
         } catch (e: Exception) {
             e.printStackTrace()
             error(e)
         }
-    }
+    })
 }
 
 @Suppress("UNCHECKED_CAST")
-fun <T> MutableStateFlow<PageUiState>.getValueData(): T? {
+fun <T> LiveData<PageUiState>.getValueData(): T? {
     val value = this.value
     value ?: return null
     return when (value) {
@@ -47,32 +48,32 @@ fun <T> MutableStateFlow<PageUiState>.getValueData(): T? {
 
 // 新旧数据根据页码合并
 @Suppress("UNCHECKED_CAST")
-fun MutableStateFlow<PageUiState>.applyData(oldItem: PagingData<*>?, newItem: PagingData<*>) {
+fun LiveData<PageUiState>.applyData(oldItem: PagingData<*>?, newItem: PagingData<*>) {
     oldItem ?: return
 
     if (oldItem.getDataSource() == newItem.getDataSource()) return
 
-    if (newItem.getPageNumber() != value.responseFirstPage) {
+    if (newItem.getPageNumber() != value?.responseFirstPage) {
         newItem.getDataSource().addAll(0, oldItem.getDataSource() as Collection<Nothing>)
     }
 }
 
 // 新旧数据根据页码合并 扩展作用域,直接接收请求数据合并返回请求数据
-suspend fun <T : PagingData<*>> MutableStateFlow<PageUiState>.applyData(dataResponse: suspend () -> T): T {
+suspend fun <T : PagingData<*>> LiveData<PageUiState>.applyData(dataResponse: suspend () -> T): T {
     return dataResponse().also { newData ->
         applyData(getValueData<T>(), newData)
     }
 }
 
-// flow分页数据加载
-suspend fun <T> MutableStateFlow<PageUiState>.pageLaunch(
+// liveData分页数据加载
+suspend fun <T> MutableLiveData<PageUiState>.pageLaunch(
     @LoadStatus status: Int,
-    requestBlock: suspend MutableStateFlow<PageUiState>.(Int) -> T? = { null },
-    cacheBlock: suspend MutableStateFlow<PageUiState>.() -> T? = { null },
-    cacheSaveBlock: suspend MutableStateFlow<PageUiState>.(T) -> Unit = {}
+    requestBlock: suspend LiveData<PageUiState>.(Int) -> T? = { null },
+    cacheBlock: suspend LiveData<PageUiState>.() -> T? = { null },
+    cacheSaveBlock: suspend LiveData<PageUiState>.(T) -> Unit = {}
 ) {
     var response: T? = null
-    value.apply {
+    value?.apply {
         try {
             //根据加载状态设置页码
             if (status == LoadStatus.REFRESH) {
@@ -86,14 +87,14 @@ suspend fun <T> MutableStateFlow<PageUiState>.pageLaunch(
             if (firstCache) {
                 firstCache = false
                 response = cacheBlock()?.also { data ->
-                    update { copy(PageUiState.Success(data = data)) }
+                    postValue(copy(PageUiState.Success(data = data)))
                 }
             }
 
             //网络数据设置
             response = requestBlock(page)?.also { data ->
                 if (response != data) {
-                    update { copy(PageUiState.Success(data = data)) }
+                    postValue(copy(PageUiState.Success(data = data)))
 
                     //首页将网络数据设置缓存
                     if (page == requestFirstPage) {
@@ -105,10 +106,11 @@ suspend fun <T> MutableStateFlow<PageUiState>.pageLaunch(
             LogUtil.getStackTraceString(e)
 
             response?.let { data ->
-                update { copy(PageUiState.Failure(data, e)) }
+                postValue(copy(PageUiState.Failure(data, e)))
             } ?: kotlin.run {
-                update { copy(PageUiState.Failure(getValueData<T>(), e)) }
+                postValue(copy(PageUiState.Failure(getValueData<T>(), e)))
             }
         }
     }
+
 }
