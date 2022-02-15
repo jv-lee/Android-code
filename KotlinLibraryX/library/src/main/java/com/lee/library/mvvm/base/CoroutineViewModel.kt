@@ -1,7 +1,7 @@
-package com.lee.library.mvvm.viewmodel
+package com.lee.library.mvvm.base
 
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.lee.library.mvvm.base.BaseViewModel
 import kotlinx.coroutines.*
 import java.util.concurrent.CancellationException
 
@@ -10,7 +10,7 @@ import java.util.concurrent.CancellationException
  * @date 2021/9/22
  * @description
  */
-open class CoroutineViewModel : BaseViewModel() {
+open class CoroutineViewModel : ViewModel() {
 
     fun launchMain(tryBlock: suspend CoroutineScope.() -> Unit) {
         viewModelScope.launch {
@@ -62,7 +62,6 @@ open class CoroutineViewModel : BaseViewModel() {
             } catch (e: Throwable) {
                 e.printStackTrace()
                 if (e !is CancellationException || handleCancellationExceptionManually) {
-                    failedEvent.postValue(e)
                     catchBlock(e)
                 } else {
                     throw e

@@ -8,16 +8,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.lee.library.extensions.getVmClass
-import com.lee.library.mvvm.base.BaseViewModel
 
 /**
  * @author jv.lee
  * @date 2019/8/16.
  * @description
  */
-abstract class BaseVMFragment<V : ViewDataBinding, VM : BaseViewModel>(var layoutId: Int) :
+abstract class BaseVMFragment<V : ViewDataBinding, VM : ViewModel>(var layoutId: Int) :
     BaseFragment() {
 
     protected lateinit var binding: V

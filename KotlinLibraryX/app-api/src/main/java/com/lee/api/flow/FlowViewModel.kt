@@ -2,7 +2,7 @@ package com.lee.api.flow
 
 import androidx.lifecycle.viewModelScope
 import com.lee.library.mvvm.ui.*
-import com.lee.library.mvvm.viewmodel.CoroutineViewModel
+import com.lee.library.mvvm.base.CoroutineViewModel
 import com.lee.library.utils.LogUtil
 import kotlinx.coroutines.flow.*
 
