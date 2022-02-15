@@ -9,7 +9,7 @@ import kotlin.random.Random
  * @param requestFirstPage 分页初始请求页码
  * @param responseFirstPage 分页数据返回首页页码
  */
-sealed class PageUiState(
+sealed class UiStatePage(
     var requestFirstPage: Int = 1,
     var responseFirstPage: Int = 1,
 ) {
@@ -19,24 +19,24 @@ sealed class PageUiState(
     class Loading constructor(
         requestFirstPage: Int = 1,
         responseFirstPage: Int = 1,
-    ) : PageUiState(requestFirstPage, responseFirstPage)
+    ) : UiStatePage(requestFirstPage, responseFirstPage)
 
     data class Success<T>(
         val data: T,
         var version: Int = Random.nextInt()
-    ) : PageUiState()
+    ) : UiStatePage()
 
     data class Failure<T>(
         val data: T?,
         val exception: Throwable,
         var version: Int = Random.nextInt()
-    ) : PageUiState()
+    ) : UiStatePage()
 
     data class Error(
         val exception: Throwable
-    ) : PageUiState()
+    ) : UiStatePage()
 
-    fun copy(data: PageUiState): PageUiState {
+    fun copy(data: UiStatePage): UiStatePage {
         data.requestFirstPage = requestFirstPage
         data.responseFirstPage = responseFirstPage
         data.page = page
@@ -45,15 +45,15 @@ sealed class PageUiState(
     }
 }
 
-inline fun <reified T> PageUiState.call(
+inline fun <reified T> UiStatePage.call(
     crossinline success: (T) -> Unit,
     crossinline error: (Throwable) -> Unit,
     crossinline loading: () -> Unit = {},
 ) {
     when (this) {
-        is PageUiState.Success<*> -> success(this.data as T)
-        is PageUiState.Error -> error(this.exception)
-        is PageUiState.Failure<*> -> {
+        is UiStatePage.Success<*> -> success(this.data as T)
+        is UiStatePage.Error -> error(this.exception)
+        is UiStatePage.Failure<*> -> {
             (this.data as T?)?.run(success)
             error(this.exception)
         }

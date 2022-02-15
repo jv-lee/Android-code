@@ -15,7 +15,7 @@ import com.lee.library.utils.LogUtil
  */
 
 // PageUiStateLiveData数据observe扩展
-inline fun <reified T> LiveData<PageUiState>.stateObserve(
+inline fun <reified T> LiveData<UiStatePage>.stateObserve(
     owner: LifecycleOwner,
     crossinline success: (T) -> Unit,
     crossinline error: (Throwable) -> Unit,
@@ -32,12 +32,12 @@ inline fun <reified T> LiveData<PageUiState>.stateObserve(
 }
 
 @Suppress("UNCHECKED_CAST")
-fun <T> LiveData<PageUiState>.getValueData(): T? {
+fun <T> LiveData<UiStatePage>.getValueData(): T? {
     val value = this.value
     value ?: return null
     return when (value) {
-        is PageUiState.Success<*> -> value.data as? T
-        is PageUiState.Failure<*> -> {
+        is UiStatePage.Success<*> -> value.data as? T
+        is UiStatePage.Failure<*> -> {
             value.data as? T
         }
         else -> {
@@ -48,7 +48,7 @@ fun <T> LiveData<PageUiState>.getValueData(): T? {
 
 // 新旧数据根据页码合并
 @Suppress("UNCHECKED_CAST")
-fun LiveData<PageUiState>.applyData(oldItem: PagingData<*>?, newItem: PagingData<*>) {
+fun LiveData<UiStatePage>.applyData(oldItem: PagingData<*>?, newItem: PagingData<*>) {
     oldItem ?: return
 
     if (oldItem.getDataSource() == newItem.getDataSource()) return
@@ -59,18 +59,18 @@ fun LiveData<PageUiState>.applyData(oldItem: PagingData<*>?, newItem: PagingData
 }
 
 // 新旧数据根据页码合并 扩展作用域,直接接收请求数据合并返回请求数据
-suspend fun <T : PagingData<*>> LiveData<PageUiState>.applyData(dataResponse: suspend () -> T): T {
+suspend fun <T : PagingData<*>> LiveData<UiStatePage>.applyData(dataResponse: suspend () -> T): T {
     return dataResponse().also { newData ->
         applyData(getValueData<T>(), newData)
     }
 }
 
 // liveData分页数据加载
-suspend fun <T> MutableLiveData<PageUiState>.pageLaunch(
+suspend fun <T> MutableLiveData<UiStatePage>.pageLaunch(
     @LoadStatus status: Int,
-    requestBlock: suspend LiveData<PageUiState>.(Int) -> T? = { null },
-    cacheBlock: suspend LiveData<PageUiState>.() -> T? = { null },
-    cacheSaveBlock: suspend LiveData<PageUiState>.(T) -> Unit = {}
+    requestBlock: suspend LiveData<UiStatePage>.(Int) -> T? = { null },
+    cacheBlock: suspend LiveData<UiStatePage>.() -> T? = { null },
+    cacheSaveBlock: suspend LiveData<UiStatePage>.(T) -> Unit = {}
 ) {
     var response: T? = null
     value?.apply {
@@ -87,14 +87,14 @@ suspend fun <T> MutableLiveData<PageUiState>.pageLaunch(
             if (firstCache) {
                 firstCache = false
                 response = cacheBlock()?.also { data ->
-                    postValue(copy(PageUiState.Success(data = data)))
+                    postValue(copy(UiStatePage.Success(data = data)))
                 }
             }
 
             //网络数据设置
             response = requestBlock(page)?.also { data ->
                 if (response != data) {
-                    postValue(copy(PageUiState.Success(data = data)))
+                    postValue(copy(UiStatePage.Success(data = data)))
 
                     //首页将网络数据设置缓存
                     if (page == requestFirstPage) {
@@ -106,9 +106,9 @@ suspend fun <T> MutableLiveData<PageUiState>.pageLaunch(
             LogUtil.getStackTraceString(e)
 
             response?.let { data ->
-                postValue(copy(PageUiState.Failure(data, e)))
+                postValue(copy(UiStatePage.Failure(data, e)))
             } ?: kotlin.run {
-                postValue(copy(PageUiState.Failure(getValueData<T>(), e)))
+                postValue(copy(UiStatePage.Failure(getValueData<T>(), e)))
             }
         }
     }

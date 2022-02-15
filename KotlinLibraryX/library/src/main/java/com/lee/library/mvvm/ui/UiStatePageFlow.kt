@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.update
  */
 
 // PageUiStateFlow数据collect扩展
-suspend inline fun <reified T> StateFlow<PageUiState>.stateCollect(
+suspend inline fun <reified T> StateFlow<UiStatePage>.stateCollect(
     crossinline success: (T) -> Unit,
     crossinline error: (Throwable) -> Unit,
     crossinline loading: () -> Unit = {},
@@ -31,12 +31,12 @@ suspend inline fun <reified T> StateFlow<PageUiState>.stateCollect(
 }
 
 @Suppress("UNCHECKED_CAST")
-fun <T> MutableStateFlow<PageUiState>.getValueData(): T? {
+fun <T> MutableStateFlow<UiStatePage>.getValueData(): T? {
     val value = this.value
     value ?: return null
     return when (value) {
-        is PageUiState.Success<*> -> value.data as? T
-        is PageUiState.Failure<*> -> {
+        is UiStatePage.Success<*> -> value.data as? T
+        is UiStatePage.Failure<*> -> {
             value.data as? T
         }
         else -> {
@@ -47,7 +47,7 @@ fun <T> MutableStateFlow<PageUiState>.getValueData(): T? {
 
 // 新旧数据根据页码合并
 @Suppress("UNCHECKED_CAST")
-fun MutableStateFlow<PageUiState>.applyData(oldItem: PagingData<*>?, newItem: PagingData<*>) {
+fun MutableStateFlow<UiStatePage>.applyData(oldItem: PagingData<*>?, newItem: PagingData<*>) {
     oldItem ?: return
 
     if (oldItem.getDataSource() == newItem.getDataSource()) return
@@ -58,18 +58,18 @@ fun MutableStateFlow<PageUiState>.applyData(oldItem: PagingData<*>?, newItem: Pa
 }
 
 // 新旧数据根据页码合并 扩展作用域,直接接收请求数据合并返回请求数据
-suspend fun <T : PagingData<*>> MutableStateFlow<PageUiState>.applyData(dataResponse: suspend () -> T): T {
+suspend fun <T : PagingData<*>> MutableStateFlow<UiStatePage>.applyData(dataResponse: suspend () -> T): T {
     return dataResponse().also { newData ->
         applyData(getValueData<T>(), newData)
     }
 }
 
 // flow分页数据加载
-suspend fun <T> MutableStateFlow<PageUiState>.pageLaunch(
+suspend fun <T> MutableStateFlow<UiStatePage>.pageLaunch(
     @LoadStatus status: Int,
-    requestBlock: suspend MutableStateFlow<PageUiState>.(Int) -> T? = { null },
-    cacheBlock: suspend MutableStateFlow<PageUiState>.() -> T? = { null },
-    cacheSaveBlock: suspend MutableStateFlow<PageUiState>.(T) -> Unit = {}
+    requestBlock: suspend MutableStateFlow<UiStatePage>.(Int) -> T? = { null },
+    cacheBlock: suspend MutableStateFlow<UiStatePage>.() -> T? = { null },
+    cacheSaveBlock: suspend MutableStateFlow<UiStatePage>.(T) -> Unit = {}
 ) {
     var response: T? = null
     value.apply {
@@ -86,14 +86,14 @@ suspend fun <T> MutableStateFlow<PageUiState>.pageLaunch(
             if (firstCache) {
                 firstCache = false
                 response = cacheBlock()?.also { data ->
-                    update { copy(PageUiState.Success(data = data)) }
+                    update { copy(UiStatePage.Success(data = data)) }
                 }
             }
 
             //网络数据设置
             response = requestBlock(page)?.also { data ->
                 if (response != data) {
-                    update { copy(PageUiState.Success(data = data)) }
+                    update { copy(UiStatePage.Success(data = data)) }
 
                     //首页将网络数据设置缓存
                     if (page == requestFirstPage) {
@@ -105,9 +105,9 @@ suspend fun <T> MutableStateFlow<PageUiState>.pageLaunch(
             LogUtil.getStackTraceString(e)
 
             response?.let { data ->
-                update { copy(PageUiState.Failure(data, e)) }
+                update { copy(UiStatePage.Failure(data, e)) }
             } ?: kotlin.run {
-                update { copy(PageUiState.Failure(getValueData<T>(), e)) }
+                update { copy(UiStatePage.Failure(getValueData<T>(), e)) }
             }
         }
     }
