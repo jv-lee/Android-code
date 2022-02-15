@@ -14,6 +14,10 @@ import kotlinx.coroutines.flow.update
  * @description UiStatePage Flow扩展
  */
 
+fun StateFlow<UiStatePage>.page() = value.page
+fun StateFlow<UiStatePage>.requestFirstPage() = value.requestFirstPage
+fun StateFlow<UiStatePage>.responseFirstPage() = value.responseFirstPage
+
 // PageUiStateFlow数据collect扩展
 suspend inline fun <reified T> StateFlow<UiStatePage>.stateCollect(
     crossinline success: (T) -> Unit,

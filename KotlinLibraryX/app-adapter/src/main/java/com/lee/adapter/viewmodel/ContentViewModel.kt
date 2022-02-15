@@ -1,8 +1,11 @@
 package com.lee.adapter.viewmodel
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.lee.adapter.repository.ContentRepository
 import com.lee.library.mvvm.livedata.LoadStatus
-import com.lee.library.mvvm.ui.UiStatePageLiveData
+import com.lee.library.mvvm.ui.UiStatePage
+import com.lee.library.mvvm.ui.pageLaunch
 import com.lee.library.mvvm.viewmodel.CoroutineViewModel
 import kotlinx.coroutines.delay
 
@@ -15,12 +18,13 @@ class ContentViewModel : CoroutineViewModel() {
 
     private val repository by lazy { ContentRepository() }
 
-    val dataLive = UiStatePageLiveData(1)
+    private val _dataLive = MutableLiveData<UiStatePage>(UiStatePage.Loading(1))
+    val dataLive:LiveData<UiStatePage> = _dataLive
 
     fun loadData(@LoadStatus status: Int) {
         launchMain {
             delay(500)
-            dataLive.pageLaunch(status, requestBlock = { page ->
+            _dataLive.pageLaunch(status, requestBlock = { page ->
                 repository.getContent(page)
             })
         }

@@ -14,6 +14,10 @@ import com.lee.library.utils.LogUtil
  * @description UiStatePage LiveData扩展
  */
 
+fun LiveData<UiStatePage>.page() = value?.page ?: 0
+fun LiveData<UiStatePage>.requestFirstPage() = value?.requestFirstPage ?: 0
+fun LiveData<UiStatePage>.responseFirstPage() = value?.responseFirstPage ?: 0
+
 // PageUiStateLiveData数据observe扩展
 inline fun <reified T> LiveData<UiStatePage>.stateObserve(
     owner: LifecycleOwner,
