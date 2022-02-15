@@ -14,8 +14,8 @@ import com.lee.library.utils.LogUtil
  * @description UiStatePage LiveData扩展
  */
 
-typealias UiStatePageLive = LiveData<UiStatePage>
-typealias UiStatePageMutableLive = MutableLiveData<UiStatePage>
+typealias UiStatePageLiveData = LiveData<UiStatePage>
+typealias UiStatePageMutableLiveData = MutableLiveData<UiStatePage>
 
 val LiveData<UiStatePage>.page: Int
     get() = value?.page ?: 0
