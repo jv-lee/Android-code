@@ -1,22 +1,15 @@
 package com.lee.library.extensions
 
-import com.lee.library.mvvm.base.BaseLiveData
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.flowOn
 
 /**
  * @author jv.lee
  * @date 2020/11/26
  * @description
  */
-suspend fun <T> Flow<T>.bindLive(liveData: BaseLiveData<T>) {
-    Dispatchers
-    catch {
-        liveData.throwMessage(it)
-    }.collect {
-        liveData.value = it
-    }
-}
 
 fun <T> Flow<T>.notNull(): Flow<T> {
     return this.filter { it != null }

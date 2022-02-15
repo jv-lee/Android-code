@@ -12,7 +12,7 @@ import com.lee.library.adapter.page.submitData
 import com.lee.library.adapter.page.submitFailed
 import com.lee.library.base.BaseVMActivity
 import com.lee.library.extensions.toast
-import com.lee.library.mvvm.livedata.LoadStatus
+import com.lee.library.mvvm.annotation.LoadStatus
 import com.lee.library.mvvm.ui.stateObserve
 
 class MainActivity : BaseVMActivity<ActivityMainBinding, ContentViewModel>(R.layout.activity_main) {
