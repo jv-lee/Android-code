@@ -3,10 +3,7 @@ package com.lee.library.mvvm.ui
 import com.lee.library.adapter.page.PagingData
 import com.lee.library.mvvm.livedata.LoadStatus
 import com.lee.library.utils.LogUtil
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.*
 
 /**
  * @author jv.lee
@@ -14,9 +11,16 @@ import kotlinx.coroutines.flow.update
  * @description UiStatePage Flow扩展
  */
 
-fun StateFlow<UiStatePage>.page() = value.page
-fun StateFlow<UiStatePage>.requestFirstPage() = value.requestFirstPage
-fun StateFlow<UiStatePage>.responseFirstPage() = value.responseFirstPage
+typealias UiStatePageFlow = Flow<UiStatePage>
+typealias UiStatePageStateFlow = StateFlow<UiStatePage>
+typealias UiStatePageMutableStateFlow = MutableStateFlow<UiStatePage>
+
+val StateFlow<UiStatePage>.page: Int
+    get() = value.page
+val StateFlow<UiStatePage>.requestFirstPage: Int
+    get() = value.requestFirstPage
+val StateFlow<UiStatePage>.responseFirstPage: Int
+    get() = value.responseFirstPage
 
 // PageUiStateFlow数据collect扩展
 suspend inline fun <reified T> StateFlow<UiStatePage>.stateCollect(

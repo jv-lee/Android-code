@@ -35,14 +35,14 @@ sealed class UiStatePage(
     data class Error(
         val exception: Throwable
     ) : UiStatePage()
+}
 
-    fun copy(data: UiStatePage): UiStatePage {
-        data.requestFirstPage = requestFirstPage
-        data.responseFirstPage = responseFirstPage
-        data.page = page
-        data.firstCache = firstCache
-        return data
-    }
+fun UiStatePage.copy(data: UiStatePage): UiStatePage {
+    data.requestFirstPage = requestFirstPage
+    data.responseFirstPage = responseFirstPage
+    data.page = page
+    data.firstCache = firstCache
+    return data
 }
 
 inline fun <reified T> UiStatePage.call(

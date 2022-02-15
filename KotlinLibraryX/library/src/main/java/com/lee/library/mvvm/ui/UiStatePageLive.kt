@@ -14,9 +14,15 @@ import com.lee.library.utils.LogUtil
  * @description UiStatePage LiveData扩展
  */
 
-fun LiveData<UiStatePage>.page() = value?.page ?: 0
-fun LiveData<UiStatePage>.requestFirstPage() = value?.requestFirstPage ?: 0
-fun LiveData<UiStatePage>.responseFirstPage() = value?.responseFirstPage ?: 0
+typealias UiStatePageLiveData = LiveData<UiStatePage>
+typealias UiStatePageMutableLiveData = MutableLiveData<UiStatePage>
+
+val LiveData<UiStatePage>.page: Int
+    get() = value?.page ?: 0
+val LiveData<UiStatePage>.requestFirstPage: Int
+    get() = value?.requestFirstPage ?: 0
+val LiveData<UiStatePage>.responseFirstPage: Int
+    get() = value?.responseFirstPage ?: 0
 
 // PageUiStateLiveData数据observe扩展
 inline fun <reified T> LiveData<UiStatePage>.stateObserve(
