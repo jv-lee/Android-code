@@ -8,7 +8,7 @@ import java.util.concurrent.CancellationException
 /**
  * @author jv.lee
  * @date 2021/9/22
- * @description
+ * @description 协程ViewModel
  */
 open class CoroutineViewModel : ViewModel() {
 
@@ -26,6 +26,12 @@ open class CoroutineViewModel : ViewModel() {
 
     suspend fun <T> withIO(block: suspend CoroutineScope.() -> T): T {
         return withContext(Dispatchers.IO) {
+            block()
+        }
+    }
+
+    suspend fun <T> withMain(block: suspend CoroutineScope.() -> T): T {
+        return withContext(Dispatchers.Main) {
             block()
         }
     }
