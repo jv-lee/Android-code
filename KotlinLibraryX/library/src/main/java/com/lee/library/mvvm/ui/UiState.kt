@@ -3,9 +3,8 @@ package com.lee.library.mvvm.ui
 /**
  * @author jv.lee
  * @date 2021/9/18
- * @description
+ * @description UiState ui状态类 支持 flow/liveData 扩展使用
  */
-
 sealed class UiState {
     data class Success<T>(val data: T) : UiState()
     data class Failure<T>(val data: T?, val exception: Throwable) : UiState()

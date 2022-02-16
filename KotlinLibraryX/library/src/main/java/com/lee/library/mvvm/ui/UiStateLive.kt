@@ -7,6 +7,7 @@ import androidx.lifecycle.*
  * @date 2021/10/22
  * @description UiState LiveData扩展
  */
+
 typealias UiStateLiveData = LiveData<UiState>
 typealias UiStateMutableLiveData = MutableLiveData<UiState>
 

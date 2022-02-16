@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.*
  * @date 2021/10/22
  * @description UiState Flow扩展
  */
+
 typealias UiStateFlow = Flow<UiState>
 typealias UiStateStateFlow = StateFlow<UiState>
 typealias UiStateMutableStateFlow = MutableStateFlow<UiState>
