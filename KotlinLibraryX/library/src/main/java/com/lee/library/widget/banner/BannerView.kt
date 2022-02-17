@@ -122,21 +122,14 @@ class BannerView : RelativeLayout {
         return super.dispatchTouchEvent(ev)
     }
 
+    override fun dispatchVisibilityChanged(changedView: View, visibility: Int) {
+        super.dispatchVisibilityChanged(changedView, visibility)
+        changeViewVisible(visibility)
+    }
+
     override fun onWindowVisibilityChanged(visibility: Int) {
         super.onWindowVisibilityChanged(visibility)
-        //当前可以自动轮播或构建初始化未完成不做处理以免重复发起轮播任务
-        if (!isAutoPlay || !isInit) return
-
-        if (visibility == VISIBLE) {
-            //当前未轮播状态重新发起轮播任务
-            if (!isLoop) {
-                startLoop()
-            }
-        } else {
-            //当前在轮播状态，移除轮播状态
-            if (isLoop) isLoop = false
-            stopLoop()
-        }
+        changeViewVisible(visibility)
     }
 
     private fun initAttributes(attributeSet: AttributeSet?) {
@@ -331,6 +324,25 @@ class BannerView : RelativeLayout {
                 mRecyclerView.smoothScrollToPosition(itemIndex)
             }
             postDelayed(this, delayTime)
+        }
+    }
+
+    /**
+     * 根据view显示状态执行轮播任务
+     */
+    private fun changeViewVisible(visibility: Int) {
+        //当前可以自动轮播或构建初始化未完成不做处理以免重复发起轮播任务
+        if (!isAutoPlay || !isInit) return
+
+        if (visibility == VISIBLE) {
+            //当前未轮播状态重新发起轮播任务
+            if (!isLoop) {
+                startLoop()
+            }
+        } else {
+            //当前在轮播状态，移除轮播状态
+            if (isLoop) isLoop = false
+            stopLoop()
         }
     }
 
