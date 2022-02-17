@@ -296,6 +296,7 @@ class BannerView : RelativeLayout {
                 mCurrentIndex = position
 
                 val index = getRealIndex(position)
+                mAdapter.onItemChange(index)
 
                 // 切换indicator
                 for (i in mIndicators.indices) {
@@ -384,6 +385,9 @@ class BannerView : RelativeLayout {
             return currentItem
         }
 
+        fun onItemChange(index: Int) {
+            create.onItemChange(index, data[index])
+        }
 
         inner class BannerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
     }
@@ -412,6 +416,13 @@ class BannerView : RelativeLayout {
          * @param item
          */
         fun onItemClick(position: Int, item: T) {}
+
+        /**
+         * banner滚动事件
+         * @param position
+         * @param item
+         */
+        fun onItemChange(position: Int, item: T) {}
     }
 
     override fun onSaveInstanceState(): Parcelable {
