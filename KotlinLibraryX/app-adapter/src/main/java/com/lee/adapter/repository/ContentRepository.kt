@@ -3,14 +3,13 @@ package com.lee.adapter.repository
 import com.lee.adapter.entity.ContentData
 import com.lee.adapter.entity.PageData
 import com.lee.adapter.entity.ViewType
-import com.lee.library.mvvm.base.BaseRepository
 
 /**
  * @author jv.lee
  * @date 2020/11/25
  * @description
  */
-class ContentRepository : BaseRepository() {
+class ContentRepository{
 
     fun getContent(page: Int): PageData<ContentData> {
         return PageData(page, 3, arrayListOf<ContentData>().also {

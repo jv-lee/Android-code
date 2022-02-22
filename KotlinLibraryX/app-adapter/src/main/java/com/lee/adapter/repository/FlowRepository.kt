@@ -3,7 +3,6 @@ package com.lee.adapter.repository
 import com.lee.adapter.entity.Content
 import com.lee.adapter.entity.Page
 import com.lee.adapter.server.ApiService
-import com.lee.library.mvvm.base.BaseRepository
 import com.lee.library.net.HttpManager
 import com.lee.library.net.request.IRequest
 import com.lee.library.net.request.Request
@@ -14,7 +13,7 @@ import kotlinx.coroutines.flow.Flow
  * @date 2020/11/26
  * @description
  */
-class FlowRepository : BaseRepository() {
+class FlowRepository {
 
     private val api: ApiService
 

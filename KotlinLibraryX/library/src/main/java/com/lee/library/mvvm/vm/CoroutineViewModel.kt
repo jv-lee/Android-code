@@ -1,4 +1,4 @@
-package com.lee.library.mvvm.base
+package com.lee.library.mvvm.vm
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
