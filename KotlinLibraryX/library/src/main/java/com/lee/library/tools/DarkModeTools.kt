@@ -51,14 +51,14 @@ class DarkModeTools(val context: Context) {
         val flag = context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
         val mode = preferences.getInt(modeKey, AppCompatDelegate.getDefaultNightMode())
         return when {
+            flag == Configuration.UI_MODE_NIGHT_YES -> {
+                true
+            }
             mode == AppCompatDelegate.MODE_NIGHT_YES -> {
                 true
             }
             mode == AppCompatDelegate.MODE_NIGHT_NO -> {
                 false
-            }
-            flag == Configuration.UI_MODE_NIGHT_YES -> {
-                true
             }
             else -> false
         }
