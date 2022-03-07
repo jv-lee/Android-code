@@ -20,8 +20,11 @@ class DarkModeTools(val context: Context) {
         private var instance: DarkModeTools? = null
 
         @JvmStatic
-        fun get(context: Context) = instance ?: synchronized(this) {
-            instance ?: DarkModeTools(context).also { instance = it }
+        fun init(context: Context) = instance ?: synchronized(this) {
+            instance ?: DarkModeTools(context).also {
+                instance = it
+                it.init()
+            }
         }
 
         fun get(): DarkModeTools {
@@ -35,6 +38,12 @@ class DarkModeTools(val context: Context) {
     private val modeKey = "dark_mode"
     private val preferences =
         context.applicationContext.getSharedPreferences(modeKey, Context.MODE_PRIVATE)
+
+    fun init() {
+        if (isSystemTheme()) {
+            updateNightTheme(isDarkTheme())
+        }
+    }
 
     /**
      * 当前是否为系统主题
