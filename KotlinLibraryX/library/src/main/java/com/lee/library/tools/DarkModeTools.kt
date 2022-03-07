@@ -3,6 +3,7 @@ package com.lee.library.tools
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Configuration
+import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
 
 /**
@@ -40,7 +41,8 @@ class DarkModeTools(val context: Context) {
         context.applicationContext.getSharedPreferences(modeKey, Context.MODE_PRIVATE)
 
     fun init() {
-        if (isSystemTheme()) {
+        Log.i(TAG, "init.")
+        if (!isSystemTheme()) {
             updateNightTheme(isDarkTheme())
         }
     }
@@ -50,7 +52,10 @@ class DarkModeTools(val context: Context) {
      */
     fun isSystemTheme(): Boolean {
         val mode = preferences.getInt(modeKey, AppCompatDelegate.getDefaultNightMode())
-        return mode != AppCompatDelegate.MODE_NIGHT_YES && mode != AppCompatDelegate.MODE_NIGHT_NO
+        val isSystemTheme =
+            mode != AppCompatDelegate.MODE_NIGHT_YES && mode != AppCompatDelegate.MODE_NIGHT_NO
+        Log.i(TAG, "isSystemTheme:$isSystemTheme")
+        return isSystemTheme
     }
 
     /**
@@ -59,7 +64,7 @@ class DarkModeTools(val context: Context) {
     fun isDarkTheme(): Boolean {
         val flag = context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
         val mode = preferences.getInt(modeKey, AppCompatDelegate.getDefaultNightMode())
-        return when {
+        val isDarkTheme = when {
             flag == Configuration.UI_MODE_NIGHT_YES -> {
                 true
             }
@@ -71,6 +76,8 @@ class DarkModeTools(val context: Context) {
             }
             else -> false
         }
+        Log.i(TAG, "isDarkTheme:$isDarkTheme")
+        return isDarkTheme
     }
 
     /**
@@ -78,6 +85,7 @@ class DarkModeTools(val context: Context) {
      */
     @SuppressLint("CommitPrefEdits")
     fun updateSystemTheme(enable: Boolean) {
+        Log.i(TAG, "updateSystemTheme:$enable")
         if (enable) {
             preferences.edit().putInt(modeKey, AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM).apply()
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
@@ -91,6 +99,7 @@ class DarkModeTools(val context: Context) {
      */
     @SuppressLint("CommitPrefEdits")
     fun updateNightTheme(enable: Boolean) {
+        Log.i(TAG, "updateNightTheme:$enable")
         if (enable) {
             preferences.edit().putInt(modeKey, AppCompatDelegate.MODE_NIGHT_YES).apply()
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
