@@ -2,6 +2,7 @@ package com.lee.library.extensions
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.res.ColorStateList
 import android.content.res.Configuration
 import android.graphics.Point
 import android.os.Build
@@ -204,4 +205,17 @@ fun Context.getThemeDimension(
 ): Float {
     return theme.obtainStyledAttributes(intArrayOf(attrId))
         .getDimension(0, defaultValue)
+}
+
+/**
+ * 获取颜色stateList
+ * @param color 颜色取值resourceID
+ */
+fun Context.getColorStateListCompat(color: Int): ColorStateList {
+    val colorResource = ContextCompat.getColor(this, color)
+    val colors = intArrayOf(colorResource, colorResource)
+    val states = arrayOfNulls<IntArray>(2)
+    states[0] = intArrayOf(android.R.attr.state_pressed)
+    states[1] = intArrayOf()
+    return ColorStateList(states, colors)
 }
