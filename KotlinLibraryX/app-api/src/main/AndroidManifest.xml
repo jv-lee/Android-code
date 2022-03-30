@@ -20,9 +20,6 @@
         <activity android:name=".fragment.ResultFragmentActivity" />
         <activity android:name=".activity.ResultActivity" />
         <activity android:name=".MainActivity">
-
-        </activity>
-        <activity android:name=".flow.FlowActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
