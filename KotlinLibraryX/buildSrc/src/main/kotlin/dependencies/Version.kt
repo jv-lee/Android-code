@@ -3,15 +3,16 @@ package dependencies
 object Version {
 
     //core
-    const val ktxCore = "1.6.0"
+    const val ktxCore = "1.7.0"
     const val coroutines = "1.3.9"
     const val multidex = "2.0.1"
     const val appcompat = "1.4.0"
-    const val material = "1.3.0"
+    const val material = "1.4.0"
     const val recyclerview = "1.2.1"
     const val constraintLayout = "2.1.1"
     const val viewpager2 = "1.0.0"
     const val swipeRefreshLayout = "1.1.0"
+    const val slidingpanelayout = "1.1.0" // 1.1.0正常使用 ， 1.2.0无法正常显示
     const val activity = "1.4.0"
     const val fragment = "1.4.0"
     const val navigation = "2.4.0"
