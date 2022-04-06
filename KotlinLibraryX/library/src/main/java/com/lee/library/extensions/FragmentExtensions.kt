@@ -108,7 +108,49 @@ inline fun Fragment.delayBackEvent(
             }
         }
     }.apply {
-        requireActivity().onBackPressedDispatcher.addCallback(this@delayBackEvent, this)
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, this)
+
+        // 生命周期解绑
+        viewLifecycleOwner.lifecycle.addObserver(object : LifecycleEventObserver {
+            override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
+                if (event == Lifecycle.Event.ON_DESTROY) {
+                    remove()
+                    viewLifecycleOwner.lifecycle.removeObserver(this)
+                }
+            }
+        })
+    }
+}
+
+/**
+ * 设置双击back关闭Activity
+ * @param backExitTime  两次back事件间隔 默认2秒
+ * @param hasBack 回退拦截策略高阶函数
+ * @param alertCall 两次back事件间隔时间不满足条件 call回调
+ * @return back控制实例 .remove 移除back拦截事件
+ */
+inline fun Fragment.delayBackEvent(
+    backExitTime: Int = 2000,
+    crossinline hasBack:() ->Boolean = { true },
+    crossinline alertCall: () -> Unit = { toast(getString(R.string.double_click_back)) }
+): OnBackPressedCallback {
+    var firstTime: Long = 0
+    return object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            if (hasBack()) {
+                val secondTime = System.currentTimeMillis()
+                //如果两次按键时间间隔大于2秒，则不退出
+                if (secondTime - firstTime > backExitTime) {
+                    alertCall()
+                    //更新firstTime
+                    firstTime = secondTime
+                } else {//两次按键小于2秒时，退出应用
+                    requireActivity().finish()
+                }
+            }
+        }
+    }.apply {
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, this)
 
         // 生命周期解绑
         viewLifecycleOwner.lifecycle.addObserver(object : LifecycleEventObserver {
