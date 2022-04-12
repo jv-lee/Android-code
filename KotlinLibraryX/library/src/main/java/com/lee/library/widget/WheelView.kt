@@ -79,6 +79,10 @@ class WheelView : RecyclerView {
         typeArray.recycle()
     }
 
+    init {
+        mPaint.strokeWidth = dp2px(1)
+    }
+
     override fun onMeasure(widthSpec: Int, heightSpec: Int) {
         super.onMeasure(widthSpec, heightSpec)
         setMeasuredDimension(measuredWidth, (lineHeight * 3).toInt())
@@ -105,20 +109,20 @@ class WheelView : RecyclerView {
     private fun drawSelectItemBackground(canvas: Canvas?) {
         when (selectItemStyle) {
             SelectItemStyle.LINE -> {
-                canvas?.drawLine(left.toFloat(), lineHeight, right.toFloat(), lineHeight, mPaint)
+                canvas?.drawLine(0f, lineHeight, width.toFloat(), lineHeight, mPaint)
                 canvas?.drawLine(
-                    left.toFloat(),
+                    0f,
                     height - lineHeight,
-                    right.toFloat(),
+                    width.toFloat(),
                     height - lineHeight,
                     mPaint
                 )
             }
             SelectItemStyle.ITEM -> {
                 canvas?.drawRect(
-                    left.toFloat(),
+                    0f,
                     lineHeight,
-                    right.toFloat(),
+                    width.toFloat(),
                     height - lineHeight,
                     mPaint
                 )
