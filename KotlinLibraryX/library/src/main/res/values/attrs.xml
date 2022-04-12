@@ -191,6 +191,13 @@
     </declare-styleable>
 
     <declare-styleable name="WheelView">
+        <attr name="select_item_style">
+            <enum name="gone" value="0" />
+            <enum name="line" value="1" />
+            <enum name="item" value="2" />
+        </attr>
+        <attr name="line_height" format="dimension" />
+        <attr name="select_item_background" format="color" />
         <attr name="selected_text_color" format="color" />
         <attr name="unSelected_text_color" format="color" />
         <attr name="selected_text_size" format="dimension" />

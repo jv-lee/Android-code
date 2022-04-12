@@ -2,7 +2,9 @@ package com.lee.library.widget
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Canvas
 import android.graphics.Color
+import android.graphics.Paint
 import android.graphics.Rect
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -26,6 +28,8 @@ class WheelView : RecyclerView {
         const val DEFAULT_ITEM_HEIGHT = 40
     }
 
+    private val mPaint = Paint(Paint.ANTI_ALIAS_FLAG)
+
     private var mScrollY = 0F
     private var selectPosition = 0
     private var oldSelectPosition = 0
@@ -37,7 +41,17 @@ class WheelView : RecyclerView {
     private var selectedTextSize: Float = 0F
     private var unSelectedTextSize: Float = 0F
 
-    private val itemHeight = dp2px(DEFAULT_ITEM_HEIGHT)
+    private var lineHeight = dp2px(DEFAULT_ITEM_HEIGHT)
+
+    private var selectItemStyle = SelectItemStyle.GONE
+
+    annotation class SelectItemStyle {
+        companion object {
+            const val GONE = 0
+            const val LINE = 1
+            const val ITEM = 2
+        }
+    }
 
     constructor(context: Context) : this(context, null, 0)
     constructor(context: Context, attributeSet: AttributeSet?) : this(context, attributeSet, 0)
@@ -47,7 +61,12 @@ class WheelView : RecyclerView {
         defStyle
     ) {
         val typeArray = context.obtainStyledAttributes(attributeSet, R.styleable.WheelView)
-
+        mPaint.color =
+            typeArray.getColor(R.styleable.WheelView_select_item_background, Color.BLACK)
+        lineHeight =
+            typeArray.getDimension(R.styleable.WheelView_line_height, dp2px(DEFAULT_ITEM_HEIGHT))
+        selectItemStyle =
+            typeArray.getInt(R.styleable.WheelView_select_item_style, SelectItemStyle.GONE)
         selectedTextColor =
             typeArray.getColor(R.styleable.WheelView_selected_text_color, Color.BLACK)
         unSelectedTextColor =
@@ -60,16 +79,52 @@ class WheelView : RecyclerView {
         typeArray.recycle()
     }
 
+    override fun onMeasure(widthSpec: Int, heightSpec: Int) {
+        super.onMeasure(widthSpec, heightSpec)
+        setMeasuredDimension(measuredWidth, (lineHeight * 3).toInt())
+    }
+
     @SuppressLint("NotifyDataSetChanged")
     override fun onScrolled(dx: Int, dy: Int) {
         super.onScrolled(dx, dy)
         oldSelectPosition = selectPosition
 
         mScrollY += dy
-        selectPosition = (mScrollY / itemHeight).roundToInt()
+        selectPosition = (mScrollY / lineHeight).roundToInt()
 
         if (oldSelectPosition != selectPosition) {
             adapter?.notifyDataSetChanged()
+        }
+    }
+
+    override fun onDraw(canvas: Canvas?) {
+        super.onDraw(canvas)
+        drawSelectItemBackground(canvas)
+    }
+
+    private fun drawSelectItemBackground(canvas: Canvas?) {
+        when (selectItemStyle) {
+            SelectItemStyle.LINE -> {
+                canvas?.drawLine(left.toFloat(), lineHeight, right.toFloat(), lineHeight, mPaint)
+                canvas?.drawLine(
+                    left.toFloat(),
+                    height - lineHeight,
+                    right.toFloat(),
+                    height - lineHeight,
+                    mPaint
+                )
+            }
+            SelectItemStyle.ITEM -> {
+                canvas?.drawRect(
+                    left.toFloat(),
+                    lineHeight,
+                    right.toFloat(),
+                    height - lineHeight,
+                    mPaint
+                )
+            }
+            else -> {
+            }
         }
     }
 
@@ -93,6 +148,7 @@ class WheelView : RecyclerView {
         private inner class SelectViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             fun bindView(item: T, position: Int) {
                 val textView = itemView.findViewById<TextView>(R.id.tv_text)
+                textView.layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, lineHeight.toInt())
                 textView.text = dataFormat.format(item)
                 if (selectPosition == position) {
                     textView.textSize = selectedTextSize
@@ -118,10 +174,10 @@ class WheelView : RecyclerView {
         ) {
             super.getItemOffsets(outRect, view, parent, state)
             val position = parent.getChildAdapterPosition(view)
-            if (position == 0) outRect.top = itemHeight.toInt()
+            if (position == 0) outRect.top = lineHeight.toInt()
 
             val itemCount = parent.adapter?.itemCount ?: return
-            if (position == itemCount - 1) outRect.bottom = itemHeight.toInt()
+            if (position == itemCount - 1) outRect.bottom = lineHeight.toInt()
         }
 
     }
@@ -151,7 +207,7 @@ class WheelView : RecyclerView {
         adapter = SelectAdapter(data, dataFormat)
         addItemDecoration(PaddingDecoration())
         (adapter as? SelectAdapter<T>)?.mSelectedListener = selectedListener
-        smoothScrollBy(0, (startPosition * itemHeight).toInt())
+        smoothScrollBy(0, (startPosition * lineHeight).toInt())
     }
 
     init {
