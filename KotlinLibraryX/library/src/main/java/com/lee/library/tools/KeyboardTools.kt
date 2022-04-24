@@ -11,11 +11,11 @@ import android.view.ViewGroup
 import android.view.Window
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
-import androidx.core.view.updatePadding
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.findViewTreeLifecycleOwner
+import com.lee.library.base.ApplicationExtensions.app
 import com.lee.library.extensions.setMargin
 import com.lee.library.extensions.statusBarHeight
 
@@ -32,6 +32,9 @@ import com.lee.library.extensions.statusBarHeight
  */
 object KeyboardTools {
 
+    var imm: InputMethodManager =
+        app.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+
     /**
      * 动态隐藏软键盘
      */
@@ -41,7 +44,6 @@ object KeyboardTools {
         if (view == null) {
             view = View(this)
         }
-        val imm = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
@@ -55,7 +57,6 @@ object KeyboardTools {
         view.isFocusable = true
         view.isFocusableInTouchMode = true
         view.requestFocus()
-        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.showSoftInput(view, 0)
     }
 
@@ -68,7 +69,6 @@ object KeyboardTools {
         view.isFocusable = true
         view.isFocusableInTouchMode = true
         view.requestFocus()
-        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.showSoftInput(view, 0)
     }
 
@@ -89,10 +89,8 @@ object KeyboardTools {
      * 判断软键盘是否弹出
      */
     fun Context.keyboardIsShow(): Boolean {
-        val inputMethodManager =
-            getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         val windowToken = (this as? Activity)?.window?.decorView?.windowToken ?: return false
-        return inputMethodManager.hideSoftInputFromWindow(windowToken, 0)
+        return imm.hideSoftInputFromWindow(windowToken, 0)
     }
 
     /**
@@ -136,7 +134,7 @@ object KeyboardTools {
             val height: Int = context.resources.displayMetrics.heightPixels
             // 获取键盘抬高的高度
             val diff: Int = height - rect.height()
-            updatePadding(bottom = diff)
+            setPadding(0,0,0,diff)
         }
         viewTreeObserver.addOnGlobalLayoutListener(listener)
 
