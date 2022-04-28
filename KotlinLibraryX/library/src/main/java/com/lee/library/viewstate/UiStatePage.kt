@@ -6,20 +6,6 @@ import com.lee.library.viewstate.LoadStatus.Companion.REFRESH
 import com.lee.library.viewstate.LoadStatus.Companion.RELOAD
 import kotlin.random.Random
 
-
-@IntDef(REFRESH, LOAD_MORE, RELOAD)
-@Target(AnnotationTarget.FIELD, AnnotationTarget.VALUE_PARAMETER)
-@Retention(AnnotationRetention.SOURCE)
-annotation class LoadStatus {
-
-    companion object {
-        const val INIT: Int = 0x0000
-        const val REFRESH: Int = 0x001
-        const val LOAD_MORE: Int = 0x002
-        const val RELOAD: Int = 0x003
-    }
-}
-
 /**
  * @author jv.lee
  * @date 2022/2/14
@@ -78,5 +64,18 @@ inline fun <reified T> UiStatePage.call(
         else -> {
             default()
         }
+    }
+}
+
+@IntDef(REFRESH, LOAD_MORE, RELOAD)
+@Target(AnnotationTarget.FIELD, AnnotationTarget.VALUE_PARAMETER)
+@Retention(AnnotationRetention.SOURCE)
+annotation class LoadStatus {
+
+    companion object {
+        const val INIT: Int = 0x0000
+        const val REFRESH: Int = 0x001
+        const val LOAD_MORE: Int = 0x002
+        const val RELOAD: Int = 0x003
     }
 }
