@@ -1,7 +1,6 @@
-package com.lee.library.mvvm.ui
+package com.lee.library.viewstate
 
 import com.lee.library.adapter.page.PagingData
-import com.lee.library.mvvm.annotation.LoadStatus
 import com.lee.library.utils.LogUtil
 import kotlinx.coroutines.flow.*
 

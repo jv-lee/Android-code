@@ -1,11 +1,10 @@
-package com.lee.library.mvvm.ui
+package com.lee.library.viewstate
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.lee.library.adapter.page.PagingData
-import com.lee.library.mvvm.annotation.LoadStatus
 import com.lee.library.utils.LogUtil
 
 /**

@@ -1,4 +1,4 @@
-package com.lee.library.mvvm.ui
+package com.lee.library.viewstate
 
 import androidx.lifecycle.*
 
