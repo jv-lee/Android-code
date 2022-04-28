@@ -45,6 +45,8 @@ class WheelView : RecyclerView {
 
     private var selectItemStyle = SelectItemStyle.GONE
 
+    private val paddingDecoration = PaddingDecoration()
+
     annotation class SelectItemStyle {
         companion object {
             const val GONE = 0
@@ -206,12 +208,23 @@ class WheelView : RecyclerView {
         selectedListener: SelectedListener<T>,
         startPosition: Int = 0
     ) {
+        clearState<T>()
+
         layoutManager = LinearLayoutManager(context)
         linearSnapHelper.attachToRecyclerView(this)
         adapter = SelectAdapter(data, dataFormat)
-        addItemDecoration(PaddingDecoration())
+        addItemDecoration(paddingDecoration)
         (adapter as? SelectAdapter<T>)?.mSelectedListener = selectedListener
         smoothScrollBy(0, (startPosition * lineHeight).toInt())
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    private fun <T> clearState() {
+        layoutManager = null
+        adapter = null
+        removeItemDecoration(paddingDecoration)
+        (adapter as? SelectAdapter<T>)?.mSelectedListener = null
+        removeAllViews()
     }
 
     init {
