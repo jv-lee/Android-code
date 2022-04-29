@@ -127,6 +127,8 @@ object KeyboardTools {
     fun View.keyboardPaddingBottom(
         lifecycleOwner: LifecycleOwner? = findViewTreeLifecycleOwner()
     ) {
+        val keyboardMinHeight = 100
+        var initDiff = 0
         val listener = {
             val rect = Rect()
             getWindowVisibleDisplayFrame(rect)
@@ -134,7 +136,12 @@ object KeyboardTools {
             val height: Int = context.resources.displayMetrics.heightPixels
             // 获取键盘抬高的高度
             val diff: Int = height - rect.height()
-            setPadding(0,0,0,diff)
+            if (diff > keyboardMinHeight) {
+                setPadding(0, 0, 0, diff - initDiff)
+            } else {
+                initDiff = diff
+                setPadding(0, 0, 0, 0)
+            }
         }
         viewTreeObserver.addOnGlobalLayoutListener(listener)
 
