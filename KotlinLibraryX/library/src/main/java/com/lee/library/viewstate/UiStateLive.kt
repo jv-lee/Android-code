@@ -11,7 +11,7 @@ import androidx.lifecycle.*
 typealias UiStateLiveData = LiveData<UiState>
 typealias UiStateMutableLiveData = MutableLiveData<UiState>
 
-inline fun <reified T> LiveData<UiState>.stateObserve(
+inline fun <reified T> LiveData<UiState>.observeState(
     owner: LifecycleOwner,
     crossinline success: (T) -> Unit,
     crossinline error: (Throwable) -> Unit = {},
@@ -28,7 +28,7 @@ inline fun <reified T> LiveData<UiState>.stateObserve(
     })
 }
 
-inline fun <reified T> stateLive(crossinline block: suspend () -> T) = liveData {
+inline fun <reified T> liveState(crossinline block: suspend () -> T) = liveData {
     var data: T? = null
     try {
         emit(UiState.Loading)
@@ -40,7 +40,7 @@ inline fun <reified T> stateLive(crossinline block: suspend () -> T) = liveData 
     }
 }
 
-inline fun <reified T> stateCacheLive(
+inline fun <reified T> liveStateCache(
     crossinline requestBlock: suspend () -> T? = { null },
     crossinline cacheBlock: suspend () -> T? = { null },
     crossinline completedBlock: suspend (T) -> Unit = {}

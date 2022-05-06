@@ -22,7 +22,7 @@ val StateFlow<UiStatePage>.responseFirstPage: Int
     get() = value.responseFirstPage
 
 // PageUiStateFlow数据collect扩展
-suspend inline fun <reified T> StateFlow<UiStatePage>.stateCollect(
+suspend inline fun <reified T> StateFlow<UiStatePage>.collectState(
     crossinline success: (T) -> Unit,
     crossinline error: (Throwable) -> Unit,
     crossinline default: () -> Unit = {},

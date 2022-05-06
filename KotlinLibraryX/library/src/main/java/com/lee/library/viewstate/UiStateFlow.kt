@@ -16,7 +16,7 @@ typealias UiStateMutableStateFlow = MutableStateFlow<UiState>
  * uiFlow根据数据源更新当前flow数据值
  * @param requestBlock 数据获取函数
  */
-suspend inline fun <T> MutableStateFlow<UiState>.stateUpdate(
+suspend inline fun <T> MutableStateFlow<UiState>.updateState(
     crossinline requestBlock: suspend () -> T
 ) {
     try {
@@ -34,7 +34,7 @@ suspend inline fun <T> MutableStateFlow<UiState>.stateUpdate(
  * @param cacheBlock 缓存数据获取函数
  * @param completedBlock 数据获取结果回调函数
  */
-suspend fun <T> MutableStateFlow<UiState>.stateCacheUpdate(
+suspend fun <T> MutableStateFlow<UiState>.updateStateCache(
     requestBlock: suspend () -> T? = { null },
     cacheBlock: suspend () -> T? = { null },
     completedBlock: suspend (T) -> Unit = {}
@@ -67,7 +67,7 @@ suspend fun <T> MutableStateFlow<UiState>.stateCacheUpdate(
  * T 数据源转换为uiFlow
  * @param block 数据请求函数
  */
-inline fun <reified T> stateFlow(crossinline block: suspend () -> T) = flow {
+inline fun <reified T> flowState(crossinline block: suspend () -> T) = flow {
     var data: T? = null
     try {
         emit(UiState.Loading)
@@ -85,7 +85,7 @@ inline fun <reified T> stateFlow(crossinline block: suspend () -> T) = flow {
  * @param cacheBlock 缓存数据获取函数
  * @param completedBlock 数据获取结果回调函数
  */
-inline fun <reified T> stateCacheFlow(
+inline fun <reified T> flowStateCache(
     crossinline requestBlock: suspend () -> T? = { null },
     crossinline cacheBlock: suspend () -> T? = { null },
     crossinline completedBlock: suspend (T) -> Unit = {}
@@ -131,7 +131,7 @@ inline fun <reified T> Flow<T>.uiState(): Flow<UiState> {
 /**
  * uiStateFlow数据collect扩展
  */
-suspend inline fun <reified T> Flow<UiState>.stateCollect(
+suspend inline fun <reified T> Flow<UiState>.collectState(
     crossinline success: (T) -> Unit,
     crossinline error: (Throwable) -> Unit,
     crossinline loading: () -> Unit = {},

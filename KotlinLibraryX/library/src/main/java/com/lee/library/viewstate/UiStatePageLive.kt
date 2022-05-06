@@ -24,7 +24,7 @@ val LiveData<UiStatePage>.responseFirstPage: Int
     get() = value?.responseFirstPage ?: 0
 
 // PageUiStateLiveData数据observe扩展
-inline fun <reified T> LiveData<UiStatePage>.stateObserve(
+inline fun <reified T> LiveData<UiStatePage>.observeState(
     owner: LifecycleOwner,
     crossinline success: (T) -> Unit,
     crossinline error: (Throwable) -> Unit,
