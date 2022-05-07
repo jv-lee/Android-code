@@ -10,7 +10,6 @@
         android:id="@+id/const_item_loadMore"
         android:layout_width="match_parent"
         android:layout_height="@dimen/status_item_height"
-        android:paddingBottom="@dimen/navigation_bar_height"
         android:visibility="gone"
         app:layout_constraintTop_toTopOf="parent"
         tools:visibility="visible">
@@ -42,7 +41,6 @@
         android:id="@+id/const_item_loadError"
         android:layout_width="match_parent"
         android:layout_height="@dimen/status_item_height"
-        android:paddingBottom="@dimen/navigation_bar_height"
         android:visibility="gone"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_marginTop="56dp"
@@ -65,7 +63,6 @@
         android:id="@+id/const_item_loadEnd"
         android:layout_width="match_parent"
         android:layout_height="@dimen/status_item_height"
-        android:paddingBottom="@dimen/navigation_bar_height"
         android:visibility="gone"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_marginTop="112dp"
