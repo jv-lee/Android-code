@@ -58,7 +58,6 @@ abstract class BaseNavigationFragment(val layoutId: Int) : BaseFragment(layoutId
     open fun onFragmentResume() {
         isResume = true
         isStop = false
-        handleViewLifecycleEvent(Lifecycle.Event.ON_START)
         handleViewLifecycleEvent(Lifecycle.Event.ON_RESUME)
     }
 
@@ -75,7 +74,6 @@ abstract class BaseNavigationFragment(val layoutId: Int) : BaseFragment(layoutId
     }
 
     private fun handleFragmentStop() {
-        handleViewLifecycleEvent(Lifecycle.Event.ON_PAUSE)
         handleViewLifecycleEvent(Lifecycle.Event.ON_STOP)
         if (!isStop) {
             onFragmentStop()
@@ -83,7 +81,6 @@ abstract class BaseNavigationFragment(val layoutId: Int) : BaseFragment(layoutId
     }
 
     private fun postFragmentStop() {
-        postViewLifecycleEvent(Lifecycle.Event.ON_PAUSE)
         postViewLifecycleEvent(Lifecycle.Event.ON_STOP)
         if (!isStop) {
             onFragmentStop()
