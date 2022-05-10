@@ -1,11 +1,7 @@
 package com.lee.library.base
 
-import android.os.Bundle
-import android.view.View
 import androidx.annotation.NonNull
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleEventObserver
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
 import androidx.navigation.fragment.findNavController
 
@@ -19,57 +15,21 @@ abstract class BaseNavigationFragment(val layoutId: Int) : BaseFragment(layoutId
     private var isResume = false
     private var isStop = true
 
-    private val navigationLifecycleOwner = object : LifecycleOwner {
-        var registry: LifecycleRegistry = LifecycleRegistry(this)
-
-        override fun getLifecycle() = registry
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        super.getViewLifecycleOwner().lifecycle.run {
-            addObserver(object : LifecycleEventObserver {
-                override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
-                    // 页面已失去焦点隐藏后不处理生命周期事件，重新获取焦点fragmentResume状态变更后处理事件
-                    if (isStop && event != Lifecycle.Event.ON_DESTROY) {
-                        return
-                    }
-
-                    // 生命周期事件通知
-                    navigationLifecycleOwner.registry.handleLifecycleEvent(event)
-
-                    // 解除事件监听
-                    if (event == Lifecycle.Event.ON_DESTROY) {
-                        removeObserver(this)
-                    }
-                }
-            })
-        }
-    }
-
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
-        if (hidden) {
-            onPause()
-            onStop()
-            handleFragmentStop()
-        } else {
-            onStart()
-            onResume()
-            handleFragmentResume()
-        }
+        if (hidden) onStop() else onResume()
     }
 
     override fun onResume() {
         super.onResume()
-        val currentClass = this::class.java.simpleName
+        val currentClass = javaClass.simpleName
         val destination: String
         val parentClass: String
 
         if (parentFragment != null) {
             destination =
                 requireParentFragment().findNavController().currentDestination.toString()
-            parentClass = requireParentFragment()::class.java.simpleName
+            parentClass = requireParentFragment().javaClass.simpleName
         } else {
             destination = findNavController().currentDestination.toString()
             parentClass = ""
@@ -105,6 +65,7 @@ abstract class BaseNavigationFragment(val layoutId: Int) : BaseFragment(layoutId
     }
 
     private fun handleFragmentStop() {
+        // stop事件在最开始更新生命周期状态-> home离开应用后所有fragment会回调onStop，再次进入时不在最前台的fragment需要重新调用stop覆盖resume状态
         handleViewLifecycleEvent(Lifecycle.Event.ON_STOP)
         if (!isStop) {
             onFragmentStop()
@@ -112,14 +73,11 @@ abstract class BaseNavigationFragment(val layoutId: Int) : BaseFragment(layoutId
     }
 
     private fun postFragmentStop() {
+        // stop事件在最开始更新生命周期状态-> home离开应用后所有fragment会回调onStop，再次进入时不在最前台的fragment需要重新调用stop覆盖resume状态
         postViewLifecycleEvent(Lifecycle.Event.ON_STOP)
         if (!isStop) {
             onFragmentStop()
         }
-    }
-
-    override fun getViewLifecycleOwner(): LifecycleOwner {
-        return navigationLifecycleOwner
     }
 
     private fun getViewLifecycleRegistry(): LifecycleRegistry? {
