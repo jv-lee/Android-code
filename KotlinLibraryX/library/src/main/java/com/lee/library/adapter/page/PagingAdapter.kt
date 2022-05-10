@@ -28,11 +28,15 @@ fun <T> BaseViewAdapter<T>.submitData(
                 emptyBlock()
                 return
             }
+
             // 刷新后首页数据即是末尾页
             if (pageData.getPageNumber() >= pageData.getPageTotalNumber()) {
                 loadMoreEnd()
                 return
             }
+
+            // 过滤重复数据
+            return
         }
 
         //设置空页面
@@ -109,6 +113,8 @@ fun <T> BaseViewAdapter<T>.submitData(
                 loadMoreEnd()
                 return
             }
+            // 过滤重复数据
+            return
         }
 
         //设置空页面
