@@ -16,5 +16,13 @@ inline fun <reified T> BaseViewAdapter<T>.bindAllListener(cThis: Any) {
     (cThis as? BaseViewAdapter.OnItemChildView<T>)?.run(this::setOnItemChildClickListener)
     (cThis as? BaseViewAdapter.LoadErrorListener)?.run(this::setLoadErrorListener)
     (cThis as? BaseViewAdapter.AutoLoadMoreListener)?.run(this::setAutoLoadMoreListener)
-    (cThis as? LoadResource)?.run(this::setLoadResource)
+}
+
+@Suppress("UNCHECKED_CAST")
+inline fun <reified T> BaseViewAdapter<T>.unbindAllListener() {
+    setOnItemClickListener(null)
+    setOnItemLongClickListener(null)
+    setOnItemChildClickListener(null)
+    setLoadErrorListener(null)
+    setAutoLoadMoreListener(null)
 }

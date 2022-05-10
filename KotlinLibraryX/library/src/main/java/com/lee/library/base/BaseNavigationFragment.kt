@@ -1,7 +1,11 @@
 package com.lee.library.base
 
+import android.os.Bundle
+import android.view.View
 import androidx.annotation.NonNull
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
 import androidx.navigation.fragment.findNavController
 
@@ -14,6 +18,37 @@ abstract class BaseNavigationFragment(val layoutId: Int) : BaseFragment(layoutId
 
     private var isResume = false
     private var isStop = true
+
+    private val navigationLifecycleOwner = object : LifecycleOwner {
+        var registry: LifecycleRegistry = LifecycleRegistry(this)
+
+        override fun getLifecycle() = registry
+    }
+
+    fun getNavigationLifecycle() = navigationLifecycleOwner
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        super.getViewLifecycleOwner().lifecycle.run {
+            addObserver(object : LifecycleEventObserver {
+                override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
+                    // 页面已失去焦点隐藏后不处理生命周期事件，重新获取焦点fragmentResume状态变更后处理事件
+                    if (isStop && event != Lifecycle.Event.ON_DESTROY) {
+                        return
+                    }
+
+                    // 解除事件监听
+                    if (event == Lifecycle.Event.ON_DESTROY) {
+                        removeObserver(this)
+                    } else {
+                        // 生命周期事件通知
+                        navigationLifecycleOwner.registry.handleLifecycleEvent(event)
+                    }
+                }
+            })
+        }
+    }
+
 
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
