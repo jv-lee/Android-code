@@ -26,8 +26,13 @@ fun <T> BaseViewAdapter<T>.submitData(
                 clearData()
                 pageEmpty()
                 emptyBlock()
+                return
             }
-            return
+            // 刷新后首页数据即是末尾页
+            if (pageData.getPageNumber() >= pageData.getPageTotalNumber()) {
+                loadMoreEnd()
+                return
+            }
         }
 
         //设置空页面
@@ -97,8 +102,13 @@ fun <T> BaseViewAdapter<T>.submitData(
                 clearData()
                 pageEmpty()
                 emptyBlock()
+                return
             }
-            return
+            // 刷新后首页数据即是末尾页
+            if (pageData.isLastPage()) {
+                loadMoreEnd()
+                return
+            }
         }
 
         //设置空页面
