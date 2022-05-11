@@ -4,12 +4,12 @@ package com.lee.library.livedatabus;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.Lifecycle;
-import androidx.lifecycle.LifecycleObserver;
+import androidx.lifecycle.LifecycleEventObserver;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.OnLifecycleEvent;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -21,7 +21,7 @@ import java.util.Map;
  * @date 2019/3/30
  * 事件总线
  */
-public class LiveDataBus{
+public class LiveDataBus {
 
     /**
      * 消息通道
@@ -194,23 +194,23 @@ public class LiveDataBus{
 
                 //处理粘性事件
                 if (viscosity) {
-                    lifecycleOwner.getLifecycle().addObserver(new LifecycleObserver() {
-                        @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
-                        public void onCreate() {
-                            MutableLiveData<Object> channel = LiveDataBus.getInstance().getChannel(value);
-                            //获取最新一条消息补发
-                            Object vicValue = channel.getValue();
-                            if (vicValue != null) {
-                                channel.postValue(vicValue);
+                    lifecycleOwner.getLifecycle().addObserver(new LifecycleEventObserver() {
+                        @Override
+                        public void onStateChanged(@NonNull LifecycleOwner source, @NonNull Lifecycle.Event event) {
+                            if (event == Lifecycle.Event.ON_CREATE) {
+                                MutableLiveData<Object> channel = LiveDataBus.getInstance().getChannel(value);
+                                //获取最新一条消息补发
+                                Object vicValue = channel.getValue();
+                                if (vicValue != null) {
+                                    channel.postValue(vicValue);
+                                }
+                            }
+
+                            if (event == Lifecycle.Event.ON_DESTROY) {
+                                lifecycleOwner.getLifecycle().removeObserver(this);
                             }
                         }
-
-                        @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-                        public void onDestroy() {
-                            lifecycleOwner.getLifecycle().removeObserver(this);
-                        }
                     });
-
                 }
             }
 
