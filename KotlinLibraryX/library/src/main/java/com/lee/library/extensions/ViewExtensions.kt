@@ -5,8 +5,10 @@ import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.StateListDrawable
 import android.os.Build
-import android.text.*
-import android.view.*
+import android.text.InputFilter
+import android.view.KeyEvent
+import android.view.View
+import android.view.ViewGroup
 import android.webkit.WebView
 import android.widget.*
 import androidx.annotation.IdRes
@@ -19,6 +21,7 @@ import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.tabs.TabLayout
 import com.lee.library.R
 import com.lee.library.tools.ReflexTools
 import kotlin.math.abs
@@ -345,6 +348,30 @@ fun ViewPager2.increaseOffscreenPageLimit() {
             if (offscreenPageLimit < position) {
                 offscreenPageLimit = position
             }
+        }
+    })
+}
+
+/**
+ * 更具滑动page，慢慢递增page缓存
+ * 解决一次性缓存所有page页面初始化卡顿问题
+ */
+fun TabLayout.increaseOffscreenPageLimit(viewPager: ViewPager2) {
+    viewPager.increaseOffscreenPageLimit()
+    addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+        override fun onTabSelected(tab: TabLayout.Tab?) {
+            tab?.run {
+                if (position == 0) return
+                if (viewPager.offscreenPageLimit < position) {
+                    viewPager.offscreenPageLimit = position
+                }
+            }
+        }
+
+        override fun onTabUnselected(tab: TabLayout.Tab?) {
+        }
+
+        override fun onTabReselected(tab: TabLayout.Tab?) {
         }
     })
 }
