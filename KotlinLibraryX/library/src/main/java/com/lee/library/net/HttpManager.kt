@@ -81,9 +81,9 @@ class HttpManager private constructor() {
         return if (mServiceMap.containsKey(serviceClass.name + request.key)) {
             mServiceMap[serviceClass.name + request.key] as T
         } else {
-            val service = createService(serviceClass, request)
-            mServiceMap.put(serviceClass.name + request.key, service!!)
-            service
+            createService(serviceClass, request).also {
+                mServiceMap[serviceClass.name + request.key] = it!!
+            }
         }
     }
 
@@ -95,9 +95,9 @@ class HttpManager private constructor() {
         return if (mServiceMap.containsKey(serviceClass.name)) {
             mServiceMap[serviceClass.name + request.key] as T
         } else {
-            val service = createService(serviceClass, request, client)
-            mServiceMap.put(serviceClass.name + request.key, service!!)
-            service
+            createService(serviceClass, request, client).also {
+                mServiceMap[serviceClass.name + request.key] = it!!
+            }
         }
     }
 
@@ -106,62 +106,36 @@ class HttpManager private constructor() {
     }
 
     private fun <T> createService(
-        serviceClass: Class<T>,
-        request: Request,
-        client: OkHttpClient
+        serviceClass: Class<T>, request: Request, client: OkHttpClient
     ): T {
         val builder = Retrofit.Builder()
             .baseUrl(request.baseUrl)
 
-        if (request.converterTypes != null) {
-            request.converterTypes.forEach {
-                builder.addConverterFactory(getConverterFactory(it))
-            }
-        } else {
-            builder.addConverterFactory(getConverterFactory(request.converterType))
-        }
+        request.converterTypes?.run { map { builder.addConverterFactory(getConverterFactory(it)) } }
+            ?: kotlin.run { builder.addConverterFactory(getConverterFactory(request.converterType)) }
 
-        if (request.callTypes != null) {
-            request.callTypes.forEach {
-                builder.addCallAdapterFactory(getCallAdapter(it))
-            }
-        } else {
-            builder.addCallAdapterFactory(getCallAdapter(request.callType))
-        }
+        request.callTypes?.run { map { builder.addCallAdapterFactory(getCallAdapter(it)) } }
+            ?: kotlin.run { builder.addCallAdapterFactory(getCallAdapter(request.callType)) }
 
-        val retrofit = builder.client(client).build()
-        return retrofit.create(serviceClass)
+        return builder.client(client).build().create(serviceClass)
     }
 
     @Synchronized
     private fun getOkHttpClient(request: Request): OkHttpClient {
-        if (request.isDownload && mDownloadClient != null) {
-            return mDownloadClient as OkHttpClient
-        }
-        if (!request.isDownload && mClient != null) {
-            return mClient as OkHttpClient
-        }
+        if (request.isDownload && mDownloadClient != null) return mDownloadClient as OkHttpClient
+        if (!request.isDownload && mClient != null) return mClient as OkHttpClient
 
-        val builder = if (isUnSafeClient) {
-            OkHttpClientBuilder().getUnSafeClient().newBuilder()
-        } else {
-            OkHttpClientBuilder().getSafeClient().newBuilder()
-        }
+        val builder = if (isUnSafeClient) OkHttpClientBuilder().getUnSafeClient().newBuilder()
+        else OkHttpClientBuilder().getSafeClient().newBuilder()
 
         //cache
         val httpCacheDirectory = File(app.cacheDir, "OkHttpCache")
         builder.cache(Cache(httpCacheDirectory, MAX_CACHE))
 
-        mInterceptors.map {
-            builder.addInterceptor(it)
-        }
+        mInterceptors.map { builder.addInterceptor(it) }
 
         val client = builder.build()
-        if (request.isDownload) {
-            mDownloadClient = client
-        } else {
-            mClient = client
-        }
+        if (request.isDownload) mDownloadClient = client else mClient = client
 
         return client
     }
@@ -179,7 +153,6 @@ class HttpManager private constructor() {
         return when (type) {
             IRequest.CallType.COROUTINE -> CoroutineCallAdapterFactory()
             IRequest.CallType.FLOW -> FlowCallAdapterFactory()
-//            IRequest.CallType.OBSERVABLE -> RxJava2CallAdapterFactory.create()
             else -> CoroutineCallAdapterFactory()
         }
     }
@@ -193,6 +166,7 @@ class HttpManager private constructor() {
                 throwable.response()?.errorBody()?.let {
                     val json = JsonParser.parseString(it.string())
                     val msg = json.asJsonObject.get(filedName).asString
+
                     return if (TextUtils.isEmpty(msg)) {
                         throwable.message ?: throwable.toString()
                     } else {
