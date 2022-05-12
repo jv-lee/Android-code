@@ -8,7 +8,6 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.*
 import com.lee.library.R
-import com.lee.library.base.BaseNavigationFragment
 import com.lee.library.utils.ActivityUtil
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -86,20 +85,6 @@ inline fun Fragment.launchAndRepeatWithViewLifecycle(
 }
 
 /**
- * 携程flow fragment生命周期绑定
- */
-inline fun BaseNavigationFragment.launchAndRepeatWithViewLifecycle(
-    minActiveState: Lifecycle.State = Lifecycle.State.STARTED,
-    crossinline block: suspend CoroutineScope.() -> Unit
-) {
-    getNavigationLifecycle().lifecycleScope.launch {
-        getNavigationLifecycle().lifecycle.repeatOnLifecycle(minActiveState) {
-            block()
-        }
-    }
-}
-
-/**
  * 设置双击back关闭Activity
  * @param backExitTime  两次back事件间隔 默认2秒
  * @param alertCall 两次back事件间隔时间不满足条件 call回调
@@ -146,7 +131,7 @@ inline fun Fragment.delayBackEvent(
  */
 inline fun Fragment.delayBackEvent(
     backExitTime: Int = 2000,
-    crossinline hasBack:() ->Boolean = { true },
+    crossinline hasBack: () -> Boolean = { true },
     crossinline alertCall: () -> Unit = { toast(getString(R.string.double_click_back)) }
 ): OnBackPressedCallback {
     var firstTime: Long = 0
