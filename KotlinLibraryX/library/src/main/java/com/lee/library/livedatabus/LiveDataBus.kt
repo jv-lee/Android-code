@@ -11,6 +11,7 @@ import com.lee.library.livedatabus.LiveDataBus.ObserverWrapper
  * @date 2019/3/30
  * @description 事件总线
  */
+@Suppress("UNCHECKED_CAST")
 class LiveDataBus private constructor() {
 
     companion object {
@@ -22,19 +23,12 @@ class LiveDataBus private constructor() {
      */
     private val bus: HashMap<String, BusMutableLiveData<Any>> = HashMap()
 
-    /**
-     * 存储非激活事件的临时容器
-     */
-    private val tempMap: HashMap<String, Observer<*>> = HashMap()
-
-    fun <T> getChannel(target: String, type: Class<T>): MutableLiveData<T> {
-        if (!bus.containsKey(target)) {
-            bus[target] = BusMutableLiveData()
+    fun <T> getChannel(type: Class<T>): MutableLiveData<T> {
+        if (!bus.containsKey(type.simpleName)) {
+            bus[type.simpleName] = BusMutableLiveData()
         }
-        return bus[target] as MutableLiveData<T>
+        return bus[type.simpleName] as MutableLiveData<T>
     }
-
-    fun getChannel(target: String): MutableLiveData<Any> = getChannel(target, Any::class.java)
 
     private class ObserverWrapper<T>(private val observer: Observer<T>) : Observer<T> {
 
@@ -119,16 +113,20 @@ class LiveDataBus private constructor() {
      */
     fun injectBus(lifecycleOwner: LifecycleOwner) {
         val aClass = lifecycleOwner.javaClass
-        var lifecycle: LifecycleOwner? = null
+        var viewLifecycleOwner: LifecycleOwner? = null
 
-        if (lifecycleOwner is Activity) lifecycle = lifecycleOwner
-        if (lifecycleOwner is Fragment) lifecycle = lifecycleOwner.viewLifecycleOwner
+        if (lifecycleOwner is Activity) viewLifecycleOwner = lifecycleOwner
+        if (lifecycleOwner is Fragment) viewLifecycleOwner = lifecycleOwner.viewLifecycleOwner
 
         // 获取当前类所有方法
         val declaredMethods = aClass.declaredMethods
         declaredMethods.forEach { method ->
             val injectBus = method.getAnnotation(InjectBus::class.java)
             injectBus?.run {
+                check(method.parameterTypes.size == 1) {
+                    "$aClass injectBus function params isEmpty or params count > 1."
+                }
+                val tagType = method.parameterTypes.first()
                 val observer = Observer<Any> {
                     try {
                         method.invoke(lifecycleOwner, it)
@@ -139,49 +137,24 @@ class LiveDataBus private constructor() {
 
                 // 是否是激活状态
                 if (isActive) {
-                    lifecycle?.run { instance.getChannel(value).observe(this, observer) }
+                    viewLifecycleOwner?.run { instance.getChannel(tagType).observe(this, observer) }
                 } else {
-                    tempMap[value] = observer
-                    instance.getChannel(value).observeForever(observer)
-                }
-
-                // 处理粘性事件
-                if (isViscosity) {
-                    lifecycle?.lifecycle?.addObserver(object : LifecycleEventObserver {
+                    // 非激活模式接收的消息
+                    val channel = instance.getChannel(tagType)
+                    channel.observeForever(observer)
+                    // 解除绑定
+                    viewLifecycleOwner?.lifecycle?.addObserver(object : LifecycleEventObserver {
                         override fun onStateChanged(
                             source: LifecycleOwner,
                             event: Lifecycle.Event
                         ) {
-                            if (event == Lifecycle.Event.ON_RESUME) {
-                                val channel = instance.getChannel(value)
-                                // 获取最新的消息补发
-                                channel.value?.let { channel.postValue(it) }
-                            }
-
                             if (event == Lifecycle.Event.ON_DESTROY) {
-                                lifecycle.lifecycle.removeObserver(this)
+                                channel.removeObserver(observer)
+                                viewLifecycleOwner.lifecycle.removeObserver(this)
                             }
                         }
+
                     })
-                }
-
-            }
-        }
-    }
-
-    /**
-     * 取消订阅通知 (仅在使用非激活状态可通知模式 需要取消订阅)
-     * @param lifecycleOwner
-     */
-    fun unInjectBus(lifecycleOwner: LifecycleOwner) {
-        val aClass = lifecycleOwner.javaClass
-        val declaredMethods = aClass.declaredMethods
-        declaredMethods.forEach { method ->
-            val injectBus = method.getAnnotation(InjectBus::class.java)
-            injectBus?.takeIf { !it.isActive }?.run {
-                val remove = tempMap.remove(value)
-                remove?.let {
-                    instance.getChannel(value).removeObserver(it as Observer<in Any>)
                 }
             }
         }
