@@ -34,17 +34,10 @@ import java.io.File
 class HttpManager private constructor() {
 
     companion object {
+        val instance by lazy { HttpManager() }
+
         private const val MAX_CACHE: Long = 10 * 1024 * 1024
-
-        @Volatile
-        private var instance: HttpManager? = null
         private var gson: Gson? = null
-
-        @JvmStatic
-        fun getInstance() =
-            instance ?: synchronized(this) {
-                instance ?: HttpManager().also { instance = it }
-            }
 
         fun getGson() = gson ?: GsonBuilder()
             .registerTypeAdapterFactory(GsonDefaultAdapterFactory())

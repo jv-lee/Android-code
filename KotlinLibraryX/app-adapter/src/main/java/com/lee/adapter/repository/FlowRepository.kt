@@ -23,7 +23,7 @@ class FlowRepository {
             IRequest.ConverterType.JSON,
             callType = IRequest.CallType.FLOW
         )
-        api = HttpManager.getInstance().getService(ApiService::class.java, request)
+        api = HttpManager.instance.getService(ApiService::class.java, request)
     }
 
     fun getData(page: Int): Flow<Page<Content>> {
