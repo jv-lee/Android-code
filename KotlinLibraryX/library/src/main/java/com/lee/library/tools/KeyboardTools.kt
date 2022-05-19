@@ -6,10 +6,7 @@ import android.app.Activity
 import android.content.Context
 import android.graphics.Rect
 import android.os.Build
-import android.view.View
-import android.view.ViewGroup
-import android.view.Window
-import android.view.WindowManager
+import android.view.*
 import android.view.inputmethod.InputMethodManager
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
@@ -127,7 +124,7 @@ object KeyboardTools {
     fun View.keyboardPaddingBottom(lifecycleOwner: LifecycleOwner? = findViewTreeLifecycleOwner()) {
         val keyboardMinHeight = 100
         var initDiff = 0
-        val listener = {
+        val listener = ViewTreeObserver.OnGlobalLayoutListener {
             val rect = Rect()
             getWindowVisibleDisplayFrame(rect)
 
@@ -170,7 +167,7 @@ object KeyboardTools {
     ) {
         var isOpen = false
         val keyboardHeight = 200
-        val listener = {
+        val listener = ViewTreeObserver.OnGlobalLayoutListener {
             val rect = Rect()
             getWindowVisibleDisplayFrame(rect)
 
