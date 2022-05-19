@@ -33,18 +33,6 @@ object KeyboardTools {
         app.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
 
     /**
-     * 动态隐藏软键盘
-     */
-    @TargetApi(Build.VERSION_CODES.CUPCAKE)
-    fun Context.hideSoftInput() {
-        var view = (this as? Activity)?.currentFocus
-        if (view == null) {
-            view = View(this)
-        }
-        imm.hideSoftInputFromWindow(view.windowToken, 0)
-    }
-
-    /**
      * 动态显示软键盘
      */
     @TargetApi(Build.VERSION_CODES.CUPCAKE)
@@ -58,17 +46,24 @@ object KeyboardTools {
     }
 
     /**
-     * 动态显示软键盘
-     * @param view 触发的view
+     * 动态隐藏软键盘
      */
     @TargetApi(Build.VERSION_CODES.CUPCAKE)
-    fun Context.showSoftInput(view: View) {
-        view.isFocusable = true
-        view.isFocusableInTouchMode = true
-        view.requestFocus()
-        imm.showSoftInput(view, 0)
+    fun Context.hideSoftInput() {
+        var view = (this as? Activity)?.currentFocus
+        if (view == null) {
+            view = View(this)
+        }
+        imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
+    /**
+     * 判断软键盘是否弹出
+     */
+    fun Context.keyboardIsShow(): Boolean {
+        val windowToken = (this as? Activity)?.window?.decorView?.windowToken ?: return false
+        return imm.hideSoftInputFromWindow(windowToken, 0)
+    }
 
     /**
      * 切换键盘显示与否状态
@@ -83,27 +78,14 @@ object KeyboardTools {
     }
 
     /**
-     * 判断软键盘是否弹出
+     * 动态显示软键盘
      */
-    fun Context.keyboardIsShow(): Boolean {
-        val windowToken = (this as? Activity)?.window?.decorView?.windowToken ?: return false
-        return imm.hideSoftInputFromWindow(windowToken, 0)
-    }
-
-    /**
-     * 点击任意view隐藏输入法
-     */
-    @SuppressLint("ClickableViewAccessibility")
-    fun Context.parentTouchHideSoftInput(view: View) {
-        view.setOnTouchListener { _, _ ->
-            view.isFocusable = true
-            view.isFocusableInTouchMode = true
-            view.requestFocus()
-            if (keyboardIsShow()) {
-                hideSoftInput()
-            }
-            false
-        }
+    @TargetApi(Build.VERSION_CODES.CUPCAKE)
+    fun View.showSoftInput() {
+        isFocusable = true
+        isFocusableInTouchMode = true
+        requestFocus()
+        imm.showSoftInput(this, 0)
     }
 
     /**
@@ -116,6 +98,22 @@ object KeyboardTools {
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
         fitsSystemWindows = true
         setMargin(top = -marginValue)
+    }
+
+    /**
+     * 点击任意view隐藏输入法
+     */
+    @SuppressLint("ClickableViewAccessibility")
+    fun View.parentTouchHideSoftInput() {
+        setOnTouchListener { _, _ ->
+            isFocusable = true
+            isFocusableInTouchMode = true
+            requestFocus()
+            if (context.keyboardIsShow()) {
+                context.hideSoftInput()
+            }
+            false
+        }
     }
 
     /**
