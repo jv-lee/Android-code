@@ -45,7 +45,7 @@ class ChatListActivity2 :
         binding.rvContainer.reverseLayout()
 
         //监听键盘弹起
-        binding.root.keyboardObserver(openObserver = { binding.rvContainer.smoothScrollToTop() })
+        binding.root.keyboardObserver { binding.rvContainer.smoothScrollToTop() }
 
         //设置adapter基础配置
         adapter.initStatusView()
