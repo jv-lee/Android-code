@@ -1,60 +1,50 @@
-package com.lee.library.adapter.listener;
+package com.lee.library.adapter.listener
 
-import com.lee.library.R;
+import com.lee.library.R
 
 /**
  * @author jv.lee
  * @date 2020/4/13
  * @description
  */
-public class DefaultLoadResource implements LoadResource {
-    @Override
-    public int pageLayoutId() {
-        return R.layout.layout_page_load;
+class DefaultLoadResource : LoadResource {
+    override fun pageLayoutId(): Int {
+        return R.layout.layout_page_load
     }
 
-    @Override
-    public int pageLoadingId() {
-        return R.id.const_page_loading;
+    override fun pageLoadingId(): Int {
+        return R.id.const_page_loading
     }
 
-    @Override
-    public int pageEmptyId() {
-        return R.id.const_page_empty;
+    override fun pageEmptyId(): Int {
+        return R.id.const_page_empty
     }
 
-    @Override
-    public int pageErrorId() {
-        return R.id.const_page_error;
+    override fun pageErrorId(): Int {
+        return R.id.const_page_error
     }
 
-    @Override
-    public int pageReloadId() {
-        return R.id.btn_restart;
+    override fun pageReloadId(): Int {
+        return R.id.btn_restart
     }
 
-    @Override
-    public int itemLayoutId() {
-        return R.layout.layout_item_load;
+    override fun itemLayoutId(): Int {
+        return R.layout.layout_item_load
     }
 
-    @Override
-    public int itemLoadMoreId() {
-        return R.id.const_item_loadMore;
+    override fun itemLoadMoreId(): Int {
+        return R.id.const_item_loadMore
     }
 
-    @Override
-    public int itemLoadEndId() {
-        return R.id.const_item_loadEnd;
+    override fun itemLoadEndId(): Int {
+        return R.id.const_item_loadEnd
     }
 
-    @Override
-    public int itemLoadErrorId() {
-        return R.id.const_item_loadError;
+    override fun itemLoadErrorId(): Int {
+        return R.id.const_item_loadError
     }
 
-    @Override
-    public int itemReloadId() {
-        return R.id.tv_error_text;
+    override fun itemReloadId(): Int {
+        return R.id.tv_error_text
     }
 }
