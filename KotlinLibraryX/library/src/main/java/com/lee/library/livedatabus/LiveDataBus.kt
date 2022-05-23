@@ -23,11 +23,38 @@ class LiveDataBus private constructor() {
      */
     private val bus: HashMap<String, BusMutableLiveData<Any>> = HashMap()
 
+    /***
+     * 注入的当前事件次数(根据注入次数控制解绑时机,处理多次监听相同事件直到全部需要解除时才移除bus中的事件)
+     */
+    private val injectSize: HashMap<String, Int> = HashMap()
+
     fun <T> getChannel(type: Class<T>): MutableLiveData<T> {
         if (!bus.containsKey(type.simpleName)) {
             bus[type.simpleName] = BusMutableLiveData()
         }
         return bus[type.simpleName] as MutableLiveData<T>
+    }
+
+    /**
+     * 记录注入事件次数
+     */
+    private fun injectSizeAdd(type: Class<*>) {
+        val count = injectSize[type.simpleName] ?: 0
+        injectSize[type.simpleName] = 1 + count
+    }
+
+    /**
+     * 移除事件次数 根据次数决定是否移除事件
+     */
+    private fun injectSizeRemove(type: Class<*>) {
+        val tag = type.simpleName
+        val count = injectSize[tag] ?: return
+        if (count == 1) {
+            injectSize.remove(tag)
+            bus.remove(tag)
+        } else {
+            injectSize[tag] = count - 1
+        }
     }
 
     private class ObserverWrapper<T>(private val observer: Observer<T>) : Observer<T> {
@@ -135,6 +162,8 @@ class LiveDataBus private constructor() {
                     }
                 }
 
+                injectSizeAdd(tagType)
+
                 viewLifecycleOwner?.run {
                     val channel = instance.getChannel(tagType)
                     if (isActive) { // 是否是激活状态 激活状态last粘性消息
@@ -150,7 +179,11 @@ class LiveDataBus private constructor() {
                             event: Lifecycle.Event
                         ) {
                             if (event == Lifecycle.Event.ON_DESTROY) {
+                                // 移除事件订阅
                                 channel.removeObserver(observer)
+                                // 移除事件
+                                injectSizeRemove(tagType)
+                                // 移除生命周期监听器
                                 source.lifecycle.removeObserver(this)
                             }
                         }
