@@ -13,8 +13,8 @@ abstract class BaseBottomDialog constructor(
     layoutId: Int,
     isCancel: Boolean = true,
     limitHeight: Int = 0
-) :
-    BaseDialog(context, R.style.BottomDialogTheme, layoutId, isCancel) {
+) : BaseDialog(context, R.style.BottomDialogTheme, layoutId, isCancel) {
+
     init {
         setBottomDialog(limitHeight)
     }

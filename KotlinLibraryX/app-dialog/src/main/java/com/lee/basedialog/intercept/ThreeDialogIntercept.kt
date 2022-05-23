@@ -1,8 +1,6 @@
 package com.lee.basedialog.intercept
 
 import com.lee.library.dialog.ChoiceDialog
-import com.lee.library.dialog.core.CancelListener
-import com.lee.library.dialog.core.ConfirmListener
 import com.lee.library.dialog.intercept.DialogCreateConfig
 import com.lee.library.dialog.intercept.DialogIntercept
 
@@ -27,14 +25,14 @@ class ThreeDialogIntercept : DialogIntercept<DialogCreateConfig>() {
         }
 
         //取消后进入下一级弹窗判断 显示状态关闭
-        dialog?.cancelListener = CancelListener {
+        dialog?.onCancel = {
             dialog?.dismiss()
             item.isShow = false
             super.intercept(item)
         }
 
         //确认后进入下一级弹窗判断 显示状态打开
-        dialog?.confirmListener = ConfirmListener {
+        dialog?.onConfirm = {
             dialog?.dismiss()
             item.isShow = true
             super.intercept(item)

@@ -15,11 +15,8 @@ class WarnDialog(context: Context) : BaseAlertDialog(context, R.layout.layout_di
 
     public override fun bindView() {
         findViewById<View>(R.id.tv_confirm).setOnClickListener {
-            if (confirmListener != null) {
-                confirmListener?.onConfirm()
-            } else {
-                dismiss()
-            }
+            onConfirm ?: dismiss()
+            onConfirm?.invoke()
         }
     }
 

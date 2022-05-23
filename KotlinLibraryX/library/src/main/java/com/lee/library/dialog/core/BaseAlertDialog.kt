@@ -16,8 +16,8 @@ abstract class BaseAlertDialog(
     BaseDialog(context, R.style.BaseAlertDialog, layoutId, isCancel) {
 
     @JvmField
-    var confirmListener: ConfirmListener? = null
+    var onConfirm: (()->Unit)? = null
 
     @JvmField
-    var cancelListener: CancelListener? = null
+    var onCancel: (()->Unit)? = null
 }

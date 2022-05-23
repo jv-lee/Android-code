@@ -15,12 +15,12 @@ class ChoiceDialog(context: Context) : BaseAlertDialog(context, R.layout.layout_
 
     public override fun bindView() {
         findViewById<View>(R.id.tv_confirm).setOnClickListener {
-            confirmListener ?: dismiss()
-            confirmListener?.onConfirm()
+            onConfirm ?: dismiss()
+            onConfirm?.invoke()
         }
         findViewById<View>(R.id.tv_cancel).setOnClickListener {
-            cancelListener ?: dismiss()
-            cancelListener?.onCancel()
+            onCancel ?: dismiss()
+            onCancel?.invoke()
         }
     }
 

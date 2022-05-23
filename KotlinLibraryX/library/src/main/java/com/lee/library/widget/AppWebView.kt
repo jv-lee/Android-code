@@ -18,8 +18,6 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import com.lee.library.R
 import com.lee.library.dialog.ChoiceDialog
-import com.lee.library.dialog.core.CancelListener
-import com.lee.library.dialog.core.ConfirmListener
 
 /**
  * @author jv.lee
@@ -64,6 +62,7 @@ class AppWebView : WebView, LifecycleEventObserver {
         settings.savePassword = false
         setWebContentsDebuggingEnabled(true)
         webViewClient = object : WebViewClient() {
+            @SuppressLint("WebViewClientOnReceivedSslError")
             override fun onReceivedSslError(
                 view: WebView,
                 handler: SslErrorHandler,
@@ -75,12 +74,12 @@ class AppWebView : WebView, LifecycleEventObserver {
                     setTitle(context.getString(R.string.str_ssl_error))
                     setCancelable(true)
                     //不校验https证书
-                    confirmListener = ConfirmListener {
+                    onConfirm = {
                         mHandler.proceed()
                         dismiss()
                     }
                     //校验证书
-                    cancelListener = CancelListener {
+                    onCancel = {
                         mHandler.cancel()
                         dismiss()
                     }

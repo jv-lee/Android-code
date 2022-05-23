@@ -9,9 +9,7 @@ import com.lee.library.base.BaseActivity
 import com.lee.library.dialog.ChoiceDialog
 import com.lee.library.dialog.LoadingDialog
 import com.lee.library.dialog.WarnDialog
-import com.lee.library.dialog.core.ConfirmListener
 import com.lee.library.extensions.binding
-import com.lee.library.tools.StatusTools
 import com.lee.library.tools.StatusTools.setDarkStatusIcon
 import com.lee.library.tools.StatusTools.statusBar
 import com.lee.library.utils.DensityUtil
@@ -43,7 +41,7 @@ class TestActivity : BaseActivity() {
     private val warnDialog by lazy {
         WarnDialog(this).apply {
             setTitle("您输入的密码有误，请重新输入")
-            confirmListener = ConfirmListener { dismiss() }
+            onConfirm = { dismiss() }
         }
     }
 
@@ -53,7 +51,7 @@ class TestActivity : BaseActivity() {
     private val choiceDialog by lazy {
         ChoiceDialog(this).apply {
             setTitle("是否打开通讯设备?")
-            confirmListener = ConfirmListener {
+            onConfirm = {
                 dismiss()
                 Toast.makeText(context, "已开启通讯设备", Toast.LENGTH_SHORT).show()
             }
