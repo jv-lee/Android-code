@@ -1,7 +1,6 @@
 package com.lee.basedialog.intercept
 
 import com.lee.basedialog.fragment.BaseSheetDialogFragmentImpl
-import com.lee.library.dialog.core.DialogActionCall
 import com.lee.library.dialog.intercept.DialogCreateConfig
 import com.lee.library.dialog.intercept.DialogIntercept
 
@@ -24,16 +23,13 @@ class FourDialogIntercept : DialogIntercept<DialogCreateConfig>() {
             super.intercept(item)
         }
 
-        dialog.actionCall = object : DialogActionCall {
-            override fun confirm() {
-                item.isShow = true
-                showCall.invoke()
-            }
-
-            override fun cancel() {
-                item.isShow = false
-                showCall.invoke()
-            }
+        dialog.onConfirm = {
+            item.isShow = true
+            showCall.invoke()
+        }
+        dialog.onCancel = {
+            item.isShow = false
+            showCall.invoke()
         }
     }
 }

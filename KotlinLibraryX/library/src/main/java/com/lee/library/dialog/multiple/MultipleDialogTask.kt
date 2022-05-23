@@ -24,12 +24,11 @@ class MultipleDialogTask(fragmentManager: FragmentManager) {
         if (stack.empty()) return
 
         kotlin.runCatching {
-            stack.pop()
-                ?.takeIf {
-                    it.action.invoke()
-                }?.run {
-                    multipleDialogAdapter.switchShowType(dialog)
-                } ?: kotlin.run {
+            stack.pop()?.takeIf {
+                it.action.invoke()
+            }?.run {
+                multipleDialogAdapter.switchShowType(dialog)
+            } ?: kotlin.run {
                 nextShow()
             }
         }.onFailure {
