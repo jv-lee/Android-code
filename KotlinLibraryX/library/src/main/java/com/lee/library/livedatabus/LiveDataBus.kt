@@ -135,25 +135,25 @@ class LiveDataBus private constructor() {
                     }
                 }
 
-                // 是否是激活状态
-                if (isActive) {
-                    viewLifecycleOwner?.run { instance.getChannel(tagType).observe(this, observer) }
-                } else {
-                    // 非激活模式接收的消息
+                viewLifecycleOwner?.run {
                     val channel = instance.getChannel(tagType)
-                    channel.observeForever(observer)
+                    if (isActive) { // 是否是激活状态 激活状态last粘性消息
+                        channel.observe(this, observer)
+                    } else { // 非激活状态即时消息
+                        channel.observeForever(observer)
+                    }
+
                     // 解除绑定
-                    viewLifecycleOwner?.lifecycle?.addObserver(object : LifecycleEventObserver {
+                    lifecycle.addObserver(object : LifecycleEventObserver {
                         override fun onStateChanged(
                             source: LifecycleOwner,
                             event: Lifecycle.Event
                         ) {
                             if (event == Lifecycle.Event.ON_DESTROY) {
                                 channel.removeObserver(observer)
-                                viewLifecycleOwner.lifecycle.removeObserver(this)
+                                source.lifecycle.removeObserver(this)
                             }
                         }
-
                     })
                 }
             }
