@@ -18,6 +18,8 @@ fun <T> BaseViewAdapter<T>.submitData(
 ) {
     //首页加载逻辑
     if (pageData.getPageNumber() == limit) {
+        openLoadMore()
+
         // 过滤首页重复数据
         if (data == pageData.getDataSource()) {
             // 重复数据空数据校验
@@ -98,6 +100,8 @@ fun <T> BaseViewAdapter<T>.submitData(
 ) {
     //首页加载逻辑
     if (pageData.isFirstPage()) {
+        openLoadMore()
+
         // 过滤首页重复数据
         if (data == pageData.getDataSource()) {
             // 重复数据空数据校验
