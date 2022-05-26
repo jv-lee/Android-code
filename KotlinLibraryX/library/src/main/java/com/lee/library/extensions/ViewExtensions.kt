@@ -333,7 +333,7 @@ fun RadioGroup.checkUnNotification(@IdRes id: Int) {
 }
 
 /**
- * 更具滑动page，慢慢递增page缓存
+ * 根据滑动page，慢慢递增page缓存
  * 解决一次性缓存所有page页面初始化卡顿问题
  */
 fun ViewPager2.increaseOffscreenPageLimit() {
@@ -345,15 +345,20 @@ fun ViewPager2.increaseOffscreenPageLimit() {
             positionOffsetPixels: Int
         ) {
             if (position == 0) return
-            if (offscreenPageLimit < position) {
-                offscreenPageLimit = position
+            adapter?.run {
+                val limit = itemCount - 1
+                val offset = position * 2
+                if (offscreenPageLimit >= limit) return
+                if (offscreenPageLimit < offset) {
+                    offscreenPageLimit = if (offset >= limit) limit else offset
+                }
             }
         }
     })
 }
 
 /**
- * 更具滑动page，慢慢递增page缓存
+ * 根据滑动page，慢慢递增page缓存
  * 解决一次性缓存所有page页面初始化卡顿问题
  */
 fun TabLayout.increaseOffscreenPageLimit(viewPager: ViewPager2) {
@@ -362,8 +367,11 @@ fun TabLayout.increaseOffscreenPageLimit(viewPager: ViewPager2) {
         override fun onTabSelected(tab: TabLayout.Tab?) {
             tab?.run {
                 if (position == 0) return
-                if (viewPager.offscreenPageLimit < position) {
-                    viewPager.offscreenPageLimit = position
+                val limit = tabCount - 1
+                val offset = position * 2
+                if (viewPager.offscreenPageLimit >= limit) return
+                if (viewPager.offscreenPageLimit < offset) {
+                    viewPager.offscreenPageLimit = if (offset >= limit) limit else offset
                 }
             }
         }
