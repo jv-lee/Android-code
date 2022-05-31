@@ -14,9 +14,10 @@ import com.lee.library.tools.StatusTools.getContentHeight
 
 
 /**
+ *
  * @author jv.lee
  * @date 2020/9/10
- * @description
+ *
  */
 abstract class BaseDialog constructor(
     private val mContext: Context,

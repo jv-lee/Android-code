@@ -10,7 +10,7 @@ import com.lee.library.extensions.setBackgroundColorCompat
 /**
  * @author jv.lee
  * @date 2021/6/16
- * @description
+
  */
 class BindingViewGroup : FrameLayout {
 

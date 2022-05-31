@@ -6,9 +6,10 @@ import android.net.NetworkCapabilities
 import com.lee.library.utils.LogUtil
 
 /**
+ *
  * @author jv.lee
  * @date 2020-03-07
- * @description
+ *
  */
 class NetworkCallbackImpl : ConnectivityManager.NetworkCallback() {
 

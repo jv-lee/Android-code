@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import com.lee.library.base.ApplicationExtensions.app
 
 /**
+ *
  * @author jv.lee
  * SharedPreferences 存储工具
  * Created by jv.lee on 2016/8/31.

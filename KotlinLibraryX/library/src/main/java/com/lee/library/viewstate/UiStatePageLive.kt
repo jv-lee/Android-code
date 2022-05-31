@@ -8,9 +8,9 @@ import com.lee.library.adapter.page.PagingData
 import com.lee.library.utils.LogUtil
 
 /**
+ * UiStatePage LiveData扩展
  * @author jv.lee
  * @date 2022/2/15
- * @description UiStatePage LiveData扩展
  */
 
 typealias UiStatePageLiveData = LiveData<UiStatePage>

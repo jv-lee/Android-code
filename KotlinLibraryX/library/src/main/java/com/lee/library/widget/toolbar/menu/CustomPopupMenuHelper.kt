@@ -13,9 +13,9 @@ import com.lee.library.extensions.dp2px
 import com.lee.library.widget.toolbar.TitleToolbar
 
 /**
+ * 自定义popupMenu弹窗帮助类
  * @author jv.lee
  * @date 2020/4/22
- * @description 自定义popupMenu弹窗帮助类
  */
 class CustomPopupMenuHelper(var context: Context, var menuResId: Int) : View.OnClickListener {
 

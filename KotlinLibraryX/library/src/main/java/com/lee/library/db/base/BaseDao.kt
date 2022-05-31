@@ -6,9 +6,9 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Update
 
 /**
+ * 通用数据库方法BaseDao类
  * @author jv.lee
  * @date 2020/4/16
- * @description 通用数据库方法BaseDao类
  */
 interface BaseDao<T> {
 

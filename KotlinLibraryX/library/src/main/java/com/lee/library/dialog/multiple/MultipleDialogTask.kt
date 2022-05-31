@@ -4,11 +4,11 @@ import androidx.fragment.app.FragmentManager
 import java.util.*
 
 /**
- * @author jv.lee
- * @date 2021/8/23
- * @description 多Dialog展示任务工具类
+ * 多Dialog展示任务工具类
  * 通过 addAction添加dialog展示任务 (后进先出原则)
  * 最终通过nextShow开始所有dialog任务顺序展示
+ * @author jv.lee
+ * @date 2021/8/23
  */
 class MultipleDialogTask(fragmentManager: FragmentManager) {
 

@@ -3,9 +3,9 @@ package com.lee.adapter.entity
 import com.lee.library.adapter.page.PagingData
 
 /**
+ *
  * @author jv.lee
  * @date 2020/11/25
- * @description
  */
 data class ContentData(val id: Long = 1, @ViewType val type: Int)
 

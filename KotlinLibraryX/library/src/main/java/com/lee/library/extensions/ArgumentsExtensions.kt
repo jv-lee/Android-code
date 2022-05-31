@@ -8,9 +8,9 @@ import androidx.fragment.app.Fragment
 import java.util.*
 
 /**
+ * activity/fragment 获取intent参数扩展函数
  * @author jv.lee
  * @date 2020/8/19
- * @description  activity/fragment 获取intent参数扩展函数
  */
 
 @MainThread

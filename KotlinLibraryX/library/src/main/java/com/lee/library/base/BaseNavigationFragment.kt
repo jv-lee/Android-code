@@ -10,9 +10,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 
 /**
+ * navigationFragment 处理show/hide未响应生命周期问题
  * @author jv.lee
  * @date 2020/3/30
- * @description navigationFragment 处理show/hide未响应生命周期问题
  */
 abstract class BaseNavigationFragment(val layoutId: Int) : BaseFragment(layoutId) {
 

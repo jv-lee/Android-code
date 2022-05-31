@@ -21,9 +21,9 @@ import kotlin.math.abs
 
 
 /**
+ * 可拖动Layout布局
  * @author jv.lee
  * @date 2022/1/14
- * @description 可拖动Layout布局
  * @see FloatingLayout.ReIndexType
  * @see FloatingLayout.limitBound  是否限制边界拖动
  * @see FloatingLayout.foregroundColor 点击前景颜色

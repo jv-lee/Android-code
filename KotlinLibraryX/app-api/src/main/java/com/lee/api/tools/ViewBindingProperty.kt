@@ -23,9 +23,10 @@ import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
 /**
+ *
  * @author jv.lee
  * @date 2021/6/9
- * @description
+
  */
 // -------------------------------------------------------------------------------------
 // ViewBindingProperty for Activity

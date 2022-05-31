@@ -7,11 +7,11 @@ import com.lee.library.viewstate.LoadStatus.Companion.RELOAD
 import kotlin.random.Random
 
 /**
- * @author jv.lee
- * @date 2022/2/14
- * @description PageUiState 分页ui状态类 支持 flow/liveData 扩展使用
+ * PageUiState 分页ui状态类 支持 flow/liveData 扩展使用
  * @param requestFirstPage 分页初始请求页码
  * @param responseFirstPage 分页数据返回首页页码
+ * @author jv.lee
+ * @date 2022/2/14
  */
 sealed class UiStatePage(
     var requestFirstPage: Int = 1,

@@ -18,9 +18,9 @@ import com.lee.ui.utils.BlurUtils
 import kotlin.math.abs
 
 /**
+ *
  * @author jv.lee
  * @date 2021/1/12
- * @description
  */
 class WheelFragment : BaseFragment(R.layout.fragment_wheel) {
 

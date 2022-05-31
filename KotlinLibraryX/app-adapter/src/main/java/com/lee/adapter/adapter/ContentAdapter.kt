@@ -7,7 +7,7 @@ import com.lee.library.adapter.base.BaseViewAdapter
 /**
  * @author jv.lee
  * @date 2020/11/25
- * @description
+ *
  */
 class ContentAdapter(context: Context, data: List<ContentData>) :
     BaseViewAdapter<ContentData>(context, data) {

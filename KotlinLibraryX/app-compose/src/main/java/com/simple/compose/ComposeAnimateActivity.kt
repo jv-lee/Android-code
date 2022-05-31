@@ -31,7 +31,7 @@ import com.simple.compose.ui.theme.Purple100
 /**
  * @author jv.lee
  * @date 2022/1/7
- * @description
+
  */
 class ComposeAnimateActivity : ComponentActivity() {
 

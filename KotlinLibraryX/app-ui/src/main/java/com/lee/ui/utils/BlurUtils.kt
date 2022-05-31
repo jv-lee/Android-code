@@ -8,9 +8,10 @@ import android.renderscript.RenderScript
 import android.renderscript.ScriptIntrinsicBlur
 
 /**
+ *
  * @author jv.lee
  * @date 2021/3/1
- * @description
+
  */
 object BlurUtils {
 

@@ -12,9 +12,9 @@ import com.lee.library.tools.StatusTools.setDarkStatusIcon
 import kotlinx.coroutines.*
 
 /**
+ * 聊天界面 沉浸式状态栏 输入法适配
  * @author jv.lee
  * @date 2020/9/7
- * @description 聊天界面 沉浸式状态栏 输入法适配
  */
 class ChatListActivity :
     BaseVMActivity<ActivityChatListBinding, ViewModel>(R.layout.activity_chat_list) {

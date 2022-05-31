@@ -7,9 +7,9 @@ import com.lee.library.R
 import com.lee.library.dialog.core.BaseAlertDialog
 
 /**
+ * 警告提示dialog
  * @author jv.lee
  * @date 2020-03-07
- * @description 警告提示dialog
  */
 class WarnDialog(context: Context) : BaseAlertDialog(context, R.layout.layout_dialog_warm, false) {
 

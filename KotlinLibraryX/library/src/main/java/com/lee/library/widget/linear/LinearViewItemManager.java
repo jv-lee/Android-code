@@ -6,9 +6,9 @@ import android.view.View;
 import androidx.collection.SparseArrayCompat;
 
 /**
+ * 多类型、多样式item管理器
  * @author jv.lee
  * @date 2020/9/7
- * @description 多类型、多样式item管理器
  */
 public class LinearViewItemManager<T> {
 

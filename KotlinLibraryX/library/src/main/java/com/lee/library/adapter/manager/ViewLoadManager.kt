@@ -4,9 +4,9 @@ import com.lee.library.adapter.listener.DefaultLoadResource
 import com.lee.library.adapter.listener.LoadResource
 
 /**
+ * 全局设置LoadResource资源
  * @author jv.lee
  * @date 2020/8/11
- * @description 全局设置LoadResource资源
  */
 class ViewLoadManager {
 

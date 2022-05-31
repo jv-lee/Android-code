@@ -27,9 +27,9 @@ import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.io.File
 
 /**
+ * Retrofit库封装
  * @author jv.lee
  * @date 2020/3/20
- * @description Retrofit库封装
  */
 class HttpManager private constructor() {
 

@@ -28,9 +28,9 @@ import com.lee.library.widget.banner.BannerView.BannerMode.Companion.MODE_DEFAUL
 import java.util.*
 
 /**
+ * 使用ViewPager2实现的BannerView
  * @author jv.lee
  * @date 2021/9/23
- * @description 使用ViewPager2实现的BannerView
  */
 class BannerView : RelativeLayout {
 

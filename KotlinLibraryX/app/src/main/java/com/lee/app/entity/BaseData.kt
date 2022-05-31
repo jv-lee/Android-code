@@ -1,9 +1,10 @@
 package com.lee.app.entity
 
 /**
+ *
  * @author jv.lee
  * @date 2020/3/20
- * @description
+
  */
 data class BaseData<T>(val success: String, val data: T)
 

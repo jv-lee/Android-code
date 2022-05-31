@@ -10,9 +10,9 @@ import com.lee.library.tools.StatusTools.setDarkStatusIcon
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 /**
+ * 表单样式 沉浸式状态栏 输入法适配
  * @author jv.lee
  * @date 2020/9/7
- * @description 表单样式 沉浸式状态栏 输入法适配
  */
 class FormTableActivity :
     BaseVMActivity<ActivityFormTableBinding, ViewModel>(R.layout.activity_form_table) {

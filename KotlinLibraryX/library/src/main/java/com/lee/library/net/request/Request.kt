@@ -3,9 +3,9 @@ package com.lee.library.net.request
 import androidx.annotation.NonNull
 
 /**
+ *
  * @author jv.lee
  * @date 2020/3/20
- * @description
  */
 class Request constructor(
     @NonNull override val baseUrl: String,

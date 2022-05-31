@@ -16,13 +16,12 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 /**
- * @author jv.lee
- * @date 2020/9/7
- * @description 聊天界面 沉浸式状态栏 输入法适配 方案二
+ * 聊天界面 沉浸式状态栏 输入法适配 方案二:
  * 1.设置根布局 android:fitsSystemWindows="true"
  * 2.设置根布局 marginTop 为 负状态栏高度
- *
  * 方案二兼容性更佳。
+ * @author jv.lee
+ * @date 2020/9/7
  */
 class ChatListActivity2 :
     BaseVMActivity<ActivityChatListBinding, ViewModel>(R.layout.activity_chat_list) {

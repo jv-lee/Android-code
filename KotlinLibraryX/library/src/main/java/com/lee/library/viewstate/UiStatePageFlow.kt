@@ -5,9 +5,9 @@ import com.lee.library.utils.LogUtil
 import kotlinx.coroutines.flow.*
 
 /**
+ * UiStatePage Flow扩展
  * @author jv.lee
  * @date 2022/2/15
- * @description UiStatePage Flow扩展
  */
 
 typealias UiStatePageFlow = Flow<UiStatePage>

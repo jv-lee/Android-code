@@ -3,9 +3,9 @@ package com.lee.library.widget.linear;
 import android.view.View;
 
 /**
+ * 某单一样式
  * @author jv.lee
  * @date 2020/9/7
- * @description 某单一样式
  */
 public interface LinearViewItem<T> {
 

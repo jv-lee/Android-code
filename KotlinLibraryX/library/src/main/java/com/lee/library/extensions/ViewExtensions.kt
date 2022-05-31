@@ -27,9 +27,9 @@ import com.lee.library.tools.ReflexTools
 import kotlin.math.abs
 
 /**
+ * View.扩展函数
  * @author jv.lee
  * @date 2020/4/1
- * @description  View.扩展函数
  */
 
 /**

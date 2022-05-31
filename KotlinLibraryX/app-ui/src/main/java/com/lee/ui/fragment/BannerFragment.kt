@@ -10,9 +10,10 @@ import com.lee.ui.databinding.FragmentBannerBinding
 
 
 /**
+ *
  * @author jv.lee
  * @date 2021/9/22
- * @description
+
  */
 class BannerFragment : BaseFragment(R.layout.fragment_banner) {
 

@@ -6,9 +6,9 @@ import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
 
 /**
+ * 组建支持compose配置依赖扩展
  * @author jv.lee
  * @date 2021/10/1
- * @description 组建支持compose配置依赖扩展
  */
 fun Project.composeConfigure() {
     extensions.configure<BaseAppModuleExtension> {

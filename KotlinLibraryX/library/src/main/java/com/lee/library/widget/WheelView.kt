@@ -20,7 +20,7 @@ import kotlin.math.roundToInt
 /**
  * @author jv.lee
  * @date 2021/1/6
- * @description
+
  */
 class WheelView : RecyclerView {
 

@@ -3,9 +3,9 @@ package com.lee.library.viewstate
 import kotlinx.coroutines.flow.*
 
 /**
+ * UiState Flow扩展
  * @author jv.lee
  * @date 2021/10/22
- * @description UiState Flow扩展
  */
 
 typealias UiStateFlow = Flow<UiState>

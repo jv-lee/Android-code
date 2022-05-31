@@ -6,9 +6,9 @@ import androidx.work.Worker
 import androidx.work.WorkerParameters
 
 /**
+ * workManager 任务类
  * @author jv.lee
  * @date 2021/2/24
- * @description workManager 任务类
  */
 class TaskWorker(context: Context, workerParameters: WorkerParameters) :
     Worker(context, workerParameters) {

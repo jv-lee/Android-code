@@ -9,7 +9,7 @@ import com.simple.compose.source.SampleData
 /**
  * @author jv.lee
  * @date 2022/1/6
- * @description
+
  */
     class ListDataViewModel : ViewModel() {
 

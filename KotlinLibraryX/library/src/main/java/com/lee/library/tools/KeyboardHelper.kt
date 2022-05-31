@@ -12,14 +12,15 @@ import com.lee.library.extensions.statusBarHeight
 import kotlin.math.abs
 
 /**
- * @author jv.lee
- * @date 2020/9/8
- * @description 当主题中用了<item name="android:windowTranslucentStatus">true</item>后，软键盘弹出就不会将输入框往上推了，该类可以解决这个问题。
- * http://stackoverflow.com/a/9108219/325479 * https://github.com/mikepenz/MaterialDrawer/blob/aa9136fb4f5b3a80460fe5f47213985026d20c88/library/src/main/java/com/mikepenz/materialdrawer/util/KeyboardUtil.java
- * //扩展
+ * 软键盘控制帮助类
+ * 当主题中用了<item name="android:windowTranslucentStatus">true</item>后，软键盘弹出就不会将输入框往上推了，该类可以解决这个问题。
+ *  示例：[http://stackoverflow.com/a/9108219/325479]
+ *  示例：[https://github.com/mikepenz/MaterialDrawer/blob/aa9136fb4f5b3a80460fe5f47213985026d20c88/library/src/main/java/com/mikepenz/materialdrawer/util/KeyboardUtil.java]
  * 沉浸式状态栏控制键盘弹起 view/recyclerView 自适应布局帮助类 , 非沉浸式直接设置 android:windowSoftInputMode="adjustResize" 无需其他操作即可
  * 单独设置普通布局 无需设置RecyclerView的话 构造后直接调用enable
  * 如需设置RecyclerView 先调用bindRecyclerView方法 再开启 enable方法
+ * @author jv.lee
+ * @date 2020/9/8
  */
 class KeyboardHelper(
     private val decorView: View,

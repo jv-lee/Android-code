@@ -25,7 +25,7 @@ import com.simple.compose.viewmodel.ListDataViewModel
 /**
  * @author jv.lee
  * @date 2022/1/6
- * @description
+
  */
 class ComponseListActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

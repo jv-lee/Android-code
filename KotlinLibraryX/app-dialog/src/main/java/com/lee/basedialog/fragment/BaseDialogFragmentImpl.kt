@@ -6,9 +6,9 @@ import com.lee.basedialog.databinding.FragmentBaseDialogBinding
 import com.lee.library.base.BaseVMDialogFragment
 
 /**
+ * BaseDialog样式 DialogFragment
  * @author jv.lee
  * @date 2020/9/21
- * @description BaseDialog样式 DialogFragment
  */
 class BaseDialogFragmentImpl :
     BaseVMDialogFragment<FragmentBaseDialogBinding, ViewModel>(R.layout.fragment_base_dialog) {

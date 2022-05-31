@@ -21,9 +21,9 @@ import org.xmlpull.v1.XmlPullParserException
 import java.io.IOException
 
 /**
+ * 自定义简单功能的 menu解析器 支持标签 (<menu> <item id/title/icon /></menu>)
  * @author jv.lee
  * @date 2020/4/21
- * @description 自定义简单功能的 menu解析器 支持标签 (<menu> <item id/title/icon /></menu>)
  */
 class CustomMenuInflater(var context: Context) {
 

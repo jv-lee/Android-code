@@ -14,7 +14,7 @@ import javax.net.ssl.*
 /**
  * @author jv.lee
  * @date 2020/3/20
- * @description
+
  */
 class OkHttpClientBuilder {
 

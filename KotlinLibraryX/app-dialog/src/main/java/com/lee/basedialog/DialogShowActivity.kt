@@ -16,9 +16,9 @@ import com.lee.library.dialog.multiple.MultipleDialogTask
 import com.lee.library.extensions.binding
 
 /**
+ * 该activity代码逻辑为 app主页面多个引导弹窗任务展示管理
  * @author jv.lee
  * @date 2021/8/23
- * @description 该activity代码逻辑为 app主页面多个引导弹窗任务展示管理
  */
 class DialogShowActivity : BaseActivity() {
 

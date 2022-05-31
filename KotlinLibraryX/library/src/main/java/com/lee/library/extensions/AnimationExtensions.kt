@@ -5,7 +5,7 @@ import android.view.animation.Animation
 /**
  * @author jv.lee
  * @date 2021/9/10
- * @description
+
  */
 abstract class AnimationAdapter : Animation.AnimationListener {
     override fun onAnimationStart(animation: Animation?) {

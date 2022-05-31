@@ -18,14 +18,10 @@ import com.lee.library.extensions.statusBarHeight
 
 /**
  * 避免输入法面板遮挡
- * <p>在manifest.xml中activity中设置</p>
- * <p>android:windowSoftInputMode="adjustPan"</p>
- */
-
-/**
+ * 在manifest.xml中activity中设置
+ * android:windowSoftInputMode="adjustPan"
  * @author jv.lee
  * @date 2020/9/4
- * @description
  */
 object KeyboardTools {
 

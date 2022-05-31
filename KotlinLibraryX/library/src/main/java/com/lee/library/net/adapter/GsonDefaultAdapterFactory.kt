@@ -11,9 +11,9 @@ import com.google.gson.stream.JsonWriter
 import java.lang.reflect.Type
 
 /**
+ * 处理空字符串/数组转换为null的情况
  * @author jv.lee
  * @date 2021/10/29
- * @description 处理空字符串/数组转换为null的情况
  */
 @Suppress("UNCHECKED_CAST")
 class GsonDefaultAdapterFactory : TypeAdapterFactory {

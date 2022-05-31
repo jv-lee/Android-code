@@ -15,9 +15,9 @@ import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
 /**
+ * ViewBinding 扩展函数（属性委托解绑模式）
  * @author jv.lee
  * @date 2021/6/15
- * @description ViewBinding 扩展函数（属性委托解绑模式）
  */
 @Suppress("UNCHECKED_CAST")
 @JvmName("viewBindingActivity")

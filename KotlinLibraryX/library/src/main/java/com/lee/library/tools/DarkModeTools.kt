@@ -7,9 +7,9 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
 
 /**
+ * 深色主题适配方法
  * @author jv.lee
  * @date 2020/6/9
- * @description 深色主题适配方法
  */
 class DarkModeTools(val context: Context) {
 

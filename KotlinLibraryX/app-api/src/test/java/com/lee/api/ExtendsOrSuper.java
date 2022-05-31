@@ -5,7 +5,7 @@ import org.junit.Test;
 /**
  * @author jv.lee
  * @date 3/29/21
- * @description
+
  */
 class ExtendsOrSuper {
     private class View {

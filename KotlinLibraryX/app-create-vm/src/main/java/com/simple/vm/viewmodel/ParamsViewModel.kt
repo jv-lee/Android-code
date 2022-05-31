@@ -6,9 +6,9 @@ import androidx.lifecycle.ViewModelProvider
 import com.lee.library.utils.LogUtil
 
 /**
+ * 通过构造函数传递请求参数 的ViewModel实现
  * @author jv.lee
  * @date 8/19/21
- * @description 通过构造函数传递请求参数 的ViewModel实现
  */
 class ParamsViewModel(private val userID: String) : ViewModel() {
 

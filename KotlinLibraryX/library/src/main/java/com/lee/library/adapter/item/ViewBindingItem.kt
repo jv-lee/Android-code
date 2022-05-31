@@ -10,7 +10,7 @@ import com.lee.library.adapter.binding.ViewBindingHolder
 /**
  * @author jv.lee
  * @date 2021/6/15
- * @description
+ *
  */
 abstract class ViewBindingItem<T> :
     BaseViewItem<T> {

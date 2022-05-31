@@ -14,7 +14,7 @@ import com.lee.library.widget.linear.LinearListView
 /**
  * @author jv.lee
  * @date 2020/11/25
- * @description
+ *
  */
 class ContentVerticalItem :
     ViewItem<ContentData>() {

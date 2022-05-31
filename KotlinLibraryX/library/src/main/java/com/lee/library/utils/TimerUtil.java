@@ -6,9 +6,9 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 /**
+ * 定时任务器
  * @author jv.lee
  * @date 2019/9/11.
- * @description 定时任务器
  */
 public class TimerUtil {
 

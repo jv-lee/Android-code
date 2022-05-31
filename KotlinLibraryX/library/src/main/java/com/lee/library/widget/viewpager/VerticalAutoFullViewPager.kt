@@ -9,9 +9,9 @@ import androidx.viewpager.widget.ViewPager
 
 
 /**
+ * 垂直自动填充高度ViewPager 高度设置为math_parent 正常填充父容器， wrap_content 则自适应子view高度
  * @author jv.lee
  * @date 2020/10/30
- * @description 垂直自动填充高度ViewPager 高度设置为math_parent 正常填充父容器， wrap_content 则自适应子view高度
  */
 class VerticalAutoFullViewPager : ViewPager {
 

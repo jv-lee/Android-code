@@ -22,7 +22,7 @@ import com.simple.compose.ui.theme.KotlinLibraryXTheme
 /**
  * @author jv.lee
  * @date 2022/1/6
- * @description
+
  */
 class ComposeUiActivity : ComponentActivity() {
 

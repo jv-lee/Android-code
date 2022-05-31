@@ -21,9 +21,9 @@ import com.lee.library.extensions.setTextColorCompat
 import com.lee.library.widget.toolbar.menu.CustomPopupMenuHelper
 
 /**
+ * 自定义项目 带标题的toolbar
  * @author jv.lee
  * @date 2020/4/1
- * @description 自定义项目 带标题的toolbar
  */
 open class TitleToolbar : CustomToolbarLayout {
 

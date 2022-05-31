@@ -1,21 +1,28 @@
 package com.lee.library.utils;
 
 /**
- * @author jv.lee
- * @date 2019/7/9.
- * @description 构造单列对象类
- * <p>
+ * 构造单列对象类
+ * <p>get method:
+ * <code>
  * public static T getService() {
  * return tSingleton.get();
  * }
- * <p>
+ * </code>
+ * <p/>
+ *
+ * <p>instance method:
+ * <code>
  * private static final Singleton<T> tSingleton =
  * new Singleton<T>() {
- * @Override protected T create() {
+ * protected T create() {
  * create T Object function()
  * return T;
  * }
  * };
+ * </code>
+ * <p/>
+ * @author jv.lee
+ * @date 2019/7/9.
  */
 public abstract class Singleton<T> {
 

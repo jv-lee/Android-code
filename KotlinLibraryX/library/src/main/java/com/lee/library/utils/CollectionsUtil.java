@@ -3,9 +3,9 @@ package com.lee.library.utils;
 import java.util.List;
 
 /**
+ * 数据对比，找出差异总数
  * @author jv.lee
  * @date 2019/7/23.
- * @description 数据对比，找出差异总数
  */
 public class CollectionsUtil {
 

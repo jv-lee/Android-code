@@ -4,9 +4,10 @@ import com.google.gson.*
 import java.lang.reflect.Type
 
 /**
+ *
  * @author jv.lee
  * @date 2020/3/20
- * @description
+ *
  */
 class DoubleDefaultAdapter : JsonSerializer<Double>, JsonDeserializer<Double> {
     override fun deserialize(

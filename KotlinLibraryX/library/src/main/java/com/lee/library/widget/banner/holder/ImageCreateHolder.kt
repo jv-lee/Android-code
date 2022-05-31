@@ -8,9 +8,10 @@ import androidx.core.view.ViewCompat
 import com.lee.library.widget.banner.BannerView
 
 /**
+ *
  * @author jv.lee
  * @date 2021/9/23
- * @description
+ *
  */
 abstract class ImageCreateHolder<T> : BannerView.CreateHolder<T> {
     protected val ivID = ViewCompat.generateViewId()

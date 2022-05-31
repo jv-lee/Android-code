@@ -16,9 +16,10 @@ import com.lee.library.utils.LogUtil
 import java.util.*
 
 /**
+ *
  * @author jv.lee
  * @date 2021/9/2
- * @description
+ *
  */
 object ScreenDensityUtil : ComponentCallbacks {
 

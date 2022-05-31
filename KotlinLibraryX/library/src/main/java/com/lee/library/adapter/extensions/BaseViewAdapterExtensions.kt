@@ -4,9 +4,9 @@ import com.lee.library.adapter.base.BaseViewAdapter
 import com.lee.library.adapter.listener.LoadResource
 
 /**
+ *
  * @author jv.lee
  * @date 2022/1/11
- * @description
  */
 
 @Suppress("UNCHECKED_CAST")

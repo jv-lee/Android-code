@@ -14,7 +14,7 @@ import com.lee.library.adapter.item.ViewBindingItem
 /**
  * @author jv.lee
  * @date 2020/11/25
- * @description
+ *
  */
 class BindingHorizontalItem : ViewBindingItem<ContentData>() {
 

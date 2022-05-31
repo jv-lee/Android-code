@@ -6,9 +6,9 @@ import com.lee.basedialog.databinding.FragmentAlertDialogBinding
 import com.lee.library.base.BaseVMAlertFragment
 
 /**
+ * Alert样式 DialogFragment
  * @author jv.lee
  * @date 2020/9/21
- * @description Alert样式 DialogFragment
  */
 class BaseAlertDialogFragmentImpl :
     BaseVMAlertFragment<FragmentAlertDialogBinding, ViewModel>(

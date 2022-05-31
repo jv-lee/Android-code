@@ -24,19 +24,18 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlin.math.abs
 
-
 /**
+ * 阴影容器
+ * @see outLineWidth
+ * @see outLineColor
+ * @see shadowRound
+ * @see shadowBlur
+ * @see shadowColor
+ * @see shadowFillColor
+ * @see shadowOffsetX
+ * @see shadowOffsetY
  * @author jv.lee
  * @date 2020/9/16
- * @description 阴影容器
- * @set outLineWidth 外线条宽度
- * @set outLineColor 外线条颜色
- * @set shadowRound 容器圆角size
- * @set shadowBlur 阴影范围size
- * @set shadowColor 阴影颜色
- * @set shadowFillColor 内容填充颜色
- * @set shadowOffsetX 阴影X轴偏移量
- * @set shadowOffsetY 阴影Y轴偏移量
  */
 class ShadowConstraintLayout(context: Context, attributeSet: AttributeSet) :
     ConstraintLayout(context, attributeSet) {
@@ -48,13 +47,44 @@ class ShadowConstraintLayout(context: Context, attributeSet: AttributeSet) :
     private val mRectF = RectF()
     private val mLineRectF = RectF()
 
+    /**
+     * 外线条宽度
+     */
     private var outLineWidth: Float
+
+    /**
+     * 外线条颜色
+     */
     private var outLineColor: Int
+
+    /**
+     * 容器圆角size
+     */
     private var shadowRound: Float
+
+    /**
+     * 阴影范围size
+     */
     private var shadowBlur: Float
+
+    /**
+     * 阴影颜色
+     */
     private var shadowColor: Int
+
+    /**
+     * 内容填充颜色
+     */
     private var shadowFillColor: Int
+
+    /**
+     * 阴影X轴偏移量
+     */
     private var shadowOffsetX: Float
+
+    /**
+     * 阴影Y轴偏移量
+     */
     private var shadowOffsetY: Float
 
     private var offsetLeftPadding = 0
@@ -70,10 +100,12 @@ class ShadowConstraintLayout(context: Context, attributeSet: AttributeSet) :
     init {
         context.obtainStyledAttributes(attributeSet, R.styleable.ShadowConstraintLayout).run {
             outLineWidth = getDimension(R.styleable.ShadowConstraintLayout_outLineWidth, 0f)
-            outLineColor = getColor(R.styleable.ShadowConstraintLayout_outLineColor, Color.TRANSPARENT)
+            outLineColor =
+                getColor(R.styleable.ShadowConstraintLayout_outLineColor, Color.TRANSPARENT)
             shadowRound = getDimension(R.styleable.ShadowConstraintLayout_shadowRound, 10F)
             shadowBlur = getDimension(R.styleable.ShadowConstraintLayout_shadowBlur, 10F)
-            shadowColor = getColor(R.styleable.ShadowConstraintLayout_shadowColor, Color.TRANSPARENT)
+            shadowColor =
+                getColor(R.styleable.ShadowConstraintLayout_shadowColor, Color.TRANSPARENT)
             shadowFillColor =
                 getColor(R.styleable.ShadowConstraintLayout_shadowFillColor, Color.TRANSPARENT)
             shadowOffsetX = getDimension(R.styleable.ShadowConstraintLayout_shadowOffsetX, 0F)

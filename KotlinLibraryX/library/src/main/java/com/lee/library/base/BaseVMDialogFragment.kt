@@ -11,9 +11,10 @@ import androidx.lifecycle.ViewModelProvider
 import com.lee.library.extensions.getVmClass
 
 /**
+ *
  * @author jv.lee
  * @date 2019/8/16.
- * @description
+
  */
 abstract class BaseVMDialogFragment<V : ViewDataBinding, VM : ViewModel>(
     private val layoutId: Int,

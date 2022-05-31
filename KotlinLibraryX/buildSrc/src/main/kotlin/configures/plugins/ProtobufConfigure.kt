@@ -8,9 +8,9 @@ import com.google.protobuf.gradle.protoc
 import org.gradle.api.Project
 
 /**
+ * protobuf 编译基础配置
  * @author jv.lee
  * @date 2021/10/15
- * @description protobuf 编译基础配置
  */
 fun Project.protobufConfigure() {
     plugins.apply(BuildPlugin.protobuf)

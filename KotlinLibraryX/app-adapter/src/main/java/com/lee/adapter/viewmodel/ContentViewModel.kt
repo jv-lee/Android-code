@@ -10,9 +10,9 @@ import com.lee.library.viewmodel.CoroutineViewModel
 import kotlinx.coroutines.delay
 
 /**
+ *
  * @author jv.lee
  * @date 2020/11/25
- * @description
  */
 class ContentViewModel : CoroutineViewModel() {
 

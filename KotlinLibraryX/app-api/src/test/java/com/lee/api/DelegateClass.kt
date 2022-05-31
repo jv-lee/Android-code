@@ -1,9 +1,9 @@
 package com.lee.api
 
 /**
+ * kotlin 委托类
  * @author jv.lee
  * @date 2022/1/11
- * @description kotlin 委托类
  */
 interface Delegate {
     fun run()

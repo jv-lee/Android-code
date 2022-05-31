@@ -10,9 +10,9 @@ import com.lee.library.extensions.binding
 import com.lee.ui.databinding.ActivityNewGoogleViewBinding
 
 /**
+ *
  * @author jv.lee
  * @date 2022/1/13
- * @description
  */
 class NewGoogleViewActivity : BaseActivity() {
 

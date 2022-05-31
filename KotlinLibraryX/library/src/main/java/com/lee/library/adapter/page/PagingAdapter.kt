@@ -5,9 +5,9 @@ import com.lee.library.adapter.base.BaseViewAdapter
 import com.lee.library.adapter.callback.DiffCallback
 
 /**
+ * 适配器加载数据状态逻辑
  * @author jv.lee
  * @date 2020/8/11
- * @description 适配器加载数据状态逻辑
  */
 fun <T> BaseViewAdapter<T>.submitData(
     pageData: PagingData<T>,

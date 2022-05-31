@@ -7,9 +7,9 @@ import androidx.lifecycle.*
 import com.lee.library.livedatabus.LiveDataBus.ObserverWrapper
 
 /**
+ * 事件总线
  * @author jv.lee
  * @date 2019/3/30
- * @description 事件总线
  */
 @Suppress("UNCHECKED_CAST")
 class LiveDataBus private constructor() {

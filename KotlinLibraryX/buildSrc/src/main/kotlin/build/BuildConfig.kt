@@ -1,9 +1,9 @@
 package build
 
 /**
+ * 项目基础配置信息
  * @author jv.lee
  * @date 2021/10/1
- * @description 项目基础配置信息
  */
 object BuildConfig {
     const val applicationId = "com.core.lee"

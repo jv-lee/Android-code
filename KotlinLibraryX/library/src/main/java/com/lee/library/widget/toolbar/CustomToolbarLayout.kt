@@ -13,9 +13,9 @@ import com.lee.library.extensions.statusBarHeight
 
 
 /**
+ * 自定义toolbar容器
  * @author jv.lee
  * @date 2020/4/1
- * @description 自定义toolbar容器
  */
 open class CustomToolbarLayout : ConstraintLayout {
 

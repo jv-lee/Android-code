@@ -8,9 +8,9 @@ import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 
 /**
+ * ValueAnimation 时间统计工具类
  * @author jv.lee
  * @date 2019/9/16.
- * @description ValueAnimation 时间统计工具类
  */
 @androidx.annotation.RequiresApi(api = Build.VERSION_CODES.KITKAT)
 public class ValueTimerUtil {

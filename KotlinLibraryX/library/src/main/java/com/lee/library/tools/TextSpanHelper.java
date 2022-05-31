@@ -18,9 +18,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
+ * textView 文本标记span 帮助类
  * @author jv.lee
  * @date 2020/3/16
- * @description textView 文本标记span 帮助类
  */
 public class TextSpanHelper {
 

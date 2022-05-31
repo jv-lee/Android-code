@@ -17,9 +17,9 @@ import android.widget.TextView;
 import com.lee.library.R;
 
 /**
+ * item更新条目提示view
  * @author jv.lee
  * @date 2019/7/8.
- * @description item更新条目提示view
  */
 public class ItemNotificationView extends FrameLayout {
 

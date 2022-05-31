@@ -8,9 +8,10 @@ import com.lee.library.widget.FloatingLayout
 import com.lee.ui.databinding.ActivityFloatingLayoutBinding
 
 /**
+ *
  * @author jv.lee
  * @date 2022/1/18
- * @description
+
  */
 class FloatingLayoutActivity : BaseActivity() {
 

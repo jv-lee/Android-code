@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import java.util.HashMap;
 
 /**
+ *
  * @author jv.lee
  */
 public class DensityUtil {

@@ -7,9 +7,10 @@ import com.lee.app.core.NetworkCallbackImpl
 import com.lee.library.base.BaseApplication
 
 /**
+ *
  * @author jv.lee
  * @date 2020-03-07
- * @description
+
  */
 class App : BaseApplication() {
 

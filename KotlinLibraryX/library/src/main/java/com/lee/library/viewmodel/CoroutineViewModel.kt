@@ -6,9 +6,9 @@ import kotlinx.coroutines.*
 import java.util.concurrent.CancellationException
 
 /**
+ * 协程ViewModel
  * @author jv.lee
  * @date 2021/9/22
- * @description 协程ViewModel
  */
 open class CoroutineViewModel : ViewModel() {
 

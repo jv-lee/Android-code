@@ -16,7 +16,7 @@ import com.lee.library.adapter.item.ViewItem
 /**
  * @author jv.lee
  * @date 2020/11/25
- * @description
+ *
  */
 class ContentCommonItem :
     ViewItem<ContentData>() {

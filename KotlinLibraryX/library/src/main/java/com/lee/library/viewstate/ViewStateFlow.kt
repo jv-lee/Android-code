@@ -9,7 +9,7 @@ import kotlin.reflect.KProperty1
 /**
  * @author jv.lee
  * @date 2022/4/27
- * @description
+ *
  */
 
 suspend fun <T, A> Flow<T>.collectState(

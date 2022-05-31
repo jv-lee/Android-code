@@ -8,9 +8,10 @@ import com.simple.vm.constants.USER_ID_KEY
 import com.simple.vm.databinding.ActivityMainBinding
 
 /**
+ *
  * @author jv.lee
  * @date 2021/8/19
- * @description
+
  */
 class MainActivity : AppCompatActivity() {
 

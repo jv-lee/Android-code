@@ -8,9 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 
 /**
+ * 垂直tab选择item
  * @author jv.lee
  * @date 2021/11/16
- * @description 垂直tab选择item
  */
 abstract class VerticalTabAdapter<T>(val data: MutableList<T>) :
     RecyclerView.Adapter<VerticalTabAdapter.VerticalTabViewHolder>() {

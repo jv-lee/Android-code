@@ -7,9 +7,9 @@ import com.lee.library.R
 import com.lee.library.dialog.core.BaseAlertDialog
 
 /**
+ * 取消确认选择框
  * @author jv.lee
  * @date 2020-03-07
- * @description 取消确认选择框
  */
 class ChoiceDialog(context: Context) : BaseAlertDialog(context, R.layout.layout_dialog_choice,false) {
 

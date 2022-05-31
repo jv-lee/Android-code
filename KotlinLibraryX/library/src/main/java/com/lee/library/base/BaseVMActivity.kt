@@ -8,9 +8,10 @@ import androidx.lifecycle.ViewModelProvider
 import com.lee.library.extensions.getVmClass
 
 /**
+ *
  * @author jv.lee
  * @date 2019-08-15
- * @description
+
  */
 abstract class BaseVMActivity<V : ViewDataBinding, VM : ViewModel>(var layoutId: Int) :
     BaseActivity() {

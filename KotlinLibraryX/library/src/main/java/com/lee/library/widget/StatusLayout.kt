@@ -11,8 +11,8 @@ import androidx.core.widget.ContentLoadingProgressBar
 import com.lee.library.R
 
 /**
+ * 状态切换视图Layout
  * @author jv.lee
- * @description 状态切换视图Layout
  */
 class StatusLayout @JvmOverloads constructor(
     context: Context,

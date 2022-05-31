@@ -8,15 +8,14 @@ import androidx.core.view.children
 import androidx.recyclerview.widget.RecyclerView
 
 /**
- * @author jv.lee
- * @date 2021/9/24
- * @description 可保存恢复子View状态的RecyclerView
- *
- * RecyclerView内部重写了ViewGroup的  dispatchSaveInstanceState/dispatchRestoreInstanceState方法
- * 内部直接调用
+ * 可保存恢复子View状态的RecyclerView.
+ * RecyclerView内部重写了ViewGroup的  dispatchSaveInstanceState/dispatchRestoreInstanceState方法.
+ * 内部直接调用:
  * dispatchSaveInstanceState.dispatchFreezeSelfOnly(container);
  * dispatchRestoreInstanceState.dispatchThawSelfOnly
- * 这种情况RecyclerView只会保存恢复自身状态 不会处理子View状态保存恢复
+ * 这种情况RecyclerView只会保存恢复自身状态 不会处理子View状态保存恢复.
+ * @author jv.lee
+ * @date 2021/9/24
  */
 class SavedRecyclerView : RecyclerView {
 

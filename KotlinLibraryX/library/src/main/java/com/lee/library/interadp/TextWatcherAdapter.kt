@@ -6,7 +6,7 @@ import android.text.TextWatcher
 /**
  * @author jv.lee
  * @date 2021/11/26
- * @description
+
  */
 interface TextWatcherAdapter : TextWatcher {
     override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {

@@ -8,9 +8,9 @@ import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatTextView
 
 /**
+ * 去除TextView 本身自带的padding值
  * @author jv.lee
  * @date 2020/9/17
- * @description 去除TextView 本身自带的padding值
  */
 class ExactTextView(context: Context, attributeSet: AttributeSet) :
     AppCompatTextView(context, attributeSet) {

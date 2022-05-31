@@ -4,9 +4,9 @@ import com.google.android.material.appbar.AppBarLayout
 import kotlin.math.abs
 
 /**
+ * appBarLayout.addOnOffsetChangedListener
  * @author jv.lee
  * @date 2020/8/3
- * @description appBarLayout.addOnOffsetChangedListener
  */
 abstract class AppBarStateChangeListener : AppBarLayout.OnOffsetChangedListener {
     enum class State {

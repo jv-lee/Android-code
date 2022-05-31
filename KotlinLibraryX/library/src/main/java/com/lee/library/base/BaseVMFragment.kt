@@ -13,9 +13,9 @@ import androidx.lifecycle.ViewModelProvider
 import com.lee.library.extensions.getVmClass
 
 /**
+ *
  * @author jv.lee
  * @date 2019/8/16.
- * @description
  */
 abstract class BaseVMFragment<V : ViewDataBinding, VM : ViewModel>(var layoutId: Int) :
     BaseFragment() {

@@ -5,9 +5,9 @@ import android.util.AttributeSet
 import com.lee.library.tools.StatusTools
 
 /**
+ * 自定义状态栏填充view 占位符View
  * @author jv.lee
  * @date 2020/4/14
- * @description 自定义状态栏填充view 占位符View
  */
 class CustomStatusBarLayout : CustomToolbarLayout {
 

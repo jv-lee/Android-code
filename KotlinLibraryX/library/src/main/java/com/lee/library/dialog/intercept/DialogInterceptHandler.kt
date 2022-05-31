@@ -1,9 +1,9 @@
 package com.lee.library.dialog.intercept
 
 /**
+ *
  * @author jv.lee
  * @date 2021/8/26
- * @description
  */
 class DialogInterceptHandler<T> {
     var firstIntercept: DialogIntercept<T>? = null

@@ -6,9 +6,9 @@ import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import com.lee.library.widget.AppWebView
 
 /**
+ * 全局单例webView
  * @author jv.lee
  * @date 2020/4/8
- * @description 全局单例webView
  */
 class WebViewTools constructor(context: Context) {
 

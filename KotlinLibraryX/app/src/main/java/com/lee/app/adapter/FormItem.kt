@@ -13,9 +13,9 @@ import com.lee.library.adapter.base.BaseViewHolder
 import com.lee.library.adapter.item.ViewItem
 
 /**
+ * 每一个item持有一个dialog 解决方案
  * @author jv.lee
  * @date 2020/9/7
- * @description 每一个item持有一个dialog 解决方案
  */
 class FormItem : ViewItem<String>() {
 

@@ -10,7 +10,7 @@ import com.lee.ui.databinding.FragmentShimmerBinding
 /**
  * @author jv.lee
  * @date 2021/10/29
- * @description
+
  */
 class ShimmerFragment : BaseFragment(R.layout.fragment_shimmer) {
 

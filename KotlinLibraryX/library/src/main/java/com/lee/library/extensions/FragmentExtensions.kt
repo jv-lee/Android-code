@@ -13,9 +13,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 /**
+ *
  * @author jv.lee
  * @date 2021/8/26
- * @description
  */
 fun Fragment.toast(message: CharSequence?, duration: Int = Toast.LENGTH_SHORT) {
     message ?: return

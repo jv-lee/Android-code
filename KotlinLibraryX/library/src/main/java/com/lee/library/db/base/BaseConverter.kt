@@ -7,7 +7,7 @@ import com.lee.library.net.HttpManager
 /**
  * @author jv.lee
  * @date 2020/4/17
- * @description
+
  */
 open class BaseConverter<T> {
     @TypeConverter

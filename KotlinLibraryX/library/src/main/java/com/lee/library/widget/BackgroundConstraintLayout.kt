@@ -8,9 +8,9 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import com.lee.library.R
 
 /**
+ *
  * @author jv.lee
  * @date 2021/1/19
- * @description
  */
 class BackgroundConstraintLayout constructor(
     context: Context,

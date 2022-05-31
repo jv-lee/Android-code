@@ -7,9 +7,10 @@ import androidx.core.content.ContextCompat
 import com.lee.library.widget.toolbar.TitleToolbar
 
 /**
+ *
  * @author jv.lee
  * @date 2020/4/14
- * @description 自定义透明带标题的toolbar
+ *  自定义透明带标题的toolbar
  */
 class TransparentToolbar : TitleToolbar {
     constructor(context: Context) : this(context, null, 0)

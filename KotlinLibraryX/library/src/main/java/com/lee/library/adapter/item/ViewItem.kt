@@ -7,9 +7,9 @@ import com.lee.library.adapter.base.BaseViewHolder
 import com.lee.library.adapter.base.BaseViewItem
 
 /**
+ *
  * @author jv.lee
  * @date 2021/6/15
- * @description
  */
 abstract class ViewItem<T> : BaseViewItem<T> {
 

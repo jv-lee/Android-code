@@ -12,9 +12,10 @@ import com.lee.ui.R
 import com.lee.ui.databinding.FragmentSelectorBinding
 
 /**
+ *
  * @author jv.lee
  * @date 2021/1/12
- * @description
+
  */
 class SelectorFragment : BaseFragment(R.layout.fragment_selector) {
 

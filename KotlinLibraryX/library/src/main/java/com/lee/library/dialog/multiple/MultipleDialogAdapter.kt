@@ -6,9 +6,9 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.*
 
 /**
+ *
  * @author jv.lee
  * @date 2021/8/23
- * @description
  */
 internal class MultipleDialogAdapter(private val fragmentManager: FragmentManager,private val nextCall:()->Unit) {
 

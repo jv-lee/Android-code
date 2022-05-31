@@ -12,6 +12,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.lee.library.extensions.getVmClass
 
 /**
+ *
  * @author jv.lee
  */
 abstract class BaseVMSheetFragment<V : ViewDataBinding, VM : ViewModel>(

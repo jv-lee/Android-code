@@ -7,7 +7,7 @@ import com.lee.ui.databinding.ActivityMotionLayoutBinding
 /**
  * @author jv.lee
  * @date 2022/1/19
- * @description
+
  */
 class MotionLayoutActivity : BaseActivity() {
 

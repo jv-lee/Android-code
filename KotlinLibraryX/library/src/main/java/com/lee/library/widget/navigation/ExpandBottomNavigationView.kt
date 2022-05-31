@@ -23,9 +23,9 @@ import com.lee.library.extensions.dp2px
 import com.lee.library.tools.ReflexTools.reflexField
 
 /**
+ * 使用png 等多色彩图片时 需要动态设置 itemIconTintList = null
  * @author jv.lee
  * @date 2019/5/7
- * @description 使用png 等多色彩图片时 需要动态设置 itemIconTintList = null
  */
 @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
 class ExpandBottomNavigationView @JvmOverloads constructor(

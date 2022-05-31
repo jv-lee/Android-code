@@ -9,9 +9,10 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 
 /**
+ *
  * @author jv.lee
  * @date 2019/7/23.
- * @description
+
  */
 public class RawUtil {
 

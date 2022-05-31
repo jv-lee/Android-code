@@ -9,9 +9,9 @@ import com.lee.library.extensions.destroy
 import java.util.*
 
 /**
+ * 权限申请启动器
  * @author jv.lee
  * @date 2021/8/27
- * @description 权限申请启动器
  */
 @SuppressLint("NewApi")
 class PermissionLauncher {

@@ -18,9 +18,9 @@ import com.simple.vm.viewmodel.SimpleViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
+ *
  * @author jv.lee
  * @date 2021/8/19
- * @description
  */
 @AndroidEntryPoint //使用hilt 为ViewModel注入savedStateHandler
 class ViewModelActivity : AppCompatActivity() {

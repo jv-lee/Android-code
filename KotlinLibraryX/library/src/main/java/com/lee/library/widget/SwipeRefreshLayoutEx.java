@@ -8,9 +8,9 @@ import android.view.ViewConfiguration;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 /**
+ * 处理banner 横向滑动冲突
  * @author jv.lee
  * @date 2019/9/23.
- * @description 处理banner 横向滑动冲突
  */
 public class SwipeRefreshLayoutEx extends SwipeRefreshLayout {
 

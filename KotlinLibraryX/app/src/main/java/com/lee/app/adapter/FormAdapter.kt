@@ -5,9 +5,10 @@ import android.content.Context
 import com.lee.library.adapter.base.BaseViewAdapter
 
 /**
+ *
  * @author jv.lee
  * @date 2020/9/7
- * @description
+
  */
 class FormAdapter(context: Context, data: ArrayList<String>) :
     BaseViewAdapter<String>(context, data) {

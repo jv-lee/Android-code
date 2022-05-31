@@ -13,9 +13,9 @@ import java.lang.reflect.Type;
 import java.util.Objects;
 
 /**
+ * 缓存管理类
  * @author jv.lee
  * @date 2019-11-14
- * @description 缓存管理类
  */
 public class CacheManager {
 

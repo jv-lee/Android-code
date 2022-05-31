@@ -5,9 +5,9 @@ import okhttp3.Response
 import java.io.IOException
 
 /**
+ * 重试拦截器
  * @author jv.lee
  * @date 2021/11/1
- * @description 重试拦截器
  */
 class RetryInterceptor(
     var maxRetry: Int

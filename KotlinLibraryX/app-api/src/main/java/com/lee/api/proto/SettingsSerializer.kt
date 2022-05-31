@@ -12,9 +12,10 @@ import java.io.OutputStream
 
 
 /**
+ *
  * @author jv.lee
  * @date 2020/11/20
- * @description
+
  */
 object SettingsSerializer : Serializer<Settings> {
     override val defaultValue: Settings = Settings.getDefaultInstance()

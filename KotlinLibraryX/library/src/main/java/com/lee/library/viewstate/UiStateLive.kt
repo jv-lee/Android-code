@@ -3,9 +3,9 @@ package com.lee.library.viewstate
 import androidx.lifecycle.*
 
 /**
+ * UiState LiveData扩展
  * @author jv.lee
  * @date 2021/10/22
- * @description UiState LiveData扩展
  */
 
 typealias UiStateLiveData = LiveData<UiState>

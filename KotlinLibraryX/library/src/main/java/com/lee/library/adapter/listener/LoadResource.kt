@@ -1,9 +1,9 @@
 package com.lee.library.adapter.listener
 
 /**
+ * 设置页面状态资源文件返回接口
  * @author jv.lee
  * @date 2020/4/13
- * @description 设置页面状态资源文件返回接口
  */
 interface LoadResource {
     /**

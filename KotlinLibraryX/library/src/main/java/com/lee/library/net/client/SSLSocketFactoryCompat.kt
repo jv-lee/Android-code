@@ -12,9 +12,9 @@ import javax.net.ssl.SSLSocketFactory;
 
 
 /**
+ *
  * @author jv.lee
  * @date 2020/4/20
- * @description
  */
 @Keep
 class SSLSocketFactoryCompat : SSLSocketFactory {

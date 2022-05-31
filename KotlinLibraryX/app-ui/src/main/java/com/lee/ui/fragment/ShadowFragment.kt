@@ -15,7 +15,7 @@ import com.lee.ui.databinding.FragmentShadowBinding
 /**
  * @author jv.lee
  * @date 2021/1/14
- * @description
+
  */
 class ShadowFragment : BaseFragment(R.layout.fragment_shadow) {
 

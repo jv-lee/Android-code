@@ -10,9 +10,9 @@ import androidx.slidingpanelayout.widget.SlidingPaneLayout
 import kotlin.math.abs
 
 /**
+ * SlidingPaneLayout 作为RecyclerView item容器侧滑事件处理
  * @author jv.lee
  * @date 2022/3/31
- * @description SlidingPaneLayout 作为RecyclerView item容器侧滑事件处理
  */
 class SlidingPaneItemTouchListener(context: Context) : RecyclerView.OnItemTouchListener,
     SlidingPaneLayout.PanelSlideListener {

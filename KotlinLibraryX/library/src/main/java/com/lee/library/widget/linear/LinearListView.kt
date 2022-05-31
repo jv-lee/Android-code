@@ -8,7 +8,7 @@ import androidx.core.widget.NestedScrollView
 /**
  * @author jv.lee
  * @date 2020/9/7
- * @description
+ *
  */
 class LinearListView constructor(context: Context, attributeSet: AttributeSet) : LinearLayout(context, attributeSet) {
 

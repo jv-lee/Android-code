@@ -1,9 +1,9 @@
 package com.lee.library.viewstate
 
 /**
+ * UiState ui状态类 支持 flow/liveData 扩展使用
  * @author jv.lee
  * @date 2021/9/18
- * @description UiState ui状态类 支持 flow/liveData 扩展使用
  */
 sealed class UiState {
     data class Success<T>(val data: T) : UiState()

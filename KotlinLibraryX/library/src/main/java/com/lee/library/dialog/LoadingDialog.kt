@@ -7,7 +7,7 @@ import com.lee.library.dialog.core.BaseTranslucentDialog
 /**
  * @author jv.lee
  * @date 2020-03-07
- * @description
+ *
  */
 class LoadingDialog(context: Context) : BaseTranslucentDialog(context, R.layout.layout_dialog_loading,false) {
 

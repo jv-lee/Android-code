@@ -14,9 +14,9 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
+ * 悬浮窗view
  * @author jv.lee
  * @date 2019/9/5.
- * @description 悬浮窗view
  */
 public class FloatWindowView implements Application.ActivityLifecycleCallbacks {
 

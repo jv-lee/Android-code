@@ -8,7 +8,7 @@ import com.lee.library.adapter.base.BaseViewItem
 /**
  * @author jv.lee
  * @date 2021/6/15
- * @description
+
  */
 class ViewItemManager<T> {
 

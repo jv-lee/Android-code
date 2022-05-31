@@ -6,9 +6,10 @@ import androidx.viewpager.widget.PagerAdapter
 import com.lee.library.widget.viewpager.WrappingViewPager
 
 /**
+ *
  * @author jv.lee
  * @date 2020/11/2
- * @description
+ *
  */
 abstract class WrappingPagerAdapter : PagerAdapter() {
 

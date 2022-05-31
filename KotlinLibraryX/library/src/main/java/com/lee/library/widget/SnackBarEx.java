@@ -8,7 +8,7 @@ import com.google.android.material.snackbar.Snackbar;
 /**
  * @author jv.lee
  * @date 2019/8/7.
- * @description
+ *
  */
 public class SnackBarEx {
     private Snackbar snackbar;
