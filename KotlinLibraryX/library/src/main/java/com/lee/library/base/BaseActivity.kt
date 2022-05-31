@@ -7,10 +7,9 @@ import com.lee.library.tools.StatusTools.compatStatusBar
 import com.lee.library.tools.StatusTools.statusBar
 
 /**
- *
+ * Activity通用基类
  * @author jv.lee
  * @date 2021/6/15
-
  */
 abstract class BaseActivity : AppCompatActivity() {
 

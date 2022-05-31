@@ -12,7 +12,6 @@ import java.io.UnsupportedEncodingException;
  *
  * @author jv.lee
  * @date 2019/7/23.
-
  */
 public class RawUtil {
 

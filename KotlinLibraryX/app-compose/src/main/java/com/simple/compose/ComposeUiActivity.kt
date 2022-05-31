@@ -20,9 +20,9 @@ import androidx.compose.ui.unit.dp
 import com.simple.compose.ui.theme.KotlinLibraryXTheme
 
 /**
+ *
  * @author jv.lee
  * @date 2022/1/6
-
  */
 class ComposeUiActivity : ComponentActivity() {
 

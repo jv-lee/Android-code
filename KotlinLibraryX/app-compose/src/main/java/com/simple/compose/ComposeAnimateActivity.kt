@@ -29,9 +29,9 @@ import com.simple.compose.ui.theme.Green300
 import com.simple.compose.ui.theme.Purple100
 
 /**
+ *
  * @author jv.lee
  * @date 2022/1/7
-
  */
 class ComposeAnimateActivity : ComponentActivity() {
 

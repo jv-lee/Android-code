@@ -11,7 +11,6 @@ import androidx.fragment.app.Fragment
  *
  * @author jv.lee
  * @date 2019/8/16.
-
  */
 abstract class BaseFragment(private val resourceId: Int? = 0) : Fragment() {
 

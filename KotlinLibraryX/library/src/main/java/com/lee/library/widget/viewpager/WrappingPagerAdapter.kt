@@ -1,4 +1,4 @@
-package com.lee.calendar.widget
+package com.lee.library.widget.viewpager
 
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +9,6 @@ import com.lee.library.widget.viewpager.WrappingViewPager
  *
  * @author jv.lee
  * @date 2020/11/2
- *
  */
 abstract class WrappingPagerAdapter : PagerAdapter() {
 

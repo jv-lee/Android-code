@@ -6,7 +6,6 @@ import androidx.lifecycle.*
  *
  * @author jv.lee
  * @date 2021/6/8
- *
  */
 object DarkViewUpdateTools {
 

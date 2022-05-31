@@ -1,11 +1,9 @@
 package com.lee.api;
 
-import org.junit.Test;
-
 /**
+ *
  * @author jv.lee
  * @date 3/29/21
-
  */
 class ExtendsOrSuper {
     private class View {

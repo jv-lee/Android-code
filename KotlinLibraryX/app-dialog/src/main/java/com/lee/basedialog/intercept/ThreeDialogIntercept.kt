@@ -5,9 +5,9 @@ import com.lee.library.dialog.intercept.DialogCreateConfig
 import com.lee.library.dialog.intercept.DialogIntercept
 
 /**
+ *
  * @author jv.lee
  * @date 2021/8/26
-
  */
 class ThreeDialogIntercept : DialogIntercept<DialogCreateConfig>() {
 

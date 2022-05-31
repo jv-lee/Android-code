@@ -8,6 +8,7 @@ import com.lee.adapter.entity.ContentData
 import com.lee.adapter.entity.PageData
 import com.lee.adapter.viewmodel.ContentViewModel
 import com.lee.library.adapter.base.BaseViewAdapter
+import com.lee.library.adapter.listener.LoadStatusListener
 import com.lee.library.adapter.page.submitData
 import com.lee.library.adapter.page.submitFailed
 import com.lee.library.base.BaseVMActivity
@@ -57,11 +58,13 @@ class MainActivity : BaseVMActivity<ActivityMainBinding, ContentViewModel>(R.lay
             }
 
         })
-        mAdapter.setLoadStatusListener {
-            if (it == BaseViewAdapter.STATUS_ITEM_END) {
-                mAdapter.addFooter(footerTwo.root)
+        mAdapter.setLoadStatusListener(object : LoadStatusListener {
+            override fun onChangeStatus(status: Int) {
+                if (status == BaseViewAdapter.STATUS_ITEM_END) {
+                    mAdapter.addFooter(footerTwo.root)
+                }
             }
-        }
+        })
 
         mAdapter.addHeader(headerOne.root)
         mAdapter.addHeader(headerTwo.root)

@@ -13,7 +13,6 @@ import com.google.android.material.snackbar.Snackbar;
  *
  * @author jv.lee
  * @date 2019/8/7.
- *
  */
 public class MoveUpwardBehavior extends CoordinatorLayout.Behavior<View> {
 

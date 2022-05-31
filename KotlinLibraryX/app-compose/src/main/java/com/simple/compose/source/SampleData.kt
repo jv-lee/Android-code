@@ -1,9 +1,9 @@
 package com.simple.compose.source
 
 /**
+ *
  * @author jv.lee
  * @date 2021/10/19
-
  */
 object SampleData {
     val conversationSample = arrayListOf(

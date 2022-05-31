@@ -3,9 +3,9 @@ package com.lee.library.adapter.callback
 import androidx.recyclerview.widget.DiffUtil
 
 /**
+ *
  * @author jv.lee
  * @date 2020/4/30
-
  */
 class DiffCallback<T> constructor(private val oldData: List<T>,private val newData: List<T>) :
     DiffUtil.Callback() {

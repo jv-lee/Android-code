@@ -7,9 +7,9 @@ import kotlinx.coroutines.flow.map
 import kotlin.reflect.KProperty1
 
 /**
+ * flow 状态监听扩展
  * @author jv.lee
  * @date 2022/4/27
- *
  */
 
 suspend fun <T, A> Flow<T>.collectState(

@@ -6,9 +6,9 @@ import androidx.core.content.ContextCompat;
 import com.google.android.material.snackbar.Snackbar;
 
 /**
+ *
  * @author jv.lee
  * @date 2019/8/7.
- *
  */
 public class SnackBarEx {
     private Snackbar snackbar;

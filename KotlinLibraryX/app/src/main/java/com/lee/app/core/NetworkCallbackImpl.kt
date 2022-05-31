@@ -9,7 +9,6 @@ import com.lee.library.utils.LogUtil
  *
  * @author jv.lee
  * @date 2020-03-07
- *
  */
 class NetworkCallbackImpl : ConnectivityManager.NetworkCallback() {
 

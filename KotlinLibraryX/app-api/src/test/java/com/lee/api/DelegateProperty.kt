@@ -3,9 +3,9 @@ package com.lee.api
 import kotlin.reflect.KProperty
 
 /**
+ *
  * @author jv.lee
  * @date 2022/1/11
-
  */
 class DelegateProperty {
     var name: String = "Delegate开发者"

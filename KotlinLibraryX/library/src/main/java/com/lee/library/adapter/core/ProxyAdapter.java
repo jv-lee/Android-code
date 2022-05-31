@@ -15,9 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ *
  * @author jv.lee
  * @date 2019/5/20.
- * description：
  */
 public class ProxyAdapter extends RecyclerView.Adapter {
     private List<View> mHeaderViews = new ArrayList<>();

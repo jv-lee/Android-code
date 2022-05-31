@@ -11,7 +11,6 @@ import com.lee.library.R
  *
  * @author jv.lee
  * @date 2020/4/22
- *
  */
 class CustomMenuItemView constructor(context: Context) : FrameLayout(context) {
 

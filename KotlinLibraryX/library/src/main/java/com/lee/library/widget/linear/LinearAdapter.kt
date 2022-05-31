@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 
 /**
+ * 线性列表view 适配器
  * @author jv.lee
  * @date 2020/9/7
  */

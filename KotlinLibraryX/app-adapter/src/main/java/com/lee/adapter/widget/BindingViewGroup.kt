@@ -8,9 +8,9 @@ import com.lee.library.extensions.inflate
 import com.lee.library.extensions.setBackgroundColorCompat
 
 /**
+ *
  * @author jv.lee
  * @date 2021/6/16
-
  */
 class BindingViewGroup : FrameLayout {
 

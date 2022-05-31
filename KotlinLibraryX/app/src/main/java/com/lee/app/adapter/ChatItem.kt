@@ -12,7 +12,6 @@ import com.lee.library.adapter.base.BaseViewItem
  *
  * @author jv.lee
  * @date 2020/9/7
-
  */
 class ChatItem : BaseViewItem<String> {
 

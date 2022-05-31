@@ -9,9 +9,9 @@ import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.shape.ShapeAppearanceModel
 
 /**
+ *
  * @author jv.lee
  * @date 2021/9/23
- *
  */
 abstract class CardImageCreateHolder<T> : ImageCreateHolder<T>() {
 

@@ -13,9 +13,9 @@ import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
 /**
+ *
  * @author jv.lee
  * @date 2021/6/9
-
  */
 
 fun <T> fragmentArgumentNullable(defaultValue: T? = null) = FragmentArgumentDelegateNullable(defaultValue)

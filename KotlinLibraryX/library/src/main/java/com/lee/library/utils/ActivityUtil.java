@@ -7,10 +7,10 @@ import android.os.Build;
 import java.util.ArrayList;
 
 /**
+ *
  * @author jv.lee
  * @date 2017/10/13
  */
-
 public class ActivityUtil {
     private static ActivityUtil instance;
 

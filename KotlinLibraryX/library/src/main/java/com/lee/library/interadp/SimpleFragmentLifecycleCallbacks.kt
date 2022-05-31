@@ -7,9 +7,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 
 /**
+ *
  * @author jv.lee
  * @date 2021/1/4
-
  */
 abstract class SimpleFragmentLifecycleCallbacks : FragmentManager.FragmentLifecycleCallbacks() {
 

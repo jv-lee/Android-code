@@ -10,9 +10,9 @@ import com.lee.library.extensions.inflate
 import com.lee.library.extensions.show
 
 /**
+ *
  * @author jv.lee
  * @date 2021/6/15
- *
  */
 class BindingFragment : BaseFragment(R.layout.fragment_binding) {
 

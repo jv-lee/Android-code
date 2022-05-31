@@ -5,9 +5,9 @@ import android.app.Application
 import android.os.Bundle
 
 /**
+ *
  * @author jv.lee
  * @date 2021/1/4
-
  */
 abstract class SimpleActivityLifecycleCallbacks : Application.ActivityLifecycleCallbacks {
     override fun onActivitySaveInstanceState(activity: Activity, bundle: Bundle) {

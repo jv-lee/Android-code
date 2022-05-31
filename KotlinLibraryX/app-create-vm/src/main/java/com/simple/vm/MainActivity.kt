@@ -11,7 +11,6 @@ import com.simple.vm.databinding.ActivityMainBinding
  *
  * @author jv.lee
  * @date 2021/8/19
-
  */
 class MainActivity : AppCompatActivity() {
 

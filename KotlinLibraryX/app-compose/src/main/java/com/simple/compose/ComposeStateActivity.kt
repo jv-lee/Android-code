@@ -25,9 +25,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
 /**
+ *
  * @author jv.lee
  * @date 2021/10/20
-
  */
 class ComposeStateActivity : ComponentActivity() {
 

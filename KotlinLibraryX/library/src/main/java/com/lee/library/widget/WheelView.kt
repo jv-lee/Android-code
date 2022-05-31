@@ -18,9 +18,9 @@ import com.lee.library.R
 import kotlin.math.roundToInt
 
 /**
+ *
  * @author jv.lee
  * @date 2021/1/6
-
  */
 class WheelView : RecyclerView {
 

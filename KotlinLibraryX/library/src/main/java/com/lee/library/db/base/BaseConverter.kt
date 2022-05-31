@@ -5,9 +5,9 @@ import com.google.gson.reflect.TypeToken
 import com.lee.library.net.HttpManager
 
 /**
+ *
  * @author jv.lee
  * @date 2020/4/17
-
  */
 open class BaseConverter<T> {
     @TypeConverter

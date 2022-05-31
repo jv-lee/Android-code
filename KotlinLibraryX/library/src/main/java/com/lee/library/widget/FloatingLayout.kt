@@ -22,13 +22,13 @@ import kotlin.math.abs
 
 /**
  * 可拖动Layout布局
- * @author jv.lee
- * @date 2022/1/14
  * @see FloatingLayout.ReIndexType
  * @see FloatingLayout.limitBound  是否限制边界拖动
  * @see FloatingLayout.foregroundColor 点击前景颜色
  * @see FloatingLayout.foregroundRadius 点击前景圆角
  * @see FloatingLayout.foregroundMargin 点击前景margin值
+ * @author jv.lee
+ * @date 2022/1/14
  */
 class FloatingLayout : FrameLayout {
 

@@ -14,9 +14,9 @@ import com.lee.library.adapter.binding.ViewBindingHolder
 import com.lee.library.adapter.item.ViewItem
 
 /**
+ *
  * @author jv.lee
  * @date 2020/11/25
- *
  */
 class ContentCommonItem :
     ViewItem<ContentData>() {

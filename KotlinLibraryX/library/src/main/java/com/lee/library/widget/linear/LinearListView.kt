@@ -6,9 +6,9 @@ import android.widget.LinearLayout
 import androidx.core.widget.NestedScrollView
 
 /**
+ * 线性列表view
  * @author jv.lee
  * @date 2020/9/7
- *
  */
 class LinearListView constructor(context: Context, attributeSet: AttributeSet) : LinearLayout(context, attributeSet) {
 

@@ -11,7 +11,6 @@ import com.lee.library.R
  *
  * @author jv.lee
  * @date 2020/11/2
- *
  */
 class VerticalViewPager(context: Context,attrs: AttributeSet?) : WrappingViewPager(context,attrs,true) {
 

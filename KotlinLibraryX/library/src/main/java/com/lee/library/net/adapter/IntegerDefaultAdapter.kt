@@ -7,7 +7,6 @@ import java.lang.reflect.Type
  *
  * @author jv.lee
  * @date 2020/3/20
- *
  */
 class IntegerDefaultAdapter : JsonSerializer<Int>, JsonDeserializer<Int> {
     override fun deserialize(

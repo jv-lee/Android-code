@@ -11,7 +11,6 @@ import androidx.core.view.contains
  *
  * @author jv.lee
  * @date 2021/10/29
- *
  */
 class Skeleton private constructor(builder: Builder) {
 

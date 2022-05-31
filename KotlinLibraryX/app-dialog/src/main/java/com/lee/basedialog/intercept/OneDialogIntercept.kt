@@ -6,9 +6,9 @@ import com.lee.library.dialog.intercept.DialogIntercept
 import com.lee.library.extensions.destroy
 
 /**
+ *
  * @author jv.lee
  * @date 2021/8/26
-
  */
 class OneDialogIntercept : DialogIntercept<DialogCreateConfig>() {
 

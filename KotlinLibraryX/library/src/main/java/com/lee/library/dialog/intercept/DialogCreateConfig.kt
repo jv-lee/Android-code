@@ -8,7 +8,6 @@ import androidx.fragment.app.FragmentManager
  *
  * @author jv.lee
  * @date 2021/8/26
- *
  */
 data class DialogCreateConfig(
     val context: Context,

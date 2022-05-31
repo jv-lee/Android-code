@@ -11,7 +11,6 @@ import com.lee.ui.databinding.ActivityFloatingLayoutBinding
  *
  * @author jv.lee
  * @date 2022/1/18
-
  */
 class FloatingLayoutActivity : BaseActivity() {
 

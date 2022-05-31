@@ -7,7 +7,6 @@ import java.lang.reflect.Type
  *
  * @author jv.lee
  * @date 2020/3/20
- *
  */
 class DoubleDefaultAdapter : JsonSerializer<Double>, JsonDeserializer<Double> {
     override fun deserialize(

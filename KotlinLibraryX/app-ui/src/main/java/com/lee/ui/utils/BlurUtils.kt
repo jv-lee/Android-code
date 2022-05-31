@@ -11,7 +11,6 @@ import android.renderscript.ScriptIntrinsicBlur
  *
  * @author jv.lee
  * @date 2021/3/1
-
  */
 object BlurUtils {
 

@@ -6,9 +6,9 @@ import com.lee.ui.R
 import com.lee.ui.databinding.FragmentToolbarBinding
 
 /**
+ *
  * @author jv.lee
  * @date 2021/9/3
-
  */
 class ToolbarFragment : BaseFragment(R.layout.fragment_toolbar) {
 
