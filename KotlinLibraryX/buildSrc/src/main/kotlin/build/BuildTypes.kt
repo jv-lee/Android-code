@@ -13,15 +13,15 @@ interface BuildTypes {
     }
 
     val isMinifyEnabled: Boolean
-    val zipAlignEnabled: Boolean
+    val isShrinkResources: Boolean
 }
 
 object BuildDebug : BuildTypes {
     override val isMinifyEnabled = false
-    override val zipAlignEnabled = false
+    override val isShrinkResources = false
 }
 
 object BuildRelease : BuildTypes {
     override val isMinifyEnabled = true
-    override val zipAlignEnabled = true
+    override val isShrinkResources = true
 }

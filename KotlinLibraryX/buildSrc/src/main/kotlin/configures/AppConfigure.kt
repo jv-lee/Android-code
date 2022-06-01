@@ -58,14 +58,14 @@ fun Project.appConfigure(
 
         buildTypes {
             getByName(BuildTypes.DEBUG) {
-                isMinifyEnabled = BuildDebug.isMinifyEnabled //混淆模式
-                isZipAlignEnabled = BuildDebug.zipAlignEnabled
+                isMinifyEnabled = BuildDebug.isMinifyEnabled // 混淆模式
+                isShrinkResources = BuildDebug.isShrinkResources // 资源压缩
                 proguardFiles("proguard-android-optimize.txt", "proguard-rules.pro")
             }
 
             getByName(BuildTypes.RELEASE) {
-                isMinifyEnabled = BuildRelease.isMinifyEnabled //混淆模式
-                isZipAlignEnabled = BuildRelease.zipAlignEnabled
+                isMinifyEnabled = BuildRelease.isMinifyEnabled // 混淆模式
+                isShrinkResources = BuildRelease.isShrinkResources // 资源压缩
                 proguardFiles("proguard-android-optimize.txt", "proguard-rules.pro")
             }
         }
