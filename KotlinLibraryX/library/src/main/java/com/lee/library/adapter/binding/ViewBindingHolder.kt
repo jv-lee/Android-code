@@ -6,7 +6,7 @@ import com.lee.library.adapter.base.BaseViewHolder
 /**
  * @author jv.lee
  * @date 2019/3/29
- * 封装的RecyclerViewHolder
+ * [BaseViewHolder] 的viewBinding实现 ,使用viewBinding解析view时可使用该ViewHolder类
  */
 class ViewBindingHolder(private val binding: ViewBinding) : BaseViewHolder(binding.root) {
 

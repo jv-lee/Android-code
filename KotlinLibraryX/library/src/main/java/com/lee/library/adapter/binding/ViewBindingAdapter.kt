@@ -10,7 +10,7 @@ import com.lee.library.adapter.base.BaseViewItem
 /**
  * @author jv.lee
  * @date 2019/3/29
- * 封装的RecyclerViewAdapter
+ * [BaseViewAdapter] 的viewBinding实现 ,使用viewBinding解析view时可使用该适配器基类
  */
 open class ViewBindingAdapter<T> : BaseViewAdapter<T> {
 
