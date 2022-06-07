@@ -1,3 +1,4 @@
+@file:Suppress("UNCHECKED_CAST")
 package com.lee.library.adapter.binding
 
 import androidx.viewbinding.ViewBinding
@@ -10,7 +11,6 @@ import com.lee.library.adapter.base.BaseViewHolder
  */
 class ViewBindingHolder(private val binding: ViewBinding) : BaseViewHolder(binding.root) {
 
-    @Suppress("UNCHECKED_CAST")
     fun <VB : ViewBinding> getViewBinding() = binding as VB
 
 }
