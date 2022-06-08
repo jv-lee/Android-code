@@ -6,8 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
-import com.lee.library.dialog.core.setBackDismiss
-import com.lee.library.dialog.core.setFullWindow
+import com.lee.library.dialog.extensions.setBackDismiss
+import com.lee.library.dialog.extensions.setFullWindow
 
 /**
  * 通用DialogFragment基类
