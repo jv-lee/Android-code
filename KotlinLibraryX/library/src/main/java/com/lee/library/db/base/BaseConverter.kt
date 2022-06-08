@@ -5,7 +5,7 @@ import com.google.gson.reflect.TypeToken
 import com.lee.library.net.HttpManager
 
 /**
- *
+ * 序列化数据 [T] 类型列表转json基础类
  * @author jv.lee
  * @date 2020/4/17
  */
