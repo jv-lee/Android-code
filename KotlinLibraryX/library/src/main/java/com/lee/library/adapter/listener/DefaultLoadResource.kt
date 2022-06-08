@@ -3,7 +3,7 @@ package com.lee.library.adapter.listener
 import com.lee.library.R
 
 /**
- *
+ * 适配器内默认load状态view
  * @author jv.lee
  * @date 2020/4/13
  */

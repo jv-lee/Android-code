@@ -8,9 +8,9 @@ import com.lee.library.adapter.base.BaseViewHolder
 import com.lee.library.adapter.base.BaseViewItem
 
 /**
+ * [BaseViewAdapter] 的viewBinding实现 ,使用viewBinding解析view时可使用该适配器基类
  * @author jv.lee
  * @date 2019/3/29
- * [BaseViewAdapter] 的viewBinding实现 ,使用viewBinding解析view时可使用该适配器基类
  */
 open class ViewBindingAdapter<T> : BaseViewAdapter<T> {
 

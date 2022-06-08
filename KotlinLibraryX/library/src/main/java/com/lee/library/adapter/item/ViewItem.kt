@@ -7,7 +7,7 @@ import com.lee.library.adapter.base.BaseViewHolder
 import com.lee.library.adapter.base.BaseViewItem
 
 /**
- *
+ * viewItem 类型类
  * @author jv.lee
  * @date 2021/6/15
  */

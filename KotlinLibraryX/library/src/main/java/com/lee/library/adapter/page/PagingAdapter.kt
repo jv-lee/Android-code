@@ -1,3 +1,8 @@
+/*
+ * 适配器加载数据状态逻辑扩展函数
+ * @author jv.lee
+ * @date 2020/8/11
+ */
 package com.lee.library.adapter.page
 
 import androidx.recyclerview.widget.DiffUtil
@@ -5,9 +10,12 @@ import com.lee.library.adapter.base.BaseViewAdapter
 import com.lee.library.adapter.callback.DiffCallback
 
 /**
- * 适配器加载数据状态逻辑
- * @author jv.lee
- * @date 2020/8/11
+ * 提交分页数据填充，控制页面显示状态及加载状态
+ * @param pageData 数据源
+ * @param limit 首页限制数
+ * @param diff 是否自动diff新旧数据
+ * @param refreshBlock 刷新状态回调函数
+ * @param emptyBlock 空数据状态回调函数
  */
 fun <T> BaseViewAdapter<T>.submitData(
     pageData: PagingData<T>,
@@ -92,6 +100,13 @@ fun <T> BaseViewAdapter<T>.submitData(
     }
 }
 
+/**
+ * 提交分页数据填充，控制页面显示状态及加载状态 [PagingData2] 方式的
+ * @param pageData 数据源
+ * @param diff 是否自动diff新旧数据
+ * @param refreshBlock 刷新状态回调函数
+ * @param emptyBlock 空数据状态回调函数
+ */
 fun <T> BaseViewAdapter<T>.submitData(
     pageData: PagingData2<T>,
     diff: Boolean = false,
@@ -171,6 +186,10 @@ fun <T> BaseViewAdapter<T>.submitData(
     }
 }
 
+/**
+ * 提交单页面填充数据、无分页内容
+ * @param newData 数据源
+ */
 fun <T> BaseViewAdapter<T>.submitSinglePage(newData: List<T>) {
     if (data.isNullOrEmpty() && newData.isNullOrEmpty()) {
         pageEmpty()
@@ -181,6 +200,9 @@ fun <T> BaseViewAdapter<T>.submitSinglePage(newData: List<T>) {
     }
 }
 
+/**
+ * 提交错误状态设置页面状态
+ */
 fun <T> BaseViewAdapter<T>.submitFailed() {
     if (isPageCompleted && !isItemEnd && data.isNotEmpty()) {
         loadFailed()
@@ -188,4 +210,5 @@ fun <T> BaseViewAdapter<T>.submitFailed() {
         pageError()
     }
 }
+
 

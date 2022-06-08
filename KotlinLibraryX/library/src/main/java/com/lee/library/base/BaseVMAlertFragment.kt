@@ -1,3 +1,5 @@
+@file:Suppress("LeakingThis")
+
 package com.lee.library.base
 
 import androidx.databinding.ViewDataBinding

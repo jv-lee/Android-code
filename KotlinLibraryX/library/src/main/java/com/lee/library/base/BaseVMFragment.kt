@@ -1,5 +1,3 @@
-@file:Suppress("DELEGATED_MEMBER_HIDES_SUPERTYPE_OVERRIDE")
-
 package com.lee.library.base
 
 import android.os.Bundle

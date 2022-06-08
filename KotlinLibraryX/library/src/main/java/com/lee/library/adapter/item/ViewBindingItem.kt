@@ -8,7 +8,7 @@ import com.lee.library.adapter.base.BaseViewItem
 import com.lee.library.adapter.binding.ViewBindingHolder
 
 /**
- *
+ * viewBinding实现 item类型类
  * @author jv.lee
  * @date 2021/6/15
  */

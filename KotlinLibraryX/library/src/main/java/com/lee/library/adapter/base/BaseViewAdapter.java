@@ -24,9 +24,10 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
+ * 封装的RecyclerViewAdapter
+ *
  * @author jv.lee
  * @date 2019/3/29
- * 封装的RecyclerViewAdapter
  */
 public abstract class BaseViewAdapter<T> extends RecyclerView.Adapter<BaseViewHolder> {
 
@@ -731,7 +732,6 @@ public abstract class BaseViewAdapter<T> extends RecyclerView.Adapter<BaseViewHo
 
         /**
          * 列表数据错误状态重试 ( 适用于分页失败 )
-         *
          */
         void itemReload();
     }

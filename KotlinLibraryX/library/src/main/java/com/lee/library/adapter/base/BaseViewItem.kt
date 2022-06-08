@@ -4,9 +4,9 @@ import android.content.Context
 import android.view.ViewGroup
 
 /**
+ * 某一类的item对象
  * @author jv.lee
  * @date 2019/3/29
- * 某一类的item对象
  */
 interface BaseViewItem<T> {
     /**

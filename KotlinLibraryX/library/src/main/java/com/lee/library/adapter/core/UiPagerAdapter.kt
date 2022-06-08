@@ -5,8 +5,8 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 
 /**
+ * PageFragment适配器 -> 适用于viewPager
  * @author jv.lee
- * description：PageFragment适配器 -> 适用于viewPager
  */
 class UiPagerAdapter : FragmentStatePagerAdapter {
 

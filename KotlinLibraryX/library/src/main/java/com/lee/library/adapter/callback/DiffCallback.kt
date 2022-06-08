@@ -3,11 +3,11 @@ package com.lee.library.adapter.callback
 import androidx.recyclerview.widget.DiffUtil
 
 /**
- *
+ * RecyclerView 新旧数据源替换处理帮助类
  * @author jv.lee
  * @date 2020/4/30
  */
-class DiffCallback<T> constructor(private val oldData: List<T>,private val newData: List<T>) :
+class DiffCallback<T> constructor(private val oldData: List<T>, private val newData: List<T>) :
     DiffUtil.Callback() {
 
     override fun getOldListSize(): Int {

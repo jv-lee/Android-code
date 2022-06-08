@@ -6,8 +6,8 @@ import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 
 /**
+ * PageFragment适配器 -> 适用于ViewPager2
  * @author jv.lee
- * description：PageFragment适配器 -> 适用于ViewPager2
  */
 class UiPagerAdapter2(fragmentManager: FragmentManager, lifecycle: Lifecycle) :
     FragmentStateAdapter(fragmentManager, lifecycle) {

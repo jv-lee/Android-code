@@ -1,6 +1,5 @@
 package com.lee.library.adapter.core;
 
-import android.annotation.SuppressLint;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -15,13 +14,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * RecyclerView 代理适配器，可通过该适配器添加header、footer
  *
  * @author jv.lee
- * @date 2019/5/20.
+ * @date 2019/5/20
  */
+@SuppressWarnings({"rawtypes", "unchecked", "WrongConstant"})
 public class ProxyAdapter extends RecyclerView.Adapter {
-    private List<View> mHeaderViews = new ArrayList<>();
-    private List<View> mFooterViews = new ArrayList<>();
+    private final List<View> mHeaderViews = new ArrayList<>();
+    private final List<View> mFooterViews = new ArrayList<>();
 
     private final RecyclerView.Adapter mAdapter;
 
@@ -170,7 +171,7 @@ public class ProxyAdapter extends RecyclerView.Adapter {
 
     public void addFooterView(View view) {
         if (!mFooterViews.contains(view)) {
-            mFooterViews.add(0,view);
+            mFooterViews.add(0, view);
         }
     }
 
@@ -182,7 +183,7 @@ public class ProxyAdapter extends RecyclerView.Adapter {
         static final int TYPE_SHIFT = 30;
         static final int TYPE_MASK = 0x3 << TYPE_SHIFT;
 
-        static final int UNSPECIFIED = 0 << TYPE_SHIFT;
+        static final int UNSPECIFIED = 0;
         static final int HEADER = 1 << TYPE_SHIFT;
         static final int FOOTER = 2 << TYPE_SHIFT;
 
@@ -196,7 +197,6 @@ public class ProxyAdapter extends RecyclerView.Adapter {
             return (value & ~TYPE_MASK) | (type & TYPE_MASK);
         }
 
-        @SuppressLint("WrongConstant")
         @ViewTypeSpecMode
         static int getType(int viewType) {
             return (viewType & TYPE_MASK);
