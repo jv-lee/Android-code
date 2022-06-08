@@ -1,7 +1,6 @@
 package com.lee.library.cache.impl;
 
 
-
 import com.lee.library.cache.core.DiskLruCache;
 
 import java.io.ByteArrayOutputStream;
@@ -11,6 +10,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 /**
+ * 磁盘缓存实现类
  *
  * @author jv.lee
  * @date 2019-11-14
@@ -22,7 +22,7 @@ public class DiskCache {
      */
     private DiskLruCache diskLruCache;
 
-    public DiskCache(String path,int version,int count,long maxSize) {
+    public DiskCache(String path, int version, int count, long maxSize) {
         try {
             File file = new File(path);
             diskLruCache = DiskLruCache.open(file, version, count, maxSize);
