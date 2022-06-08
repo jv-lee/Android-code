@@ -4,7 +4,7 @@ import android.text.Editable
 import android.text.TextWatcher
 
 /**
- *
+ * 文本输入接口实现帮助类
  * @author jv.lee
  * @date 2021/11/26
  */

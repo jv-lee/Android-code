@@ -7,7 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 
 /**
- *
+ * fragment生命周期监听接口实现帮助类
  * @author jv.lee
  * @date 2021/1/4
  */
