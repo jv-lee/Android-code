@@ -4,7 +4,7 @@ import android.content.Context
 import com.lee.library.R
 
 /**
- * 自定义dialog 超类
+ * 自定义AlertDialog alert动画显示 超类
  * @author jv.lee
  * @date 2020-03-07
  */

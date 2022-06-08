@@ -1,7 +1,7 @@
 package com.lee.library.dialog.intercept
 
 /**
- *
+ * dialog拦截器帮助类 多个dialog弹窗按拦截顺序执行
  * @author jv.lee
  * @date 2021/8/26
  */
