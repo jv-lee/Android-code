@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.multidex.MultiDexApplication
 
 /**
- *
+ * application通用基类
  * @author jv.lee
  * @date 2020/3/20
  */

@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.lee.library.extensions.getVmClass
 
 /**
- *
+ * 封装ViewModel\DataBinding DialogFragment通用基类
  * @author jv.lee
  * @date 2019/8/16.
  */

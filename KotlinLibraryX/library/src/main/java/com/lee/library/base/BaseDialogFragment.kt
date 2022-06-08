@@ -8,13 +8,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.lee.library.dialog.core.setBackDismiss
 import com.lee.library.dialog.core.setFullWindow
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.cancel
 
 /**
- *
+ * 通用DialogFragment基类
  * @author jv.lee
  * @date 2019/8/16.
  */
@@ -22,8 +18,7 @@ abstract class BaseDialogFragment(
     private val resourceId: Int? = 0,
     private val isCancel: Boolean = true,
     private val isFullWindow: Boolean = true
-) :
-    DialogFragment(), CoroutineScope by CoroutineScope(Dispatchers.Main) {
+) : DialogFragment() {
 
     private var fistVisible = true
 
@@ -55,12 +50,6 @@ abstract class BaseDialogFragment(
             fistVisible = false
             lazyLoad()
         }
-    }
-
-    @ExperimentalCoroutinesApi
-    override fun onDetach() {
-        super.onDetach()
-        cancel()
     }
 
     open fun createView(inflater: LayoutInflater, container: ViewGroup?): View? {

@@ -10,13 +10,9 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.lee.library.R
 import com.lee.library.extensions.dp2px
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.cancel
 
 /**
- *
+ * SheetFragment通用基础类
  * @author jv.lee
  */
 abstract class BaseSheetFragment(
@@ -24,7 +20,7 @@ abstract class BaseSheetFragment(
     private var isFullWindow: Boolean = false,
     private var behaviorState: Int = BottomSheetBehavior.STATE_EXPANDED,
     private var peekHeight: Int = -1
-) : BottomSheetDialogFragment(), CoroutineScope by CoroutineScope(Dispatchers.Main) {
+) : BottomSheetDialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return super.onCreateDialog(savedInstanceState) as BottomSheetDialog
@@ -35,7 +31,7 @@ abstract class BaseSheetFragment(
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return createView(inflater,container)
+        return createView(inflater, container)
     }
 
     override fun onStart() {
@@ -56,12 +52,6 @@ abstract class BaseSheetFragment(
         super.onViewCreated(view, savedInstanceState)
         bindView()
         bindData()
-    }
-
-    @ExperimentalCoroutinesApi
-    override fun onDetach() {
-        super.onDetach()
-        cancel()
     }
 
     open fun createView(inflater: LayoutInflater, container: ViewGroup?): View? {
