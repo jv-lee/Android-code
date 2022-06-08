@@ -1,15 +1,14 @@
+/*
+ * 缓存管理器扩展类
+ * @author jv.lee
+ * @date 2021/9/9
+ */
 package com.lee.library.extensions
 
 import com.google.gson.reflect.TypeToken
 import com.lee.library.adapter.page.PagingData
 import com.lee.library.cache.CacheManager
 import kotlinx.coroutines.flow.flow
-
-/**
- * 缓存管理器扩展类
- * @author jv.lee
- * @date 2021/9/9
- */
 
 /**
  * 获取缓存数据

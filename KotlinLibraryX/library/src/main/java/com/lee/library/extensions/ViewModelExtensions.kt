@@ -1,3 +1,11 @@
+/*
+ * viewModel扩展函数帮助类
+ * @author jv.lee
+ * @date 2020/4/1
+ */
+
+@file:Suppress("UNCHECKED_CAST")
+
 package com.lee.library.extensions
 
 import android.os.Bundle
@@ -18,7 +26,6 @@ import java.lang.reflect.ParameterizedType
 /**
  * 获取当前class第二个泛型class类型
  */
-@Suppress("UNCHECKED_CAST")
 fun <VM> getVmClass(obj: Any): VM {
     return (obj.javaClass.genericSuperclass as ParameterizedType).actualTypeArguments[1] as VM
 }

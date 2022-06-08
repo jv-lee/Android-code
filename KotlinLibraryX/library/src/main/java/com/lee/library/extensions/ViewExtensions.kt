@@ -1,3 +1,8 @@
+/*
+ * View.扩展函数
+ * @author jv.lee
+ * @date 2020/4/1
+ */
 package com.lee.library.extensions
 
 import android.content.Context
@@ -25,12 +30,6 @@ import com.google.android.material.tabs.TabLayout
 import com.lee.library.R
 import com.lee.library.tools.ReflexTools
 import kotlin.math.abs
-
-/**
- * View.扩展函数
- * @author jv.lee
- * @date 2020/4/1
- */
 
 /**
  * 向下兼容设置View背景着色器选择器

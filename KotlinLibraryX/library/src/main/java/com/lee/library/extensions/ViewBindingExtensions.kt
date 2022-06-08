@@ -1,3 +1,11 @@
+/*
+ * ViewBinding 扩展函数（属性委托解绑模式）
+ * @author jv.lee
+ * @date 2021/6/15
+ */
+
+@file:Suppress("UNCHECKED_CAST")
+
 package com.lee.library.extensions
 
 import android.os.Handler
@@ -9,17 +17,14 @@ import android.view.ViewGroup
 import androidx.activity.ComponentActivity
 import androidx.annotation.MainThread
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.*
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.ViewTreeLifecycleOwner
 import androidx.viewbinding.ViewBinding
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
-/**
- * ViewBinding 扩展函数（属性委托解绑模式）
- * @author jv.lee
- * @date 2021/6/15
- */
-@Suppress("UNCHECKED_CAST")
 @JvmName("viewBindingActivity")
 inline fun <reified A : ComponentActivity, reified V : ViewBinding> ComponentActivity.binding(
     crossinline inflate: (LayoutInflater) -> V
@@ -31,7 +36,7 @@ inline fun <reified A : ComponentActivity, reified V : ViewBinding> ComponentAct
             .apply { setContentView(root) }
     }
 
-    lifecycle.addObserver(object:LifecycleEventObserver{
+    lifecycle.addObserver(object : LifecycleEventObserver {
         override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
             if (event == Lifecycle.Event.ON_CREATE) {
                 lifecycle.removeObserver(this)
@@ -46,7 +51,6 @@ inline fun <reified A : ComponentActivity, reified V : ViewBinding> ComponentAct
     }
 }
 
-@Suppress("UNCHECKED_CAST")
 @JvmName("viewInflateActivity")
 inline fun <reified A : ComponentActivity, reified V : ViewBinding> ComponentActivity.inflate(
     crossinline inflate: (LayoutInflater) -> V
@@ -54,7 +58,6 @@ inline fun <reified A : ComponentActivity, reified V : ViewBinding> ComponentAct
     inflate(activity.layoutInflater)
 }
 
-@Suppress("UNCHECKED_CAST")
 @JvmName("viewBindingFragment")
 inline fun <reified F : Fragment, reified V : ViewBinding> Fragment.binding(
     crossinline viewBinder: (View) -> V,
@@ -63,7 +66,6 @@ inline fun <reified F : Fragment, reified V : ViewBinding> Fragment.binding(
     viewBinder(viewProvider(fragment))
 }
 
-@Suppress("UNCHECKED_CAST")
 @JvmName("viewInflateFragment")
 inline fun <reified F : Fragment, reified V : ViewBinding> Fragment.inflate(
     crossinline viewInflate: (LayoutInflater) -> V
@@ -71,7 +73,6 @@ inline fun <reified F : Fragment, reified V : ViewBinding> Fragment.inflate(
     viewInflate(fragment.layoutInflater)
 }
 
-@Suppress("UNCHECKED_CAST")
 @JvmName("viewInflateViewGroup")
 inline fun <reified G : ViewGroup, reified V : ViewBinding> ViewGroup.inflate(
     crossinline viewInflate: (LayoutInflater) -> V

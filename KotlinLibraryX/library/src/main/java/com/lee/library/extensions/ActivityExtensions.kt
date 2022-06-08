@@ -1,3 +1,8 @@
+/*
+ * Activity扩展函数帮助类
+ * @author jv.lee
+ * @date 2021/8/26
+ */
 package com.lee.library.extensions
 
 import android.app.Activity
@@ -14,12 +19,6 @@ import com.lee.library.R
 import com.lee.library.utils.ActivityUtil
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-
-/**
- *
- * @author jv.lee
- * @date 2021/8/26
- */
 
 fun FragmentActivity.toast(message: CharSequence?, duration: Int = Toast.LENGTH_SHORT) {
     message ?: return
