@@ -12,7 +12,7 @@ import javax.net.ssl.SSLSocketFactory;
 
 
 /**
- *
+ * SSL协议处理工厂
  * @author jv.lee
  * @date 2020/4/20
  */

@@ -27,7 +27,7 @@ import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.io.File
 
 /**
- * Retrofit库封装
+ * OkHttp + Retrofit网络请求库封装管理类
  * @author jv.lee
  * @date 2020/3/20
  */

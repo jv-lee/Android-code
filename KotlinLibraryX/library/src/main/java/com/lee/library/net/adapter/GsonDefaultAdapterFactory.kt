@@ -1,3 +1,5 @@
+@file:Suppress("UNCHECKED_CAST")
+
 package com.lee.library.net.adapter
 
 import com.google.gson.Gson
@@ -15,7 +17,6 @@ import java.lang.reflect.Type
  * @author jv.lee
  * @date 2021/10/29
  */
-@Suppress("UNCHECKED_CAST")
 class GsonDefaultAdapterFactory : TypeAdapterFactory {
 
     override fun <T : Any> create(gson: Gson, type: TypeToken<T>): TypeAdapter<T>? {

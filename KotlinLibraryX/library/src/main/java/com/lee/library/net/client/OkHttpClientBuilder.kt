@@ -1,8 +1,9 @@
 package com.lee.library.net.client
 
 import com.lee.library.net.interceptor.RetryInterceptor
-import okhttp3.*
-import java.io.IOException
+import okhttp3.ConnectionPool
+import okhttp3.OkHttpClient
+import okhttp3.Protocol
 import java.security.KeyManagementException
 import java.security.NoSuchAlgorithmException
 import java.security.SecureRandom
@@ -12,13 +13,15 @@ import java.util.concurrent.TimeUnit
 import javax.net.ssl.*
 
 /**
- *
+ * OkHttpClient构建器
  * @author jv.lee
  * @date 2020/3/20
  */
 class OkHttpClientBuilder {
 
-    private val DEFAULT_TIMEOUT = 10L
+    companion object {
+        private const val DEFAULT_TIMEOUT = 10L
+    }
 
     private var safeClient: OkHttpClient? = null
     private var unSafeClient: OkHttpClient? = null

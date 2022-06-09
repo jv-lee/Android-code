@@ -2,7 +2,6 @@ package com.lee.library.net.interceptor
 
 import androidx.annotation.NonNull
 import com.lee.library.base.ApplicationExtensions.app
-import com.lee.library.base.BaseApplication
 import com.lee.library.utils.NetworkUtil
 import okhttp3.CacheControl
 import okhttp3.Interceptor
@@ -10,11 +9,11 @@ import okhttp3.Response
 import java.io.IOException
 
 /**
- *
+ * 缓存控制拦截器
  * @author jv.lee
  * @date 2020/3/20
  */
-class CacheControlInterceptor :Interceptor {
+class CacheControlInterceptor : Interceptor {
 
     @Throws(IOException::class)
     override fun intercept(@NonNull chain: Interceptor.Chain): Response {
