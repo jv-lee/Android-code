@@ -16,7 +16,7 @@ import com.lee.library.utils.LogUtil
 import java.util.*
 
 /**
- *
+ * 屏幕适配帮助类
  * @author jv.lee
  * @date 2021/9/2
  */

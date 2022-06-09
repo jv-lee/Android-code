@@ -3,7 +3,9 @@ package com.lee.library.tools
 import androidx.lifecycle.*
 
 /**
- *
+ * 深色主题ui更新帮助类 - activity/fragment 实现 [ViewCallback] 接口，
+ * 通过 [DarkViewUpdateTools.bindViewCallback] 绑定生命周期监听view更新状态来实现深色主题切换
+ * 组件间可主动调用 [DarkViewUpdateTools.notifyUiMode] 方法来实现全局通知ui更新
  * @author jv.lee
  * @date 2021/6/8
  */
