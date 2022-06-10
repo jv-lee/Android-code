@@ -23,6 +23,7 @@ import com.lee.library.extensions.dp2px
 import com.lee.library.tools.ReflexTools.reflexField
 
 /**
+ * 底部导航栏 支持红点与viewPager、viewPager2监听等处理
  * 使用png 等多色彩图片时 需要动态设置 itemIconTintList = null
  * @author jv.lee
  * @date 2019/5/7
@@ -51,12 +52,14 @@ class ExpandBottomNavigationView @JvmOverloads constructor(
     init {
         attrs?.let {
             context.obtainStyledAttributes(it, R.styleable.ExpandBottomNavigationView).apply {
-                dotNumberTextSize = getDimension(R.styleable.ExpandBottomNavigationView_dotNumberTextSize, 12f)
+                dotNumberTextSize =
+                    getDimension(R.styleable.ExpandBottomNavigationView_dotNumberTextSize, 12f)
                 dotBackground =
                     getColor(R.styleable.ExpandBottomNavigationView_dotBackground, Color.RED)
                 dotNumberTextColor =
                     getColor(R.styleable.ExpandBottomNavigationView_dotNumberTextColor, Color.WHITE)
-                dotLineColor = getColor(R.styleable.ExpandBottomNavigationView_dotLineColor, Color.WHITE)
+                dotLineColor =
+                    getColor(R.styleable.ExpandBottomNavigationView_dotLineColor, Color.WHITE)
                 dotSize = getDimension(R.styleable.ExpandBottomNavigationView_dotSize, 6f).toInt()
                 recycle()
             }
@@ -73,7 +76,7 @@ class ExpandBottomNavigationView @JvmOverloads constructor(
         for (i in 0 until menu.size()) {
             if (menu.getItem(i) === menuItem) {
                 mViewPager?.setCurrentItem(i, false)
-                mViewPager2?.setCurrentItem(i,false)
+                mViewPager2?.setCurrentItem(i, false)
                 mItemPositionListener?.onPosition(menuItem, i)
             }
         }
@@ -135,7 +138,8 @@ class ExpandBottomNavigationView @JvmOverloads constructor(
             dots.clear()
             for (i in 0 until childCount) {
                 val itemView = menuView.getChildAt(i) as BottomNavigationItemView
-                val params = LayoutParams(context.dp2px(dotSize).toInt(), context.dp2px(dotSize).toInt())
+                val params =
+                    LayoutParams(context.dp2px(dotSize).toInt(), context.dp2px(dotSize).toInt())
                 params.gravity = Gravity.CENTER_HORIZONTAL
                 params.topMargin = context.dp2px(dotSize).toInt()
                 params.leftMargin = context.dp2px(dotSize).toInt()

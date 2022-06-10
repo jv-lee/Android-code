@@ -8,7 +8,7 @@ import androidx.annotation.LayoutRes
 import androidx.core.view.contains
 
 /**
- *
+ * 骨架屏幕构建器
  * @author jv.lee
  * @date 2021/10/29
  */

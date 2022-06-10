@@ -13,7 +13,7 @@ import com.lee.library.R
 import com.lee.library.extensions.dp2px
 
 /**
- *
+ * [ExpandBottomNavigationView] 带数字的红点view
  * @author jv.lee
  * @date 2019/5/7
  */

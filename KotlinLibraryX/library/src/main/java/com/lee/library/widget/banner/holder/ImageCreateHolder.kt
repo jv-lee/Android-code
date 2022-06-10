@@ -8,7 +8,7 @@ import androidx.core.view.ViewCompat
 import com.lee.library.widget.banner.BannerView
 
 /**
- *
+ * imageView banner样式
  * @author jv.lee
  * @date 2021/9/23
  */

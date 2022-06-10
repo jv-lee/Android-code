@@ -9,7 +9,7 @@ import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.shape.ShapeAppearanceModel
 
 /**
- *
+ * 卡片imageView banner样式
  * @author jv.lee
  * @date 2021/9/23
  */
