@@ -16,9 +16,9 @@ import android.widget.TextView
 import com.lee.library.R
 
 /**
+ * 文本跑马灯view
  * @author jv.lee
- * @date 2019/5/24.
- * description：跑马灯
+ * @date 2019/5/24
  */
 class MarqueeView @JvmOverloads constructor(
     context: Context,

@@ -21,11 +21,10 @@ import com.lee.library.R;
 
 /**
  * 自定义view - 圆形图片
- *
- * @author jv.lee
- * @date 2019/4/5
  * 圆形图 可设置padding生效 直接获取paddingTop设置圆形图padding值
  * 圆角矩形、椭圆形还未做处理，如需使用 请在onDraw 自行计算修改
+ * @author jv.lee
+ * @date 2019/4/5
  */
 @SuppressLint("AppCompatCustomView")
 public class RoundImageView extends ImageView {

@@ -26,14 +26,15 @@ import kotlin.math.abs
 
 /**
  * 阴影容器
- * @see outLineWidth
- * @see outLineColor
- * @see shadowRound
- * @see shadowBlur
- * @see shadowColor
- * @see shadowFillColor
- * @see shadowOffsetX
- * @see shadowOffsetY
+ * [outLineWidth] 边框宽度
+ * [outLineColor] 边框颜色
+ * [shadowRound] 容器圆角size
+ * [shadowBlur] 阴影范围size
+ * [shadowColor] 阴影颜色
+ * [shadowFillColor] 内容填充颜色
+ * [shadowOffsetX] 阴影X轴偏移量
+ * [shadowOffsetY] 阴影Y轴偏移量
+ *
  * @author jv.lee
  * @date 2020/9/16
  */
@@ -47,44 +48,13 @@ class ShadowConstraintLayout(context: Context, attributeSet: AttributeSet) :
     private val mRectF = RectF()
     private val mLineRectF = RectF()
 
-    /**
-     * 外线条宽度
-     */
     private var outLineWidth: Float
-
-    /**
-     * 外线条颜色
-     */
     private var outLineColor: Int
-
-    /**
-     * 容器圆角size
-     */
     private var shadowRound: Float
-
-    /**
-     * 阴影范围size
-     */
     private var shadowBlur: Float
-
-    /**
-     * 阴影颜色
-     */
     private var shadowColor: Int
-
-    /**
-     * 内容填充颜色
-     */
     private var shadowFillColor: Int
-
-    /**
-     * 阴影X轴偏移量
-     */
     private var shadowOffsetX: Float
-
-    /**
-     * 阴影Y轴偏移量
-     */
     private var shadowOffsetY: Float
 
     private var offsetLeftPadding = 0

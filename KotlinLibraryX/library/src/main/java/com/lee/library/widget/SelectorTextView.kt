@@ -19,22 +19,22 @@ import com.lee.library.extensions.dp2px
 
 /**
  * 状态按钮 可设置点击状态不同颜色 及锁定点击状态颜色
- * @see pressedBackgroundColor
- * @see pressedTextColor
- * @see pressedStrokeColor
+ * [pressedBackgroundColor] 按下时背景颜色
+ * [pressedTextColor] 按下时文字颜色
+ * [pressedStrokeColor] 按下时边框颜色
  *
- * @see normalBackgroundColor
- * @see normalTextColor
- * @see normalStrokeColor
+ * [normalBackgroundColor] 默认背景颜色
+ * [normalTextColor] 默认文字颜色
+ * [normalStrokeColor] 默认边框颜色
  *
- * @see disableBackgroundColor
- * @see disableTextColor
- * @see disableStrokeColor
+ * [disableBackgroundColor] 锁定点击时背景颜色
+ * [disableTextColor] 锁定点击时文字颜色
+ * [disableStrokeColor] 锁定点击时边框颜色
  *
- * @see strokeWidth
- * @see buttonRadius
- * @see buttonDisable
- * @see rippleMode
+ * [strokeWidth] 边框宽度
+ * [buttonRadius] 边角圆角度
+ * [buttonDisable] 是否可点击状态
+ * [rippleMode] 点击扩散效果 noneMode：无 stateMode：扩散并且保持点击颜色变更 defaultMode：默认扩散效果
  *
  * @author jv.lee
  * @date 2020/9/16
@@ -42,69 +42,18 @@ import com.lee.library.extensions.dp2px
 @Keep
 class SelectorTextView : AppCompatTextView {
 
-    /**
-     * 按下时背景颜色
-     */
     private var pressedBackgroundColor: Int = 0
-
-    /**
-     * 默认背景颜色
-     */
     private var normalBackgroundColor: Int = 0
-
-    /**
-     * 锁定点击时背景颜色
-     */
     private var disableBackgroundColor: Int = 0
-
-    /**
-     * 按下时文字颜色
-     */
     private var pressedTextColor: Int = 0
-
-    /**
-     * 默认文字颜色
-     */
     private var normalTextColor: Int = 0
-
-    /**
-     * 锁定点击时文字颜色
-     */
     private var disableTextColor: Int = 0
-
-    /**
-     * 按下时边框颜色
-     */
     private var pressedStrokeColor: Int = 0
-
-    /**
-     * 默认边框颜色
-     */
     private var normalStrokeColor: Int = 0
-
-    /**
-     * 锁定点击时边框颜色
-     */
     private var disableStrokeColor: Int = 0
-
-    /**
-     * 点击扩散效果 noneMode：无 stateMode：扩散并且保持点击颜色变更 defaultMode：默认扩散效果
-     */
     private var rippleMode: Int = 0
-
-    /**
-     * 边框宽度
-     */
     private var strokeWidth: Float = 0F
-
-    /**
-     * 边角圆角度
-     */
     private var buttonRadius: Float = 0F
-
-    /**
-     * 是否可点击状态
-     */
     private var buttonDisable: Boolean = false
 
     private var disableBackgroundDrawable: GradientDrawable? = null

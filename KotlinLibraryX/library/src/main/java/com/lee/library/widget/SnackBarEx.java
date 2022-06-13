@@ -6,7 +6,7 @@ import androidx.core.content.ContextCompat;
 import com.google.android.material.snackbar.Snackbar;
 
 /**
- *
+ * SnackBar扩展方式调用
  * @author jv.lee
  * @date 2019/8/7.
  */

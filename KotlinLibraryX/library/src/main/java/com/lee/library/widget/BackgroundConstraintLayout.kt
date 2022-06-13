@@ -8,7 +8,12 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import com.lee.library.R
 
 /**
- *
+ * ConstraintLayout背景设置view
+ * 支持设置以下参数
+ * [layoutBackgroundColor] 背景颜色
+ * [layoutStrokeColor] 背景边框颜色
+ * [layoutStrokeWidth] 背景边框宽度
+ * [layoutRadius] 背景圆角值
  * @author jv.lee
  * @date 2021/1/19
  */

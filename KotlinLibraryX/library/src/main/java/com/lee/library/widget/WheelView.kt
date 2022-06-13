@@ -18,7 +18,16 @@ import com.lee.library.R
 import kotlin.math.roundToInt
 
 /**
- *
+ * 可滑动滚动的多选框
+ * [lineHeight] 多选框每行的高度
+ * [selectedTextColor] 选中文案的文本颜色
+ * [unSelectedTextColor] 未选中文案的文本颜色
+ * [selectedTextSize] 选中文案的文本大小
+ * [unSelectedTextSize] 未选中文案的文本大小
+ * [selectItemStyle] 选中文案样式
+ * [SelectItemStyle.GONE] 默认无样式
+ * [SelectItemStyle.ITEM] 选中item填充背景
+ * [SelectItemStyle.LINE] 选中item填充边框
  * @author jv.lee
  * @date 2021/1/6
  */
@@ -35,14 +44,11 @@ class WheelView : RecyclerView {
     private var oldSelectPosition = 0
     private val linearSnapHelper = LinearSnapHelper()
 
+    private var lineHeight = dp2px(DEFAULT_ITEM_HEIGHT)
     private var selectedTextColor: Int = 0
     private var unSelectedTextColor: Int = 0
-
     private var selectedTextSize: Float = 0F
     private var unSelectedTextSize: Float = 0F
-
-    private var lineHeight = dp2px(DEFAULT_ITEM_HEIGHT)
-
     private var selectItemStyle = SelectItemStyle.GONE
 
     private val paddingDecoration = PaddingDecoration()
