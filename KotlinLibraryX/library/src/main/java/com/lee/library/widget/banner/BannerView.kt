@@ -257,7 +257,7 @@ class BannerView : RelativeLayout {
         return index
     }
 
-    val layoutManager = object : LinearLayoutManager(context, HORIZONTAL, false) {
+    private val layoutManager = object : LinearLayoutManager(context, HORIZONTAL, false) {
         override fun smoothScrollToPosition(
             recyclerView: RecyclerView,
             state: RecyclerView.State?,
