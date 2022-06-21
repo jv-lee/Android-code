@@ -19,7 +19,6 @@ import configures.core.freeCompilerArgs
  * @author jv.lee
  * @date 2021/10/1
  */
-@Suppress("MISSING_DEPENDENCY_SUPERCLASS")
 fun Project.libraryConfigure(
     projectConfigure: Project.() -> Unit = {},
     androidConfigure: LibraryExtension.() -> Unit = {}

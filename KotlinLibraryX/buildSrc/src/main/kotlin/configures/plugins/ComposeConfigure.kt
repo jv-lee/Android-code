@@ -24,7 +24,6 @@ fun Project.composeConfigure() {
 
         composeOptions {
             kotlinCompilerExtensionVersion = "1.0.0"
-            kotlinCompilerVersion = "1.5.10"
         }
 
         packagingOptions {
@@ -34,7 +33,6 @@ fun Project.composeConfigure() {
         }
 
         kotlinOptions {
-            useIR = true
             freeCompilerArgs = freeCompilerArgs + "-Xopt-in=kotlin.RequiresOptIn"
         }
     }

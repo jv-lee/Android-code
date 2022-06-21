@@ -17,7 +17,6 @@ import testImplementation
  * @author jv.lee
  * @date 2021/10/1
  */
-@Suppress("MISSING_DEPENDENCY_SUPERCLASS", "MISSING_DEPENDENCY_CLASS")
 fun Project.appConfigure(
     packageName: String = BuildConfig.applicationId,
     projectConfigure: Project.() -> Unit = {},
