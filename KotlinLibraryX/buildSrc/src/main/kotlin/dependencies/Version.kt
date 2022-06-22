@@ -35,8 +35,8 @@ object Version {
 
     //Test
     const val junit = "4.13.2"
-    const val junitAndroid = "1.1.2"
-    const val espressoAndroid = "3.3.0"
-    const val leakcanary = "2.3"
+    const val junitAndroid = "1.1.3"
+    const val espressoAndroid = "3.4.0"
+    const val leakcanary = "2.9.1"
     const val blockCanary = "1.5.0"
 }
