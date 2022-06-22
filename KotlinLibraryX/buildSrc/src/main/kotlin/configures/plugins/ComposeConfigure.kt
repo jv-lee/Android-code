@@ -4,6 +4,7 @@ import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
 import kotlinOptions
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
+import dependencies.Version
 
 /**
  * 组建支持compose配置依赖扩展
@@ -23,7 +24,7 @@ fun Project.composeConfigure() {
         }
 
         composeOptions {
-            kotlinCompilerExtensionVersion = "1.0.0"
+            kotlinCompilerExtensionVersion = Version.compose
         }
 
         packagingOptions {

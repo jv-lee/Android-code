@@ -14,8 +14,8 @@ repositories {
 }
 
 dependencies {
-    implementation("com.android.tools.build:gradle:7.0.1")
-    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.10")
+    implementation("com.android.tools.build:gradle:7.0.3")
+    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10")
     implementation("com.google.dagger:hilt-android-gradle-plugin:2.38.1")
     implementation("com.google.protobuf:protobuf-gradle-plugin:0.8.17")
 }

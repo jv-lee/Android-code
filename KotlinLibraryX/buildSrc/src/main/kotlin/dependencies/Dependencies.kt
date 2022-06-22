@@ -27,7 +27,7 @@ object Dependencies {
     const val viewpager2 = "androidx.viewpager2:viewpager2:${Version.viewpager2}"
     const val swipeRefreshLayout = "androidx.swiperefreshlayout:swiperefreshlayout:${Version.swipeRefreshLayout}"
     const val slidingpanelayout =
-        "androidx.slidingpanelayout:slidingpanelayout:${Version.slidingpanelayout}"
+        "androidx.slidingpanelayout:slidingpanelayout:${Version.slidingPaneLayout}"
 
     //fragment导航
     const val navigationFragment =
@@ -36,9 +36,50 @@ object Dependencies {
     const val navigationDynamic =
         "androidx.navigation:navigation-dynamic-features-fragment:${Version.navigation}"
 
+    // compose
+    const val composeActivity = "androidx.activity:activity-compose:${Version.activity}"
+    const val composeConstraint = "androidx.constraintlayout:constraintlayout-compose:1.0.0"
+    const val composeUi = "androidx.compose.ui:ui:${Version.compose}"
+    const val composeMaterial = "androidx.compose.material:material:${Version.compose}"
+    const val composePreview = "androidx.compose.ui:ui-tooling-preview:${Version.compose}"
+    const val composeUtil = "androidx.compose.ui:ui-util:1.1.1"
+    const val composeLivedata = "androidx.compose.runtime:runtime-livedata:${Version.compose}"
+
+    // compose accompanist
+    const val composeCoin = "com.google.accompanist:accompanist-coil:0.15.0"
+    const val composeNavigationAnimation =
+        "com.google.accompanist:accompanist-navigation-animation:${Version.accompanist}"
+    const val composeInsets = "com.google.accompanist:accompanist-insets:${Version.accompanist}"
+    const val composeInsetsUi =
+        "com.google.accompanist:accompanist-insets-ui:${Version.accompanist}"
+    const val composeSystemUiController =
+        "com.google.accompanist:accompanist-systemuicontroller:${Version.accompanist}"
+    const val composeSwiperRefresh =
+        "com.google.accompanist:accompanist-swiperefresh:${Version.accompanist}"
+    const val composePager = "com.google.accompanist:accompanist-pager:${Version.accompanist}"
+    const val composePagerIndicators =
+        "com.google.accompanist:accompanist-pager-indicators:${Version.accompanist}"
+    const val composeFlowlayout =
+        "com.google.accompanist:accompanist-flowlayout:${Version.accompanist}"
+    const val composeWebView =
+        "com.google.accompanist:accompanist-webview:${Version.accompanist}"
+
+    // paging 分页
+    const val pagingRuntime = "androidx.paging:paging-runtime:${Version.paging}"
+    const val pagingCompose = "androidx.paging:paging-compose:${Version.pagingCompose}"
+
+    // hilt
+    const val hiltAndroid = "com.google.dagger:hilt-android:${Version.hilt}"
+
+    // hilt compose
+    const val hiltNavigationCompose = "androidx.hilt:hilt-navigation-compose:${Version.hiltX}"
+    const val hiltLifecycleViewModel =
+        "androidx.hilt:hilt-lifecycle-viewmodel:${Version.hiltX}"
+
     //room数据库
     const val room = "androidx.room:room-ktx:${Version.room}"
     const val roomRuntime = "androidx.room:room-runtime:${Version.room}"
+    const val roomPaging = "androidx.room:room-paging:${Version.roomPaging}"
 
     //图片加载
     const val glide = "com.github.bumptech.glide:glide:${Version.glide}"
