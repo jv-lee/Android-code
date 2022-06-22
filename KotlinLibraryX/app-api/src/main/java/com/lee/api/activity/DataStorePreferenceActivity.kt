@@ -1,15 +1,12 @@
 package com.lee.api.activity
 
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
-import androidx.datastore.preferences.preferencesDataStore
 import com.lee.api.R
+import com.lee.api.tools.dataStore
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
@@ -22,8 +19,6 @@ class DataStorePreferenceActivity : AppCompatActivity(R.layout.activity_data_sto
         const val TAG = "DataStore"
         val KEY = stringPreferencesKey("key")
     }
-
-    private val Context.dataStore: DataStore<Preferences> by preferencesDataStore("settings")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
