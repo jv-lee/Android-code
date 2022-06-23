@@ -1,6 +1,7 @@
 package com.lee.library.viewstate
 
 import androidx.annotation.IntDef
+import com.lee.library.viewstate.LoadStatus.Companion.INIT
 import com.lee.library.viewstate.LoadStatus.Companion.LOAD_MORE
 import com.lee.library.viewstate.LoadStatus.Companion.REFRESH
 import com.lee.library.viewstate.LoadStatus.Companion.RELOAD
@@ -67,7 +68,7 @@ inline fun <reified T> UiStatePage.call(
     }
 }
 
-@IntDef(REFRESH, LOAD_MORE, RELOAD)
+@IntDef(INIT,REFRESH, LOAD_MORE, RELOAD)
 @Target(AnnotationTarget.FIELD, AnnotationTarget.VALUE_PARAMETER)
 @Retention(AnnotationRetention.SOURCE)
 annotation class LoadStatus {
