@@ -15,7 +15,7 @@ import androidx.appcompat.app.AppCompatDelegate
  * [DarkModeTools.isSystemTheme] 获取当前是否为跟随系统主题类型,
  * [DarkModeTools.isDarkTheme] 获取当前是否为深色模式主题类型,
  * [DarkModeTools.updateSystemTheme] 更改为系统主题类型,
- * [DarkModeTools.updateNightTheme] 更改为深色模式主题类型
+ * [DarkModeTools.updateDarkTheme] 更改为深色模式主题类型
  * @author jv.lee
  * @date 2020/6/9
  */
@@ -50,7 +50,7 @@ class DarkModeTools(val context: Context) {
     fun init() {
         Log.i(TAG, "init.")
         if (!isSystemTheme()) {
-            updateNightTheme(isDarkTheme())
+            updateDarkTheme(isDarkTheme())
         }
     }
 
@@ -96,15 +96,15 @@ class DarkModeTools(val context: Context) {
             preferences.edit().putInt(modeKey, AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM).apply()
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
         } else {
-            updateNightTheme(isDarkTheme())
+            updateDarkTheme(isDarkTheme())
         }
     }
 
     /**
      * 设置深色主题
      */
-    fun updateNightTheme(enable: Boolean) {
-        Log.i(TAG, "updateNightTheme:$enable")
+    fun updateDarkTheme(enable: Boolean) {
+        Log.i(TAG, "updateDarkTheme:$enable")
         if (enable) {
             preferences.edit().putInt(modeKey, AppCompatDelegate.MODE_NIGHT_YES).apply()
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
