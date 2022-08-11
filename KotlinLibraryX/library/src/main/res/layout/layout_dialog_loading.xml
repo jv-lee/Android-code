@@ -16,9 +16,11 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ProgressBar
-            style="@style/Widget.AppCompat.ProgressBar"
             android:layout_width="36dp"
             android:layout_height="36dp"
+            android:indeterminateBehavior="repeat"
+            android:indeterminateDrawable="@drawable/rotate_progress_bar"
+            android:indeterminateOnly="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
