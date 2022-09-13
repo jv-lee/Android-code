@@ -17,7 +17,7 @@ object Version {
     const val fragment = "1.5.1"
     const val navigation = "2.5.1"
     const val lifecycle = "2.5.1"
-    const val room = "2.4.0"
+    const val room = "2.5.0-alpha03"
     const val roomPaging = "2.5.0-alpha01"
     const val glide = "4.11.0"
     const val retrofit = "2.6.0"
@@ -25,9 +25,9 @@ object Version {
     const val protobuf = "3.10.0"
     const val autoService = "1.0"
 
-    // compose 0.24.7-alpha14 -> kotlin-gradle-plugin:1.6.20 / compose 1.2.0-alpha08
-    const val compose = "1.2.0-alpha07"
-    const val accompanist = "0.24.1-alpha"
+    const val composeCompiler = "1.3.0"
+    const val compose = "1.2.1"
+    const val accompanist = "0.26.3-beta"
     const val paging = "3.1.0"
     const val pagingCompose = "1.0.0-alpha14"
     const val hilt = "2.38.1"

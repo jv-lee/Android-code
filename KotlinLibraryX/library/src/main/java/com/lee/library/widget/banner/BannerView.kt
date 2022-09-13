@@ -458,9 +458,9 @@ class BannerView : RelativeLayout {
         constructor(source: Parcel?) : super(source)
         constructor(source: Parcelable?) : super(source)
 
-        override fun writeToParcel(out: Parcel?, flags: Int) {
+        override fun writeToParcel(out: Parcel, flags: Int) {
             super.writeToParcel(out, flags)
-            out?.writeInt(currentItem)
+            out.writeInt(currentItem)
         }
 
         @JvmField

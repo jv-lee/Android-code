@@ -13,13 +13,27 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.DataStoreProtoActivity" />
-        <activity android:name=".activity.DataStorePreferenceActivity" />
-        <activity android:name=".activity.StartResultActivity" />
-        <activity android:name=".fragment.StartFragmentActivity" />
-        <activity android:name=".fragment.ResultFragmentActivity" />
-        <activity android:name=".activity.ResultActivity" />
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".activity.DataStoreProtoActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activity.DataStorePreferenceActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activity.StartResultActivity"
+            android:exported="true" />
+        <activity
+            android:name=".fragment.StartFragmentActivity"
+            android:exported="true" />
+        <activity
+            android:name=".fragment.ResultFragmentActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activity.ResultActivity"
+            android:exported="true" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

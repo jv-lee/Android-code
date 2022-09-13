@@ -35,7 +35,6 @@ class MainActivity : BaseActivity() {
 
     override fun bindView() {
         binding.vpContainer.adapter = vpAdapter
-        binding.vpContainer.setNoScroll(true)
 
         binding.bottomNav.run {
             bindViewPager(binding.vpContainer)
