@@ -52,10 +52,6 @@ fun Project.libraryConfigure(
             viewBinding = true
         }
 
-        kapt {
-            generateStubs = true
-        }
-
         androidConfigure()
     }
 
