@@ -35,14 +35,10 @@ class DarkModeTools(val context: Context) {
             }
         }
 
-        fun get(): DarkModeTools {
-            if (instance == null) {
-                throw Exception("DarkModeTools 未初始化")
-            }
-            return instance!!
-        }
+        fun get(): DarkModeTools = instance ?: throw Exception("DarkModeTools 未初始化")
     }
 
+    var isDark = false
     private val modeKey = "dark_mode"
     private val preferences =
         context.applicationContext.getSharedPreferences(modeKey, Context.MODE_PRIVATE)
@@ -84,6 +80,7 @@ class DarkModeTools(val context: Context) {
             else -> false
         }
         Log.i(TAG, "isDarkTheme:$isDarkTheme")
+        this.isDark = isDarkTheme
         return isDarkTheme
     }
 
