@@ -14,6 +14,7 @@ import android.os.Build
 import android.util.DisplayMetrics
 import android.util.TypedValue
 import android.view.WindowManager
+import androidx.annotation.AttrRes
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
 import com.lee.library.base.ApplicationExtensions.app
@@ -193,7 +194,7 @@ fun Context.applyDimension(value: Float, unit: Int): Float {
  * @param attrId 属性值
  */
 fun Context.getThemeColor(
-    attrId: Int,
+    @AttrRes attrId: Int,
     @ColorRes defaultId: Int = android.R.color.transparent
 ): Int {
     return theme.obtainStyledAttributes(intArrayOf(attrId))
@@ -205,7 +206,7 @@ fun Context.getThemeColor(
  * @param attrId 属性值
  */
 fun Context.getThemeDimension(
-    attrId: Int,
+    @AttrRes attrId: Int,
     defaultValue: Float = 0F
 ): Float {
     return theme.obtainStyledAttributes(intArrayOf(attrId))
@@ -216,11 +217,29 @@ fun Context.getThemeDimension(
  * 获取颜色stateList
  * @param color 颜色取值resourceID
  */
-fun Context.getColorStateListCompat(color: Int): ColorStateList {
+fun Context.getColorStateListCompat(@ColorRes color: Int): ColorStateList {
     val colorResource = ContextCompat.getColor(this, color)
     val colors = intArrayOf(colorResource, colorResource)
     val states = arrayOfNulls<IntArray>(2)
     states[0] = intArrayOf(android.R.attr.state_pressed)
+    states[1] = intArrayOf()
+    return ColorStateList(states, colors)
+}
+
+/**
+ * 获取颜色stateList
+ * @param checkColor 选中颜色resourceID
+ * @param color 默认颜色resourceID
+ */
+fun Context.getCheckedColorStateListCompat(
+    @ColorRes checkColor: Int,
+    @ColorRes color: Int
+): ColorStateList {
+    val checkColorResource = ContextCompat.getColor(this, checkColor)
+    val colorResource = ContextCompat.getColor(this, color)
+    val colors = intArrayOf(checkColorResource, colorResource)
+    val states = arrayOfNulls<IntArray>(2)
+    states[0] = intArrayOf(android.R.attr.state_checked)
     states[1] = intArrayOf()
     return ColorStateList(states, colors)
 }
