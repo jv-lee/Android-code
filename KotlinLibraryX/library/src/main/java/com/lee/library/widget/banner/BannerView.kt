@@ -25,7 +25,6 @@ import com.lee.library.R
 import com.lee.library.extensions.dp2px
 import com.lee.library.widget.banner.BannerView.BannerMode.Companion.MODE_CLIP
 import com.lee.library.widget.banner.BannerView.BannerMode.Companion.MODE_DEFAULT
-import java.util.*
 
 /**
  * 使用ViewPager2实现的BannerView
@@ -386,12 +385,9 @@ class BannerView : RelativeLayout {
             // 我们设置当前选中的位置为Integer.MAX_VALUE / 2,这样开始就能往左滑动
             // 但是要保证这个值与getRealPosition 的 余数为0，因为要从第一页开始显示
             var currentItem: Int = data.size * mLooperCountFactor / 2
-            val realIndex = getRealIndex(currentItem)
-            if (realIndex == 0) {
-                return currentItem
-            }
+
             // 直到找到从0开始的位置
-            while (realIndex != 0) {
+            while (getRealIndex(currentItem) != 0) {
                 currentItem++
             }
             return currentItem
