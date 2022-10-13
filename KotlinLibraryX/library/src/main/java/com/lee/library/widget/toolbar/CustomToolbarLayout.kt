@@ -2,13 +2,10 @@ package com.lee.library.widget.toolbar
 
 import android.content.Context
 import android.util.AttributeSet
-import android.view.View
-import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import com.lee.library.R
 import com.lee.library.extensions.dp2px
-import com.lee.library.extensions.px2dp
 import com.lee.library.extensions.statusBarHeight
 
 
@@ -68,22 +65,5 @@ open class CustomToolbarLayout : ConstraintLayout {
      * 获取状态栏高度
      */
     fun getStatusBarHeight() = statusBarHeight
-
-    private fun initBottomLine() {
-        val lineView = View(context)
-        lineView.run {
-            id = R.id.toolbar_line
-            layoutParams = LayoutParams(MATCH_PARENT, context.px2dp(1).toInt()).apply {
-                bottomToBottom = 0
-            }
-            lineView.setBackgroundColor(
-                ContextCompat.getColor(
-                    context,
-                    R.color.baseBackgroundColor
-                )
-            )
-        }
-        addView(lineView)
-    }
 
 }

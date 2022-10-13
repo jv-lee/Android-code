@@ -5,16 +5,19 @@ import android.app.Activity
 import android.content.Context
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
+import android.os.Build
 import android.text.TextUtils
 import android.util.AttributeSet
 import android.view.Gravity
 import android.view.View
+import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
 import com.lee.library.R
+import com.lee.library.extensions.dp2px
 import com.lee.library.extensions.setImageTintCompat
 import com.lee.library.extensions.setSelectableItemForeground
 import com.lee.library.extensions.setTextColorCompat
@@ -38,10 +41,11 @@ open class TitleToolbar : CustomToolbarLayout {
     private var backIconTint: Int
     private var moreIcon: Int
     private var moreIconTint: Int
-    private var titleEnable: Int
-    private var backEnable: Int
-    private var moreEnable: Int
+    private var titleVisible: Int
+    private var backVisible: Int
+    private var moreVisible: Int
     private var menuRes: Int
+    private var elevationEnable: Boolean = true
 
     private var clickListener: ClickListener? = null
 
@@ -74,9 +78,10 @@ open class TitleToolbar : CustomToolbarLayout {
                 ContextCompat.getColor(context, R.color.baseDarkColor)
             )
         menuRes = typeArray.getResourceId(R.styleable.TitleToolbar_menuRes, 0)
-        titleEnable = typeArray.getInt(R.styleable.TitleToolbar_titleEnable, View.VISIBLE)
-        backEnable = typeArray.getInt(R.styleable.TitleToolbar_backEnable, View.VISIBLE)
-        moreEnable = typeArray.getInt(R.styleable.TitleToolbar_moreEnable, View.GONE)
+        titleVisible = typeArray.getInt(R.styleable.TitleToolbar_titleVisible, View.VISIBLE)
+        backVisible = typeArray.getInt(R.styleable.TitleToolbar_backVisible, View.VISIBLE)
+        moreVisible = typeArray.getInt(R.styleable.TitleToolbar_moreVisible, View.GONE)
+        elevationEnable = typeArray.getBoolean(R.styleable.TitleToolbar_elevationEnable, true)
         typeArray.recycle()
         initView()
     }
@@ -90,6 +95,7 @@ open class TitleToolbar : CustomToolbarLayout {
         buildBackImage()
         buildMoreImage()
         buildMenuWindow()
+        buildBottomElevation()
     }
 
     private fun buildBackImage() {
@@ -106,7 +112,7 @@ open class TitleToolbar : CustomToolbarLayout {
             scaleType = ImageView.ScaleType.CENTER
             setSelectableItemForeground()
             setImageTintCompat(backIcon, backIconTint)
-            visibility = backEnable
+            visibility = backVisible
             setOnClickListener {
                 try {
                     findNavController().navigateUp()
@@ -140,7 +146,7 @@ open class TitleToolbar : CustomToolbarLayout {
             maxEms = 10
             ellipsize = TextUtils.TruncateAt.END
             typeface = Typeface.DEFAULT_BOLD
-            visibility = titleEnable
+            visibility = titleVisible
             textSize = 16f
             addView(this)
         }
@@ -159,7 +165,7 @@ open class TitleToolbar : CustomToolbarLayout {
             scaleType = ImageView.ScaleType.CENTER
             setSelectableItemForeground()
             setImageTintCompat(moreIcon, moreIconTint)
-            visibility = moreEnable
+            visibility = moreVisible
             setOnClickListener {
                 clickListener?.moreClick()
             }
@@ -171,6 +177,26 @@ open class TitleToolbar : CustomToolbarLayout {
     private fun buildMenuWindow() {
         if (menuRes == 0) return
         menuPopupHelper = CustomPopupMenuHelper(context, menuRes)
+    }
+
+    private fun buildBottomElevation() {
+        if (!elevationEnable) return
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            elevation = context.dp2px(1)
+        } else {
+            val lineView = View(context)
+            lineView.run {
+                id = R.id.toolbar_line
+                layoutParams = LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    context.dp2px(1).toInt()
+                ).apply {
+                    bottomToBottom = 0
+                }
+                lineView.setBackgroundColor(ContextCompat.getColor(context, R.color.baseLightColor))
+            }
+            addView(lineView)
+        }
     }
 
     fun showMenu() {
@@ -223,21 +249,21 @@ open class TitleToolbar : CustomToolbarLayout {
     /**
      * 设置标题显示状态
      */
-    fun setTitleEnable(enable: Boolean) {
+    fun setTitleVisible(enable: Boolean) {
         tvTitle.visibility = if (enable) View.VISIBLE else View.GONE
     }
 
     /**
      * 设置back显示状态
      */
-    fun setBackEnable(enable: Boolean) {
+    fun setBackVisible(enable: Boolean) {
         ivBack.visibility = if (enable) View.VISIBLE else View.GONE
     }
 
     /**
      * 设置menu显示状态
      */
-    fun setMoreEnable(enable: Boolean) {
+    fun setMoreVisible(enable: Boolean) {
         ivMore.visibility = if (enable) View.VISIBLE else View.GONE
     }
 

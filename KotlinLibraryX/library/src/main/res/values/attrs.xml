@@ -80,20 +80,21 @@
         <attr name="backIconTint" format="color" />
         <attr name="moreIconTint" format="color" />
         <attr name="menuRes" format="reference" />
+        <attr name="elevationEnable" format="boolean" />
 
-        <attr name="titleEnable" format="enum">
+        <attr name="titleVisible" format="enum">
             <enum name="visible" value="0x00000000" />
             <enum name="invisible" value="0x00000004" />
             <enum name="gone" value="0x00000008" />
         </attr>
 
-        <attr name="backEnable" format="enum">
+        <attr name="backVisible" format="enum">
             <enum name="visible" value="0x00000000" />
             <enum name="invisible" value="0x00000004" />
             <enum name="gone" value="0x00000008" />
         </attr>
 
-        <attr name="moreEnable" format="enum">
+        <attr name="moreVisible" format="enum">
             <enum name="visible" value="0x00000000" />
             <enum name="invisible" value="0x00000004" />
             <enum name="gone" value="0x00000008" />
