@@ -49,6 +49,7 @@ fun DependencyHandlerScope.commonDependencies() {
     api(Dependencies.viewpager2)
     api(Dependencies.swipeRefreshLayout)
     api(Dependencies.slidingpanelayout)
+    api(Dependencies.webkit)
 
     // navigationFragment 会引入最新的slidingpanelayout库，最新库存在显示bug，需要过滤单独引入1.1.0
     api(Dependencies.navigationFragment) { exclude("androidx.slidingpanelayout") }

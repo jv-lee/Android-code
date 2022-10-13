@@ -13,6 +13,7 @@ object Version {
     const val viewpager2 = "1.0.0"
     const val swipeRefreshLayout = "1.1.0"
     const val slidingPaneLayout = "1.1.0" // 1.1.0正常使用 ， 1.2.0无法正常显示
+    const val webkit = "1.5.0"
     const val activity = "1.5.1"
     const val fragment = "1.5.1"
     const val navigation = "2.5.1"

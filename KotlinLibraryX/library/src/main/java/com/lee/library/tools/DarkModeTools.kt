@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatDelegate
  * [DarkModeTools.isDarkTheme] 获取当前是否为深色模式主题类型,
  * [DarkModeTools.updateSystemTheme] 更改为系统主题类型,
  * [DarkModeTools.updateDarkTheme] 更改为深色模式主题类型
+ * [DarkModeTools.setWebDarkCompat] 适配androidWebView深色模式失效兼容问题
  * @author jv.lee
  * @date 2020/6/9
  */
@@ -108,6 +109,20 @@ class DarkModeTools(val context: Context) {
         } else {
             preferences.edit().putInt(modeKey, AppCompatDelegate.MODE_NIGHT_NO).apply()
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        }
+    }
+
+    /**
+     * 使用android深色模式后如果没有重建Activity在进入有webView的页面时会模式错乱
+     * 通过该方法校正
+     */
+    fun setWebDarkCompat() {
+        if (!isDark) return
+        if ((context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK)
+            != Configuration.UI_MODE_NIGHT_YES
+        ) {
+            updateDarkTheme(false)
+            updateDarkTheme(true)
         }
     }
 
