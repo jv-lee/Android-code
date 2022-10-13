@@ -31,7 +31,7 @@ class ChatListActivity2 :
     private val adapter by lazy { ChatAdapter(this, ArrayList()) }
 
     override fun bindView() {
-        setDarkStatusIcon()
+        window.setDarkStatusIcon()
 
         //适配沉浸式状态栏顶部弹起设置
         binding.constRoot.adjustResizeStatusBar(window, binding.toolbar.getStatusBarHeight())

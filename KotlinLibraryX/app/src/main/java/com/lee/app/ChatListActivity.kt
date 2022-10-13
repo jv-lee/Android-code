@@ -26,7 +26,7 @@ class ChatListActivity :
     private val keyboardHelper by lazy { KeyboardHelper(window.decorView, binding.root) }
 
     override fun bindView() {
-        setDarkStatusIcon()
+        window.setDarkStatusIcon()
 
         //设置recyclerView基础参数
         binding.rvContainer.adapter = adapter.proxy

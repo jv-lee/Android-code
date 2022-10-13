@@ -27,7 +27,7 @@ class FormTableActivity :
     private val keyboardHelper by lazy { KeyboardHelper(window.decorView, binding.root) }
 
     override fun bindView() {
-        setDarkStatusIcon()
+        window.setDarkStatusIcon()
 //        keyboardHelper.enable()
 
         window.decorView.keyboardPaddingBottom()

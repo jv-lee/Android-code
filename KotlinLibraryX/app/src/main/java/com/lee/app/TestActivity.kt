@@ -61,7 +61,7 @@ class TestActivity : BaseActivity() {
     override fun bindView() {
         DensityUtil.setDensity(this)
         window.statusBar()
-        setDarkStatusIcon()
+        window.setDarkStatusIcon()
         testDialog()
 //        testNetwork()
         findViewById<StatusLayout>(R.id.status).setStatus(STATUS_LOADING)

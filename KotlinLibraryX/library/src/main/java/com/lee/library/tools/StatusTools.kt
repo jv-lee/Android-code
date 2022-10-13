@@ -6,11 +6,11 @@ import android.content.Context
 import android.graphics.Color
 import android.os.Build
 import android.util.DisplayMetrics
-import android.view.View
 import android.view.Window
 import android.view.WindowManager
-import android.widget.Toolbar
-import com.lee.library.extensions.statusBarHeight
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
 
 /**
  * 状态栏工具
@@ -21,33 +21,20 @@ object StatusTools {
 
     /**
      * 设置沉浸式状态栏
-     *
-     * @param navigationBarTranslucent 导航栏是否设置为透明
      */
-    @SuppressLint("ObsoleteSdkInt")
-    fun Window.statusBar(navigationBarTranslucent: Boolean = false) {
-        //5.0以设置沉浸式
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-            addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-            var visibility = decorView.systemUiVisibility
-            //布局内容全屏展示
-            visibility = visibility or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-            //设置沉浸式 导航栏
-            if (navigationBarTranslucent) {
-                addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
-            }
-            //防止内容区域大小发生变化
-            visibility = visibility or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-            decorView.systemUiVisibility = visibility
-            //4.0设置
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            //设置沉浸式 状态栏
-            addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-            //设置沉浸式 导航栏
-            if (navigationBarTranslucent) {
-                addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
-            }
+    fun Window.statusBar() {
+        // 内容全屏化
+        WindowCompat.setDecorFitsSystemWindows(this, false)
+
+        // systemBar透明设置
+        statusBarColor = Color.TRANSPARENT
+        navigationBarColor = Color.TRANSPARENT
+
+        // 处理contentView与navigationBar间距
+        ViewCompat.setOnApplyWindowInsetsListener(decorView.findViewById(android.R.id.content)) { view, windowInsets ->
+            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+            view.setPadding(0, 0, 0, insets.bottom)
+            WindowInsetsCompat.CONSUMED
         }
     }
 
@@ -58,77 +45,42 @@ object StatusTools {
      * 4.4有黑边阴影且无法设置状态栏颜色所以无视。
      */
     fun Window.compatStatusBar() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            statusBarColor = Color.TRANSPARENT
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            statusBarColor = Color.parseColor("#33000000")
+        statusBarColor = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            Color.TRANSPARENT
+        } else {
+            Color.parseColor("#33000000")
         }
     }
 
     /**
-     * 保持原有flag 设置深色状态栏颜色
-     *
+     * 设置深色状态栏icon颜色
      */
-    fun Activity.setDarkStatusIcon() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            val originFlag = window.decorView.systemUiVisibility
-            window.decorView.systemUiVisibility =
-                originFlag or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-        }
+    fun Window.setDarkStatusIcon() {
+        val insetsController = WindowCompat.getInsetsController(this, decorView)
+        insetsController.isAppearanceLightStatusBars = true
     }
 
     /**
-     * 保留原有flag 清除深色状态栏颜色
-     *
+     * 设置浅色状态栏icon颜色
      */
-    fun Activity.setLightStatusIcon() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            val originFlag = window.decorView.systemUiVisibility
-            //使用异或清除SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-            window.decorView.systemUiVisibility =
-                originFlag and View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv()
-        }
-    }
-
-    /**
-     * 设置导航栏颜色
-     *
-     * @param color
-     */
-    @SuppressLint("ObsoleteSdkInt")
-    fun Activity.setNavigationBarColor(color: Int) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            window.navigationBarColor = color
-        }
+    fun Window.setLightStatusIcon() {
+        val insetsController = WindowCompat.getInsetsController(this, decorView)
+        insetsController.isAppearanceLightStatusBars = false
     }
 
     /**
      * 全屏模式
      * Activity在onResume中调用 防止横竖屏切换
      *
-     * @param activity
+     * @param isFull 是否进入全屏模式
      */
-    fun Activity.fullWindow(isFull: Boolean) {
-        //1.设置全屏幕
-        val flags: Int
-        val curApiVersion = Build.VERSION.SDK_INT
-        flags = if (curApiVersion >= Build.VERSION_CODES.KITKAT) {
-            (View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                    or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                    or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                    or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                    or View.SYSTEM_UI_FLAG_IMMERSIVE
-                    or View.SYSTEM_UI_FLAG_FULLSCREEN)
-        } else {
-            // touch the screen, the navigation bar will show
-            View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-        }
+    fun Window.fullWindow(isFull: Boolean) {
+        val insetsController = WindowCompat.getInsetsController(this, decorView)
         if (isFull) {
-            window.decorView.systemUiVisibility = flags
+            insetsController.hide(WindowInsetsCompat.Type.systemBars())
             setBangsFull()
         } else {
-            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE
-            window.statusBar(false)
+            insetsController.show(WindowInsetsCompat.Type.systemBars())
         }
     }
 
@@ -136,12 +88,12 @@ object StatusTools {
      * 设置刘海屏内容扩充至状态栏
      * API >= 28
      */
-    private fun Activity.setBangsFull() {
+    private fun Window.setBangsFull() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            val attributes = window.attributes
+            val attributes = attributes
             attributes.layoutInDisplayCutoutMode =
                 WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
-            window.attributes = attributes
+            this.attributes = attributes
         }
     }
 
@@ -171,39 +123,5 @@ object StatusTools {
         }
     }
 
-    /**
-     * activity中无法直接使用 根据适合时机view在渲染成功后调用 否则需要主动调用 view.post{}
-     */
-    fun Context.getContentHeight(): Int {
-        return try {
-            val content =
-                (this as Activity).window.decorView.findViewById<View>(android.R.id.content)
-            content.measuredHeight
-        } catch (e: Exception) {
-            0
-        }
-    }
-
-    /**
-     * 设置自定义toolbar高度
-     *
-     * @param view
-     */
-    fun Context.setStatusPadding(view: View) {
-        val layoutParams = view.layoutParams
-        val statusHeight = statusBarHeight
-        layoutParams.height += statusHeight
-        view.setPadding(
-            view.paddingLeft,
-            view.paddingTop + statusHeight,
-            view.paddingRight,
-            view.paddingBottom
-        )
-    }
-
-    fun Context.setStatusPadding(view: Toolbar) {
-        val statusHeight = statusBarHeight
-        view.setPadding(0, statusHeight, 0, 0)
-    }
 
 }
