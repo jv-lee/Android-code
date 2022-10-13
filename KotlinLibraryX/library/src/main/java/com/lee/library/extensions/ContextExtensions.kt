@@ -18,13 +18,13 @@ import androidx.annotation.AttrRes
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
 import com.lee.library.base.ApplicationExtensions.app
-import com.lee.library.tools.StatusTools.checkHasNavigationBar
 
 
 /**
  * 状态栏高度
  */
 val Context.statusBarHeight: Int
+    @SuppressLint("InternalInsetResource", "DiscouragedApi")
     get() {
         val resId: Int =
             resources.getIdentifier("status_bar_height", "dimen", "android")
@@ -37,10 +37,11 @@ val Context.statusBarHeight: Int
  * 导航栏高度
  */
 val Context.navigationBarHeight: Int
+    @SuppressLint("InternalInsetResource", "DiscouragedApi")
     get() {
         val resId =
             resources.getIdentifier("navigation_bar_height", "dimen", "android")
-        return if (resId > 0 && checkHasNavigationBar()) {
+        return if (resId > 0) {
             resources.getDimensionPixelSize(resId)
         } else 0
     }

@@ -1,11 +1,7 @@
 package com.lee.library.tools
 
-import android.annotation.SuppressLint
-import android.app.Activity
-import android.content.Context
 import android.graphics.Color
 import android.os.Build
-import android.util.DisplayMetrics
 import android.view.Window
 import android.view.WindowManager
 import androidx.core.view.ViewCompat
@@ -98,30 +94,36 @@ object StatusTools {
     }
 
     /**
-     * 判断是否存在导航栏
-     *
-     * @return
+     * windowInsets作用域
      */
-    @SuppressLint("ObsoleteSdkInt")
-    fun Context.checkHasNavigationBar(): Boolean {
-        return try {
-            val windowManager = (this as Activity).windowManager
-            val d = windowManager.defaultDisplay
-            val realDisplayMetrics = DisplayMetrics()
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                d.getRealMetrics(realDisplayMetrics)
-            }
-            val realHeight = realDisplayMetrics.heightPixels
-            val realWidth = realDisplayMetrics.widthPixels
-            val displayMetrics = DisplayMetrics()
-            d.getMetrics(displayMetrics)
-            val displayHeight = displayMetrics.heightPixels
-            val displayWidth = displayMetrics.widthPixels
-            realWidth - displayWidth > 0 || realHeight - displayHeight > 0
-        } catch (e: Exception) {
-            false
+    fun Window.runWindowInsets(block: WindowInsetsCompat.() -> Unit) {
+        ViewCompat.setOnApplyWindowInsetsListener(decorView.findViewById(android.R.id.content)) { _, windowInsets ->
+            block(windowInsets)
+            WindowInsetsCompat.CONSUMED
         }
     }
 
+    /**
+     * 判断是否存在导航栏
+     */
+    fun WindowInsetsCompat.hasNavigationBar(): Boolean {
+        return isVisible(WindowInsetsCompat.Type.navigationBars()) && getInsets(
+            WindowInsetsCompat.Type.navigationBars()
+        ).bottom > 0
+    }
+
+    /**
+     * 获取导航栏高度
+     */
+    fun WindowInsetsCompat.navigationBarHeight(): Int {
+        return getInsets(WindowInsetsCompat.Type.navigationBars()).bottom
+    }
+
+    /**
+     * 获取状态栏高度
+     */
+    fun WindowInsetsCompat.statusBarHeight(): Int {
+        return getInsets(WindowInsetsCompat.Type.statusBars()).top
+    }
 
 }
