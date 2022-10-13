@@ -1,6 +1,5 @@
 package com.lee.basedialog
 
-import android.view.WindowManager
 import androidx.lifecycle.ViewModel
 import com.lee.basedialog.databinding.ActivityMainBinding
 import com.lee.basedialog.dialog.BaseAlertDialogImpl
@@ -10,6 +9,7 @@ import com.lee.basedialog.fragment.BaseAlertDialogFragmentImpl
 import com.lee.basedialog.fragment.BaseDialogFragmentImpl
 import com.lee.basedialog.fragment.BaseSheetDialogFragmentImpl
 import com.lee.library.base.BaseVMActivity
+import com.lee.library.dialog.extensions.hideCover
 import com.lee.library.extensions.show
 
 class MainActivity : BaseVMActivity<ActivityMainBinding, ViewModel>(R.layout.activity_main) {
@@ -21,12 +21,7 @@ class MainActivity : BaseVMActivity<ActivityMainBinding, ViewModel>(R.layout.act
 
     //dialog
     private val baseBottomDialogImpl by lazy { BaseBottomDialogImpl(this) }
-    private val baseAlertDialogImpl by lazy {
-        BaseAlertDialogImpl(this).also {
-            //清除默认遮罩
-            it.window?.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
-        }
-    }
+    private val baseAlertDialogImpl by lazy { BaseAlertDialogImpl(this).hideCover() }
     private val baseTranslucentDialogImpl by lazy { BaseTranslucentDialogImpl(this) }
 
     override fun bindView() {
@@ -49,7 +44,7 @@ class MainActivity : BaseVMActivity<ActivityMainBinding, ViewModel>(R.layout.act
         }
 
         //alert动画 dialog
-        binding.btnAlertDialogFragment.setOnClickListener {
+        binding.btnAlertDialog.setOnClickListener {
             show(baseAlertDialogImpl)
         }
 

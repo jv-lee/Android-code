@@ -79,6 +79,14 @@ fun Dialog.setBackDismiss(isCancel: Boolean) {
 }
 
 /**
+ * dialog隐藏阴影遮罩
+ */
+fun Dialog.hideCover(): Dialog {
+    window?.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+    return this
+}
+
+/**
  * activity中无法直接使用 根据适合时机view在渲染成功后调用 否则需要主动调用 view.post{}
  */
 fun Context.getContentHeight(): Int {
