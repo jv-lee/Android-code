@@ -8,16 +8,16 @@ import com.lee.library.R
 import com.lee.library.extensions.dp2px
 import com.lee.library.extensions.statusBarHeight
 
-
 /**
  * 自定义toolbar容器
  * @author jv.lee
  * @date 2020/4/1
  */
+@Suppress("LeakingThis")
 open class CustomToolbarLayout : ConstraintLayout {
 
-    private var statusBarHeight = context.statusBarHeight
-    private var toolbarLayoutHeight = initLayoutHeight()
+    private var statusBarHeight: Int
+    private var toolbarLayoutHeight: Int
 
     constructor(context: Context) : this(context, null, 0)
     constructor(context: Context, attributes: AttributeSet) : this(context, attributes, 0)
@@ -26,6 +26,8 @@ open class CustomToolbarLayout : ConstraintLayout {
         attributes,
         defStyleAttr
     ) {
+        statusBarHeight = context.statusBarHeight
+        toolbarLayoutHeight = initLayoutHeight()
         minHeight = toolbarLayoutHeight
 
         initStatusBarPadding()
