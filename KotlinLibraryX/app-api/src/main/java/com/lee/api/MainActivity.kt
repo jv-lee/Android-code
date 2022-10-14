@@ -7,14 +7,16 @@ import androidx.lifecycle.ViewModel
 import com.lee.api.activity.DataStorePreferenceActivity
 import com.lee.api.activity.DataStoreProtoActivity
 import com.lee.api.activity.StartResultActivity
+import com.lee.api.activity.WindowInsetsActivity
 import com.lee.api.databinding.ActivityMainBinding
 import com.lee.api.fragment.StartFragmentActivity
 import com.lee.library.base.BaseVMActivity
 import com.lee.library.extensions.toast
+import com.lee.library.tools.PermissionLauncher
 
 class MainActivity : BaseVMActivity<ActivityMainBinding, ViewModel>(R.layout.activity_main) {
 
-    private val permissionLauncher = com.lee.library.tools.PermissionLauncher(this)
+    private val permissionLauncher = PermissionLauncher(this)
 
     @SuppressLint("NewApi")
     override fun bindView() {
@@ -29,6 +31,9 @@ class MainActivity : BaseVMActivity<ActivityMainBinding, ViewModel>(R.layout.act
         }
         binding.btnActivityDataStoreProto.setOnClickListener {
             startActivity(Intent(this, DataStoreProtoActivity::class.java))
+        }
+        binding.btnWindowInsets.setOnClickListener {
+            startActivity(Intent(this, WindowInsetsActivity::class.java))
         }
         binding.btnRequestPermission.setOnClickListener {
             permissionLauncher.requestPermissions(

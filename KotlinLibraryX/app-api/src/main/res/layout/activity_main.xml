@@ -38,6 +38,12 @@
             android:text="Start DataStoreProtoActivity" />
 
         <Button
+            android:id="@+id/btn_window_insets"
+            android:text="Activity Start WindowInsetsActivity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <Button
             android:id="@+id/btn_request_permission"
             android:text="request permission"
             android:layout_width="wrap_content"
