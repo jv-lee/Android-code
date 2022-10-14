@@ -101,7 +101,7 @@ public class DiskCache {
     private String readStreamToString(InputStream inputStream) throws IOException {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         byte[] buffer = new byte[1024];
-        int len = 0;
+        int len;
         while ((len = inputStream.read(buffer)) != -1) {
             byteArrayOutputStream.write(buffer, 0, len);
         }

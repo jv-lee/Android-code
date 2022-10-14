@@ -1,3 +1,4 @@
+@file:Suppress("UNCHECKED_CAST")
 package com.lee.library.viewstate
 
 import androidx.lifecycle.LifecycleOwner
@@ -40,7 +41,6 @@ inline fun <reified T> LiveData<UiStatePage>.observeState(
     })
 }
 
-@Suppress("UNCHECKED_CAST")
 fun <T> LiveData<UiStatePage>.getValueData(): T? {
     val value = this.value
     value ?: return null
@@ -56,7 +56,6 @@ fun <T> LiveData<UiStatePage>.getValueData(): T? {
 }
 
 // 新旧数据根据页码合并
-@Suppress("UNCHECKED_CAST")
 fun LiveData<UiStatePage>.applyData(oldItem: PagingData<*>?, newItem: PagingData<*>) {
     oldItem ?: return
 

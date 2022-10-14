@@ -1,11 +1,9 @@
 package com.lee.library.tools
 
 import android.annotation.SuppressLint
-import android.annotation.TargetApi
 import android.app.Activity
 import android.content.Context
 import android.graphics.Rect
-import android.os.Build
 import android.view.*
 import android.view.inputmethod.InputMethodManager
 import androidx.lifecycle.Lifecycle
@@ -31,7 +29,6 @@ object KeyboardTools {
     /**
      * 动态显示软键盘
      */
-    @TargetApi(Build.VERSION_CODES.CUPCAKE)
     fun Context.showSoftInput() {
         val activity = (this as? Activity) ?: return
         val view = activity.window.decorView
@@ -44,7 +41,6 @@ object KeyboardTools {
     /**
      * 动态隐藏软键盘
      */
-    @TargetApi(Build.VERSION_CODES.CUPCAKE)
     fun Context.hideSoftInput() {
         var view = (this as? Activity)?.currentFocus
         if (view == null) {
@@ -64,7 +60,6 @@ object KeyboardTools {
     /**
      * 切换键盘显示与否状态
      */
-    @TargetApi(Build.VERSION_CODES.CUPCAKE)
     fun Context.toggleSoftInput() {
         if (keyboardIsShow()) {
             hideSoftInput()
@@ -76,7 +71,6 @@ object KeyboardTools {
     /**
      * 动态显示软键盘
      */
-    @TargetApi(Build.VERSION_CODES.CUPCAKE)
     fun View.showSoftInput() {
         isFocusable = true
         isFocusableInTouchMode = true

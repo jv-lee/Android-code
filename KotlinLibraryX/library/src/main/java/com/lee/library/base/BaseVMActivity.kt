@@ -24,8 +24,8 @@ abstract class BaseVMActivity<V : ViewDataBinding, VM : ViewModel>(var layoutId:
 
         //设置viewModel
         try {
-            viewModel = ViewModelProvider(this).get(getVmClass(this))
-        } catch (e: Exception) {
+            viewModel = ViewModelProvider(this)[getVmClass(this)]
+        } catch (_: Exception) {
         }
         super.onCreate(savedInstanceState)
     }

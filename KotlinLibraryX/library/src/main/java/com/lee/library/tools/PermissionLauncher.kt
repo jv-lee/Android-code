@@ -1,19 +1,20 @@
 package com.lee.library.tools
 
 import android.annotation.SuppressLint
+import android.annotation.TargetApi
+import android.os.Build
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.lee.library.extensions.destroy
-import java.util.*
 
 /**
  * 权限申请启动器
  * @author jv.lee
  * @date 2021/8/27
  */
-@SuppressLint("NewApi")
+@TargetApi(Build.VERSION_CODES.M)
 class PermissionLauncher {
 
     constructor(fragment: Fragment) {

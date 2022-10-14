@@ -29,7 +29,7 @@ fun Fragment.show(dialog: Dialog) {
     if (ActivityUtil.assertActivityDestroyed(requireActivity())) return
     try {
         dialog.show()
-    } catch (e: Exception) {
+    } catch (_: Exception) {
     }
 }
 
@@ -38,7 +38,7 @@ fun Fragment.dismiss(dialog: Dialog) {
     if (ActivityUtil.assertActivityDestroyed(requireActivity())) return
     try {
         dialog.dismiss()
-    } catch (e: Exception) {
+    } catch (_: Exception) {
     }
 }
 
@@ -47,7 +47,7 @@ fun Fragment.show(dialog: DialogFragment) {
     if (ActivityUtil.assertActivityDestroyed(requireActivity())) return
     try {
         dialog.show(childFragmentManager, dialog::class.java.simpleName)
-    } catch (e: Exception) {
+    } catch (_: Exception) {
     }
 }
 
@@ -56,7 +56,7 @@ fun Fragment.dismiss(dialog: DialogFragment) {
     if (ActivityUtil.assertActivityDestroyed(requireActivity())) return
     try {
         dialog.dismiss()
-    } catch (e: Exception) {
+    } catch (_: Exception) {
     }
 }
 

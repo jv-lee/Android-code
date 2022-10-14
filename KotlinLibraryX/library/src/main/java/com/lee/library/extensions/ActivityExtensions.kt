@@ -9,7 +9,6 @@ import android.app.Activity
 import android.app.Dialog
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
-import androidx.annotation.NonNull
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -29,7 +28,7 @@ fun FragmentActivity.show(dialog: Dialog) {
     if (ActivityUtil.assertActivityDestroyed(this)) return
     try {
         dialog.show()
-    } catch (e: Exception) {
+    } catch (_: Exception) {
     }
 }
 
@@ -37,7 +36,7 @@ fun FragmentActivity.dismiss(dialog: Dialog) {
     if (ActivityUtil.assertActivityDestroyed(this)) return
     try {
         dialog.dismiss()
-    } catch (e: Exception) {
+    } catch (_: Exception) {
     }
 }
 
@@ -45,7 +44,7 @@ fun FragmentActivity.show(dialog: DialogFragment) {
     if (ActivityUtil.assertActivityDestroyed(this)) return
     try {
         dialog.show(supportFragmentManager, dialog::class.java.simpleName)
-    } catch (e: Exception) {
+    } catch (_: Exception) {
     }
 }
 
@@ -53,7 +52,7 @@ fun FragmentActivity.dismiss(dialog: DialogFragment) {
     if (ActivityUtil.assertActivityDestroyed(this)) return
     try {
         dialog.dismiss()
-    } catch (e: Exception) {
+    } catch (_: Exception) {
     }
 }
 
@@ -146,7 +145,7 @@ fun FragmentActivity.fragmentTransaction(containerId: Int, fragment: Fragment?) 
 }
 
 fun Activity.bindFragmentLifecycle(
-    @NonNull cb: FragmentManager.FragmentLifecycleCallbacks,
+    cb: FragmentManager.FragmentLifecycleCallbacks,
     recursive: Boolean = true
 ) {
     if (this is FragmentActivity) {
@@ -154,7 +153,7 @@ fun Activity.bindFragmentLifecycle(
     }
 }
 
-fun Activity.unbindFragmentLifecycle(@NonNull cb: FragmentManager.FragmentLifecycleCallbacks) {
+fun Activity.unbindFragmentLifecycle(cb: FragmentManager.FragmentLifecycleCallbacks) {
     if (this is FragmentActivity) {
         supportFragmentManager.unregisterFragmentLifecycleCallbacks(cb)
     }

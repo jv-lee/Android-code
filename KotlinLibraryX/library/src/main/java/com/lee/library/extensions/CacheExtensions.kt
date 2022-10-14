@@ -34,7 +34,7 @@ inline fun <reified T> CacheManager.putCache(key: String, data: T) {
  * 对分页数据扩展可控空数据不进行存储
  */
 inline fun <reified T : PagingData<*>> CacheManager.putPageCache(key: String, data: T) {
-    if (data.getDataSource().isNullOrEmpty()) {
+    if (data.getDataSource().isEmpty()) {
         clearCache(key)
     } else {
         put(key, data)

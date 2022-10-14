@@ -2,7 +2,6 @@ package com.lee.library.base
 
 import android.os.Bundle
 import android.view.View
-import androidx.annotation.NonNull
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.LifecycleRegistry
@@ -19,7 +18,7 @@ abstract class BaseNavigationFragment(val layoutId: Int) : BaseFragment(layoutId
     private var isResume = false
     private var isStop = true
 
-    abstract fun LifecycleCoroutineScope.bindData();
+    abstract fun LifecycleCoroutineScope.bindData()
 
     override fun bindData() {}
 
@@ -97,11 +96,11 @@ abstract class BaseNavigationFragment(val layoutId: Int) : BaseFragment(layoutId
         return super.getViewLifecycleOwner().lifecycle as? LifecycleRegistry
     }
 
-    private fun handleViewLifecycleEvent(@NonNull event: Lifecycle.Event) {
+    private fun handleViewLifecycleEvent(event: Lifecycle.Event) {
         getViewLifecycleRegistry()?.handleLifecycleEvent(event)
     }
 
-    private fun postViewLifecycleEvent(@NonNull event: Lifecycle.Event) {
+    private fun postViewLifecycleEvent(event: Lifecycle.Event) {
         val lifecycle = getViewLifecycleRegistry()
         view?.post { lifecycle?.handleLifecycleEvent(event) }
     }

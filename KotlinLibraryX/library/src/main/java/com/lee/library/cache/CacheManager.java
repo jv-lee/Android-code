@@ -1,5 +1,6 @@
 package com.lee.library.cache;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
@@ -21,8 +22,10 @@ public class CacheManager {
 
     private static final String TAG = "CacheManager";
 
+    @SuppressLint("StaticFieldLeak")
     private volatile static CacheManager instance;
 
+    @SuppressLint("StaticFieldLeak")
     private static Context mContext;
 
     /**
@@ -55,9 +58,9 @@ public class CacheManager {
      */
     private static boolean isDisk = true;
 
-    private MemoryCache memoryCache;
-    private DiskCache diskCache;
-    private Gson gson;
+    private final MemoryCache memoryCache;
+    private final DiskCache diskCache;
+    private final Gson gson;
 
     private CacheManager() {
         gson = new Gson();

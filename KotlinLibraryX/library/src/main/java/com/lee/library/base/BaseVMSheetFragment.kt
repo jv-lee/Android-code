@@ -38,8 +38,8 @@ abstract class BaseVMSheetFragment<V : ViewDataBinding, VM : ViewModel>(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         //设置viewModel
         try {
-            viewModel = ViewModelProvider(this).get(getVmClass(this))
-        } catch (e: Exception) {
+            viewModel = ViewModelProvider(this)[getVmClass(this)]
+        } catch (_: Exception) {
         }
         super.onViewCreated(view, savedInstanceState)
     }

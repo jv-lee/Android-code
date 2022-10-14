@@ -1,8 +1,12 @@
+@file:Suppress("UNCHECKED_CAST")
 package com.lee.library.viewstate
 
 import com.lee.library.adapter.page.PagingData
 import com.lee.library.utils.LogUtil
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 
 /**
  * UiStatePage Flow扩展
@@ -37,7 +41,6 @@ suspend inline fun <reified T> StateFlow<UiStatePage>.collectState(
     }
 }
 
-@Suppress("UNCHECKED_CAST")
 fun <T> MutableStateFlow<UiStatePage>.getValueData(): T? {
     val value = this.value
     value ?: return null
@@ -53,7 +56,6 @@ fun <T> MutableStateFlow<UiStatePage>.getValueData(): T? {
 }
 
 // 新旧数据根据页码合并
-@Suppress("UNCHECKED_CAST")
 fun MutableStateFlow<UiStatePage>.applyData(oldItem: PagingData<*>?, newItem: PagingData<*>) {
     oldItem ?: return
 

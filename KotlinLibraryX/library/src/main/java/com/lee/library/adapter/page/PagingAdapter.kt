@@ -31,7 +31,7 @@ fun <T> BaseViewAdapter<T>.submitData(
         // 过滤首页重复数据
         if (data == pageData.getDataSource()) {
             // 重复数据空数据校验
-            if (pageData.getDataSource().isNullOrEmpty()) {
+            if (pageData.getDataSource().isEmpty()) {
                 if (isPageCompleted) initStatusView()
                 clearData()
                 pageEmpty()
@@ -50,7 +50,7 @@ fun <T> BaseViewAdapter<T>.submitData(
         }
 
         //设置空页面
-        if (pageData.getDataSource().isNullOrEmpty()) {
+        if (pageData.getDataSource().isEmpty()) {
             if (isPageCompleted) initStatusView()
             clearData()
             pageEmpty()
@@ -120,7 +120,7 @@ fun <T> BaseViewAdapter<T>.submitData(
         // 过滤首页重复数据
         if (data == pageData.getDataSource()) {
             // 重复数据空数据校验
-            if (pageData.getDataSource().isNullOrEmpty()) {
+            if (pageData.getDataSource().isEmpty()) {
                 if (isPageCompleted) initStatusView()
                 clearData()
                 pageEmpty()
@@ -137,7 +137,7 @@ fun <T> BaseViewAdapter<T>.submitData(
         }
 
         //设置空页面
-        if (pageData.getDataSource().isNullOrEmpty()) {
+        if (pageData.getDataSource().isEmpty()) {
             if (isPageCompleted) initStatusView()
             clearData()
             pageEmpty()
@@ -191,7 +191,7 @@ fun <T> BaseViewAdapter<T>.submitData(
  * @param newData 数据源
  */
 fun <T> BaseViewAdapter<T>.submitSinglePage(newData: List<T>) {
-    if (data.isNullOrEmpty() && newData.isNullOrEmpty()) {
+    if (data.isNullOrEmpty() && newData.isEmpty()) {
         pageEmpty()
     } else if (newData.isNotEmpty()) {
         updateData(newData)

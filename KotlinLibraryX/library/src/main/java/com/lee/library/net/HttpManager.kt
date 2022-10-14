@@ -1,3 +1,4 @@
+@file:Suppress("UNCHECKED_CAST")
 package com.lee.library.net
 
 import android.text.TextUtils
@@ -66,7 +67,6 @@ class HttpManager private constructor() {
         return getOkHttpClient(Request("https://android.cn", IRequest.ConverterType.JSON))
     }
 
-    @Suppress("UNCHECKED_CAST")
     fun <T> getService(serviceClass: Class<T>, request: Request): T {
         if (request.isDownload) {
             return createService(serviceClass, request)
@@ -80,7 +80,6 @@ class HttpManager private constructor() {
         }
     }
 
-    @Suppress("UNCHECKED_CAST")
     fun <T> getService(serviceClass: Class<T>, request: Request, client: OkHttpClient): T {
         if (request.isDownload) {
             return createService(serviceClass, request, client)

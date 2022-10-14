@@ -157,8 +157,8 @@ object ScreenDensityUtil : ComponentCallbacks {
             field.isAccessible = true
             field.set(null, density)
             field.isAccessible = false
-        } catch (e: ClassNotFoundException) {
-        } catch (e: NoSuchFieldException) {
+        } catch (_: ClassNotFoundException) {
+        } catch (_: NoSuchFieldException) {
         } catch (e: IllegalAccessException) {
             e.printStackTrace()
         }
@@ -210,6 +210,7 @@ private val Application.windowManager get() = this.getSystemService(Context.WIND
 private fun getPixel(id: Int) = screenApp.resources.getDimensionPixelSize(id)
 
 private val status: Int
+    @SuppressLint("InternalInsetResource", "DiscouragedApi")
     get() {
         val id = screenApp.resources.getIdentifier("status_bar_height", "dimen", "android")
         return if (id > 0) getPixel(id) else 0

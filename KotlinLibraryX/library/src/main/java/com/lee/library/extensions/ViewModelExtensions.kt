@@ -1,10 +1,9 @@
+@file:Suppress("UNCHECKED_CAST")
 /*
  * viewModel扩展函数帮助类
  * @author jv.lee
  * @date 2020/4/1
  */
-
-@file:Suppress("UNCHECKED_CAST")
 
 package com.lee.library.extensions
 
@@ -86,12 +85,11 @@ fun createViewModelFactory(
 ): ViewModelProvider.Factory {
     //通过抽象SavedStateViewModelFactory创建viewModel工厂
     return object : AbstractSavedStateViewModelFactory(owner, defaultArgs) {
-        override fun <T : ViewModel?> create(
+        override fun <T : ViewModel> create(
             key: String,
             modelClass: Class<T>,
             handle: SavedStateHandle
         ): T {
-            @Suppress("UNCHECKED_CAST")
             return create(handle) as? T
                 ?: throw IllegalArgumentException("Unknown viewModel class!")
         }
@@ -114,7 +112,6 @@ internal inline fun <reified T> findMatchingConstructor(
         val parameterTypes = constructor.parameterTypes
         //参数类型与目标参数class类型匹配则为目标构造函数 返回构造函数
         if (signature.contentEquals(parameterTypes)) {
-            @Suppress("UNCHECKED_CAST")
             return constructor as Constructor<T>
         }
     }

@@ -1,7 +1,6 @@
 package com.lee.library.livedatabus
 
 import android.app.Activity
-import androidx.annotation.NonNull
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.*
 import com.lee.library.livedatabus.LiveDataBus.ObserverWrapper
@@ -105,7 +104,7 @@ class LiveDataBus private constructor() {
             super.removeObserver(realObserver)
         }
 
-        private fun hook(@NonNull observer: Observer<in T>) {
+        private fun hook(observer: Observer<in T>) {
             // get wrapper`s version
             val classLiveData = LiveData::class.java
             val fieldObservers = classLiveData.getDeclaredField("mObservers")
