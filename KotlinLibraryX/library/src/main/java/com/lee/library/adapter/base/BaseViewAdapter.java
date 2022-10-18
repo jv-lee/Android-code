@@ -3,7 +3,6 @@ package com.lee.library.adapter.base;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +28,7 @@ import java.util.List;
  * @author jv.lee
  * @date 2019/3/29
  */
+@SuppressWarnings("NotifyDataSetChanged")
 public abstract class BaseViewAdapter<T> extends RecyclerView.Adapter<BaseViewHolder> {
 
     private final Context context;
@@ -80,7 +80,7 @@ public abstract class BaseViewAdapter<T> extends RecyclerView.Adapter<BaseViewHo
     /**
      * item类型管理器
      */
-    protected ViewItemManager<T> itemStyle = new ViewItemManager<>();
+    protected final ViewItemManager<T> itemStyle = new ViewItemManager<>();
     /**
      * 条目点击事件监听
      */
@@ -115,7 +115,7 @@ public abstract class BaseViewAdapter<T> extends RecyclerView.Adapter<BaseViewHo
     /**
      * 数据源
      */
-    private List<T> mData;
+    private final List<T> mData;
 
     /**
      * 点击防抖结束时间
@@ -139,9 +139,6 @@ public abstract class BaseViewAdapter<T> extends RecyclerView.Adapter<BaseViewHo
      */
     public BaseViewAdapter(Context context, List<T> data) {
         this.context = context;
-        if (data == null) {
-            this.mData = new ArrayList<>();
-        }
         this.mData = data;
     }
 
@@ -342,7 +339,6 @@ public abstract class BaseViewAdapter<T> extends RecyclerView.Adapter<BaseViewHo
         }
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     private void updateStatus(int status) {
         if (pageLoadingView == null || pageEmptyView == null || pageErrorView == null || loadMoreView == null || loadEndView == null || loadErrorView == null) {
             return;
@@ -479,7 +475,6 @@ public abstract class BaseViewAdapter<T> extends RecyclerView.Adapter<BaseViewHo
     /**
      * 加载完成
      */
-    @SuppressLint("NotifyDataSetChanged")
     public void loadMoreCompleted() {
         hasLoadMore = true;
         notifyDataSetChanged();
@@ -488,7 +483,6 @@ public abstract class BaseViewAdapter<T> extends RecyclerView.Adapter<BaseViewHo
     /**
      * 没有更多了
      */
-    @SuppressLint("NotifyDataSetChanged")
     public void loadMoreEnd() {
         //添加底部布局
         if (proxyAdapter == null) {

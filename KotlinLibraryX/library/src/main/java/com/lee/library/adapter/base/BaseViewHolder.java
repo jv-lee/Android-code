@@ -62,6 +62,7 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
      * @param <T>    业务类型
      * @return 返回通过资源id获取的控件
      */
+    @SuppressWarnings("unchecked")
     public <T extends View> T getView(int viewId) {
         View view = mViews.get(viewId);
         if (view == null) {
