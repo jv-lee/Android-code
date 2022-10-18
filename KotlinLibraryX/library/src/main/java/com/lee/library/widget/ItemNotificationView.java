@@ -25,8 +25,6 @@ public class ItemNotificationView extends FrameLayout {
 
     private TextView tvBackground;
     private TextView tvContent;
-    private int mWidth;
-    private int mHeight;
 
     private int backgroundColor;
     private String notificationText;
@@ -58,8 +56,6 @@ public class ItemNotificationView extends FrameLayout {
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
-        mHeight = getMeasuredHeight();
-        mWidth = getMeasuredWidth();
     }
 
     private void readAttrs(AttributeSet attrs) {

@@ -20,11 +20,11 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
     /**
      * 所有的控件的集合
      */
-    private SparseArray<View> mViews;
+    private final SparseArray<View> mViews;
     /**
      * 当前View对象
      */
-    private View mConvertView;
+    private final View mConvertView;
 
     public BaseViewHolder(@NonNull View itemView) {
         super(itemView);

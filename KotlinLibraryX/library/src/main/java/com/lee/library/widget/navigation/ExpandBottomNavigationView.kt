@@ -2,7 +2,6 @@ package com.lee.library.widget.navigation
 
 import android.content.Context
 import android.graphics.Color
-import android.os.Build
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.Gravity
@@ -10,7 +9,6 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.annotation.RequiresApi
 import androidx.core.view.children
 import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.widget.ViewPager2
@@ -28,8 +26,7 @@ import com.lee.library.tools.ReflexTools.reflexField
  * @author jv.lee
  * @date 2019/5/7
  */
-@RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
-class ExpandBottomNavigationView @JvmOverloads constructor(
+class ExpandBottomNavigationView constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0

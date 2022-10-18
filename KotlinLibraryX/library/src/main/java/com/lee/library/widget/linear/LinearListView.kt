@@ -23,7 +23,7 @@ class LinearListView constructor(context: Context, attributeSet: AttributeSet) :
                 height += getChildAt(index).height
             }
             scrollY = height
-        } catch (e: Exception) {
+        } catch (_: Exception) {
         }
     }
 
@@ -35,7 +35,7 @@ class LinearListView constructor(context: Context, attributeSet: AttributeSet) :
                 height += getChildAt(index).height
             }
             nestedScrollView.scrollY = height
-        } catch (e: Exception) {
+        } catch (_: Exception) {
         }
     }
 

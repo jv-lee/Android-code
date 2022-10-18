@@ -17,7 +17,7 @@ public class LinearViewItemManager<T> {
      * key：viewType
      * value: LeeViewItem
      */
-    private SparseArrayCompat<LinearViewItem<T>> styles = new SparseArrayCompat<>();
+    private final SparseArrayCompat<LinearViewItem<T>> styles = new SparseArrayCompat<>();
 
     /**
      * 获取所有item样式的总数

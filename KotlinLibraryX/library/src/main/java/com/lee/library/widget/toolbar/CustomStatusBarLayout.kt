@@ -2,7 +2,6 @@ package com.lee.library.widget.toolbar
 
 import android.content.Context
 import android.util.AttributeSet
-import com.lee.library.tools.StatusTools
 
 /**
  * 自定义状态栏填充view 占位符View

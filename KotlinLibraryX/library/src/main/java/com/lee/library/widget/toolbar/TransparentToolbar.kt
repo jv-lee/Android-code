@@ -3,8 +3,6 @@ package com.lee.library.widget.toolbar
 import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
-import androidx.core.content.ContextCompat
-import com.lee.library.widget.toolbar.TitleToolbar
 
 /**
  * 自定义透明带标题的toolbar

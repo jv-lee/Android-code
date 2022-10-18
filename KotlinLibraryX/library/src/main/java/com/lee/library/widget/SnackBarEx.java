@@ -11,7 +11,7 @@ import com.google.android.material.snackbar.Snackbar;
  * @date 2019/8/7.
  */
 public class SnackBarEx {
-    private Snackbar snackbar;
+    private final Snackbar snackbar;
 
     private SnackBarEx(Builder builder) {
         snackbar = Snackbar.make(builder.view, builder.message == null ? "" : builder.message, builder.duration);

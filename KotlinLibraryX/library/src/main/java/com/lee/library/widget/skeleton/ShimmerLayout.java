@@ -38,8 +38,6 @@ public class ShimmerLayout extends FrameLayout {
     private static final byte MIN_GRADIENT_CENTER_COLOR_WIDTH_VALUE = 0;
     private static final byte MAX_GRADIENT_CENTER_COLOR_WIDTH_VALUE = 1;
 
-    private final int defaultColor = Color.parseColor("#a2878787");
-
     private int maskOffsetX;
     private Rect maskRect;
     private Paint gradientTexturePaint;
@@ -51,7 +49,7 @@ public class ShimmerLayout extends FrameLayout {
 
     private boolean isAnimationReversed;
     private boolean isAnimationStarted;
-    private boolean autoStart;
+    private final boolean autoStart;
     private int shimmerAnimationDuration;
     private int shimmerColor;
     private int shimmerAngle;
@@ -79,6 +77,7 @@ public class ShimmerLayout extends FrameLayout {
                 0, 0);
 
         try {
+            int defaultColor = Color.parseColor("#a2878787");
             shimmerAngle = a.getInteger(R.styleable.ShimmerLayout_shimmer_angle, DEFAULT_ANGLE);
             shimmerAnimationDuration = a.getInteger(R.styleable.ShimmerLayout_shimmer_animation_duration, DEFAULT_ANIMATION_DURATION);
             shimmerColor = a.getColor(R.styleable.ShimmerLayout_shimmer_color, defaultColor);
@@ -360,14 +359,11 @@ public class ShimmerLayout extends FrameLayout {
         maskAnimator.setDuration(shimmerAnimationDuration);
         maskAnimator.setRepeatCount(ObjectAnimator.INFINITE);
 
-        maskAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                maskOffsetX = animationFromX + (int) animation.getAnimatedValue();
+        maskAnimator.addUpdateListener(animation -> {
+            maskOffsetX = animationFromX + (int) animation.getAnimatedValue();
 
-                if (maskOffsetX + shimmerBitmapWidth >= 0) {
-                    invalidate();
-                }
+            if (maskOffsetX + shimmerBitmapWidth >= 0) {
+                invalidate();
             }
         });
 
