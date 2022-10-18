@@ -76,14 +76,24 @@
         app:pressedTextColor="@android:color/white"
         app:strokeWidth="2dp" />
 
-    <Button
+    <com.lee.library.widget.SelectorTextView
         android:id="@+id/btn_show_choice"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="200dp"
+        android:layout_height="46dp"
         android:text="show Choice Dialog"
+        app:buttonDisable="false"
+        app:buttonRadius="23dp"
+        app:disableBackgroundColor="@android:color/black"
+        app:disableStrokeColor="@android:color/holo_red_dark"
+        app:disableTextColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:normalBackgroundColor="@android:color/holo_green_dark"
+        app:normalTextColor="@android:color/black"
+        app:pressedBackgroundColor="@android:color/holo_blue_bright"
+        app:pressedTextColor="@android:color/white"
+        app:strokeWidth="2dp" />
 
     <com.lee.library.widget.StatusLayout
         android:id="@+id/status"

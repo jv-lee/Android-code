@@ -1,7 +1,6 @@
 package com.lee.app
 
 import android.content.Intent
-import android.widget.Button
 import android.widget.Toast
 import com.lee.app.databinding.ActivityMainBinding
 import com.lee.app.server.ApiServiceImpl
@@ -14,10 +13,9 @@ import com.lee.library.tools.StatusTools.setDarkStatusIcon
 import com.lee.library.tools.StatusTools.statusBar
 import com.lee.library.utils.DensityUtil
 import com.lee.library.utils.LogUtil
-import com.lee.library.widget.StatusLayout
 import com.lee.library.widget.StatusLayout.Companion.STATUS_LOADING
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -62,31 +60,31 @@ class TestActivity : BaseActivity() {
         DensityUtil.setDensity(this)
         window.statusBar()
         window.setDarkStatusIcon()
-        testDialog()
-//        testNetwork()
-        findViewById<StatusLayout>(R.id.status).setStatus(STATUS_LOADING)
-        findViewById<Button>(R.id.btn_chat).setOnClickListener {
+
+        binding.status.setStatus(STATUS_LOADING)
+        binding.btnChat.setOnClickListener {
             startActivity(Intent(this, ChatListActivity::class.java))
         }
-        findViewById<Button>(R.id.btn_form).setOnClickListener {
+        binding.btnForm.setOnClickListener {
             startActivity(Intent(this, FormTableActivity::class.java))
         }
     }
 
     override fun bindData() {
-
+        testDialog()
+//        testNetwork()
     }
 
     private fun testDialog() {
         binding.btnShowLoading.setOnClickListener { loadingDialog.show() }
-        binding.btnShowLoading.setButtonDisable(false)
+//        binding.btnShowLoading.setButtonDisable(false)
 
         binding.btnShowWarn.setOnClickListener { warnDialog.show() }
         binding.btnShowChoice.setOnClickListener { choiceDialog.show() }
     }
 
     private fun testNetwork() {
-        GlobalScope.launch(Dispatchers.Main) {
+        CoroutineScope(Dispatchers.Main).launch {
             val data1 = withContext(Dispatchers.IO) {
                 ApiServiceImpl.get()
                     .api.getTabAsync("http://www.dell-lee.com/react/api/header.json").await()

@@ -7,9 +7,15 @@ import com.lee.app.adapter.ChatAdapter
 import com.lee.app.databinding.ActivityChatListBinding
 import com.lee.library.base.BaseVMActivity
 import com.lee.library.extensions.reverseLayout
-import com.lee.library.tools.KeyboardHelper
+import com.lee.library.extensions.smoothScrollToTop
+import com.lee.library.tools.KeyboardTools.keyboardObserver
+import com.lee.library.tools.KeyboardTools.keyboardPaddingBottom
 import com.lee.library.tools.StatusTools.setDarkStatusIcon
-import kotlinx.coroutines.*
+import com.lee.library.tools.StatusTools.statusBar
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 /**
  * 聊天界面 沉浸式状态栏 输入法适配
@@ -23,9 +29,8 @@ class ChatListActivity :
 
     private val adapter by lazy { ChatAdapter(this, ArrayList()) }
 
-    private val keyboardHelper by lazy { KeyboardHelper(window.decorView, binding.root) }
-
     override fun bindView() {
+        window.statusBar()
         window.setDarkStatusIcon()
 
         //设置recyclerView基础参数
@@ -33,9 +38,9 @@ class ChatListActivity :
         binding.rvContainer.layoutManager = LinearLayoutManager(this)
         binding.rvContainer.reverseLayout()
 
-        //先绑定recyclerView 后开启输入法弹起布局自适应
-        keyboardHelper.bindRecyclerView(binding.rvContainer, true)
-        keyboardHelper.enable()
+        //监听键盘弹起设置padding 及 回滚至最新消息
+        binding.root.keyboardPaddingBottom()
+        binding.root.keyboardObserver(open = { binding.rvContainer.smoothScrollToTop() })
 
         //设置adapter基础配置
         adapter.initStatusView()
@@ -45,12 +50,6 @@ class ChatListActivity :
 
     override fun bindData() {
         requestData()
-    }
-
-    @ExperimentalCoroutinesApi
-    override fun onDestroy() {
-        keyboardHelper.disable()
-        super.onDestroy()
     }
 
     @SuppressLint("NotifyDataSetChanged")

@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import com.lee.app.adapter.FormAdapter
 import com.lee.app.databinding.ActivityFormTableBinding
 import com.lee.library.base.BaseVMActivity
-import com.lee.library.tools.KeyboardHelper
 import com.lee.library.tools.KeyboardTools.keyboardPaddingBottom
 import com.lee.library.tools.StatusTools.setDarkStatusIcon
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -24,15 +23,10 @@ class FormTableActivity :
         })
     }
 
-    private val keyboardHelper by lazy { KeyboardHelper(window.decorView, binding.root) }
-
     override fun bindView() {
         window.setDarkStatusIcon()
-//        keyboardHelper.enable()
 
         window.decorView.keyboardPaddingBottom()
-//        binding.rvContainer.layoutManager = LinearLayoutManager(this)
-//        binding.rvContainer.adapter = adapter
     }
 
     override fun bindData() {
@@ -42,7 +36,6 @@ class FormTableActivity :
     @ExperimentalCoroutinesApi
     override fun onDestroy() {
         FormAdapter.dialogMap.clear()
-//        keyboardHelper.disable()
         super.onDestroy()
     }
 

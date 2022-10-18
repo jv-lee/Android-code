@@ -4,15 +4,14 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.graphics.Rect
-import android.view.*
+import android.view.View
+import android.view.ViewTreeObserver
 import android.view.inputmethod.InputMethodManager
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.findViewTreeLifecycleOwner
 import com.lee.library.base.ApplicationExtensions.app
-import com.lee.library.extensions.setMargin
-import com.lee.library.extensions.statusBarHeight
 
 /**
  * 避免输入法面板遮挡
@@ -76,18 +75,6 @@ object KeyboardTools {
         isFocusableInTouchMode = true
         requestFocus()
         imm.showSoftInput(this, 0)
-    }
-
-    /**
-     * 沉浸式状态栏 设置adjustResize 后 解决软键盘无法正常顶起解决方式
-     */
-    fun ViewGroup.adjustResizeStatusBar(
-        window: Window,
-        marginValue: Int = context.statusBarHeight
-    ) {
-        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
-        fitsSystemWindows = true
-        setMargin(top = -marginValue)
     }
 
     /**
