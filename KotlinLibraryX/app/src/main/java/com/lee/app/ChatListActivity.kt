@@ -8,10 +8,10 @@ import com.lee.app.databinding.ActivityChatListBinding
 import com.lee.library.base.BaseVMActivity
 import com.lee.library.extensions.reverseLayout
 import com.lee.library.extensions.smoothScrollToTop
-import com.lee.library.tools.KeyboardTools.keyboardObserver
-import com.lee.library.tools.KeyboardTools.keyboardPaddingBottom
-import com.lee.library.tools.StatusTools.setDarkStatusIcon
-import com.lee.library.tools.StatusTools.statusBar
+import com.lee.library.tools.SystemBarTools.softInputBottomPaddingChange
+import com.lee.library.tools.SystemBarTools.parentTouchHideSoftInput
+import com.lee.library.tools.SystemBarTools.setDarkStatusIcon
+import com.lee.library.tools.SystemBarTools.statusBar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -39,8 +39,8 @@ class ChatListActivity :
         binding.rvContainer.reverseLayout()
 
         //监听键盘弹起设置padding 及 回滚至最新消息
-        binding.root.keyboardPaddingBottom()
-        binding.root.keyboardObserver(open = { binding.rvContainer.smoothScrollToTop() })
+        window.softInputBottomPaddingChange(open = { binding.rvContainer.smoothScrollToTop() })
+        window.parentTouchHideSoftInput(binding.rvContainer)
 
         //设置adapter基础配置
         adapter.initStatusView()
@@ -53,7 +53,7 @@ class ChatListActivity :
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    private  fun requestData() {
+    private fun requestData() {
         if (page == 6) {
             adapter.loadMoreEnd()
             return

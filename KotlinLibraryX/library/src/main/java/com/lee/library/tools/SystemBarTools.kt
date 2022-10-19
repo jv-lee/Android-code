@@ -1,20 +1,23 @@
 package com.lee.library.tools
 
+import android.annotation.SuppressLint
+import android.app.Activity
 import android.graphics.Color
 import android.os.Build
+import android.view.View
 import android.view.Window
 import android.view.WindowManager
+import android.view.inputmethod.InputMethodManager
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 
 /**
- * 状态栏工具
+ * 系统窗口工具栏（状态栏、导航栏、软键盘） 工具类扩展函数
  * @author jv.lee
  * @date 2019/4/5
  */
-object StatusTools {
-
+object SystemBarTools {
     /**
      * 设置沉浸式状态栏
      */
@@ -28,8 +31,7 @@ object StatusTools {
 
         // 处理contentView与navigationBar间距
         ViewCompat.setOnApplyWindowInsetsListener(decorView.findViewById(android.R.id.content)) { view, windowInsets ->
-            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
-            view.setPadding(0, 0, 0, insets.bottom)
+            view.setPadding(0, 0, 0, windowInsets.navigationBarHeight())
             WindowInsetsCompat.CONSUMED
         }
     }
@@ -94,11 +96,70 @@ object StatusTools {
     }
 
     /**
+     * 显示软键盘
+     */
+    fun Window.showSoftInput() {
+        val insetsController = WindowCompat.getInsetsController(this, decorView)
+        insetsController.show(WindowInsetsCompat.Type.ime())
+    }
+
+    /**
+     * 隐藏软键盘
+     */
+    fun Window.hideSoftInput() {
+        val insetsController = WindowCompat.getInsetsController(this, decorView)
+        insetsController.hide(WindowInsetsCompat.Type.ime())
+    }
+
+    /**
+     * 软键盘是否显示
+     */
+    fun Window.hasSoftInputShow(): Boolean {
+        val imm: InputMethodManager =
+            context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        return imm.hideSoftInputFromWindow(decorView.windowToken, 0)
+    }
+
+    /**
+     * 点击任意view隐藏输入法
+     */
+    @SuppressLint("ClickableViewAccessibility")
+    fun Window.parentTouchHideSoftInput(childView: View? = null) {
+        val view = childView ?: decorView
+        view.setOnTouchListener { _, _ ->
+            if (hasSoftInputShow()) {
+                hideSoftInput()
+            }
+            false
+        }
+    }
+
+    /**
+     * 监听键盘弹起更该viewPaddingBottom值
+     */
+    inline fun Window.softInputBottomPaddingChange(
+        crossinline open: () -> Unit = {},
+        crossinline close: () -> Unit = {},
+    ) {
+        ViewCompat.setOnApplyWindowInsetsListener(decorView.findViewById(android.R.id.content)) { view, windowInsets ->
+            if (windowInsets.isVisible(WindowInsetsCompat.Type.ime())) {
+                open()
+                view.setPadding(0, 0, 0, windowInsets.imeHeight())
+            } else {
+                close()
+                view.setPadding(0, 0, 0, windowInsets.navigationBarHeight())
+            }
+            WindowInsetsCompat.CONSUMED
+        }
+    }
+
+    /**
      * windowInsets作用域
      */
     fun Window.runWindowInsets(block: WindowInsetsCompat.() -> Unit) {
-        ViewCompat.setOnApplyWindowInsetsListener(decorView.findViewById(android.R.id.content)) { _, windowInsets ->
+        ViewCompat.setOnApplyWindowInsetsListener(decorView.findViewById(android.R.id.content)) { view, windowInsets ->
             block(windowInsets)
+            view.setPadding(0, 0, 0, windowInsets.navigationBarHeight())
             WindowInsetsCompat.CONSUMED
         }
     }
@@ -126,4 +187,10 @@ object StatusTools {
         return getInsets(WindowInsetsCompat.Type.statusBars()).top
     }
 
+    /**
+     * 获取键盘高度
+     */
+    fun WindowInsetsCompat.imeHeight(): Int {
+        return getInsets(WindowInsetsCompat.Type.ime()).bottom
+    }
 }

@@ -38,6 +38,24 @@
             android:layout_height="wrap_content"
             android:text="cancel full window" />
 
+        <Button
+            android:id="@+id/button_show_input"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="show input" />
+
+        <Button
+            android:id="@+id/button_hide_input"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="hide input" />
+
+        <Button
+            android:id="@+id/button_change_input"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="change input" />
+
         <TextView
             android:id="@+id/tv_content"
             android:layout_width="wrap_content"

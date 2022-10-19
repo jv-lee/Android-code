@@ -4,14 +4,18 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.lee.api.databinding.ActivityWindowInsetsBinding
 import com.lee.library.extensions.binding
-import com.lee.library.tools.StatusTools.fullWindow
-import com.lee.library.tools.StatusTools.hasNavigationBar
-import com.lee.library.tools.StatusTools.navigationBarHeight
-import com.lee.library.tools.StatusTools.runWindowInsets
-import com.lee.library.tools.StatusTools.setDarkStatusIcon
-import com.lee.library.tools.StatusTools.setLightStatusIcon
-import com.lee.library.tools.StatusTools.statusBar
-import com.lee.library.tools.StatusTools.statusBarHeight
+import com.lee.library.extensions.toast
+import com.lee.library.tools.SystemBarTools.fullWindow
+import com.lee.library.tools.SystemBarTools.hasNavigationBar
+import com.lee.library.tools.SystemBarTools.hasSoftInputShow
+import com.lee.library.tools.SystemBarTools.hideSoftInput
+import com.lee.library.tools.SystemBarTools.navigationBarHeight
+import com.lee.library.tools.SystemBarTools.runWindowInsets
+import com.lee.library.tools.SystemBarTools.setDarkStatusIcon
+import com.lee.library.tools.SystemBarTools.setLightStatusIcon
+import com.lee.library.tools.SystemBarTools.showSoftInput
+import com.lee.library.tools.SystemBarTools.statusBar
+import com.lee.library.tools.SystemBarTools.statusBarHeight
 
 class WindowInsetsActivity : AppCompatActivity() {
 
@@ -37,6 +41,22 @@ class WindowInsetsActivity : AppCompatActivity() {
 
         binding.buttonCancelFullWindow.setOnClickListener {
             window.fullWindow(false)
+        }
+
+        binding.buttonShowInput.setOnClickListener {
+            window.showSoftInput()
+        }
+
+        binding.buttonHideInput.setOnClickListener {
+            window.hideSoftInput()
+        }
+
+        binding.buttonChangeInput.setOnClickListener {
+            if (window.hasSoftInputShow()) {
+                window.hideSoftInput()
+            } else {
+                toast("change success")
+            }
         }
 
         window.runWindowInsets {
