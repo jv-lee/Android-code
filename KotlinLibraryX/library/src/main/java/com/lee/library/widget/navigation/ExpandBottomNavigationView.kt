@@ -26,7 +26,7 @@ import com.lee.library.tools.ReflexTools.reflexField
  * @author jv.lee
  * @date 2019/5/7
  */
-class ExpandBottomNavigationView constructor(
+class ExpandBottomNavigationView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0

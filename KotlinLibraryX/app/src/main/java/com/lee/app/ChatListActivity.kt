@@ -8,10 +8,9 @@ import com.lee.app.databinding.ActivityChatListBinding
 import com.lee.library.base.BaseVMActivity
 import com.lee.library.extensions.reverseLayout
 import com.lee.library.extensions.smoothScrollToTop
-import com.lee.library.tools.SystemBarTools.softInputBottomPaddingChange
 import com.lee.library.tools.SystemBarTools.parentTouchHideSoftInput
 import com.lee.library.tools.SystemBarTools.setDarkStatusIcon
-import com.lee.library.tools.SystemBarTools.statusBar
+import com.lee.library.tools.SystemBarTools.softInputBottomPaddingChange
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -30,7 +29,6 @@ class ChatListActivity :
     private val adapter by lazy { ChatAdapter(this, ArrayList()) }
 
     override fun bindView() {
-        window.statusBar()
         window.setDarkStatusIcon()
 
         //设置recyclerView基础参数
