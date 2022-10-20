@@ -5,12 +5,18 @@ import android.app.Activity
 import android.graphics.Color
 import android.os.Build
 import android.view.View
+import android.view.ViewTreeObserver
 import android.view.Window
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.findViewTreeLifecycleOwner
+import java.util.concurrent.atomic.AtomicBoolean
 
 /**
  * 系统窗口工具栏（状态栏、导航栏、软键盘） 工具类扩展函数
@@ -121,50 +127,6 @@ object SystemBarTools {
     }
 
     /**
-     * 点击任意view隐藏输入法
-     */
-    @SuppressLint("ClickableViewAccessibility")
-    fun Window.parentTouchHideSoftInput(childView: View? = null) {
-        val view = childView ?: decorView
-        view.setOnTouchListener { _, _ ->
-            if (hasSoftInputShow()) {
-                hideSoftInput()
-            }
-            false
-        }
-    }
-
-    /**
-     * 监听键盘弹起更该viewPaddingBottom值
-     */
-    inline fun Window.softInputBottomPaddingChange(
-        crossinline open: () -> Unit = {},
-        crossinline close: () -> Unit = {},
-    ) {
-        ViewCompat.setOnApplyWindowInsetsListener(decorView.findViewById(android.R.id.content)) { view, windowInsets ->
-            if (windowInsets.isVisible(WindowInsetsCompat.Type.ime())) {
-                open()
-                view.setPadding(0, 0, 0, windowInsets.imeHeight())
-            } else {
-                close()
-                view.setPadding(0, 0, 0, windowInsets.navigationBarHeight())
-            }
-            WindowInsetsCompat.CONSUMED
-        }
-    }
-
-    /**
-     * windowInsets作用域
-     */
-    fun Window.runWindowInsets(block: WindowInsetsCompat.() -> Unit) {
-        ViewCompat.setOnApplyWindowInsetsListener(decorView.findViewById(android.R.id.content)) { view, windowInsets ->
-            block(windowInsets)
-            view.setPadding(0, 0, 0, windowInsets.navigationBarHeight())
-            WindowInsetsCompat.CONSUMED
-        }
-    }
-
-    /**
      * 判断是否存在导航栏
      */
     fun WindowInsetsCompat.hasNavigationBar(): Boolean {
@@ -192,5 +154,81 @@ object SystemBarTools {
      */
     fun WindowInsetsCompat.imeHeight(): Int {
         return getInsets(WindowInsetsCompat.Type.ime()).bottom
+    }
+
+
+    /**
+     * 点击任意view隐藏输入法
+     */
+    @SuppressLint("ClickableViewAccessibility")
+    fun Window.parentTouchHideSoftInput(childView: View? = null) {
+        val view = childView ?: decorView
+        view.setOnTouchListener { _, _ ->
+            if (hasSoftInputShow()) {
+                hideSoftInput()
+            }
+            false
+        }
+    }
+
+    /**
+     * windowInsets作用域
+     */
+    fun View.runWindowInsets(
+        lifecycleOwner: LifecycleOwner? = findViewTreeLifecycleOwner(),
+        block: WindowInsetsCompat .() -> Unit
+    ) {
+        val listener = ViewTreeObserver.OnGlobalLayoutListener {
+            ViewCompat.getRootWindowInsets(this)?.run(block)
+        }
+        lifecycleWindowGlobalLayout(listener, lifecycleOwner)
+    }
+
+    /**
+     * 监听键盘弹起更该viewPaddingBottom值
+     */
+    fun View.softInputBottomPaddingChange(
+        lifecycleOwner: LifecycleOwner? = findViewTreeLifecycleOwner(),
+        open: () -> Unit = {},
+        close: () -> Unit = {},
+    ) {
+        // 默认键盘未展开 过滤重复开关回调
+        val isClose = AtomicBoolean(true)
+        runWindowInsets(lifecycleOwner) {
+            if (isVisible(WindowInsetsCompat.Type.ime())) {
+                if (isClose.compareAndSet(true, false)) {
+                    open()
+                    setPadding(0, 0, 0, imeHeight() - navigationBarHeight())
+                }
+            } else {
+                if (isClose.compareAndSet(false, true)) {
+                    close()
+                    setPadding(0, 0, 0, 0)
+                }
+            }
+        }
+    }
+
+    private fun View.lifecycleWindowGlobalLayout(
+        listener: ViewTreeObserver.OnGlobalLayoutListener,
+        lifecycleOwner: LifecycleOwner?
+    ) {
+        lifecycleOwner?.lifecycle?.addObserver(object : LifecycleEventObserver {
+            override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
+                when (event) {
+                    Lifecycle.Event.ON_RESUME -> {
+                        viewTreeObserver.addOnGlobalLayoutListener(listener)
+                    }
+                    Lifecycle.Event.ON_PAUSE -> {
+                        viewTreeObserver.removeOnGlobalLayoutListener(listener)
+                    }
+                    Lifecycle.Event.ON_DESTROY -> {
+                        source.lifecycle.removeObserver(this)
+                    }
+                    else -> {
+                    }
+                }
+            }
+        })
     }
 }

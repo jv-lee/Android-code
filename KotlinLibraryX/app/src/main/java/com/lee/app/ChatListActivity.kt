@@ -8,7 +8,6 @@ import com.lee.app.databinding.ActivityChatListBinding
 import com.lee.library.base.BaseVMActivity
 import com.lee.library.extensions.reverseLayout
 import com.lee.library.extensions.smoothScrollToTop
-import com.lee.library.tools.SystemBarTools.parentTouchHideSoftInput
 import com.lee.library.tools.SystemBarTools.setDarkStatusIcon
 import com.lee.library.tools.SystemBarTools.softInputBottomPaddingChange
 import kotlinx.coroutines.CoroutineScope
@@ -37,8 +36,9 @@ class ChatListActivity :
         binding.rvContainer.reverseLayout()
 
         //监听键盘弹起设置padding 及 回滚至最新消息
-        window.softInputBottomPaddingChange(open = { binding.rvContainer.smoothScrollToTop() })
-        window.parentTouchHideSoftInput(binding.rvContainer)
+//        window.parentTouchHideSoftInput(binding.rvContainer)
+        binding.root.softInputBottomPaddingChange(
+            open = { binding.rvContainer.smoothScrollToTop() })
 
         //设置adapter基础配置
         adapter.initStatusView()

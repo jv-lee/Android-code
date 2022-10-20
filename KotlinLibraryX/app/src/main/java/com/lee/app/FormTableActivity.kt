@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import com.lee.app.adapter.FormAdapter
 import com.lee.app.databinding.ActivityFormTableBinding
 import com.lee.library.base.BaseVMActivity
-import com.lee.library.tools.SystemBarTools.softInputBottomPaddingChange
 import com.lee.library.tools.SystemBarTools.setDarkStatusIcon
+import com.lee.library.tools.SystemBarTools.softInputBottomPaddingChange
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 /**
@@ -26,7 +26,7 @@ class FormTableActivity :
     override fun bindView() {
         window.setDarkStatusIcon()
 
-        window.softInputBottomPaddingChange()
+        binding.root.softInputBottomPaddingChange()
     }
 
     override fun bindData() {

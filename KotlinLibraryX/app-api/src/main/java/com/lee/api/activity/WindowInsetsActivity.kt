@@ -59,7 +59,7 @@ class WindowInsetsActivity : AppCompatActivity() {
             }
         }
 
-        window.runWindowInsets {
+        binding.root.runWindowInsets {
             binding.tvContent.text =
                 "navigationBar:${hasNavigationBar()},statusBarHeight:${statusBarHeight()},navigationBarHeight:${navigationBarHeight()}"
         }
