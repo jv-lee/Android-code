@@ -9,7 +9,7 @@ import com.lee.library.adapter.base.BaseViewHolder
 import com.lee.library.adapter.base.BaseViewItem
 
 /**
- *
+ * 信息item
  * @author jv.lee
  * @date 2020/9/7
  */
@@ -21,7 +21,7 @@ class ChatItem : BaseViewItem<String> {
 
     override fun convert(holder: BaseViewHolder, entity: String, position: Int) {
         val textView = holder.getView<TextView>(R.id.tv_content)
-        textView?.text = "this is item data -> $position"
+        textView?.text = StringBuilder("this is item data -> $position")
     }
 
 }

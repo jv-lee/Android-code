@@ -1,6 +1,5 @@
 package com.lee.app
 
-import android.annotation.SuppressLint
 import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lee.app.adapter.ChatAdapter
@@ -8,6 +7,7 @@ import com.lee.app.databinding.ActivityChatListBinding
 import com.lee.library.base.BaseVMActivity
 import com.lee.library.extensions.reverseLayout
 import com.lee.library.extensions.smoothScrollToTop
+import com.lee.library.tools.SystemBarTools.parentTouchHideSoftInput
 import com.lee.library.tools.SystemBarTools.setDarkStatusIcon
 import com.lee.library.tools.SystemBarTools.softInputBottomPaddingChange
 import kotlinx.coroutines.CoroutineScope
@@ -25,22 +25,22 @@ class ChatListActivity :
 
     private var page = 0
 
-    private val adapter by lazy { ChatAdapter(this, ArrayList()) }
+    private val adapter by lazy { ChatAdapter(this) }
 
     override fun bindView() {
+        // 深色状态栏icon
         window.setDarkStatusIcon()
 
-        //设置recyclerView基础参数
+        // 监听键盘弹起设置padding及回滚至最新消息
+        window.parentTouchHideSoftInput(binding.rvContainer)
+        binding.root.softInputBottomPaddingChange(open = { binding.rvContainer.smoothScrollToTop() })
+
+        // 设置recyclerView基础参数
         binding.rvContainer.adapter = adapter.proxy
         binding.rvContainer.layoutManager = LinearLayoutManager(this)
-        binding.rvContainer.reverseLayout()
+        binding.rvContainer.reverseLayout() // 反转列表top->bottom
 
-        //监听键盘弹起设置padding 及 回滚至最新消息
-//        window.parentTouchHideSoftInput(binding.rvContainer)
-        binding.root.softInputBottomPaddingChange(
-            open = { binding.rvContainer.smoothScrollToTop() })
-
-        //设置adapter基础配置
+        // 设置adapter基础配置
         adapter.initStatusView()
         adapter.pageCompleted()
         adapter.setAutoLoadMoreListener { requestData() }
@@ -50,24 +50,19 @@ class ChatListActivity :
         requestData()
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     private fun requestData() {
         if (page == 6) {
             adapter.loadMoreEnd()
             return
         }
         CoroutineScope(Dispatchers.Main).launch {
-            delay(1000)
-            adapter.addData(arrayListOf<String>().also {
+            if (page != 0) delay(1000)
+            val data = arrayListOf<String>().apply {
                 for (index in 0..20) {
-                    it.add("this is item data -> $index")
+                    add("this is item data -> $index")
                 }
-            })
-            adapter.notifyDataSetChanged()
-            //recyclerView设置了stackFromEnd = true 来解决键盘滑动错位问题 所以第一次加载数据需手动滑动到第一行
-            if (page == 0) {
-                binding.rvContainer.scrollToPosition(0)
             }
+            adapter.addData(data)
             adapter.loadMoreCompleted()
             page++
         }
