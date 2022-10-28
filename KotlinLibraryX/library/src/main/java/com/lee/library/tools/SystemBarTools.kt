@@ -5,6 +5,7 @@ import android.app.Activity
 import android.graphics.Color
 import android.os.Build
 import android.view.View
+import android.view.ViewTreeObserver
 import android.view.Window
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
@@ -12,6 +13,10 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsAnimationCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.findViewTreeLifecycleOwner
 import java.util.concurrent.atomic.AtomicBoolean
 
 /**
@@ -101,6 +106,10 @@ object SystemBarTools {
      * 显示软键盘
      */
     fun Window.showSoftInput() {
+        // 设置焦点处理在低版本中直接调用显示键盘无效问题
+        decorView.isFocusable = true
+        decorView.isFocusableInTouchMode = true
+        decorView.requestFocus()
         val insetsController = WindowCompat.getInsetsController(this, decorView)
         insetsController.show(WindowInsetsCompat.Type.ime())
     }
@@ -193,19 +202,64 @@ object SystemBarTools {
         close: () -> Unit = {},
     ) {
         val isClose = AtomicBoolean(true)
-        ViewCompat.setWindowInsetsAnimationCallback(this, object :
-            WindowInsetsAnimationCompat.Callback(DISPATCH_MODE_STOP) {
-            override fun onProgress(
-                insets: WindowInsetsCompat,
-                runningAnimations: MutableList<WindowInsetsAnimationCompat>
-            ): WindowInsetsCompat {
-                return insets.apply {
-                    if (isVisible(WindowInsetsCompat.Type.ime())) {
-                        if (isClose.compareAndSet(true, false)) open()
-                    } else {
-                        if (isClose.compareAndSet(false, true)) close()
+
+        if (Build.VERSION.SDK_INT >= 30) {
+            ViewCompat.setWindowInsetsAnimationCallback(this, object :
+                WindowInsetsAnimationCompat.Callback(DISPATCH_MODE_STOP) {
+                override fun onProgress(
+                    insets: WindowInsetsCompat,
+                    runningAnimations: MutableList<WindowInsetsAnimationCompat>
+                ): WindowInsetsCompat {
+                    return insets.apply {
+                        if (isVisible(WindowInsetsCompat.Type.ime())) {
+                            if (isClose.compareAndSet(true, false)) open()
+                        } else {
+                            if (isClose.compareAndSet(false, true)) close()
+                        }
+                        setPadding(0, 0, 0, insets.imeHeight() - insets.navigationBarHeight())
                     }
-                    setPadding(0, 0, 0, insets.imeHeight() - insets.navigationBarHeight())
+                }
+            })
+        } else {
+            runWindowInsets(findViewTreeLifecycleOwner()) {
+                if (isVisible(WindowInsetsCompat.Type.ime())) {
+                    if (isClose.compareAndSet(true, false)) open()
+                } else {
+                    if (isClose.compareAndSet(false, true)) close()
+                }
+                setPadding(0, 0, 0, imeHeight() - navigationBarHeight())
+            }
+        }
+    }
+
+    private fun View.runWindowInsets(
+        lifecycleOwner: LifecycleOwner? = findViewTreeLifecycleOwner(),
+        block: WindowInsetsCompat .() -> Unit
+    ) {
+        val listener = ViewTreeObserver.OnGlobalLayoutListener {
+            ViewCompat.getRootWindowInsets(this)?.run(block)
+        }
+        lifecycleWindowGlobalLayout(listener, lifecycleOwner)
+    }
+
+    private fun View.lifecycleWindowGlobalLayout(
+        listener: ViewTreeObserver.OnGlobalLayoutListener,
+        lifecycleOwner: LifecycleOwner?
+    ) {
+        lifecycleOwner?.lifecycle?.addObserver(object : LifecycleEventObserver {
+            override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
+                when (event) {
+                    Lifecycle.Event.ON_RESUME -> {
+                        viewTreeObserver.addOnGlobalLayoutListener(listener)
+                    }
+                    Lifecycle.Event.ON_PAUSE -> {
+                        viewTreeObserver.removeOnGlobalLayoutListener(listener)
+                    }
+                    Lifecycle.Event.ON_DESTROY -> {
+                        source.lifecycle.removeObserver(this)
+                    }
+                    else -> {
+                    }
                 }
             }
         })
