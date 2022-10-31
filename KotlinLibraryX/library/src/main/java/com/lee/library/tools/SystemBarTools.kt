@@ -76,12 +76,13 @@ object SystemBarTools {
      *
      * @param isFull 是否进入全屏模式
      */
-    fun Window.fullWindow(isFull: Boolean) {
+    fun Window.fullWindow(isFull: Boolean = true) {
         val insetsController = WindowCompat.getInsetsController(this, decorView)
         if (isFull) {
             setBangsFull()
             insetsController.hide(WindowInsetsCompat.Type.systemBars())
-            insetsController.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+            insetsController.systemBarsBehavior =
+                WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
         } else {
             insetsController.show(WindowInsetsCompat.Type.systemBars())
         }
