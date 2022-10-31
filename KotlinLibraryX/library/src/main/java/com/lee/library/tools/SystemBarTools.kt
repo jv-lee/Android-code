@@ -9,10 +9,7 @@ import android.view.ViewTreeObserver
 import android.view.Window
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsAnimationCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.*
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
@@ -82,8 +79,9 @@ object SystemBarTools {
     fun Window.fullWindow(isFull: Boolean) {
         val insetsController = WindowCompat.getInsetsController(this, decorView)
         if (isFull) {
-            insetsController.hide(WindowInsetsCompat.Type.systemBars())
             setBangsFull()
+            insetsController.hide(WindowInsetsCompat.Type.systemBars())
+            insetsController.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
         } else {
             insetsController.show(WindowInsetsCompat.Type.systemBars())
         }
