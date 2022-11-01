@@ -39,7 +39,7 @@ abstract class BaseDialogFragment(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         //全屏显示
-        if (isFullWindow) dialog?.setFullWindow(context)
+        if (isFullWindow) dialog?.setFullWindow()
         bindView()
         bindData()
     }

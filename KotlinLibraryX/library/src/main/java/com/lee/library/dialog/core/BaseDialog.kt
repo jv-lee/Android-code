@@ -23,7 +23,7 @@ abstract class BaseDialog constructor(
 
     init {
         setContentView(layoutId)
-        setFullWindow(mContext)
+        setFullWindow()
         setBackDismiss(isCancel)
         bindView()
         bindData()
