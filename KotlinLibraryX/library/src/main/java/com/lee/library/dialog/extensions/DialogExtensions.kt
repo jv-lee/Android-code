@@ -24,22 +24,21 @@ import com.lee.library.extensions.width
  * 必须在setContentView之后
  */
 fun Dialog.setFullWindow() {
-    val window = window
-    window ?: return
+    window?.run {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            // 设置页面全屏显示
+            WindowCompat.setDecorFitsSystemWindows(this, false)
+            // 延伸显示区域到刘海
+            attributes.layoutInDisplayCutoutMode =
+                WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
+        }
 
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-        // 设置页面全屏显示
-        WindowCompat.setDecorFitsSystemWindows(window, false)
-        // 延伸显示区域到刘海
-        window.attributes.layoutInDisplayCutoutMode =
-            WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
+        setLayout(width(), height() - context.navigationBarHeight)
+        setGravity(Gravity.TOP)
+        addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN)
+        setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        decorView.setPadding(0, 0, 0, 0)
     }
-
-    window.setLayout(width(), height() - window.context.navigationBarHeight)
-    window.setGravity(Gravity.TOP)
-    window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN)
-    window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-    window.decorView.setPadding(0, 0, 0, 0)
 }
 
 /**
@@ -47,7 +46,6 @@ fun Dialog.setFullWindow() {
  */
 fun Dialog.setBottomDialog(height: Int) {
     if (height == 0) return
-    val window = window
     window?.run {
         decorView.setPadding(0, 0, 0, 0)
         val dm = context.resources.displayMetrics
