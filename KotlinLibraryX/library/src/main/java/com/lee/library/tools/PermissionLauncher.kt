@@ -1,6 +1,5 @@
 package com.lee.library.tools
 
-import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.os.Build
 import androidx.activity.result.ActivityResultLauncher
@@ -44,7 +43,6 @@ class PermissionLauncher {
     private var permissionLauncher: ActivityResultLauncher<String>? = null
     private var permissionsLauncher: ActivityResultLauncher<Array<String>>? = null
 
-    @SuppressLint("NewApi")
     private fun createLauncher(thisClass: Any) {
         val thisT = when (thisClass) {
             is FragmentActivity -> {
@@ -59,8 +57,8 @@ class PermissionLauncher {
         }
 
         permissionLauncher =
-            thisT.registerForActivityResult(ActivityResultContracts.RequestPermission()) { it ->
-                if (it) {
+            thisT.registerForActivityResult(ActivityResultContracts.RequestPermission()) { permissionEnable ->
+                if (permissionEnable) {
                     permissionSuccessCall?.invoke()
                     return@registerForActivityResult
                 }
@@ -73,13 +71,13 @@ class PermissionLauncher {
             }
 
         permissionsLauncher =
-            thisT.registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { it ->
-                it.forEach {
-                    if (!it.value) {
-                        if (checkPermission.invoke(it.key)) {
-                            permissionCancelCall?.invoke(it.key)
+            thisT.registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissionInfoMap ->
+                permissionInfoMap.forEach { permissionInfo ->
+                    if (!permissionInfo.value) {
+                        if (checkPermission.invoke(permissionInfo.key)) {
+                            permissionCancelCall?.invoke(permissionInfo.key)
                         } else {
-                            permissionDisableCall?.invoke(it.key)
+                            permissionDisableCall?.invoke(permissionInfo.key)
                         }
                         return@registerForActivityResult
                     }
