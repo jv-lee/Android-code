@@ -5,10 +5,14 @@ import android.widget.Toast
 import com.lee.app.databinding.ActivityMainBinding
 import com.lee.app.server.ApiServiceImpl
 import com.lee.library.base.BaseActivity
+import com.lee.library.connect.NetworkConnectCallback
+import com.lee.library.connect.NetworkConnectManager
+import com.lee.library.connect.NetworkType
 import com.lee.library.dialog.ChoiceDialog
 import com.lee.library.dialog.LoadingDialog
 import com.lee.library.dialog.WarnDialog
 import com.lee.library.extensions.binding
+import com.lee.library.extensions.toast
 import com.lee.library.tools.SystemBarTools.setDarkStatusIcon
 import com.lee.library.utils.DensityUtil
 import com.lee.library.utils.LogUtil
@@ -18,7 +22,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class TestActivity : BaseActivity() {
+class MainActivity : BaseActivity(), NetworkConnectCallback {
 
     private val binding by binding(ActivityMainBinding::inflate)
 
@@ -29,7 +33,6 @@ class TestActivity : BaseActivity() {
         LoadingDialog(this).apply {
             setCancelable(true)
         }
-
     }
 
     /**
@@ -70,7 +73,12 @@ class TestActivity : BaseActivity() {
 
     override fun bindData() {
         testDialog()
-//        testNetwork()
+        NetworkConnectManager.instance.bindCallback(this)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        NetworkConnectManager.instance.unbindCallback(this)
     }
 
     private fun testDialog() {
@@ -96,12 +104,27 @@ class TestActivity : BaseActivity() {
             LogUtil.i("time:${System.currentTimeMillis()}")
 
             Toast.makeText(
-                this@TestActivity,
+                this@MainActivity,
                 "data1 = ${data1.data.size} - data2 = ${data2.data.size}",
                 Toast.LENGTH_SHORT
             ).show()
         }
-
     }
 
+    override fun onConnect() {
+        toast("网络已连接")
+    }
+
+    override fun unConnect() {
+        toast("网络已断开")
+    }
+
+    override fun networkTypeChange(type: NetworkType) {
+        when (type) {
+            NetworkType.Wifi -> toast("当前网络类型为wifi")
+            NetworkType.Network -> toast("当前网络类型为network")
+            NetworkType.Other -> toast("当前网络类型为other")
+            else -> {}
+        }
+    }
 }

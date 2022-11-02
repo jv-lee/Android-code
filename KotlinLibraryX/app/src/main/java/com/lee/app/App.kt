@@ -1,10 +1,7 @@
 package com.lee.app
 
-import android.content.Context
-import android.net.ConnectivityManager
-import android.net.NetworkRequest
-import com.lee.app.core.NetworkCallbackImpl
 import com.lee.library.base.BaseApplication
+import com.lee.library.connect.NetworkConnectManager
 
 /**
  *
@@ -14,14 +11,7 @@ import com.lee.library.base.BaseApplication
 class App : BaseApplication() {
 
     override fun init() {
-        Thread(Runnable {
-            val networkCallback = NetworkCallbackImpl()
-            val builder = NetworkRequest.Builder()
-            val request = builder.build()
-            val connMgr = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-
-            connMgr.registerNetworkCallback(request, networkCallback)
-        }).start()
+        NetworkConnectManager.instance.init(this)
     }
 
     override fun unInit() {
