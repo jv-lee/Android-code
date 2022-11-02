@@ -1,8 +1,12 @@
 package com.lee.api
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.Paint
+import android.graphics.Rect
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.*
+import androidx.core.graphics.drawable.toBitmap
 import androidx.lifecycle.ViewModel
 import com.lee.api.activity.DataStorePreferenceActivity
 import com.lee.api.activity.DataStoreProtoActivity
@@ -18,7 +22,6 @@ class MainActivity : BaseVMActivity<ActivityMainBinding, ViewModel>(R.layout.act
 
     private val permissionLauncher = PermissionLauncher(this)
 
-    @SuppressLint("NewApi")
     override fun bindView() {
         binding.btnFragmentResult.setOnClickListener {
             startActivity(Intent(this, StartFragmentActivity::class.java))
@@ -50,5 +53,21 @@ class MainActivity : BaseVMActivity<ActivityMainBinding, ViewModel>(R.layout.act
 
     override fun bindData() {
 
+    }
+
+    private fun ktxCoreApi() {
+        // ktx-core 扩展函数 支持drawable to bitmap ，bitmap to drawable ，bitmap apply canvas draw
+        var bitmap =
+            ContextCompat.getDrawable(this, R.mipmap.ic_launcher_round)?.toBitmap()?.applyCanvas {
+                drawLine(0f, 0f, 100f, 100f, Paint())
+            }
+
+        bitmap = createBitmap(100, 100).apply {
+            scale(50, 50)
+        }
+
+        // 解构赋值 直接获取rect l，t，r，b
+        val rect = Rect()
+        val (left, top, right, bottom) = rect
     }
 }
