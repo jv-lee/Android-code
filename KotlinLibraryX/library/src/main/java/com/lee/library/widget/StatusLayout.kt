@@ -3,6 +3,7 @@ package com.lee.library.widget
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
@@ -145,7 +146,8 @@ class StatusLayout @JvmOverloads constructor(
     }
 
     fun setLoadingProgressColor(color: Int) {
-        loadingProgressBar?.indeterminateDrawable?.setColorFilter(color, PorterDuff.Mode.MULTIPLY)
+        loadingProgressBar?.indeterminateDrawable?.colorFilter =
+            PorterDuffColorFilter(color, PorterDuff.Mode.MULTIPLY)
     }
 
     interface OnReloadListener {
