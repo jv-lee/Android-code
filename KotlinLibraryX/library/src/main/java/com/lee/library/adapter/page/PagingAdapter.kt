@@ -24,7 +24,7 @@ fun <T> BaseViewAdapter<T>.submitData(
     refreshBlock: () -> Unit = {},
     emptyBlock: () -> Unit = {}
 ) {
-    //首页加载逻辑
+    // 首页加载逻辑
     if (pageData.getPageNumber() == limit) {
         openLoadMore()
 
@@ -49,7 +49,7 @@ fun <T> BaseViewAdapter<T>.submitData(
             return
         }
 
-        //设置空页面
+        // 设置空页面
         if (pageData.getDataSource().isEmpty()) {
             if (isPageCompleted) initStatusView()
             clearData()
@@ -58,29 +58,28 @@ fun <T> BaseViewAdapter<T>.submitData(
             return
         }
 
-        //数据源不同替换数据更改状态
+        // 数据源不同替换数据更改状态
         if (data != pageData.getDataSource()) {
-            //正常情况第一页加载数据状态
+            // 正常情况第一页加载数据状态
             updateData(pageData.getDataSource())
             pageCompleted()
             refreshBlock()
         }
 
-        //分页加载逻辑
+        // 分页加载逻辑
     } else {
-
         // 数据相同不处理
         if (data == pageData.getDataSource()) {
             return
         }
 
-        //防止view重构后在分页加载时 pageCompleted状态重置
+        // 防止view重构后在分页加载时 pageCompleted状态重置
         if (!isPageCompleted) {
             pageCompleted()
         }
 
         if (diff) {
-            //防止activity重建在viewModel中填充历史数据 做差分填充
+            // 防止activity重建在viewModel中填充历史数据 做差分填充
             val oldData = data
             updateData(pageData.getDataSource())
             val result =
@@ -89,10 +88,9 @@ fun <T> BaseViewAdapter<T>.submitData(
         } else {
             addData(pageData.getDataSource())
         }
-
     }
 
-    //设置尾页状态 (包括notifyDateSetChange)
+    // 设置尾页状态 (包括notifyDateSetChange)
     if (pageData.getPageNumber() >= pageData.getPageTotalNumber()) {
         loadMoreEnd()
     } else {
@@ -113,7 +111,7 @@ fun <T> BaseViewAdapter<T>.submitData(
     refreshBlock: () -> Unit = {},
     emptyBlock: () -> Unit = {}
 ) {
-    //首页加载逻辑
+    // 首页加载逻辑
     if (pageData.isFirstPage()) {
         openLoadMore()
 
@@ -136,7 +134,7 @@ fun <T> BaseViewAdapter<T>.submitData(
             return
         }
 
-        //设置空页面
+        // 设置空页面
         if (pageData.getDataSource().isEmpty()) {
             if (isPageCompleted) initStatusView()
             clearData()
@@ -145,29 +143,28 @@ fun <T> BaseViewAdapter<T>.submitData(
             return
         }
 
-        //数据源不同替换数据更改状态
+        // 数据源不同替换数据更改状态
         if (data != pageData.getDataSource()) {
-            //正常情况第一页加载数据状态
+            // 正常情况第一页加载数据状态
             updateData(pageData.getDataSource())
             pageCompleted()
             refreshBlock()
         }
 
-        //分页加载逻辑
+        // 分页加载逻辑
     } else {
-
         // 数据相同不处理
         if (data == pageData.getDataSource()) {
             return
         }
 
-        //防止view重构后在分页加载时 pageCompleted状态重置
+        // 防止view重构后在分页加载时 pageCompleted状态重置
         if (!isPageCompleted) {
             pageCompleted()
         }
 
         if (diff) {
-            //防止activity重建在viewModel中填充历史数据 做差分填充
+            // 防止activity重建在viewModel中填充历史数据 做差分填充
             val oldData = data
             updateData(pageData.getDataSource())
             val result =
@@ -178,7 +175,7 @@ fun <T> BaseViewAdapter<T>.submitData(
         }
     }
 
-    //设置尾页状态 (包括notifyDateSetChange)
+    // 设置尾页状态 (包括notifyDateSetChange)
     if (pageData.isLastPage()) {
         loadMoreEnd()
     } else {
@@ -210,5 +207,3 @@ fun <T> BaseViewAdapter<T>.submitFailed() {
         pageError()
     }
 }
-
-

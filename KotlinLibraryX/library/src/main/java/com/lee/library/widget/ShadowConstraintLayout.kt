@@ -95,7 +95,7 @@ class ShadowConstraintLayout(context: Context, attributeSet: AttributeSet) :
         )
         setLayerType(View.LAYER_TYPE_SOFTWARE, null)
 
-        //设置前景
+        // 设置前景
         if (rippleEnable && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             CoroutineScope(Dispatchers.Main).launch {
                 val drawable = withContext(Dispatchers.IO) { createRippleDrawable() }
@@ -258,5 +258,4 @@ class ShadowConstraintLayout(context: Context, attributeSet: AttributeSet) :
             }
         })
     }
-
 }

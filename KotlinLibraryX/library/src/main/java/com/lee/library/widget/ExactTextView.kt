@@ -45,5 +45,4 @@ class ExactTextView(context: Context, attributeSet: AttributeSet) :
         }
         return text
     }
-
 }

@@ -19,7 +19,6 @@ import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
 import com.lee.library.base.ApplicationExtensions.app
 
-
 /**
  * 状态栏高度
  */
@@ -50,15 +49,18 @@ val Context.navigationBarHeight: Int
  * 判断设备是否处于竖屏状态
  * Check if the device orientation is portrait.
  */
-val Context.isPortrait get() = this.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT
+val Context.isPortrait
+    get() = this.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT
 
 /**
  * 判断设备是否处于横屏状态
  * Check if the device orientation is landscape.
  */
-val Context.isLandscape get() = this.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
+val Context.isLandscape
+    get() = this.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
 
-val Context.windowManager get() = this.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+val Context.windowManager
+    get() = this.getSystemService(Context.WINDOW_SERVICE) as WindowManager
 
 fun width(navigation: Boolean = true): Int = if (navigation) Screen().width else Display().width
 
@@ -73,7 +75,9 @@ fun height(hasStatus: Boolean = true, navigation: Boolean = true): Int {
     }
 }
 
-internal data class Screen(private val display: android.view.Display = app.windowManager.defaultDisplay) {
+internal data class Screen(
+    private val display: android.view.Display = app.windowManager.defaultDisplay
+) {
 
     @SuppressLint("ObsoleteSdkInt")
     private val point = Point().apply {
@@ -111,9 +115,7 @@ internal data class Display(private val metrics: DisplayMetrics = app.resources.
      * 展示高度，包含状态栏，不包含虚拟键，单位px
      */
     fun height(): Int = metrics.heightPixels
-
 }
-
 
 /**
  * dp转px

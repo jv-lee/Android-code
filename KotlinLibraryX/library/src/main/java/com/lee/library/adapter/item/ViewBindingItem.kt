@@ -32,5 +32,4 @@ abstract class ViewBindingItem<T> :
     abstract fun convert(holder: ViewBindingHolder, entity: T, position: Int)
 
     open fun viewRecycled(holder: ViewBindingHolder) {}
-
 }

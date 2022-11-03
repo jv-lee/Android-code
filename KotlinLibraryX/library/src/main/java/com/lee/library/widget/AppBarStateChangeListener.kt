@@ -19,7 +19,7 @@ abstract class AppBarStateChangeListener : AppBarLayout.OnOffsetChangedListener 
         when {
             verticalOffset == 0 -> {
                 if (mCurrentState != State.EXPANDED) {
-                    onStateChanged(appBarLayout, State.EXPANDED);
+                    onStateChanged(appBarLayout, State.EXPANDED)
                 }
                 mCurrentState = State.EXPANDED
             }
@@ -39,5 +39,4 @@ abstract class AppBarStateChangeListener : AppBarLayout.OnOffsetChangedListener 
     }
 
     abstract fun onStateChanged(appBarLayout: AppBarLayout, state: State)
-
 }

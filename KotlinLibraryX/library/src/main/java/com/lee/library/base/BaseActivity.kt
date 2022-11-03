@@ -30,5 +30,4 @@ abstract class BaseActivity : AppCompatActivity() {
     protected abstract fun bindView()
 
     protected abstract fun bindData()
-
 }

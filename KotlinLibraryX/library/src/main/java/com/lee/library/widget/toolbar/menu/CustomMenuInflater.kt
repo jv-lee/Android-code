@@ -98,7 +98,9 @@ class CustomMenuInflater(var context: Context) {
                         reachedEndOfMenu = true
                     }
                 }
-                XmlPullParser.END_DOCUMENT -> throw java.lang.RuntimeException("Unexpected end of document")
+                XmlPullParser.END_DOCUMENT -> throw java.lang.RuntimeException(
+                    "Unexpected end of document"
+                )
             }
             eventType = parser.next()
         }
@@ -135,5 +137,4 @@ class CustomMenuInflater(var context: Context) {
     fun buildMenuView(): LinearLayout {
         return rootView
     }
-
 }

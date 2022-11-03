@@ -55,7 +55,11 @@ abstract class BaseSheetFragment(
     }
 
     open fun createView(inflater: LayoutInflater, container: ViewGroup?): View? {
-        if (resourceId == null || resourceId == 0) throw RuntimeException("fragment createView() not override && constructor params resourceId == 0")
+        if (resourceId == null || resourceId == 0) {
+            throw RuntimeException(
+                "fragment createView() not override && constructor params resourceId == 0"
+            )
+        }
         return inflater.inflate(resourceId, container, false)
     }
 
@@ -68,6 +72,4 @@ abstract class BaseSheetFragment(
      * 设置加载数据等业务操作
      */
     protected abstract fun bindData()
-
-
 }

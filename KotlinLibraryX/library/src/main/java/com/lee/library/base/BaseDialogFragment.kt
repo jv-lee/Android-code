@@ -38,7 +38,7 @@ abstract class BaseDialogFragment(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //全屏显示
+        // 全屏显示
         if (isFullWindow) dialog?.setFullWindow()
         bindView()
         bindData()
@@ -53,7 +53,9 @@ abstract class BaseDialogFragment(
     }
 
     open fun createView(inflater: LayoutInflater, container: ViewGroup?): View? {
-        if (resourceId == null || resourceId == 0) throw RuntimeException("fragment createView() not override && constructor params resourceId == 0")
+        if (resourceId == null || resourceId == 0) throw RuntimeException(
+            "fragment createView() not override && constructor params resourceId == 0"
+        )
         return inflater.inflate(resourceId, container, false)
     }
 

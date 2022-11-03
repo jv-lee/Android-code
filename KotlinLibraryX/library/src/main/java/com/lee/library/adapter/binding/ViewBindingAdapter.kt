@@ -19,7 +19,7 @@ open class ViewBindingAdapter<T> : BaseViewAdapter<T> {
     constructor(context: Context, data: List<T>, item: BaseViewItem<T>) : super(context, data, item)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
-        //根据布局的类型 创建不同的ViewHolder
+        // 根据布局的类型 创建不同的ViewHolder
         val item = itemStyle.getViewItem(viewType)
             ?: throw RuntimeException("itemStyle.getViewItem is null.")
         val viewBinding = item.getItemViewAny(parent.context, parent) as? ViewBinding
@@ -27,13 +27,12 @@ open class ViewBindingAdapter<T> : BaseViewAdapter<T> {
 
         val viewHolder = ViewBindingHolder(viewBinding)
 
-        //点击的监听
+        // 点击的监听
         if (item.openClick()) {
             setListener(viewHolder, item.openShake())
-            //子view监听
+            // 子view监听
             setChildListener(viewHolder, item.openShake())
         }
         return viewHolder
     }
-
 }

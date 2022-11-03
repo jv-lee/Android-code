@@ -73,12 +73,12 @@ class AppWebView : WebView, LifecycleEventObserver {
                 ChoiceDialog(lifecycleOwner as Activity).apply {
                     setTitle(context.getString(R.string.str_ssl_error))
                     setCancelable(true)
-                    //不校验https证书
+                    // 不校验https证书
                     onConfirm = {
                         mHandler.proceed()
                         dismiss()
                     }
-                    //校验证书
+                    // 校验证书
                     onCancel = {
                         mHandler.cancel()
                         dismiss()
@@ -120,7 +120,7 @@ class AppWebView : WebView, LifecycleEventObserver {
              * @return
              */
             override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
-                //重定向时更新初始URL
+                // 重定向时更新初始URL
                 if (view.url == firstUrl || view.url == firstOverrideUrl) {
                     firstOverrideUrl = url
                 }
@@ -147,7 +147,7 @@ class AppWebView : WebView, LifecycleEventObserver {
                 return super.shouldInterceptRequest(view, request)
             }
 
-            //开始加载网页
+            // 开始加载网页
             override fun onPageStarted(view: WebView, url: String, favicon: Bitmap?) {
                 super.onPageStarted(view, url, favicon)
                 getSettings().blockNetworkImage = true
@@ -156,12 +156,12 @@ class AppWebView : WebView, LifecycleEventObserver {
                 webStatusCallBack?.callStart()
             }
 
-            //加载网页成功
+            // 加载网页成功
             override fun onPageFinished(view: WebView, url: String) {
                 super.onPageFinished(view, url)
                 getSettings().blockNetworkImage = false
                 if (!getSettings().loadsImagesAutomatically) {
-                    //设置wenView加载图片资源
+                    // 设置wenView加载图片资源
                     getSettings().blockNetworkImage = false
                     getSettings().loadsImagesAutomatically = true
                 }
@@ -227,7 +227,6 @@ class AppWebView : WebView, LifecycleEventObserver {
         lifecycleOwner.lifecycle.addObserver(this)
     }
 
-
     override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
         when (event) {
             Lifecycle.Event.ON_RESUME -> {
@@ -247,7 +246,7 @@ class AppWebView : WebView, LifecycleEventObserver {
                 removeAllViews()
                 destroy()
                 isPause = false
-                //取消生命周期监听
+                // 取消生命周期监听
                 lifecycleOwner?.lifecycle?.removeObserver(this)
             }
             else -> {
@@ -288,5 +287,4 @@ class AppWebView : WebView, LifecycleEventObserver {
     fun addWebStatusListenerAdapter(webStatusListenerAdapter: WebStatusListenerAdapter?) {
         this.webStatusListenerAdapter = webStatusListenerAdapter
     }
-
 }

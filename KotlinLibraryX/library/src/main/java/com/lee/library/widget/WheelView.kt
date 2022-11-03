@@ -1,4 +1,5 @@
 @file:Suppress("UNCHECKED_CAST")
+
 package com.lee.library.widget
 
 import android.annotation.SuppressLint
@@ -172,10 +173,8 @@ class WheelView : RecyclerView {
                     textView.textSize = unSelectedTextSize
                     textView.setTextColor(unSelectedTextColor)
                 }
-
             }
         }
-
     }
 
     private inner class PaddingDecoration : ItemDecoration() {
@@ -193,7 +192,6 @@ class WheelView : RecyclerView {
             val itemCount = parent.adapter?.itemCount ?: return
             if (position == itemCount - 1) outRect.bottom = lineHeight.toInt()
         }
-
     }
 
     internal fun dp2px(dpValue: Int): Float {
@@ -236,5 +234,4 @@ class WheelView : RecyclerView {
     init {
         overScrollMode = View.OVER_SCROLL_NEVER
     }
-
 }

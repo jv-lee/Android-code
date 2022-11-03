@@ -27,5 +27,4 @@ class CustomMenuItemView constructor(context: Context) : FrameLayout(context) {
     fun getTitle(): TextView {
         return tvText
     }
-
 }

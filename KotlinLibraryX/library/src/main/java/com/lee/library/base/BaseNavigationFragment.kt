@@ -104,5 +104,4 @@ abstract class BaseNavigationFragment(val layoutId: Int) : BaseFragment(layoutId
         val lifecycle = getViewLifecycleRegistry()
         view?.post { lifecycle?.handleLifecycleEvent(event) }
     }
-
 }

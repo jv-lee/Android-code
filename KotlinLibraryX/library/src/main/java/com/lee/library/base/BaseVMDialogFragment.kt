@@ -26,7 +26,7 @@ abstract class BaseVMDialogFragment<V : ViewDataBinding, VM : ViewModel>(
     protected lateinit var viewModel: VM
 
     override fun createView(inflater: LayoutInflater, container: ViewGroup?): View {
-        //设置viewBinding
+        // 设置viewBinding
         binding = DataBindingUtil.inflate(inflater, layoutId, container, false)
         return binding.root
     }
@@ -38,6 +38,4 @@ abstract class BaseVMDialogFragment<V : ViewDataBinding, VM : ViewModel>(
         }
         super.onViewCreated(view, savedInstanceState)
     }
-
-
 }

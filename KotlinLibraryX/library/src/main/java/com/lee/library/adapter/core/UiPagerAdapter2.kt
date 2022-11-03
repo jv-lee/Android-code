@@ -32,5 +32,4 @@ class UiPagerAdapter2(fragmentManager: FragmentManager, lifecycle: Lifecycle) :
     fun clear() {
         fragmentList.clear()
     }
-
 }

@@ -2,13 +2,12 @@ package com.lee.library.net.client
 
 import android.os.Build
 import androidx.annotation.Keep
-import java.io.IOException;
-import java.net.InetAddress;
+import java.io.IOException
+import java.net.InetAddress
 import java.net.Socket
 import javax.net.ssl.SSLContext
 import javax.net.ssl.SSLSocket
 import javax.net.ssl.SSLSocketFactory
-
 
 /**
  * SSL协议处理工厂

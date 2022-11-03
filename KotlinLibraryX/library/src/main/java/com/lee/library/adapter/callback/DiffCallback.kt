@@ -25,5 +25,4 @@ class DiffCallback<T> constructor(private val oldData: List<T>, private val newD
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
         return oldData[oldItemPosition] == newData[newItemPosition]
     }
-
 }

@@ -53,5 +53,4 @@ class BackgroundConstraintLayout constructor(
         gradientDrawable.setStroke(layoutStrokeWidth.toInt(), layoutStrokeColor)
         background = gradientDrawable
     }
-
 }

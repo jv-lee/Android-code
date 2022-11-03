@@ -1,4 +1,5 @@
 @file:Suppress("UNCHECKED_CAST")
+
 package com.lee.library.viewstate
 
 import com.lee.library.adapter.page.PagingData
@@ -29,7 +30,7 @@ val StateFlow<UiStatePage>.responseFirstPage: Int
 suspend inline fun <reified T> StateFlow<UiStatePage>.collectState(
     crossinline success: (T) -> Unit,
     crossinline error: (Throwable) -> Unit,
-    crossinline default: () -> Unit = {},
+    crossinline default: () -> Unit = {}
 ) {
     collect {
         try {
@@ -67,7 +68,9 @@ fun MutableStateFlow<UiStatePage>.applyData(oldItem: PagingData<*>?, newItem: Pa
 }
 
 // 新旧数据根据页码合并 扩展作用域,直接接收请求数据合并返回请求数据
-suspend fun <T : PagingData<*>> MutableStateFlow<UiStatePage>.applyData(dataResponse: suspend () -> T): T {
+suspend fun <T : PagingData<*>> MutableStateFlow<UiStatePage>.applyData(
+    dataResponse: suspend () -> T
+): T {
     return dataResponse().also { newData ->
         applyData(getValueData<T>(), newData)
     }
@@ -83,15 +86,15 @@ suspend fun <T> MutableStateFlow<UiStatePage>.pageLaunch(
     var response: T? = null
     value.apply {
         try {
-            //根据加载状态设置页码
+            // 根据加载状态设置页码
             if (status == LoadStatus.REFRESH) {
                 page = requestFirstPage
-                //加载更多状态 增加页码
+                // 加载更多状态 增加页码
             } else if (status == LoadStatus.LOAD_MORE) {
                 page++
             }
 
-            //首次加载缓存数据
+            // 首次加载缓存数据
             if (firstCache) {
                 firstCache = false
                 response = cacheBlock()?.also { data ->
@@ -99,12 +102,12 @@ suspend fun <T> MutableStateFlow<UiStatePage>.pageLaunch(
                 }
             }
 
-            //网络数据设置
+            // 网络数据设置
             response = requestBlock(page)?.also { data ->
                 if (response != data) {
                     update { copy(UiStatePage.Success(data = data)) }
 
-                    //首页将网络数据设置缓存
+                    // 首页将网络数据设置缓存
                     if (page == requestFirstPage) {
                         cacheSaveBlock(data)
                     }

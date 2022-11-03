@@ -1,4 +1,5 @@
 @file:Suppress("UNCHECKED_CAST")
+
 package com.lee.library.net
 
 import android.text.TextUtils
@@ -46,7 +47,6 @@ class HttpManager private constructor() {
             .registerTypeAdapter(Double::class.java, DoubleDefaultAdapter())
             .registerTypeAdapter(Long::class.java, LongDefaultAdapter())
             .create().also { gson = it }
-
     }
 
     private val mServiceMap by lazy { HashMap<String, Any>() }
@@ -98,13 +98,16 @@ class HttpManager private constructor() {
     }
 
     private fun <T> createService(
-        serviceClass: Class<T>, request: Request, client: OkHttpClient
+        serviceClass: Class<T>,
+        request: Request,
+        client: OkHttpClient
     ): T {
         val builder = Retrofit.Builder()
             .baseUrl(request.baseUrl)
 
-        request.converterTypes?.run { map { builder.addConverterFactory(getConverterFactory(it)) } }
-            ?: kotlin.run { builder.addConverterFactory(getConverterFactory(request.converterType)) }
+        request.converterTypes?.run {
+            map { builder.addConverterFactory(getConverterFactory(it)) }
+        } ?: kotlin.run { builder.addConverterFactory(getConverterFactory(request.converterType)) }
 
         request.callTypes?.run { map { builder.addCallAdapterFactory(getCallAdapter(it)) } }
             ?: kotlin.run { builder.addCallAdapterFactory(getCallAdapter(request.callType)) }
@@ -120,7 +123,7 @@ class HttpManager private constructor() {
         val builder = if (isUnSafeClient) OkHttpClientBuilder().getUnSafeClient().newBuilder()
         else OkHttpClientBuilder().getSafeClient().newBuilder()
 
-        //cache
+        // cache
         val httpCacheDirectory = File(app.cacheDir, "OkHttpCache")
         builder.cache(Cache(httpCacheDirectory, MAX_CACHE))
 
@@ -171,5 +174,4 @@ class HttpManager private constructor() {
         }
         return throwable.message ?: throwable.toString()
     }
-
 }

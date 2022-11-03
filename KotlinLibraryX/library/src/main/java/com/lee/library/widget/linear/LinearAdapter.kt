@@ -49,10 +49,11 @@ open class LinearAdapter<T>(val context: Context, val data: ArrayList<T>) {
             for ((index, item) in data.withIndex()) {
                 val itemViewType = viewItemManager.getItemViewType(item, index)
                 val viewItem = viewItemManager.getViewItem(itemViewType)
-                val itemView = LayoutInflater.from(context).inflate(viewItem.itemLayout, null, false)
-                //渲染数据至itemView
+                val itemView =
+                    LayoutInflater.from(context).inflate(viewItem.itemLayout, null, false)
+                // 渲染数据至itemView
                 viewItem.convert(itemView, item, index)
-                //设置itemView监听事件
+                // 设置itemView监听事件
                 viewListener?.listener(itemView, item, index)
                 addView(itemView)
             }
@@ -66,5 +67,4 @@ open class LinearAdapter<T>(val context: Context, val data: ArrayList<T>) {
     interface ItemViewListener<T> {
         fun listener(itemView: View, entity: T, position: Int)
     }
-
 }

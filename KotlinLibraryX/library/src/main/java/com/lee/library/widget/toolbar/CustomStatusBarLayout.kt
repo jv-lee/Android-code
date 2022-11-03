@@ -23,5 +23,4 @@ class CustomStatusBarLayout : CustomToolbarLayout {
     override fun initLayoutHeight(): Int {
         return getStatusBarHeight()
     }
-
 }

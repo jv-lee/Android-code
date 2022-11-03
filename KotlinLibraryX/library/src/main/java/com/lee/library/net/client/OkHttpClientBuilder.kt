@@ -34,7 +34,6 @@ class OkHttpClientBuilder {
                 .readTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
                 .sslSocketFactory(SSLSocketFactoryCompat())
                 .build()
-
         }
         return safeClient!!
     }
@@ -102,5 +101,4 @@ class OkHttpClientBuilder {
         }
         return null
     }
-
 }

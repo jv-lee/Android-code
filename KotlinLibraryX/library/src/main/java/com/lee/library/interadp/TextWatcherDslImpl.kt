@@ -44,5 +44,4 @@ class TextWatcherDslImpl : TextWatcher {
     override fun afterTextChanged(s: Editable?) {
         afterTextChange?.invoke(s)
     }
-
 }

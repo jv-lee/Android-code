@@ -67,5 +67,4 @@ open class CustomToolbarLayout : ConstraintLayout {
      * 获取状态栏高度
      */
     fun getStatusBarHeight() = statusBarHeight
-
 }

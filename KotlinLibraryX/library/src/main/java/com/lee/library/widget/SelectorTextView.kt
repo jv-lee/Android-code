@@ -273,5 +273,4 @@ class SelectorTextView : AppCompatTextView {
             setButtonDisable(true)
         }
     }
-
 }

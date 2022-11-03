@@ -99,7 +99,5 @@ class Skeleton private constructor(builder: Builder) {
             skeleton.bind()
             return skeleton
         }
-
     }
-
 }

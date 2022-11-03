@@ -277,5 +277,4 @@ open class TitleToolbar : CustomToolbarLayout {
         this.clickListener = clickListener
         menuPopupHelper?.toolbarClickListener = clickListener
     }
-
 }

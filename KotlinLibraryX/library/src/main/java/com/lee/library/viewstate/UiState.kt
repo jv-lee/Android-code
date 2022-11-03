@@ -17,7 +17,7 @@ inline fun <reified T> UiState.call(
     crossinline success: (T) -> Unit,
     crossinline error: (Throwable) -> Unit,
     crossinline loading: () -> Unit = {},
-    crossinline default: () -> Unit = {},
+    crossinline default: () -> Unit = {}
 ) {
     when (this) {
         is UiState.Success<*> -> success(this.data as T)

@@ -16,11 +16,8 @@ class ViewLoadManager {
         private var instance: ViewLoadManager? = null
 
         @JvmStatic
-        fun getInstance() = instance
-            ?: synchronized(this) {
-            instance
-                ?: ViewLoadManager()
-                    .also { instance = it }
+        fun getInstance() = instance ?: synchronized(this) {
+            instance ?: ViewLoadManager().also { instance = it }
         }
     }
 
@@ -31,5 +28,4 @@ class ViewLoadManager {
     fun setLoadResource(loadResource: LoadResource) {
         this.loadResource = loadResource
     }
-
 }

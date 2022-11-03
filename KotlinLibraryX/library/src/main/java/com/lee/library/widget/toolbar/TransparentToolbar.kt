@@ -21,5 +21,4 @@ class TransparentToolbar : TitleToolbar {
     override fun initBackground() {
         setBackgroundColor(Color.TRANSPARENT)
     }
-
 }

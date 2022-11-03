@@ -27,5 +27,4 @@ class DialogInterceptHandler<T> {
     fun intercept(item: T) {
         firstIntercept?.intercept(item)
     }
-
 }

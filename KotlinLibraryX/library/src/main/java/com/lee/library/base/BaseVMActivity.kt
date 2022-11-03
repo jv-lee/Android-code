@@ -19,15 +19,14 @@ abstract class BaseVMActivity<V : ViewDataBinding, VM : ViewModel>(var layoutId:
     protected lateinit var viewModel: VM
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        //设置viewBinding
+        // 设置viewBinding
         binding = DataBindingUtil.setContentView(this, layoutId)
 
-        //设置viewModel
+        // 设置viewModel
         try {
             viewModel = ViewModelProvider(this)[getVmClass(this)]
         } catch (_: Exception) {
         }
         super.onCreate(savedInstanceState)
     }
-
 }

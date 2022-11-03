@@ -1,10 +1,10 @@
 @file:Suppress("UNCHECKED_CAST")
+
 package com.lee.library.viewstate
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import com.lee.library.adapter.page.PagingData
 import com.lee.library.utils.LogUtil
 
@@ -29,16 +29,16 @@ inline fun <reified T> LiveData<UiStatePage>.observeState(
     owner: LifecycleOwner,
     crossinline success: (T) -> Unit,
     crossinline error: (Throwable) -> Unit,
-    crossinline default: () -> Unit = {},
+    crossinline default: () -> Unit = {}
 ) {
-    observe(owner, Observer {
+    observe(owner) {
         try {
             it.call(success, error, default)
         } catch (e: Exception) {
             e.printStackTrace()
             error(e)
         }
-    })
+    }
 }
 
 fun <T> LiveData<UiStatePage>.getValueData(): T? {
@@ -83,15 +83,15 @@ suspend fun <T> MutableLiveData<UiStatePage>.pageLaunch(
     var response: T? = null
     value?.apply {
         try {
-            //根据加载状态设置页码
+            // 根据加载状态设置页码
             if (status == LoadStatus.REFRESH) {
                 page = requestFirstPage
-                //加载更多状态 增加页码
+                // 加载更多状态 增加页码
             } else if (status == LoadStatus.LOAD_MORE) {
                 page++
             }
 
-            //首次加载缓存数据
+            // 首次加载缓存数据
             if (firstCache) {
                 firstCache = false
                 response = cacheBlock()?.also { data ->
@@ -99,12 +99,12 @@ suspend fun <T> MutableLiveData<UiStatePage>.pageLaunch(
                 }
             }
 
-            //网络数据设置
+            // 网络数据设置
             response = requestBlock(page)?.also { data ->
                 if (response != data) {
                     postValue(copy(UiStatePage.Success(data = data)))
 
-                    //首页将网络数据设置缓存
+                    // 首页将网络数据设置缓存
                     if (page == requestFirstPage) {
                         cacheSaveBlock(data)
                     }
@@ -120,5 +120,4 @@ suspend fun <T> MutableLiveData<UiStatePage>.pageLaunch(
             }
         }
     }
-
 }

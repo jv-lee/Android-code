@@ -16,14 +16,14 @@ import kotlin.random.Random
  */
 sealed class UiStatePage(
     var requestFirstPage: Int = 1,
-    var responseFirstPage: Int = 1,
+    var responseFirstPage: Int = 1
 ) {
     var page = requestFirstPage
     var firstCache = true
 
     class Default constructor(
         requestFirstPage: Int = 1,
-        responseFirstPage: Int = 1,
+        responseFirstPage: Int = 1
     ) : UiStatePage(requestFirstPage, responseFirstPage)
 
     data class Success<T>(
@@ -53,7 +53,7 @@ fun UiStatePage.copy(data: UiStatePage): UiStatePage {
 inline fun <reified T> UiStatePage.call(
     crossinline success: (T) -> Unit,
     crossinline error: (Throwable) -> Unit,
-    crossinline default: () -> Unit = {},
+    crossinline default: () -> Unit = {}
 ) {
     when (this) {
         is UiStatePage.Success<*> -> success(this.data as T)
@@ -68,7 +68,7 @@ inline fun <reified T> UiStatePage.call(
     }
 }
 
-@IntDef(INIT,REFRESH, LOAD_MORE, RELOAD)
+@IntDef(INIT, REFRESH, LOAD_MORE, RELOAD)
 @Target(AnnotationTarget.FIELD, AnnotationTarget.VALUE_PARAMETER)
 @Retention(AnnotationRetention.SOURCE)
 annotation class LoadStatus {

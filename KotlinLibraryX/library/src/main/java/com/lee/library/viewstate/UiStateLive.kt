@@ -16,16 +16,19 @@ inline fun <reified T> LiveData<UiState>.observeState(
     crossinline success: (T) -> Unit,
     crossinline error: (Throwable) -> Unit = {},
     crossinline loading: () -> Unit = {},
-    crossinline default: () -> Unit = {},
+    crossinline default: () -> Unit = {}
 ) {
-    observe(owner, Observer {
-        try {
-            it.call(success, error, loading, default)
-        } catch (e: Exception) {
-            e.printStackTrace()
-            error(e)
+    observe(
+        owner,
+        Observer {
+            try {
+                it.call(success, error, loading, default)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                error(e)
+            }
         }
-    })
+    )
 }
 
 inline fun <reified T> liveState(crossinline block: suspend () -> T) = liveData {
@@ -49,17 +52,17 @@ inline fun <reified T> liveStateCache(
     try {
         emit(UiState.Loading)
 
-        //加载缓存数据
+        // 加载缓存数据
         data = cacheBlock()?.also {
             emit(UiState.Success(it))
         }
 
-        //网络数据
+        // 网络数据
         requestBlock()?.also {
             if (data != it) {
-                //发送网络数据
+                // 发送网络数据
                 emit(UiState.Success(it))
-                //发送存储本地数据
+                // 发送存储本地数据
                 completedBlock(it)
             }
         }

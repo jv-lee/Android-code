@@ -17,7 +17,7 @@ class DoubleDefaultAdapter : JsonSerializer<Double>, JsonDeserializer<Double> {
     ): Double {
         json ?: return 0.0
         return try {
-            //定义为double类型,如果后台返回""或者null,则返回0
+            // 定义为double类型,如果后台返回""或者null,则返回0
             if (json.asString == "" || json.asString == "null") {
                 0.0
             } else {

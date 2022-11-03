@@ -30,10 +30,10 @@ class PermissionLauncher {
         createLauncher(activity)
     }
 
-    //权限校验禁止状态函数
+    // 权限校验禁止状态函数
     private var checkPermission: ((String) -> Boolean)
 
-    //单个权限申请临时存储变量
+    // 单个权限申请临时存储变量
     private var singlePermission: String = ""
 
     private var permissionSuccessCall: (() -> Unit)? = null
@@ -57,7 +57,9 @@ class PermissionLauncher {
         }
 
         permissionLauncher =
-            thisT.registerForActivityResult(ActivityResultContracts.RequestPermission()) { permissionEnable ->
+            thisT.registerForActivityResult(
+                ActivityResultContracts.RequestPermission()
+            ) { permissionEnable ->
                 if (permissionEnable) {
                     permissionSuccessCall?.invoke()
                     return@registerForActivityResult
@@ -71,7 +73,9 @@ class PermissionLauncher {
             }
 
         permissionsLauncher =
-            thisT.registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissionInfoMap ->
+            thisT.registerForActivityResult(
+                ActivityResultContracts.RequestMultiplePermissions()
+            ) { permissionInfoMap ->
                 permissionInfoMap.forEach { permissionInfo ->
                     if (!permissionInfo.value) {
                         if (checkPermission.invoke(permissionInfo.key)) {
@@ -133,4 +137,3 @@ class PermissionLauncher {
         permissionsLauncher?.launch(permissions)
     }
 }
-

@@ -12,5 +12,4 @@ abstract class BaseTranslucentDialog(
     context: Context,
     layoutId: Int,
     isCancel: Boolean = true
-) :
-    BaseDialog(context, R.style.BaseTranslucentDialog, layoutId, isCancel)
+) : BaseDialog(context, R.style.BaseTranslucentDialog, layoutId, isCancel)

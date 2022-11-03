@@ -125,5 +125,4 @@ class DarkModeTools(val context: Context) {
             updateDarkTheme(true)
         }
     }
-
 }

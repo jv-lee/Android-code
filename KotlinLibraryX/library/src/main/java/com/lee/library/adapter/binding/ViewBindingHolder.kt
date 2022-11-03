@@ -13,5 +13,4 @@ import com.lee.library.adapter.base.BaseViewHolder
 class ViewBindingHolder(private val binding: ViewBinding) : BaseViewHolder(binding.root) {
 
     fun <VB : ViewBinding> getViewBinding() = binding as VB
-
 }

@@ -39,5 +39,4 @@ class WebViewTools constructor(context: Context) {
         web = null
         instance = null
     }
-
 }

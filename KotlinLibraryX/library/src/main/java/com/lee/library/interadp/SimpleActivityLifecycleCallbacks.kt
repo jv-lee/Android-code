@@ -14,11 +14,9 @@ abstract class SimpleActivityLifecycleCallbacks : Application.ActivityLifecycleC
     }
 
     override fun onActivityCreated(activity: Activity, bundle: Bundle?) {
-
     }
 
     override fun onActivityStarted(activity: Activity) {
-
     }
 
     override fun onActivityResumed(activity: Activity) {

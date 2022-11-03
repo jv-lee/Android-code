@@ -1,4 +1,5 @@
 @file:Suppress("UNCHECKED_CAST")
+
 /*
  * viewModel扩展函数帮助类
  * @author jv.lee
@@ -29,15 +30,14 @@ fun <VM> getVmClass(obj: Any): VM {
     return (obj.javaClass.genericSuperclass as ParameterizedType).actualTypeArguments[1] as VM
 }
 
-//设置SavedStateHandle为参数的ViewModel构造函数类型 最终创建ViewModel
+// 设置SavedStateHandle为参数的ViewModel构造函数类型 最终创建ViewModel
 typealias CreateViewModel = (handle: SavedStateHandle) -> ViewModel
 
 /**
  * activity的SavedStateHandlerViewModel扩展函数
  */
 @MainThread
-inline fun <reified VM : ViewModel> ComponentActivity.viewModelByFactory(
-): Lazy<VM> {
+inline fun <reified VM : ViewModel> ComponentActivity.viewModelByFactory(): Lazy<VM> {
     return viewModels {
         createViewModelFactory(this, intent.extras) {
             val constructor = findMatchingConstructor<VM>(arrayOf(SavedStateHandle::class.java))
@@ -83,7 +83,7 @@ fun createViewModelFactory(
     defaultArgs: Bundle?,
     create: CreateViewModel
 ): ViewModelProvider.Factory {
-    //通过抽象SavedStateViewModelFactory创建viewModel工厂
+    // 通过抽象SavedStateViewModelFactory创建viewModel工厂
     return object : AbstractSavedStateViewModelFactory(owner, defaultArgs) {
         override fun <T : ViewModel> create(
             key: String,
@@ -106,11 +106,11 @@ fun createViewModelFactory(
 internal inline fun <reified T> findMatchingConstructor(
     signature: Array<Class<*>>
 ): Constructor<T>? {
-    //遍历当前class的所有构造函数
+    // 遍历当前class的所有构造函数
     for (constructor in T::class.java.constructors) {
-        //获取当前构造函数参数类型
+        // 获取当前构造函数参数类型
         val parameterTypes = constructor.parameterTypes
-        //参数类型与目标参数class类型匹配则为目标构造函数 返回构造函数
+        // 参数类型与目标参数class类型匹配则为目标构造函数 返回构造函数
         if (signature.contentEquals(parameterTypes)) {
             return constructor as Constructor<T>
         }

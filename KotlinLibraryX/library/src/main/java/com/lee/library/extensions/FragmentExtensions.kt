@@ -21,7 +21,6 @@ fun Fragment.toast(message: CharSequence?, duration: Int = Toast.LENGTH_SHORT) {
     message ?: return
     if (!isAdded) return
     Toast.makeText(requireContext(), message, duration).show()
-
 }
 
 fun Fragment.show(dialog: Dialog) {
@@ -98,12 +97,12 @@ inline fun Fragment.delayBackEvent(
     return object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
             val secondTime = System.currentTimeMillis()
-            //如果两次按键时间间隔大于2秒，则不退出
+            // 如果两次按键时间间隔大于2秒，则不退出
             if (secondTime - firstTime > backExitTime) {
                 alertCall()
-                //更新firstTime
+                // 更新firstTime
                 firstTime = secondTime
-            } else {//两次按键小于2秒时，退出应用
+            } else { // 两次按键小于2秒时，退出应用
                 requireActivity().finish()
             }
         }
@@ -139,12 +138,12 @@ inline fun Fragment.delayBackEvent(
         override fun handleOnBackPressed() {
             if (hasBack()) {
                 val secondTime = System.currentTimeMillis()
-                //如果两次按键时间间隔大于2秒，则不退出
+                // 如果两次按键时间间隔大于2秒，则不退出
                 if (secondTime - firstTime > backExitTime) {
                     alertCall()
-                    //更新firstTime
+                    // 更新firstTime
                     firstTime = secondTime
-                } else {//两次按键小于2秒时，退出应用
+                } else { // 两次按键小于2秒时，退出应用
                     requireActivity().finish()
                 }
             }

@@ -108,7 +108,11 @@ class StatusLayout @JvmOverloads constructor(
     private fun showData() {
         for (i in 0 until childCount) {
             val childAt = getChildAt(i)
-            if (childAt !== loadingView && childAt !== errorView && childAt !== networkView && childAt !== emptyView) {
+            if (childAt !== loadingView &&
+                childAt !== errorView &&
+                childAt !== networkView &&
+                childAt !== emptyView
+            ) {
                 childAt.visibility = VISIBLE
             }
         }
@@ -138,7 +142,7 @@ class StatusLayout @JvmOverloads constructor(
      */
     fun postLoading(postTime: Long = 200) {
         postDelayed({
-            //处于默认状态设置loading状态
+            // 处于默认状态设置loading状态
             if (currentStatus == -1) {
                 setStatus(STATUS_LOADING)
             }

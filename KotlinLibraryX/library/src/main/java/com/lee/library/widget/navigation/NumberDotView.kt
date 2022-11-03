@@ -111,5 +111,4 @@ class NumberDotView : AppCompatTextView {
     private fun visibleView(): Boolean {
         return !(TextUtils.isEmpty(text) || TextUtils.equals(text, "0"))
     }
-
 }

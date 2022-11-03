@@ -23,7 +23,6 @@ abstract class BaseApplication : MultiDexApplication() {
 
     protected abstract fun init()
     protected abstract fun unInit()
-
 }
 
 object ApplicationExtensions {

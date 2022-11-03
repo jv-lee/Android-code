@@ -3,7 +3,6 @@ package com.lee.library.adapter.core
 import android.annotation.SuppressLint
 import android.content.Context
 import android.view.ViewGroup
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 
@@ -76,5 +75,4 @@ abstract class VerticalTabAdapter<T>(val data: MutableList<T>) :
     interface ItemClickCall {
         fun itemClick(position: Int)
     }
-
 }

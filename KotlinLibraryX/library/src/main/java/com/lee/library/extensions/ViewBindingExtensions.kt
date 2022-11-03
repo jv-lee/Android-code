@@ -43,7 +43,6 @@ inline fun <reified A : ComponentActivity, reified V : ViewBinding> ComponentAct
                 createBinding(this@binding)
             }
         }
-
     })
 
     return ActivityViewBindingProperty { activity: A ->
@@ -106,7 +105,7 @@ abstract class LifecycleViewBindingProperty<in R : Any, out V : ViewBinding>(
             Log.w(
                 "viewBinding",
                 "Access to viewBinding after Lifecycle is destroyed or hasn'V created yet. " +
-                        "The instance of viewBinding will be not cached."
+                    "The instance of viewBinding will be not cached."
             )
             // We can access to ViewBinding after Fragment.onDestroyView(), but don'V save it to prevent memory leak
         } else {
@@ -149,7 +148,6 @@ class ActivityViewBindingProperty<in A : ComponentActivity, out V : ViewBinding>
     }
 }
 
-
 class FragmentViewBindingProperty<in F : Fragment, out V : ViewBinding>(
     viewBinder: (F) -> V
 ) : LifecycleViewBindingProperty<F, V>(viewBinder) {
@@ -174,7 +172,7 @@ class ViewGroupViewBindingProperty<in G : ViewGroup, out V : ViewBinding>(
     }
 }
 
-//该方式无法控制binding解除绑定
-//fun <VB : ViewBinding> Activity.binding(inflate: (LayoutInflater) -> VB) = lazy {
+// 该方式无法控制binding解除绑定
+// fun <VB : ViewBinding> Activity.binding(inflate: (LayoutInflater) -> VB) = lazy {
 //    inflate(layoutInflater).apply { setContentView(root) }
-//}
+// }

@@ -77,5 +77,4 @@ open class CoroutineViewModel : ViewModel() {
             }
         }
     }
-
 }

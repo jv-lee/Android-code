@@ -111,8 +111,5 @@ class PreferencesTools {
             val editor = preferences.edit()
             editor.remove(key).apply()
         }
-
     }
-
-
 }

@@ -36,54 +36,54 @@ class BannerView : RelativeLayout {
     // 当前banner下标位置
     private var mCurrentIndex = 0
 
-    //记录初始化启动状态
+    // 记录初始化启动状态
     private var isLoop = false
 
-    //首次初始化状态
+    // 首次初始化状态
     private var isInit = false
 
-    //是否支持自动轮播
+    // 是否支持自动轮播
     private var isAutoPlay: Boolean = false
 
-    //数据保存下标值
+    // 数据保存下标值
     private var saveIndex = -1
 
-    //页面翻页延时
+    // 页面翻页延时
     private var delayTime: Long = 0
 
-    //页面切换动画时长
+    // 页面切换动画时长
     private var moveDuration: Long = 5
 
-    //无限翻页最大倍数 count * filed
+    // 无限翻页最大倍数 count * filed
     private val mLooperCountFactor = 500
 
-    //banner适配器
+    // banner适配器
     private lateinit var mAdapter: BannerAdapter<*>
 
-    //banner容器
+    // banner容器
     private var mRecyclerView = RecyclerView(context)
 
-    //indicator容器
+    // indicator容器
     private val mIndicatorContainer = LinearLayout(context)
 
     // pagerSnapHelp
     val mPagerSnapHelp = PagerSnapHelper()
 
-    //indicatorView数据集合
+    // indicatorView数据集合
     private val mIndicators = ArrayList<ImageView>()
 
-    //indicator配置参数
+    // indicator配置参数
     private var indicatorGravity: Int = 0
     private var indicatorPadding: Float = 0F
     private var indicatorChildPadding: Float = 0F
 
-    //clip距离参数
+    // clip距离参数
     private var clipMargin: Float = 0F
 
-    //基础像素速度值
+    // 基础像素速度值
     private var baseSpeedPixel: Float = 100f
 
-    //mIndicatorRes[0] 为为选中，mIndicatorRes[1]为选中
+    // mIndicatorRes[0] 为为选中，mIndicatorRes[1]为选中
     private val mIndicatorRes =
         intArrayOf(R.drawable.shape_indicator_normal, R.drawable.shape_indicator_selected)
 
@@ -309,10 +309,10 @@ class BannerView : RelativeLayout {
         override fun run() {
             if (!isAutoPlay) return
 
-            //开启轮播状态
+            // 开启轮播状态
             isLoop = true
 
-            //设置当前轮训下标
+            // 设置当前轮训下标
             var itemIndex = mCurrentIndex
             if (itemIndex == mAdapter.itemCount - 1) {
                 val startIndex = mAdapter.getStartSelectItem()
@@ -330,16 +330,16 @@ class BannerView : RelativeLayout {
      * 根据view显示状态执行轮播任务
      */
     private fun changeViewVisible(visibility: Int) {
-        //当前可以自动轮播或构建初始化未完成不做处理以免重复发起轮播任务
+        // 当前可以自动轮播或构建初始化未完成不做处理以免重复发起轮播任务
         if (!isAutoPlay || !isInit) return
 
         if (visibility == VISIBLE) {
-            //当前未轮播状态重新发起轮播任务
+            // 当前未轮播状态重新发起轮播任务
             if (!isLoop) {
                 startLoop()
             }
         } else {
-            //当前在轮播状态，移除轮播状态
+            // 当前在轮播状态，移除轮播状态
             if (isLoop) isLoop = false
             stopLoop()
         }
@@ -367,7 +367,7 @@ class BannerView : RelativeLayout {
         }
 
         override fun onBindViewHolder(holder: BannerViewHolder, position: Int) {
-            //获取真实的下标
+            // 获取真实的下标
             val realPosition = getRealIndex(position)
             val itemData = data[realPosition]
             create.onBind(holder, realPosition, itemData)
@@ -468,7 +468,6 @@ class BannerView : RelativeLayout {
             override fun newArray(size: Int): Array<SaveState> {
                 return newArray(size)
             }
-
         }
     }
 
@@ -478,7 +477,7 @@ class BannerView : RelativeLayout {
      * @param createHolder bannerView构建样式
      */
     fun <T> bindDataCreate(data: List<T>, createHolder: CreateHolder<T>) {
-        //相同数据重复构建过滤
+        // 相同数据重复构建过滤
         if (isInit && mAdapter.data == data) return
         isInit = false
 
@@ -583,5 +582,4 @@ class BannerView : RelativeLayout {
             mRecyclerView.scrollToPosition(currentIndex)
         }
     }
-
 }

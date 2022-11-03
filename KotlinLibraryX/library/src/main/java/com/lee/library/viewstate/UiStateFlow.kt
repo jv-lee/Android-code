@@ -94,17 +94,17 @@ inline fun <reified T> flowStateCache(
     try {
         emit(UiState.Loading)
 
-        //加载缓存数据
+        // 加载缓存数据
         data = cacheBlock()?.also {
             emit(UiState.Success(it))
         }
 
-        //网络数据
+        // 网络数据
         requestBlock()?.also {
             if (data != it) {
-                //发送网络数据
+                // 发送网络数据
                 emit(UiState.Success(it))
-                //发送存储本地数据
+                // 发送存储本地数据
                 completedBlock(it)
             }
         }
@@ -135,7 +135,7 @@ suspend inline fun <reified T> Flow<UiState>.collectState(
     crossinline success: (T) -> Unit,
     crossinline error: (Throwable) -> Unit,
     crossinline loading: () -> Unit = {},
-    crossinline default: () -> Unit = {},
+    crossinline default: () -> Unit = {}
 ) {
     collect {
         try {

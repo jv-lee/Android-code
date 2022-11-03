@@ -134,7 +134,7 @@ private fun getTintDrawableCompat(context: Context, drawableId: Int, color: Int 
     states[1] = intArrayOf()
     val colorList = ColorStateList(states, colors)
     val stateListDrawable = StateListDrawable()
-    stateListDrawable.addState(states[0], drawable) //注意顺序
+    stateListDrawable.addState(states[0], drawable) // 注意顺序
 
     stateListDrawable.addState(states[1], drawable)
     val state = stateListDrawable.constantState
@@ -174,14 +174,16 @@ inline fun NestedScrollView.setScrollTransparent(
     limit: Int,
     crossinline transparentBar: (Boolean, Int) -> Unit
 ) {
-    setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { _, _, scrollY, _, _ ->
-        if (scrollY < limit) {
-            transparentBar(true, scrollY)
-        } else {
-            transparentBar(false, 255)
+    setOnScrollChangeListener(
+        NestedScrollView.OnScrollChangeListener { _, _, scrollY, _, _ ->
+            if (scrollY < limit) {
+                transparentBar(true, scrollY)
+            } else {
+                transparentBar(false, 255)
+            }
+            return@OnScrollChangeListener
         }
-        return@OnScrollChangeListener
-    })
+    )
 }
 
 /**
@@ -240,7 +242,6 @@ inline fun RecyclerView.callScrollHeight(crossinline callScroll: (Int) -> Unit) 
             scrollHeight += dy
             callScroll(scrollHeight)
         }
-
     })
 }
 
@@ -319,7 +320,6 @@ fun WebView.setWebBackEvent() {
             }
             return false
         }
-
     })
 }
 
@@ -337,23 +337,23 @@ fun RadioGroup.checkUnNotification(@IdRes id: Int) {
  */
 fun ViewPager2.increaseOffscreenPageLimit() {
     registerOnPageChangeCallback(object :
-        ViewPager2.OnPageChangeCallback() {
-        override fun onPageScrolled(
-            position: Int,
-            positionOffset: Float,
-            positionOffsetPixels: Int
-        ) {
-            if (position == 0) return
-            adapter?.run {
-                val limit = itemCount - 1
-                val offset = position * 2
-                if (offscreenPageLimit >= limit) return
-                if (offscreenPageLimit < offset) {
-                    offscreenPageLimit = if (offset >= limit) limit else offset
+            ViewPager2.OnPageChangeCallback() {
+            override fun onPageScrolled(
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int
+            ) {
+                if (position == 0) return
+                adapter?.run {
+                    val limit = itemCount - 1
+                    val offset = position * 2
+                    if (offscreenPageLimit >= limit) return
+                    if (offscreenPageLimit < offset) {
+                        offscreenPageLimit = if (offset >= limit) limit else offset
+                    }
                 }
             }
-        }
-    })
+        })
 }
 
 /**
@@ -389,15 +389,15 @@ fun TabLayout.increaseOffscreenPageLimit(viewPager: ViewPager2) {
  */
 fun ViewPager2.bindRadioGroup(radioGroup: RadioGroup) {
     registerOnPageChangeCallback(object :
-        ViewPager2.OnPageChangeCallback() {
-        override fun onPageSelected(position: Int) {
-            if (radioGroup.size <= position) return
+            ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                if (radioGroup.size <= position) return
 
-            val button = (radioGroup.getChildAt(position) as RadioButton)
+                val button = (radioGroup.getChildAt(position) as RadioButton)
 
-            if (!button.isChecked) button.isChecked = true
-        }
-    })
+                if (!button.isChecked) button.isChecked = true
+            }
+        })
     radioGroup.setOnCheckedChangeListener { group, checkedId ->
         val button = group.findViewById<RadioButton>(checkedId)
 
@@ -416,4 +416,3 @@ fun ViewPager2.overScrollNever() {
     val recyclerView = ReflexTools.reflexField<RecyclerView>(this, "mRecyclerView")
     recyclerView?.overScrollMode = RecyclerView.OVER_SCROLL_NEVER
 }
-

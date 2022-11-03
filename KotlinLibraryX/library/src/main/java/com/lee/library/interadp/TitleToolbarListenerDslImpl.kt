@@ -43,5 +43,4 @@ class TitleToolbarListenerDslImpl : TitleToolbar.ClickListener() {
     override fun menuItemClick(view: View) {
         menuItemClick?.invoke(view)
     }
-
 }

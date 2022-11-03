@@ -38,11 +38,9 @@ abstract class SimpleFragmentLifecycleCallbacks : FragmentManager.FragmentLifecy
         super.onFragmentResumed(fm, f)
     }
 
-
     override fun onFragmentPaused(fm: FragmentManager, f: Fragment) {
         super.onFragmentPaused(fm, f)
     }
-
 
     override fun onFragmentStopped(fm: FragmentManager, f: Fragment) {
         super.onFragmentStopped(fm, f)
@@ -59,5 +57,4 @@ abstract class SimpleFragmentLifecycleCallbacks : FragmentManager.FragmentLifecy
     override fun onFragmentDetached(fm: FragmentManager, f: Fragment) {
         super.onFragmentDetached(fm, f)
     }
-
 }

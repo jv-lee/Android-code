@@ -17,7 +17,7 @@ class IntegerDefaultAdapter : JsonSerializer<Int>, JsonDeserializer<Int> {
     ): Int {
         json ?: return 0
         return try {
-            //定义为int类型,如果后台返回""或者null,则返回0
+            // 定义为int类型,如果后台返回""或者null,则返回0
             if (json.asString == "" || json.asString == "null") {
                 0
             } else {

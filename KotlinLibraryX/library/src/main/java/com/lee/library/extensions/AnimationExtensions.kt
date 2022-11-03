@@ -12,11 +12,9 @@ abstract class AnimationAdapter : Animation.AnimationListener {
     }
 
     override fun onAnimationEnd(animation: Animation?) {
-
     }
 
     override fun onAnimationRepeat(animation: Animation?) {
-
     }
 }
 
@@ -29,7 +27,6 @@ inline fun Animation.endListener(crossinline call: () -> Unit) {
 }
 
 inline fun Animation.startListener(crossinline call: () -> Unit) {
-
     setAnimationListener(object : AnimationAdapter() {
         override fun onAnimationStart(animation: Animation?) {
             call()

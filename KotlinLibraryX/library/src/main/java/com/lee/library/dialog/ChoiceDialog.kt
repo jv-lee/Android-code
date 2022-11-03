@@ -11,7 +11,11 @@ import com.lee.library.dialog.core.BaseAlertDialog
  * @author jv.lee
  * @date 2020-03-07
  */
-class ChoiceDialog(context: Context) : BaseAlertDialog(context, R.layout.layout_dialog_choice,false) {
+class ChoiceDialog(context: Context) : BaseAlertDialog(
+    context,
+    R.layout.layout_dialog_choice,
+    false
+) {
 
     public override fun bindView() {
         findViewById<View>(R.id.tv_confirm).setOnClickListener {
@@ -31,5 +35,4 @@ class ChoiceDialog(context: Context) : BaseAlertDialog(context, R.layout.layout_
     override fun setTitle(title: CharSequence?) {
         findViewById<TextView>(R.id.tv_title).text = title
     }
-
 }

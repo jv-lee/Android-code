@@ -17,7 +17,7 @@ class LongDefaultAdapter : JsonSerializer<Long>, JsonDeserializer<Long> {
     ): Long {
         json ?: return 0L
         return try {
-            //定义为long类型,如果后台返回""或者null,则返回0
+            // 定义为long类型,如果后台返回""或者null,则返回0
             if (json.asString == "" || json.asString == "null") {
                 0L
             } else {

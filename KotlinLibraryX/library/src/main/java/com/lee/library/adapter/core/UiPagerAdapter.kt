@@ -14,7 +14,7 @@ class UiPagerAdapter : FragmentStatePagerAdapter {
     private lateinit var tabList: List<String>
 
     constructor(fm: FragmentManager, fragmentList: List<Fragment>) :
-            super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+        super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
         this.fragmentList = fragmentList
     }
 
@@ -26,7 +26,6 @@ class UiPagerAdapter : FragmentStatePagerAdapter {
         this.fragmentList = fragmentList
         this.tabList = tabList
     }
-
 
     fun update(fragmentList: List<Fragment>, tabList: List<String>) {
         this.fragmentList = fragmentList
@@ -64,6 +63,4 @@ class UiPagerAdapter : FragmentStatePagerAdapter {
     fun setTabList(tabList: List<String>) {
         this.tabList = tabList
     }
-
-
 }

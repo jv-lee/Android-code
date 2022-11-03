@@ -61,7 +61,8 @@ fun FragmentActivity.dismiss(dialog: DialogFragment) {
  * @param handler back执行后回调方法体
  * @return back控制实例 .remove 移除back拦截事件
  */
-inline fun FragmentActivity.banBackEvent(crossinline handler: () -> Unit = {}): OnBackPressedCallback {
+inline fun FragmentActivity.banBackEvent(crossinline handler: () -> Unit = {}):
+    OnBackPressedCallback {
     return object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
             handler()
@@ -95,12 +96,12 @@ inline fun FragmentActivity.delayBackEvent(
     return object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
             val secondTime = System.currentTimeMillis()
-            //如果两次按键时间间隔大于2秒，则不退出
+            // 如果两次按键时间间隔大于2秒，则不退出
             if (secondTime - firstTime > backExitTime) {
                 alertCall()
-                //更新firstTime
+                // 更新firstTime
                 firstTime = secondTime
-            } else {//两次按键小于2秒时，退出应用
+            } else { // 两次按键小于2秒时，退出应用
                 finish()
             }
         }
@@ -132,14 +133,17 @@ fun FragmentActivity.fragmentTransaction(containerId: Int, fragment: Fragment?) 
     if (supportFragmentManager.fragments.contains(fragment)) {
         transaction.show(fragment)
     } else {
-        //防止fragment重复添加
-        if (!fragment.isAdded && supportFragmentManager.findFragmentByTag(fragment::class.java.simpleName) == null) {
+        // 防止fragment重复添加
+        if (!fragment.isAdded && supportFragmentManager.findFragmentByTag(
+                fragment::class.java.simpleName
+            ) == null
+        ) {
             transaction.add(containerId, fragment, fragment::class.java.simpleName)
         }
     }
     if (!isDestroyed) {
         transaction.commit()
-        //事务通知所有事件执行 防止 isAdded / getTag失效 引发异常
+        // 事务通知所有事件执行 防止 isAdded / getTag失效 引发异常
         supportFragmentManager.executePendingTransactions()
     }
 }

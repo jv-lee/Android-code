@@ -68,7 +68,9 @@ class LiveDataBus private constructor() {
         private fun isCallOnObserve(): Boolean {
             val stackTrace = Thread.currentThread().stackTrace
             stackTrace.takeIf { it.isNotEmpty() }?.forEach { element ->
-                if ("android.arch.lifecycle.LiveData" == element.className && "observeForever" == element.methodName) {
+                if ("android.arch.lifecycle.LiveData" == element.className &&
+                    "observeForever" == element.methodName
+                ) {
                     return true
                 }
             }
@@ -191,5 +193,4 @@ class LiveDataBus private constructor() {
             }
         }
     }
-
 }

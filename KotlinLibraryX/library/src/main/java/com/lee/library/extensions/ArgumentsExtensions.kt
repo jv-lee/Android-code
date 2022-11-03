@@ -10,7 +10,6 @@ import android.os.Bundle
 import android.os.Parcelable
 import androidx.annotation.MainThread
 import androidx.fragment.app.Fragment
-import java.util.*
 
 @MainThread
 inline fun <reified P : Any> Activity.arguments(key: String): Lazy<P> =
@@ -45,8 +44,8 @@ inline fun <reified P : Any> Fragment.activityArgumentsOrNull(key: String): Lazy
     getActivityIntentParamsOrNull(key)
 
 @MainThread
-inline fun <reified P : Parcelable> Fragment.activityArgumentsList(key: String): Lazy<ArrayList<P>> =
-    getActivityIntentParamsList(key)
+inline fun <reified P : Parcelable> Fragment.activityArgumentsList(key: String):
+    Lazy<ArrayList<P>> = getActivityIntentParamsList(key)
 
 @MainThread
 inline fun <reified P : Any> Activity.getIntentParams(
@@ -93,7 +92,8 @@ inline fun <reified P : Any> Fragment.getActivityIntentParamsOrNull(key: String)
 }
 
 @MainThread
-inline fun <reified P : Parcelable> Fragment.getActivityIntentParamsList(key: String): Lazy<ArrayList<P>> {
+inline fun <reified P : Parcelable> Fragment.getActivityIntentParamsList(key: String):
+    Lazy<ArrayList<P>> {
     return ParamsListLazy {
         checkNotNull(requireActivity().intent.extras) { "requestActivity().intent.extras is null." }
         requireActivity().intent.extras?.getValueList<P>(key) as ArrayList<P>

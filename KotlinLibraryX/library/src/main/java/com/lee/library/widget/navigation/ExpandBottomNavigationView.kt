@@ -85,7 +85,7 @@ class ExpandBottomNavigationView @JvmOverloads constructor(
     }
 
     private fun createNumberDotViews() {
-        //初始化红点view
+        // 初始化红点view
         var menuView: BottomNavigationMenuView? = null
         for (i in 0 until childCount) {
             val child = getChildAt(i)
@@ -122,7 +122,7 @@ class ExpandBottomNavigationView @JvmOverloads constructor(
     }
 
     private fun createDotViews() {
-        //初始化红点view
+        // 初始化红点view
         var menuView: BottomNavigationMenuView? = null
         for (i in 0 until childCount) {
             val child = getChildAt(i)
@@ -189,5 +189,4 @@ class ExpandBottomNavigationView @JvmOverloads constructor(
     fun bindViewPager(viewPager: ViewPager2?) {
         this.mViewPager2 = viewPager
     }
-
 }

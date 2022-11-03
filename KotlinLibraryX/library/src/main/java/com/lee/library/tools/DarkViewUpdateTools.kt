@@ -40,5 +40,4 @@ object DarkViewUpdateTools {
     interface ViewCallback {
         fun updateDarkView()
     }
-
 }

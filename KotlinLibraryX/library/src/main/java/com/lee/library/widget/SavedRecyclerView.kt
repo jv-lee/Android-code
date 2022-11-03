@@ -19,7 +19,7 @@ import androidx.recyclerview.widget.RecyclerView
  */
 class SavedRecyclerView : RecyclerView {
 
-    //存储需要被记录状态的view类型 根据recycler adapter 不同item类型，需要保存的存储类型
+    // 存储需要被记录状态的view类型 根据recycler adapter 不同item类型，需要保存的存储类型
     private val stateTypes = HashSet<Class<*>>()
 
     constructor(context: Context) : super(context, null, 0)
@@ -56,5 +56,4 @@ class SavedRecyclerView : RecyclerView {
     fun addSaveStateViewType(type: Class<*>) {
         stateTypes.add(type)
     }
-
 }

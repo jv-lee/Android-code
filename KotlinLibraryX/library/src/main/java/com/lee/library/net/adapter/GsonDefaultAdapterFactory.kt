@@ -71,7 +71,6 @@ class GsonDefaultAdapterFactory : TypeAdapterFactory {
                 reader.endArray()
                 return list
             }
-
         } as TypeAdapter<T>
     }
 
@@ -96,7 +95,6 @@ class GsonDefaultAdapterFactory : TypeAdapterFactory {
                 }
                 return reader.nextString()
             }
-
         } as TypeAdapter<T>
     }
 }

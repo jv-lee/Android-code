@@ -46,15 +46,15 @@ class ViewItemManager<T> {
      * @return 样式类型
      */
     fun getItemViewType(entity: T, position: Int): Int {
-        //样式倒叙循环 ，避免增删集合抛出异常
+        // 样式倒叙循环 ，避免增删集合抛出异常
 
-        //样式倒叙循环 ，避免增删集合抛出异常
+        // 样式倒叙循环 ，避免增删集合抛出异常
         for (i in styles.size() - 1 downTo 0) {
-            //比如第1个位置(索引0) ,第一类item样式
+            // 比如第1个位置(索引0) ,第一类item样式
             val item = styles.valueAt(i)
-            //是否为当前样式显示,由外面实现
+            // 是否为当前样式显示,由外面实现
             if (item.isItemView(entity, position)) {
-                //获得集合key,viewType
+                // 获得集合key,viewType
                 return styles.keyAt(i)
             }
         }
@@ -96,5 +96,4 @@ class ViewItemManager<T> {
             }
         }
     }
-
 }

@@ -22,18 +22,17 @@ abstract class BaseVMFragment<V : ViewDataBinding, VM : ViewModel>(var layoutId:
     protected lateinit var viewModel: VM
 
     override fun createView(inflater: LayoutInflater, container: ViewGroup?): View {
-        //设置viewBinding
+        // 设置viewBinding
         binding = DataBindingUtil.inflate(inflater, layoutId, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        //设置viewModel
+        // 设置viewModel
         try {
             viewModel = ViewModelProvider(this)[getVmClass(this)]
         } catch (_: Exception) {
         }
         super.onViewCreated(view, savedInstanceState)
     }
-
 }

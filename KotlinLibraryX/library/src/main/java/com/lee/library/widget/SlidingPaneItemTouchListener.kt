@@ -14,7 +14,8 @@ import kotlin.math.abs
  * @author jv.lee
  * @date 2022/3/31
  */
-class SlidingPaneItemTouchListener(context: Context) : RecyclerView.OnItemTouchListener,
+class SlidingPaneItemTouchListener(context: Context) :
+    RecyclerView.OnItemTouchListener,
     SlidingPaneLayout.PanelSlideListener {
 
     private var startX = 0f

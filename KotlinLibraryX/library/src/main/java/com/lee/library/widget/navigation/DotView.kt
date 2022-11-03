@@ -72,5 +72,4 @@ class DotView : View {
         mBackgroundPaint.color = color
         invalidate()
     }
-
 }

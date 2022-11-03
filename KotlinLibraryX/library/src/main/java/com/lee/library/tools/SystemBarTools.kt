@@ -34,7 +34,9 @@ object SystemBarTools {
         navigationBarColor = Color.TRANSPARENT
 
         // 处理contentView与navigationBar间距
-        ViewCompat.setOnApplyWindowInsetsListener(decorView.findViewById(android.R.id.content)) { view, windowInsets ->
+        ViewCompat.setOnApplyWindowInsetsListener(
+            decorView.findViewById(android.R.id.content)
+        ) { view, windowInsets ->
             view.setPadding(0, 0, 0, windowInsets.navigationBarHeight())
             WindowInsetsCompat.CONSUMED
         }
@@ -178,7 +180,7 @@ object SystemBarTools {
      * windowInsets作用域
      * @param block WindowInsetsCompat作用域回调函数
      */
-    fun View.runWindowInsets(block: WindowInsetsCompat .() -> Unit) {
+    fun View.runWindowInsets(block: WindowInsetsCompat.() -> Unit) {
         val listener = object : View.OnAttachStateChangeListener {
             override fun onViewAttachedToWindow(v: View) {
                 ViewCompat.getRootWindowInsets(v)?.run(block)
@@ -198,27 +200,30 @@ object SystemBarTools {
      */
     fun View.softInputBottomPaddingChange(
         open: () -> Unit = {},
-        close: () -> Unit = {},
+        close: () -> Unit = {}
     ) {
         val isClose = AtomicBoolean(true)
 
         if (Build.VERSION.SDK_INT >= 30) {
-            ViewCompat.setWindowInsetsAnimationCallback(this, object :
-                WindowInsetsAnimationCompat.Callback(DISPATCH_MODE_STOP) {
-                override fun onProgress(
-                    insets: WindowInsetsCompat,
-                    runningAnimations: MutableList<WindowInsetsAnimationCompat>
-                ): WindowInsetsCompat {
-                    return insets.apply {
-                        if (isVisible(WindowInsetsCompat.Type.ime())) {
-                            if (isClose.compareAndSet(true, false)) open()
-                        } else {
-                            if (isClose.compareAndSet(false, true)) close()
+            ViewCompat.setWindowInsetsAnimationCallback(
+                this,
+                object :
+                    WindowInsetsAnimationCompat.Callback(DISPATCH_MODE_STOP) {
+                    override fun onProgress(
+                        insets: WindowInsetsCompat,
+                        runningAnimations: MutableList<WindowInsetsAnimationCompat>
+                    ): WindowInsetsCompat {
+                        return insets.apply {
+                            if (isVisible(WindowInsetsCompat.Type.ime())) {
+                                if (isClose.compareAndSet(true, false)) open()
+                            } else {
+                                if (isClose.compareAndSet(false, true)) close()
+                            }
+                            setPadding(0, 0, 0, insets.imeHeight() - insets.navigationBarHeight())
                         }
-                        setPadding(0, 0, 0, insets.imeHeight() - insets.navigationBarHeight())
                     }
                 }
-            })
+            )
         } else {
             runWindowInsets(findViewTreeLifecycleOwner()) {
                 if (isVisible(WindowInsetsCompat.Type.ime())) {
@@ -233,7 +238,7 @@ object SystemBarTools {
 
     private fun View.runWindowInsets(
         lifecycleOwner: LifecycleOwner? = findViewTreeLifecycleOwner(),
-        block: WindowInsetsCompat .() -> Unit
+        block: WindowInsetsCompat.() -> Unit
     ) {
         val listener = ViewTreeObserver.OnGlobalLayoutListener {
             ViewCompat.getRootWindowInsets(this)?.run(block)
@@ -263,5 +268,4 @@ object SystemBarTools {
             }
         })
     }
-
 }

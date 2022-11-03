@@ -19,10 +19,10 @@ import com.lee.library.extensions.width
 object ScreenDensityTools : ComponentCallbacks {
 
     private const val WIDTH = 360f
-    var scale = 0f                                  //屏幕缩放倍数
-    private var density: Float = 0f                 //Application的DisplayMetrics
-    private var scaledDensity: Float = 0f           //
-    private lateinit var metrics: DisplayMetrics    //Application的Density
+    var scale = 0f // 屏幕缩放倍数
+    private var density: Float = 0f // Application的DisplayMetrics
+    private var scaledDensity: Float = 0f //
+    private lateinit var metrics: DisplayMetrics // Application的Density
 
     /**
      * 在Application中初始化Metrics
@@ -113,7 +113,6 @@ object ScreenDensityTools : ComponentCallbacks {
         } catch (e: IllegalAccessException) {
             e.printStackTrace()
         }
-
     }
 
     /**
@@ -128,7 +127,6 @@ object ScreenDensityTools : ComponentCallbacks {
         // 字体改变后,将appScaledDensity重新赋值
         if (newConfig.fontScale > 0) scaledDensity = metrics.scaledDensity
     }
-
 }
 
 annotation class Density {

@@ -41,5 +41,4 @@ abstract class CardImageCreateHolder<T> : ImageCreateHolder<T>() {
             addView(imageView)
         }
     }
-
 }

@@ -45,7 +45,7 @@ class NetworkConnectManager : ConnectivityManager.NetworkCallback() {
         super.onAvailable(network)
         connectID = network.toString().toInt()
 
-        Log.i(TAG, "Network${connectID}：onConnect")
+        Log.i(TAG, "Network$connectID：onConnect")
         isConnect = true
         callbacks.forEach { it.onConnect() }
     }
@@ -105,5 +105,4 @@ class NetworkConnectManager : ConnectivityManager.NetworkCallback() {
     fun isConnect() = isConnect
 
     fun networkType() = networkType
-
 }

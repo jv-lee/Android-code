@@ -64,5 +64,4 @@ abstract class BaseDialog constructor(
      * 绑定数据
      */
     protected open fun bindData() {}
-
 }

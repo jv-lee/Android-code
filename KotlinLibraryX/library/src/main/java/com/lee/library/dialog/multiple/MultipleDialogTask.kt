@@ -34,9 +34,7 @@ class MultipleDialogTask(fragmentManager: FragmentManager) {
         }.onFailure {
             nextShow()
         }
-
     }
 
     private data class DialogElement<T>(val dialog: T, val action: () -> Boolean)
-
 }

@@ -19,10 +19,10 @@ internal class MultipleDialogAdapter(
 
     fun <T> switchShowType(dialog: T) {
         if (dialog is DialogFragment) {
-            //显示fragmentDialog
+            // 显示fragmentDialog
             showDialogFragment(dialog)
         } else if (dialog is Dialog) {
-            //显示dialog
+            // 显示dialog
             showDialog(dialog)
         }
     }
@@ -45,7 +45,6 @@ internal class MultipleDialogAdapter(
                     nextCall.invoke()
                 }
             }
-
         })
 
         dialogFragment.show(fragmentManager, dialogFragment::class.java.simpleName)
