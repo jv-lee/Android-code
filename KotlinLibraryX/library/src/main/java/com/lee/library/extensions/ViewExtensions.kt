@@ -1,3 +1,10 @@
+@file:Suppress(
+    "UNNECESSARY_SAFE_CALL",
+    "USELESS_ELVIS",
+    "DEPRECATION",
+    "RedundantNullableReturnType"
+)
+
 /*
  * View.扩展函数
  * @author jv.lee

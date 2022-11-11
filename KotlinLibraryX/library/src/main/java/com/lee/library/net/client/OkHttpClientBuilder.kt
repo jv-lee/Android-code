@@ -4,13 +4,8 @@ import com.lee.library.net.interceptor.RetryInterceptor
 import okhttp3.ConnectionPool
 import okhttp3.OkHttpClient
 import okhttp3.Protocol
-import java.security.KeyManagementException
-import java.security.NoSuchAlgorithmException
-import java.security.SecureRandom
-import java.security.cert.CertificateException
-import java.security.cert.X509Certificate
 import java.util.concurrent.TimeUnit
-import javax.net.ssl.*
+import javax.net.ssl.HostnameVerifier
 
 /**
  * OkHttpClient构建器
@@ -27,15 +22,17 @@ class OkHttpClientBuilder {
     private var unSafeClient: OkHttpClient? = null
 
     fun getSafeClient(): OkHttpClient {
-        if (safeClient == null) {
-            safeClient = OkHttpClient.Builder()
+        return safeClient ?: kotlin.run {
+            val builder = OkHttpClient.Builder()
                 .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
                 .writeTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
                 .readTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
-                .sslSocketFactory(SSLSocketFactoryCompat())
-                .build()
-        }
-        return safeClient!!
+
+            runSafeSocketFactory { sslSocketFactory, x509TrustManager ->
+                builder.sslSocketFactory(sslSocketFactory, x509TrustManager)
+            }
+            builder.build()
+        }.also { safeClient = it }
     }
 
     /**
@@ -43,62 +40,22 @@ class OkHttpClientBuilder {
      * @return
      */
     fun getUnSafeClient(): OkHttpClient {
-        if (unSafeClient == null) {
+        return unSafeClient ?: kotlin.run {
             val builder: OkHttpClient.Builder =
                 getSafeClient().newBuilder()
                     .protocols(listOf(Protocol.HTTP_1_1))
                     .addInterceptor(RetryInterceptor(3))
-                    .connectionPool(
-                        ConnectionPool(
-                            5,
-                            30,
-                            TimeUnit.SECONDS
-                        )
-                    ) // 短时间内有大量请求时（下载整本小说），在华为7.0手机上会抛oom异常，加快清理空闲连接的频率
+                    .connectionPool(ConnectionPool(5, 30, TimeUnit.SECONDS))
                     .hostnameVerifier(getUnsafeHostNameVerifier())
-            val unsafeSocketFactory = getUnsafeSocketFactory()
-            if (unsafeSocketFactory != null) {
-                builder.sslSocketFactory(unsafeSocketFactory)
+
+            runUnsafeSocketFactory { sslSocketFactory, x509TrustManager ->
+                builder.sslSocketFactory(sslSocketFactory, x509TrustManager)
             }
-            unSafeClient = builder.build()
-        }
-        return unSafeClient!!
+            builder.build()
+        }.also { unSafeClient = it }
     }
 
     private fun getUnsafeHostNameVerifier(): HostnameVerifier {
         return HostnameVerifier { _, _ -> true }
-    }
-
-    private fun getUnsafeSocketFactory(): SSLSocketFactory? {
-        val trustAllCerts =
-            arrayOf<TrustManager>(object : X509TrustManager {
-                override fun getAcceptedIssuers(): Array<X509Certificate> {
-                    return arrayOf()
-                }
-
-                @Throws(CertificateException::class)
-                override fun checkClientTrusted(
-                    chain: Array<X509Certificate>,
-                    authType: String
-                ) {
-                }
-
-                @Throws(CertificateException::class)
-                override fun checkServerTrusted(
-                    chain: Array<X509Certificate>,
-                    authType: String
-                ) {
-                }
-            })
-        try {
-            val sc = SSLContext.getInstance("SSL")
-            sc.init(null, trustAllCerts, SecureRandom())
-            return sc.socketFactory
-        } catch (e: NoSuchAlgorithmException) {
-            e.printStackTrace()
-        } catch (e: KeyManagementException) {
-            e.printStackTrace()
-        }
-        return null
     }
 }

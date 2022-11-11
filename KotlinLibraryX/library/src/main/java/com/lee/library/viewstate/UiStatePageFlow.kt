@@ -43,9 +43,7 @@ suspend inline fun <reified T> StateFlow<UiStatePage>.collectState(
 }
 
 fun <T> MutableStateFlow<UiStatePage>.getValueData(): T? {
-    val value = this.value
-    value ?: return null
-    return when (value) {
+    return when (val value = this.value) {
         is UiStatePage.Success<*> -> value.data as? T
         is UiStatePage.Failure<*> -> {
             value.data as? T
