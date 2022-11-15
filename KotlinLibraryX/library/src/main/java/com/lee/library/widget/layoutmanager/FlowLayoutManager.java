@@ -19,6 +19,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.lee.library.widget.layoutmanager.core.Dispatch;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.stream.Stream;
 
 
@@ -44,6 +46,7 @@ public class FlowLayoutManager extends RecyclerView.LayoutManager implements
     private static final int DEFAULT_VERTICAL_SPACE = 12;
 
     @IntDef({HORIZONTAL, VERTICAL})
+    @Retention(RetentionPolicy.SOURCE)
     public @interface Orientation {
     }
 

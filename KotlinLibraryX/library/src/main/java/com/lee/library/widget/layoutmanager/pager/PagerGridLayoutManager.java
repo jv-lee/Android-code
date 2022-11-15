@@ -1,5 +1,8 @@
 package com.lee.library.widget.layoutmanager.pager;
 
+import static android.view.View.MeasureSpec.EXACTLY;
+import static android.widget.AbsListView.OnScrollListener.SCROLL_STATE_IDLE;
+
 import android.annotation.SuppressLint;
 import android.graphics.PointF;
 import android.graphics.Rect;
@@ -13,8 +16,8 @@ import androidx.annotation.IntRange;
 import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
 
-import static android.view.View.MeasureSpec.EXACTLY;
-import static android.widget.AbsListView.OnScrollListener.SCROLL_STATE_IDLE;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
 
 /**
@@ -33,6 +36,7 @@ public class PagerGridLayoutManager extends RecyclerView.LayoutManager
     public static final int HORIZONTAL = 1;         // 水平滚动
 
     @IntDef({VERTICAL, HORIZONTAL})
+    @Retention(RetentionPolicy.SOURCE)
     public @interface OrientationType {}            // 滚动类型
 
     @OrientationType
