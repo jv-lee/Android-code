@@ -1,3 +1,5 @@
+@file:Suppress("InternalInsetResource", "DiscouragedApi", "DEPRECATION")
+
 /*
  * context扩展函数帮助类
  * @author jv.lee
@@ -5,7 +7,6 @@
  */
 package com.lee.library.extensions
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.ColorStateList
 import android.content.res.Configuration
@@ -23,7 +24,6 @@ import com.lee.library.base.ApplicationExtensions.app
  * 状态栏高度
  */
 val Context.statusBarHeight: Int
-    @SuppressLint("InternalInsetResource", "DiscouragedApi")
     get() {
         val resId: Int =
             resources.getIdentifier("status_bar_height", "dimen", "android")
@@ -36,7 +36,6 @@ val Context.statusBarHeight: Int
  * 导航栏高度
  */
 val Context.navigationBarHeight: Int
-    @SuppressLint("InternalInsetResource", "DiscouragedApi")
     get() {
         val resId =
             resources.getIdentifier("navigation_bar_height", "dimen", "android")
@@ -79,7 +78,6 @@ internal data class Screen(
     private val display: android.view.Display = app.windowManager.defaultDisplay
 ) {
 
-    @SuppressLint("ObsoleteSdkInt")
     private val point = Point().apply {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             display.getRealSize(this)
