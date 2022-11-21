@@ -1,4 +1,4 @@
-@file:Suppress("LeakingThis")
+@file:Suppress("LeakingThis", "OVERRIDE_DEPRECATION", "DEPRECATION")
 
 package com.lee.library.dialog.core
 
