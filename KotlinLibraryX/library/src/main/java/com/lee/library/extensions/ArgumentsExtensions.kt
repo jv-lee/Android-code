@@ -6,6 +6,7 @@
 package com.lee.library.extensions
 
 import android.app.Activity
+import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
 import androidx.annotation.MainThread
@@ -199,10 +200,10 @@ inline fun <reified T> Bundle.getValueOrNull(key: String): T? {
         else -> {
             when {
                 T::class.java.interfaces.contains(java.io.Serializable::class.java) -> {
-                    getSerializable(key) as T?
+                    getSerializableCompat(key) as T?
                 }
                 T::class.java.interfaces.contains(android.os.Parcelable::class.java) -> {
-                    getParcelable(key) as T?
+                    getParcelableCompat(key) as T?
                 }
                 else -> {
                     null
@@ -214,8 +215,35 @@ inline fun <reified T> Bundle.getValueOrNull(key: String): T? {
 
 inline fun <reified T : Parcelable> Bundle.getValueList(key: String): ArrayList<T> {
     if (T::class.java.interfaces.contains(android.os.Parcelable::class.java)) {
-        return getParcelableArrayList<T>(key) as? ArrayList<T> ?: arrayListOf()
+        return getParcelableArrayListCompat(key)
     } else {
         throw RuntimeException("not type support.")
+    }
+}
+
+@Suppress("DEPRECATION")
+inline fun <reified T : java.io.Serializable> Bundle.getSerializableCompat(key: String): T? {
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        getSerializable(key, T::class.java)
+    } else {
+        getSerializable(key) as? T
+    }
+}
+
+@Suppress("DEPRECATION")
+inline fun <reified T : Parcelable> Bundle.getParcelableCompat(key: String): T? {
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        getParcelable(key, T::class.java)
+    } else {
+        getParcelable(key) as? T
+    }
+}
+
+@Suppress("DEPRECATION")
+inline fun <reified T : Parcelable> Bundle.getParcelableArrayListCompat(key: String): ArrayList<T> {
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        getParcelableArrayList(key, T::class.java) ?: arrayListOf()
+    } else {
+        getParcelableArrayList<T>(key) as? ArrayList<T> ?: arrayListOf()
     }
 }
