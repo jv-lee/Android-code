@@ -59,7 +59,6 @@ class AppWebView : WebView, LifecycleEventObserver {
         settings.cacheMode = WebSettings.LOAD_DEFAULT
         settings.domStorageEnabled = true
         settings.javaScriptCanOpenWindowsAutomatically = true
-        settings.savePassword = false
         setWebContentsDebuggingEnabled(true)
         webViewClient = object : WebViewClient() {
             @SuppressLint("WebViewClientOnReceivedSslError")
