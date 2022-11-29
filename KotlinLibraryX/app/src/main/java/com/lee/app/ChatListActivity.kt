@@ -33,7 +33,9 @@ class ChatListActivity :
 
         // 监听键盘弹起设置padding及回滚至最新消息
         window.parentTouchHideSoftInput(binding.rvContainer)
-        binding.root.softInputBottomPaddingChange(open = { binding.rvContainer.smoothScrollToTop() })
+        binding.root.softInputBottomPaddingChange(
+            open = { binding.rvContainer.smoothScrollToTop() }
+        )
 
         // 设置recyclerView基础参数
         binding.rvContainer.adapter = adapter.proxy
@@ -67,5 +69,4 @@ class ChatListActivity :
             page++
         }
     }
-
 }

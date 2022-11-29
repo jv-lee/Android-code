@@ -23,5 +23,4 @@ class ChatItem : BaseViewItem<String> {
         val textView = holder.getView<TextView>(R.id.tv_content)
         textView?.text = StringBuilder("this is item data -> $position")
     }
-
 }

@@ -15,6 +15,5 @@ class App : BaseApplication() {
     }
 
     override fun unInit() {
-
     }
 }

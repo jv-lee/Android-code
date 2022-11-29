@@ -33,7 +33,6 @@ class FormItem : ViewItem<String>() {
         btnShow.setOnClickListener {
             dialog.show()
         }
-
     }
 
     /**
@@ -60,5 +59,4 @@ class FormItem : ViewItem<String>() {
         }
         return dialog as Dialog
     }
-
 }
