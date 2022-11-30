@@ -8,8 +8,6 @@ import com.lee.adapter.R
 import com.lee.adapter.entity.ContentData
 import com.lee.adapter.entity.ViewType
 import com.lee.library.adapter.base.BaseViewHolder
-import com.lee.library.adapter.base.BaseViewItem
-import com.lee.library.adapter.binding.ViewBindingHolder
 import com.lee.library.adapter.item.ViewItem
 import com.lee.library.widget.linear.LinearListView
 
@@ -36,5 +34,4 @@ class ContentHorizontalItem :
             )
         }
     }
-
 }

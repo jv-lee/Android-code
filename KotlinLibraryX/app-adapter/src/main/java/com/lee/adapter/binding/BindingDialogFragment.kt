@@ -19,7 +19,5 @@ class BindingDialogFragment : BaseAlertFragment(R.layout.dialog_binding, true) {
     }
 
     override fun bindData() {
-
     }
-
 }

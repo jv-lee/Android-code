@@ -35,6 +35,4 @@ class BindingHorizontalItem : ViewBindingItem<ContentData>() {
             }
         }
     }
-
-
 }

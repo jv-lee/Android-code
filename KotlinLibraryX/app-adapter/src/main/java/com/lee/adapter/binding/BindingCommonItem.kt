@@ -28,6 +28,4 @@ class BindingCommonItem : ViewBindingItem<ContentData>() {
             tvContent.text = "COMMON VIEW_TYPE -> page in - ${entity.id} , index in - $position"
         }
     }
-
-
 }

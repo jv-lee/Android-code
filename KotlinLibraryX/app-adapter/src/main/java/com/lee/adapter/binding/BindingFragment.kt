@@ -36,7 +36,5 @@ class BindingFragment : BaseFragment(R.layout.fragment_binding) {
     }
 
     override fun bindData() {
-
     }
-
 }

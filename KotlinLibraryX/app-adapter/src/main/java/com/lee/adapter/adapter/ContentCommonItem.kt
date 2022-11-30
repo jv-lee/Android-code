@@ -9,8 +9,6 @@ import com.lee.adapter.R
 import com.lee.adapter.entity.ContentData
 import com.lee.adapter.entity.ViewType
 import com.lee.library.adapter.base.BaseViewHolder
-import com.lee.library.adapter.base.BaseViewItem
-import com.lee.library.adapter.binding.ViewBindingHolder
 import com.lee.library.adapter.item.ViewItem
 
 /**
@@ -30,5 +28,4 @@ class ContentCommonItem :
         holder.getView<TextView>(R.id.tv_content).text =
             "COMMON VIEW_TYPE -> page in - ${entity.id} , index in - $position"
     }
-
 }

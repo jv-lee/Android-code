@@ -1,13 +1,8 @@
 package com.lee.adapter.binding
 
 import android.content.Context
-import android.view.LayoutInflater
-import com.lee.adapter.adapter.ContentCommonItem
-import com.lee.adapter.adapter.ContentHorizontalItem
-import com.lee.adapter.adapter.ContentVerticalItem
 import com.lee.adapter.entity.ContentData
 import com.lee.library.adapter.binding.ViewBindingAdapter
-
 
 /**
  *
@@ -22,5 +17,4 @@ class BindingAdapter(context: Context, data: List<ContentData>) :
         addItemStyles(BindingHorizontalItem())
         addItemStyles(BindingVerticalItem())
     }
-
 }
