@@ -22,7 +22,7 @@ class BindingViewGroup : FrameLayout {
         defStyle
     )
 
-    //在ViewGroup中使用必须在onAttachedToWindow中去使用进行初始化 否则无法获取生命周期监听及时置空引用
+    // 在ViewGroup中使用必须在onAttachedToWindow中去使用进行初始化 否则无法获取生命周期监听及时置空引用
     val binding by inflate {
         ViewGroupBindingBinding.inflate(it, this, true)
     }
@@ -31,5 +31,4 @@ class BindingViewGroup : FrameLayout {
         super.onAttachedToWindow()
         binding.constLayout.setBackgroundColorCompat(android.R.color.holo_orange_dark)
     }
-
 }

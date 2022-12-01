@@ -9,18 +9,21 @@ import com.lee.adapter.entity.ViewType
  * @author jv.lee
  * @date 2020/11/25
  */
-class ContentRepository{
+class ContentRepository {
 
     fun getContent(page: Int): PageData<ContentData> {
-        return PageData(page, 3, arrayListOf<ContentData>().also {
-            for (index in 1..12) {
-                when (index) {
-                    11 -> it.add(ContentData(page.toLong(), ViewType.VERTICAL))
-                    12 -> it.add(ContentData(page.toLong(), ViewType.HORIZONTAL))
-                    else -> it.add(ContentData(page.toLong(), ViewType.COMMON))
+        return PageData(
+            page,
+            3,
+            arrayListOf<ContentData>().also {
+                for (index in 1..12) {
+                    when (index) {
+                        11 -> it.add(ContentData(page.toLong(), ViewType.VERTICAL))
+                        12 -> it.add(ContentData(page.toLong(), ViewType.HORIZONTAL))
+                        else -> it.add(ContentData(page.toLong(), ViewType.COMMON))
+                    }
                 }
             }
-        })
+        )
     }
-
 }

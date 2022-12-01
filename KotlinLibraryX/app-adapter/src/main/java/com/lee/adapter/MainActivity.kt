@@ -20,22 +20,34 @@ class MainActivity : BaseVMActivity<ActivityMainBinding, ContentViewModel>(R.lay
 
     private val headerOne by lazy {
         DataBindingUtil.inflate<LayoutHeaderOneBinding>(
-            layoutInflater, R.layout.layout_header_one, binding.rvContainer, false
+            layoutInflater,
+            R.layout.layout_header_one,
+            binding.rvContainer,
+            false
         )
     }
     private val headerTwo by lazy {
         DataBindingUtil.inflate<LayoutHeaderTwoBinding>(
-            layoutInflater, R.layout.layout_header_two, binding.rvContainer, false
+            layoutInflater,
+            R.layout.layout_header_two,
+            binding.rvContainer,
+            false
         )
     }
     private val footerOne by lazy {
         DataBindingUtil.inflate<LayoutFooterOneBinding>(
-            layoutInflater, R.layout.layout_footer_one, binding.rvContainer, false
+            layoutInflater,
+            R.layout.layout_footer_one,
+            binding.rvContainer,
+            false
         )
     }
     private val footerTwo by lazy {
         DataBindingUtil.inflate<LayoutFooterTwoBinding>(
-            layoutInflater, R.layout.layout_footer_two, binding.rvContainer, false
+            layoutInflater,
+            R.layout.layout_footer_two,
+            binding.rvContainer,
+            false
         )
     }
 
@@ -56,7 +68,6 @@ class MainActivity : BaseVMActivity<ActivityMainBinding, ContentViewModel>(R.lay
             override fun pageReload() {
                 viewModel.loadData(LoadStatus.REFRESH)
             }
-
         })
         mAdapter.setLoadStatusListener(object : LoadStatusListener {
             override fun onChangeStatus(status: Int) {
@@ -77,11 +88,10 @@ class MainActivity : BaseVMActivity<ActivityMainBinding, ContentViewModel>(R.lay
         viewModel.dataLive.observeState<PageData<ContentData>>(this, success = {
             mAdapter.submitData(it)
         }, error = {
-            toast(it.message)
-            mAdapter.submitFailed()
-        })
+                toast(it.message)
+                mAdapter.submitFailed()
+            })
 
         viewModel.loadData(LoadStatus.INIT)
     }
-
 }

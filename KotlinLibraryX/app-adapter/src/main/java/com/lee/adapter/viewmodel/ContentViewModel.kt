@@ -19,7 +19,7 @@ class ContentViewModel : CoroutineViewModel() {
     private val repository by lazy { ContentRepository() }
 
     private val _dataLive = MutableLiveData<UiStatePage>(UiStatePage.Default(1))
-    val dataLive:LiveData<UiStatePage> = _dataLive
+    val dataLive: LiveData<UiStatePage> = _dataLive
 
     fun loadData(@LoadStatus status: Int) {
         launchMain {
@@ -29,5 +29,4 @@ class ContentViewModel : CoroutineViewModel() {
             })
         }
     }
-
 }

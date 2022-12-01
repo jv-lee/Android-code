@@ -19,5 +19,4 @@ data class Page<T>(
     override fun getDataSource(): MutableList<T> {
         return data
     }
-
 }
