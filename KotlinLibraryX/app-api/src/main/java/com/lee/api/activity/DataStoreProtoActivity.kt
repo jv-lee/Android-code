@@ -61,5 +61,4 @@ class DataStoreProtoActivity : AppCompatActivity(R.layout.activity_data_store_pr
             )
         }
     }
-
 }

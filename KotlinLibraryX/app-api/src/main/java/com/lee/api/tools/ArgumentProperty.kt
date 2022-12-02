@@ -1,7 +1,5 @@
 package com.lee.api.tools
 
-
-
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
@@ -18,11 +16,15 @@ import kotlin.reflect.KProperty
  * @date 2021/6/9
  */
 
-fun <T> fragmentArgumentNullable(defaultValue: T? = null) = FragmentArgumentDelegateNullable(defaultValue)
+fun <T> fragmentArgumentNullable(defaultValue: T? = null) = FragmentArgumentDelegateNullable(
+    defaultValue
+)
 
 fun <T> fragmentArgument() = FragmentArgumentProperty<T>()
 
-fun <T> activityArgumentNullable(defaultValue: T? = null) = ActivityArgumentDelegateNullable(defaultValue)
+fun <T> activityArgumentNullable(defaultValue: T? = null) = ActivityArgumentDelegateNullable(
+    defaultValue
+)
 
 fun <T> activityArgument() = ActivityArgumentProperty<T>()
 
@@ -47,7 +49,8 @@ class FragmentArgumentProperty<T> : ReadWriteProperty<Fragment, T> {
     }
 }
 
-class FragmentArgumentDelegateNullable<T>(private val defaultValue: T? = null) : ReadWriteProperty<Fragment, T?> {
+class FragmentArgumentDelegateNullable<T>(private val defaultValue: T? = null) :
+    ReadWriteProperty<Fragment, T?> {
 
     override fun getValue(thisRef: Fragment, property: KProperty<*>): T? {
         return thisRef.arguments?.getValue(property.name) ?: defaultValue

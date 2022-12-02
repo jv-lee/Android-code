@@ -15,6 +15,4 @@ class ResultFragment :
 
     override fun bindData() {
     }
-
-
 }

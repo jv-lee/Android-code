@@ -9,7 +9,7 @@ class DataSendFragment :
     BaseVMFragment<FragmentDataSendBinding, ViewModel>(R.layout.fragment_data_send) {
     override fun bindView() {
         binding.btnSend.setOnClickListener {
-            //androidx.fragment:fragment-ktx:1.3.0-alpha04
+            // androidx.fragment:fragment-ktx:1.3.0-alpha04
 //            parentFragmentManager.setFragmentResult("key", Bundle().apply {
 //                putString("data", "this is fragment send data.")
 //            })
@@ -17,7 +17,5 @@ class DataSendFragment :
     }
 
     override fun bindData() {
-
     }
-
 }

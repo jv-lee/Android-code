@@ -42,5 +42,4 @@ class DataStorePreferenceActivity : AppCompatActivity(R.layout.activity_data_sto
             settings[KEY] = "not-null"
         }
     }
-
 }

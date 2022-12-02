@@ -43,16 +43,18 @@ class MainActivity : BaseVMActivity<ActivityMainBinding, ViewModel>(R.layout.act
                 arrayOf(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE),
                 successCall = {
                     toast("request 成功")
-                }, cancelCall = {
+                },
+                cancelCall = {
                     toast("request $it 取消")
-                }, disableCall = {
+                },
+                disableCall = {
                     toast("request $it 禁止")
-                })
+                }
+            )
         }
     }
 
     override fun bindData() {
-
     }
 
     private fun ktxCoreApi() {

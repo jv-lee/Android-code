@@ -26,5 +26,4 @@ class TaskWorker(context: Context, workerParameters: WorkerParameters) :
             else -> return Result.success()
         }
     }
-
 }

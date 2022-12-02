@@ -10,7 +10,9 @@ import com.lee.library.extensions.toast
 
 class StartFragment : BaseVMFragment<FragmentMainBinding, ViewModel>(R.layout.fragment_main) {
 
-    private val forResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+    private val forResult = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) {
         toast(it?.data?.getStringExtra("value") ?: "")
     }
 
@@ -21,8 +23,5 @@ class StartFragment : BaseVMFragment<FragmentMainBinding, ViewModel>(R.layout.fr
     }
 
     override fun bindData() {
-
     }
-
-
 }

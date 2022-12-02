@@ -46,18 +46,20 @@ class StartResultActivity :
             permissionsResult.launch(arrayOf(Manifest.permission.CAMERA))
         }
         binding.btnPictureResult.setOnClickListener {
-            //权限校验
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED) {
+            // 权限校验
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(
+                    Manifest.permission.CAMERA
+                ) == PackageManager.PERMISSION_DENIED) {
                 permissionsResult.launch(arrayOf(Manifest.permission.CAMERA))
                 return@setOnClickListener
             }
 
-            //设置文件路径创建文件对象
+            // 设置文件路径创建文件对象
             val fileDir = File(filesDir.absolutePath, "image")
             if (!fileDir.exists()) fileDir.mkdir()
             val file = File(fileDir.absolutePath, "${System.currentTimeMillis()}.jpg")
 
-            //文件创建操作
+            // 文件创建操作
             if (!file.parentFile.exists()) file.parentFile.mkdir()
 
             uri = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -75,7 +77,5 @@ class StartResultActivity :
     }
 
     override fun bindData() {
-
     }
-
 }

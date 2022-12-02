@@ -51,33 +51,33 @@ inline fun <A : ComponentActivity, V : ViewBinding> viewBinding(
 // ViewBindingProperty for Fragment
 // -------------------------------------------------------------------------------------
 //
-//@Suppress("UNCHECKED_CAST")
-//@JvmName("viewBindingFragment")
-//inline fun <F : Fragment, V : ViewBinding> Fragment.viewBinding(
+// @Suppress("UNCHECKED_CAST")
+// @JvmName("viewBindingFragment")
+// inline fun <F : Fragment, V : ViewBinding> Fragment.viewBinding(
 //    crossinline viewBinder: (View) -> V,
 //    crossinline viewProvider: (F) -> View = Fragment::requireView
-//): ViewBindingProperty<F, V> = when (this) {
+// ): ViewBindingProperty<F, V> = when (this) {
 //    is DialogFragment -> DialogFragmentViewBindingProperty { fragment: F ->
 //        viewBinder(viewProvider(fragment))
 //    } as ViewBindingProperty<F, V>
 //    else -> FragmentViewBindingProperty { fragment: F ->
 //        viewBinder(viewProvider(fragment))
 //    }
-//}
+// }
 
-//@Suppress("UNCHECKED_CAST")
-//@JvmName("viewBindingFragment")
-//inline fun <F : Fragment, V : ViewBinding> Fragment.viewBinding(
+// @Suppress("UNCHECKED_CAST")
+// @JvmName("viewBindingFragment")
+// inline fun <F : Fragment, V : ViewBinding> Fragment.viewBinding(
 //    crossinline viewBinder: (View) -> V,
 //    @IdRes viewBindingRootId: Int
-//): ViewBindingProperty<F, V> = when (this) {
+// ): ViewBindingProperty<F, V> = when (this) {
 //    is DialogFragment -> viewBinding(viewBinder) { fragment: DialogFragment ->
 //        fragment.getRootView(viewBindingRootId)
 //    } as ViewBindingProperty<F, V>
 //    else -> viewBinding(viewBinder) { fragment: F ->
 //        fragment.requireView().requireViewByIdCompat(viewBindingRootId)
 //    }
-//}
+// }
 
 // -------------------------------------------------------------------------------------
 // ViewBindingProperty
@@ -107,8 +107,9 @@ abstract class LifecycleViewBindingProperty<in R : Any, out V : ViewBinding>(
         val viewBinding = viewBinder(thisRef)
         if (lifecycle.currentState == Lifecycle.State.DESTROYED) {
             Log.w(
-                TAG, "Access to viewBinding after Lifecycle is destroyed or hasn'V created yet. " +
-                        "The instance of viewBinding will be not cached."
+                TAG,
+                "Access to viewBinding after Lifecycle is destroyed or hasn'V created yet. " +
+                    "The instance of viewBinding will be not cached."
             )
             // We can access to ViewBinding after Fragment.onDestroyView(), but don'V save it to prevent memory leak
         } else {
@@ -152,9 +153,9 @@ class FragmentViewBindingProperty<in F : Fragment, out V : ViewBinding>(
     }
 }
 
-//class DialogFragmentViewBindingProperty<in F : DialogFragment, out V : ViewBinding>(
+// class DialogFragmentViewBindingProperty<in F : DialogFragment, out V : ViewBinding>(
 //    viewBinder: (F) -> V
-//) : LifecycleViewBindingProperty<F, V>(viewBinder) {
+// ) : LifecycleViewBindingProperty<F, V>(viewBinder) {
 //
 //    override fun getLifecycleOwner(thisRef: F): LifecycleOwner {
 //        return if (thisRef.showsDialog) {
@@ -167,7 +168,7 @@ class FragmentViewBindingProperty<in F : Fragment, out V : ViewBinding>(
 //            }
 //        }
 //    }
-//}
+// }
 
 // -------------------------------------------------------------------------------------
 // Utils

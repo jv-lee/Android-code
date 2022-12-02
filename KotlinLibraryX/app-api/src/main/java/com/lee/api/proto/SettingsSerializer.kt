@@ -10,7 +10,6 @@ import com.proto.model.Settings
 import java.io.InputStream
 import java.io.OutputStream
 
-
 /**
  *
  * @author jv.lee
