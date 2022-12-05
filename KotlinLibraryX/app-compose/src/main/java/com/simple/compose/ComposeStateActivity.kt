@@ -59,15 +59,19 @@ class ComposeStateActivity : ComponentActivity() {
         val name: String by helloViewModel.name.observeAsState("")
         val email: String by helloViewModel.email.collectAsState("")
         HelloContent(
-            name = name, onNameChange = { helloViewModel.onNameChange(it) },
-            email = email, onEmailChange = { helloViewModel.onEmailChange(it) }
+            name = name,
+            onNameChange = { helloViewModel.onNameChange(it) },
+            email = email,
+            onEmailChange = { helloViewModel.onEmailChange(it) }
         )
     }
 
     @Composable
     fun HelloContent(
-        name: String, onNameChange: (String) -> Unit,
-        email: String, onEmailChange: (String) -> Unit
+        name: String,
+        onNameChange: (String) -> Unit,
+        email: String,
+        onEmailChange: (String) -> Unit
     ) {
         Surface(color = Color.White) {
             Column(modifier = Modifier.padding(16.dp)) {
@@ -91,12 +95,14 @@ class ComposeStateActivity : ComponentActivity() {
                 OutlinedTextField(
                     value = name,
                     onValueChange = onNameChange,
-                    label = { Text(text = ("Name")) })
+                    label = { Text(text = ("Name")) }
+                )
 
                 OutlinedTextField(
                     value = email,
                     onValueChange = onEmailChange,
-                    label = { Text(text = ("Email")) })
+                    label = { Text(text = ("Email")) }
+                )
             }
         }
     }

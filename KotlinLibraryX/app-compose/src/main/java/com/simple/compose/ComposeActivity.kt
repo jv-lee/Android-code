@@ -101,7 +101,6 @@ class ComposeActivity : ComponentActivity() {
         }
     }
 
-
     @Preview(name = "Light Mode")
     @Preview(
         uiMode = Configuration.UI_MODE_NIGHT_YES,
@@ -114,5 +113,4 @@ class ComposeActivity : ComponentActivity() {
             Conversation(messages = SampleData.conversationSample)
         }
     }
-
 }

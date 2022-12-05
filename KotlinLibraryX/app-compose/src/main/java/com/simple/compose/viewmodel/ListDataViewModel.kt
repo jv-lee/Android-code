@@ -11,12 +11,12 @@ import com.simple.compose.source.SampleData
  * @author jv.lee
  * @date 2022/1/6
  */
-    class ListDataViewModel : ViewModel() {
+class ListDataViewModel : ViewModel() {
 
-        private val _messagesLive = MutableLiveData<List<Message>>()
-        val messagesLive: LiveData<List<Message>> = _messagesLive
+    private val _messagesLive = MutableLiveData<List<Message>>()
+    val messagesLive: LiveData<List<Message>> = _messagesLive
 
-        init {
-            _messagesLive.postValue(SampleData.conversationSample)
-        }
+    init {
+        _messagesLive.postValue(SampleData.conversationSample)
     }
+}

@@ -35,7 +35,6 @@ class ComposeUiActivity : ComponentActivity() {
         }
     }
 
-
     @Composable
     fun SimpleText() {
         Surface {
@@ -76,7 +75,7 @@ class ComposeUiActivity : ComponentActivity() {
     @Preview(
         name = "Dark Mode",
         uiMode = Configuration.UI_MODE_NIGHT_YES,
-        showBackground = true,
+        showBackground = true
     )
     @Composable
     fun PreviewSimpleText() {
@@ -84,40 +83,4 @@ class ComposeUiActivity : ComponentActivity() {
             SimpleText()
         }
     }
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

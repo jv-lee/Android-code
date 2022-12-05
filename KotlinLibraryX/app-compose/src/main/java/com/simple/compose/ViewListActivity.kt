@@ -38,7 +38,9 @@ class ViewListActivity : ComponentActivity() {
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
             return ViewHolder(
                 ItemMessageBinding.inflate(
-                    LayoutInflater.from(parent.context), parent, false
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
                 )
             )
         }

@@ -56,8 +56,9 @@ class ComposeAnimateActivity : ComponentActivity() {
         val colorState: LiveData<Int> = _colorState
 
         fun onColorStateChange() {
-            _colorState.value = if (_colorState.value == ColorState.PURPLE.ordinal)
-                ColorState.GREEN.ordinal else ColorState.PURPLE.ordinal
+            _colorState.value = if (_colorState.value == ColorState.PURPLE.ordinal) {
+                ColorState.GREEN.ordinal 
+            }else ColorState.PURPLE.ordinal
         }
 
         private val _visibleState = MutableLiveData(VisibleState.GONE.ordinal)
@@ -65,10 +66,10 @@ class ComposeAnimateActivity : ComponentActivity() {
 
         fun onVisibleStateChange() {
             _visibleState.value =
-                if (_visibleState.value == VisibleState.VISIBLE.ordinal)
-                    VisibleState.GONE.ordinal else VisibleState.VISIBLE.ordinal
+                if (_visibleState.value == VisibleState.VISIBLE.ordinal) {
+                    VisibleState.GONE.ordinal 
+                }else VisibleState.VISIBLE.ordinal
         }
-
     }
 
     @Composable
@@ -76,14 +77,16 @@ class ComposeAnimateActivity : ComponentActivity() {
         val colorState: Int by viewModel.colorState.observeAsState(ColorState.PURPLE.ordinal)
 
         // 为背景添加动画状态监听
-        val backgroundColor by animateColorAsState(if (colorState == ColorState.PURPLE.ordinal) Purple100 else Green300)
+        val backgroundColor by animateColorAsState(
+            if (colorState == ColorState.PURPLE.ordinal) Purple100 else Green300
+        )
 
         val visibleState: Int by viewModel.visibleState.observeAsState(VisibleState.GONE.ordinal)
 
         Surface(
             modifier = Modifier
                 .fillMaxWidth()
-                .fillMaxHeight(),
+                .fillMaxHeight()
         ) {
             Column(
                 modifier = Modifier.background(backgroundColor),
@@ -150,7 +153,6 @@ class ComposeAnimateActivity : ComponentActivity() {
         }
     }
 
-
     @OptIn(ExperimentalMaterialApi::class)
     @Composable
     private fun TopicRow(topic: String, expanded: Boolean, onClick: () -> Unit) {
@@ -187,5 +189,4 @@ class ComposeAnimateActivity : ComponentActivity() {
             }
         }
     }
-
 }
