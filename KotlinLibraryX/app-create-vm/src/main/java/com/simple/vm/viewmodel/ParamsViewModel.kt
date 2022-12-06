@@ -17,10 +17,10 @@ class ParamsViewModel(private val userID: String) : ViewModel() {
         requestData()
     }
 
-    val textLiveData = MutableLiveData<String>()
+    private val textLiveData = MutableLiveData<String>()
 
-    //页面初始拉取数据使用init初次创建后获取
-    fun requestData() {
+    // 页面初始拉取数据使用init初次创建后获取
+    private fun requestData() {
         requestByNetwork(userID)
     }
 

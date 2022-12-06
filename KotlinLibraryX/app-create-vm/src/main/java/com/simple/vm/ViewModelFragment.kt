@@ -32,36 +32,36 @@ class ViewModelFragment : Fragment(R.layout.fragment_view_model) {
         }
     }
 
-    //通过viewBinding扩展函数构建view
+    // 通过viewBinding扩展函数构建view
     private val binding by binding(FragmentViewModelBinding::bind)
 
-    //通过arguments扩展函数 获取intent传递参数
+    // 通过arguments扩展函数 获取intent传递参数
     private val userID by arguments<String>(USER_ID_KEY)
 
-    //获取普通viewModel
+    // 获取普通viewModel
     private val simpleViewModel by viewModels<SimpleViewModel>()
 
-    //获取有参构造ViewModel
+    // 获取有参构造ViewModel
     private val paramsViewModel by viewModels<ParamsViewModel> {
         ParamsViewModel.CreateFactory(userID)
     }
 
-    //获取intent透传参数ViewModel
+    // 获取intent透传参数ViewModel
     private val handleViewModel by viewModels<HandleViewModel> {
         SavedStateViewModelFactory(requireActivity().application, this, arguments)
     }
 
-    //自定义扩展函数 简化模版代码生成 intent透传ViewModel
+    // 自定义扩展函数 简化模版代码生成 intent透传ViewModel
     private val simpleHandleViewModel by viewModelByFactory<HandleViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        handleViewModel.textLiveData.observe(viewLifecycleOwner, {
+        handleViewModel.textLiveData.observe(viewLifecycleOwner) {
             LogUtil.i("fragment:$it")
-        })
-        simpleHandleViewModel.textLiveData.observe(viewLifecycleOwner, {
+        }
+        simpleHandleViewModel.textLiveData.observe(viewLifecycleOwner) {
             LogUtil.i("fragment:$it")
-        })
+        }
 
         binding.tvText.text = userID
     }

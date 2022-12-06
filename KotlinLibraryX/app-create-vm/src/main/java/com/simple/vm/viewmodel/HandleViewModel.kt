@@ -23,8 +23,8 @@ class HandleViewModel(handle: SavedStateHandle) : ViewModel() {
         requestData()
     }
 
-    //页面初始拉取数据使用init初次创建后获取
-    fun requestData() {
+    // 页面初始拉取数据使用init初次创建后获取
+    private fun requestData() {
         requestByNetwork(userID, userType)
     }
 

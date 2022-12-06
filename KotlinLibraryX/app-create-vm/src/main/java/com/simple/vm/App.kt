@@ -9,8 +9,4 @@ import dagger.hilt.android.HiltAndroidApp
  * @date 2021/8/19
  */
 @HiltAndroidApp
-class App : Application() {
-    override fun onCreate() {
-        super.onCreate()
-    }
-}
+class App : Application()

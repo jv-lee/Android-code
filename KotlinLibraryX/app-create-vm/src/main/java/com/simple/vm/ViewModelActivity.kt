@@ -22,32 +22,32 @@ import dagger.hilt.android.AndroidEntryPoint
  * @author jv.lee
  * @date 2021/8/19
  */
-@AndroidEntryPoint //使用hilt 为ViewModel注入savedStateHandler
+@AndroidEntryPoint // 使用hilt 为ViewModel注入savedStateHandler
 class ViewModelActivity : AppCompatActivity() {
 
-    //通过viewBinding扩展函数构建view
+    // 通过viewBinding扩展函数构建view
     private val binding by binding(ActivityViewModelBinding::inflate)
 
-    //通过arguments扩展函数 获取intent传递参数
+    // 通过arguments扩展函数 获取intent传递参数
     private val userID by arguments<String>(USER_ID_KEY)
 
-    //获取hilt注入savedStateHandler的ViewModel
+    // 获取hilt注入savedStateHandler的ViewModel
     private val injectViewModel by viewModels<InjectViewModel>()
 
-    //获取普通viewModel
+    // 获取普通viewModel
     private val simpleViewModel by viewModels<SimpleViewModel>()
 
-    //获取有参构造ViewModel
+    // 获取有参构造ViewModel
     private val paramsViewModel by viewModels<ParamsViewModel> {
         ParamsViewModel.CreateFactory(userID)
     }
 
-    //获取intent透传参数ViewModel
+    // 获取intent透传参数ViewModel
     private val handleViewModel by viewModels<HandleViewModel> {
         SavedStateViewModelFactory(application, this, intent.extras)
     }
 
-    //自定义扩展函数 简化模版代码生成 intent透传ViewModel
+    // 自定义扩展函数 简化模版代码生成 intent透传ViewModel
     private val simpleHandleViewModel by viewModelByFactory<HandleViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,7 +67,6 @@ class ViewModelActivity : AppCompatActivity() {
             .commit()
     }
 
-
     private fun simple() {
         val injectViewModel = ViewModelProvider(this)[InjectViewModel::class.java]
         val simpleViewModel = ViewModelProvider(this)[SimpleViewModel::class.java]
@@ -78,5 +77,4 @@ class ViewModelActivity : AppCompatActivity() {
             SavedStateViewModelFactory(application, this, intent.extras)
         )[HandleViewModel::class.java]
     }
-
 }
