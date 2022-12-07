@@ -14,7 +14,7 @@ class FourDialogIntercept : DialogIntercept<DialogCreateConfig>() {
     private val dialog by lazy { BaseSheetDialogFragmentImpl() }
 
     override fun intercept(item: DialogCreateConfig) {
-        //当前dialog是否显示
+        // 当前dialog是否显示
         if (item.isShow) {
             item.fragmentManager?.let { dialog.show(it, "for") }
         }

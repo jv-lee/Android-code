@@ -13,11 +13,8 @@ class BaseTranslucentDialogImpl(context: Context) :
     BaseTranslucentDialog(context, R.layout.dialog_translucent) {
 
     override fun bindView() {
-
     }
 
     override fun bindData() {
-
     }
-
 }

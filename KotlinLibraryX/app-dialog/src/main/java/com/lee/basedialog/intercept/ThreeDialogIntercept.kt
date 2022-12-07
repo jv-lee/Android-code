@@ -19,19 +19,19 @@ class ThreeDialogIntercept : DialogIntercept<DialogCreateConfig>() {
             dialog?.setTitle("点击确认进入下一级弹窗")
         }
 
-        //当前dialog是否显示
+        // 当前dialog是否显示
         if (item.isShow) {
             dialog?.show()
         }
 
-        //取消后进入下一级弹窗判断 显示状态关闭
+        // 取消后进入下一级弹窗判断 显示状态关闭
         dialog?.onCancel = {
             dialog?.dismiss()
             item.isShow = false
             super.intercept(item)
         }
 
-        //确认后进入下一级弹窗判断 显示状态打开
+        // 确认后进入下一级弹窗判断 显示状态打开
         dialog?.onConfirm = {
             dialog?.dismiss()
             item.isShow = true

@@ -18,10 +18,8 @@ class BaseAlertDialogFragmentImpl :
     ) {
 
     override fun bindView() {
-
     }
 
     override fun bindData() {
-
     }
 }

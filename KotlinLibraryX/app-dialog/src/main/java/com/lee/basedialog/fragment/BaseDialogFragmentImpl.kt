@@ -13,10 +13,8 @@ import com.lee.library.base.BaseVMDialogFragment
 class BaseDialogFragmentImpl :
     BaseVMDialogFragment<FragmentBaseDialogBinding, ViewModel>(R.layout.fragment_base_dialog) {
     override fun bindView() {
-
     }
 
     override fun bindData() {
-
     }
 }

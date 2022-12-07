@@ -15,12 +15,12 @@ class TwoDialogIntercept : DialogIntercept<DialogCreateConfig>() {
     private val dialog by lazy { BaseAlertDialogFragmentImpl() }
 
     override fun intercept(item: DialogCreateConfig) {
-        //当前dialog是否显示
+        // 当前dialog是否显示
         if (item.isShow) {
             item.fragmentManager?.let { dialog.show(it, "two") }
         }
 
-        //下一个dialog不显示
+        // 下一个dialog不显示
         dialog.lifecycle.destroy {
             item.isShow = true
             super.intercept(item)

@@ -24,15 +24,15 @@ class DialogShowActivity : BaseActivity() {
 
     private val binding by binding(ActivityDialogShowBinding::inflate)
 
-    //dialogFragment
+    // dialogFragment
     private val baseDialogFragmentImpl by lazy { BaseDialogFragmentImpl() }
     private val baseAlertDialogFragmentImpl by lazy { BaseAlertDialogFragmentImpl() }
     private val baseSheetDialogFragmentImpl by lazy { BaseSheetDialogFragmentImpl() }
 
-    //dialog
+    // dialog
     private val baseBottomDialogImpl by lazy { BaseBottomDialogImpl(this) }
 
-    //dialog任务栈 后进先出
+    // dialog任务栈 后进先出
     private val multipleDialogTask by lazy {
         MultipleDialogTask(supportFragmentManager)
             .addAction(baseDialogFragmentImpl)
@@ -41,7 +41,7 @@ class DialogShowActivity : BaseActivity() {
             .addAction(baseBottomDialogImpl)
     }
 
-    //dialog拦截器模式 根据拦截器内部条件显示
+    // dialog拦截器模式 根据拦截器内部条件显示
     private val interceptDialogs by lazy {
         DialogInterceptHandler<DialogCreateConfig>().apply {
             add(OneDialogIntercept())
@@ -52,17 +52,16 @@ class DialogShowActivity : BaseActivity() {
     }
 
     override fun bindView() {
-        //多dialog弹窗加载任务
+        // 多dialog弹窗加载任务
         binding.button.setOnClickListener {
             multipleDialogTask.nextShow()
         }
-        //拦截器复杂弹窗加载任务
+        // 拦截器复杂弹窗加载任务
         binding.buttonIntercept.setOnClickListener {
             interceptDialogs.intercept(DialogCreateConfig(this, supportFragmentManager))
         }
     }
 
     override fun bindData() {
-
     }
 }

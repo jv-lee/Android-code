@@ -9,14 +9,11 @@ import com.lee.library.dialog.core.BaseAlertDialog
  * @author jv.lee
  * @date 2020/9/30
  */
-class BaseAlertDialogImpl(context: Context) : BaseAlertDialog(context,R.layout.dialog_alert) {
+class BaseAlertDialogImpl(context: Context) : BaseAlertDialog(context, R.layout.dialog_alert) {
 
     override fun bindView() {
-
     }
 
     override fun bindData() {
-
     }
-
 }

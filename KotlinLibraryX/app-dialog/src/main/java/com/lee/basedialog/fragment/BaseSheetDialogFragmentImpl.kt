@@ -18,15 +18,12 @@ class BaseSheetDialogFragmentImpl : BaseVMSheetFragment<FragmentSheetDialogBindi
     130
 ) {
 
-    var onConfirm: (()->Unit)? = null
-    var onCancel: (()->Unit)? = null
+    var onConfirm: (() -> Unit)? = null
+    var onCancel: (() -> Unit)? = null
 
     override fun bindView() {
-
     }
 
     override fun bindData() {
-
     }
-
 }

@@ -13,11 +13,8 @@ class BaseBottomDialogImpl(context: Context) :
     BaseBottomDialog(context, R.layout.dialog_bottom, limitHeight = 256) {
 
     override fun bindView() {
-
     }
 
     override fun bindData() {
-
     }
-
 }
