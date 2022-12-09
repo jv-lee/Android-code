@@ -35,7 +35,6 @@ class WheelFragment : BaseFragment(R.layout.fragment_wheel) {
     }
 
     override fun bindData() {
-
     }
 
     private fun initBlurImage() {
@@ -53,18 +52,21 @@ class WheelFragment : BaseFragment(R.layout.fragment_wheel) {
     }
 
     private fun initWheel() {
-        binding.wheelView.bindData(arrayListOf<String>().also {
-            for (index in 1..10) {
-                it.add("Type - $index")
+        binding.wheelView.bindData(
+            arrayListOf<String>().also {
+                for (index in 1..10) {
+                    it.add("Type - $index")
+                }
+            },
+            object : WheelView.DataFormat<String> {
+                override fun format(item: String) = item
+            },
+            object : WheelView.SelectedListener<String> {
+                override fun selected(item: String) {
+                    Log.i("UI", "selected: $item")
+                }
             }
-        }, object : WheelView.DataFormat<String> {
-            override fun format(item: String) = item
-        },object : WheelView.SelectedListener<String> {
-            override fun selected(item: String) {
-                Log.i("UI", "selected: $item")
-            }
-
-        })
+        )
     }
 
     private fun SwipeRefreshLayout.dropLayoutEnd(contentView: View) {
@@ -81,23 +83,26 @@ class WheelFragment : BaseFragment(R.layout.fragment_wheel) {
     private fun SwipeRefreshLayout.dropLayout(contentView: View) {
         var hasDrop = false
         val gestureDetector =
-            GestureDetector(context, object : GestureDetector.SimpleOnGestureListener() {
-                override fun onScroll(
-                    e1: MotionEvent,
-                    e2: MotionEvent,
-                    distanceX: Float,
-                    distanceY: Float
-                ): Boolean {
-                    if (contentView.translationY <= requireContext().dp2px(146) &&
-                        contentView.translationY >= 0f &&
-                        (contentView.translationY == 0f && distanceY < 0)
-                    ) {
-                        contentView.translationY += negate(distanceY) / 2
-                        Log.i(TAG, "onScroll: ${contentView.translationY}")
+            GestureDetector(
+                context,
+                object : GestureDetector.SimpleOnGestureListener() {
+                    override fun onScroll(
+                        e1: MotionEvent,
+                        e2: MotionEvent,
+                        distanceX: Float,
+                        distanceY: Float
+                    ): Boolean {
+                        if (contentView.translationY <= requireContext().dp2px(146) &&
+                            contentView.translationY >= 0f &&
+                            (contentView.translationY == 0f && distanceY < 0)
+                        ) {
+                            contentView.translationY += negate(distanceY) / 2
+                            Log.i(TAG, "onScroll: ${contentView.translationY}")
+                        }
+                        return super.onScroll(e1, e2, distanceX, distanceY)
                     }
-                    return super.onScroll(e1, e2, distanceX, distanceY)
                 }
-            })
+            )
         setOnTouchListener { v, event ->
             if (event.action == MotionEvent.ACTION_UP) {
                 if (hasDrop) {
@@ -129,5 +134,4 @@ class WheelFragment : BaseFragment(R.layout.fragment_wheel) {
             }
         }
     }
-
 }

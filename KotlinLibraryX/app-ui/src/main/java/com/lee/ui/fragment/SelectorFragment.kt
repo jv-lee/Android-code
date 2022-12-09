@@ -1,7 +1,6 @@
 package com.lee.ui.fragment
 
 import android.graphics.Color
-import android.os.Build
 import android.widget.Toast
 import com.lee.library.base.BaseFragment
 import com.lee.library.dialog.LoadingDialog
@@ -31,9 +30,7 @@ class SelectorFragment : BaseFragment(R.layout.fragment_selector) {
             .build()
     }
 
-
     override fun bindView() {
-        android.R.attr.selectableItemBackground
         binding.btnSelector1.setOnClickListener {
             snackBar.show()
         }
@@ -42,10 +39,8 @@ class SelectorFragment : BaseFragment(R.layout.fragment_selector) {
             it.postDelayed({ loadingDialog.dismiss() }, 3000)
         }
         binding.btnSelector3.setOnClickListener {
-
         }
-        binding.shadowLayout.setOnClickListener {  }
-
+        binding.shadowLayout.setOnClickListener { }
     }
 
     override fun bindData() {
@@ -61,5 +56,4 @@ class SelectorFragment : BaseFragment(R.layout.fragment_selector) {
             .create()
             .buildSpan()
     }
-
 }

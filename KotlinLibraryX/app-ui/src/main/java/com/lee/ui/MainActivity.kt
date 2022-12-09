@@ -8,7 +8,6 @@ import com.lee.library.extensions.binding
 import com.lee.ui.databinding.ActivityMainBinding
 import com.lee.ui.fragment.*
 
-
 class MainActivity : BaseActivity() {
 
     private val binding by binding(ActivityMainBinding::inflate)
@@ -20,7 +19,7 @@ class MainActivity : BaseActivity() {
             WheelFragment(),
             ShadowFragment(),
             ShimmerFragment(),
-            BannerFragment(),
+            BannerFragment()
         )
     }
     private val titles by lazy {
@@ -54,15 +53,12 @@ class MainActivity : BaseActivity() {
         binding.floatingMotionButton.setOnClickListener {
             startActivity(Intent(this, MotionLayoutActivity::class.java))
         }
-
     }
 
     override fun bindData() {
-
     }
 
     override fun onBackPressed() {
         moveTaskToBack(true)
     }
-
 }

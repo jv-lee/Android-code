@@ -15,10 +15,8 @@ class ToolbarFragment : BaseFragment(R.layout.fragment_toolbar) {
     private val binding by binding(FragmentToolbarBinding::bind)
 
     override fun bindView() {
-
     }
 
     override fun bindData() {
-
     }
 }

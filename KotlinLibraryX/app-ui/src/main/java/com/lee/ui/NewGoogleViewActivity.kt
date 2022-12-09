@@ -26,12 +26,10 @@ class NewGoogleViewActivity : BaseActivity() {
     }
 
     override fun bindData() {
-
     }
 
     @SuppressLint("UnsafeOptInUsageError")
     private fun initTabLayout() {
-
     }
 
     @SuppressLint("UnsafeOptInUsageError")
@@ -60,7 +58,6 @@ class NewGoogleViewActivity : BaseActivity() {
 
             override fun onTabReselected(tab: TabLayout.Tab?) {
             }
-
         })
 
         // 文本设置红点

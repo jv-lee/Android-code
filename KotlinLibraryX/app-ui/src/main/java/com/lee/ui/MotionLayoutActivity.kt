@@ -14,10 +14,8 @@ class MotionLayoutActivity : BaseActivity() {
     private val binding by binding(ActivityMotionLayoutBinding::inflate)
 
     override fun bindView() {
-
     }
 
     override fun bindData() {
-
     }
 }

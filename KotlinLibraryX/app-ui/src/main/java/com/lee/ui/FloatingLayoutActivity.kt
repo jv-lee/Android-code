@@ -29,7 +29,6 @@ class FloatingLayoutActivity : BaseActivity() {
             override fun onDragEnd() {
                 LogUtil.i("onDragEnd")
             }
-
         })
 
         binding.floatingClick.setEventCallback(object : FloatingLayout.EventCallback() {
@@ -44,7 +43,5 @@ class FloatingLayoutActivity : BaseActivity() {
     }
 
     override fun bindData() {
-
     }
-
 }

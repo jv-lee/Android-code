@@ -35,7 +35,6 @@ class ShadowFragment : BaseFragment(R.layout.fragment_shadow) {
     }
 
     override fun bindData() {
-
     }
 
     private fun setMessageShape() {
@@ -59,11 +58,9 @@ class ShadowFragment : BaseFragment(R.layout.fragment_shadow) {
         }
 
         binding.tvMessageShape.apply {
-            //不限制子view在父容器范围内 所以角标可以延伸出去
+            // 不限制子view在父容器范围内 所以角标可以延伸出去
             (parent as ViewGroup).clipChildren = false
             background = drawable
         }
-
     }
-
 }

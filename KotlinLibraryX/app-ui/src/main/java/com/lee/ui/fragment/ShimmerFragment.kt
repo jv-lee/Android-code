@@ -29,6 +29,5 @@ class ShimmerFragment : BaseFragment(R.layout.fragment_shimmer) {
     }
 
     override fun bindData() {
-
     }
 }
