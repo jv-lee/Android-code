@@ -1,9 +1,6 @@
 package com.lee.api
 
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.OnLifecycleEvent
-import androidx.lifecycle.ProcessLifecycleOwner
+import androidx.lifecycle.*
 import com.lee.library.base.BaseApplication
 import com.lee.library.utils.LogUtil
 
@@ -22,31 +19,19 @@ class App : BaseApplication() {
         ProcessLifecycleOwner.get().lifecycle.removeObserver(processLifecycleObserver)
     }
 
-    private val processLifecycleObserver = object : LifecycleObserver {
-
-        @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
-        fun createApplication() {
-            LogUtil.i("createApplication")
+    /**
+     * 只能监听应用创建、在前台、在后台
+     * 无法监听应用被杀死
+     */
+    private val processLifecycleObserver =
+        LifecycleEventObserver { _, event ->
+            when (event) {
+                Lifecycle.Event.ON_CREATE -> LogUtil.i("createApplication")
+                Lifecycle.Event.ON_START -> LogUtil.i("startApplication")
+                Lifecycle.Event.ON_RESUME -> LogUtil.i("resumeApplication")
+                Lifecycle.Event.ON_PAUSE -> LogUtil.i("pauseApplication")
+                Lifecycle.Event.ON_STOP -> LogUtil.i("stopApplication")
+                else -> {}
+            }
         }
-
-        @OnLifecycleEvent(Lifecycle.Event.ON_START)
-        fun startApplication() {
-            LogUtil.i("startApplication")
-        }
-
-        @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
-        fun resumeApplication() {
-            LogUtil.i("resumeApplication")
-        }
-
-        @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
-        fun pauseApplication() {
-            LogUtil.i("pauseApplication")
-        }
-
-        @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-        fun stopApplication() {
-            LogUtil.i("stopApplication")
-        }
-    }
 }
