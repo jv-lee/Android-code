@@ -1,6 +1,9 @@
 package com.lee.api
 
-import androidx.lifecycle.*
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.ProcessLifecycleOwner
+import com.lee.api.startup.Startup
 import com.lee.library.base.BaseApplication
 import com.lee.library.utils.LogUtil
 
@@ -12,6 +15,7 @@ import com.lee.library.utils.LogUtil
 class App : BaseApplication() {
 
     override fun init() {
+        Startup.initialize(context = this)
         ProcessLifecycleOwner.get().lifecycle.addObserver(processLifecycleObserver)
     }
 

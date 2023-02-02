@@ -11,7 +11,10 @@ appConfigure(packageName = "com.lee.api", projectConfigure = {
         // Proto DataStore
         implementation("androidx.datastore:datastore:1.0.0")
 
-        //WorkManager
+        // WorkManager
         implementation("androidx.work:work-runtime:2.5.0")
+
+        // Startup
+        implementation("androidx.startup:startup-runtime:1.1.1")
     }
 })
