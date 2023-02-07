@@ -2,8 +2,8 @@ package com.lee.library.tools
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.app.Application
 import android.content.ComponentCallbacks
+import android.content.Context
 import android.content.res.Configuration
 import android.util.DisplayMetrics
 import com.lee.library.extensions.height
@@ -27,17 +27,17 @@ object ScreenDensityTools : ComponentCallbacks {
     /**
      * 在Application中初始化Metrics
      */
-    fun init(application: Application) {
+    fun init(context: Context) {
         // 判断是否需要初始化
         if (density != 0f) return
 
         // 初始化
-        metrics = application.resources.displayMetrics
+        metrics = context.resources.displayMetrics
         density = metrics.density
         scaledDensity = metrics.scaledDensity
 
         // 监听字体变化
-        application.registerComponentCallbacks(this)
+        context.registerComponentCallbacks(this)
     }
 
     /**
