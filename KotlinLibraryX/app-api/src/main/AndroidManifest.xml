@@ -64,10 +64,15 @@
             android:authorities="${applicationId}.androidx-startup"
             android:exported="false"
             tools:node="merge">
+            <!-- 手动初始化标签 -->
             <meta-data
                 android:name="com.lee.api.startup.SyncInitializer"
                 android:value="androidx.startup"
                 tools:node="remove" />
+            <!-- 自动初始化标签 -->
+            <meta-data
+                android:name="com.lee.api.startup.AutoInitializer"
+                android:value="androidx.startup" />
         </provider>
     </application>
 

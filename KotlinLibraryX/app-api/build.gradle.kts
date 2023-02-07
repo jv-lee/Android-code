@@ -12,7 +12,7 @@ appConfigure(packageName = "com.lee.api", projectConfigure = {
         implementation("androidx.datastore:datastore:1.0.0")
 
         // WorkManager
-        implementation("androidx.work:work-runtime:2.5.0")
+        implementation("androidx.work:work-runtime:2.7.1")
 
         // Startup
         implementation("androidx.startup:startup-runtime:1.1.1")
