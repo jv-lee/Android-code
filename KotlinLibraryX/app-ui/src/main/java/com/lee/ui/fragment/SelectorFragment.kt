@@ -38,8 +38,7 @@ class SelectorFragment : BaseFragment(R.layout.fragment_selector) {
             loadingDialog.show()
             it.postDelayed({ loadingDialog.dismiss() }, 3000)
         }
-        binding.btnSelector3.setOnClickListener {
-        }
+        binding.btnSelector3.setOnClickListener { }
         binding.shadowLayout.setOnClickListener { }
     }
 
