@@ -1,6 +1,7 @@
 package com.lee.ui.fragment
 
 import android.graphics.Color
+import android.text.Html
 import android.widget.Toast
 import com.lee.library.base.BaseFragment
 import com.lee.library.dialog.LoadingDialog
@@ -54,5 +55,13 @@ class SelectorFragment : BaseFragment(R.layout.fragment_selector) {
             }
             .create()
             .buildSpan()
+
+        setHtmlText()
+    }
+
+    private fun setHtmlText() {
+        val html =
+            "<font color=\"#000000\">本次呼叫被禁止 </font><font color=\"#ff0000\">(存在风险呼叫行为)</font><b><font color=\"#000000\">。2月28日前</font></b><font color=\"#000000\">仅支持使用小度语音、视频通话呼叫家庭成员及互为通讯录联系人的用户。</font>"
+        binding.tvHtml.text = Html.fromHtml(html)
     }
 }
