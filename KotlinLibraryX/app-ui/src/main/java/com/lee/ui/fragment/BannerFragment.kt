@@ -9,7 +9,7 @@ import com.lee.ui.R
 import com.lee.ui.databinding.FragmentBannerBinding
 
 /**
- *
+ * 自定义bannerView示范
  * @author jv.lee
  * @date 2021/9/22
  */

@@ -12,7 +12,7 @@ import com.lee.ui.R
 import com.lee.ui.databinding.FragmentSelectorBinding
 
 /**
- *
+ * 自定义文本选择器示范
  * @author jv.lee
  * @date 2021/1/12
  */
