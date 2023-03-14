@@ -578,7 +578,7 @@ public abstract class BaseViewAdapter<T> extends RecyclerView.Adapter<BaseViewHo
     protected void setChildListener(BaseViewHolder viewHolder, boolean shake) {
         if (mOnItemChildChange != null) {
             for (Integer childClickId : childClickIds) {
-                View view = viewHolder.getConvertView().findViewById(childClickId);
+                View view = viewHolder.itemView.findViewById(childClickId);
                 if (view == null) {
                     continue;
                 }
@@ -607,7 +607,7 @@ public abstract class BaseViewAdapter<T> extends RecyclerView.Adapter<BaseViewHo
     protected void setListener(BaseViewHolder viewHolder, boolean shake) {
         //阻塞事件
         if (mOnItemClickListener != null) {
-            viewHolder.getConvertView().setOnClickListener(v -> {
+            viewHolder.itemView.setOnClickListener(v -> {
                 int position = getPosition(viewHolder);
                 if (shake) {
                     long timeSpan = System.currentTimeMillis() - lastClickTime;
@@ -623,7 +623,7 @@ public abstract class BaseViewAdapter<T> extends RecyclerView.Adapter<BaseViewHo
         }
 
         if (mOnItemLongClickListener != null) {
-            viewHolder.getConvertView().setOnLongClickListener(v -> {
+            viewHolder.itemView.setOnLongClickListener(v -> {
                 int position = getPosition(viewHolder);
                 if (position >= 0) {
                     return mOnItemLongClickListener.onItemLongClick(v, mData.get(position), position);

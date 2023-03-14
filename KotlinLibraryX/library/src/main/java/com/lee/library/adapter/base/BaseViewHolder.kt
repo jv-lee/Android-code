@@ -18,11 +18,6 @@ open class BaseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val mViews = SparseArray<View>()
 
     /**
-     * @return 返回当前itemView
-     */
-    fun getConvertView() = itemView
-
-    /**
      * 通过R.id.xxx获取的某个控件
      *
      * @param viewId 控件ID
@@ -45,5 +40,4 @@ open class BaseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             return BaseViewHolder(itemView)
         }
     }
-
 }
