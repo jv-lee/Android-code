@@ -7,6 +7,7 @@ import com.lee.adapter.databinding.*
 import com.lee.adapter.entity.ContentData
 import com.lee.adapter.entity.PageData
 import com.lee.adapter.viewmodel.ContentViewModel
+import com.lee.library.adapter.base.AdapterStatus
 import com.lee.library.adapter.base.BaseViewAdapter
 import com.lee.library.adapter.listener.LoadStatusListener
 import com.lee.library.adapter.page.submitData
@@ -51,15 +52,17 @@ class MainActivity : BaseVMActivity<ActivityMainBinding, ContentViewModel>(R.lay
         )
     }
 
-    private val mAdapter by lazy { ContentAdapter(this, arrayListOf()) }
+    private val mAdapter by lazy { ContentAdapter(this) }
 
     override fun bindView() {
         binding.rvContainer.layoutManager = LinearLayoutManager(this)
-        binding.rvContainer.adapter = mAdapter.proxy
+        binding.rvContainer.adapter = mAdapter.getProxy()
 
-        mAdapter.setAutoLoadMoreListener {
-            viewModel.loadData(LoadStatus.LOAD_MORE)
-        }
+        mAdapter.setAutoLoadMoreListener(object : BaseViewAdapter.AutoLoadMoreListener {
+            override fun autoLoadMore() {
+                viewModel.loadData(LoadStatus.LOAD_MORE)
+            }
+        })
         mAdapter.setLoadErrorListener(object : BaseViewAdapter.LoadErrorListener {
             override fun itemReload() {
                 viewModel.loadData(LoadStatus.RELOAD)
@@ -71,7 +74,7 @@ class MainActivity : BaseVMActivity<ActivityMainBinding, ContentViewModel>(R.lay
         })
         mAdapter.setLoadStatusListener(object : LoadStatusListener {
             override fun onChangeStatus(status: Int) {
-                if (status == BaseViewAdapter.STATUS_ITEM_END) {
+                if (status == AdapterStatus.STATUS_ITEM_END) {
                     mAdapter.addFooter(footerTwo.root)
                 }
             }
@@ -88,9 +91,9 @@ class MainActivity : BaseVMActivity<ActivityMainBinding, ContentViewModel>(R.lay
         viewModel.dataLive.observeState<PageData<ContentData>>(this, success = {
             mAdapter.submitData(it)
         }, error = {
-                toast(it.message)
-                mAdapter.submitFailed()
-            })
+            toast(it.message)
+            mAdapter.submitFailed()
+        })
 
         viewModel.loadData(LoadStatus.INIT)
     }

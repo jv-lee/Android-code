@@ -16,14 +16,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 class FormTableActivity :
     BaseVMActivity<ActivityFormTableBinding, ViewModel>(R.layout.activity_form_table) {
     private val adapter by lazy {
-        FormAdapter(
-            this,
-            ArrayList<String>().also {
-                for (index in 0..30) {
-                    it.add("this is item data -> $index")
-                }
-            }
-        )
+        FormAdapter(this)
     }
 
     override fun bindView() {
@@ -33,6 +26,11 @@ class FormTableActivity :
     }
 
     override fun bindData() {
+        adapter.addData(ArrayList<String>().also {
+            for (index in 0..30) {
+                it.add("this is item data -> $index")
+            }
+        })
     }
 
     @ExperimentalCoroutinesApi

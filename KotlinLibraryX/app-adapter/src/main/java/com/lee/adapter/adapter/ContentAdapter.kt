@@ -9,8 +9,8 @@ import com.lee.library.adapter.base.BaseViewAdapter
  * @author jv.lee
  * @date 2020/11/25
  */
-class ContentAdapter(context: Context, data: List<ContentData>) :
-    BaseViewAdapter<ContentData>(context, data) {
+class ContentAdapter(context: Context) :
+    BaseViewAdapter<ContentData>(context) {
     init {
         addItemStyles(ContentCommonItem())
         addItemStyles(ContentVerticalItem())

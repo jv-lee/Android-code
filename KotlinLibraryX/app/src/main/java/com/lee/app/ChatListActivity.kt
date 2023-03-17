@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lee.app.adapter.ChatAdapter
 import com.lee.app.databinding.ActivityChatListBinding
+import com.lee.library.adapter.base.BaseViewAdapter
 import com.lee.library.base.BaseVMActivity
 import com.lee.library.extensions.reverseLayout
 import com.lee.library.extensions.smoothScrollToTop
@@ -38,14 +39,18 @@ class ChatListActivity :
         )
 
         // 设置recyclerView基础参数
-        binding.rvContainer.adapter = adapter.proxy
+        binding.rvContainer.adapter = adapter.getProxy()
         binding.rvContainer.layoutManager = LinearLayoutManager(this)
         binding.rvContainer.reverseLayout() // 反转列表top->bottom
 
         // 设置adapter基础配置
         adapter.initStatusView()
         adapter.pageCompleted()
-        adapter.setAutoLoadMoreListener { requestData() }
+        adapter.setAutoLoadMoreListener(object : BaseViewAdapter.AutoLoadMoreListener {
+            override fun autoLoadMore() {
+                requestData()
+            }
+        })
     }
 
     override fun bindData() {

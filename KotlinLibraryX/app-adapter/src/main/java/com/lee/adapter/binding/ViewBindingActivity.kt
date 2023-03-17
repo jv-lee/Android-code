@@ -9,6 +9,7 @@ import com.lee.adapter.databinding.LayoutHeaderBinding
 import com.lee.adapter.entity.ContentData
 import com.lee.adapter.entity.PageData
 import com.lee.adapter.viewmodel.ContentViewModel
+import com.lee.library.adapter.base.AdapterStatus
 import com.lee.library.adapter.base.BaseViewAdapter
 import com.lee.library.adapter.listener.LoadStatusListener
 import com.lee.library.adapter.page.submitData
@@ -32,21 +33,22 @@ class ViewBindingActivity : BaseActivity() {
         LayoutFooterBinding.inflate(it, binding.rvContainer, false)
     }
 
-    private val mAdapter by lazy { BindingAdapter(this, arrayListOf()) }
+    private val mAdapter by lazy { BindingAdapter(this) }
 
     override fun bindView() {
-        supportFragmentManager.beginTransaction().add(
-            R.id.frame_container,
-            BindingFragment()
-        )
+        supportFragmentManager
+            .beginTransaction()
+            .add(R.id.frame_container, BindingFragment())
             .commit()
 
         binding.rvContainer.layoutManager = LinearLayoutManager(this)
-        binding.rvContainer.adapter = mAdapter.proxy
+        binding.rvContainer.adapter = mAdapter.getProxy()
 
-        mAdapter.setAutoLoadMoreListener {
-            viewModel.loadData(LoadStatus.LOAD_MORE)
-        }
+        mAdapter.setAutoLoadMoreListener(object : BaseViewAdapter.AutoLoadMoreListener {
+            override fun autoLoadMore() {
+                viewModel.loadData(LoadStatus.LOAD_MORE)
+            }
+        })
         mAdapter.setLoadErrorListener(object : BaseViewAdapter.LoadErrorListener {
             override fun itemReload() {
                 viewModel.loadData(LoadStatus.RELOAD)
@@ -55,18 +57,17 @@ class ViewBindingActivity : BaseActivity() {
             override fun pageReload() {
                 viewModel.loadData(LoadStatus.REFRESH)
             }
-
         })
         mAdapter.setLoadStatusListener(object : LoadStatusListener {
             override fun onChangeStatus(status: Int) {
-                if (status == BaseViewAdapter.STATUS_ITEM_END) {
+                if (status == AdapterStatus.STATUS_ITEM_END) {
                     mAdapter.addFooter(footerBinding.root)
                 }
             }
         })
 
         mAdapter.addHeader(headerBinding.root)
-        mAdapter.addFooter(footerBinding.root)
+//        mAdapter.addFooter(footerBinding.root)
         mAdapter.initStatusView()
         mAdapter.pageLoading()
     }
