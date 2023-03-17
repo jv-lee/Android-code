@@ -29,10 +29,10 @@ fun <T> BaseViewAdapter<T>.submitData(
         openLoadMore()
 
         // 过滤首页重复数据
-        if (data == pageData.getDataSource()) {
+        if (getData() == pageData.getDataSource()) {
             // 重复数据空数据校验
             if (pageData.getDataSource().isEmpty()) {
-                if (isPageCompleted) initStatusView()
+                if (isPageCompleted()) initStatusView()
                 clearData()
                 pageEmpty()
                 emptyBlock()
@@ -51,7 +51,7 @@ fun <T> BaseViewAdapter<T>.submitData(
 
         // 设置空页面
         if (pageData.getDataSource().isEmpty()) {
-            if (isPageCompleted) initStatusView()
+            if (isPageCompleted()) initStatusView()
             clearData()
             pageEmpty()
             emptyBlock()
@@ -59,7 +59,7 @@ fun <T> BaseViewAdapter<T>.submitData(
         }
 
         // 数据源不同替换数据更改状态
-        if (data != pageData.getDataSource()) {
+        if (getData() != pageData.getDataSource()) {
             // 正常情况第一页加载数据状态
             updateData(pageData.getDataSource())
             pageCompleted()
@@ -69,18 +69,18 @@ fun <T> BaseViewAdapter<T>.submitData(
         // 分页加载逻辑
     } else {
         // 数据相同不处理
-        if (data == pageData.getDataSource()) {
+        if (getData() == pageData.getDataSource()) {
             return
         }
 
         // 防止view重构后在分页加载时 pageCompleted状态重置
-        if (!isPageCompleted) {
+        if (!isPageCompleted()) {
             pageCompleted()
         }
 
         if (diff) {
             // 防止activity重建在viewModel中填充历史数据 做差分填充
-            val oldData = data
+            val oldData = getData()
             updateData(pageData.getDataSource())
             val result =
                 DiffUtil.calculateDiff(DiffCallback<T>(oldData, pageData.getDataSource()), true)
@@ -116,10 +116,10 @@ fun <T> BaseViewAdapter<T>.submitData(
         openLoadMore()
 
         // 过滤首页重复数据
-        if (data == pageData.getDataSource()) {
+        if (getData() == pageData.getDataSource()) {
             // 重复数据空数据校验
             if (pageData.getDataSource().isEmpty()) {
-                if (isPageCompleted) initStatusView()
+                if (isPageCompleted()) initStatusView()
                 clearData()
                 pageEmpty()
                 emptyBlock()
@@ -136,7 +136,7 @@ fun <T> BaseViewAdapter<T>.submitData(
 
         // 设置空页面
         if (pageData.getDataSource().isEmpty()) {
-            if (isPageCompleted) initStatusView()
+            if (isPageCompleted()) initStatusView()
             clearData()
             pageEmpty()
             emptyBlock()
@@ -144,7 +144,7 @@ fun <T> BaseViewAdapter<T>.submitData(
         }
 
         // 数据源不同替换数据更改状态
-        if (data != pageData.getDataSource()) {
+        if (getData() != pageData.getDataSource()) {
             // 正常情况第一页加载数据状态
             updateData(pageData.getDataSource())
             pageCompleted()
@@ -154,18 +154,18 @@ fun <T> BaseViewAdapter<T>.submitData(
         // 分页加载逻辑
     } else {
         // 数据相同不处理
-        if (data == pageData.getDataSource()) {
+        if (getData() == pageData.getDataSource()) {
             return
         }
 
         // 防止view重构后在分页加载时 pageCompleted状态重置
-        if (!isPageCompleted) {
+        if (!isPageCompleted()) {
             pageCompleted()
         }
 
         if (diff) {
             // 防止activity重建在viewModel中填充历史数据 做差分填充
-            val oldData = data
+            val oldData = getData()
             updateData(pageData.getDataSource())
             val result =
                 DiffUtil.calculateDiff(DiffCallback<T>(oldData, pageData.getDataSource()), true)
@@ -188,7 +188,7 @@ fun <T> BaseViewAdapter<T>.submitData(
  * @param newData 数据源
  */
 fun <T> BaseViewAdapter<T>.submitSinglePage(newData: List<T>) {
-    if (data.isNullOrEmpty() && newData.isEmpty()) {
+    if (getData().isNullOrEmpty() && newData.isEmpty()) {
         pageEmpty()
     } else if (newData.isNotEmpty()) {
         updateData(newData)
@@ -201,9 +201,9 @@ fun <T> BaseViewAdapter<T>.submitSinglePage(newData: List<T>) {
  * 提交错误状态设置页面状态
  */
 fun <T> BaseViewAdapter<T>.submitFailed() {
-    if (isPageCompleted && !isItemEnd && data.isNotEmpty()) {
+    if (isPageCompleted() && !isItemEnd() && getData().isNotEmpty()) {
         loadFailed()
-    } else if (!isPageCompleted && data.isEmpty()) {
+    } else if (!isPageCompleted() && getData().isEmpty()) {
         pageError()
     }
 }

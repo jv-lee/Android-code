@@ -47,8 +47,6 @@ class ViewItemManager<T> {
      */
     fun getItemViewType(entity: T, position: Int): Int {
         // 样式倒叙循环 ，避免增删集合抛出异常
-
-        // 样式倒叙循环 ，避免增删集合抛出异常
         for (i in styles.size() - 1 downTo 0) {
             // 比如第1个位置(索引0) ,第一类item样式
             val item = styles.valueAt(i)
