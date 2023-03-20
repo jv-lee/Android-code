@@ -162,6 +162,10 @@ open class BaseViewAdapter<T>(private val context: Context) :
         }
     }
 
+    /**
+     * 更新适配器当前加载状态
+     * @param status [AdapterStatus]
+     */
     private fun updateStatus(@AdapterStatus status: Int) {
         if (pageLayout == null || itemLayout == null) {
             return
@@ -426,6 +430,9 @@ open class BaseViewAdapter<T>(private val context: Context) :
         }
     }
 
+    /**
+     * 重置适配器初始加载状态
+     */
     fun reInitStatusView() {
         pageLayout?.run(this@BaseViewAdapter::removeFooter)
         itemLayout?.run(this@BaseViewAdapter::removeFooter)
