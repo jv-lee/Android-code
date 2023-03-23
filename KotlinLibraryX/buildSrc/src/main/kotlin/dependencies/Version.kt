@@ -3,7 +3,7 @@ package dependencies
 object Version {
 
     //core
-    const val ktxCore = "1.8.0"
+    const val ktxCore = "1.9.0"
     const val coroutines = "1.5.2"
     const val multidex = "2.0.1"
     const val appcompat = "1.6.1"
@@ -14,8 +14,8 @@ object Version {
     const val swipeRefreshLayout = "1.1.0"
     const val slidingPaneLayout = "1.1.0" // 1.1.0正常使用 ， 1.2.0无法正常显示
     const val webkit = "1.6.0"
-    const val activity = "1.5.1"
-    const val fragment = "1.5.1"
+    const val activity = "1.6.0"
+    const val fragment = "1.5.4"
     const val navigation = "2.5.3"
     const val lifecycle = "2.5.1"
     const val room = "2.5.0"
