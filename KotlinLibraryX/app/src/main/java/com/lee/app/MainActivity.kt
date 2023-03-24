@@ -14,7 +14,6 @@ import com.lee.library.dialog.WarnDialog
 import com.lee.library.extensions.binding
 import com.lee.library.extensions.toast
 import com.lee.library.tools.SystemBarTools.setDarkStatusIcon
-import com.lee.library.utils.DensityUtil
 import com.lee.library.utils.LogUtil
 import com.lee.library.widget.StatusLayout.Companion.STATUS_LOADING
 import kotlinx.coroutines.CoroutineScope
@@ -59,7 +58,6 @@ class MainActivity : BaseActivity(), NetworkConnectCallback {
     }
 
     override fun bindView() {
-        DensityUtil.setDensity(this)
         window.setDarkStatusIcon()
 
         binding.status.setStatus(STATUS_LOADING)
@@ -73,7 +71,7 @@ class MainActivity : BaseActivity(), NetworkConnectCallback {
 
     override fun bindData() {
         testDialog()
-        NetworkConnectManager.instance.bindCallback(this)
+        NetworkConnectManager.instance.bindCallback(this, isNotification = true)
     }
 
     override fun onDestroy() {
