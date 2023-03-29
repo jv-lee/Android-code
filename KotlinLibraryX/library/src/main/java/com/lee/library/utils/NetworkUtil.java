@@ -60,19 +60,17 @@ public class NetworkUtil {
      * @return NetworkInfo
      */
     private static NetworkInfo getActiveNetworkInfo(Context context) {
-        ConnectivityManager cm = (ConnectivityManager) context
+        ConnectivityManager cm = (ConnectivityManager) context.getApplicationContext()
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
         return cm.getActiveNetworkInfo();
     }
 
     public static boolean isNetworkConnected(Context context) {
-        if (context != null) {
-            ConnectivityManager mConnectivityManager = (ConnectivityManager) context
-                    .getSystemService(Context.CONNECTIVITY_SERVICE);
-            NetworkInfo mNetworkInfo = mConnectivityManager.getActiveNetworkInfo();
-            if (mNetworkInfo != null) {
-                return mNetworkInfo.isAvailable();
-            }
+        ConnectivityManager mConnectivityManager = (ConnectivityManager) context.getApplicationContext()
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo mNetworkInfo = mConnectivityManager.getActiveNetworkInfo();
+        if (mNetworkInfo != null) {
+            return mNetworkInfo.isAvailable();
         }
         return false;
     }
@@ -99,9 +97,7 @@ public class NetworkUtil {
         try {
             TelephonyManager tm = (TelephonyManager) context.getApplicationContext().getSystemService(Context.TELEPHONY_SERVICE);
             Method getMobileDataEnabledMethod = tm.getClass().getDeclaredMethod("getDataEnabled");
-            if (null != getMobileDataEnabledMethod) {
-                return (boolean) getMobileDataEnabledMethod.invoke(tm);
-            }
+            return (boolean) getMobileDataEnabledMethod.invoke(tm);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -117,11 +113,9 @@ public class NetworkUtil {
      */
     public static void setDataEnabled(Context context, boolean enabled) {
         try {
-            TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+            TelephonyManager tm = (TelephonyManager) context.getApplicationContext().getSystemService(Context.TELEPHONY_SERVICE);
             Method setMobileDataEnabledMethod = tm.getClass().getDeclaredMethod("setDataEnabled", boolean.class);
-            if (null != setMobileDataEnabledMethod) {
-                setMobileDataEnabledMethod.invoke(tm, enabled);
-            }
+            setMobileDataEnabledMethod.invoke(tm, enabled);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -147,7 +141,7 @@ public class NetworkUtil {
      * @return {@code true}: 是<br>{@code false}: 否
      */
     public static boolean getWifiEnabled(Context context) {
-        WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+        WifiManager wifiManager = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         return wifiManager.isWifiEnabled();
     }
 
@@ -159,7 +153,7 @@ public class NetworkUtil {
      * @param enabled {@code true}: 打开<br>{@code false}: 关闭
      */
     public static void setWifiEnabled(Context context, boolean enabled) {
-        WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+        WifiManager wifiManager = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         if (enabled) {
             if (!wifiManager.isWifiEnabled()) {
                 wifiManager.setWifiEnabled(true);
@@ -172,10 +166,7 @@ public class NetworkUtil {
     }
 
     public static boolean hasConnected(Context context) {
-        if (isWifiConnected(context) || isMobileConnected(context)) {
-            return true;
-        }
-        return false;
+        return isWifiConnected(context) || isMobileConnected(context);
     }
 
     /**
@@ -186,7 +177,7 @@ public class NetworkUtil {
      * @return {@code true}: 连接<br>{@code false}: 未连接
      */
     public static boolean isWifiConnected(Context context) {
-        ConnectivityManager cm = (ConnectivityManager) context
+        ConnectivityManager cm = (ConnectivityManager) context.getApplicationContext()
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
         return cm != null && cm.getActiveNetworkInfo() != null
                 && cm.getActiveNetworkInfo().getType() == ConnectivityManager.TYPE_WIFI;
@@ -200,7 +191,7 @@ public class NetworkUtil {
      * @return {@code true}: 连接<br>{@code false}: 未连接
      */
     public static boolean isMobileConnected(Context context) {
-        ConnectivityManager cm = (ConnectivityManager) context
+        ConnectivityManager cm = (ConnectivityManager) context.getApplicationContext()
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
         return cm != null && cm.getActiveNetworkInfo() != null
                 && cm.getActiveNetworkInfo().getType() == ConnectivityManager.TYPE_MOBILE;
@@ -214,7 +205,7 @@ public class NetworkUtil {
      * @return 运营商名称
      */
     public static String getNetworkOperatorName(Context context) {
-        TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+        TelephonyManager tm = (TelephonyManager) context.getApplicationContext().getSystemService(Context.TELEPHONY_SERVICE);
         return tm != null ? tm.getNetworkOperatorName() : null;
     }
 
@@ -337,18 +328,15 @@ public class NetworkUtil {
     public static String getDomainAddress(final String domain) {
         try {
             ExecutorService exec = Executors.newCachedThreadPool();
-            Future<String> fs = exec.submit(new Callable<String>() {
-                @Override
-                public String call() throws Exception {
-                    InetAddress inetAddress;
-                    try {
-                        inetAddress = InetAddress.getByName(domain);
-                        return inetAddress.getHostAddress();
-                    } catch (UnknownHostException e) {
-                        e.printStackTrace();
-                    }
-                    return null;
+            Future<String> fs = exec.submit(() -> {
+                InetAddress inetAddress;
+                try {
+                    inetAddress = InetAddress.getByName(domain);
+                    return inetAddress.getHostAddress();
+                } catch (UnknownHostException e) {
+                    e.printStackTrace();
                 }
+                return null;
             });
             return fs.get();
         } catch (InterruptedException | ExecutionException e) {
