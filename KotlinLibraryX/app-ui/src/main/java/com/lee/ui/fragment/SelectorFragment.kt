@@ -60,8 +60,7 @@ class SelectorFragment : BaseFragment(R.layout.fragment_selector) {
     }
 
     private fun setHtmlText() {
-        val html =
-            "<font color=\"#000000\">本次呼叫被禁止 </font><font color=\"#ff0000\">(存在风险呼叫行为)</font><b><font color=\"#000000\">。2月28日前</font></b><font color=\"#000000\">仅支持使用小度语音、视频通话呼叫家庭成员及互为通讯录联系人的用户。</font>"
+        val html = "<font color='#000000'>检测到设备存在多次</font><font color='#ff0000'>风险呼叫行为</font><font color='#000000'>，呼叫功能已被禁用。您可在</font><b><font color='#000000'> 2023-03-31 10:53:20 </font></b><font color='#000000'>后恢复使用。如有疑问，可联系客服咨询。</font>"
         binding.tvHtml.text = Html.fromHtml(html)
     }
 }
