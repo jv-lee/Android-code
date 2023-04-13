@@ -60,7 +60,7 @@ class SelectorFragment : BaseFragment(R.layout.fragment_selector) {
     }
 
     private fun setHtmlText() {
-        val html = "<font color='#000000'>检测到设备存在多次</font><font color='#ff0000'>风险呼叫行为</font><font color='#000000'>，呼叫功能已被禁用。您可在</font><b><font color='#000000'> 2023-03-31 10:53:20 </font></b><font color='#000000'>后恢复使用。如有疑问，可联系客服咨询。</font>"
+        val html = "<p style='font-size: 18px;color: #ababab;'>检测到设备存在多次<font color='#3388FF'>风险呼叫行为</font>，呼叫功能已被禁用。您可在 2023-03-31 10:53:20 后恢复使用。如有疑问，可联系客服咨询。</p>"
         binding.tvHtml.text = Html.fromHtml(html)
     }
 }
