@@ -2,6 +2,7 @@ package com.lee.ui
 
 import android.content.Intent
 import android.view.View
+import androidx.activity.addCallback
 import com.lee.library.adapter.core.UiPagerAdapter
 import com.lee.library.base.BaseActivity
 import com.lee.library.extensions.binding
@@ -55,12 +56,13 @@ class MainActivity : BaseActivity() {
         binding.floatingMotionButton.setOnClickListener {
             startActivity(Intent(this, MotionLayoutActivity::class.java))
         }
+
+        onBackPressedDispatcher.addCallback {
+            // 返回首页不finishActivity处理
+            moveTaskToBack(true)
+        }
     }
 
     override fun bindData() {
-    }
-
-    override fun onBackPressed() {
-        moveTaskToBack(true)
     }
 }
