@@ -1,3 +1,5 @@
+@file:Suppress("UnstableApiUsage")
+
 package configures.plugins
 
 import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
