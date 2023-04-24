@@ -16,6 +16,16 @@ import com.lee.library.net.request.IRequest.ConverterType.Companion.STRING
  */
 interface IRequest {
 
+    val baseUrl: String?
+
+    val converterType: Int
+
+    val callType: Int
+
+    val isDownload: Boolean
+
+    val key: String?
+
     /**
      * 数据转换器类型
      */
@@ -37,8 +47,6 @@ interface IRequest {
         }
     }
 
-    val baseUrl: String?
-
     /**
      * 数据返回包裹类型
      */
@@ -59,12 +67,4 @@ interface IRequest {
             const val NO = -1
         }
     }
-
-    val converterType: Int
-
-    val callType: Int
-
-    val isDownload: Boolean
-
-    val key: String?
 }
