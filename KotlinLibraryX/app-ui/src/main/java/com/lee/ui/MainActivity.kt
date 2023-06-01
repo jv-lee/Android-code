@@ -1,7 +1,9 @@
 package com.lee.ui
 
 import android.content.Intent
+import android.view.Gravity
 import android.view.View
+import android.widget.ImageView
 import androidx.activity.addCallback
 import com.lee.library.adapter.core.UiPagerAdapter
 import com.lee.library.base.BaseActivity
@@ -9,6 +11,7 @@ import com.lee.library.extensions.binding
 import com.lee.library.tools.SystemBarTools.setDarkStatusIcon
 import com.lee.ui.databinding.ActivityMainBinding
 import com.lee.ui.fragment.*
+import com.lee.ui.utils.WindowViewHelper
 
 class MainActivity : BaseActivity() {
 
@@ -56,6 +59,9 @@ class MainActivity : BaseActivity() {
         binding.floatingMotionButton.setOnClickListener {
             startActivity(Intent(this, MotionLayoutActivity::class.java))
         }
+        binding.floatingWindowButton.setOnClickListener {
+            createWindowAlertView()
+        }
 
         onBackPressedDispatcher.addCallback {
             // 返回首页不finishActivity处理
@@ -64,5 +70,18 @@ class MainActivity : BaseActivity() {
     }
 
     override fun bindData() {
+    }
+
+    private fun createWindowAlertView() {
+        val imageView = ImageView(this)
+        imageView.setImageResource(R.mipmap.header)
+
+        val windowViewHelper = WindowViewHelper.Builder()
+            .setGravity(Gravity.START or Gravity.TOP)
+            .setX(100)
+            .setY(100)
+            .build()
+
+        windowViewHelper.showDelayHide(imageView)
     }
 }
