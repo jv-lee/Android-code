@@ -9,9 +9,9 @@ import com.lee.library.adapter.core.UiPagerAdapter
 import com.lee.library.base.BaseActivity
 import com.lee.library.extensions.binding
 import com.lee.library.tools.SystemBarTools.setDarkStatusIcon
+import com.lee.library.tools.WindowViewHelper
 import com.lee.ui.databinding.ActivityMainBinding
 import com.lee.ui.fragment.*
-import com.lee.ui.utils.WindowViewHelper
 
 class MainActivity : BaseActivity() {
 
