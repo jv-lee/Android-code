@@ -3,6 +3,9 @@ package com.lee.ui.fragment
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.graphics.BitmapFactory
+import android.graphics.RenderEffect
+import android.graphics.Shader
+import android.os.Build
 import android.util.Log
 import android.view.GestureDetector
 import android.view.MotionEvent
@@ -39,9 +42,14 @@ class WheelFragment : BaseFragment(R.layout.fragment_wheel) {
 
     private fun initBlurImage() {
         val bitmap = BitmapFactory.decodeResource(resources, R.mipmap.header)
-        val blurBitmap = BlurUtils.blur(requireContext(), bitmap, 15f)
 
-        binding.ivImage.setImageBitmap(blurBitmap)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            binding.ivImage.setRenderEffect(RenderEffect.createBlurEffect(15F,15F,Shader.TileMode.REPEAT))
+            binding.ivImage.setImageBitmap(bitmap)
+        } else {
+            val blurBitmap = BlurUtils.blur(requireContext(), bitmap, 15f)
+            binding.ivImage.setImageBitmap(blurBitmap)
+        }
     }
 
     private fun initRefresh() {
