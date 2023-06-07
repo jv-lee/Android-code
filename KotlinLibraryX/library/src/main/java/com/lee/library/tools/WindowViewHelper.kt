@@ -46,7 +46,7 @@ class WindowViewHelper private constructor(
     fun hide() {
         windowManager?.run {
             contentView?.let { view ->
-                removeView(view)
+                removeViewImmediate(view)
             }
         }
         windowManager = null
