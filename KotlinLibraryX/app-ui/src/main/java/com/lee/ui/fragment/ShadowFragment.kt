@@ -13,7 +13,7 @@ import com.lee.ui.R
 import com.lee.ui.databinding.FragmentShadowBinding
 
 /**
- *
+ * 自定义阴影容器view
  * @author jv.lee
  * @date 2021/1/14
  */
