@@ -8,7 +8,7 @@ import com.lee.ui.R
 import com.lee.ui.databinding.FragmentShimmerBinding
 
 /**
- *
+ * 加载元素loading阴影效果
  * @author jv.lee
  * @date 2021/10/29
  */
