@@ -6,7 +6,7 @@ import com.lee.ui.R
 import com.lee.ui.databinding.FragmentToolbarBinding
 
 /**
- *
+ * Android Toolbar ui demo.
  * @author jv.lee
  * @date 2021/9/3
  */
