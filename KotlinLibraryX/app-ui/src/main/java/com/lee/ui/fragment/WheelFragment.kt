@@ -21,7 +21,7 @@ import com.lee.ui.utils.BlurUtils
 import kotlin.math.abs
 
 /**
- *
+ * 滚动单选控制器
  * @author jv.lee
  * @date 2021/1/12
  */
