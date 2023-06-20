@@ -10,7 +10,7 @@ import com.lee.library.extensions.binding
 import com.lee.ui.databinding.ActivityNewGoogleViewBinding
 
 /**
- *
+ * google官方 最新view api展示
  * @author jv.lee
  * @date 2022/1/13
  */
