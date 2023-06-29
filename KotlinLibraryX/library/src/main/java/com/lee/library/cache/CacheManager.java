@@ -5,6 +5,8 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
 
+import androidx.annotation.Keep;
+
 import com.google.gson.Gson;
 import com.lee.library.cache.impl.DiskCache;
 import com.lee.library.cache.impl.MemoryCache;
@@ -18,6 +20,7 @@ import java.util.Objects;
  * @author jv.lee
  * @date 2019-11-14
  */
+@Keep
 public class CacheManager {
 
     private static final String TAG = "CacheManager";
