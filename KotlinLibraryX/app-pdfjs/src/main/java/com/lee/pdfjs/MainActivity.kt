@@ -12,6 +12,9 @@ import androidx.core.content.FileProvider
 import com.lee.library.widget.AppWebView
 import java.io.File
 
+/**
+ * 在webView中使用JS-PDF库，打开pdf文件示例demo
+ */
 @SuppressLint("SetJavaScriptEnabled")
 class MainActivity : AppCompatActivity() {
 
