@@ -18,6 +18,9 @@ import com.lee.library.base.BaseVMActivity
 import com.lee.library.extensions.toast
 import com.lee.library.tools.PermissionLauncher
 
+/**
+ * google new api demo
+ */
 class MainActivity : BaseVMActivity<ActivityMainBinding, ViewModel>(R.layout.activity_main) {
 
     private val permissionLauncher = PermissionLauncher(this)
