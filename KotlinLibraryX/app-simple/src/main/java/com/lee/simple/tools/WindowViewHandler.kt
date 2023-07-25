@@ -20,9 +20,9 @@ import androidx.lifecycle.ProcessLifecycleOwner
  * @author jv.lee
  * @date 2023/7/24
  */
-class WindowViewHandler {
+class WindowViewHandler(activity: FragmentActivity) {
 
-    private var mActivity: FragmentActivity? = null
+    private var mActivity: FragmentActivity? = activity
     private var mWindowManager: WindowManager? = null
     private var mWindowParams: WindowManager.LayoutParams? = null
     private var mWindowView: View? = null
@@ -30,22 +30,18 @@ class WindowViewHandler {
     private var isInit = false
     private var mStateListener: OnWindowStateListener? = null
 
-    constructor(activity: FragmentActivity) {
-        mActivity = activity
-        init()
-    }
-
-    private fun init() {
+    init {
         // 设置app前后台切换生命周期监听
         val processEventObserver = object : LifecycleEventObserver {
             override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
                 when (event) {
                     Lifecycle.Event.ON_STOP -> {
-                        mStateListener?.onShow()
+                        mStateListener?.onWindowShow()
                     }
                     Lifecycle.Event.ON_RESUME -> {
                         hideWindowView()
                     }
+
                     Lifecycle.Event.ON_DESTROY -> {
                         ProcessLifecycleOwner.get().lifecycle.removeObserver(this)
                         hideWindowView()
@@ -64,7 +60,7 @@ class WindowViewHandler {
                     mActivity?.lifecycle?.removeObserver(this)
                     ProcessLifecycleOwner.get().lifecycle.removeObserver(processEventObserver)
                     hideWindowView()
-                    releaseWindowManager()
+                    release()
                 }
             }
         })
@@ -87,37 +83,6 @@ class WindowViewHandler {
         mWindowParams?.format = PixelFormat.TRANSLUCENT
 //        mWindowParams?.x = 200
         isInit = true
-    }
-
-    fun showWindowView(view: View) {
-        if (isShowWindow || !isInit) return
-        isShowWindow = true
-
-        mWindowView = view
-        mWindowView?.run {
-            addWindowTouchEvent(this) {
-                mActivity?.let { activity ->
-                    val intent = Intent(activity, activity::class.java)
-                    intent.addCategory(Intent.CATEGORY_LAUNCHER)
-                    intent.action = Intent.ACTION_MAIN
-                    intent.flags =
-                        Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED
-                    mActivity?.startActivity(intent)
-                }
-            }
-            mWindowManager?.addView(this, mWindowParams)
-        }
-    }
-
-    @SuppressLint("ClickableViewAccessibility")
-    private fun hideWindowView() {
-        if (!isShowWindow || !isInit) return
-        isShowWindow = false
-        mWindowView?.run {
-            mWindowManager?.removeView(this)
-            setOnTouchListener(null)
-            mWindowView = null
-        }
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -158,9 +123,46 @@ class WindowViewHandler {
         }
     }
 
-    private fun releaseWindowManager() {
+    private fun release() {
+        mStateListener = null
+        mActivity = null
         mWindowManager = null
         mWindowParams = null
+    }
+
+    fun showWindowView(view: View) {
+        if (isShowWindow || !isInit) return
+        isShowWindow = true
+
+        mWindowView = view
+        mWindowView?.run {
+            addWindowTouchEvent(this) {
+                mActivity?.let { activity ->
+                    val intent = Intent(activity, activity::class.java)
+                    intent.addCategory(Intent.CATEGORY_LAUNCHER)
+                    intent.action = Intent.ACTION_MAIN
+                    intent.flags =
+                        Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED
+                    mActivity?.startActivity(intent)
+                }
+            }
+            mWindowManager?.addView(this, mWindowParams)
+        }
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    fun hideWindowView() {
+        if (!isShowWindow || !isInit) return
+        isShowWindow = false
+        mWindowView?.run {
+            mWindowManager?.removeView(this)
+            setOnTouchListener(null)
+            mWindowView = null
+        }
+    }
+
+    fun onWindowShow() {
+        mStateListener?.onWindowShow()
     }
 
     fun setOnWindowStateListener(listener: OnWindowStateListener) {
@@ -168,7 +170,7 @@ class WindowViewHandler {
     }
 
     interface OnWindowStateListener {
-        fun onShow()
+        fun onWindowShow()
     }
 
 }
