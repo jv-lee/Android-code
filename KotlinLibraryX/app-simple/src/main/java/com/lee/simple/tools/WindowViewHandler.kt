@@ -1,76 +1,47 @@
-package com.lee.simple
+package com.lee.simple.tools
 
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.graphics.PixelFormat
 import android.os.Build
-import android.os.Bundle
-import android.view.*
-import android.widget.Button
-import android.widget.ImageView
-import androidx.appcompat.app.AppCompatActivity
+import android.view.Gravity
+import android.view.MotionEvent
+import android.view.View
+import android.view.WindowManager
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ProcessLifecycleOwner
-import com.lee.library.extensions.toast
-import com.lee.simple.tools.WindowPermissionLauncher
 
 /**
- * WindowManager 添加应用外悬浮view 示例Activity
+ * 后台显示窗口处理器
  * @author jv.lee
  * @date 2023/7/24
  */
-class WindowViewActivity : AppCompatActivity() {
+class WindowViewHandler {
 
-    private val launcher = WindowPermissionLauncher(this)
+    private var mActivity: FragmentActivity? = null
     private var mWindowManager: WindowManager? = null
     private var mWindowParams: WindowManager.LayoutParams? = null
     private var mWindowView: View? = null
     private var isShowWindow = false
     private var isInit = false
+    private var mStateListener: OnWindowStateListener? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_window_view)
-
-        // 校验是否拥有windowOverlay 应用外显示权限
-        launcher.checkOverlayPermission(this, callback = {
-            initWindowManager()
-        }, notPermission = {
-            // 没有应用外window显示权限
-            toast("not Permission")
-        })
-
-        findViewById<Button>(R.id.button).setOnClickListener {
-            showWindowView()
-        }
+    constructor(activity: FragmentActivity) {
+        mActivity = activity
+        init()
     }
 
-    private fun initWindowManager() {
-        mWindowManager = getSystemService(Context.WINDOW_SERVICE) as WindowManager
-        mWindowParams = WindowManager.LayoutParams()
-        mWindowParams?.width = 400
-        mWindowParams?.height = 400
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            mWindowParams?.type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
-        } else {
-            mWindowParams?.type = WindowManager.LayoutParams.TYPE_PHONE
-        }
-        mWindowParams?.flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL or
-                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or
-                WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
-        mWindowParams?.gravity = Gravity.CENTER
-        mWindowParams?.format = PixelFormat.TRANSLUCENT
-//        mWindowParams?.x = 200
-
+    private fun init() {
         // 设置app前后台切换生命周期监听
         val processEventObserver = object : LifecycleEventObserver {
             override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
                 when (event) {
                     Lifecycle.Event.ON_STOP -> {
-                        showWindowView()
+                        mStateListener?.onShow()
                     }
                     Lifecycle.Event.ON_RESUME -> {
                         hideWindowView()
@@ -85,45 +56,68 @@ class WindowViewActivity : AppCompatActivity() {
         }
         ProcessLifecycleOwner.get().lifecycle.addObserver(processEventObserver)
         // activity销毁后取消观察
-        lifecycle.addObserver(object : LifecycleEventObserver {
+        mActivity?.lifecycle?.addObserver(object : LifecycleEventObserver {
             override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
-                if (event == Lifecycle.Event.ON_DESTROY) {
-                    lifecycle.removeObserver(this)
+                if (event == Lifecycle.Event.ON_CREATE) {
+                    initWindowManager()
+                } else if (event == Lifecycle.Event.ON_DESTROY) {
+                    mActivity?.lifecycle?.removeObserver(this)
                     ProcessLifecycleOwner.get().lifecycle.removeObserver(processEventObserver)
                     hideWindowView()
                     releaseWindowManager()
                 }
             }
-
         })
+    }
+
+    private fun initWindowManager() {
+        mWindowManager = mActivity?.getSystemService(Context.WINDOW_SERVICE) as? WindowManager
+        mWindowParams = WindowManager.LayoutParams()
+        mWindowParams?.width = 400
+        mWindowParams?.height = 400
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            mWindowParams?.type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
+        } else {
+            mWindowParams?.type = WindowManager.LayoutParams.TYPE_PHONE
+        }
+        mWindowParams?.flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL or
+                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or
+                WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
+        mWindowParams?.gravity = Gravity.CENTER
+        mWindowParams?.format = PixelFormat.TRANSLUCENT
+//        mWindowParams?.x = 200
         isInit = true
     }
 
-    private fun showWindowView() {
+    fun showWindowView(view: View) {
         if (isShowWindow || !isInit) return
         isShowWindow = true
 
-        mWindowView = createWindowView()
+        mWindowView = view
         mWindowView?.run {
             addWindowTouchEvent(this) {
-                val intent = Intent(this@WindowViewActivity, WindowViewActivity::class.java)
-                intent.addCategory(Intent.CATEGORY_LAUNCHER)
-                intent.action = Intent.ACTION_MAIN
-                intent.flags =
-                    Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED
-                startActivity(intent)
+                mActivity?.let { activity ->
+                    val intent = Intent(activity, activity::class.java)
+                    intent.addCategory(Intent.CATEGORY_LAUNCHER)
+                    intent.action = Intent.ACTION_MAIN
+                    intent.flags =
+                        Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED
+                    mActivity?.startActivity(intent)
+                }
             }
+            mWindowManager?.addView(this, mWindowParams)
         }
-        mWindowManager?.addView(mWindowView, mWindowParams)
     }
 
     @SuppressLint("ClickableViewAccessibility")
     private fun hideWindowView() {
         if (!isShowWindow || !isInit) return
         isShowWindow = false
-        mWindowView?.run { mWindowManager?.removeView(this) }
-        mWindowView?.setOnTouchListener(null)
-        mWindowView = null
+        mWindowView?.run {
+            mWindowManager?.removeView(this)
+            setOnTouchListener(null)
+            mWindowView = null
+        }
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -150,7 +144,9 @@ class WindowViewActivity : AppCompatActivity() {
                     }
                     mLastX = mInScreenX
                     mLastY = mInScreenY
-                    mWindowManager?.updateViewLayout(mWindowView, mWindowParams)
+                    mWindowView?.run {
+                        mWindowManager?.updateViewLayout(this, mWindowParams)
+                    }
                 }
                 MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
                     if (!isMove) {
@@ -162,17 +158,17 @@ class WindowViewActivity : AppCompatActivity() {
         }
     }
 
-    private fun createWindowView(): View {
-        val view = LayoutInflater.from(this).inflate(R.layout.layout_window_container, null)
-        view.findViewById<ImageView>(R.id.iv_close).setOnClickListener {
-            hideWindowView()
-        }
-        return view
-    }
-
     private fun releaseWindowManager() {
         mWindowManager = null
         mWindowParams = null
+    }
+
+    fun setOnWindowStateListener(listener: OnWindowStateListener) {
+        mStateListener = listener
+    }
+
+    interface OnWindowStateListener {
+        fun onShow()
     }
 
 }
