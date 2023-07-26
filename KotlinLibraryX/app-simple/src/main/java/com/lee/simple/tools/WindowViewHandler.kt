@@ -14,6 +14,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ProcessLifecycleOwner
+import com.lee.library.utils.LogUtil
 
 /**
  * 后台显示窗口处理器
@@ -36,10 +37,18 @@ class WindowViewHandler(activity: FragmentActivity) {
             override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
                 when (event) {
                     Lifecycle.Event.ON_STOP -> {
+                        LogUtil.i("app stop")
                         mStateListener?.onWindowShow()
                     }
                     Lifecycle.Event.ON_RESUME -> {
+                        LogUtil.i("app resume")
                         hideWindowView()
+                    }
+                    Lifecycle.Event.ON_START -> {
+                        LogUtil.i("app start")
+                    }
+                    Lifecycle.Event.ON_PAUSE -> {
+                        LogUtil.i("app pause")
                     }
 
                     Lifecycle.Event.ON_DESTROY -> {
@@ -61,6 +70,14 @@ class WindowViewHandler(activity: FragmentActivity) {
                     ProcessLifecycleOwner.get().lifecycle.removeObserver(processEventObserver)
                     hideWindowView()
                     release()
+                } else if (event == Lifecycle.Event.ON_STOP) {
+                    LogUtil.i("activity stop")
+                } else if (event == Lifecycle.Event.ON_PAUSE) {
+                    LogUtil.i("activity pause")
+                } else if(event == Lifecycle.Event.ON_START) {
+                    LogUtil.i("activity start")
+                } else if(event == Lifecycle.Event.ON_RESUME) {
+                    LogUtil.i("activity resume")
                 }
             }
         })

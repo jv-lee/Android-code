@@ -7,6 +7,7 @@ import android.widget.Button
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import com.lee.library.extensions.toast
+import com.lee.library.utils.LogUtil
 import com.lee.simple.tools.WindowPermissionLauncher
 import com.lee.simple.tools.WindowViewHandler
 
@@ -47,6 +48,11 @@ class WindowViewActivity : AppCompatActivity(), WindowViewHandler.OnWindowStateL
             windowViewHandler.hideWindowView()
         }
         return view
+    }
+
+    override fun onUserLeaveHint() {
+        super.onUserLeaveHint()
+        LogUtil.i("onUserLeaveHint")
     }
 
 }
