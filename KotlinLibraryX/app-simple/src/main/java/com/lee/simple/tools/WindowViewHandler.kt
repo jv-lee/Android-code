@@ -2,7 +2,6 @@ package com.lee.simple.tools
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
 import android.graphics.PixelFormat
 import android.os.Build
 import android.view.Gravity
@@ -14,7 +13,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ProcessLifecycleOwner
-import com.lee.library.utils.LogUtil
 
 /**
  * 后台显示窗口处理器
@@ -37,18 +35,10 @@ class WindowViewHandler(activity: FragmentActivity) {
             override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
                 when (event) {
                     Lifecycle.Event.ON_STOP -> {
-                        LogUtil.i("app stop")
-                        mStateListener?.onWindowShow()
+                        onWindowShow()
                     }
                     Lifecycle.Event.ON_RESUME -> {
-                        LogUtil.i("app resume")
                         hideWindowView()
-                    }
-                    Lifecycle.Event.ON_START -> {
-                        LogUtil.i("app start")
-                    }
-                    Lifecycle.Event.ON_PAUSE -> {
-                        LogUtil.i("app pause")
                     }
 
                     Lifecycle.Event.ON_DESTROY -> {
@@ -70,14 +60,6 @@ class WindowViewHandler(activity: FragmentActivity) {
                     ProcessLifecycleOwner.get().lifecycle.removeObserver(processEventObserver)
                     hideWindowView()
                     release()
-                } else if (event == Lifecycle.Event.ON_STOP) {
-                    LogUtil.i("activity stop")
-                } else if (event == Lifecycle.Event.ON_PAUSE) {
-                    LogUtil.i("activity pause")
-                } else if(event == Lifecycle.Event.ON_START) {
-                    LogUtil.i("activity start")
-                } else if(event == Lifecycle.Event.ON_RESUME) {
-                    LogUtil.i("activity resume")
                 }
             }
         })
@@ -155,12 +137,7 @@ class WindowViewHandler(activity: FragmentActivity) {
         mWindowView?.run {
             addWindowTouchEvent(this) {
                 mActivity?.let { activity ->
-                    val intent = Intent(activity, activity::class.java)
-                    intent.addCategory(Intent.CATEGORY_LAUNCHER)
-                    intent.action = Intent.ACTION_MAIN
-                    intent.flags =
-                        Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED
-                    mActivity?.startActivity(intent)
+                    WindowOverlayUtils.startToApp(activity)
                 }
             }
             mWindowManager?.addView(this, mWindowParams)

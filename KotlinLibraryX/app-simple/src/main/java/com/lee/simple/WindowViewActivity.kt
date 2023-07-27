@@ -1,6 +1,8 @@
 package com.lee.simple
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
@@ -8,6 +10,7 @@ import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import com.lee.library.extensions.toast
 import com.lee.library.utils.LogUtil
+import com.lee.simple.tools.WindowOverlayUtils
 import com.lee.simple.tools.WindowPermissionLauncher
 import com.lee.simple.tools.WindowViewHandler
 
@@ -33,13 +36,19 @@ class WindowViewActivity : AppCompatActivity(), WindowViewHandler.OnWindowStateL
     }
 
     override fun onWindowShow() {
-        // 校验是否拥有windowOverlay 应用外显示权限
-        launcher.checkOverlayPermission(this, callback = {
-            windowViewHandler.showWindowView(createWindowView())
-        }, notPermission = {
-            // 没有应用外window显示权限
-            toast("not Permission")
-        })
+        LogUtil.i("onWindowShow")
+        val isActivityNewVersion = true
+        val callback = { windowViewHandler.showWindowView(createWindowView()) }
+        val notPermission = { toast("not Permission") }
+
+        // 是否为最新activity库 支持ActivityResultLauncher API
+        if (isActivityNewVersion) {
+            // 校验是否拥有windowOverlay 应用外显示权限
+            launcher.checkOverlayPermission(this, callback, notPermission)
+        } else {
+            // 旧版本封装startActivityForResult 回调权限设置结果
+            WindowOverlayUtils.checkOverlayPermission(this, callback, notPermission)
+        }
     }
 
     private fun createWindowView(): View {
@@ -51,8 +60,23 @@ class WindowViewActivity : AppCompatActivity(), WindowViewHandler.OnWindowStateL
     }
 
     override fun onUserLeaveHint() {
-        super.onUserLeaveHint()
         LogUtil.i("onUserLeaveHint")
+        super.onUserLeaveHint()
+    }
+
+    override fun onUserInteraction() {
+        LogUtil.i("onUserInteraction")
+        super.onUserInteraction()
+    }
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        LogUtil.i("onKeyDown: keyCode:$keyCode,event:$event")
+        return super.onKeyDown(keyCode, event)
+    }
+
+    override fun onKeyUp(keyCode: Int, event: KeyEvent?): Boolean {
+        LogUtil.i("onKeyUp: keyCode:$keyCode,event:$event")
+        return super.onKeyUp(keyCode, event)
     }
 
 }
