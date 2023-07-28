@@ -21,17 +21,18 @@ import com.lee.simple.tools.WindowViewHandler
 class WindowViewActivity : AppCompatActivity(), WindowViewHandler.OnWindowStateListener {
 
     private val launcher = WindowPermissionLauncher(this)
-    private val windowViewHandler = WindowViewHandler(this)
+    private lateinit var windowViewHandler: WindowViewHandler
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_window_view)
 
+        windowViewHandler = WindowViewHandler(this)
+        windowViewHandler.setOnWindowStateListener(this)
+
         findViewById<Button>(R.id.button).setOnClickListener {
             windowViewHandler.onWindowShow()
         }
-
-        windowViewHandler.setOnWindowStateListener(this)
     }
 
     override fun onWindowShow() {

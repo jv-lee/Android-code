@@ -4,10 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.PixelFormat
 import android.os.Build
-import android.view.Gravity
-import android.view.MotionEvent
-import android.view.View
-import android.view.WindowManager
+import android.view.*
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
@@ -27,9 +24,54 @@ class WindowViewHandler(activity: FragmentActivity) {
     private var mWindowView: View? = null
     private var isShowWindow = false
     private var isInit = false
+    private var mLastX = 0F
+    private var mLastY = 0F
+    private var isZoomIng = false // 缩放进行时
+    private var isZoomIn = true // 放大or缩小
+
+    private var mScaleSize = 1f
+    private val mWindowWidth = 500
+    private val mWindowHeight = 280
+    private var mScreenWidth = 0
+    private var mScreenHeight = 0
+
     private var mStateListener: OnWindowStateListener? = null
 
+    // 捕获用户多点触控
+    private var mScaleGestureDetector: ScaleGestureDetector = ScaleGestureDetector(
+        activity,
+        object : ScaleGestureDetector.SimpleOnScaleGestureListener() {
+            override fun onScale(detector: ScaleGestureDetector): Boolean {
+                scaleStartEvent(detector)
+                return true
+            }
+
+            override fun onScaleEnd(detector: ScaleGestureDetector) {
+                super.onScaleEnd(detector)
+                scaleEndEvent(detector)
+            }
+        })
+
+    // 基础手势
+    private var mGestureDetector: GestureDetector =
+        GestureDetector(activity, object : GestureDetector.SimpleOnGestureListener() {
+
+            override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
+                singleTap()
+                return super.onSingleTapConfirmed(e)
+            }
+
+            override fun onDoubleTap(e: MotionEvent): Boolean {
+                doubleTap()
+                return super.onDoubleTap(e)
+            }
+        })
+
     init {
+        // 获取屏幕宽高
+        mScreenWidth = activity.resources.displayMetrics.widthPixels
+        mScreenHeight = activity.resources.displayMetrics.heightPixels
+
         // 设置app前后台切换生命周期监听
         val processEventObserver = object : LifecycleEventObserver {
             override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
@@ -68,8 +110,8 @@ class WindowViewHandler(activity: FragmentActivity) {
     private fun initWindowManager() {
         mWindowManager = mActivity?.getSystemService(Context.WINDOW_SERVICE) as? WindowManager
         mWindowParams = WindowManager.LayoutParams()
-        mWindowParams?.width = 400
-        mWindowParams?.height = 400
+        mWindowParams?.width = mWindowWidth
+        mWindowParams?.height = mWindowHeight
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             mWindowParams?.type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
         } else {
@@ -80,46 +122,40 @@ class WindowViewHandler(activity: FragmentActivity) {
                 WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
         mWindowParams?.gravity = Gravity.CENTER
         mWindowParams?.format = PixelFormat.TRANSLUCENT
-//        mWindowParams?.x = 200
         isInit = true
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    private fun addWindowTouchEvent(view: View, clickLayoutAction: () -> Unit) {
-        var mLastX = 0F
-        var mLastY = 0F
-        var isMove = false
+    private fun addGestureListener(view: View) {
         view.setOnTouchListener { v, event ->
-            val mInScreenX = event.rawX
-            val mInScreenY = event.rawY
-            when (event.action) {
-                MotionEvent.ACTION_DOWN -> {
-                    isMove = false
-                    mLastX = event.rawX
-                    mLastY = event.rawY
+            // 缩放触发中只处理缩放事件
+            if (isZoomIng) return@setOnTouchListener mScaleGestureDetector.onTouchEvent(event)
+            return@setOnTouchListener mScaleGestureDetector.onTouchEvent(event) or
+                    mGestureDetector.onTouchEvent(event) or onMoveTouchEvent(event)
+        }
+    }
+
+    private fun onMoveTouchEvent(event: MotionEvent): Boolean {
+        val mInScreenX = event.rawX
+        val mInScreenY = event.rawY
+        when (event.action) {
+            MotionEvent.ACTION_DOWN -> {
+                mLastX = event.rawX
+                mLastY = event.rawY
+            }
+            MotionEvent.ACTION_MOVE -> {
+                mWindowParams?.run {
+                    x += (mInScreenX - mLastX).toInt()
+                    y += (mInScreenY - mLastY).toInt()
                 }
-                MotionEvent.ACTION_MOVE -> {
-                    if (event.rawX != mLastX && event.rawY != mLastY) {
-                        isMove = true
-                    }
-                    mWindowParams?.run {
-                        x += (mInScreenX - mLastX).toInt()
-                        y += (mInScreenY - mLastY).toInt()
-                    }
-                    mLastX = mInScreenX
-                    mLastY = mInScreenY
-                    mWindowView?.run {
-                        mWindowManager?.updateViewLayout(this, mWindowParams)
-                    }
-                }
-                MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
-                    if (!isMove) {
-                        clickLayoutAction.invoke()
-                    }
+                mLastX = mInScreenX
+                mLastY = mInScreenY
+                mWindowView?.run {
+                    mWindowManager?.updateViewLayout(this, mWindowParams)
                 }
             }
-            return@setOnTouchListener isMove
         }
+        return true
     }
 
     private fun release() {
@@ -129,17 +165,84 @@ class WindowViewHandler(activity: FragmentActivity) {
         mWindowParams = null
     }
 
+    private fun singleTap() {
+        mActivity?.let { activity ->
+            WindowOverlayUtils.startToApp(activity)
+        }
+    }
+
+    private fun doubleTap() {
+        mActivity?.run {
+            if (isZoomIn) {
+                mScaleSize += 0.5f
+            } else {
+                mScaleSize -= 0.5f
+            }
+            isZoomIn = !isZoomIn
+            mWindowParams?.run {
+                // 双击放大缩小设置x y位置防止放大时抖动
+                val oldWidth = width
+                val oldHeight = height
+                val newWidth = (mWindowWidth * mScaleSize).toInt()
+                val newHeight = (mWindowHeight * mScaleSize).toInt()
+                x += (newWidth - oldWidth) / 2
+                y += (newHeight - oldHeight) / 2
+                width = newWidth
+                height = newHeight
+            }
+            mWindowView?.run { mWindowManager?.updateViewLayout(this, mWindowParams) }
+        }
+    }
+
+    private fun scaleStartEvent(detector: ScaleGestureDetector) {
+        isZoomIng = true
+        mWindowParams?.run {
+            var scaleWidth = (width * detector.scaleFactor).toInt()
+            var scaleHeight = (height * detector.scaleFactor).toInt()
+            // 缩放宽度最小值限制
+            if (scaleWidth < mWindowWidth) {
+                scaleWidth = mWindowWidth
+            }
+            // 缩放高度最小值限制
+            if (scaleHeight < mWindowHeight) {
+                scaleHeight = mWindowHeight
+            }
+            // 缩放宽高最大值限制
+            if (scaleWidth > mScreenWidth) {
+                scaleWidth = mScreenWidth
+                scaleHeight = height
+            }
+            width = scaleWidth
+            height = scaleHeight
+        }
+        mWindowView?.run {
+            mWindowManager?.updateViewLayout(this, mWindowParams)
+        }
+    }
+
+    private fun scaleEndEvent(detector: ScaleGestureDetector) {
+        // 设置延时，防止缩放结束后移动事件同步改变位置导致窗口闪缩移动
+        mWindowView?.postDelayed({
+            isZoomIng = false
+        }, 300)
+    }
+
     fun showWindowView(view: View) {
         if (isShowWindow || !isInit) return
         isShowWindow = true
 
+        // 每次显示重置小窗大小位置属性
+        mWindowParams?.run {
+            mWindowParams?.width = mWindowWidth
+            mWindowParams?.height = mWindowHeight
+            mWindowParams?.x = 0
+            mWindowParams?.y = 0
+        }
+
         mWindowView = view
         mWindowView?.run {
-            addWindowTouchEvent(this) {
-                mActivity?.let { activity ->
-                    WindowOverlayUtils.startToApp(activity)
-                }
-            }
+            addGestureListener(this)
+
             mWindowManager?.addView(this, mWindowParams)
         }
     }
