@@ -1,6 +1,5 @@
 package com.lee.simple
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.LayoutInflater
