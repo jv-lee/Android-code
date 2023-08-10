@@ -10,6 +10,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ProcessLifecycleOwner
+import com.lee.library.extensions.dp2px
 
 /**
  * 后台显示窗口处理器
@@ -30,8 +31,8 @@ class WindowViewHandler(activity: FragmentActivity) {
     private var isZoomIn = true // 放大or缩小
 
     private var mScaleSize = 1f
-    private val mWindowWidth = 500
-    private val mWindowHeight = 280
+    private val mWindowWidth = 720
+    private val mWindowHeight = 400
     private var mScreenWidth = 0
     private var mScreenHeight = 0
 

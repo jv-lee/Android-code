@@ -38,7 +38,7 @@ class WindowViewActivity : AppCompatActivity(), WindowViewHandler.OnWindowStateL
     override fun onWindowShow() {
         LogUtil.i("onWindowShow")
         val isActivityNewVersion = true
-        val callback = { windowViewHandler.showWindowView(createWindowView()) }
+        val callback = { windowViewHandler.showWindowView(createVideoWindowView()) }
         val notPermission = { toast("not Permission") }
 
         // 是否为最新activity库 支持ActivityResultLauncher API
@@ -57,6 +57,10 @@ class WindowViewActivity : AppCompatActivity(), WindowViewHandler.OnWindowStateL
             windowViewHandler.hideWindowView()
         }
         return view
+    }
+
+    private fun createVideoWindowView(): View {
+        return LayoutInflater.from(this).inflate(R.layout.layout_window_video_call, null)
     }
 
     override fun onUserLeaveHint() {
