@@ -11,6 +11,8 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ProcessLifecycleOwner
 import com.lee.library.extensions.dp2px
+import com.lee.library.utils.LogUtil
+import kotlin.math.min
 
 /**
  * 后台显示窗口处理器
@@ -31,8 +33,8 @@ class WindowViewHandler(activity: FragmentActivity) {
     private var isZoomIn = true // 放大or缩小
 
     private var mScaleSize = 1f
-    private val mWindowWidth = 720
-    private val mWindowHeight = 400
+    private var mWindowWidth = 720
+    private var mWindowHeight = 400
     private var mScreenWidth = 0
     private var mScreenHeight = 0
 
@@ -72,6 +74,11 @@ class WindowViewHandler(activity: FragmentActivity) {
         // 获取屏幕宽高
         mScreenWidth = activity.resources.displayMetrics.widthPixels
         mScreenHeight = activity.resources.displayMetrics.heightPixels
+
+        // 设置window默认宽高
+        val size = min(mScreenWidth, mScreenHeight)
+        mWindowWidth = size / 2
+        mWindowHeight = (mWindowWidth / 1.6).toInt()
 
         // 设置app前后台切换生命周期监听
         val processEventObserver = object : LifecycleEventObserver {
@@ -123,6 +130,8 @@ class WindowViewHandler(activity: FragmentActivity) {
                 WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
         mWindowParams?.gravity = Gravity.CENTER
         mWindowParams?.format = PixelFormat.TRANSLUCENT
+        mWindowParams?.x = getStartX()
+        mWindowParams?.y = getStartY()
         isInit = true
     }
 
@@ -148,6 +157,7 @@ class WindowViewHandler(activity: FragmentActivity) {
                 mWindowParams?.run {
                     x += (mInScreenX - mLastX).toInt()
                     y += (mInScreenY - mLastY).toInt()
+                    LogUtil.i("moveX:$x,moveY:$y")
                 }
                 mLastX = mInScreenX
                 mLastY = mInScreenY
@@ -175,9 +185,9 @@ class WindowViewHandler(activity: FragmentActivity) {
     private fun doubleTap() {
         mActivity?.run {
             if (isZoomIn) {
-                mScaleSize += 0.5f
+                mScaleSize += 1f
             } else {
-                mScaleSize -= 0.5f
+                mScaleSize -= 1f
             }
             isZoomIn = !isZoomIn
             mWindowParams?.run {
@@ -228,6 +238,14 @@ class WindowViewHandler(activity: FragmentActivity) {
         }, 300)
     }
 
+    private fun getStartX(): Int {
+        return (mScreenWidth / 2) - (mWindowWidth / 2)
+    }
+
+    private fun getStartY(): Int {
+        return -((mScreenHeight / 2) - (mWindowHeight / 2))
+    }
+
     fun showWindowView(view: View) {
         if (isShowWindow || !isInit) return
         isShowWindow = true
@@ -236,8 +254,6 @@ class WindowViewHandler(activity: FragmentActivity) {
         mWindowParams?.run {
             mWindowParams?.width = mWindowWidth
             mWindowParams?.height = mWindowHeight
-            mWindowParams?.x = 0
-            mWindowParams?.y = 0
         }
 
         mWindowView = view

@@ -48,8 +48,9 @@
         android:id="@+id/local_video_container"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:padding="10dp"
-        app:layout_constraintDimensionRatio="10:2.5"
+        android:layout_margin="10dp"
+        android:orientation="horizontal"
+        app:layout_constraintDimensionRatio="10:1.8"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -57,8 +58,8 @@
         <androidx.cardview.widget.CardView
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1.2"
-            app:cardCornerRadius="10dp"
+            android:layout_weight="1"
+            app:cardCornerRadius="5dp"
             app:cardElevation="0dp">
 
             <View
@@ -72,7 +73,7 @@
         <View
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_weight="2" />
+            android:layout_weight="2.5" />
 
     </LinearLayout>
 
