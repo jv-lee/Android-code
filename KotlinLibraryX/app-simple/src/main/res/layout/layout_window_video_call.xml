@@ -24,6 +24,7 @@
             android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            tools:visibility="visible"
             android:background="@mipmap/home_and_see_default_bg">
 
             <ImageView
