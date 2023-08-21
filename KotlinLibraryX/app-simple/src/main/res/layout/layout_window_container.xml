@@ -5,13 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="15dp"
-    tools:layout_height="100dp"
-    tools:layout_width="180dp">
+    tools:layout_height="120dp"
+    tools:layout_width="200dp">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:cardBackgroundColor="@android:color/darker_gray"
         app:cardCornerRadius="10dp"
         app:cardElevation="0dp">
 
@@ -19,48 +18,53 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <FrameLayout
+                android:id="@+id/rtc_video_view"
+                android:background="#ababab"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
             <ImageView
                 android:id="@+id/iv_close"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:scaleType="fitEnd"
-                app:layout_constraintDimensionRatio="13:1"
                 android:src="@mipmap/rtc_observer_window_close"
+                app:layout_constraintDimensionRatio="12:1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <View
-                android:id="@+id/view_block1"
+                android:id="@+id/block_start"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_marginBottom="6dp"
-                app:layout_constraintDimensionRatio="6:2"
+                android:layout_marginBottom="10dp"
                 android:src="@mipmap/rtc_observer_window_call"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="2:1"
                 app:layout_constraintEnd_toStartOf="@id/iv_call"
                 app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintStart_toStartOf="parent"/>
+                app:layout_constraintStart_toStartOf="parent" />
 
             <ImageView
                 android:id="@+id/iv_call"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_marginBottom="10dp"
-                app:layout_constraintDimensionRatio="6:3"
                 android:scaleType="fitEnd"
                 android:src="@mipmap/rtc_observer_window_call"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/block_start"
+                app:layout_constraintDimensionRatio="2:1"
                 app:layout_constraintEnd_toStartOf="@id/iv_mute"
                 app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintStart_toEndOf="@id/view_block1" />
+                app:layout_constraintStart_toEndOf="@id/block_start" />
 
             <ImageView
                 android:id="@+id/iv_mute"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                app:layout_constraintDimensionRatio="6:3"
                 android:src="@mipmap/rtc_observer_window_mute_off"
-                app:layout_constraintBottom_toBottomOf="@id/iv_call"
+                app:layout_constraintBottom_toBottomOf="@id/block_start"
+                app:layout_constraintDimensionRatio="2:1"
                 app:layout_constraintEnd_toStartOf="@id/iv_back"
                 app:layout_constraintStart_toEndOf="@id/iv_call" />
 
@@ -68,23 +72,22 @@
                 android:id="@+id/iv_back"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                app:layout_constraintDimensionRatio="6:3"
                 android:scaleType="fitStart"
                 android:src="@mipmap/rtc_observer_window_back"
-                app:layout_constraintBottom_toBottomOf="@id/iv_call"
-                app:layout_constraintEnd_toStartOf="@id/view_block2"
+                app:layout_constraintBottom_toBottomOf="@id/block_start"
+                app:layout_constraintDimensionRatio="2:1"
+                app:layout_constraintEnd_toStartOf="@id/block_end"
                 app:layout_constraintStart_toEndOf="@id/iv_mute" />
 
             <View
-                android:id="@+id/view_block2"
+                android:id="@+id/block_end"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_marginBottom="6dp"
-                app:layout_constraintDimensionRatio="6:2"
                 android:src="@mipmap/rtc_observer_window_call"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/block_start"
+                app:layout_constraintDimensionRatio="2:1"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/iv_back"/>
+                app:layout_constraintStart_toEndOf="@id/iv_back" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
