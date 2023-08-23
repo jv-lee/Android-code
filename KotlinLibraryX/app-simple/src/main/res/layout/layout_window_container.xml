@@ -41,7 +41,7 @@
                 android:layout_marginBottom="10dp"
                 android:src="@mipmap/rtc_observer_window_call"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintDimensionRatio="2:1"
+                app:layout_constraintDimensionRatio="2:1.2"
                 app:layout_constraintEnd_toStartOf="@id/iv_call"
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -53,7 +53,7 @@
                 android:scaleType="fitEnd"
                 android:src="@mipmap/rtc_observer_window_call"
                 app:layout_constraintBottom_toBottomOf="@id/block_start"
-                app:layout_constraintDimensionRatio="2:1"
+                app:layout_constraintDimensionRatio="2:1.2"
                 app:layout_constraintEnd_toStartOf="@id/iv_mute"
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toEndOf="@id/block_start" />
@@ -64,7 +64,7 @@
                 android:layout_height="0dp"
                 android:src="@mipmap/rtc_observer_window_mute_off"
                 app:layout_constraintBottom_toBottomOf="@id/block_start"
-                app:layout_constraintDimensionRatio="2:1"
+                app:layout_constraintDimensionRatio="2:1.2"
                 app:layout_constraintEnd_toStartOf="@id/iv_back"
                 app:layout_constraintStart_toEndOf="@id/iv_call" />
 
@@ -75,7 +75,7 @@
                 android:scaleType="fitStart"
                 android:src="@mipmap/rtc_observer_window_back"
                 app:layout_constraintBottom_toBottomOf="@id/block_start"
-                app:layout_constraintDimensionRatio="2:1"
+                app:layout_constraintDimensionRatio="2:1.2"
                 app:layout_constraintEnd_toStartOf="@id/block_end"
                 app:layout_constraintStart_toEndOf="@id/iv_mute" />
 
@@ -85,7 +85,7 @@
                 android:layout_height="0dp"
                 android:src="@mipmap/rtc_observer_window_call"
                 app:layout_constraintBottom_toBottomOf="@id/block_start"
-                app:layout_constraintDimensionRatio="2:1"
+                app:layout_constraintDimensionRatio="2:1.2"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/iv_back" />
 
