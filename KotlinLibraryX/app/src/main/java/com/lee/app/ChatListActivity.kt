@@ -1,11 +1,10 @@
 package com.lee.app
 
-import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lee.app.adapter.ChatAdapter
 import com.lee.app.databinding.ActivityChatListBinding
 import com.lee.library.adapter.base.BaseViewAdapter
-import com.lee.library.base.BaseVMActivity
+import com.lee.library.base.BaseBindingActivity
 import com.lee.library.extensions.reverseLayout
 import com.lee.library.extensions.smoothScrollToTop
 import com.lee.library.tools.SystemBarTools.parentTouchHideSoftInput
@@ -22,7 +21,7 @@ import kotlinx.coroutines.launch
  * @date 2020/9/7
  */
 class ChatListActivity :
-    BaseVMActivity<ActivityChatListBinding, ViewModel>(R.layout.activity_chat_list) {
+    BaseBindingActivity<ActivityChatListBinding>() {
 
     private var page = 0
 
@@ -33,15 +32,15 @@ class ChatListActivity :
         window.setDarkStatusIcon()
 
         // 监听键盘弹起设置padding及回滚至最新消息
-        window.parentTouchHideSoftInput(binding.rvContainer)
-        binding.root.softInputBottomPaddingChange(
-            open = { binding.rvContainer.smoothScrollToTop() }
+        window.parentTouchHideSoftInput(mBinding.rvContainer)
+        mBinding.root.softInputBottomPaddingChange(
+            open = { mBinding.rvContainer.smoothScrollToTop() }
         )
 
         // 设置recyclerView基础参数
-        binding.rvContainer.adapter = adapter.getProxy()
-        binding.rvContainer.layoutManager = LinearLayoutManager(this)
-        binding.rvContainer.reverseLayout() // 反转列表top->bottom
+        mBinding.rvContainer.adapter = adapter.getProxy()
+        mBinding.rvContainer.layoutManager = LinearLayoutManager(this)
+        mBinding.rvContainer.reverseLayout() // 反转列表top->bottom
 
         // 设置adapter基础配置
         adapter.initStatusView()

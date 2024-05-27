@@ -7,15 +7,13 @@ import android.net.Uri
 import android.os.Build
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
-import androidx.lifecycle.ViewModel
-import com.lee.api.R
 import com.lee.api.databinding.ActivityStartResultBinding
-import com.lee.library.base.BaseVMActivity
+import com.lee.library.base.BaseBindingActivity
 import com.lee.library.extensions.toast
 import java.io.File
 
 class StartResultActivity :
-    BaseVMActivity<ActivityStartResultBinding, ViewModel>(R.layout.activity_start_result) {
+    BaseBindingActivity<ActivityStartResultBinding>() {
 
     private val dataResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
@@ -32,20 +30,20 @@ class StartResultActivity :
 
     private val pictureResult = registerForActivityResult(ActivityResultContracts.TakePicture()) {
         if (it) {
-            binding.ivPicture.setImageURI(uri)
+            mBinding.ivPicture.setImageURI(uri)
         }
     }
 
     private var uri: Uri? = null
 
     override fun bindView() {
-        binding.btnActivityResult.setOnClickListener {
+        mBinding.btnActivityResult.setOnClickListener {
             dataResult.launch(Intent(this, ResultActivity::class.java))
         }
-        binding.btnPermissionsResult.setOnClickListener {
+        mBinding.btnPermissionsResult.setOnClickListener {
             permissionsResult.launch(arrayOf(Manifest.permission.CAMERA))
         }
-        binding.btnPictureResult.setOnClickListener {
+        mBinding.btnPictureResult.setOnClickListener {
             // 权限校验
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(
                     Manifest.permission.CAMERA

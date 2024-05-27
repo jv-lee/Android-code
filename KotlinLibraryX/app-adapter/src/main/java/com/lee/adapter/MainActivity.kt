@@ -1,9 +1,14 @@
 package com.lee.adapter
 
+import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lee.adapter.adapter.ContentAdapter
-import com.lee.adapter.databinding.*
+import com.lee.adapter.databinding.ActivityMainBinding
+import com.lee.adapter.databinding.LayoutFooterOneBinding
+import com.lee.adapter.databinding.LayoutFooterTwoBinding
+import com.lee.adapter.databinding.LayoutHeaderOneBinding
+import com.lee.adapter.databinding.LayoutHeaderTwoBinding
 import com.lee.adapter.entity.ContentData
 import com.lee.adapter.entity.PageData
 import com.lee.adapter.viewmodel.ContentViewModel
@@ -12,18 +17,20 @@ import com.lee.library.adapter.base.BaseViewAdapter
 import com.lee.library.adapter.listener.LoadStatusListener
 import com.lee.library.adapter.page.submitData
 import com.lee.library.adapter.page.submitFailed
-import com.lee.library.base.BaseVMActivity
+import com.lee.library.base.BaseBindingActivity
 import com.lee.library.extensions.toast
 import com.lee.library.viewstate.LoadStatus
 import com.lee.library.viewstate.observeState
 
-class MainActivity : BaseVMActivity<ActivityMainBinding, ContentViewModel>(R.layout.activity_main) {
+class MainActivity : BaseBindingActivity<ActivityMainBinding>() {
+
+    private val viewModel by viewModels<ContentViewModel>()
 
     private val headerOne by lazy {
         DataBindingUtil.inflate<LayoutHeaderOneBinding>(
             layoutInflater,
             R.layout.layout_header_one,
-            binding.rvContainer,
+            mBinding.rvContainer,
             false
         )
     }
@@ -31,7 +38,7 @@ class MainActivity : BaseVMActivity<ActivityMainBinding, ContentViewModel>(R.lay
         DataBindingUtil.inflate<LayoutHeaderTwoBinding>(
             layoutInflater,
             R.layout.layout_header_two,
-            binding.rvContainer,
+            mBinding.rvContainer,
             false
         )
     }
@@ -39,7 +46,7 @@ class MainActivity : BaseVMActivity<ActivityMainBinding, ContentViewModel>(R.lay
         DataBindingUtil.inflate<LayoutFooterOneBinding>(
             layoutInflater,
             R.layout.layout_footer_one,
-            binding.rvContainer,
+            mBinding.rvContainer,
             false
         )
     }
@@ -47,7 +54,7 @@ class MainActivity : BaseVMActivity<ActivityMainBinding, ContentViewModel>(R.lay
         DataBindingUtil.inflate<LayoutFooterTwoBinding>(
             layoutInflater,
             R.layout.layout_footer_two,
-            binding.rvContainer,
+            mBinding.rvContainer,
             false
         )
     }
@@ -55,8 +62,8 @@ class MainActivity : BaseVMActivity<ActivityMainBinding, ContentViewModel>(R.lay
     private val mAdapter by lazy { ContentAdapter(this) }
 
     override fun bindView() {
-        binding.rvContainer.layoutManager = LinearLayoutManager(this)
-        binding.rvContainer.adapter = mAdapter.getProxy()
+        mBinding.rvContainer.layoutManager = LinearLayoutManager(this)
+        mBinding.rvContainer.adapter = mAdapter.getProxy()
 
         mAdapter.setAutoLoadMoreListener(object : BaseViewAdapter.AutoLoadMoreListener {
             override fun autoLoadMore() {

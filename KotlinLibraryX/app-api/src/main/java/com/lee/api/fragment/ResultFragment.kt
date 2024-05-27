@@ -1,13 +1,10 @@
 package com.lee.api.fragment
 
 import android.content.Intent
-import androidx.lifecycle.ViewModel
-import com.lee.api.R
 import com.lee.api.databinding.FragmentResultBinding
-import com.lee.library.base.BaseVMFragment
+import com.lee.library.base.BaseBindingFragment
 
-class ResultFragment :
-    BaseVMFragment<FragmentResultBinding, ViewModel>(R.layout.fragment_result) {
+class ResultFragment : BaseBindingFragment<FragmentResultBinding>() {
 
     override fun bindView() {
         requireActivity().setResult(0, Intent().putExtra("value", "this is result data"))

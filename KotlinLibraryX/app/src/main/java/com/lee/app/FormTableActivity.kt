@@ -1,9 +1,8 @@
 package com.lee.app
 
-import androidx.lifecycle.ViewModel
 import com.lee.app.adapter.FormAdapter
 import com.lee.app.databinding.ActivityFormTableBinding
-import com.lee.library.base.BaseVMActivity
+import com.lee.library.base.BaseBindingActivity
 import com.lee.library.tools.SystemBarTools.setDarkStatusIcon
 import com.lee.library.tools.SystemBarTools.softInputBottomPaddingChange
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -14,7 +13,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
  * @date 2020/9/7
  */
 class FormTableActivity :
-    BaseVMActivity<ActivityFormTableBinding, ViewModel>(R.layout.activity_form_table) {
+    BaseBindingActivity<ActivityFormTableBinding>() {
     private val adapter by lazy {
         FormAdapter(this)
     }
@@ -22,7 +21,7 @@ class FormTableActivity :
     override fun bindView() {
         window.setDarkStatusIcon()
 
-        binding.root.softInputBottomPaddingChange()
+        mBinding.root.softInputBottomPaddingChange()
     }
 
     override fun bindData() {

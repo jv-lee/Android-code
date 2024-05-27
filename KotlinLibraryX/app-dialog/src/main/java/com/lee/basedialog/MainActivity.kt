@@ -1,6 +1,5 @@
 package com.lee.basedialog
 
-import androidx.lifecycle.ViewModel
 import com.lee.basedialog.databinding.ActivityMainBinding
 import com.lee.basedialog.dialog.BaseAlertDialogImpl
 import com.lee.basedialog.dialog.BaseBottomDialogImpl
@@ -8,11 +7,11 @@ import com.lee.basedialog.dialog.BaseTranslucentDialogImpl
 import com.lee.basedialog.fragment.BaseAlertDialogFragmentImpl
 import com.lee.basedialog.fragment.BaseDialogFragmentImpl
 import com.lee.basedialog.fragment.BaseSheetDialogFragmentImpl
-import com.lee.library.base.BaseVMActivity
+import com.lee.library.base.BaseBindingActivity
 import com.lee.library.dialog.extensions.hideCover
 import com.lee.library.extensions.show
 
-class MainActivity : BaseVMActivity<ActivityMainBinding, ViewModel>(R.layout.activity_main) {
+class MainActivity : BaseBindingActivity<ActivityMainBinding>() {
 
     // dialogFragment
     private val baseDialogFragmentImpl by lazy { BaseDialogFragmentImpl() }
@@ -26,30 +25,30 @@ class MainActivity : BaseVMActivity<ActivityMainBinding, ViewModel>(R.layout.act
 
     override fun bindView() {
         // 普通dialogFragment
-        binding.btnBaseDialogFragment.setOnClickListener {
+        mBinding.btnBaseDialogFragment.setOnClickListener {
             show(baseDialogFragmentImpl)
         }
         // alert动画的 dialogFragment
-        binding.btnAlertDialogFragment.setOnClickListener {
+        mBinding.btnAlertDialogFragment.setOnClickListener {
             show(baseAlertDialogFragmentImpl)
         }
         // 底部弹出sheetDialogFragment Activity根部局必须添加behavior app:layout_behavior="@string/bottom_sheet_behavior"
-        binding.btnSheetDialogFragment.setOnClickListener {
+        mBinding.btnSheetDialogFragment.setOnClickListener {
             show(baseSheetDialogFragmentImpl)
         }
 
         // 底部弹出bottomDialog
-        binding.btnBottomDialog.setOnClickListener {
+        mBinding.btnBottomDialog.setOnClickListener {
             show(baseBottomDialogImpl)
         }
 
         // alert动画 dialog
-        binding.btnAlertDialog.setOnClickListener {
+        mBinding.btnAlertDialog.setOnClickListener {
             show(baseAlertDialogImpl)
         }
 
         // translucent Dialog
-        binding.btnTranslucentDialog.setOnClickListener {
+        mBinding.btnTranslucentDialog.setOnClickListener {
             show(baseTranslucentDialogImpl)
         }
     }
