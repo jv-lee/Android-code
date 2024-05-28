@@ -16,23 +16,17 @@ import com.lee.library.adapter.item.ViewBindingItem
  * @author jv.lee
  * @date 2020/11/25
  */
-class BindingHorizontalItem : ViewBindingItem<ContentData>() {
+class BindingHorizontalItem : ViewBindingItem<ItemContentHorizontalBinding,ContentData>() {
 
     override fun isItemView(entity: ContentData, position: Int) = entity.type == ViewType.HORIZONTAL
 
-    override fun getItemViewBinding(context: Context, parent: ViewGroup): ViewBinding {
-        return ItemContentHorizontalBinding.inflate(LayoutInflater.from(context), parent, false)
-    }
-
     override fun convert(holder: ViewBindingHolder, entity: ContentData, position: Int) {
-        holder.getViewBinding<ItemContentHorizontalBinding>().run {
-            if (linearListView.childCount != 0) return
-            for (index in 1..6) {
-                linearListView.addView(
-                    LayoutInflater.from(linearListView.context)
-                        .inflate(R.layout.item_image, linearListView, false)
-                )
-            }
+        if (mBinding.linearListView.childCount != 0) return
+        for (index in 1..6) {
+            mBinding.linearListView.addView(
+                LayoutInflater.from(mBinding.linearListView.context)
+                    .inflate(R.layout.item_image, mBinding.linearListView, false)
+            )
         }
     }
 }

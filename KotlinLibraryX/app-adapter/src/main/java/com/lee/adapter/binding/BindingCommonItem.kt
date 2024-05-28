@@ -15,17 +15,11 @@ import com.lee.library.adapter.item.ViewBindingItem
  * @author jv.lee
  * @date 2020/11/25
  */
-class BindingCommonItem : ViewBindingItem<ContentData>() {
+class BindingCommonItem : ViewBindingItem<ItemContentCommonBinding,ContentData>() {
 
     override fun isItemView(entity: ContentData, position: Int) = entity.type == ViewType.COMMON
 
-    override fun getItemViewBinding(context: Context, parent: ViewGroup): ViewBinding {
-        return ItemContentCommonBinding.inflate(LayoutInflater.from(context), parent, false)
-    }
-
     override fun convert(holder: ViewBindingHolder, entity: ContentData, position: Int) {
-        holder.getViewBinding<ItemContentCommonBinding>().run {
-            tvContent.text = "COMMON VIEW_TYPE -> page in - ${entity.id} , index in - $position"
-        }
+        mBinding.tvContent.text = "COMMON VIEW_TYPE -> page in - ${entity.id} , index in - $position"
     }
 }
