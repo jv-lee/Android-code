@@ -1,4 +1,4 @@
-package com.lee.library.viewstate
+package com.lee.library.uistate
 
 import androidx.lifecycle.*
 

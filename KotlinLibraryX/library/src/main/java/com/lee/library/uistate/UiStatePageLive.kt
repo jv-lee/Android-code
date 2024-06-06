@@ -1,11 +1,11 @@
 @file:Suppress("UNCHECKED_CAST")
 
-package com.lee.library.viewstate
+package com.lee.library.uistate
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.lee.library.adapter.page.PagingData
+import com.lee.library.adapter.paging.PagingData
 import com.lee.library.utils.LogUtil
 
 /**

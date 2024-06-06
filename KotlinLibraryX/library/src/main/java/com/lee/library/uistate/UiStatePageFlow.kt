@@ -1,8 +1,8 @@
 @file:Suppress("UNCHECKED_CAST")
 
-package com.lee.library.viewstate
+package com.lee.library.uistate
 
-import com.lee.library.adapter.page.PagingData
+import com.lee.library.adapter.paging.PagingData
 import com.lee.library.utils.LogUtil
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -27,7 +27,7 @@ val StateFlow<UiStatePage>.responseFirstPage: Int
     get() = value.responseFirstPage
 
 // PageUiStateFlow数据collect扩展
-suspend inline fun <reified T> StateFlow<UiStatePage>.collectState(
+suspend inline fun <reified T> StateFlow<UiStatePage>.collectCallback(
     crossinline success: (T) -> Unit,
     crossinline error: (Throwable) -> Unit,
     crossinline default: () -> Unit = {}

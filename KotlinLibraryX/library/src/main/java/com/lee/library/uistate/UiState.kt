@@ -1,4 +1,4 @@
-package com.lee.library.viewstate
+package com.lee.library.uistate
 
 /**
  * UiState ui状态类 支持 flow/liveData 扩展使用
