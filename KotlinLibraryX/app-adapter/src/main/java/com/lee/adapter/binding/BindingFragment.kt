@@ -1,10 +1,9 @@
 package com.lee.adapter.binding
 
-import com.lee.adapter.R
 import com.lee.adapter.databinding.FragmentBindingBinding
 import com.lee.adapter.databinding.LayoutTextBinding
 import com.lee.adapter.databinding.LayoutViewBinding
-import com.lee.library.base.BaseFragment
+import com.lee.library.base.BaseBindingFragment
 import com.lee.library.extensions.binding
 import com.lee.library.extensions.inflate
 import com.lee.library.extensions.show
@@ -14,20 +13,19 @@ import com.lee.library.extensions.show
  * @author jv.lee
  * @date 2021/6/15
  */
-class BindingFragment : BaseFragment(R.layout.fragment_binding) {
+class BindingFragment : BaseBindingFragment<FragmentBindingBinding>() {
 
-    private val binding by binding(FragmentBindingBinding::bind)
     private val includeBinding by binding(LayoutTextBinding::bind)
 
     private val headerBinding by inflate {
-        LayoutViewBinding.inflate(it, binding.root, false)
+        LayoutViewBinding.inflate(it, mBinding.root, false)
     }
 
     private val bindingDialog by lazy { BindingDialogFragment() }
 
     override fun bindView() {
-        binding.root.addView(headerBinding.root)
-        binding.tvText.text = "LIJIAWEI"
+        mBinding.root.addView(headerBinding.root)
+        mBinding.tvText.text = "LIJIAWEI"
         includeBinding.tvLayoutText.text = "TOKEYO"
 
         headerBinding.root.setOnClickListener {

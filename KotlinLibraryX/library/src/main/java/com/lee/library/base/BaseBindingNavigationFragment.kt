@@ -8,15 +8,11 @@ import androidx.viewbinding.ViewBinding
 import com.lee.library.tools.ViewBindingTools
 
 /**
- * 通过反射实现binding注入 baseDialogFragment
+ * 通过反射实现binding注入 baseNavigationFragment
  * @author jv.lee
  * @date 2024/6/6
  */
-abstract class BaseBindingDialogFragment<VB : ViewBinding>(
-    isCancel: Boolean = true,
-    isFullWindow: Boolean = true
-) :
-    BaseDialogFragment(isCancel = isCancel, isFullWindow = isFullWindow) {
+abstract class BaseBindingNavigationFragment<VB : ViewBinding> : BaseNavigationFragment() {
 
     private var _binding: VB? = null
     val mBinding: VB get() = _binding!!
@@ -35,5 +31,4 @@ abstract class BaseBindingDialogFragment<VB : ViewBinding>(
         super.onDestroyView()
         _binding = null
     }
-
 }

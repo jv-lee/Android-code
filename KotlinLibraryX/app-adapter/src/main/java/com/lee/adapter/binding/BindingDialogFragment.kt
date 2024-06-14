@@ -1,21 +1,17 @@
 package com.lee.adapter.binding
 
-import com.lee.adapter.R
 import com.lee.adapter.databinding.DialogBindingBinding
-import com.lee.library.base.BaseAlertFragment
-import com.lee.library.extensions.binding
+import com.lee.library.base.BaseBindingAlertFragment
 
 /**
  *
  * @author jv.lee
  * @date 2021/6/16
  */
-class BindingDialogFragment : BaseAlertFragment(R.layout.dialog_binding, true) {
-
-    val binding by binding(DialogBindingBinding::bind)
+class BindingDialogFragment : BaseBindingAlertFragment<DialogBindingBinding>( true) {
 
     override fun bindView() {
-        binding.tvText.text = "JV.LEE"
+        mBinding.tvText.text = "JV.LEE"
     }
 
     override fun bindData() {

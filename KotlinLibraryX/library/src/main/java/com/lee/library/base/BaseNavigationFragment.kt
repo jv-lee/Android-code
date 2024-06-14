@@ -13,7 +13,7 @@ import androidx.navigation.fragment.findNavController
  * @author jv.lee
  * @date 2020/3/30
  */
-abstract class BaseNavigationFragment(val layoutId: Int) : BaseFragment(layoutId) {
+abstract class BaseNavigationFragment(val layoutId: Int = 0) : BaseFragment(layoutId) {
 
     private var isResume = false
     private var isStop = true

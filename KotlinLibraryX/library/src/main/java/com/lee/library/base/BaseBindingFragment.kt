@@ -7,6 +7,11 @@ import android.view.ViewGroup
 import androidx.viewbinding.ViewBinding
 import com.lee.library.tools.ViewBindingTools
 
+/**
+ * 通过反射实现binding注入 baseFragment
+ * @author jv.lee
+ * @date 2024/6/6
+ */
 abstract class BaseBindingFragment<VB : ViewBinding> : BaseFragment() {
 
     private var _binding: VB? = null

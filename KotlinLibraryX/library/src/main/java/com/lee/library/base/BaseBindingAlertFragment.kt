@@ -6,7 +6,9 @@ import androidx.viewbinding.ViewBinding
 import com.lee.library.R
 
 /**
- * AlertDialogFragment通用基类，带Alert缩放动画
+ * 通过反射实现binding注入 baseAlertFragment
+ * @author jv.lee
+ * @date 2024/6/6
  */
 abstract class BaseBindingAlertFragment<VB : ViewBinding>(
     isCancel: Boolean = true,

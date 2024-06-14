@@ -8,6 +8,11 @@ import androidx.viewbinding.ViewBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.lee.library.tools.ViewBindingTools
 
+/**
+ * 通过反射实现binding注入 baseSheetFragment
+ * @author jv.lee
+ * @date 2024/6/6
+ */
 abstract class BaseBindingSheetFragment<VB : ViewBinding>(
     isFullWindow: Boolean = false,
     behaviorState: Int = BottomSheetBehavior.STATE_EXPANDED,
