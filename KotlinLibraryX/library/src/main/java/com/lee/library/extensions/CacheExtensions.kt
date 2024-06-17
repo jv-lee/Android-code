@@ -6,7 +6,7 @@
 package com.lee.library.extensions
 
 import com.google.gson.reflect.TypeToken
-import com.lee.library.adapter.page.PagingData
+import com.lee.library.adapter.paging.PagingData
 import com.lee.library.cache.CacheManager
 import kotlinx.coroutines.flow.flow
 

@@ -1,6 +1,6 @@
 package com.lee.adapter.entity
 
-import com.lee.library.adapter.page.PagingData
+import com.lee.library.adapter.paging.PagingData
 
 /**
  *

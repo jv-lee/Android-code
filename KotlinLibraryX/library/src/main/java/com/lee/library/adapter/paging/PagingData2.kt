@@ -1,4 +1,4 @@
-package com.lee.library.adapter.page
+package com.lee.library.adapter.paging
 
 /**
  * 分页数据源实现接口2 根据分页key实现
