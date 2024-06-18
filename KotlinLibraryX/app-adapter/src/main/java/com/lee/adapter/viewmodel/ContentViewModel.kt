@@ -3,9 +3,9 @@ package com.lee.adapter.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.lee.adapter.repository.ContentRepository
-import com.lee.library.viewstate.LoadStatus
-import com.lee.library.viewstate.UiStatePage
-import com.lee.library.viewstate.pageLaunch
+import com.lee.library.uistate.LoadStatus
+import com.lee.library.uistate.UiStatePage
+import com.lee.library.uistate.pageLaunch
 import com.lee.library.viewmodel.CoroutineViewModel
 import kotlinx.coroutines.delay
 

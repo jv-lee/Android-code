@@ -15,12 +15,12 @@ import com.lee.adapter.viewmodel.ContentViewModel
 import com.lee.library.adapter.base.AdapterStatus
 import com.lee.library.adapter.base.BaseViewAdapter
 import com.lee.library.adapter.listener.LoadStatusListener
-import com.lee.library.adapter.page.submitData
-import com.lee.library.adapter.page.submitFailed
+import com.lee.library.adapter.extensions.submitData
+import com.lee.library.adapter.extensions.submitFailed
 import com.lee.library.base.BaseBindingActivity
 import com.lee.library.extensions.toast
-import com.lee.library.viewstate.LoadStatus
-import com.lee.library.viewstate.observeState
+import com.lee.library.uistate.LoadStatus
+import com.lee.library.uistate.observeState
 
 class MainActivity : BaseBindingActivity<ActivityMainBinding>() {
 
