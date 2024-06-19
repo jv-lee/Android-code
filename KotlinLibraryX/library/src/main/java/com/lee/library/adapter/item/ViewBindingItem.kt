@@ -28,18 +28,18 @@ abstract class ViewBindingItem<VB : ViewBinding, Data> : BaseViewItem<Data> {
     }
 
     override fun convert(holder: BaseViewHolder, entity: Data, position: Int) {
-        this.convert(holder as ViewBindingHolder, entity, position)
+        mBinding.convert(holder as ViewBindingHolder, entity, position)
     }
 
     override fun viewRecycled(holder: BaseViewHolder) {
-        this.viewRecycled(holder as ViewBindingHolder)
+        mBinding.viewRecycled(holder as ViewBindingHolder)
     }
+
+    abstract fun VB.convert(holder: ViewBindingHolder, entity: Data, position: Int)
+
+    open fun VB.viewRecycled(holder: ViewBindingHolder) {}
 
     // Deprecated use ViewBindingUtil.inflateWithGeneric binding
     // impl ItemBinding.inflate(LayoutInflater.from(context), parent, false)
 //    abstract fun getItemViewBinding(context: Context, parent: ViewGroup): ViewBinding
-
-    abstract fun convert(holder: ViewBindingHolder, entity: Data, position: Int)
-
-    open fun viewRecycled(holder: ViewBindingHolder) {}
 }

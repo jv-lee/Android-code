@@ -17,12 +17,16 @@ class BindingVerticalItem : ViewBindingItem<ItemContentVerticalBinding, ContentD
 
     override fun isItemView(entity: ContentData, position: Int) = entity.type == ViewType.VERTICAL
 
-    override fun convert(holder: ViewBindingHolder, entity: ContentData, position: Int) {
-        if (mBinding.linearListView.childCount != 0) return
+    override fun ItemContentVerticalBinding.convert(
+        holder: ViewBindingHolder,
+        entity: ContentData,
+        position: Int
+    ) {
+        if (linearListView.childCount != 0) return
         for (index in 1..3) {
-            mBinding.linearListView.addView(
-                LayoutInflater.from(mBinding.linearListView.context)
-                    .inflate(R.layout.item_image, mBinding.linearListView, false)
+            linearListView.addView(
+                LayoutInflater.from(linearListView.context)
+                    .inflate(R.layout.item_image, linearListView, false)
             )
         }
     }
