@@ -12,25 +12,23 @@ import com.lee.adapter.viewmodel.ContentViewModel
 import com.lee.library.adapter.base.AdapterStatus
 import com.lee.library.adapter.base.BaseViewAdapter
 import com.lee.library.adapter.listener.LoadStatusListener
-import com.lee.library.adapter.page.submitData
-import com.lee.library.adapter.page.submitFailed
-import com.lee.library.base.BaseActivity
-import com.lee.library.extensions.binding
+import com.lee.library.adapter.extensions.submitData
+import com.lee.library.adapter.extensions.submitFailed
+import com.lee.library.base.BaseBindingActivity
 import com.lee.library.extensions.inflate
 import com.lee.library.extensions.toast
-import com.lee.library.viewstate.LoadStatus
-import com.lee.library.viewstate.observeState
+import com.lee.library.uistate.LoadStatus
+import com.lee.library.uistate.observeState
 
-class ViewBindingActivity : BaseActivity() {
+class ViewBindingActivity : BaseBindingActivity<ActivityViewBindingBinding>() {
 
-    private val binding by binding(ActivityViewBindingBinding::inflate)
     private val viewModel by viewModels<ContentViewModel>()
 
     private val headerBinding by inflate {
-        LayoutHeaderBinding.inflate(it, binding.rvContainer, false)
+        LayoutHeaderBinding.inflate(it, mBinding.rvContainer, false)
     }
     private val footerBinding by inflate {
-        LayoutFooterBinding.inflate(it, binding.rvContainer, false)
+        LayoutFooterBinding.inflate(it, mBinding.rvContainer, false)
     }
 
     private val mAdapter by lazy { BindingAdapter(this) }
@@ -41,8 +39,8 @@ class ViewBindingActivity : BaseActivity() {
             .add(R.id.frame_container, BindingFragment())
             .commit()
 
-        binding.rvContainer.layoutManager = LinearLayoutManager(this)
-        binding.rvContainer.adapter = mAdapter.getProxy()
+        mBinding.rvContainer.layoutManager = LinearLayoutManager(this)
+        mBinding.rvContainer.adapter = mAdapter.getProxy()
 
         mAdapter.setAutoLoadMoreListener(object : BaseViewAdapter.AutoLoadMoreListener {
             override fun autoLoadMore() {
