@@ -9,10 +9,9 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 /**
- *
+ * 依赖注入 viewModel
  * @author jv.lee
  * @date 2021/8/19
-
  */
 @HiltViewModel
 class InjectViewModel @Inject constructor(handle: SavedStateHandle) : ViewModel() {
