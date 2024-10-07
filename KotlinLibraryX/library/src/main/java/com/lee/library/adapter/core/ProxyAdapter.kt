@@ -1,5 +1,6 @@
 package com.lee.library.adapter.core
 
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.IntDef
@@ -27,21 +28,36 @@ class ProxyAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val type = getType(viewType)
-        val value = getValue(viewType)
-        return when (type) {
-            ViewTypeSpec.HEADER -> {
-                FixedViewHolder(mHeaderViews[value])
-            }
+        try {
+            val type = getType(viewType)
+            val value = getValue(viewType)
 
-            ViewTypeSpec.FOOTER -> {
-                FixedViewHolder(mFooterViews[value])
-            }
+            return when (type) {
+                ViewTypeSpec.HEADER -> {
+                    val view = mHeaderViews[value]
 
-            else -> {
-                adapter.onCreateViewHolder(parent, viewType)
+                    Log.i(TAG, "onCreateViewHolder, HEADER.parent:${view.parent}")
+                    view.parent?.let { (it as? ViewGroup)?.removeView(view) }
+                    FixedViewHolder(view)
+                }
+
+                ViewTypeSpec.FOOTER -> {
+                    val view = mFooterViews[value]
+
+                    Log.i(TAG, "onCreateViewHolder, FOOTER.parent:${view.parent}")
+                    view.parent?.let { (it as? ViewGroup)?.removeView(view) }
+                    FixedViewHolder(view)
+                }
+
+                else -> {
+                    Log.i(TAG, "onCreateViewHolder, ITEM")
+                    adapter.onCreateViewHolder(parent, viewType)
+                }
             }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
+        return FixedViewHolder(View(parent.context))
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -182,6 +198,8 @@ class ProxyAdapter(
     }
 
     private companion object {
+        private const val TAG = "ProxyAdapter"
+
         const val TYPE_SHIFT = 30
         const val TYPE_MASK = 0x3 shl TYPE_SHIFT
 

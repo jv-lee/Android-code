@@ -14,32 +14,23 @@ import com.lee.library.tools.ViewBindingTools
  * @author jv.lee
  * @date 2021/6/15
  */
-abstract class ViewBindingItem<VB : ViewBinding, Data> : BaseViewItem<Data> {
-
-    private var _binding: VB? = null
-    val mBinding: VB get() = _binding!!
+abstract class ViewBindingItem<T> : BaseViewItem<T> {
 
     override fun getItemViewAny(context: Context, parent: ViewGroup): Any {
-        _binding = ViewBindingTools.inflateWithGeneric(
-            this,
-            LayoutInflater.from(context), parent, false
-        )
-        return mBinding
+        return getItemViewBinding(context, parent)
     }
 
-    override fun convert(holder: BaseViewHolder, entity: Data, position: Int) {
-        mBinding.convert(holder as ViewBindingHolder, entity, position)
+    override fun convert(holder: BaseViewHolder, entity: T, position: Int) {
+        this.convert(holder as ViewBindingHolder, entity, position)
     }
 
     override fun viewRecycled(holder: BaseViewHolder) {
-        mBinding.viewRecycled(holder as ViewBindingHolder)
+        this.viewRecycled(holder as ViewBindingHolder)
     }
 
-    abstract fun VB.convert(holder: ViewBindingHolder, entity: Data, position: Int)
+    abstract fun getItemViewBinding(context: Context, parent: ViewGroup): ViewBinding
 
-    open fun VB.viewRecycled(holder: ViewBindingHolder) {}
+    abstract fun convert(holder: ViewBindingHolder, entity: T, position: Int)
 
-    // Deprecated use ViewBindingUtil.inflateWithGeneric binding
-    // impl ItemBinding.inflate(LayoutInflater.from(context), parent, false)
-//    abstract fun getItemViewBinding(context: Context, parent: ViewGroup): ViewBinding
+    open fun viewRecycled(holder: ViewBindingHolder) {}
 }

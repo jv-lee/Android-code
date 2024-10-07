@@ -25,6 +25,11 @@ interface LoadResource {
     fun pageEmptyId(): Int
 
     /**
+     * 空页面viewId
+     */
+    fun pageEmptyTextId() :Int
+
+    /**
      * 错误页面布局id
      * @return
      */

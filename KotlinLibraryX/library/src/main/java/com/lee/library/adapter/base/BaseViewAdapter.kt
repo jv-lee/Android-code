@@ -6,10 +6,12 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ValueAnimator
 import android.content.Context
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import android.widget.TextView
 import androidx.annotation.IntDef
 import androidx.core.view.children
 import androidx.recyclerview.widget.RecyclerView
@@ -51,6 +53,7 @@ open class BaseViewAdapter<T>(private val context: Context) :
     private var pageErrorView: View? = null
     private var pageEmptyView: View? = null
     private var pageNetworkView: View? = null
+    private var pageEmptyText: TextView? = null
 
     /**
      * item加载布局
@@ -234,6 +237,19 @@ open class BaseViewAdapter<T>(private val context: Context) :
             else -> {}
         }
         mLoadStatusListener?.onChangeStatus(status)
+    }
+
+    /**
+     * 更新空页面文本
+     *
+     * @param textRes 文本资源id
+     * @param text 文本字符串
+     */
+    fun updateEmptyTextRes(textRes: Int = -1, text: String = "") {
+        pageEmptyText?.run {
+            if (textRes != -1) setText(textRes)
+            if (!TextUtils.isEmpty(text)) setText(text)
+        }
     }
 
     /**
@@ -433,6 +449,16 @@ open class BaseViewAdapter<T>(private val context: Context) :
     }
 
     /**
+     * 获取头部view数量
+     */
+    fun getHeaderCount() = getProxy().getHeaderCount()
+
+    /**
+     * 获取底部view数量
+     */
+    fun getFooterCount() = getProxy().getFooterCount()
+
+    /**
      * 添加数据源
      * @param data 数据集合
      */
@@ -514,6 +540,7 @@ open class BaseViewAdapter<T>(private val context: Context) :
             pageLayout?.run {
                 pageLoadingView = findViewById(pageLoadingId())
                 pageEmptyView = findViewById(pageEmptyId())
+                pageEmptyText = findViewById(pageEmptyTextId())
                 pageErrorView = findViewById(pageErrorId())
                 pageNetworkView = findViewById(pageNetworkId())
                 addFooter(this)

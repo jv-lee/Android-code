@@ -5,6 +5,7 @@ import android.graphics.Typeface;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextPaint;
+import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
@@ -50,6 +51,8 @@ public class TextSpanHelper {
     private int color;
 
     private boolean isBold;
+
+    private boolean isClick;
 
     private void setBoldSpan(int star, int end) {
         style.setSpan(new StyleSpan(Typeface.BOLD), star, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -105,14 +108,18 @@ public class TextSpanHelper {
             return;
         }
         Matcher matcher = pattern.matcher(style);
+
         while (matcher.find()) {
             int group = isGroup ? 1 : 0;
             String text = matcher.group(group);
-            setClickSpan(matcher.start(group), matcher.end(group), text);
-            setColorSpan(matcher.start(group), matcher.end(group));
+            if (TextUtils.isEmpty(text)) continue;
+            if (isClick) {
+                setClickSpan(matcher.start(group), matcher.end(group), text);
+            }
             if (isBold) {
                 setBoldSpan(matcher.start(group), matcher.end(group));
             }
+            setColorSpan(matcher.start(group), matcher.end(group));
         }
     }
 
@@ -181,8 +188,16 @@ public class TextSpanHelper {
         return isBold;
     }
 
+    public boolean isClick() {
+        return isClick;
+    }
+
     public void setBold(boolean bold) {
         isBold = bold;
+    }
+
+    public void setIsClick(boolean isClick) {
+        this.isClick = isClick;
     }
 
     public static class Builder {
@@ -194,6 +209,8 @@ public class TextSpanHelper {
         private boolean isGroup;
         private int color;
         private boolean isBold;
+
+        private boolean isClick;
 
         private Builder() {
         }
@@ -237,6 +254,11 @@ public class TextSpanHelper {
             return this;
         }
 
+        public Builder setIsClick(boolean isClick) {
+            this.isClick = isClick;
+            return this;
+        }
+
         public TextSpanHelper create() {
             TextSpanHelper textSpanHelper = new TextSpanHelper();
 
@@ -274,6 +296,7 @@ public class TextSpanHelper {
             }
 
             textSpanHelper.setBold(isBold);
+            textSpanHelper.setIsClick(isClick);
 
             return textSpanHelper;
         }
