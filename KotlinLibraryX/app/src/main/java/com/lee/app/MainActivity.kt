@@ -15,7 +15,6 @@ import com.lee.library.extensions.binding
 import com.lee.library.extensions.toast
 import com.lee.library.tools.SystemBarTools.setDarkStatusIcon
 import com.lee.library.utils.LogUtil
-import com.lee.library.widget.StatusLayout.Companion.STATUS_LOADING
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -60,7 +59,6 @@ class MainActivity : BaseActivity(), NetworkConnectCallback {
     override fun bindView() {
         window.setDarkStatusIcon()
 
-        binding.status.setStatus(STATUS_LOADING)
         binding.btnChat.setOnClickListener {
             startActivity(Intent(this, ChatListActivity::class.java))
         }

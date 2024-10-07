@@ -38,12 +38,11 @@ class ChatListActivity :
         )
 
         // 设置recyclerView基础参数
-        mBinding.rvContainer.adapter = adapter.getProxy()
         mBinding.rvContainer.layoutManager = LinearLayoutManager(this)
         mBinding.rvContainer.reverseLayout() // 反转列表top->bottom
 
         // 设置adapter基础配置
-        adapter.initStatusView()
+        adapter.bindRecyclerView(mBinding.rvContainer)
         adapter.pageCompleted()
         adapter.setAutoLoadMoreListener(object : BaseViewAdapter.AutoLoadMoreListener {
             override fun autoLoadMore() {

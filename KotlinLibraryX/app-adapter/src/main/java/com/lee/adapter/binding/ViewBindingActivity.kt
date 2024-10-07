@@ -40,8 +40,8 @@ class ViewBindingActivity : BaseBindingActivity<ActivityViewBindingBinding>() {
             .commit()
 
         mBinding.rvContainer.layoutManager = LinearLayoutManager(this)
-        mBinding.rvContainer.adapter = mAdapter.getProxy()
 
+        mAdapter.bindRecyclerView(mBinding.rvContainer, loadStateEnable = false)
         mAdapter.setAutoLoadMoreListener(object : BaseViewAdapter.AutoLoadMoreListener {
             override fun autoLoadMore() {
                 viewModel.loadData(LoadStatus.LOAD_MORE)

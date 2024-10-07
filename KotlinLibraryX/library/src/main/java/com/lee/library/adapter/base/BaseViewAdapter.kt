@@ -14,6 +14,7 @@ import androidx.annotation.IntDef
 import androidx.core.view.children
 import androidx.recyclerview.widget.RecyclerView
 import com.lee.library.adapter.core.ProxyAdapter
+import com.lee.library.adapter.listener.DefaultLoadResource
 import com.lee.library.adapter.listener.LoadResource
 import com.lee.library.adapter.listener.LoadStatusListener
 import com.lee.library.adapter.manager.ViewItemManager
@@ -40,6 +41,7 @@ open class BaseViewAdapter<T>(private val context: Context) :
     private val itemStyle = ViewItemManager<T>() // item样式管理器
 
     private var proxyAdapter: ProxyAdapter? = null // 列表头尾view代理适配器
+    private var recyclerView: RecyclerView? = null // 绑定recyclerView
 
     /**
      * 页面加载布局
@@ -48,6 +50,7 @@ open class BaseViewAdapter<T>(private val context: Context) :
     private var pageLoadingView: View? = null
     private var pageErrorView: View? = null
     private var pageEmptyView: View? = null
+    private var pageNetworkView: View? = null
 
     /**
      * item加载布局
@@ -183,26 +186,38 @@ open class BaseViewAdapter<T>(private val context: Context) :
                 pageLoadingView?.visibility = View.VISIBLE
                 notifyDataSetChanged()
             }
+
             AdapterStatus.STATUS_PAGE_EMPTY -> {
                 currentPageStatus = status
                 clearData()
                 pageEmptyView?.visibility = View.VISIBLE
                 notifyDataSetChanged()
             }
+
+            AdapterStatus.STATUS_PAGE_NETWORK -> {
+                currentItemStatus = status
+                clearData()
+                pageNetworkView?.visibility = View.VISIBLE
+                notifyDataSetChanged()
+            }
+
             AdapterStatus.STATUS_PAGE_ERROR -> {
                 currentPageStatus = status
                 clearData()
                 pageErrorView?.visibility = View.VISIBLE
                 notifyDataSetChanged()
             }
+
             AdapterStatus.STATUS_PAGE_COMPLETED -> {
                 currentPageStatus = status
                 pageLayout?.run(this::removeFooter)
             }
+
             AdapterStatus.STATUS_ITEM_MORE -> {
                 currentItemStatus = status
                 loadMoreView?.visibility = View.VISIBLE
             }
+
             AdapterStatus.STATUS_ITEM_END -> {
                 currentItemStatus = status
                 loadEndView?.visibility = View.VISIBLE
@@ -210,10 +225,12 @@ open class BaseViewAdapter<T>(private val context: Context) :
                     pageLayout?.run(this::removeFooter)
                 }
             }
+
             AdapterStatus.STATUS_ITEM_ERROR -> {
                 currentItemStatus = status
                 loadErrorView?.visibility = View.VISIBLE
             }
+
             else -> {}
         }
         mLoadStatusListener?.onChangeStatus(status)
@@ -291,7 +308,7 @@ open class BaseViewAdapter<T>(private val context: Context) :
                     }
                     val position = getPosition(viewHolder)
                     if (position >= 0) {
-                        onItemChild(view, mData[position], position)
+                        onItemChildClick(view, mData[position], position)
                     }
                 }
             }
@@ -335,11 +352,39 @@ open class BaseViewAdapter<T>(private val context: Context) :
      * 使用底部加载状态时，适配器需要获取代理实例
      * 创建Adapter后最终通过getProxyAdapter 后设置到RecyclerView中
      */
-    fun getProxy(): ProxyAdapter {
+    private fun getProxy(): ProxyAdapter {
+        recyclerView
+            ?: throw RuntimeException("BaseViewAdapter.recyclerView is null, use Adapter.bindRecyclerView()")
+
         if (proxyAdapter == null) {
-            proxyAdapter = ProxyAdapter(this as RecyclerView.Adapter<RecyclerView.ViewHolder>)
+            proxyAdapter =
+                ProxyAdapter(recyclerView!!, this as RecyclerView.Adapter<RecyclerView.ViewHolder>)
         }
         return proxyAdapter as ProxyAdapter
+    }
+
+    /**
+     * 适配器绑定至RecyclerView
+     */
+    fun bindRecyclerView(
+        recyclerView: RecyclerView,
+        loadResource: LoadResource = DefaultLoadResource(),
+        loadStateEnable: Boolean = true
+    ) {
+        this.recyclerView = recyclerView
+        this.recyclerView?.adapter = getProxy()
+        if (loadStateEnable) {
+            setLoadResource(loadResource)
+            initStatusView()
+            pageLoading()
+        }
+    }
+
+    /**
+     * 获取当前绑定的RecyclerView
+     */
+    fun findRecyclerView(): RecyclerView? {
+        return this.recyclerView
     }
 
     /**
@@ -452,6 +497,7 @@ open class BaseViewAdapter<T>(private val context: Context) :
     fun initStatusView(isInit: Boolean = true) {
         // 开启loadMore模式
         hasLoadMore = true
+        currentPageStatus = AdapterStatus.UNKNOWN
 
         // 初始化LoadResource
         mLoadResource ?: kotlin.run {
@@ -469,6 +515,7 @@ open class BaseViewAdapter<T>(private val context: Context) :
                 pageLoadingView = findViewById(pageLoadingId())
                 pageEmptyView = findViewById(pageEmptyId())
                 pageErrorView = findViewById(pageErrorId())
+                pageNetworkView = findViewById(pageNetworkId())
                 addFooter(this)
             }
 
@@ -521,6 +568,9 @@ open class BaseViewAdapter<T>(private val context: Context) :
      * 设置页面loading状态
      */
     fun pageLoading() {
+        if (isPageCompleted()) {
+            reInitStatusView()
+        }
         updateStatus(AdapterStatus.STATUS_PAGE_LOADING)
     }
 
@@ -528,6 +578,9 @@ open class BaseViewAdapter<T>(private val context: Context) :
      * 设置页面空数据状态
      */
     fun pageEmpty() {
+        if (isPageCompleted()) {
+            reInitStatusView()
+        }
         updateStatus(AdapterStatus.STATUS_PAGE_EMPTY)
     }
 
@@ -535,7 +588,17 @@ open class BaseViewAdapter<T>(private val context: Context) :
      * 设置页面错误状态
      */
     fun pageError() {
+        if (isPageCompleted()) {
+            reInitStatusView()
+        }
         updateStatus(AdapterStatus.STATUS_PAGE_ERROR)
+    }
+
+    fun pageNetwork() {
+        if (isPageCompleted()) {
+            reInitStatusView()
+        }
+        updateStatus(AdapterStatus.STATUS_PAGE_NETWORK)
     }
 
     /**
@@ -660,7 +723,7 @@ open class BaseViewAdapter<T>(private val context: Context) :
          * @param entity   数据
          * @param position 下标
          */
-        fun onItemChild(view: View, entity: T, position: Int)
+        fun onItemChildClick(view: View, entity: T, position: Int)
     }
 
     /**
@@ -798,6 +861,7 @@ open class BaseViewAdapter<T>(private val context: Context) :
     AdapterStatus.STATUS_PAGE_LOADING,
     AdapterStatus.STATUS_PAGE_EMPTY,
     AdapterStatus.STATUS_PAGE_ERROR,
+    AdapterStatus.STATUS_PAGE_NETWORK,
     AdapterStatus.STATUS_PAGE_COMPLETED,
     AdapterStatus.STATUS_ITEM_MORE,
     AdapterStatus.STATUS_ITEM_END,
@@ -811,9 +875,10 @@ annotation class AdapterStatus {
         const val STATUS_PAGE_LOADING = 1
         const val STATUS_PAGE_EMPTY = 2
         const val STATUS_PAGE_ERROR = 3
-        const val STATUS_PAGE_COMPLETED = 4
-        const val STATUS_ITEM_MORE = 5
-        const val STATUS_ITEM_END = 6
-        const val STATUS_ITEM_ERROR = 7
+        const val STATUS_PAGE_NETWORK = 4
+        const val STATUS_PAGE_COMPLETED = 5
+        const val STATUS_ITEM_MORE = 6
+        const val STATUS_ITEM_END = 7
+        const val STATUS_ITEM_ERROR = 8
     }
 }

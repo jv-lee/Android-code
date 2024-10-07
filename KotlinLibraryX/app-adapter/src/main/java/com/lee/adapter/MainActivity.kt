@@ -62,8 +62,8 @@ class MainActivity : BaseBindingActivity<ActivityMainBinding>() {
     private val mAdapter by lazy { ContentAdapter(this) }
 
     override fun bindView() {
+        mAdapter.bindRecyclerView(mBinding.rvContainer, loadStateEnable = false)
         mBinding.rvContainer.layoutManager = LinearLayoutManager(this)
-        mBinding.rvContainer.adapter = mAdapter.getProxy()
 
         mAdapter.setAutoLoadMoreListener(object : BaseViewAdapter.AutoLoadMoreListener {
             override fun autoLoadMore() {

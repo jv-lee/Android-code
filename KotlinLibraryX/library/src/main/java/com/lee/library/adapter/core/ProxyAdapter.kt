@@ -3,6 +3,7 @@ package com.lee.library.adapter.core
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.IntDef
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 /**
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
  * @date 2019/5/20
  */
 class ProxyAdapter(
+    private val recyclerView: RecyclerView,
     private val adapter: RecyclerView.Adapter<RecyclerView.ViewHolder>,
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val mHeaderViews: ArrayList<View> = arrayListOf()
@@ -21,6 +23,7 @@ class ProxyAdapter(
         // 给所有item view添加tag 防止图片闪烁
         adapter.setHasStableIds(adapter.hasStableIds())
         setHasStableIds(adapter.hasStableIds())
+        changeSpanSize()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -30,9 +33,11 @@ class ProxyAdapter(
             ViewTypeSpec.HEADER -> {
                 FixedViewHolder(mHeaderViews[value])
             }
+
             ViewTypeSpec.FOOTER -> {
                 FixedViewHolder(mFooterViews[value])
             }
+
             else -> {
                 adapter.onCreateViewHolder(parent, viewType)
             }
@@ -157,6 +162,15 @@ class ProxyAdapter(
     private fun isFixedViewType(viewType: Int): Boolean {
         val type = getType(viewType)
         return type == ViewTypeSpec.HEADER || type == ViewTypeSpec.FOOTER
+    }
+
+    private fun changeSpanSize() {
+        val layoutManager = recyclerView.layoutManager
+        if (layoutManager is GridLayoutManager) {
+            layoutManager.spanSizeLookup = object : ProxySpanSizeLookup(recyclerView) {
+                override fun buildSpanSize(position: Int): Int = 1
+            }
+        }
     }
 
     private class FixedViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

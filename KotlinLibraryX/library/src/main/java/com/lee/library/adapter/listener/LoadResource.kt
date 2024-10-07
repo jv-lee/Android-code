@@ -31,6 +31,12 @@ interface LoadResource {
     fun pageErrorId(): Int
 
     /**
+     * 无网络布局id
+     * @return
+     */
+    fun pageNetworkId() :Int
+
+    /**
      * 重试加载点击事件id
      * @return
      */

@@ -50,11 +50,26 @@
         <attr name="notification_text_size" format="dimension" />
     </declare-styleable>
 
-    <declare-styleable name="StatusLayout">
+    <declare-styleable name="StateLayout">
         <attr name="layout_loading" format="reference" />
         <attr name="layout_empty" format="reference" />
         <attr name="layout_error" format="reference" />
         <attr name="layout_network" format="reference" />
+        <attr name="layout_loading_text" format="string" />
+        <attr name="layout_empty_text" format="string" />
+        <attr name="layout_error_text" format="string" />
+        <attr name="layout_network_text" format="string" />
+        <attr name="layout_loading_image" format="reference" />
+        <attr name="layout_empty_image" format="reference" />
+        <attr name="layout_error_image" format="reference" />
+        <attr name="layout_network_image" format="reference" />
+        <attr name="layout_state" format="enum">
+            <enum name="loading" value="0" />
+            <enum name="data" value="1" />
+            <enum name="empty" value="2" />
+            <enum name="error" value="3" />
+            <enum name="not_network" value="4" />
+        </attr>
     </declare-styleable>
 
     <declare-styleable name="RoundImageView">

@@ -56,7 +56,7 @@ class ViewItemManager<T> {
                 return styles.keyAt(i)
             }
         }
-        throw IllegalArgumentException("位置：$position,该item没有匹配的LeeViewItem类型")
+        throw IllegalArgumentException("位置：$position,该item没有匹配的ViewItem类型")
     }
 
     /**
@@ -82,7 +82,7 @@ class ViewItemManager<T> {
                 return
             }
         }
-        throw java.lang.IllegalArgumentException("位置：$position,该item没有匹配的LeeViewItem类型")
+        throw IllegalArgumentException("位置：$position,该item没有匹配的ViewItem类型")
     }
 
     fun viewRecycled(holder: BaseViewHolder) {

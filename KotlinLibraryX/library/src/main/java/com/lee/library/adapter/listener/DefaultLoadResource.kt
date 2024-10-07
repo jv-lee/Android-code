@@ -24,6 +24,10 @@ class DefaultLoadResource : LoadResource {
         return R.id.const_page_error
     }
 
+    override fun pageNetworkId(): Int {
+        return R.id.const_page_network
+    }
+
     override fun pageReloadId(): Int {
         return R.id.btn_restart
     }

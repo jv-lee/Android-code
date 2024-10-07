@@ -95,7 +95,7 @@
         app:pressedTextColor="@android:color/white"
         app:strokeWidth="2dp" />
 
-    <com.lee.library.widget.StatusLayout
+    <com.lee.library.widget.StateLayout
         android:id="@+id/status"
         android:layout_width="match_parent"
         android:layout_height="100dp"

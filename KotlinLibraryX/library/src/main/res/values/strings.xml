@@ -16,6 +16,7 @@
     <string name="item_load_more">loading…</string>
     <string name="page_load_empty">empty data .</string>
     <string name="page_load_error">Load failed click retry…</string>
+    <string name="page_load_network">not network .</string>
     <string name="page_load_restart">Retry</string>
 
     <string name="str_confirm">Confirm</string>
