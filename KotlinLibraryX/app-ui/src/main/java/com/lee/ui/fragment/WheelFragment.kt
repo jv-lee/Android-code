@@ -95,7 +95,7 @@ class WheelFragment : BaseFragment(R.layout.fragment_wheel) {
                 context,
                 object : GestureDetector.SimpleOnGestureListener() {
                     override fun onScroll(
-                        e1: MotionEvent,
+                        e1: MotionEvent?,
                         e2: MotionEvent,
                         distanceX: Float,
                         distanceY: Float

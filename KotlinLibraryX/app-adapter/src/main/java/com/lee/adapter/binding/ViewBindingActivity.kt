@@ -41,7 +41,7 @@ class ViewBindingActivity : BaseBindingActivity<ActivityViewBindingBinding>() {
 
         mBinding.rvContainer.layoutManager = LinearLayoutManager(this)
 
-        mAdapter.bindRecyclerView(mBinding.rvContainer, loadStateEnable = false)
+        mAdapter.bindRecyclerView(mBinding.rvContainer)
         mAdapter.setAutoLoadMoreListener(object : BaseViewAdapter.AutoLoadMoreListener {
             override fun autoLoadMore() {
                 viewModel.loadData(LoadStatus.LOAD_MORE)
@@ -65,9 +65,7 @@ class ViewBindingActivity : BaseBindingActivity<ActivityViewBindingBinding>() {
         })
 
         mAdapter.addHeader(headerBinding.root)
-//        mAdapter.addFooter(footerBinding.root)
-        mAdapter.initStatusView()
-        mAdapter.pageLoading()
+        mAdapter.addFooter(footerBinding.root)
     }
 
     override fun bindData() {

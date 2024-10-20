@@ -34,6 +34,6 @@ class BindingHorizontalItem : ViewBindingItem<ContentData>() {
     }
 
     override fun getItemViewBinding(context: Context, parent: ViewGroup): ViewBinding {
-        return ItemContentCommonBinding.inflate(LayoutInflater.from(context), parent, false)
+        return ItemContentHorizontalBinding.inflate(LayoutInflater.from(context), parent, false)
     }
 }

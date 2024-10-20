@@ -1,3 +1,3 @@
 import configures.libraryConfigure
 
-libraryConfigure()
+libraryConfigure("com.lee.library")

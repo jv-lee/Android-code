@@ -5,6 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 /**
  * fragment通用基类
@@ -76,5 +81,14 @@ abstract class BaseFragment(private val resourceId: Int? = 0) : Fragment() {
 
     private fun getChildClassName(): String {
         return javaClass.simpleName
+    }
+
+    fun launchOnLifecycle(
+        state: Lifecycle.State = Lifecycle.State.CREATED,
+        block: suspend CoroutineScope.() -> Unit
+    ) {
+        lifecycleScope.launch {
+            repeatOnLifecycle(state, block)
+        }
     }
 }

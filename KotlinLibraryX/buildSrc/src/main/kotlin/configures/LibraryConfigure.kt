@@ -22,6 +22,7 @@ import configures.core.freeCompilerArgs
  * @date 2021/10/1
  */
 fun Project.libraryConfigure(
+    namespace: String,
     projectConfigure: Project.() -> Unit = {},
     androidConfigure: LibraryExtension.() -> Unit = {}
 ) {
@@ -32,6 +33,7 @@ fun Project.libraryConfigure(
     projectConfigure()
 
     extensions.configure<LibraryExtension> {
+        this.namespace = namespace
         compileSdk = BuildConfig.compileSdk
 
         defaultConfig {

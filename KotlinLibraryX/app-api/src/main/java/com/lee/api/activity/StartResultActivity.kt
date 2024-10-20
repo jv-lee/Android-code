@@ -17,12 +17,11 @@ class StartResultActivity :
 
     private val dataResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            toast(it?.data?.getStringExtra("value") ?: "")
+            toast(it.data?.getStringExtra("value") ?: "")
         }
 
     private val permissionsResult =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { it ->
-            it ?: return@registerForActivityResult
             it.forEach {
                 toast("${it.key} request ${it.value}")
             }
@@ -58,7 +57,7 @@ class StartResultActivity :
             val file = File(fileDir.absolutePath, "${System.currentTimeMillis()}.jpg")
 
             // 文件创建操作
-            if (!file.parentFile.exists()) file.parentFile.mkdir()
+            if (file.parentFile?.exists() == false) file.parentFile?.mkdir()
 
             uri = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 FileProvider.getUriForFile(this, "$packageName.fileprovider", file)
@@ -70,7 +69,7 @@ class StartResultActivity :
 //            intent.putExtra(MediaStore.EXTRA_OUTPUT, uri)
 //            intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
 //            startActivityForResult(intent, 1)
-            pictureResult.launch(uri)
+            uri?.let(pictureResult::launch)
         }
     }
 

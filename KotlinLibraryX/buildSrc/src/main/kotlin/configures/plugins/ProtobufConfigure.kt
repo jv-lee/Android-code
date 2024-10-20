@@ -1,10 +1,6 @@
 package configures.plugins
 
 import build.BuildPlugin
-import com.google.protobuf.gradle.builtins
-import com.google.protobuf.gradle.generateProtoTasks
-import com.google.protobuf.gradle.protobuf
-import com.google.protobuf.gradle.protoc
 import org.gradle.api.Project
 
 /**
@@ -15,19 +11,19 @@ import org.gradle.api.Project
 fun Project.protobufConfigure() {
     plugins.apply(BuildPlugin.protobuf)
 
-    protobuf {
-        generatedFilesBaseDir = "$projectDir/src"
-        protoc {
-            artifact = "com.google.protobuf:protoc:3.10.0"
-        }
-        generateProtoTasks {
-            all().onEach { task ->
-                task.builtins {
-                    create("java") {
-                        option("lite")
-                    }
-                }
-            }
-        }
-    }
+//    protobuf {
+//        generatedFilesBaseDir = "$projectDir/src"
+//        protoc {
+//            artifact = "com.google.protobuf:protoc:3.21.6"
+//        }
+//        generateProtoTasks {
+//            all().onEach { task ->
+//                task.builtins {
+//                    create("java") {
+//                        option("lite")
+//                    }
+//                }
+//            }
+//        }
+//    }
 }

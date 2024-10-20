@@ -129,10 +129,10 @@ class ShadowConstraintLayout(context: Context, attributeSet: AttributeSet) :
     /**
      * 绘制阴影区域
      */
-    override fun onDraw(canvas: Canvas?) {
+    override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        canvas?.drawRoundRect(mRectF, roundSize, roundSize, mPaint)
-        if (outLineWidth != 0F) canvas?.drawRoundRect(
+        canvas.drawRoundRect(mRectF, roundSize, roundSize, mPaint)
+        if (outLineWidth != 0F) canvas.drawRoundRect(
             mLineRectF,
             roundLineSize,
             roundLineSize,
@@ -217,13 +217,13 @@ class ShadowConstraintLayout(context: Context, attributeSet: AttributeSet) :
         invalidate()
     }
 
-    override fun setForeground(foreground: Drawable?) {
+    override fun setForeground(foreground: Drawable) {
     }
 
-    override fun onDrawForeground(canvas: Canvas?) {
+    override fun onDrawForeground(canvas: Canvas) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             val foreground = foreground
-            if (foreground != null && canvas != null) {
+            if (foreground != null) {
                 foreground.bounds = mRectF.toRect()
                 foreground.draw(canvas)
             }

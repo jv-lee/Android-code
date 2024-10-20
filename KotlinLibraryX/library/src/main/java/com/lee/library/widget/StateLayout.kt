@@ -5,7 +5,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.RelativeLayout
+import android.widget.FrameLayout
 import com.lee.library.R
 import com.lee.library.uistate.PageState
 
@@ -17,7 +17,7 @@ class StateLayout @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
-) : RelativeLayout(context, attrs, defStyleAttr) {
+) : FrameLayout(context, attrs, defStyleAttr) {
     /**
      * 状态布局 视图View
      */

@@ -1,3 +1,3 @@
 import configures.appConfigure
 
-appConfigure()
+appConfigure("com.lee.app")

@@ -112,16 +112,16 @@ class WheelView : RecyclerView {
         }
     }
 
-    override fun onDraw(canvas: Canvas?) {
+    override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         drawSelectItemBackground(canvas)
     }
 
-    private fun drawSelectItemBackground(canvas: Canvas?) {
+    private fun drawSelectItemBackground(canvas: Canvas) {
         when (selectItemStyle) {
             SelectItemStyle.LINE -> {
-                canvas?.drawLine(0f, lineHeight, width.toFloat(), lineHeight, mPaint)
-                canvas?.drawLine(
+                canvas.drawLine(0f, lineHeight, width.toFloat(), lineHeight, mPaint)
+                canvas.drawLine(
                     0f,
                     height - lineHeight,
                     width.toFloat(),
@@ -130,7 +130,7 @@ class WheelView : RecyclerView {
                 )
             }
             SelectItemStyle.ITEM -> {
-                canvas?.drawRect(
+                canvas.drawRect(
                     0f,
                     lineHeight,
                     width.toFloat(),

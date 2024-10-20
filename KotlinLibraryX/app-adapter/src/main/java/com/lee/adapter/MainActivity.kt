@@ -90,8 +90,6 @@ class MainActivity : BaseBindingActivity<ActivityMainBinding>() {
         mAdapter.addHeader(headerOne.root)
         mAdapter.addHeader(headerTwo.root)
         mAdapter.addFooter(footerOne.root)
-        mAdapter.initStatusView()
-        mAdapter.pageLoading()
     }
 
     override fun bindData() {
