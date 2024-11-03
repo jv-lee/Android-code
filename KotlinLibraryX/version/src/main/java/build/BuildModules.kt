@@ -9,4 +9,10 @@ object BuildModules {
     const val APP = ":app"
     const val LIBRARY = ":library"
 
+    fun String.name(): String {
+        return this.substring(this.lastIndexOf(":") + 1, this.length)
+    }
+
 }
+
+

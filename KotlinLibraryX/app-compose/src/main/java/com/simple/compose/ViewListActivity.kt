@@ -5,12 +5,16 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.activity.ComponentActivity
 import androidx.activity.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.RecyclerView
 import com.lee.library.extensions.binding
 import com.simple.compose.databinding.ActivityMainBinding
 import com.simple.compose.databinding.ItemMessageBinding
 import com.simple.compose.source.Message
 import com.simple.compose.viewmodel.ListDataViewModel
+import kotlinx.coroutines.launch
 
 /**
  *
@@ -27,8 +31,12 @@ class ViewListActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        viewModel.messagesLive.observe(this) {
-            binding.rvContainer.adapter = MessagesAdapter(it)
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.CREATED) {
+                viewModel.messagesFlow.collect {
+                    binding.rvContainer.adapter = MessagesAdapter(it)
+                }
+            }
         }
     }
 

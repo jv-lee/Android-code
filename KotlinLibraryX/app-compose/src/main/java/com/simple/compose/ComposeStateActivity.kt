@@ -13,12 +13,9 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -39,8 +36,8 @@ class ComposeStateActivity : ComponentActivity() {
     }
 
     class HelloViewModel : ViewModel() {
-        private val _name = MutableLiveData("")
-        val name: LiveData<String> = _name
+        private val _name = MutableStateFlow("")
+        val name: StateFlow<String> = _name
 
         fun onNameChange(newName: String) {
             _name.value = newName
@@ -56,7 +53,7 @@ class ComposeStateActivity : ComponentActivity() {
 
     @Composable
     fun HelloScreen(helloViewModel: HelloViewModel = viewModel()) {
-        val name: String by helloViewModel.name.observeAsState("")
+        val name: String by helloViewModel.name.collectAsState("")
         val email: String by helloViewModel.email.collectAsState("")
         HelloContent(
             name = name,

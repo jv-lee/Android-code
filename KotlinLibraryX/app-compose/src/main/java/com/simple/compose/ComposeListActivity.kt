@@ -12,8 +12,8 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -27,17 +27,17 @@ import com.simple.compose.viewmodel.ListDataViewModel
  * @author jv.lee
  * @date 2022/1/6
  */
-class ComponseListActivity : ComponentActivity() {
+class ComposeListActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            ComponseListScreen()
+            ComposeListScreen()
         }
     }
 
     @Composable
-    fun ComponseListScreen(viewModel: ListDataViewModel = viewModel()) {
-        val messages: List<Message> by viewModel.messagesLive.observeAsState(initial = listOf())
+    fun ComposeListScreen(viewModel: ListDataViewModel = viewModel()) {
+        val messages: List<Message> by viewModel.messagesFlow.collectAsState(initial = listOf())
         Surface(color = Color.White) {
             MessageList(messages = messages)
         }

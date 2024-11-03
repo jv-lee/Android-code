@@ -1,51 +1,49 @@
-@file:Suppress("UnstableApiUsage")
-
 package configures
 
-import build.*
+import build.BuildConfig
+import build.BuildDebug
+import build.BuildModules
+import build.BuildPlugin
+import build.BuildRelease
+import build.BuildTypes
 import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
-import commonProcessors
+import freeCompilerArgs
 import implementation
-import kapt
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
-import org.gradle.kotlin.dsl.*
+import org.gradle.kotlin.dsl.configure
+import org.gradle.kotlin.dsl.dependencies
+import org.gradle.kotlin.dsl.project
+import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import configures.core.freeCompilerArgs
-import testImplementation
 
 /**
  * app模块配置依赖扩展
  * @author jv.lee
  * @date 2021/10/1
  */
-fun Project.appConfigure(
-    packageName: String = BuildConfig.applicationId,
-    projectConfigure: Project.() -> Unit = {},
-    androidConfigure: BaseAppModuleExtension.() -> Unit = {}
-) {
-    plugins.apply(BuildPlugin.application)
-    plugins.apply(BuildPlugin.kotlin)
-    plugins.apply(BuildPlugin.kapt)
-
-    projectConfigure()
+fun Project.appConfigure(packageName: String, projectConfigure: Project.() -> Unit = {}) {
+    plugins.apply(BuildPlugin.APPLICATION)
+    plugins.apply(BuildPlugin.KOTLIN_ANDROID)
+    plugins.apply(BuildPlugin.KOTLIN_KAPT)
 
     extensions.configure<BaseAppModuleExtension> {
         namespace = packageName
-        compileSdk = BuildConfig.compileSdk
+        compileSdk = BuildConfig.COMPILE_SDK
 
         defaultConfig {
             applicationId = packageName
-            minSdk = BuildConfig.minSdk
-            targetSdk = BuildConfig.targetSdk
-            versionName = BuildConfig.versionName
-            versionCode = BuildConfig.versionCode
 
-            multiDexEnabled = BuildConfig.multiDex
+            minSdk = BuildConfig.MIN_SDK
+            targetSdk = BuildConfig.TARGET_SDK
+            versionName = BuildConfig.VERSION_NAME
+            versionCode = BuildConfig.VERSION_CODE
 
-            vectorDrawables.useSupportLibrary = BuildConfig.SUPPORT_LIBRARY_VECTOR_DRAWABLES
+            // 混淆配置 指定只支持中文字符
+            multiDexEnabled = BuildConfig.MULTI_DEX_ENABLE
+            resourceConfigurations.add("zh-rCN")
+
             testInstrumentationRunner = BuildConfig.TEST_INSTRUMENTATION_RUNNER
-            testInstrumentationRunnerArguments.putAll(BuildConfig.TEST_INSTRUMENTATION_RUNNER_ARGUMENTS)
         }
 
         tasks.withType<KotlinCompile> {
@@ -56,6 +54,11 @@ fun Project.appConfigure(
         compileOptions {
             sourceCompatibility = JavaVersion.VERSION_1_8
             targetCompatibility = JavaVersion.VERSION_1_8
+        }
+
+        buildFeatures {
+            dataBinding = true
+            viewBinding = true
         }
 
         buildTypes {
@@ -71,19 +74,11 @@ fun Project.appConfigure(
                 proguardFiles("proguard-android-optimize.txt", "proguard-rules.pro")
             }
         }
-
-        buildFeatures {
-            dataBinding = true
-            viewBinding = true
-        }
-
-        androidConfigure()
     }
 
     dependencies {
-        commonProcessors()
-
         implementation(project(BuildModules.LIBRARY))
-        testImplementation("junit:junit:4.12")
     }
+
+    projectConfigure()
 }

@@ -1,8 +1,7 @@
 package com.lee.api.activity
 
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import com.lee.api.databinding.ActivityWindowInsetsBinding
+import com.lee.library.base.BaseActivity
 import com.lee.library.extensions.binding
 import com.lee.library.extensions.toast
 import com.lee.library.tools.SystemBarTools.fullWindow
@@ -14,19 +13,13 @@ import com.lee.library.tools.SystemBarTools.runWindowInsets
 import com.lee.library.tools.SystemBarTools.setDarkStatusIcon
 import com.lee.library.tools.SystemBarTools.setLightStatusIcon
 import com.lee.library.tools.SystemBarTools.showSoftInput
-import com.lee.library.tools.SystemBarTools.statusBar
 import com.lee.library.tools.SystemBarTools.statusBarHeight
 
-class WindowInsetsActivity : AppCompatActivity() {
+class WindowInsetsActivity : BaseActivity() {
 
     private val binding by binding(ActivityWindowInsetsBinding::inflate)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        // 设置沉浸式状态栏
-        window.statusBar()
-
+    override fun bindView() {
         binding.buttonStatusLightIcon.setOnClickListener {
             window.setLightStatusIcon()
         }
@@ -66,5 +59,9 @@ class WindowInsetsActivity : AppCompatActivity() {
             binding.tvContent.text = text
 
         }
+    }
+
+    override fun bindData() {
+
     }
 }

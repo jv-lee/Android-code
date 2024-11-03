@@ -2,12 +2,12 @@ package com.lee.library.base
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.lee.library.tools.SystemBarTools.compatStatusBar
-import com.lee.library.tools.SystemBarTools.statusBar
+import com.lee.library.tools.SystemBarTools.navigationPadding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -19,8 +19,8 @@ import kotlinx.coroutines.launch
 abstract class BaseActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        window.statusBar()
-        window.compatStatusBar()
+        enableEdgeToEdge()
+        window.navigationPadding()
         super.onCreate(savedInstanceState)
 
         initSavedState(intent, savedInstanceState)

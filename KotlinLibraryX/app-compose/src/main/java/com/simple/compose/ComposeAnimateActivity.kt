@@ -14,19 +14,18 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.runtime.*
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.simple.compose.ui.theme.Green300
 import com.simple.compose.ui.theme.Purple100
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 
 /**
  *
@@ -52,8 +51,8 @@ class ComposeAnimateActivity : ComponentActivity() {
     }
 
     class AnimateViewModel : ViewModel() {
-        private val _colorState = MutableLiveData(VisibleState.VISIBLE.ordinal)
-        val colorState: LiveData<Int> = _colorState
+        private val _colorState = MutableStateFlow(VisibleState.VISIBLE.ordinal)
+        val colorState: StateFlow<Int> = _colorState
 
         fun onColorStateChange() {
             _colorState.value = if (_colorState.value == ColorState.PURPLE.ordinal) {
@@ -61,8 +60,8 @@ class ComposeAnimateActivity : ComponentActivity() {
             }else ColorState.PURPLE.ordinal
         }
 
-        private val _visibleState = MutableLiveData(VisibleState.GONE.ordinal)
-        val visibleState: LiveData<Int> = _visibleState
+        private val _visibleState = MutableStateFlow(VisibleState.GONE.ordinal)
+        val visibleState: StateFlow<Int> = _visibleState
 
         fun onVisibleStateChange() {
             _visibleState.value =
@@ -74,14 +73,14 @@ class ComposeAnimateActivity : ComponentActivity() {
 
     @Composable
     fun UiScreen(viewModel: AnimateViewModel = viewModel()) {
-        val colorState: Int by viewModel.colorState.observeAsState(ColorState.PURPLE.ordinal)
+        val colorState: Int by viewModel.colorState.collectAsState(ColorState.PURPLE.ordinal)
 
         // 为背景添加动画状态监听
         val backgroundColor by animateColorAsState(
-            if (colorState == ColorState.PURPLE.ordinal) Purple100 else Green300
+            if (colorState == ColorState.PURPLE.ordinal) Purple100 else Green300, label = ""
         )
 
-        val visibleState: Int by viewModel.visibleState.observeAsState(VisibleState.GONE.ordinal)
+        val visibleState: Int by viewModel.visibleState.collectAsState(VisibleState.GONE.ordinal)
 
         Surface(
             modifier = Modifier

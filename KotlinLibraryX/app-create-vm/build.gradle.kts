@@ -1,13 +1,18 @@
-import build.BuildPlugin
 import configures.appConfigure
 
+plugins {
+    alias(libs.plugins.buildVersion)
+    alias(libs.plugins.hilt)
+}
 
-appConfigure(packageName = "com.simple.vm", projectConfigure = {
-    plugins.apply(BuildPlugin.hilt)
-
+appConfigure("com.simple.vm") {
     dependencies {
-        //hilt 依赖注入
-        implementation("com.google.dagger:hilt-android:2.38.1")
-        kapt("com.google.dagger:hilt-android-compiler:2.38.1")
+        // hilt 依赖注入
+        kapt(libs.hilt.android.compiler)
+        implementation(libs.hilt.android)
     }
-})
+}
+
+kapt {
+    correctErrorTypes = true
+}

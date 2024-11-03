@@ -1,44 +1,32 @@
-@file:Suppress("UnstableApiUsage")
-
 package configures
 
 import build.BuildConfig
 import build.BuildPlugin
 import com.android.build.gradle.LibraryExtension
-import kapt
+import freeCompilerArgs
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
-import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import commonProcessors
-import commonDependencies
-import configures.core.freeCompilerArgs
 
 /**
  * 基础库配置依赖扩展
  * @author jv.lee
  * @date 2021/10/1
  */
-fun Project.libraryConfigure(
-    namespace: String,
-    projectConfigure: Project.() -> Unit = {},
-    androidConfigure: LibraryExtension.() -> Unit = {}
-) {
-    plugins.apply(BuildPlugin.library)
-    plugins.apply(BuildPlugin.kotlin)
-    plugins.apply(BuildPlugin.kapt)
-
-    projectConfigure()
+fun Project.libraryConfigure(namespace: String, projectConfigure: Project.() -> Unit = {}) {
+    plugins.apply(BuildPlugin.LIBRARY)
+    plugins.apply(BuildPlugin.KOTLIN_ANDROID)
+    plugins.apply(BuildPlugin.KOTLIN_KAPT)
+    plugins.apply(BuildPlugin.KOTLIN_PARCELIZE)
 
     extensions.configure<LibraryExtension> {
         this.namespace = namespace
-        compileSdk = BuildConfig.compileSdk
+        compileSdk = BuildConfig.COMPILE_SDK
 
         defaultConfig {
-            minSdk = BuildConfig.minSdk
-            targetSdk = BuildConfig.targetSdk
+            minSdk = BuildConfig.MIN_SDK
         }
 
         tasks.withType<KotlinCompile> {
@@ -56,12 +44,15 @@ fun Project.libraryConfigure(
             viewBinding = true
         }
 
-        androidConfigure()
-    }
+        sourceSets {
+            getByName("main") {
+                assets {
+                    srcDir("src/main/assets")
+                }
+            }
+        }
 
-    dependencies {
-        commonProcessors()
-        commonDependencies()
+        projectConfigure()
     }
 
 }

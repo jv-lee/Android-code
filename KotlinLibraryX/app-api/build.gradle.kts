@@ -1,13 +1,14 @@
 import configures.appConfigure
 
 plugins {
-    id("com.android.application")
-    id("com.google.protobuf")
+    alias(libs.plugins.androidApplication)
+    alias(libs.plugins.buildVersion)
+    alias(libs.plugins.protobuf)
 }
 
-appConfigure(packageName = "com.lee.api", projectConfigure = {
-
+appConfigure("com.lee.api") {
     dependencies {
+        implementation(libs.protobuf.javalite)
         // Preferences DataStore
         implementation("androidx.datastore:datastore-preferences:1.1.1")
 
@@ -20,13 +21,11 @@ appConfigure(packageName = "com.lee.api", projectConfigure = {
         // Startup
         implementation("androidx.startup:startup-runtime:1.2.0")
     }
-})
 
-
+}
 
 android {
         protobuf {
-        generatedFilesBaseDir = "$projectDir/src"
         protoc {
             artifact = "com.google.protobuf:protoc:3.21.6"
         }

@@ -1,11 +1,15 @@
 import configures.appConfigure
 
 plugins {
-    id("org.jetbrains.kotlin.android")
+    alias(libs.plugins.buildVersion)
 }
-appConfigure("com.lee.simple")
-dependencies {
-    implementation("androidx.appcompat:appcompat:1.4.1")
-    implementation("com.google.android.material:material:1.4.+")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.3")
+
+appConfigure("com.lee.simple") {
+    dependencies {
+        kapt(libs.bundles.compiler)
+
+        testImplementation(libs.bundles.test)
+        androidTestImplementation(libs.bundles.androidTest)
+        debugImplementation(libs.bundles.debug)
+    }
 }

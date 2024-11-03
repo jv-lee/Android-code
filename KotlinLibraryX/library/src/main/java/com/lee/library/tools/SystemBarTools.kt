@@ -9,7 +9,11 @@ import android.view.ViewTreeObserver
 import android.view.Window
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
-import androidx.core.view.*
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsAnimationCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
@@ -22,37 +26,22 @@ import java.util.concurrent.atomic.AtomicBoolean
  * @date 2019/4/5
  */
 object SystemBarTools {
+
     /**
-     * 设置沉浸式状态栏
+     * 处理contentView与navigationBar间距
      */
-    fun Window.statusBar() {
-        // 内容全屏化
-        WindowCompat.setDecorFitsSystemWindows(this, false)
-
-        // systemBar透明设置
-        statusBarColor = Color.TRANSPARENT
+    fun Window.navigationPadding() {
         navigationBarColor = Color.TRANSPARENT
-
-        // 处理contentView与navigationBar间距
-        ViewCompat.setOnApplyWindowInsetsListener(
-            decorView.findViewById(android.R.id.content)
-        ) { view, windowInsets ->
-            view.setPadding(0, 0, 0, windowInsets.navigationBarHeight())
-            WindowInsetsCompat.CONSUMED
-        }
+        decorView.navigationPadding()
     }
 
     /**
-     * 兼容状态栏颜色控制
-     * 高版本可动态修改状态栏图标样式无需处理
-     * 5.0 5.1版本无法设置深色状态栏图标，所以设置一个半透明状态栏背景兼容。
-     * 4.4有黑边阴影且无法设置状态栏颜色所以无视。
+     * 处理contentView与navigationBar间距
      */
-    fun Window.compatStatusBar() {
-        statusBarColor = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            Color.TRANSPARENT
-        } else {
-            Color.parseColor("#33000000")
+    fun View.navigationPadding() {
+        ViewCompat.setOnApplyWindowInsetsListener(this) { view, windowInsets ->
+            view.setPadding(0, 0, 0, windowInsets.navigationBarHeight())
+            WindowInsetsCompat.CONSUMED
         }
     }
 
@@ -256,12 +245,15 @@ object SystemBarTools {
                     Lifecycle.Event.ON_RESUME -> {
                         viewTreeObserver.addOnGlobalLayoutListener(listener)
                     }
+
                     Lifecycle.Event.ON_PAUSE -> {
                         viewTreeObserver.removeOnGlobalLayoutListener(listener)
                     }
+
                     Lifecycle.Event.ON_DESTROY -> {
                         source.lifecycle.removeObserver(this)
                     }
+
                     else -> {
                     }
                 }
