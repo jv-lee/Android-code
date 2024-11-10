@@ -1,6 +1,6 @@
 @file:Suppress("UnstableApiUsage")
 
-includeBuild("version")
+includeBuild("build-version")
 
 pluginManagement {
     repositories {
@@ -30,7 +30,7 @@ dependencyResolutionManagement {
 
     versionCatalogs {
         create("libs") {
-            from(files("version/gradle/libs.versions.toml"))
+            from(files("build-version/gradle/libs.versions.toml"))
         }
     }
 }
